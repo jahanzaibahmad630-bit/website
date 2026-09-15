@@ -1,86 +1,87 @@
-// Jahanzaib.dev — Studio Production Engine
+﻿// ==========================================================================
+// Jahanzaib Ahmad — Figma Cosmic Purple Portfolio Interactive Engine
+// ==========================================================================
+
 document.addEventListener('DOMContentLoaded', () => {
+  // Initialize Lucide Icons
   if (window.lucide) {
     window.lucide.createIcons();
   }
-  initConsoleSimulator();
+
+  initTypewriter();
   initCalculator();
-  initFaqAccordion();
-  initCopyActions();
+  initExperienceModals();
+  initMobileMenu();
+  initSmoothScroll();
 });
 
-// 1. CONSOLE SIMULATOR
-function initConsoleSimulator() {
-  const rerunBtn = document.getElementById('console-rerun-btn');
-  const stream = document.getElementById('console-stream');
+// 1. TYPEWRITER EFFECT
+function initTypewriter() {
+  const element = document.getElementById('typewriter-text');
+  if (!element) return;
 
-  if (!rerunBtn || !stream) return;
-
-  const logs = [
-    { text: '> ANALYZING PRODUCTION CRASH ON TARGET: checkout.bundle.js', class: 'text-studio-muted', delay: 100 },
-    { text: 'EXCEPTION DETECTED: Modal viewport height overflow blocking touch event', class: 'text-rose-400 flex items-center gap-2', icon: 'alert-circle', delay: 400 },
-    { text: '> INITIATING PATCH SEQUENCE...', class: 'text-studio-muted', delay: 800 },
-    { text: '+ Resolved CSS stacking context conflict\n+ Added native -webkit-overflow-scrolling momentum listener\n+ Verified 0% regression on mobile Safari & Chrome', class: 'text-white pl-4 border-l border-white/20', delay: 1200 },
-    { text: 'SUCCESS: 18/18 TEST SUITES GREEN (42ms) • READY FOR ESCROW RELEASE', class: 'text-studio-accent font-semibold flex items-center gap-2 pt-2', icon: 'check-circle-2', delay: 1800 }
+  const phrases = [
+    "I'm a Software Engineer.",
+    "I'm a Full-Stack Problem Solver.",
+    "I'm an On-Demand Tech Partner.",
+    "I ship production code in hours."
   ];
 
-  function runSimulation() {
-    stream.innerHTML = '';
-    rerunBtn.disabled = true;
-    rerunBtn.classList.add('opacity-50', 'cursor-not-allowed');
+  let phraseIndex = 0;
+  let charIndex = 0;
+  let isDeleting = false;
+  let typingSpeed = 90;
 
-    logs.forEach(step => {
-      setTimeout(() => {
-        const div = document.createElement('div');
-        div.className = step.class;
+  function type() {
+    const currentPhrase = phrases[phraseIndex];
 
-        if (step.icon) {
-          const icon = document.createElement('i');
-          icon.setAttribute('data-lucide', step.icon);
-          icon.className = 'w-3.5 h-3.5';
-          div.appendChild(icon);
-        }
+    if (isDeleting) {
+      charIndex--;
+      element.textContent = currentPhrase.substring(0, charIndex);
+      typingSpeed = 45;
+    } else {
+      charIndex++;
+      element.textContent = currentPhrase.substring(0, charIndex);
+      typingSpeed = 85;
+    }
 
-        const span = document.createElement('span');
-        span.innerText = step.text;
-        div.appendChild(span);
+    if (!isDeleting && charIndex === currentPhrase.length) {
+      isDeleting = true;
+      typingSpeed = 2200; // Pause at end of phrase
+    } else if (isDeleting && charIndex === 0) {
+      isDeleting = false;
+      phraseIndex = (phraseIndex + 1) % phrases.length;
+      typingSpeed = 400; // Pause before typing next
+    }
 
-        stream.appendChild(div);
-        if (window.lucide) window.lucide.createIcons();
-      }, step.delay);
-    });
-
-    setTimeout(() => {
-      rerunBtn.disabled = false;
-      rerunBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-    }, 2200);
+    setTimeout(type, typingSpeed);
   }
 
-  rerunBtn.addEventListener('click', runSimulation);
+  type();
 }
 
-// 2. STUDIO PROJECT ESTIMATOR
+// 2. INTERACTIVE ESTIMATOR
 const PRICING_CONFIG = {
   bug: {
-    basePrice: 45,
+    basePrice: 50,
     name: 'Emergency Bug Remediation',
     time: '1–2 Hours',
     rushTime: 'Under 45 Mins'
   },
   scraper: {
-    basePrice: 75,
+    basePrice: 85,
     name: 'Web Scraper & Lead Extraction Pipeline',
     time: '2–4 Hours',
     rushTime: 'Under 90 Mins'
   },
   api: {
-    basePrice: 110,
+    basePrice: 120,
     name: 'API & Webhook Architecture Integration',
     time: 'Same Day (4–6 Hours)',
     rushTime: 'Under 2 Hours'
   },
   landing: {
-    basePrice: 220,
+    basePrice: 250,
     name: '90+ High-Performance Landing Page Architecture',
     time: '24–48 Hours',
     rushTime: 'Under 12 Hours'
@@ -98,131 +99,203 @@ function initCalculator() {
   function updateEstimate() {
     const selectedTask = form.elements['task_type'] ? form.elements['task_type'].value : 'bug';
     const selectedUrgency = form.elements['urgency'] ? form.elements['urgency'].value : 'standard';
+    const scopeVal = parseInt(form.elements['scope_slider'] ? form.elements['scope_slider'].value : 1, 10);
 
-    const taskData = PRICING_CONFIG[selectedTask] || PRICING_CONFIG.bug;
-    const isRush = selectedUrgency === 'urgent';
+    const config = PRICING_CONFIG[selectedTask] || PRICING_CONFIG.bug;
+    let base = config.basePrice;
 
-    const finalPrice = isRush ? taskData.basePrice + 25 : taskData.basePrice;
-    const finalTime = isRush ? taskData.rushTime : taskData.time;
+    // Scope multiplier
+    if (selectedTask === 'landing') {
+      base = base + (scopeVal - 1) * 80;
+    } else if (selectedTask === 'scraper') {
+      base = base + (scopeVal - 1) * 25;
+    } else if (selectedTask === 'api') {
+      base = base + (scopeVal - 1) * 35;
+    } else if (selectedTask === 'bug') {
+      base = base + (scopeVal - 1) * 30;
+    }
 
-    priceDisplay.textContent = `$${finalPrice}`;
-    timeDisplay.textContent = `| Turnaround: ${finalTime}`;
+    // Addons
+    const addons = form.querySelectorAll('input[name="addons"]:checked');
+    addons.forEach(cb => {
+      base += parseInt(cb.value, 10);
+    });
+
+    // Urgency
+    let timeline = config.time;
+    if (selectedUrgency === 'urgent') {
+      base = Math.round(base * 1.35);
+      timeline = config.rushTime;
+    }
+
+    priceDisplay.textContent = `$${base}`;
+    timeDisplay.textContent = timeline;
+
+    const sliderValDisplay = document.getElementById('slider-val-display');
+    if (sliderValDisplay) {
+      sliderValDisplay.textContent = scopeVal;
+    }
   }
 
+  form.addEventListener('input', updateEstimate);
   form.addEventListener('change', updateEstimate);
   updateEstimate();
 
   if (copyBtn) {
-    copyBtn.addEventListener('click', () => {
+    copyBtn.addEventListener('click', (e) => {
+      e.preventDefault();
       const selectedTask = form.elements['task_type'] ? form.elements['task_type'].value : 'bug';
-      const selectedUrgency = form.elements['urgency'] ? form.elements['urgency'].value : 'standard';
-      const taskData = PRICING_CONFIG[selectedTask] || PRICING_CONFIG.bug;
-      const isRush = selectedUrgency === 'urgent';
-      const finalPrice = isRush ? taskData.basePrice + 25 : taskData.basePrice;
-      const finalTime = isRush ? taskData.rushTime : taskData.time;
+      const config = PRICING_CONFIG[selectedTask] || PRICING_CONFIG.bug;
+      const urgency = form.elements['urgency'] ? form.elements['urgency'].value : 'standard';
+      const price = priceDisplay.textContent;
+      const time = timeDisplay.textContent;
 
-      const briefText = `Hi Jahanzaib, I have a project inquiry from your studio portfolio:
-- Scope: ${taskData.name}
-- Priority: ${isRush ? 'EMERGENCY RUSH' : 'Standard Delivery'}
-- Target Investment: ~$${finalPrice}
-- Guaranteed SLA: ${finalTime}
+      const briefText = `PROJECT SCOPE BRIEF FOR JAHANZAIB AHMAD
+----------------------------------------
+Service: ${config.name}
+Urgency Level: ${urgency.toUpperCase()}
+Estimated Turnaround: ${time}
+Estimated Cost: ${price}
+Contact: jahanzaibahmad630@gmail.com
+GitHub: https://github.com/jahanzaibahmad630-bit
+----------------------------------------
+Please confirm availability for immediate kickoff under escrow protection.`;
 
-Details of my task / error log:
-[Paste error log, website URL, or task description here]`;
-
-      copyToClipboard(briefText, 'Production Brief Copied!', 'Paste directly into Upwork or Email to begin.');
-    });
-  }
-}
-
-// 3. ACCESSIBLE ACCORDION
-function initFaqAccordion() {
-  const faqItems = document.querySelectorAll('.faq-item');
-
-  faqItems.forEach(item => {
-    function toggleAccordion() {
-      const answer = item.querySelector('.faq-answer');
-      const icon = item.querySelector('.faq-icon');
-      if (!answer) return;
-
-      const isExpanded = item.getAttribute('aria-expanded') === 'true';
-
-      // Close all others
-      faqItems.forEach(other => {
-        if (other !== item) {
-          other.setAttribute('aria-expanded', 'false');
-          const otherAns = other.querySelector('.faq-answer');
-          const otherIcon = other.querySelector('.faq-icon');
-          if (otherAns) otherAns.classList.add('hidden');
-          if (otherIcon) otherIcon.style.transform = 'rotate(0deg)';
-        }
-      });
-
-      // Toggle current
-      if (isExpanded) {
-        item.setAttribute('aria-expanded', 'false');
-        answer.classList.add('hidden');
-        if (icon) icon.style.transform = 'rotate(0deg)';
-      } else {
-        item.setAttribute('aria-expanded', 'true');
-        answer.classList.remove('hidden');
-        if (icon) icon.style.transform = 'rotate(180deg)';
-      }
-    }
-
-    item.addEventListener('click', toggleAccordion);
-    item.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        toggleAccordion();
-      }
-    });
-  });
-}
-
-// 4. CLIPBOARD SYSTEM
-function initCopyActions() {
-  const emailText = 'jahanzaibahmad630@gmail.com';
-  const copyBtn = document.getElementById('copy-email-btn');
-
-  if (copyBtn) {
-    copyBtn.addEventListener('click', () => {
-      copyToClipboard(emailText, 'Email Address Copied!', emailText);
-      const textLabel = document.getElementById('copy-email-text');
-      if (textLabel) {
-        const original = textLabel.innerHTML;
-        textLabel.innerHTML = '✓ Copied to Clipboard!';
+      navigator.clipboard.writeText(briefText).then(() => {
+        const originalHtml = copyBtn.innerHTML;
+        copyBtn.innerHTML = `<i data-lucide="check" class="w-4 h-4 text-emerald-400"></i><span class="text-emerald-400">Brief Copied to Clipboard!</span>`;
+        if (window.lucide) window.lucide.createIcons();
         setTimeout(() => {
-          textLabel.innerHTML = original;
-        }, 2500);
-      }
+          copyBtn.innerHTML = originalHtml;
+          if (window.lucide) window.lucide.createIcons();
+        }, 3000);
+      }).catch(err => {
+        console.error('Failed to copy text: ', err);
+      });
     });
   }
 }
 
-function copyToClipboard(text, title, message) {
-  navigator.clipboard.writeText(text).then(() => {
-    showToast(title, message);
-  }).catch(() => {
-    prompt('Copy to clipboard:', text);
+// 3. EXPERIENCE DETAIL MODAL
+function initExperienceModals() {
+  const modal = document.getElementById('experience-modal');
+  const modalTitle = document.getElementById('modal-title');
+  const modalDesc = document.getElementById('modal-description');
+  const modalDeliverables = document.getElementById('modal-deliverables');
+  const closeBtn = document.getElementById('modal-close-btn');
+
+  if (!modal || !modalTitle || !modalDesc || !closeBtn) return;
+
+  const experienceData = {
+    bug: {
+      title: "Emergency Bug Remediation (< 2 Hours)",
+      desc: "Instant live triage for mission-critical crashes, broken checkout workflows, Next.js / React hydration mismatches, and database lockouts.",
+      deliverables: [
+        "Root-cause diagnostic within 30 minutes of repository access",
+        "Clean, surgical hotfix commit verified in isolated staging",
+        "Zero regression testing across responsive viewport matrix",
+        "100% Escrow release guarantee only upon verified production resolution"
+      ]
+    },
+    scraper: {
+      title: "Web Scraping & Resilient Data Pipelines",
+      desc: "Industrial extraction infrastructure designed to reliably pull high-volume datasets without getting rate-limited, blocked, or challenged by Cloudflare / Datadome.",
+      deliverables: [
+        "Headless browser cluster orchestration (Playwright / Puppeteer)",
+        "Fingerprint cloaking, TLS spoofing, and dynamic residential proxy rotation",
+        "Automated schema validation and export to PostgreSQL / BigQuery / CSV",
+        "Idempotent cron runners with automatic failure alerts"
+      ]
+    },
+    api: {
+      title: "Custom API & Webhook Architecture Integrations",
+      desc: "Robust event-driven backends, webhook receivers, and third-party SaaS integrations built for zero message loss and seamless reconciliation.",
+      deliverables: [
+        "Stripe, PayPal, Shopify, HubSpot, and CRM bidirectional synchronizers",
+        "HMAC signature validation and replay-attack security guards",
+        "Redis-backed asynchronous queueing for high-throughput traffic spikes",
+        "Full unit test suites with mocked API failure recovery"
+      ]
+    },
+    landing: {
+      title: "90+ High-Performance Landing Page Architecture",
+      desc: "Speed-first, highly persuasive landing page design and code engineered for sub-second LCP, zero layout shift (CLS), and maximum conversion rate.",
+      deliverables: [
+        "90+ Google PageSpeed mobile and desktop compliance guarantee",
+        "Flawless responsive layouts adapted from Figma designs",
+        "Semantic HTML5, WCAG 2.1 AA accessibility, and rich JSON-LD schema",
+        "Sub-second asset loading with edge caching and modern WebP formats"
+      ]
+    }
+  };
+
+  document.querySelectorAll('[data-experience-key]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const key = btn.getAttribute('data-experience-key');
+      const data = experienceData[key];
+      if (!data) return;
+
+      modalTitle.textContent = data.title;
+      modalDesc.textContent = data.desc;
+      modalDeliverables.innerHTML = data.deliverables.map(item => `
+        <li class="flex items-start gap-2 text-sm text-slate-200">
+          <i data-lucide="check-circle-2" class="w-4 h-4 text-purple-400 shrink-0 mt-0.5"></i>
+          <span>${item}</span>
+        </li>
+      `).join('');
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      if (window.lucide) window.lucide.createIcons();
+    });
+  });
+
+  function closeModal() {
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  }
+
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
   });
 }
 
-function showToast(title, message) {
-  const toast = document.getElementById('toast');
-  const toastTitle = document.getElementById('toast-title');
-  const toastMsg = document.getElementById('toast-msg');
+// 4. MOBILE NAVIGATION
+function initMobileMenu() {
+  const menuBtn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
 
-  if (!toast) return;
+  if (!menuBtn || !menu) return;
 
-  if (toastTitle) toastTitle.textContent = title;
-  if (toastMsg) toastMsg.textContent = message;
+  menuBtn.addEventListener('click', () => {
+    menu.classList.toggle('hidden');
+  });
 
-  toast.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
-  toast.classList.add('opacity-100', 'translate-y-0');
+  menu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      menu.classList.add('hidden');
+    });
+  });
+}
 
-  setTimeout(() => {
-    toast.classList.remove('opacity-100', 'translate-y-0');
-    toast.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
-  }, 3500);
+// 5. SMOOTH SCROLL
+function initSmoothScroll() {
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const targetId = this.getAttribute('href');
+      if (targetId === '#') return;
+      const target = document.querySelector(targetId);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
 }
