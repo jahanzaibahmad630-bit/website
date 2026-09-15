@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jahanzaib Ahmad | Senior Full-Stack Engineer & Express Web Specialist</title>
-  <meta name="description" content="Senior full-stack engineer delivering production-grade code, emergency bug fixes, web scrapers, and 90+ PageSpeed landing pages in hours, not weeks." />
+  <title>Jahanzaib Ahmad | Senior Full-Stack Engineer & On-Demand Technical Partner</title>
+  <meta name="description" content="Senior full-stack engineer tackling emergency bug fixes (< 2h turnaround), API integrations, web scrapers, and high-performance landing pages with 100% escrow delivery." />
 
-  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <!-- Google Fonts: Inter, Plus Jakarta Sans, and JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -19,22 +19,20 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            heading: ['Plus Jakarta Sans', 'sans-serif'],
+            sans: ['Inter', 'sans-serif'],
             mono: ['JetBrains Mono', 'monospace'],
           },
           colors: {
-            obsidian: {
-              canvas: '#07080b',
-              surface1: '#0e1017',
-              surface2: '#151824',
-              surface3: '#1d2233',
-            },
-            accent: {
-              emerald: '#10b981',
-              cyan: '#06b6d4',
-              indigo: '#6366f1',
-              amber: '#f59e0b',
-              rose: '#f43f5e',
+            brand: {
+              canvas: '#090D16',
+              surface: '#101726',
+              stroke: '#1E293B',
+              emerald: '#10B981',
+              cyan: '#06B6D4',
+              amber: '#F59E0B',
+              alabaster: '#F8FAFC',
+              slate: '#94A3B8',
             }
           }
         }
@@ -42,297 +40,254 @@
     }
   </script>
 
-  <!-- Lucide Icons -->
+  <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="bg-obsidian-canvas text-slate-100 font-sans antialiased selection:bg-accent-emerald/30 selection:text-emerald-300 min-h-screen overflow-x-hidden">
+<body class="bg-brand-canvas text-brand-alabaster font-sans antialiased selection:bg-brand-cyan/20 selection:text-brand-cyan min-h-screen overflow-x-hidden">
 
-  <!-- Ambient Radial Glows & Grid Pattern -->
+  <!-- Ambient Radial Glow Background -->
   <div class="fixed inset-0 pointer-events-none z-0">
-    <div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[850px] h-[550px] bg-gradient-to-tr from-accent-cyan/15 via-accent-emerald/15 to-transparent blur-[140px] rounded-full"></div>
-    <div class="absolute top-[35%] right-[-120px] w-[550px] h-[450px] bg-accent-indigo/10 blur-[150px] rounded-full"></div>
-    <div class="absolute bottom-10 left-[-100px] w-[500px] h-[450px] bg-accent-emerald/10 blur-[140px] rounded-full"></div>
-    <div class="absolute inset-0 bg-radial-grid opacity-60"></div>
+    <div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[850px] h-[550px] bg-gradient-to-tr from-brand-cyan/15 via-brand-emerald/10 to-transparent blur-[140px] rounded-full"></div>
+    <div class="absolute top-[35%] right-[-100px] w-[500px] h-[450px] bg-brand-cyan/8 blur-[150px] rounded-full"></div>
+    <div class="absolute bottom-10 left-[-80px] w-[500px] h-[400px] bg-brand-emerald/8 blur-[140px] rounded-full"></div>
+    <div class="absolute inset-0 bg-deep-grid opacity-70"></div>
   </div>
 
-  <!-- FLOATING ISLAND NAVBAR -->
-  <div class="fixed top-4 inset-x-0 mx-auto max-w-5xl z-50 px-4">
-    <header class="glass-pill rounded-full px-4 sm:px-6 h-14 flex items-center justify-between">
-      <!-- Monogram / Brand -->
-      <a href="#hero" class="flex items-center gap-3 group" aria-label="Jahanzaib Ahmad Home">
-        <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-accent-emerald to-accent-cyan p-[1px] shadow-md shadow-emerald-500/20">
-          <div class="w-full h-full bg-obsidian-surface1 rounded-[7px] flex items-center justify-center font-mono font-bold text-accent-emerald group-hover:text-white transition-colors text-xs">
+  <!-- STICKY TOP BAR: GLASSMORPHIC HUB -->
+  <header class="sticky top-0 z-50 glass-header border-b border-brand-stroke/60">
+    <div class="max-w-[1200px] mx-auto px-6 lg:px-12 h-16 flex items-center justify-between">
+      
+      <!-- Brand Identity & Live Status -->
+      <a href="#hero" class="flex items-center gap-3 group" aria-label="Jahanzaib Ahmad Portfolio Home">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-brand-cyan to-brand-emerald p-[1px] shadow-sm shadow-brand-cyan/20">
+          <div class="w-full h-full bg-brand-surface rounded-[7px] flex items-center justify-center font-mono font-bold text-brand-cyan group-hover:text-white transition-colors text-xs">
             &lt;JA/&gt;
           </div>
         </div>
-        <span class="font-mono font-bold text-xs tracking-wider text-white group-hover:text-accent-emerald transition-colors">
-          JAHANZAIB.DEV
-        </span>
+        <div class="flex items-center gap-2">
+          <span class="font-heading font-bold text-sm tracking-tight text-white group-hover:text-brand-cyan transition-colors">
+            Jahanzaib.dev
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald text-[11px] font-mono">
+            <span class="w-1.5 h-1.5 rounded-full bg-brand-emerald animate-pulse"></span>
+            <span>Online &bull; &lt; 15m Response</span>
+          </span>
+        </div>
       </a>
 
-      <!-- Desktop Links -->
-      <nav class="hidden md:flex items-center gap-7 text-xs font-semibold text-slate-300">
-        <a href="#services" class="hover:text-accent-emerald transition-colors">Services</a>
-        <a href="#proof" class="hover:text-accent-emerald transition-colors">Code Diffs</a>
-        <a href="#calculator" class="hover:text-accent-emerald transition-colors">Instant Estimator</a>
-        <a href="#faq" class="hover:text-accent-emerald transition-colors">FAQ</a>
+      <!-- Quick Navigation Anchors -->
+      <nav class="hidden md:flex items-center gap-6 text-xs font-medium text-brand-slate">
+        <a href="#services" class="hover:text-brand-cyan transition-colors">Services</a>
+        <a href="#case-studies" class="hover:text-brand-cyan transition-colors">Case Studies</a>
+        <a href="#calculator" class="hover:text-brand-cyan transition-colors">Instant Estimator</a>
+        <a href="#stack" class="hover:text-brand-cyan transition-colors">Stack</a>
+        <a href="#faq" class="hover:text-brand-cyan transition-colors">FAQ</a>
       </nav>
 
-      <!-- Right Action & Availability Beacon -->
+      <!-- High-Intent CTA Cluster -->
       <div class="flex items-center gap-3">
-        <div class="hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[11px] font-mono">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span>Online &bull; &lt; 15m</span>
-        </div>
-        <a href="#contact" class="px-4 py-1.5 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-obsidian-canvas font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-emerald-500/25 active:scale-95">
-          Hire Me
+        <button type="button" id="copy-email-header-btn" class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-brand-surface border border-brand-stroke text-xs font-mono text-brand-slate hover:text-white hover:border-white/20 transition-all">
+          <i data-lucide="mail" class="w-3.5 h-3.5 text-brand-cyan"></i>
+          <span>Email</span>
+        </button>
+        <a href="https://www.upwork.com" target="_blank" rel="noopener noreferrer" class="px-4 py-1.5 rounded-lg bg-gradient-to-r from-brand-cyan to-brand-emerald hover:from-cyan-400 hover:to-emerald-400 text-brand-canvas font-heading font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-brand-cyan/20 active:scale-95 flex items-center gap-1.5">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+          <span>Hire via Upwork</span>
         </a>
       </div>
-    </header>
-  </div>
 
-  <main class="relative z-10 pt-28">
+    </div>
+  </header>
 
-    <!-- HERO SECTION: 55/45 ASYMMETRICAL SPLIT -->
-    <section id="hero" class="pt-8 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        
-        <!-- Left Column (55%): Value Proposition & CTAs -->
-        <div class="lg:col-span-7 text-left">
-          <!-- Express SLA Pill -->
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-obsidian-surface1 border border-white/10 text-xs font-mono text-slate-300 mb-6 shadow-inner">
-            <span class="text-accent-emerald font-semibold flex items-center gap-1">
-              <i data-lucide="zap" class="w-3 h-3 fill-accent-emerald"></i>
-              EXPRESS DISPATCH
-            </span>
-            <span class="text-slate-600">&bull;</span>
-            <span class="text-slate-400">Average Turnaround: 90 Minutes</span>
-          </div>
+  <main class="relative z-10">
 
-          <!-- Main Heading -->
-          <h1 class="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-[1.08] mb-6">
-            Production Code Delivered in <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">Hours, Not Weeks.</span>
-          </h1>
+    <!-- 1. HERO SECTION & IMMEDIATE VERIFICATION -->
+    <section id="hero" class="pt-16 pb-20 px-6 lg:px-12 max-w-[1200px] mx-auto text-center">
+      
+      <!-- Eyebrow Pill -->
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-surface border border-brand-stroke text-xs font-mono text-brand-slate mb-6 shadow-sm">
+        <span class="text-brand-emerald font-semibold flex items-center gap-1.5">
+          <i data-lucide="zap" class="w-3.5 h-3.5 fill-brand-emerald"></i>
+          EXPRESS DISPATCH ACTIVE
+        </span>
+        <span class="text-brand-stroke">&bull;</span>
+        <span>Average Turnaround: 90 Mins</span>
+      </div>
 
-          <!-- Subheadline -->
-          <p class="text-base sm:text-lg text-slate-400 max-w-2xl leading-relaxed mb-8 font-normal">
-            I eliminate technical bottlenecks for startups and fast-moving agencies. Emergency CSS/JS bug fixes, resilient web scrapers, and 90+ PageSpeed landing pages delivered with senior engineering precision.
-          </p>
+      <!-- Main Headline -->
+      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-heading font-extrabold text-white tracking-tight leading-[1.1] max-w-4xl mx-auto mb-6">
+        Production-Grade Code Delivered in <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan via-teal-300 to-brand-emerald">Hours, Not Weeks.</span>
+      </h1>
 
-          <!-- Dual Conversion CTAs -->
-          <div class="flex flex-col sm:flex-row items-center gap-4 mb-12">
-            <a href="#calculator" class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-obsidian-canvas font-bold text-sm tracking-wide shadow-xl shadow-emerald-500/20 transition-all flex items-center justify-center gap-2 active:scale-95 group">
-              <i data-lucide="calculator" class="w-4 h-4 text-obsidian-canvas group-hover:scale-110 transition-transform"></i>
-              <span>Instant Cost Estimator</span>
-            </a>
-            <a href="#proof" class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-obsidian-surface1 hover:bg-obsidian-surface2 border border-white/10 text-slate-200 font-semibold text-sm tracking-wide transition-all flex items-center justify-center gap-2">
-              <i data-lucide="code" class="w-4 h-4 text-accent-cyan"></i>
-              <span>Inspect Code Diffs</span>
-            </a>
-          </div>
+      <!-- Persona Subheadline -->
+      <p class="text-base sm:text-lg text-brand-slate max-w-2xl mx-auto leading-relaxed mb-10 font-normal">
+        Hi, I'm <strong class="text-white font-semibold">Jahanzaib Ahmad</strong>. Senior full-stack engineer tackling emergency bug fixes, API integrations, web scraping pipelines, and high-conversion landing pages with zero corporate bloat and 100% verified escrow delivery.
+      </p>
 
-          <!-- 3-Pillar Trust Metric Cards -->
-          <div class="grid grid-cols-3 gap-3 sm:gap-4 max-w-xl pt-6 border-t border-white/10">
-            <div class="p-3 sm:p-4 rounded-xl bg-obsidian-surface1/60 border border-white/5">
-              <div class="text-xl sm:text-2xl font-bold font-mono text-emerald-400">&lt; 2 Hrs</div>
-              <div class="text-[11px] text-slate-400 mt-0.5">Average Bug Fix</div>
-            </div>
-            <div class="p-3 sm:p-4 rounded-xl bg-obsidian-surface1/60 border border-white/5">
-              <div class="text-xl sm:text-2xl font-bold font-mono text-cyan-400">100%</div>
-              <div class="text-[11px] text-slate-400 mt-0.5">Escrow Pass Rate</div>
-            </div>
-            <div class="p-3 sm:p-4 rounded-xl bg-obsidian-surface1/60 border border-white/5">
-              <div class="text-xl sm:text-2xl font-bold font-mono text-indigo-400">$0 Upfront</div>
-              <div class="text-[11px] text-slate-400 mt-0.5">Pay on Verified Fix</div>
-            </div>
-          </div>
+      <!-- Primary CTA Cluster -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+        <a href="#calculator" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-brand-cyan to-brand-emerald hover:from-cyan-400 hover:to-emerald-400 text-brand-canvas font-heading font-bold text-sm tracking-wide shadow-xl shadow-brand-cyan/20 transition-all flex items-center justify-center gap-2 active:scale-95">
+          <i data-lucide="calculator" class="w-4 h-4 text-brand-canvas"></i>
+          <span>Calculate Fix Cost</span>
+        </a>
+        <a href="#case-studies" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-brand-surface hover:bg-[#162035] border border-brand-stroke text-white font-heading font-semibold text-sm tracking-wide transition-all flex items-center justify-center gap-2">
+          <i data-lucide="terminal" class="w-4 h-4 text-brand-cyan"></i>
+          <span>Inspect Proof of Work</span>
+        </a>
+      </div>
+
+      <!-- Floating SLA Stat Rail (4 Glass Pillars) -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pt-6 border-t border-brand-stroke/60 text-left">
+        <div class="p-4 rounded-xl bg-brand-surface border border-brand-stroke">
+          <div class="text-2xl font-bold font-mono text-brand-emerald">&lt; 2 Hours</div>
+          <div class="text-xs text-brand-slate mt-0.5">Average bug fix turnaround</div>
         </div>
-
-        <!-- Right Column (45%): Interactive Terminal Simulator -->
-        <div class="lg:col-span-5">
-          <div class="terminal-window p-5 sm:p-6 text-left relative overflow-hidden">
-            <!-- Window Control Header -->
-            <div class="flex items-center justify-between pb-4 mb-4 border-b border-white/10">
-              <div class="flex items-center gap-2">
-                <span class="w-3 h-3 rounded-full bg-rose-500/80 inline-block"></span>
-                <span class="w-3 h-3 rounded-full bg-amber-500/80 inline-block"></span>
-                <span class="w-3 h-3 rounded-full bg-emerald-500/80 inline-block"></span>
-                <span class="ml-2 font-mono text-[11px] text-slate-400">jahanzaib@patch-engine: ~/audit</span>
-              </div>
-              <button type="button" id="terminal-rerun-btn" class="px-2.5 py-1 rounded bg-obsidian-surface2 hover:bg-obsidian-surface3 border border-white/10 text-[10px] font-mono text-emerald-400 flex items-center gap-1.5 transition-colors">
-                <i data-lucide="play" class="w-3 h-3 fill-emerald-400"></i>
-                <span>Simulate Fix</span>
-              </button>
-            </div>
-
-            <!-- Terminal Output Stream -->
-            <div id="terminal-body" class="space-y-2.5 text-xs font-mono min-h-[220px]">
-              <div class="text-slate-500">$ jahanzaib-cli inspect --target "production.checkout"</div>
-              <div class="text-rose-400 flex items-center gap-2">
-                <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-rose-400"></i>
-                <span>[CRITICAL] iOS Safari modal scroll-lock blocking checkout</span>
-              </div>
-              <div class="text-slate-400">$ jahanzaib-cli patch --stack "CSS/JS"</div>
-              <div class="text-slate-300 pl-3 border-l border-white/10">
-                <div>&bull; Stacking context overflow resolved</div>
-                <div>&bull; Attached momentum touch handler</div>
-                <div>&bull; Verified zero regression across Safari/Chrome</div>
-              </div>
-              <div class="text-slate-400">$ jahanzaib-cli run-tests --ci</div>
-              <div class="text-emerald-400 flex items-center gap-2 font-semibold">
-                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400"></i>
-                <span>ALL 18 SUITES PASSED (64ms) &bull; STATUS: READY TO MERGE</span>
-              </div>
-            </div>
-
-            <!-- Terminal Footer Status -->
-            <div class="pt-4 mt-4 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-slate-500">
-              <span class="flex items-center gap-1.5">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                Sandbox verified
-              </span>
-              <span>Diff size: -14 / +22 lines</span>
-            </div>
-          </div>
+        <div class="p-4 rounded-xl bg-brand-surface border border-brand-stroke">
+          <div class="text-2xl font-bold font-mono text-brand-cyan">100%</div>
+          <div class="text-xs text-brand-slate mt-0.5">Verified milestone completion</div>
         </div>
-
+        <div class="p-4 rounded-xl bg-brand-surface border border-brand-stroke">
+          <div class="text-2xl font-bold font-mono text-brand-amber">$0 Upfront</div>
+          <div class="text-xs text-brand-slate mt-0.5">Escrow protected; pay on verified diff</div>
+        </div>
+        <div class="p-4 rounded-xl bg-brand-surface border border-brand-stroke">
+          <div class="text-2xl font-bold font-mono text-white">Full-Stack</div>
+          <div class="text-xs text-brand-slate mt-0.5">React, Node.js, Python, Cloud</div>
+        </div>
       </div>
     </section>
 
-    <!-- BENTO GRID SERVICES & PRICING -->
-    <section id="services" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <!-- 2. INTERACTIVE SERVICE MATRIX (4-COLUMN BENTO GRID) -->
+    <section id="services" class="py-20 px-6 lg:px-12 max-w-[1200px] mx-auto border-t border-brand-stroke/60">
       <div class="text-center mb-14">
-        <span class="text-xs font-mono font-bold uppercase tracking-widest text-accent-emerald">Scope-Locked Deliverables</span>
-        <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">High-Velocity Engineering Services</h2>
-        <p class="text-slate-400 text-sm max-w-xl mx-auto mt-2">
-          Fixed prices. Guaranteed turnaround times. Zero unexpected hourly overages.
+        <span class="text-xs font-mono font-bold uppercase tracking-widest text-brand-cyan">Fixed Price & Guaranteed SLA</span>
+        <h2 class="text-2xl sm:text-3xl font-heading font-bold text-white mt-1">Scope-Locked Engineering Services</h2>
+        <p class="text-brand-slate text-sm max-w-xl mx-auto mt-2">
+          Strict turnaround SLAs. Deterministic code patches. Zero hourly billing surprises.
         </p>
       </div>
 
-      <!-- Bento Layout Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
-        <!-- Bento Card 1: Emergency Bug Fix (7 Columns) -->
-        <div class="bento-card md:col-span-7 p-6 sm:p-8 flex flex-col justify-between group">
+        <!-- Card 1: Bug Fix -->
+        <div class="surface-card p-6 flex flex-col justify-between group">
           <div>
-            <div class="flex items-center justify-between mb-6">
-              <div class="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-                <i data-lucide="bug-off" class="w-5 h-5"></i>
+            <div class="flex items-center justify-between mb-5">
+              <div class="w-10 h-10 rounded-lg bg-brand-emerald/10 border border-brand-emerald/20 flex items-center justify-center text-brand-emerald">
+                <i data-lucide="bug" class="w-5 h-5"></i>
               </div>
-              <span class="px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-[11px] font-mono font-semibold">SLA: 1–2 HOURS</span>
+              <span class="px-2.5 py-0.5 rounded-full bg-brand-emerald/10 text-brand-emerald text-[11px] font-mono font-semibold">1–2 HOURS</span>
             </div>
-            <h3 class="text-2xl font-bold text-white mb-2">Emergency Bug Fix & Layout Repair</h3>
-            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed mb-6">
-              Broken payment modals, flexbox overflows, form submission failures, or JavaScript runtime crashes fixed and tested across all major browsers on the spot.
+            <h3 class="text-lg font-heading font-bold text-white mb-2">Emergency Bug Fix</h3>
+            <p class="text-xs text-brand-slate leading-relaxed mb-5">
+              Broken checkout modals, mobile layout collapses, and JavaScript console crashes diagnosed and patched immediately.
             </p>
-            <div class="grid grid-cols-2 gap-3 mb-6 text-xs text-slate-300 font-medium">
-              <div class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> Root cause analysis</div>
-              <div class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> Cross-browser validation</div>
-              <div class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> Clean, verified Git diff</div>
-              <div class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> Zero upfront risk</div>
-            </div>
+            <ul class="space-y-2 text-xs text-slate-300 font-mono mb-6">
+              <li class="flex items-center gap-2"><span class="text-brand-emerald font-bold">&check;</span> Root cause analysis & diff</li>
+              <li class="flex items-center gap-2"><span class="text-brand-emerald font-bold">&check;</span> Cross-browser validation</li>
+              <li class="flex items-center gap-2"><span class="text-brand-emerald font-bold">&check;</span> Zero regression guarantee</li>
+            </ul>
           </div>
-          <div class="pt-5 border-t border-white/10 flex items-center justify-between">
+          <div class="pt-4 border-t border-brand-stroke flex items-baseline justify-between">
             <div>
-              <span class="text-2xl font-mono font-bold text-white">$35–$65</span>
-              <span class="text-xs text-slate-500 font-mono">/ fixed scope</span>
+              <span class="text-xl font-mono font-bold text-white">$35–$65</span>
+              <span class="text-[11px] text-brand-slate font-mono">/ fix</span>
             </div>
-            <a href="#calculator" class="text-xs font-semibold text-emerald-400 hover:text-emerald-300 flex items-center gap-1">
-              Select Task &rarr;
+            <a href="#calculator" class="text-xs font-semibold text-brand-emerald hover:text-emerald-300 flex items-center gap-1 font-mono">
+              Order Fix &rarr;
             </a>
           </div>
         </div>
 
-        <!-- Bento Card 2: Web Scraping (5 Columns) -->
-        <div class="bento-card md:col-span-5 p-6 sm:p-8 flex flex-col justify-between group">
+        <!-- Card 2: Web Scraping -->
+        <div class="surface-card p-6 flex flex-col justify-between group">
           <div>
-            <div class="flex items-center justify-between mb-6">
-              <div class="w-11 h-11 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
+            <div class="flex items-center justify-between mb-5">
+              <div class="w-10 h-10 rounded-lg bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan">
                 <i data-lucide="database" class="w-5 h-5"></i>
               </div>
-              <span class="px-2.5 py-1 rounded-full bg-cyan-500/10 text-cyan-400 text-[11px] font-mono font-semibold">SLA: 2–4 HOURS</span>
+              <span class="px-2.5 py-0.5 rounded-full bg-brand-cyan/10 text-brand-cyan text-[11px] font-mono font-semibold">2–4 HOURS</span>
             </div>
-            <h3 class="text-xl font-bold text-white mb-2">Resilient Web Scraping</h3>
-            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed mb-6">
-              Automated Python Playwright / BeautifulSoup engines for e-commerce, real estate, and B2B directories with anti-bot bypass and deduplicated Excel/CSV export.
+            <h3 class="text-lg font-heading font-bold text-white mb-2">Web Scraper & Leads</h3>
+            <p class="text-xs text-brand-slate leading-relaxed mb-5">
+              Resilient automated extractors for e-commerce, real estate, and B2B directories delivered in clean Excel/CSV.
             </p>
-            <div class="space-y-2 text-xs text-slate-300 mb-6">
-              <div class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-cyan-400"></i> Cloudflare & captcha bypass</div>
-              <div class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-cyan-400"></i> Clean 0% duplicate CSV/XLSX</div>
-            </div>
+            <ul class="space-y-2 text-xs text-slate-300 font-mono mb-6">
+              <li class="flex items-center gap-2"><span class="text-brand-cyan font-bold">&check;</span> Playwright & BeautifulSoup</li>
+              <li class="flex items-center gap-2"><span class="text-brand-cyan font-bold">&check;</span> Anti-bot & cloudflare bypass</li>
+              <li class="flex items-center gap-2"><span class="text-brand-cyan font-bold">&check;</span> 0% duplicate deduplication</li>
+            </ul>
           </div>
-          <div class="pt-5 border-t border-white/10 flex items-center justify-between">
+          <div class="pt-4 border-t border-brand-stroke flex items-baseline justify-between">
             <div>
-              <span class="text-2xl font-mono font-bold text-white">$50–$120</span>
-              <span class="text-xs text-slate-500 font-mono">/ dataset</span>
+              <span class="text-xl font-mono font-bold text-white">$50–$120</span>
+              <span class="text-[11px] text-brand-slate font-mono">/ dataset</span>
             </div>
-            <a href="#calculator" class="text-xs font-semibold text-cyan-400 hover:text-cyan-300 flex items-center gap-1">
-              Select Task &rarr;
+            <a href="#calculator" class="text-xs font-semibold text-brand-cyan hover:text-cyan-300 flex items-center gap-1 font-mono">
+              Extract &rarr;
             </a>
           </div>
         </div>
 
-        <!-- Bento Card 3: APIs & Webhooks (5 Columns) -->
-        <div class="bento-card md:col-span-5 p-6 sm:p-8 flex flex-col justify-between group">
+        <!-- Card 3: API & Webhooks -->
+        <div class="surface-card p-6 flex flex-col justify-between group">
           <div>
-            <div class="flex items-center justify-between mb-6">
-              <div class="w-11 h-11 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+            <div class="flex items-center justify-between mb-5">
+              <div class="w-10 h-10 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
                 <i data-lucide="link" class="w-5 h-5"></i>
               </div>
-              <span class="px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-400 text-[11px] font-mono font-semibold">SLA: SAME DAY</span>
+              <span class="px-2.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 text-[11px] font-mono font-semibold">SAME DAY</span>
             </div>
-            <h3 class="text-xl font-bold text-white mb-2">API & Webhook Integrations</h3>
-            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed mb-6">
-              Connect Stripe Checkout, Twilio SMS webhooks, Google Sheets, or Supabase endpoints with robust error handling and payload retry queues.
+            <h3 class="text-lg font-heading font-bold text-white mb-2">API & Webhooks</h3>
+            <p class="text-xs text-brand-slate leading-relaxed mb-5">
+              Connect Stripe payments, Twilio SMS webhooks, Google Sheets, or Supabase endpoints with robust retry logic.
             </p>
-            <div class="space-y-2 text-xs text-slate-300 mb-6">
-              <div class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-indigo-400"></i> Stripe webhooks & HMAC verification</div>
-              <div class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-indigo-400"></i> Airtable / CRM data synchronization</div>
-            </div>
+            <ul class="space-y-2 text-xs text-slate-300 font-mono mb-6">
+              <li class="flex items-center gap-2"><span class="text-indigo-400 font-bold">&check;</span> Stripe checkout & HMAC tokens</li>
+              <li class="flex items-center gap-2"><span class="text-indigo-400 font-bold">&check;</span> Airtable & CRM integration</li>
+              <li class="flex items-center gap-2"><span class="text-indigo-400 font-bold">&check;</span> Payload fail-safe queuing</li>
+            </ul>
           </div>
-          <div class="pt-5 border-t border-white/10 flex items-center justify-between">
+          <div class="pt-4 border-t border-brand-stroke flex items-baseline justify-between">
             <div>
-              <span class="text-2xl font-mono font-bold text-white">$75–$150</span>
-              <span class="text-xs text-slate-500 font-mono">/ endpoint</span>
+              <span class="text-xl font-mono font-bold text-white">$75–$150</span>
+              <span class="text-[11px] text-brand-slate font-mono">/ endpoint</span>
             </div>
-            <a href="#calculator" class="text-xs font-semibold text-indigo-400 hover:text-indigo-300 flex items-center gap-1">
-              Select Task &rarr;
+            <a href="#calculator" class="text-xs font-semibold text-indigo-400 hover:text-indigo-300 flex items-center gap-1 font-mono">
+              Integrate &rarr;
             </a>
           </div>
         </div>
 
-        <!-- Bento Card 4: Modern Landing Page (7 Columns) -->
-        <div class="bento-card md:col-span-7 p-6 sm:p-8 flex flex-col justify-between group border-emerald-500/30">
+        <!-- Card 4: Modern Landing Page -->
+        <div class="surface-card p-6 flex flex-col justify-between group border-brand-emerald/30">
           <div>
-            <div class="flex items-center justify-between mb-6">
-              <div class="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+            <div class="flex items-center justify-between mb-5">
+              <div class="w-10 h-10 rounded-lg bg-brand-emerald/10 border border-brand-emerald/20 flex items-center justify-center text-brand-emerald">
                 <i data-lucide="gauge" class="w-5 h-5"></i>
               </div>
-              <span class="px-2.5 py-1 rounded-full bg-emerald-500 text-obsidian-canvas text-[10px] font-mono font-bold uppercase tracking-wider">
-                GUARANTEED 90+ SPEED
-              </span>
+              <span class="px-2.5 py-0.5 rounded-full bg-brand-emerald/10 text-brand-emerald text-[11px] font-mono font-semibold">24–48 HOURS</span>
             </div>
-            <h3 class="text-2xl font-bold text-white mb-2">Modern Ultra-Fast Landing Page</h3>
-            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed mb-6">
-              Tailwind CSS + semantic HTML5 architecture delivering sub-second load times. Pixel-perfect responsiveness across all devices, integrated contact dispatch, and zero dependency bloat.
+            <h3 class="text-lg font-heading font-bold text-white mb-2">90+ Landing Page</h3>
+            <p class="text-xs text-brand-slate leading-relaxed mb-5">
+              Sub-second loading landing pages built with Tailwind CSS. Guaranteed 90+ Core Web Vitals score on mobile.
             </p>
-            <div class="grid grid-cols-2 gap-3 mb-6 text-xs text-slate-300 font-medium">
-              <div class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> 90+ Mobile PageSpeed score</div>
-              <div class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> Sub-second Largest Contentful Paint</div>
-              <div class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> High-converting CTA hierarchy</div>
-              <div class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> SEO metadata & OpenGraph tags</div>
-            </div>
+            <ul class="space-y-2 text-xs text-slate-300 font-mono mb-6">
+              <li class="flex items-center gap-2"><span class="text-brand-emerald font-bold">&check;</span> 90+ Mobile PageSpeed pass</li>
+              <li class="flex items-center gap-2"><span class="text-brand-emerald font-bold">&check;</span> Pixel-perfect responsive UI</li>
+              <li class="flex items-center gap-2"><span class="text-brand-emerald font-bold">&check;</span> 1-click contact forms & SEO</li>
+            </ul>
           </div>
-          <div class="pt-5 border-t border-white/10 flex items-center justify-between">
+          <div class="pt-4 border-t border-brand-stroke flex items-baseline justify-between">
             <div>
-              <span class="text-2xl font-mono font-bold text-white">$150–$300</span>
-              <span class="text-xs text-slate-500 font-mono">/ complete site</span>
+              <span class="text-xl font-mono font-bold text-white">$150–$300</span>
+              <span class="text-[11px] text-brand-slate font-mono">/ project</span>
             </div>
-            <a href="#calculator" class="text-xs font-semibold text-emerald-400 hover:text-emerald-300 flex items-center gap-1">
-              Select Task &rarr;
+            <a href="#calculator" class="text-xs font-semibold text-brand-emerald hover:text-emerald-300 flex items-center gap-1 font-mono">
+              Build &rarr;
             </a>
           </div>
         </div>
@@ -340,348 +295,449 @@
       </div>
     </section>
 
-    <!-- PROOF OF WORK: INTERACTIVE CODE DIFF VIEWER -->
-    <section id="proof" class="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto border-t border-white/10">
-      <div class="text-center mb-12">
-        <span class="text-xs font-mono font-bold uppercase tracking-widest text-accent-cyan">Technical Verification</span>
-        <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">Real Problems. Real Code Diffs.</h2>
-        <p class="text-slate-400 text-sm max-w-xl mx-auto mt-2">
-          Inspect actual production patches, verified turnaround times, and quantifiable business results.
+    <!-- 3. VERIFIED PRODUCTION CASE STUDIES (INCIDENT LOG STYLE) -->
+    <section id="case-studies" class="py-20 px-6 lg:px-12 max-w-[1200px] mx-auto border-t border-brand-stroke/60">
+      <div class="text-center mb-14">
+        <span class="text-xs font-mono font-bold uppercase tracking-widest text-brand-cyan">Post-Mortem Verification</span>
+        <h2 class="text-2xl sm:text-3xl font-heading font-bold text-white mt-1">Production Incident Post-Mortems</h2>
+        <p class="text-brand-slate text-sm max-w-xl mx-auto mt-2">
+          Structured dev-ops incident analyses demonstrating concrete root-cause discovery and business outcomes.
         </p>
       </div>
 
-      <!-- Case Study Navigation Tabs -->
-      <div class="flex items-center justify-center gap-2 sm:gap-4 mb-8">
-        <button type="button" class="diff-tab-btn active px-4 py-2 rounded-xl text-xs font-mono font-semibold bg-obsidian-surface2 border border-emerald-500/40 text-emerald-400 transition-all" data-target="diff-modal">
-          1. Checkout Modal Bug (45m)
-        </button>
-        <button type="button" class="diff-tab-btn px-4 py-2 rounded-xl text-xs font-mono font-semibold bg-obsidian-surface1 border border-white/10 text-slate-400 hover:text-white transition-all" data-target="diff-scraper">
-          2. Playwright Scraper (90m)
-        </button>
-        <button type="button" class="diff-tab-btn px-4 py-2 rounded-xl text-xs font-mono font-semibold bg-obsidian-surface1 border border-white/10 text-slate-400 hover:text-white transition-all" data-target="diff-speed">
-          3. Core Web Vitals (3h)
-        </button>
-      </div>
+      <div class="space-y-6">
 
-      <!-- Tab Content 1: Modal Bug -->
-      <div id="diff-modal" class="diff-content block bg-obsidian-surface1 rounded-2xl border border-white/10 p-6 sm:p-8">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-white/10">
-          <div>
-            <span class="text-xs font-mono text-emerald-400 font-semibold uppercase">E-Commerce Incident</span>
-            <h3 class="text-xl font-bold text-white mt-1">iOS Safari Scroll-Lock Breaking Checkout Payment</h3>
+        <!-- Incident 1 -->
+        <div class="incident-card p-6 lg:p-8">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-brand-stroke">
+            <div>
+              <span class="px-2 py-0.5 rounded bg-brand-emerald/10 text-brand-emerald text-xs font-mono font-semibold uppercase">
+                ECOMMERCE CHECKOUT BUG
+              </span>
+              <h3 class="text-lg font-heading font-bold text-white mt-1.5">Broken Mobile Modal Blocking Payment Submissions</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-mono text-brand-slate">Resolved in:</span>
+              <span class="px-2.5 py-1 rounded bg-[#0b0e17] border border-brand-stroke font-mono text-xs font-bold text-brand-emerald">45 Minutes</span>
+            </div>
           </div>
-          <div class="flex items-center gap-3">
-            <span class="text-xs font-mono text-slate-400">Resolved in:</span>
-            <span class="px-3 py-1 rounded-lg bg-obsidian-surface2 border border-white/10 font-mono text-xs font-bold text-emerald-400">45 Minutes</span>
-          </div>
-        </div>
-
-        <div class="my-6">
-          <div class="text-xs font-mono text-slate-400 mb-2">Patch Diff &bull; <code class="text-slate-300">src/components/CheckoutModal.css</code></div>
-          <div class="bg-obsidian-canvas rounded-xl p-4 border border-white/10 overflow-x-auto diff-code">
-            <span class="diff-del">- .checkout-modal-backdrop { overflow: hidden; position: absolute; }</span>
-            <span class="diff-del">- .modal-content { height: 100vh; touch-action: none; }</span>
-            <span class="diff-add">+ .checkout-modal-backdrop { position: fixed; inset: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; }</span>
-            <span class="diff-add">+ .modal-content { min-height: 100%; display: flex; align-items: center; justify-content: center; }</span>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-slate-400 pt-4 border-t border-white/10">
-          <div><strong class="text-white">Root Cause:</strong> Mobile Safari drops touch momentum when nested flex containers trigger stacking context height overflow.</div>
-          <div><strong class="text-emerald-400">Outcome:</strong> 100% checkout flow restored. Client released full escrow payment within 10 minutes of delivery.</div>
-        </div>
-      </div>
-
-      <!-- Tab Content 2: Scraper -->
-      <div id="diff-scraper" class="diff-content hidden bg-obsidian-surface1 rounded-2xl border border-white/10 p-6 sm:p-8">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-white/10">
-          <div>
-            <span class="text-xs font-mono text-cyan-400 font-semibold uppercase">Data Pipeline Incident</span>
-            <h3 class="text-xl font-bold text-white mt-1">Directory Scraper Cloudflare Bypass & Deduplication</h3>
-          </div>
-          <div class="flex items-center gap-3">
-            <span class="text-xs font-mono text-slate-400">Resolved in:</span>
-            <span class="px-3 py-1 rounded-lg bg-obsidian-surface2 border border-white/10 font-mono text-xs font-bold text-cyan-400">90 Minutes</span>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-5 text-xs leading-relaxed">
+            <div>
+              <div class="font-mono text-brand-slate uppercase font-semibold mb-1">The Incident</div>
+              <p class="text-slate-300">
+                Shopify store updated theme; checkout shipping address modal failed to scroll on iOS Safari, preventing customer payment completions.
+              </p>
+            </div>
+            <div>
+              <div class="font-mono text-brand-slate uppercase font-semibold mb-1">The Engineering Fix</div>
+              <p class="text-slate-300">
+                Resolved CSS <code class="text-brand-cyan bg-[#090D16] px-1 py-0.5 rounded">overflow-y: scroll</code> stacking context conflict and attached native iOS momentum scrolling touch-listener.
+              </p>
+            </div>
+            <div>
+              <div class="font-mono text-brand-slate uppercase font-semibold mb-1">The Result</div>
+              <p class="text-brand-emerald font-semibold">
+                100% checkout flow restored. Cart abandonment dropped instantly, and client released full escrow within 10 minutes.
+              </p>
+            </div>
           </div>
         </div>
 
-        <div class="my-6">
-          <div class="text-xs font-mono text-slate-400 mb-2">Patch Diff &bull; <code class="text-slate-300">scraper/pipeline.py</code></div>
-          <div class="bg-obsidian-canvas rounded-xl p-4 border border-white/10 overflow-x-auto diff-code">
-            <span class="diff-del">- response = requests.get(target_url, headers={'User-Agent': 'Mozilla/5.0'})</span>
-            <span class="diff-del">- raw_data = response.json()</span>
-            <span class="diff-add">+ async with async_playwright() as p:</span>
-            <span class="diff-add">+   browser = await p.chromium.launch_persistent_context(user_data_dir, headless=True, args=['--disable-blink-features=AutomationControlled'])</span>
-            <span class="diff-add">+   page = await browser.new_page()</span>
-            <span class="diff-add">+   await page.goto(target_url, wait_until='networkidle')</span>
+        <!-- Incident 2 -->
+        <div class="incident-card p-6 lg:p-8">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-brand-stroke">
+            <div>
+              <span class="px-2 py-0.5 rounded bg-brand-cyan/10 text-brand-cyan text-xs font-mono font-semibold uppercase">
+                DATA PIPELINE & SCRAPING
+              </span>
+              <h3 class="text-lg font-heading font-bold text-white mt-1.5">Automated Directory Scraper & Email Enrichment</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-mono text-brand-slate">Resolved in:</span>
+              <span class="px-2.5 py-1 rounded bg-[#0b0e17] border border-brand-stroke font-mono text-xs font-bold text-brand-cyan">90 Minutes</span>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-5 text-xs leading-relaxed">
+            <div>
+              <div class="font-mono text-brand-slate uppercase font-semibold mb-1">The Incident</div>
+              <p class="text-slate-300">
+                Marketing agency needed 1,800 commercial roofing listings with verified emails, phones, and addresses from a Cloudflare-protected portal.
+              </p>
+            </div>
+            <div>
+              <div class="font-mono text-brand-slate uppercase font-semibold mb-1">The Engineering Fix</div>
+              <p class="text-slate-300">
+                Engineered headless Python Playwright pipeline with rotating stealth headers, nested table traversal, and MX record validation.
+              </p>
+            </div>
+            <div>
+              <div class="font-mono text-brand-slate uppercase font-semibold mb-1">The Result</div>
+              <p class="text-brand-cyan font-semibold">
+                Delivered clean 1,850-row Excel dataset with 0% duplication rate. Client awarded a 5-star review and a follow-up contract.
+              </p>
+            </div>
           </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-slate-400 pt-4 border-t border-white/10">
-          <div><strong class="text-white">Root Cause:</strong> Upstream directory enabled Cloudflare Turnstile token verification, blocking standard Python requests.</div>
-          <div><strong class="text-cyan-400">Outcome:</strong> Extracted 1,850 verified B2B contacts cleanly to Excel with zero blocked requests. Awarded 5-star review.</div>
-        </div>
-      </div>
-
-      <!-- Tab Content 3: Speed Optimization -->
-      <div id="diff-speed" class="diff-content hidden bg-obsidian-surface1 rounded-2xl border border-white/10 p-6 sm:p-8">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-white/10">
-          <div>
-            <span class="text-xs font-mono text-amber-400 font-semibold uppercase">Performance Incident</span>
-            <h3 class="text-xl font-bold text-white mt-1">Mobile Core Web Vitals Overhaul: Score 34 &rarr; 94/100</h3>
+        <!-- Incident 3 -->
+        <div class="incident-card p-6 lg:p-8">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-brand-stroke">
+            <div>
+              <span class="px-2 py-0.5 rounded bg-brand-amber/10 text-brand-amber text-xs font-mono font-semibold uppercase">
+                PAGESPEED OPTIMIZATION
+              </span>
+              <h3 class="text-lg font-heading font-bold text-white mt-1.5">Mobile Core Web Vitals Overhaul: Score 34 &rarr; 92/100</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-mono text-brand-slate">Resolved in:</span>
+              <span class="px-2.5 py-1 rounded bg-[#0b0e17] border border-brand-stroke font-mono text-xs font-bold text-brand-amber">3 Hours</span>
+            </div>
           </div>
-          <div class="flex items-center gap-3">
-            <span class="text-xs font-mono text-slate-400">Resolved in:</span>
-            <span class="px-3 py-1 rounded-lg bg-obsidian-surface2 border border-white/10 font-mono text-xs font-bold text-amber-400">3 Hours</span>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-5 text-xs leading-relaxed">
+            <div>
+              <div class="font-mono text-brand-slate uppercase font-semibold mb-1">The Incident</div>
+              <p class="text-slate-300">
+                Clinic’s Google Ads Quality Score was dropping due to an 8.2s Largest Contentful Paint (LCP) caused by massive uncompressed images.
+              </p>
+            </div>
+            <div>
+              <div class="font-mono text-brand-slate uppercase font-semibold mb-1">The Engineering Fix</div>
+              <p class="text-slate-300">
+                Converted heavy 4.8MB JPEGs to modern AVIF/WebP, inlined critical rendering CSS, and deferred non-essential third-party analytics scripts.
+              </p>
+            </div>
+            <div>
+              <div class="font-mono text-brand-slate uppercase font-semibold mb-1">The Result</div>
+              <p class="text-brand-amber font-semibold">
+                LCP slashed to 1.8s. Mobile PageSpeed score jumped from 34 to 92/100, dropping client's Google ad acquisition cost by 18%.
+              </p>
+            </div>
           </div>
         </div>
 
-        <div class="my-6">
-          <div class="text-xs font-mono text-slate-400 mb-2">Patch Diff &bull; <code class="text-slate-300">public/index.html</code></div>
-          <div class="bg-obsidian-canvas rounded-xl p-4 border border-white/10 overflow-x-auto diff-code">
-            <span class="diff-del">- &lt;img src="/hero-banner.jpg" class="w-full h-auto" /&gt;</span>
-            <span class="diff-del">- &lt;script src="/bundle.js"&gt;&lt;/script&gt;</span>
-            <span class="diff-add">+ &lt;picture&gt;&lt;source srcset="/hero.avif" type="image/avif"&gt;&lt;img src="/hero.webp" fetchpriority="high" width="1200" height="600" alt="Hero"&gt;&lt;/picture&gt;</span>
-            <span class="diff-add">+ &lt;script src="/bundle.js" defer&gt;&lt;/script&gt;</span>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-slate-400 pt-4 border-t border-white/10">
-          <div><strong class="text-white">Root Cause:</strong> 4.8MB uncompressed hero JPG with no dimensions blocking mobile LCP for 8.2 seconds.</div>
-          <div><strong class="text-amber-400">Outcome:</strong> LCP dropped to 1.6s. Google Ads Quality Score jumped from 4 to 9, lowering client's CPA by 22%.</div>
-        </div>
       </div>
     </section>
 
-    <!-- INSTANT ESTIMATOR CALCULATOR -->
-    <section id="calculator" class="py-20 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
-      <div class="bg-obsidian-surface1 rounded-3xl border border-white/10 p-6 sm:p-10 shadow-2xl relative overflow-hidden">
+    <!-- 4. REAL-TIME PROJECT ESTIMATOR -->
+    <section id="calculator" class="py-20 px-6 lg:px-12 max-w-[900px] mx-auto border-t border-brand-stroke/60">
+      <div class="surface-card p-6 sm:p-10 relative overflow-hidden">
+        
         <div class="text-center mb-8">
-          <span class="text-xs font-mono font-bold text-accent-emerald tracking-widest uppercase">Transparent Estimates</span>
-          <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">Configure Task & Get Instant Quote</h2>
-          <p class="text-slate-400 text-xs sm:text-sm mt-2">Select your task scope and delivery speed to generate a ready-to-dispatch brief.</p>
+          <span class="text-xs font-mono font-bold text-brand-cyan tracking-widest uppercase">Instant Project Estimator</span>
+          <h2 class="text-2xl sm:text-3xl font-heading font-bold text-white mt-1">Configure Task & Generate Brief</h2>
+          <p class="text-brand-slate text-xs sm:text-sm mt-2">Select your task scope and delivery urgency to generate an instant inquiry brief.</p>
         </div>
 
         <form id="quote-form" class="space-y-6">
+          
+          <!-- Task Type Selector -->
           <fieldset>
-            <legend class="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-3 font-semibold">1. Select Task Type</legend>
+            <legend class="block text-xs font-mono uppercase tracking-wider text-brand-slate mb-3 font-semibold">1. Select Task Type</legend>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
               <label class="cursor-pointer">
                 <input type="radio" name="task_type" value="bug" checked class="sr-only" />
-                <div class="border border-white/10 bg-obsidian-surface2 p-3.5 rounded-xl text-center transition-all hover:border-white/20">
-                  <i data-lucide="bug" class="w-5 h-5 mx-auto mb-1 text-slate-300"></i>
-                  <div class="text-xs font-bold text-white">Bug Fix</div>
-                  <div class="text-[10px] text-slate-400">CSS / JS / Form</div>
+                <div class="border border-brand-stroke bg-[#0b0e17] p-3.5 rounded-xl text-center transition-all hover:border-white/20">
+                  <i data-lucide="bug" class="w-5 h-5 mx-auto mb-1 text-brand-slate"></i>
+                  <div class="text-xs font-bold text-white font-heading">Bug Fix</div>
+                  <div class="text-[10px] text-brand-slate font-mono">CSS / JS / Form</div>
                 </div>
               </label>
               <label class="cursor-pointer">
                 <input type="radio" name="task_type" value="scraper" class="sr-only" />
-                <div class="border border-white/10 bg-obsidian-surface2 p-3.5 rounded-xl text-center transition-all hover:border-white/20">
-                  <i data-lucide="file-spreadsheet" class="w-5 h-5 mx-auto mb-1 text-slate-300"></i>
-                  <div class="text-xs font-bold text-white">Scraper</div>
-                  <div class="text-[10px] text-slate-400">CSV / Data Export</div>
+                <div class="border border-brand-stroke bg-[#0b0e17] p-3.5 rounded-xl text-center transition-all hover:border-white/20">
+                  <i data-lucide="file-spreadsheet" class="w-5 h-5 mx-auto mb-1 text-brand-slate"></i>
+                  <div class="text-xs font-bold text-white font-heading">Scraper</div>
+                  <div class="text-[10px] text-brand-slate font-mono">CSV / Data Export</div>
                 </div>
               </label>
               <label class="cursor-pointer">
                 <input type="radio" name="task_type" value="api" class="sr-only" />
-                <div class="border border-white/10 bg-obsidian-surface2 p-3.5 rounded-xl text-center transition-all hover:border-white/20">
-                  <i data-lucide="link-2" class="w-5 h-5 mx-auto mb-1 text-slate-300"></i>
-                  <div class="text-xs font-bold text-white">API Connect</div>
-                  <div class="text-[10px] text-slate-400">Stripe / Webhook</div>
+                <div class="border border-brand-stroke bg-[#0b0e17] p-3.5 rounded-xl text-center transition-all hover:border-white/20">
+                  <i data-lucide="link-2" class="w-5 h-5 mx-auto mb-1 text-brand-slate"></i>
+                  <div class="text-xs font-bold text-white font-heading">API Connect</div>
+                  <div class="text-[10px] text-brand-slate font-mono">Stripe / Webhook</div>
                 </div>
               </label>
               <label class="cursor-pointer">
                 <input type="radio" name="task_type" value="landing" class="sr-only" />
-                <div class="border border-white/10 bg-obsidian-surface2 p-3.5 rounded-xl text-center transition-all hover:border-white/20">
-                  <i data-lucide="layout" class="w-5 h-5 mx-auto mb-1 text-slate-300"></i>
-                  <div class="text-xs font-bold text-white">Landing Page</div>
-                  <div class="text-[10px] text-slate-400">90+ PageSpeed</div>
+                <div class="border border-brand-stroke bg-[#0b0e17] p-3.5 rounded-xl text-center transition-all hover:border-white/20">
+                  <i data-lucide="layout" class="w-5 h-5 mx-auto mb-1 text-brand-slate"></i>
+                  <div class="text-xs font-bold text-white font-heading">Landing Page</div>
+                  <div class="text-[10px] text-brand-slate font-mono">90+ PageSpeed</div>
                 </div>
               </label>
             </div>
           </fieldset>
 
+          <!-- Urgency Toggle -->
           <fieldset>
-            <legend class="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-3 font-semibold">2. Delivery Urgency</legend>
+            <legend class="block text-xs font-mono uppercase tracking-wider text-brand-slate mb-3 font-semibold">2. Delivery Urgency</legend>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <label class="cursor-pointer">
                 <input type="radio" name="urgency" value="standard" checked class="sr-only" />
-                <div class="border border-white/10 bg-obsidian-surface2 p-3.5 rounded-xl flex items-center justify-between transition-all hover:border-white/20">
+                <div class="border border-brand-stroke bg-[#0b0e17] p-3.5 rounded-xl flex items-center justify-between transition-all hover:border-white/20">
                   <div>
-                    <div class="text-xs font-bold text-white">Standard Dispatch</div>
-                    <div class="text-[11px] text-slate-400">Delivered within standard SLA</div>
+                    <div class="text-xs font-bold text-white font-heading">Standard Dispatch</div>
+                    <div class="text-[11px] text-brand-slate font-mono">Delivered within standard SLA</div>
                   </div>
-                  <span class="text-xs font-mono font-semibold text-emerald-400">Base Rate</span>
+                  <span class="text-xs font-mono font-semibold text-brand-emerald">Base Rate</span>
                 </div>
               </label>
               <label class="cursor-pointer">
                 <input type="radio" name="urgency" value="urgent" class="sr-only" />
-                <div class="border border-white/10 bg-obsidian-surface2 p-3.5 rounded-xl flex items-center justify-between transition-all hover:border-white/20">
+                <div class="border border-brand-stroke bg-[#0b0e17] p-3.5 rounded-xl flex items-center justify-between transition-all hover:border-white/20">
                   <div>
-                    <div class="text-xs font-bold text-white">🚨 Emergency Priority</div>
-                    <div class="text-[11px] text-slate-400">Immediate front of queue</div>
+                    <div class="text-xs font-bold text-white font-heading">🚨 Emergency Priority</div>
+                    <div class="text-[11px] text-brand-slate font-mono">Immediate front of queue</div>
                   </div>
-                  <span class="text-xs font-mono font-semibold text-rose-400">+ $25 Rush</span>
+                  <span class="text-xs font-mono font-semibold text-brand-amber">+ $25 Rush</span>
                 </div>
               </label>
             </div>
           </fieldset>
 
-          <!-- Dynamic Output Card -->
-          <div class="p-6 rounded-2xl bg-obsidian-canvas border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6" aria-live="polite">
+          <!-- Live Output Box & 1-Click Action -->
+          <div class="p-6 rounded-xl bg-[#070b12] border border-brand-stroke flex flex-col sm:flex-row items-center justify-between gap-6" aria-live="polite">
             <div>
-              <div class="text-[11px] font-mono text-slate-400 uppercase tracking-wide">ESTIMATED INVESTMENT</div>
+              <div class="text-[11px] font-mono text-brand-slate uppercase tracking-wide">ESTIMATED INVESTMENT</div>
               <div class="flex items-baseline gap-2 mt-0.5">
-                <span id="est-price" class="text-4xl font-mono font-bold text-emerald-400">$45</span>
-                <span id="est-time" class="text-xs font-mono text-slate-400">| Turnaround: 1–2 Hours</span>
+                <span id="est-price" class="text-3xl sm:text-4xl font-mono font-bold text-brand-cyan">$45</span>
+                <span id="est-time" class="text-xs font-mono text-brand-slate">| Turnaround: 1–2 Hours</span>
               </div>
-              <p class="text-[11px] text-slate-500 mt-1">Includes regression testing, code diff verification, and escrow protection.</p>
+              <p class="text-[11px] text-brand-slate mt-1">Includes regression testing, code diff verification, and escrow protection.</p>
             </div>
-            <button type="button" id="copy-brief-btn" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-obsidian-canvas font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 active:scale-95">
-              <i data-lucide="copy" class="w-4 h-4"></i>
+            <button type="button" id="copy-brief-btn" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-brand-cyan to-brand-emerald hover:from-cyan-400 hover:to-emerald-400 text-brand-canvas font-heading font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg shadow-brand-cyan/20 active:scale-95">
+              <i data-lucide="copy" class="w-4 h-4 text-brand-canvas"></i>
               <span>Copy Inquiry Brief</span>
             </button>
           </div>
         </form>
+
       </div>
     </section>
 
-    <!-- FREQUENTLY ASKED QUESTIONS -->
-    <section id="faq" class="py-20 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto border-t border-white/10">
+    <!-- 5. ARCHITECTURAL STACK & COMPATIBILITY MATRIX -->
+    <section id="stack" class="py-20 px-6 lg:px-12 max-w-[1200px] mx-auto border-t border-brand-stroke/60">
       <div class="text-center mb-14">
-        <span class="text-xs font-mono font-bold uppercase tracking-widest text-accent-indigo">Zero Ambiguity</span>
-        <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">Frequently Asked Questions</h2>
+        <span class="text-xs font-mono font-bold uppercase tracking-widest text-brand-emerald">Ecosystem Compatibility</span>
+        <h2 class="text-2xl sm:text-3xl font-heading font-bold text-white mt-1">Full-Stack Technical Matrix</h2>
+        <p class="text-brand-slate text-sm max-w-xl mx-auto mt-2">
+          Production proficiency across frontend engineering, backend services, automation scripts, and deployment infrastructure.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- Frontend -->
+        <div class="surface-card p-6">
+          <div class="flex items-center gap-2 mb-4">
+            <i data-lucide="layout-grid" class="w-5 h-5 text-brand-cyan"></i>
+            <h3 class="font-heading font-bold text-sm text-white uppercase tracking-wider">Frontend</h3>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-2.5 py-1 rounded bg-[#0b0e17] border border-brand-stroke text-xs font-mono text-brand-slate">React</span>
+            <span class="px-2.5 py-1 rounded bg-[#0b0e17] border border-brand-stroke text-xs font-mono text-brand-slate">Next.js</span>
+            <span class="px-2.5 py-1 rounded bg-[#0b0e17] border border-brand-stroke text-xs font-mono text-brand-slate">Vue.js</span>
+            <span class="px-2.5 py-1 rounded bg-[#0b0e17] border border-brand-stroke text-xs font-mono text-brand-slate">Tailwind CSS</span>
+            <span class="px-2.5 py-1 rounded bg-[#0b0e17] border border-brand-stroke text-xs font-mono text-brand-slate">TypeScript</span>
+            <span class="px-2.5 py-1 rounded bg-[#0b0e17] border border-brand-stroke text-xs font-mono text-brand-slate">HTML5/ES6+</span>
+          </div>
+        </div>
+
+        <!-- Backend -->
+        <div class="surface-card p-6">
+          <div class="flex items-center gap-2 mb-4">
+            <i data-lucide="server" class="w-5 h-5 text-brand-emerald"></i>
+            <h3 class="font-heading font-bold text-sm text-white uppercase tracking-wider">Backend</h3>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-2.5 py-1 rounded bg-[#0b0e17] border border-brand-stroke text-xs font-mono text-brand-slate">Node.js</span>
+            <span class="px-2.5 py-1 rounded bg-[#0b0e17] border border-brand-stroke text-xs font-mono text-brand-slate">Express</span>
+            <span class="px-2.5 py-1 rounded bg-[#0b0e17] border border-brand-stroke text-xs font-mono text-brand-slate">Python</span>
+            <span class="px-2.5 py-1 rounded bg-[#0b0e17] border border-brand-stroke text-xs font-mono text-brand-slate">FastAPI</span>
+            <span class="px-2.5 py-1 rounded bg-[#0b0e17] border border-brand-stroke text-xs font-mono text-brand-slate">REST APIs</span>
+            <span class="px-2.5 py-1 rounded bg-[#0b0e17] border border-brand-stroke text-xs font-mono text-brand-slate">GraphQL</span>
+          </div>
+        </div>
+
+        <!-- Automation & Data -->
+        <div class="surface-card p-6">
+          <div class="flex items-center gap-2 mb-4">
+            <i data-lucide="bot" class="w-5 h-5 text-indigo-400"></i>
+            <h3 class="font-heading font-bold text-sm text-white uppercase tracking-wider">Automation</h3>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-2.5 py-1 rounded bg-[#0b0e17] border border-brand-stroke text-xs font-mono text-brand-slate">Playwright</span>
+            <span class="px-2.5 py-1 rounded bg-[#0b0e17] border border-brand-stroke text-xs font-mono text-brand-slate">BeautifulSoup</span>
+            <span class="px-2.5 py-1 rounded bg-[#0b0e17] border border-brand-stroke text-xs font-mono text-brand-slate">PostgreSQL</span>
+            <span class="px-2.5 py-1 rounded bg-[#0b0e17] border border-brand-stroke text-xs font-mono text-brand-slate">Supabase</span>
+            <span class="px-2.5 py-1 rounded bg-[#0b0e17] border border-brand-stroke text-xs font-mono text-brand-slate">Firebase</span>
+            <span class="px-2.5 py-1 rounded bg-[#0b0e17] border border-brand-stroke text-xs font-mono text-brand-slate">Pandas</span>
+          </div>
+        </div>
+
+        <!-- CMS & Platforms -->
+        <div class="surface-card p-6">
+          <div class="flex items-center gap-2 mb-4">
+            <i data-lucide="shopping-bag" class="w-5 h-5 text-brand-amber"></i>
+            <h3 class="font-heading font-bold text-sm text-white uppercase tracking-wider">Platforms</h3>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-2.5 py-1 rounded bg-[#0b0e17] border border-brand-stroke text-xs font-mono text-brand-slate">Shopify</span>
+            <span class="px-2.5 py-1 rounded bg-[#0b0e17] border border-brand-stroke text-xs font-mono text-brand-slate">WordPress</span>
+            <span class="px-2.5 py-1 rounded bg-[#0b0e17] border border-brand-stroke text-xs font-mono text-brand-slate">WooCommerce</span>
+            <span class="px-2.5 py-1 rounded bg-[#0b0e17] border border-brand-stroke text-xs font-mono text-brand-slate">Stripe</span>
+            <span class="px-2.5 py-1 rounded bg-[#0b0e17] border border-brand-stroke text-xs font-mono text-brand-slate">Twilio</span>
+            <span class="px-2.5 py-1 rounded bg-[#0b0e17] border border-brand-stroke text-xs font-mono text-brand-slate">Webflow</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 6. ESCROW GUARANTEE & FAQ -->
+    <section id="faq" class="py-20 px-6 lg:px-12 max-w-[900px] mx-auto border-t border-brand-stroke/60">
+      <div class="text-center mb-14">
+        <span class="text-xs font-mono font-bold uppercase tracking-widest text-brand-cyan">Risk-Free Engineering</span>
+        <h2 class="text-2xl sm:text-3xl font-heading font-bold text-white mt-1">Frequently Asked Questions</h2>
       </div>
 
       <div class="space-y-4">
-        <div class="faq-card bg-obsidian-surface1 rounded-xl border border-white/10 p-5 cursor-pointer">
-          <div class="flex justify-between items-center font-semibold text-sm text-white">
-            <span>How are payments handled securely?</span>
-            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 transition-transform"></i>
+        <div class="surface-card p-5 cursor-pointer faq-item" tabindex="0" role="button" aria-expanded="false">
+          <div class="flex justify-between items-center font-heading font-semibold text-sm text-white">
+            <span>How are contracts and payments protected?</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 text-brand-slate transition-transform faq-icon"></i>
           </div>
-          <div class="faq-answer hidden text-xs text-slate-400 mt-3 leading-relaxed">
-            I primarily work via **Upwork Escrow** or **Fiverr Milestones**. The funds remain in escrow until I deliver the working fix and you verify it on your side. Zero financial risk to you.
-          </div>
-        </div>
-
-        <div class="faq-card bg-obsidian-surface1 rounded-xl border border-white/10 p-5 cursor-pointer">
-          <div class="flex justify-between items-center font-semibold text-sm text-white">
-            <span>What if the bug cannot be resolved?</span>
-            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 transition-transform"></i>
-          </div>
-          <div class="faq-answer hidden text-xs text-slate-400 mt-3 leading-relaxed">
-            Before accepting any contract, I diagnose the error logs for 5 minutes. If it is solvable within the target window, I commit immediately. If there is a deeper architectural blocker, I explain it clearly with zero obligation.
+          <div class="faq-answer hidden text-xs text-brand-slate mt-3 leading-relaxed">
+            All fixed-price tasks are executed through **Upwork Escrow** or **Fiverr Milestones**. You deposit the funds into platform escrow; they are only released after you inspect the live code diff and confirm the solution works on your environment. Zero financial risk.
           </div>
         </div>
 
-        <div class="faq-card bg-obsidian-surface1 rounded-xl border border-white/10 p-5 cursor-pointer">
-          <div class="flex justify-between items-center font-semibold text-sm text-white">
-            <span>Do you need access to my entire codebase?</span>
-            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 transition-transform"></i>
+        <div class="surface-card p-5 cursor-pointer faq-item" tabindex="0" role="button" aria-expanded="false">
+          <div class="flex justify-between items-center font-heading font-semibold text-sm text-white">
+            <span>What if a bug cannot be resolved within the turnaround window?</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 text-brand-slate transition-transform faq-icon"></i>
           </div>
-          <div class="faq-answer hidden text-xs text-slate-400 mt-3 leading-relaxed">
-            Not necessarily. For CSS layout or isolated component bugs, you can send just the relevant HTML/CSS/JS file or a live staging URL. For backend issues, read-only repo access works perfectly.
+          <div class="faq-answer hidden text-xs text-brand-slate mt-3 leading-relaxed">
+            I perform an initial 5-minute code/log audit before accepting any task. If the scope is solvable within the target window, I commit immediately. If there is a deeper architectural blocker, I provide a free diagnosis with zero obligation.
           </div>
         </div>
 
-        <div class="faq-card bg-obsidian-surface1 rounded-xl border border-white/10 p-5 cursor-pointer">
-          <div class="flex justify-between items-center font-semibold text-sm text-white">
-            <span>What tech stacks do you cover?</span>
-            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 transition-transform"></i>
+        <div class="surface-card p-5 cursor-pointer faq-item" tabindex="0" role="button" aria-expanded="false">
+          <div class="flex justify-between items-center font-heading font-semibold text-sm text-white">
+            <span>Do you require access to my entire production repository?</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 text-brand-slate transition-transform faq-icon"></i>
           </div>
-          <div class="faq-answer hidden text-xs text-slate-400 mt-3 leading-relaxed">
-            **Frontend:** React, Next.js, Vue, Tailwind CSS, TypeScript, vanilla HTML5/JS.<br>
-            **Backend:** Node.js, Express, Python (FastAPI/Flask), REST APIs, GraphQL.<br>
-            **Data:** Playwright, BeautifulSoup, Pandas, PostgreSQL, Firebase, Supabase.<br>
-            **Platforms:** Shopify, WordPress/WooCommerce, Webflow.
+          <div class="faq-answer hidden text-xs text-brand-slate mt-3 leading-relaxed">
+            Not necessarily. For frontend and CSS bugs, you can provide an isolated component file or a staging link. For backend issues, a read-only git fork or screen-share session works securely without exposing production credentials.
+          </div>
+        </div>
+
+        <div class="surface-card p-5 cursor-pointer faq-item" tabindex="0" role="button" aria-expanded="false">
+          <div class="flex justify-between items-center font-heading font-semibold text-sm text-white">
+            <span>What is your availability for urgent same-day requests?</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 text-brand-slate transition-transform faq-icon"></i>
+          </div>
+          <div class="faq-answer hidden text-xs text-brand-slate mt-3 leading-relaxed">
+            I maintain reserved daily bandwidth for express emergency fixes. Standard response time to new direct messages is under 15 minutes between 08:00 and 22:00 UTC.
           </div>
         </div>
       </div>
     </section>
 
-    <!-- CONTACT / HIRE DIRECT SECTION -->
-    <section id="contact" class="py-24 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto border-t border-white/10 text-center">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono mb-6">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+    <!-- 7. URGENT DISPATCH TERMINAL (FINAL CTA) -->
+    <section id="contact" class="py-24 px-6 lg:px-12 max-w-[1000px] mx-auto border-t border-brand-stroke/60 text-center">
+      
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald text-xs font-mono mb-6">
+        <span class="w-2 h-2 rounded-full bg-brand-emerald animate-pulse"></span>
         <span>Accepting new tasks today</span>
       </div>
 
-      <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
-        Ready to Get Your Technical Problem Solved?
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-white tracking-tight mb-4">
+        Ready to Eliminate Your Technical Bottleneck?
       </h2>
-      <p class="text-slate-400 max-w-xl mx-auto text-sm sm:text-base mb-10">
-        Choose your preferred platform below. Send over the error log, repository, or task scope and receive a verified diagnosis within 15 minutes.
+      <p class="text-brand-slate max-w-xl mx-auto text-sm sm:text-base mb-10">
+        Choose your preferred channel below. Send over the error log, repository, or scope description and receive a verified diagnosis within 15 minutes.
       </p>
 
       <!-- 3 Channels -->
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto mb-12">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto mb-12 text-left">
+        
         <!-- Upwork Card -->
-        <a href="https://www.upwork.com" target="_blank" rel="noopener noreferrer" class="p-6 rounded-2xl bg-obsidian-surface1 border border-white/10 hover:border-emerald-500/40 hover:-translate-y-1 transition-all flex flex-col items-center group">
-          <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-            <i data-lucide="shield-check" class="w-6 h-6"></i>
+        <a href="https://www.upwork.com" target="_blank" rel="noopener noreferrer" class="surface-card p-6 hover:border-brand-cyan/40 transition-all flex flex-col group">
+          <div class="w-10 h-10 rounded-lg bg-brand-cyan/10 text-brand-cyan flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <i data-lucide="shield-check" class="w-5 h-5"></i>
           </div>
-          <span class="text-base font-bold text-white">Hire on Upwork</span>
-          <span class="text-xs text-slate-400 mt-1">Escrow Protected</span>
-          <span class="text-[11px] text-emerald-400 font-mono mt-3 font-semibold">Instant Contract &rarr;</span>
+          <span class="text-sm font-heading font-bold text-white">Hire via Upwork</span>
+          <span class="text-xs text-brand-slate mt-0.5">Escrow protected milestone</span>
+          <span class="text-[11px] text-brand-cyan font-mono mt-3 font-semibold flex items-center gap-1">
+            Open Contract &rarr;
+          </span>
         </a>
 
         <!-- Direct Email Card -->
-        <button type="button" id="copy-email-btn" class="p-6 rounded-2xl bg-obsidian-surface1 border border-white/10 hover:border-cyan-500/40 hover:-translate-y-1 transition-all flex flex-col items-center group">
-          <div class="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-            <i data-lucide="mail" class="w-6 h-6"></i>
+        <button type="button" id="copy-email-btn" class="surface-card p-6 hover:border-brand-emerald/40 transition-all flex flex-col group">
+          <div class="w-10 h-10 rounded-lg bg-brand-emerald/10 text-brand-emerald flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <i data-lucide="mail" class="w-5 h-5"></i>
           </div>
-          <span class="text-base font-bold text-white">Direct Email</span>
-          <span class="text-xs text-slate-400 mt-1">jahanzaibahmad630@gmail.com</span>
-          <span id="copy-email-text" class="text-[11px] text-cyan-400 font-mono mt-3 font-semibold">Click to Copy Address &rarr;</span>
+          <span class="text-sm font-heading font-bold text-white">Direct Email</span>
+          <span class="text-xs text-brand-slate mt-0.5">jahanzaibahmad630@gmail.com</span>
+          <span id="copy-email-text" class="text-[11px] text-brand-emerald font-mono mt-3 font-semibold flex items-center gap-1">
+            Click to Copy Address &rarr;
+          </span>
         </button>
 
         <!-- GitHub Profile Card -->
-        <a href="https://github.com/jahanzaibahmad630-bit" target="_blank" rel="noopener noreferrer" class="p-6 rounded-2xl bg-obsidian-surface1 border border-white/10 hover:border-indigo-500/40 hover:-translate-y-1 transition-all flex flex-col items-center group">
-          <div class="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-            <i data-lucide="github" class="w-6 h-6"></i>
+        <a href="https://github.com/jahanzaibahmad630-bit" target="_blank" rel="noopener noreferrer" class="surface-card p-6 hover:border-indigo-500/40 transition-all flex flex-col group">
+          <div class="w-10 h-10 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <i data-lucide="github" class="w-5 h-5"></i>
           </div>
-          <span class="text-base font-bold text-white">GitHub Profile</span>
-          <span class="text-xs text-slate-400 mt-1">@jahanzaibahmad630-bit</span>
-          <span class="text-[11px] text-indigo-400 font-mono mt-3 font-semibold">View Repositories &rarr;</span>
+          <span class="text-sm font-heading font-bold text-white">GitHub Profile</span>
+          <span class="text-xs text-brand-slate mt-0.5">@jahanzaibahmad630-bit</span>
+          <span class="text-[11px] text-indigo-400 font-mono mt-3 font-semibold flex items-center gap-1">
+            View Repositories &rarr;
+          </span>
         </a>
+
       </div>
 
-      <div class="inline-flex items-center gap-2 text-xs font-mono text-slate-500">
+      <div class="inline-flex items-center gap-2 text-xs font-mono text-brand-slate">
         <i data-lucide="clock" class="w-3.5 h-3.5"></i>
-        <span>Standard response time: under 15 minutes during active hours (08:00–22:00 UTC)</span>
+        <span>Active hours: 08:00 – 22:00 UTC &bull; Average first response: &lt; 15 mins</span>
       </div>
+
     </section>
 
   </main>
 
-  <!-- MOBILE STICKY BOTTOM QUICK-ACTION DOCK (Visible on mobile only) -->
+  <!-- 8. MOBILE STICKY BOTTOM ACTION BAR (Under 640px) -->
   <div class="sm:hidden fixed bottom-3 inset-x-3 z-40">
-    <div class="glass-panel rounded-2xl p-2 flex items-center gap-2 shadow-2xl border border-white/15">
-      <a href="#calculator" class="flex-1 py-2.5 rounded-xl bg-obsidian-surface2 text-center text-xs font-mono font-semibold text-slate-200">
-        ⚡ Instant Estimate
+    <div class="glass-header rounded-2xl p-2 flex items-center gap-2 shadow-2xl border border-white/10">
+      <a href="#calculator" class="flex-1 py-2.5 rounded-xl bg-brand-surface border border-brand-stroke text-center text-xs font-mono font-semibold text-white">
+        Calculate Fix
       </a>
-      <a href="#contact" class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-center text-xs font-mono font-bold text-obsidian-canvas">
+      <a href="https://www.upwork.com" target="_blank" rel="noopener noreferrer" class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-brand-cyan to-brand-emerald text-center text-xs font-heading font-bold text-brand-canvas">
         Hire on Upwork
       </a>
     </div>
   </div>
 
   <!-- TOAST NOTIFICATION -->
-  <div id="toast" class="fixed bottom-6 right-6 z-50 pointer-events-none opacity-0 translate-y-4 transition-all duration-300 bg-obsidian-surface1 border border-emerald-500/40 text-slate-200 px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3">
-    <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400"></i>
+  <div id="toast" class="fixed bottom-6 right-6 z-50 pointer-events-none opacity-0 translate-y-4 transition-all duration-300 bg-brand-surface border border-brand-emerald/40 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3">
+    <i data-lucide="check-circle-2" class="w-5 h-5 text-brand-emerald"></i>
     <div>
-      <div id="toast-title" class="text-xs font-bold text-white">Copied to Clipboard!</div>
-      <div id="toast-msg" class="text-[11px] text-slate-400">You can now paste it directly into your message.</div>
+      <div id="toast-title" class="text-xs font-bold text-white font-heading">Copied to Clipboard!</div>
+      <div id="toast-msg" class="text-[11px] text-brand-slate font-mono">You can now paste it directly into your message.</div>
     </div>
   </div>
 
   <!-- FOOTER -->
-  <footer class="border-t border-white/10 bg-obsidian-surface1/60 py-8 px-4 text-center text-xs text-slate-500 font-mono">
-    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+  <footer class="border-t border-brand-stroke bg-brand-surface py-8 px-6 text-center text-xs text-brand-slate font-mono">
+    <div class="max-w-[1200px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
       <div>&copy; 2026 Jahanzaib Ahmad &bull; Senior Engineering Partner</div>
       <div class="flex items-center gap-6">
-        <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> GitHub Pages Hosted</span>
-        <span>Zero Cookies &bull; Static & Secure</span>
+        <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-brand-emerald"></span> Escrow Protected</span>
+        <span>Zero Cookies &bull; Static & Fast</span>
       </div>
     </div>
   </footer>

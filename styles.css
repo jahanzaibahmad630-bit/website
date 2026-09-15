@@ -1,139 +1,92 @@
-/* Modern Obsidian Design System Styles — Jahanzaib.dev */
+/* Jahanzaib.dev — Deep Slate Void Design System */
 
 :root {
-  --bg-canvas: #07080b;
-  --bg-surface-1: #0e1017;
-  --bg-surface-2: #151824;
-  --bg-surface-3: #1d2233;
-  --border-subtle: rgba(255, 255, 255, 0.07);
-  --border-bright: rgba(255, 255, 255, 0.16);
-  --accent-emerald: #10b981;
-  --accent-cyan: #06b6d4;
-  --accent-indigo: #6366f1;
-  --accent-amber: #f59e0b;
-  --text-primary: #f8fafc;
-  --text-muted: #94a3b8;
+  --bg-canvas: #090D16;
+  --bg-surface: #101726;
+  --border-stroke: #1E293B;
+  --accent-emerald: #10B981;
+  --accent-cyan: #06B6D4;
+  --accent-amber: #F59E0B;
+  --text-primary: #F8FAFC;
+  --text-muted: #94A3B8;
 }
 
-/* Background Grid Pattern with Radial Fade */
-.bg-radial-grid {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px);
-  background-size: 28px 28px;
-  mask-image: radial-gradient(ellipse 60% 50% at 50% 0%, #000 70%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 60% 50% at 50% 0%, #000 70%, transparent 100%);
+/* Background Subtle Ambient Grid */
+.bg-deep-grid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse 70% 55% at 50% 0%, #000 60%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 55% at 50% 0%, #000 60%, transparent 100%);
 }
 
-/* Custom Scrollbar */
+/* Sleek Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #07080b;
+  background: #090D16;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e2438;
+  background: #1E293B;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #2f3754;
+  background: #334155;
 }
 
-/* Glassmorphism & Elevation */
-.glass-panel {
-  background: rgba(14, 16, 23, 0.75);
+/* Glass Panels & Elevation */
+.glass-header {
+  background: rgba(16, 23, 38, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 16px 32px -10px rgba(0, 0, 0, 0.5);
 }
 
-.glass-pill {
-  background: rgba(14, 16, 23, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+.surface-card {
+  background: #101726;
+  border: 1px solid #1E293B;
+  border-radius: 1rem;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Bento Card Hover Micro-Glow */
-.bento-card {
-  position: relative;
-  background: #0e1017;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 1.25rem;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
-  overflow: hidden;
-}
-
-.bento-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent 40%, rgba(16, 185, 129, 0.15));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-}
-
-.bento-card:hover {
-  border-color: rgba(255, 255, 255, 0.18);
-  box-shadow: 0 16px 36px -12px rgba(16, 185, 129, 0.1);
+.surface-card:hover {
+  border-color: rgba(6, 182, 212, 0.35);
+  box-shadow: 0 14px 30px -10px rgba(6, 182, 212, 0.08);
   transform: translateY(-2px);
 }
 
-/* Terminal Simulator Styles */
-.terminal-window {
-  background: #0b0d13;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+/* Incident Log Card Styles */
+.incident-card {
+  background: #101726;
+  border: 1px solid #1E293B;
   border-radius: 1rem;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px -10px rgba(16, 185, 129, 0.15);
+  transition: border-color 0.2s ease;
 }
 
-.terminal-line {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.75rem;
-  line-height: 1.5;
+.incident-card:hover {
+  border-color: rgba(255, 255, 255, 0.16);
 }
 
-/* Code Diff Highlighting */
-.diff-code {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.75rem;
-  line-height: 1.6;
-}
-
-.diff-del {
-  background: rgba(244, 63, 94, 0.15);
-  color: #fda4af;
-  border-left: 2px solid #f43f5e;
-  padding-left: 0.5rem;
-  display: block;
-}
-
-.diff-add {
-  background: rgba(16, 185, 129, 0.15);
-  color: #6ee7b7;
-  border-left: 2px solid #10b981;
-  padding-left: 0.5rem;
-  display: block;
-}
-
-/* Focus Rings (WCAG 2.1 AA) */
+/* Focus Indicator Ring (WCAG 2.1 AA) */
 a:focus-visible, button:focus-visible, input:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px #07080b, 0 0 0 4px #10b981;
+  box-shadow: 0 0 0 2px #090D16, 0 0 0 4px #06B6D4;
 }
 
-/* Smooth Accordion */
-.faq-answer {
-  transition: max-height 0.3s ease, opacity 0.3s ease;
-}
-
-/* Radio button active glow */
+/* Radio button active glow for Estimator */
 input[type="radio"]:checked + div {
-  border-color: #10b981 !important;
-  background: rgba(16, 185, 129, 0.08) !important;
-  box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.25);
+  border-color: #06B6D4 !important;
+  background: rgba(6, 182, 212, 0.08) !important;
+  box-shadow: 0 0 20px -3px rgba(6, 182, 212, 0.25);
+}
+
+/* Accessible Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
