@@ -1,4 +1,4 @@
-﻿// ==========================================================================
+// ==========================================================================
 // Jahanzaib Ahmad — Autonomous AI Technical Agent (Agent-JA v2.5)
 // Real-time Reasoning, Tool Execution, Autonomous Navigation & Diagnosis
 // ==========================================================================
@@ -14,6 +14,17 @@
       actions: [
         { label: "📱 Chat on WhatsApp", url: "https://wa.me/923187635856?text=Hi%20Jahanzaib,%20I%20would%20like%20to%20discuss%20a%20full-stack%20project.", primary: true },
         { label: "🚀 View Case Studies", scrollTo: "#projects" }
+      ]
+    },
+    {
+      keywords: ['issue', 'my issue', 'problem', 'not working', 'fails', 'failing', 'help me fix', 'my website', 'my app', 'incident'],
+      thought: "Activating automated incident intake protocol. Requesting error logs, environment specs, and repository access...",
+      action: "request_incident_intake_data()",
+      reply: "🚨 **Automated Incident Intake Protocol (< 2h SLA)**:\n\nTo diagnose and patch your issue immediately, please provide the following 4 items:\n\n1. **Error Logs / Screenshots**: Exact error message, console errors, or server stack trace.\n2. **Tech Stack & Hosting**: Framework (e.g. Next.js, Node.js, Python) and deployment environment (Vercel, AWS, VPS).\n3. **Codebase Access**: GitHub repo invite (add `@jahanzaibahmad630-bit`) or temporary staging/SSH credentials.\n4. **Reproduction Steps**: The exact user actions that trigger the failure.\n\n*Click below to dispatch this structured intake report directly to my WhatsApp:*",
+      suggestions: ["📱 Send Issue Details on WhatsApp", "What do you charge for fixes?", "How does escrow work?"],
+      actions: [
+        { label: "📋 Send Issue & Access on WhatsApp", url: "https://wa.me/923187635856?text=🚨%20PRODUCTION%20ISSUE%20REPORT:%0A%0A1.%20Issue%20Description:%20%0A2.%20Error%20Logs/Screenshots:%20%0A3.%20Tech%20Stack:%20%0A4.%20Repo%20or%20Access%20Link:%20", primary: true },
+        { label: "💰 View Pricing Matrix", scrollTo: "#estimator" }
       ]
     },
     {
