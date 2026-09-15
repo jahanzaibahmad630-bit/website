@@ -1,29 +1,19 @@
 ﻿/* ==========================================================================
-   Jahanzaib Ahmad — Figma Cosmic Purple Portfolio Design System
-   Source Theme: Deep Cosmic Purple & Neon Violet Glassmorphism
-   Typography: Preahvihear (Display/Headings), Poppins & Plus Jakarta Sans (Body/UI)
+   Jahanzaib Ahmad — Figma Community Portfolio Design System (1:1 Match)
+   Reference: Ibrahim Memon Portfolio Design (UB6UHBFSKRAYTEB5AYNQkm)
+   Typography: Preahvihear (Display/Headings), Poppins (Body/Cards), Plus Jakarta Sans (Nav)
    ========================================================================== */
 
 :root {
   --bg-cosmic: #11071F;
-  --bg-cosmic-dark: #0d0519;
-  --bg-card: rgba(43, 17, 79, 0.45);
-  --bg-card-hover: rgba(58, 22, 107, 0.6);
-  --border-card: rgba(151, 87, 211, 0.25);
-  --border-card-hover: rgba(162, 97, 255, 0.55);
-  
+  --bg-surface: #190B2D;
   --purple-glow: #9757D3;
   --purple-vibrant: #A261FF;
   --purple-deep: #7127BA;
-  --purple-dark: #2B114F;
-  --purple-shadow: rgba(113, 39, 186, 0.4);
-  
   --text-white: #FFFFFF;
-  --text-muted: #CCD6F6;
-  --text-dim: #94A3B8;
+  --text-dim: #CCD6F6;
 }
 
-/* Base resets & cosmic background */
 html {
   scroll-behavior: smooth;
 }
@@ -49,7 +39,7 @@ body {
   font-family: 'Poppins', sans-serif;
 }
 
-/* Subtle Cosmic Background Lights */
+/* Figma Background Ambient Light Overlay */
 .cosmic-bg-overlay {
   position: absolute;
   top: 0;
@@ -59,129 +49,101 @@ body {
   pointer-events: none;
   z-index: 0;
   background-image: 
-    radial-gradient(circle at 18% 12%, rgba(113, 39, 186, 0.35) 0%, transparent 45%),
-    radial-gradient(circle at 82% 28%, rgba(78, 34, 141, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 50% 55%, rgba(151, 87, 211, 0.2) 0%, transparent 45%),
-    radial-gradient(circle at 20% 75%, rgba(113, 39, 186, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 80% 88%, rgba(43, 17, 79, 0.4) 0%, transparent 40%);
+    radial-gradient(circle at 50% 8%, rgba(113, 39, 186, 0.35) 0%, transparent 45%),
+    radial-gradient(circle at 50% 32%, rgba(113, 39, 186, 0.28) 0%, transparent 45%),
+    radial-gradient(circle at 80% 65%, rgba(113, 39, 186, 0.25) 0%, transparent 45%),
+    radial-gradient(circle at 20% 80%, rgba(113, 39, 186, 0.25) 0%, transparent 45%);
 }
 
-/* Custom Sleek Purple Scrollbar */
+/* Custom Sleek Scrollbar */
 ::-webkit-scrollbar {
   width: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-cosmic-dark);
+  background: #0d0519;
 }
 ::-webkit-scrollbar-thumb {
-  background: #3B1B68;
+  background: #2b114f;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--purple-deep);
 }
 
-/* Glassmorphism Card (Figma Community 2x2 Style) */
-.glass-experience-card {
-  background: linear-gradient(135deg, rgba(43, 17, 79, 0.5) 0%, rgba(25, 11, 45, 0.7) 100%);
-  border: 1px solid var(--border-card);
-  border-radius: 1.25rem;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+/* 2x2 Work Experience Card (Exact Figma Gradient) */
+.figma-experience-card {
+  background: linear-gradient(135deg, #130428 7%, #251043 34%, #38126e 57%, #261045 85%, #190634 100%);
+  border-radius: 15px;
+  border: 1px solid rgba(151, 87, 211, 0.25);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   overflow: hidden;
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
 }
 
-.glass-experience-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(162, 97, 255, 0.6), transparent);
-  opacity: 0.7;
+.figma-experience-card:hover {
+  border-color: rgba(162, 97, 255, 0.5);
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px -10px rgba(113, 39, 186, 0.4);
 }
 
-.glass-experience-card:hover {
-  border-color: var(--border-card-hover);
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px -10px rgba(113, 39, 186, 0.35);
-}
-
-/* 3D Icon Container Glow */
-.icon-3d-wrapper {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-.icon-3d-wrapper::after {
-  content: '';
-  position: absolute;
-  inset: -10px;
-  background: radial-gradient(circle, rgba(162, 97, 255, 0.45) 0%, transparent 70%);
-  z-index: -1;
-  border-radius: 50%;
-  filter: blur(10px);
-}
-
-/* Learn More Pill Button */
-.btn-learn-more {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+/* LEARN MORE Pill Button */
+.btn-figma-learn-more {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: #FFFFFF;
   font-family: 'Poppins', sans-serif;
-  font-size: 0.68rem;
-  font-weight: 600;
+  font-size: 10px;
+  font-weight: 500;
   letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 0.45rem 1.1rem;
+  padding: 0.4rem 1.25rem;
   border-radius: 9999px;
+  text-transform: uppercase;
   transition: all 0.25s ease;
+  cursor: pointer;
 }
 
-.btn-learn-more:hover {
+.btn-figma-learn-more:hover {
   background: var(--purple-deep);
   border-color: var(--purple-vibrant);
   box-shadow: 0 0 15px rgba(151, 87, 211, 0.6);
-  transform: translateY(-1px);
 }
 
-/* Primary Purple Glow Button */
-.btn-purple-primary {
-  background: linear-gradient(135deg, #7127BA 0%, #9757D3 100%);
-  color: #FFFFFF;
-  font-weight: 600;
-  border-radius: 9999px;
-  box-shadow: 0 4px 20px rgba(113, 39, 186, 0.5);
+/* Overlapping Featured Project Card */
+.figma-project-card {
+  background: rgba(25, 11, 45, 0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 14px;
+  border: 1px solid rgba(151, 87, 211, 0.3);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 25px rgba(113, 39, 186, 0.25);
+  z-index: 20;
+}
+
+/* Project Browser Frame */
+.figma-project-frame {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(151, 87, 211, 0.2);
   transition: all 0.3s ease;
 }
-.btn-purple-primary:hover {
-  background: linear-gradient(135deg, #8531dc 0%, #a86df7 100%);
-  box-shadow: 0 6px 30px rgba(162, 97, 255, 0.7);
-  transform: translateY(-2px);
+.figma-project-frame:hover {
+  border-color: rgba(162, 97, 255, 0.5);
+  transform: scale(1.01);
 }
 
-/* Glass Outline Button */
-.btn-purple-glass {
-  background: rgba(43, 17, 79, 0.4);
-  border: 1px solid rgba(151, 87, 211, 0.4);
-  color: #FFFFFF;
-  font-weight: 500;
-  border-radius: 9999px;
-  backdrop-filter: blur(8px);
-  transition: all 0.25s ease;
-}
-.btn-purple-glass:hover {
-  background: rgba(113, 39, 186, 0.3);
-  border-color: var(--purple-vibrant);
-  box-shadow: 0 0 20px rgba(151, 87, 211, 0.4);
+/* Ambient Radial Glow Elements */
+.ambient-glow-circle {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(113, 39, 186, 0.35) 0%, transparent 70%);
+  filter: blur(70px);
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* Typewriter Blinking Cursor */
@@ -198,90 +160,7 @@ body {
   50%, 100% { opacity: 0; }
 }
 
-/* Skills Constellation */
-.skills-constellation-container {
-  position: relative;
+/* Interactive Details Modal */
+#experience-modal:not(.hidden) {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem 0;
-}
-.skills-constellation-img {
-  max-width: 100%;
-  height: auto;
-  filter: drop-shadow(0 0 35px rgba(113, 39, 186, 0.45));
-}
-
-/* Project Overlapping Card & Frame */
-.project-frame-wrapper {
-  position: relative;
-  border-radius: 1rem;
-  overflow: hidden;
-  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8);
-  border: 1px solid rgba(151, 87, 211, 0.25);
-  background: #180d2c;
-  transition: transform 0.4s ease, border-color 0.4s ease;
-}
-
-.project-frame-wrapper:hover {
-  border-color: rgba(162, 97, 255, 0.6);
-  transform: scale(1.015);
-}
-
-.project-floating-card {
-  background: rgba(25, 11, 45, 0.92);
-  border: 1px solid rgba(151, 87, 211, 0.35);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-radius: 1rem;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 25px rgba(113, 39, 186, 0.3);
-  z-index: 20;
-}
-
-/* Ambient Radial Glow Elements */
-.ambient-glow-circle {
-  position: absolute;
-  width: 450px;
-  height: 450px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(113, 39, 186, 0.35) 0%, transparent 70%);
-  filter: blur(70px);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Range sliders in dark purple */
-input[type="range"] {
-  -webkit-appearance: none;
-  appearance: none;
-  background: #25133d;
-  height: 6px;
-  border-radius: 3px;
-  outline: none;
-}
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--purple-vibrant);
-  cursor: pointer;
-  box-shadow: 0 0 10px rgba(162, 97, 255, 0.8);
-  transition: all 0.2s ease;
-}
-input[type="range"]::-webkit-slider-thumb:hover {
-  transform: scale(1.2);
-}
-
-/* Selection */
-::selection {
-  background: var(--purple-deep);
-  color: #FFFFFF;
-}
-
-/* Focus styles for accessibility */
-a:focus-visible, button:focus-visible, input:focus-visible {
-  outline: 2px solid var(--purple-vibrant);
-  outline-offset: 3px;
 }

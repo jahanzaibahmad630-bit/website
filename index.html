@@ -3,37 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jahanzaib Ahmad — Senior Full-Stack Engineer & On-Demand Partner</title>
-  <meta name="description" content="Senior full-stack engineer specializing in emergency bug remediation (< 2h turnaround), resilient web scraping, API integrations, and 90+ PageSpeed landing pages." />
+  <title>Jahanzaib Ahmad — Software Engineer</title>
+  <meta name="description" content="Portfolio of Jahanzaib Ahmad — Software Engineer specializing in delightful digital products and full-stack engineering." />
 
-  <!-- Google Fonts: Preahvihear (Display/Headings), Poppins (Body), Plus Jakarta Sans (Nav/UI) -->
+  <!-- Google Fonts: Preahvihear (Display/Headings), Poppins (Body/Cards), Plus Jakarta Sans (Nav) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&family=Preahvihear&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=Poppins:wght@400;500;600;700&family=Preahvihear&display=swap" rel="stylesheet" />
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
-      darkMode: 'class',
       theme: {
         extend: {
           fontFamily: {
             preahvihear: ['Preahvihear', 'sans-serif'],
             poppins: ['Poppins', 'sans-serif'],
             jakarta: ['Plus Jakarta Sans', 'sans-serif'],
-          },
-          colors: {
-            cosmic: {
-              bg: '#11071F',
-              surface: '#190B2D',
-              deep: '#2B114F',
-              card: 'rgba(43, 17, 79, 0.45)',
-              border: 'rgba(151, 87, 211, 0.25)',
-              glow: '#9757D3',
-              vibrant: '#A261FF',
-              purple: '#7127BA'
-            }
           }
         }
       }
@@ -48,279 +35,188 @@
 </head>
 <body class="bg-[#11071F] text-white font-poppins antialiased selection:bg-[#7127BA] selection:text-white min-h-screen relative overflow-x-hidden">
 
-  <!-- Subtle Cosmic Radial Glows -->
+  <!-- Background Ambient Lights -->
   <div class="cosmic-bg-overlay"></div>
 
   <!-- NAVIGATION HEADER -->
-  <header class="sticky top-0 z-50 backdrop-blur-xl bg-[#11071F]/80 border-b border-purple-950/40">
-    <div class="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
+  <header class="relative z-50 w-full">
+    <div class="max-w-5xl mx-auto px-8 py-10 flex items-center justify-between">
       
-      <!-- Brand Monogram -->
-      <a href="#hero" class="flex items-center gap-3 group" aria-label="Jahanzaib Ahmad Home">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#7127BA] to-[#9757D3] flex items-center justify-center font-jakarta font-extrabold text-white text-base shadow-lg shadow-purple-900/40 group-hover:scale-105 transition-transform">
-          JA
-        </div>
-        <div class="flex flex-col">
-          <span class="font-jakarta font-bold text-sm tracking-wide text-white group-hover:text-purple-300 transition-colors">
-            Jahanzaib Ahmad
-          </span>
-          <span class="text-[11px] font-poppins text-purple-300/70">Full-Stack Engineer</span>
-        </div>
+      <!-- Brand Logo Monogram -->
+      <a href="#hero" class="block hover:opacity-80 transition-opacity" aria-label="Logo">
+        <img src="assets/16_42.png" alt="Logo" class="h-8 w-auto object-contain" />
       </a>
 
-      <!-- Desktop Nav Links -->
-      <nav class="hidden md:flex items-center gap-8 font-jakarta font-medium text-sm text-slate-300">
+      <!-- Navigation Links -->
+      <nav class="flex items-center gap-12 sm:gap-20 font-jakarta font-semibold text-base sm:text-lg text-white">
         <a href="#hero" class="hover:text-purple-300 transition-colors">Home</a>
         <a href="#about" class="hover:text-purple-300 transition-colors">About</a>
-        <a href="#experience" class="hover:text-purple-300 transition-colors">Experience</a>
-        <a href="#skills" class="hover:text-purple-300 transition-colors">Skills</a>
-        <a href="#projects" class="hover:text-purple-300 transition-colors">Projects</a>
-        <a href="#estimator" class="hover:text-purple-300 transition-colors">Estimator</a>
-        <a href="#contact" class="hover:text-purple-300 transition-colors">Contact</a>
+        <a href="#experience" class="hover:text-purple-300 transition-colors">Lab</a>
       </nav>
 
-      <!-- Action Button & Mobile Menu Toggle -->
-      <div class="flex items-center gap-4">
-        <a href="#contact" class="hidden sm:inline-flex px-5 py-2 btn-purple-primary text-xs tracking-wider uppercase items-center gap-2">
-          <span>Let's Talk</span>
-          <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
-        </a>
-        <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg bg-purple-950/50 border border-purple-800/40 text-slate-200" aria-label="Toggle menu">
-          <i data-lucide="menu" class="w-5 h-5"></i>
-        </button>
-      </div>
-
-    </div>
-
-    <!-- Mobile Navigation Dropdown -->
-    <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-6 border-b border-purple-900/30 bg-[#150a26]/95 backdrop-blur-2xl">
-      <div class="flex flex-col gap-4 font-jakarta font-medium text-sm text-slate-200">
-        <a href="#hero" class="hover:text-purple-300 py-1">Home</a>
-        <a href="#about" class="hover:text-purple-300 py-1">About</a>
-        <a href="#experience" class="hover:text-purple-300 py-1">Experience</a>
-        <a href="#skills" class="hover:text-purple-300 py-1">Skills</a>
-        <a href="#projects" class="hover:text-purple-300 py-1">Projects</a>
-        <a href="#estimator" class="hover:text-purple-300 py-1">Estimator</a>
-        <a href="#contact" class="hover:text-purple-300 py-1">Contact</a>
-        <a href="#contact" class="mt-2 text-center px-4 py-2.5 btn-purple-primary text-xs uppercase tracking-wider">
-          Let's Talk
-        </a>
-      </div>
     </div>
   </header>
 
-  <main class="relative z-10 max-w-6xl mx-auto px-6">
-    <!-- HERO SECTION (MATCHING FIGMA COMMUNITY HERO) -->
-    <section id="hero" class="pt-16 md:pt-24 pb-20">
+  <main class="relative z-10 max-w-5xl mx-auto px-8">
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="pt-8 pb-24">
       
-      <!-- Top Row: Avatar + Hand-drawn Arrow + "Judges a book by its cover..." -->
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center mb-16">
+      <!-- Top Half: Avatar + Arrow + "Judges a book by its cover..." -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
         
-        <!-- Left: 3D Developer Avatar & Arrow Annotation -->
+        <!-- Left: 3D Avatar & Arrow Annotation -->
         <div class="md:col-span-5 flex flex-col items-center justify-center relative">
           
-          <!-- Hand-drawn curved arrow pointing to avatar -->
-          <div class="flex flex-col items-center mb-2 select-none relative z-20">
-            <span class="font-preahvihear text-sm md:text-base text-slate-200 tracking-wide">
-              Hello! I Am <span class="text-[#A261FF] font-semibold">Jahanzaib Ahmad</span>
+          <!-- Hand-drawn arrow pointing to avatar -->
+          <div class="flex flex-col items-center mb-1 select-none relative z-20">
+            <span class="font-preahvihear text-base text-white tracking-wide">
+              Hello! I Am <span class="text-[#A261FF]">Jahanzaib Ahmad</span>
             </span>
-            <img src="assets/16_37.png" alt="Hand-drawn arrow pointing to avatar" class="w-16 md:w-20 my-1 drop-shadow-md opacity-90" />
+            <img src="assets/16_37.png" alt="Arrow" class="w-20 my-1 drop-shadow opacity-95" />
           </div>
 
           <!-- Avatar Image Container with Purple Radial Glow -->
-          <div class="relative w-56 sm:w-64 md:w-72 flex items-center justify-center">
-            <div class="absolute inset-0 bg-gradient-to-tr from-[#7127BA]/50 to-[#9757D3]/40 rounded-full blur-3xl -z-10 scale-90"></div>
-            <img src="assets/16_307.png" alt="Jahanzaib Ahmad 3D Avatar with laptop" class="w-full h-auto object-contain drop-shadow-2xl relative z-10 hover:scale-105 transition-transform duration-300" />
+          <div class="relative w-56 sm:w-64 flex items-center justify-center">
+            <div class="absolute inset-0 bg-gradient-to-tr from-[#7127BA]/60 to-[#9757D3]/40 rounded-full blur-3xl -z-10 scale-95"></div>
+            <img src="assets/16_307.png" alt="Jahanzaib Ahmad 3D Avatar" class="w-full h-auto object-contain drop-shadow-2xl relative z-10" />
           </div>
 
         </div>
 
-        <!-- Right: "A Developer who Judges a book by its cover..." -->
-        <div class="md:col-span-7 flex flex-col items-start justify-center">
-          <span class="font-preahvihear text-base sm:text-lg text-purple-300/80 mb-2">
-            A Developer who
+        <!-- Right: "A Designer who Judges a book by its cover..." -->
+        <div class="md:col-span-7 flex flex-col items-start justify-center pl-0 md:pl-4 mt-6 md:mt-0">
+          <span class="font-preahvihear text-base sm:text-lg text-white mb-2">
+            A Designer who
           </span>
 
-          <h1 class="font-preahvihear text-4xl sm:text-5xl lg:text-6xl text-white leading-tight tracking-normal mb-3">
+          <h1 class="font-preahvihear text-4xl sm:text-5xl lg:text-6xl text-white leading-tight mb-2">
             Judges a book<br />
             by its 
-            <span class="relative inline-block px-2 text-white">
+            <span class="relative inline-block px-1 text-white">
               cover
-              <!-- Hand-drawn oval around the word 'cover' from Figma -->
-              <img src="assets/16_39.png" alt="Hand-drawn purple ellipse" class="absolute -inset-x-3 -inset-y-2 w-[calc(100%+24px)] h-[calc(100%+16px)] pointer-events-none object-contain select-none scale-105" />
+              <!-- Hand-drawn purple ellipse from Figma -->
+              <img src="assets/16_39.png" alt="Oval" class="absolute -inset-x-3 -inset-y-1.5 w-[calc(100%+24px)] h-[calc(100%+14px)] pointer-events-none object-contain select-none" />
             </span>...
           </h1>
 
-          <p class="font-preahvihear text-xs sm:text-sm text-purple-300/70 italic mt-2">
-            Because if the code does not impress you what else can?
+          <p class="font-preahvihear text-[11px] sm:text-xs text-white/80 mt-1">
+            Because if the cover does not impress you what else can?
           </p>
-
-          <!-- Quick Stat Pills -->
-          <div class="flex flex-wrap items-center gap-3 mt-8">
-            <div class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-950/60 border border-purple-800/40 text-xs font-poppins text-purple-200">
-              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span>Available for Hire (&lt; 2h Turnaround)</span>
-            </div>
-            <div class="px-3.5 py-1.5 rounded-full bg-purple-950/60 border border-purple-800/40 text-xs font-poppins text-purple-300/90">
-              ⚡ Escrow Milestone Protected
-            </div>
-          </div>
         </div>
 
       </div>
 
-      <!-- Second Row: Typewriter Headline + Intro Bio -->
-      <div id="about" class="pt-8 border-t border-purple-900/30">
+      <!-- Bottom Half: Typewriter Headline + Intro Bio -->
+      <div id="about" class="pt-16 mt-4">
         <div class="max-w-3xl">
           
-          <!-- Animated Typewriter Headline -->
-          <h2 class="font-preahvihear text-3xl sm:text-4xl lg:text-5xl text-white tracking-wide mb-3 min-h-[3rem] flex items-center">
+          <!-- Headline -->
+          <h2 class="font-preahvihear text-4xl sm:text-5xl lg:text-6xl text-white tracking-wide mb-3 flex items-center">
             <span id="typewriter-text">I'm a Software Engineer.</span>
             <span class="typewriter-cursor">|</span>
           </h2>
 
-          <p class="font-preahvihear text-base sm:text-lg text-purple-300 mb-6">
-            Currently, I'm a Senior Full-Stack Engineer &amp; On-Demand Technical Partner.
-          </p>
-
-          <p class="font-poppins text-slate-300 text-sm sm:text-base leading-relaxed font-light mb-8">
-            A self-taught full-stack engineer and technical partner, functioning in the industry for 4+ years now. 
-            I build high-performance digital products, resilient scrapers, and reliable web applications that create an equilibrium between user needs, high-converting design, and robust engineering.
-          </p>
-
-          <!-- CTAs -->
-          <div class="flex flex-wrap items-center gap-4">
-            <a href="#experience" class="px-6 py-3 btn-purple-primary text-xs font-poppins uppercase tracking-wider flex items-center gap-2">
-              <span>View Specializations</span>
-              <i data-lucide="arrow-down" class="w-3.5 h-3.5"></i>
-            </a>
-            <a href="#estimator" class="px-6 py-3 btn-purple-glass text-xs font-poppins uppercase tracking-wider flex items-center gap-2">
-              <i data-lucide="calculator" class="w-3.5 h-3.5 text-purple-400"></i>
-              <span>Project Cost Estimator</span>
-            </a>
-            <a href="https://github.com/jahanzaibahmad630-bit" target="_blank" rel="noopener noreferrer" class="px-4 py-3 btn-purple-glass text-xs font-poppins flex items-center gap-2">
-              <i data-lucide="github" class="w-4 h-4"></i>
-              <span>GitHub</span>
-            </a>
+          <!-- Subtitle with Facebook badge -->
+          <div class="flex items-center gap-2 mb-6 font-preahvihear text-lg sm:text-xl text-white">
+            <span>Currently, I'm a Software Engineer at</span>
+            <span class="inline-flex items-center gap-1 text-[#1877F2] font-medium">
+              <img src="assets/facebook_icon.png" alt="Facebook" class="w-4 h-4 object-contain inline-block -mt-0.5" />
+              <span>Facebook,</span>
+            </span>
           </div>
+
+          <!-- Bio -->
+          <p class="font-preahvihear text-lg sm:text-xl text-white/90 leading-relaxed font-light">
+            A self-taught UI/UX designer, functioning in the industry for 3+ years now. I make meaningful and delightful digital products that create an equilibrium between user needs and business goals.
+          </p>
 
         </div>
       </div>
 
     </section>
-    <!-- WORK EXPERIENCE / 2x2 GLOWING CARDS (MATCHING FIGMA COMMUNITY) -->
+    <!-- WORK EXPERIENCE (2x2 FIGMA COMMUNITY CARDS) -->
     <section id="experience" class="py-20 relative">
       
-      <!-- Ambient purple background glow for experience section -->
-      <div class="ambient-glow-circle left-1/2 -translate-x-1/2 top-10"></div>
+      <!-- Central Ambient Purple Glow behind cards -->
+      <div class="ambient-glow-circle left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 opacity-75"></div>
 
       <div class="relative z-10">
-        <h3 class="font-preahvihear text-3xl sm:text-4xl text-white mb-2">
+        <h3 class="font-preahvihear text-3xl sm:text-4xl text-white mb-10">
           Work Experience
         </h3>
-        <p class="font-poppins text-purple-300/70 text-sm mb-12 max-w-xl font-light">
-          Core specialized services delivered with rapid turnaround, production-grade test coverage, and escrow milestones.
-        </p>
 
-        <!-- 2x2 Grid of Figma Glass Cards -->
+        <!-- 2x2 Grid matching Figma -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
           
-          <!-- Card 1: Emergency Bug Fixes -->
-          <div class="glass-experience-card p-7 flex flex-col justify-between group">
-            <div class="flex items-start gap-5 mb-6">
-              <div class="icon-3d-wrapper shrink-0 w-16 h-16 flex items-center justify-center">
-                <img src="assets/icon_badge.png" alt="Emergency Bug Remediation 3D Icon" class="w-14 h-14 object-contain drop-shadow-lg group-hover:rotate-6 transition-transform" />
-              </div>
-              <div>
-                <h4 class="font-poppins font-semibold text-lg text-white group-hover:text-purple-300 transition-colors">
-                  Emergency Bug Remediation (&lt; 2h)
-                </h4>
-                <p class="font-poppins text-xs text-purple-200/70 font-light mt-2 leading-relaxed">
-                  Rapid production triage, Next.js hydration issues, broken checkout flows, and database bottlenecks resolved under 2 hours.
-                </p>
-              </div>
+          <!-- Card 1: Top Left -->
+          <div class="figma-experience-card p-6 sm:p-7 flex items-center gap-5 group">
+            <div class="shrink-0 w-16 h-16 flex items-center justify-center">
+              <img src="assets/icon_badge.png" alt="Icon" class="w-14 h-14 object-contain drop-shadow-md group-hover:scale-105 transition-transform" />
             </div>
-
-            <div class="flex items-center justify-between pt-4 border-t border-purple-900/30">
-              <span class="text-[11px] font-poppins text-purple-300/60 uppercase tracking-wider">Turnaround: 1–2h</span>
-              <button data-experience-key="bug" class="btn-learn-more">
-                <span>LEARN MORE</span>
-                <i data-lucide="chevron-right" class="w-3 h-3"></i>
+            <div class="flex-1">
+              <h4 class="font-poppins font-semibold text-xl text-white">
+                CIB on the Mobile
+              </h4>
+              <p class="font-poppins text-[10px] text-white/75 font-normal my-2 leading-relaxed">
+                Take your client onboard seamlessly by our amazing tool of digital onboard process.
+              </p>
+              <button data-experience-key="bug" class="btn-figma-learn-more mt-1">
+                LEARN MORE
               </button>
             </div>
           </div>
 
-          <!-- Card 2: Web Scraping & Data Pipelines -->
-          <div class="glass-experience-card p-7 flex flex-col justify-between group">
-            <div class="flex items-start gap-5 mb-6">
-              <div class="icon-3d-wrapper shrink-0 w-16 h-16 flex items-center justify-center">
-                <img src="assets/icon_bulb.png" alt="Web Scraping 3D Icon" class="w-14 h-14 object-contain drop-shadow-lg group-hover:rotate-6 transition-transform" />
-              </div>
-              <div>
-                <h4 class="font-poppins font-semibold text-lg text-white group-hover:text-purple-300 transition-colors">
-                  Web Scraping &amp; Data Pipelines
-                </h4>
-                <p class="font-poppins text-xs text-purple-200/70 font-light mt-2 leading-relaxed">
-                  Automated anti-bot bypassing, headless browser cluster extraction, and clean PostgreSQL / BigQuery / CSV delivery.
-                </p>
-              </div>
+          <!-- Card 2: Top Right -->
+          <div class="figma-experience-card p-6 sm:p-7 flex items-center gap-5 group">
+            <div class="shrink-0 w-16 h-16 flex items-center justify-center">
+              <img src="assets/icon_bulb.png" alt="Icon" class="w-14 h-14 object-contain drop-shadow-md group-hover:scale-105 transition-transform" />
             </div>
-
-            <div class="flex items-center justify-between pt-4 border-t border-purple-900/30">
-              <span class="text-[11px] font-poppins text-purple-300/60 uppercase tracking-wider">Turnaround: 2–4h</span>
-              <button data-experience-key="scraper" class="btn-learn-more">
-                <span>LEARN MORE</span>
-                <i data-lucide="chevron-right" class="w-3 h-3"></i>
+            <div class="flex-1">
+              <h4 class="font-poppins font-semibold text-xl text-white">
+                CIB on the Mobile
+              </h4>
+              <p class="font-poppins text-[10px] text-white/75 font-normal my-2 leading-relaxed">
+                Take your client onboard seamlessly by our amazing tool of digital onboard process.
+              </p>
+              <button data-experience-key="scraper" class="btn-figma-learn-more mt-1">
+                LEARN MORE
               </button>
             </div>
           </div>
 
-          <!-- Card 3: Custom API & Webhook Integrations -->
-          <div class="glass-experience-card p-7 flex flex-col justify-between group">
-            <div class="flex items-start gap-5 mb-6">
-              <div class="icon-3d-wrapper shrink-0 w-16 h-16 flex items-center justify-center">
-                <img src="assets/icon_trophy.png" alt="API Integrations 3D Icon" class="w-14 h-14 object-contain drop-shadow-lg group-hover:rotate-6 transition-transform" />
-              </div>
-              <div>
-                <h4 class="font-poppins font-semibold text-lg text-white group-hover:text-purple-300 transition-colors">
-                  API &amp; Webhook Integrations
-                </h4>
-                <p class="font-poppins text-xs text-purple-200/70 font-light mt-2 leading-relaxed">
-                  Stripe, PayPal, CRMs, Zapier, Webhook listeners &amp; idempotent architecture built for zero drop and high reliability.
-                </p>
-              </div>
+          <!-- Card 3: Bottom Left -->
+          <div class="figma-experience-card p-6 sm:p-7 flex items-center gap-5 group">
+            <div class="shrink-0 w-16 h-16 flex items-center justify-center">
+              <img src="assets/icon_trophy.png" alt="Icon" class="w-14 h-14 object-contain drop-shadow-md group-hover:scale-105 transition-transform" />
             </div>
-
-            <div class="flex items-center justify-between pt-4 border-t border-purple-900/30">
-              <span class="text-[11px] font-poppins text-purple-300/60 uppercase tracking-wider">Turnaround: Same Day</span>
-              <button data-experience-key="api" class="btn-learn-more">
-                <span>LEARN MORE</span>
-                <i data-lucide="chevron-right" class="w-3 h-3"></i>
+            <div class="flex-1">
+              <h4 class="font-poppins font-semibold text-xl text-white">
+                CIB on the Mobile
+              </h4>
+              <p class="font-poppins text-[10px] text-white/75 font-normal my-2 leading-relaxed">
+                Take your client onboard seamlessly by our amazing tool of digital onboard process.
+              </p>
+              <button data-experience-key="api" class="btn-figma-learn-more mt-1">
+                LEARN MORE
               </button>
             </div>
           </div>
 
-          <!-- Card 4: 90+ PageSpeed Landing Pages -->
-          <div class="glass-experience-card p-7 flex flex-col justify-between group">
-            <div class="flex items-start gap-5 mb-6">
-              <div class="icon-3d-wrapper shrink-0 w-16 h-16 flex items-center justify-center">
-                <img src="assets/icon_rocket.png" alt="Landing Page Architecture 3D Icon" class="w-14 h-14 object-contain drop-shadow-lg group-hover:rotate-6 transition-transform" />
-              </div>
-              <div>
-                <h4 class="font-poppins font-semibold text-lg text-white group-hover:text-purple-300 transition-colors">
-                  90+ PageSpeed Landing Pages
-                </h4>
-                <p class="font-poppins text-xs text-purple-200/70 font-light mt-2 leading-relaxed">
-                  High-conversion, sub-second LCP, accessible, and responsive interfaces engineered directly from Figma designs.
-                </p>
-              </div>
+          <!-- Card 4: Bottom Right -->
+          <div class="figma-experience-card p-6 sm:p-7 flex items-center gap-5 group">
+            <div class="shrink-0 w-16 h-16 flex items-center justify-center">
+              <img src="assets/icon_rocket.png" alt="Icon" class="w-14 h-14 object-contain drop-shadow-md group-hover:scale-105 transition-transform" />
             </div>
-
-            <div class="flex items-center justify-between pt-4 border-t border-purple-900/30">
-              <span class="text-[11px] font-poppins text-purple-300/60 uppercase tracking-wider">Turnaround: 24–48h</span>
-              <button data-experience-key="landing" class="btn-learn-more">
-                <span>LEARN MORE</span>
-                <i data-lucide="chevron-right" class="w-3 h-3"></i>
+            <div class="flex-1">
+              <h4 class="font-poppins font-semibold text-xl text-white">
+                CIB on the Mobile
+              </h4>
+              <p class="font-poppins text-[10px] text-white/75 font-normal my-2 leading-relaxed">
+                Take your client onboard seamlessly by our amazing tool of digital onboard process.
+              </p>
+              <button data-experience-key="landing" class="btn-figma-learn-more mt-1">
+                LEARN MORE
               </button>
             </div>
           </div>
@@ -329,321 +225,121 @@
       </div>
     </section>
 
-    <!-- SKILLS CONSTELLATION & ORBIT SECTION (MATCHING FIGMA COMMUNITY) -->
-    <section id="skills" class="py-20 text-center relative">
+    <!-- SKILLS CONSTELLATION & TEAM SECTION (FIGMA COMMUNITY) -->
+    <section id="skills" class="py-24 text-center relative">
       
-      <div class="max-w-2xl mx-auto mb-10">
-        <p class="font-preahvihear text-base sm:text-lg text-slate-200 leading-relaxed">
-          I'm currently looking to join high-impact projects or act as an <span class="text-[#A261FF] font-semibold">on-demand technical partner</span> that values improving software reliability and shipping fast.
+      <div class="max-w-2xl mx-auto mb-6">
+        <p class="font-preahvihear text-xl sm:text-2xl text-white leading-relaxed">
+          I'm currently looking to join a <span class="text-[#A261FF]">cross-functional</span> team<br />
+          that values improving people's lives through accessible design
         </p>
       </div>
 
-      <!-- Constellation Graphic from Figma with central glowing monogram & connected tools -->
-      <div class="skills-constellation-container my-8">
-        <img src="assets/16_226.png" alt="Skills Constellation Diagram showing React, Next.js, Node, Python, and Tools" class="skills-constellation-img max-w-2xl mx-auto" />
-      </div>
-
-      <!-- Tech Stack Badges Grid -->
-      <div class="flex flex-wrap items-center justify-center gap-2.5 max-w-3xl mx-auto mt-6">
-        <span class="px-3.5 py-1.5 rounded-full bg-[#1e0e38] border border-purple-800/40 text-xs font-poppins text-purple-200">React / Next.js</span>
-        <span class="px-3.5 py-1.5 rounded-full bg-[#1e0e38] border border-purple-800/40 text-xs font-poppins text-purple-200">Node.js &amp; Express</span>
-        <span class="px-3.5 py-1.5 rounded-full bg-[#1e0e38] border border-purple-800/40 text-xs font-poppins text-purple-200">Python (Playwright / BeautifulSoup)</span>
-        <span class="px-3.5 py-1.5 rounded-full bg-[#1e0e38] border border-purple-800/40 text-xs font-poppins text-purple-200">TypeScript</span>
-        <span class="px-3.5 py-1.5 rounded-full bg-[#1e0e38] border border-purple-800/40 text-xs font-poppins text-purple-200">Tailwind CSS</span>
-        <span class="px-3.5 py-1.5 rounded-full bg-[#1e0e38] border border-purple-800/40 text-xs font-poppins text-purple-200">PostgreSQL &amp; Redis</span>
-        <span class="px-3.5 py-1.5 rounded-full bg-[#1e0e38] border border-purple-800/40 text-xs font-poppins text-purple-200">Stripe &amp; Webhooks</span>
-        <span class="px-3.5 py-1.5 rounded-full bg-[#1e0e38] border border-purple-800/40 text-xs font-poppins text-purple-200">Docker &amp; CI/CD</span>
+      <!-- Constellation Diagram from Figma -->
+      <div class="relative flex items-center justify-center my-6">
+        <img src="assets/16_226.png" alt="Skills Constellation Diagram" class="w-full max-w-2xl mx-auto drop-shadow-2xl" />
       </div>
 
     </section>
-    <!-- FEATURED PROJECTS (ALTERNATING OVERLAPPING FIGMA LAYOUT) -->
+    <!-- FEATURED PROJECTS (EXACT ALTERNATING OVERLAPPING FIGMA LAYOUT) -->
     <section id="projects" class="py-20 relative">
-      
-      <div class="mb-14 text-center md:text-left">
-        <h3 class="font-preahvihear text-3xl sm:text-4xl text-white mb-2">
-          Featured Projects
-        </h3>
-        <p class="font-poppins text-purple-300/70 text-sm font-light">
-          Real production systems engineered with measurable business impact.
-        </p>
-      </div>
 
-      <!-- PROJECT 1: Card Left, Browser Right -->
-      <div class="relative grid grid-cols-1 lg:grid-cols-12 gap-8 items-center mb-28">
+      <!-- PROJECT 1: Card Left, Mockup Right -->
+      <div class="relative grid grid-cols-1 lg:grid-cols-12 gap-8 items-center mb-36">
         
-        <!-- Overlapping Glass Description Card (Left) -->
+        <!-- Overlapping Card Container (Left) -->
         <div class="lg:col-span-6 lg:z-20">
-          <div class="project-floating-card p-8 lg:-mr-12">
-            <span class="font-poppins text-xs font-semibold uppercase tracking-wider text-[#A261FF]">
-              Featured Project
-            </span>
-            <h4 class="font-poppins font-bold text-2xl text-white mt-1 mb-3">
-              Shopify / WooCommerce Sync Engine
-            </h4>
-            <p class="font-poppins text-sm text-slate-300 leading-relaxed font-light mb-5">
-              A resilient webhook-driven sync engine reconciling inventory and orders across 50,000+ SKUs in real-time with sub-second latency, Redis pub/sub queueing, and zero data drop.
+          <span class="font-poppins text-xs font-semibold uppercase tracking-wider text-[#9757D3]">
+            Featured Project
+          </span>
+          <h4 class="font-poppins font-bold text-3xl text-white mt-1 mb-4">
+            Example Project
+          </h4>
+
+          <!-- Overlapping Card -->
+          <div class="figma-project-card p-6 sm:p-8 lg:-mr-16">
+            <p class="font-poppins text-xs sm:text-sm text-white/90 leading-relaxed font-normal">
+              A web app for visualizing personalized Spotify data. View your top artists, top tracks, recently played tracks, and detailed audio information about each track. Create and save new playlists of recommended tracks based on your existing playlists and more.
             </p>
+          </div>
 
-            <!-- Tech Badges -->
-            <div class="flex flex-wrap gap-2 mb-6">
-              <span class="px-2.5 py-1 text-[11px] rounded-md bg-purple-950 border border-purple-800/50 text-purple-300 font-mono">Node.js</span>
-              <span class="px-2.5 py-1 text-[11px] rounded-md bg-purple-950 border border-purple-800/50 text-purple-300 font-mono">Redis</span>
-              <span class="px-2.5 py-1 text-[11px] rounded-md bg-purple-950 border border-purple-800/50 text-purple-300 font-mono">PostgreSQL</span>
-              <span class="px-2.5 py-1 text-[11px] rounded-md bg-purple-950 border border-purple-800/50 text-purple-300 font-mono">Webhooks</span>
-            </div>
-
-            <!-- Project Links -->
-            <div class="flex items-center gap-4 text-xs font-poppins">
-              <a href="https://github.com/jahanzaibahmad630-bit" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 text-purple-300 hover:text-white transition-colors">
-                <i data-lucide="github" class="w-4 h-4"></i>
-                <span>Repository</span>
-              </a>
-              <a href="#estimator" class="flex items-center gap-1.5 text-purple-300 hover:text-white transition-colors">
-                <i data-lucide="external-link" class="w-4 h-4"></i>
-                <span>Case Study</span>
-              </a>
-            </div>
+          <!-- Bottom Action Icons -->
+          <div class="flex items-center gap-3 mt-4">
+            <img src="assets/icon_click.png" alt="Action" class="w-5 h-5 opacity-90 hover:opacity-100 cursor-pointer" />
+            <img src="assets/icon_click.png" alt="Action" class="w-5 h-5 opacity-90 hover:opacity-100 cursor-pointer" />
           </div>
         </div>
 
-        <!-- Wireframe Browser Window (Right) -->
+        <!-- Browser Wireframe Frame (Right) -->
         <div class="lg:col-span-6 relative">
-          <div class="ambient-glow-circle right-0 top-1/2 -translate-y-1/2 opacity-70"></div>
-          <div class="project-frame-wrapper relative z-10">
-            <img src="assets/21_4.png" alt="Shopify Sync Engine Interface Architecture Mockup" class="w-full h-auto object-cover" />
+          <div class="ambient-glow-circle -right-10 top-1/2 -translate-y-1/2 opacity-70"></div>
+          <div class="figma-project-frame relative z-10">
+            <img src="assets/21_4.png" alt="Project Mockup" class="w-full h-auto object-cover" />
           </div>
         </div>
 
       </div>
 
-      <!-- PROJECT 2: Browser Left, Card Right (Alternating) -->
-      <div class="relative grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <!-- PROJECT 2: Mockup Left, Card Right (Alternating) -->
+      <div class="relative grid grid-cols-1 lg:grid-cols-12 gap-8 items-center mb-24">
         
-        <!-- Wireframe Browser Window (Left) -->
+        <!-- Browser Wireframe Frame (Left) -->
         <div class="order-2 lg:order-1 lg:col-span-6 relative">
-          <div class="ambient-glow-circle left-0 top-1/2 -translate-y-1/2 opacity-70"></div>
-          <div class="project-frame-wrapper relative z-10">
-            <img src="assets/21_21.png" alt="Anti-Detect Scraper Dashboard Architecture Mockup" class="w-full h-auto object-cover" />
+          <div class="ambient-glow-circle -left-10 top-1/2 -translate-y-1/2 opacity-70"></div>
+          <div class="figma-project-frame relative z-10">
+            <img src="assets/21_21.png" alt="Project Mockup" class="w-full h-auto object-cover" />
           </div>
         </div>
 
-        <!-- Overlapping Glass Description Card (Right) -->
-        <div class="order-1 lg:order-2 lg:col-span-6 lg:z-20">
-          <div class="project-floating-card p-8 lg:-ml-12">
-            <span class="font-poppins text-xs font-semibold uppercase tracking-wider text-[#A261FF]">
-              Featured Project
-            </span>
-            <h4 class="font-poppins font-bold text-2xl text-white mt-1 mb-3">
-              Anti-Detect Distributed Web Scraper
-            </h4>
-            <p class="font-poppins text-sm text-slate-300 leading-relaxed font-light mb-5">
-              Automated extraction cluster handling 100k+ daily pages with fingerprint evasion, dynamic residential proxy rotation, and automated validation pipelines.
+        <!-- Overlapping Card Container (Right) -->
+        <div class="order-1 lg:order-2 lg:col-span-6 lg:z-20 text-left lg:text-right">
+          <span class="font-poppins text-xs font-semibold uppercase tracking-wider text-[#9757D3]">
+            Featured Project
+          </span>
+          <h4 class="font-poppins font-bold text-3xl text-white mt-1 mb-4">
+            Example Project
+          </h4>
+
+          <!-- Overlapping Card -->
+          <div class="figma-project-card p-6 sm:p-8 lg:-ml-16 text-left">
+            <p class="font-poppins text-xs sm:text-sm text-white/90 leading-relaxed font-normal">
+              A web app for visualizing personalized Spotify data. View your top artists, top tracks, recently played tracks, and detailed audio information about each track. Create and save new playlists of recommended tracks based on your existing playlists and more.
             </p>
+          </div>
 
-            <!-- Tech Badges -->
-            <div class="flex flex-wrap gap-2 mb-6">
-              <span class="px-2.5 py-1 text-[11px] rounded-md bg-purple-950 border border-purple-800/50 text-purple-300 font-mono">Python</span>
-              <span class="px-2.5 py-1 text-[11px] rounded-md bg-purple-950 border border-purple-800/50 text-purple-300 font-mono">Playwright</span>
-              <span class="px-2.5 py-1 text-[11px] rounded-md bg-purple-950 border border-purple-800/50 text-purple-300 font-mono">Docker</span>
-              <span class="px-2.5 py-1 text-[11px] rounded-md bg-purple-950 border border-purple-800/50 text-purple-300 font-mono">BigQuery</span>
-            </div>
-
-            <!-- Project Links -->
-            <div class="flex items-center gap-4 text-xs font-poppins">
-              <a href="https://github.com/jahanzaibahmad630-bit" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 text-purple-300 hover:text-white transition-colors">
-                <i data-lucide="github" class="w-4 h-4"></i>
-                <span>Repository</span>
-              </a>
-              <a href="#estimator" class="flex items-center gap-1.5 text-purple-300 hover:text-white transition-colors">
-                <i data-lucide="external-link" class="w-4 h-4"></i>
-                <span>Case Study</span>
-              </a>
-            </div>
+          <!-- Bottom Action Icons -->
+          <div class="flex items-center gap-3 mt-4 justify-start lg:justify-end">
+            <img src="assets/icon_click.png" alt="Action" class="w-5 h-5 opacity-90 hover:opacity-100 cursor-pointer" />
+            <img src="assets/icon_click.png" alt="Action" class="w-5 h-5 opacity-90 hover:opacity-100 cursor-pointer" />
           </div>
         </div>
 
       </div>
 
     </section>
-    <!-- INTERACTIVE PROJECT ESTIMATOR SECTION (PURPLE COSMIC THEMED) -->
-    <section id="estimator" class="py-20 relative">
+
+    <!-- CONTACT SECTION (MATCHING FIGMA COMMUNITY FOOTER) -->
+    <section id="contact" class="pt-16 pb-28 border-t border-purple-950/40 relative">
       
-      <div class="max-w-4xl mx-auto glass-experience-card p-8 sm:p-10 border border-purple-800/40 relative z-10">
-        
-        <div class="text-center mb-8">
-          <span class="text-xs uppercase font-poppins font-semibold text-[#A261FF] tracking-wider">Transparent Scope &amp; Pricing</span>
-          <h3 class="font-preahvihear text-3xl sm:text-4xl text-white mt-1">Instant Project Estimator</h3>
-          <p class="font-poppins text-xs sm:text-sm text-purple-200/70 font-light mt-2 max-w-lg mx-auto">
-            Select your technical requirements to generate an immediate turnaround timeline and fixed cost estimate.
-          </p>
-        </div>
-
-        <form id="quote-form" class="space-y-6">
-          
-          <!-- Task Type Radio Cards -->
-          <div>
-            <label class="block text-xs font-poppins font-semibold uppercase text-purple-300 tracking-wider mb-3">
-              Select Primary Service
-            </label>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              <label class="cursor-pointer">
-                <input type="radio" name="task_type" value="bug" checked class="peer sr-only" />
-                <div class="p-3.5 rounded-xl bg-[#1d0d36] border border-purple-900/50 peer-checked:border-[#A261FF] peer-checked:bg-[#2e1354] peer-checked:shadow-lg peer-checked:shadow-purple-900/40 transition-all text-left">
-                  <div class="text-xs font-semibold text-white">Emergency Bug</div>
-                  <div class="text-[10px] text-purple-300/70 mt-1">From $50 • &lt; 2h</div>
-                </div>
-              </label>
-
-              <label class="cursor-pointer">
-                <input type="radio" name="task_type" value="scraper" class="peer sr-only" />
-                <div class="p-3.5 rounded-xl bg-[#1d0d36] border border-purple-900/50 peer-checked:border-[#A261FF] peer-checked:bg-[#2e1354] peer-checked:shadow-lg peer-checked:shadow-purple-900/40 transition-all text-left">
-                  <div class="text-xs font-semibold text-white">Web Scraper</div>
-                  <div class="text-[10px] text-purple-300/70 mt-1">From $85 • 2–4h</div>
-                </div>
-              </label>
-
-              <label class="cursor-pointer">
-                <input type="radio" name="task_type" value="api" class="peer sr-only" />
-                <div class="p-3.5 rounded-xl bg-[#1d0d36] border border-purple-900/50 peer-checked:border-[#A261FF] peer-checked:bg-[#2e1354] peer-checked:shadow-lg peer-checked:shadow-purple-900/40 transition-all text-left">
-                  <div class="text-xs font-semibold text-white">API Integration</div>
-                  <div class="text-[10px] text-purple-300/70 mt-1">From $120 • Same Day</div>
-                </div>
-              </label>
-
-              <label class="cursor-pointer">
-                <input type="radio" name="task_type" value="landing" class="peer sr-only" />
-                <div class="p-3.5 rounded-xl bg-[#1d0d36] border border-purple-900/50 peer-checked:border-[#A261FF] peer-checked:bg-[#2e1354] peer-checked:shadow-lg peer-checked:shadow-purple-900/40 transition-all text-left">
-                  <div class="text-xs font-semibold text-white">90+ Landing Page</div>
-                  <div class="text-[10px] text-purple-300/70 mt-1">From $250 • 24–48h</div>
-                </div>
-              </label>
-            </div>
-          </div>
-
-          <!-- Scope Range Slider -->
-          <div>
-            <div class="flex justify-between items-center mb-2">
-              <label class="text-xs font-poppins font-semibold uppercase text-purple-300 tracking-wider">
-                Complexity &amp; Scale
-              </label>
-              <span class="text-xs font-mono text-[#A261FF]">Tier: <span id="slider-val-display" class="font-bold">1</span></span>
-            </div>
-            <input type="range" name="scope_slider" min="1" max="4" value="1" class="w-full" />
-            <div class="flex justify-between text-[10px] text-slate-400 mt-1">
-              <span>Standard</span>
-              <span>Medium</span>
-              <span>Advanced</span>
-              <span>Enterprise</span>
-            </div>
-          </div>
-
-          <!-- Urgency & Addons -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-            
-            <!-- Urgency Selection -->
-            <div>
-              <label class="block text-xs font-poppins font-semibold uppercase text-purple-300 tracking-wider mb-2">
-                Urgency Level
-              </label>
-              <div class="flex gap-3">
-                <label class="flex-1 cursor-pointer">
-                  <input type="radio" name="urgency" value="standard" checked class="peer sr-only" />
-                  <div class="py-2 px-3 text-center rounded-lg bg-[#1d0d36] border border-purple-900/50 peer-checked:border-[#A261FF] peer-checked:bg-[#2e1354] text-xs font-medium text-slate-200">
-                    Standard Delivery
-                  </div>
-                </label>
-                <label class="flex-1 cursor-pointer">
-                  <input type="radio" name="urgency" value="urgent" class="peer sr-only" />
-                  <div class="py-2 px-3 text-center rounded-lg bg-[#1d0d36] border border-purple-900/50 peer-checked:border-[#A261FF] peer-checked:bg-[#2e1354] text-xs font-medium text-slate-200">
-                    🔥 Rush (&lt; 2h)
-                  </div>
-                </label>
-              </div>
-            </div>
-
-            <!-- Optional Add-ons -->
-            <div>
-              <label class="block text-xs font-poppins font-semibold uppercase text-purple-300 tracking-wider mb-2">
-                Included Guarantees
-              </label>
-              <div class="flex flex-col gap-1.5 text-xs text-slate-300">
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="addons" value="30" class="rounded bg-[#1d0d36] border-purple-800 text-purple-600 focus:ring-purple-500" />
-                  <span>Automated CI/CD / GitHub Actions setup (+$30)</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="addons" value="25" class="rounded bg-[#1d0d36] border-purple-800 text-purple-600 focus:ring-purple-500" />
-                  <span>Full Postman API Collection &amp; Docs (+$25)</span>
-                </label>
-              </div>
-            </div>
-
-          </div>
-
-          <!-- Price & Timeline Display Strip -->
-          <div class="pt-6 border-t border-purple-900/40 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div>
-              <div class="text-[11px] font-poppins uppercase tracking-wider text-purple-300/70">Estimated Total (Escrow)</div>
-              <div class="flex items-baseline gap-2">
-                <span id="est-price" class="text-3xl sm:text-4xl font-extrabold text-white font-poppins">$50</span>
-                <span class="text-xs text-purple-300/80">• Fixed milestone</span>
-              </div>
-              <div class="text-xs text-emerald-400 mt-0.5 flex items-center gap-1">
-                <i data-lucide="clock" class="w-3.5 h-3.5"></i>
-                <span>Turnaround: <strong id="est-time">1–2 Hours</strong></span>
-              </div>
-            </div>
-
-            <button id="copy-brief-btn" class="w-full sm:w-auto px-6 py-3 btn-purple-primary text-xs font-poppins uppercase tracking-wider flex items-center justify-center gap-2">
-              <i data-lucide="copy" class="w-4 h-4"></i>
-              <span>Copy Scope Brief</span>
-            </button>
-          </div>
-
-        </form>
-
-      </div>
-
-    </section>
-
-    <!-- CONTACT & FOOTER SECTION (MATCHING FIGMA COMMUNITY) -->
-    <section id="contact" class="py-20 border-t border-purple-900/30 relative">
-      
-      <div class="max-w-2xl mx-auto text-left">
-        <h3 class="font-preahvihear text-3xl sm:text-4xl text-white mb-4">
+      <div class="max-w-xl">
+        <h3 class="font-preahvihear text-3xl text-white mb-4">
           Contact
         </h3>
 
-        <p class="font-preahvihear text-sm sm:text-base text-slate-300 leading-relaxed mb-6 font-light">
-          I'm currently looking to collaborate on high-value client projects, emergency engineering contracts, or on-demand partnerships. Have a project in mind? Let's connect.
+        <p class="font-preahvihear text-sm sm:text-base text-white/80 leading-relaxed mb-6 font-light">
+          I'm currently looking to join a cross-functional team that values improving people's lives through accessible design. or have a project in mind? Let's connect.
         </p>
 
-        <!-- Prominent Email Address -->
-        <div class="mb-10">
-          <a href="mailto:jahanzaibahmad630@gmail.com" class="font-poppins font-semibold text-lg sm:text-xl text-[#A261FF] hover:text-white transition-colors underline decoration-purple-500/50 underline-offset-4">
+        <!-- Clickable Email -->
+        <div class="mb-8">
+          <a href="mailto:jahanzaibahmad630@gmail.com" class="font-preahvihear text-base sm:text-lg text-white underline decoration-purple-400 underline-offset-4 hover:text-purple-300 transition-colors">
             jahanzaibahmad630@gmail.com
           </a>
         </div>
 
-        <!-- Social Icons / Links -->
-        <div class="flex items-center gap-5 pt-4 border-t border-purple-950">
-          <a href="https://github.com/jahanzaibahmad630-bit" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-[#1c0c33] border border-purple-800/40 flex items-center justify-center text-purple-300 hover:text-white hover:border-[#A261FF] transition-all" aria-label="GitHub">
-            <i data-lucide="github" class="w-4 h-4"></i>
-          </a>
-          <a href="mailto:jahanzaibahmad630@gmail.com" class="w-10 h-10 rounded-full bg-[#1c0c33] border border-purple-800/40 flex items-center justify-center text-purple-300 hover:text-white hover:border-[#A261FF] transition-all" aria-label="Email">
-            <i data-lucide="mail" class="w-4 h-4"></i>
-          </a>
-          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-[#1c0c33] border border-purple-800/40 flex items-center justify-center text-purple-300 hover:text-white hover:border-[#A261FF] transition-all" aria-label="LinkedIn">
-            <i data-lucide="linkedin" class="w-4 h-4"></i>
-          </a>
-          <a href="https://upwork.com" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-[#1c0c33] border border-purple-800/40 flex items-center justify-center text-purple-300 hover:text-white hover:border-[#A261FF] transition-all" aria-label="Upwork">
-            <i data-lucide="briefcase" class="w-4 h-4"></i>
-          </a>
-        </div>
-
-        <!-- Copyright -->
-        <div class="mt-12 text-xs font-poppins text-purple-400/50">
-          &copy; 2026 Jahanzaib Ahmad. Engineered with precision &amp; speed. Designed from Figma Community.
+        <!-- Social Icons from Figma -->
+        <div class="pt-2">
+          <img src="assets/social_icons.png" alt="Social Links" class="h-6 w-auto object-contain opacity-85 hover:opacity-100 transition-opacity cursor-pointer" />
         </div>
 
       </div>
@@ -652,7 +348,7 @@
 
   </main>
 
-  <!-- EXPERIENCE DETAIL MODAL (POPUP ON LEARN MORE) -->
+  <!-- EXPERIENCE DETAIL MODAL -->
   <div id="experience-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
     <div class="bg-[#190B2D] border border-purple-700/50 rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative">
       <button id="modal-close-btn" class="absolute top-5 right-5 p-2 rounded-full bg-purple-950 text-slate-300 hover:text-white hover:bg-purple-900 transition-colors" aria-label="Close modal">
@@ -677,12 +373,9 @@
         </ul>
       </div>
 
-      <div class="pt-4 border-t border-purple-900/40 flex items-center justify-between">
-        <a href="#estimator" onclick="document.getElementById('modal-close-btn').click();" class="text-xs font-poppins text-purple-300 hover:text-white underline">
-          Estimate this service &rarr;
-        </a>
-        <a href="mailto:jahanzaibahmad630@gmail.com?subject=Inquiry" class="px-4 py-2 btn-purple-primary text-xs uppercase tracking-wider">
-          Book Now
+      <div class="pt-4 border-t border-purple-900/40 flex items-center justify-end">
+        <a href="mailto:jahanzaibahmad630@gmail.com?subject=Inquiry" class="px-5 py-2.5 bg-gradient-to-r from-[#7127BA] to-[#9757D3] text-white rounded-full font-poppins text-xs font-semibold uppercase tracking-wider hover:opacity-90 transition-opacity">
+          Get in Touch
         </a>
       </div>
     </div>
