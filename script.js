@@ -1,36 +1,87 @@
-// Jahanzaib.dev — Client-Side Interaction Engine
+// Jahanzaib.dev — Studio Production Engine
 document.addEventListener('DOMContentLoaded', () => {
   if (window.lucide) {
     window.lucide.createIcons();
   }
+  initConsoleSimulator();
   initCalculator();
   initFaqAccordion();
   initCopyActions();
 });
 
-// 1. DYNAMIC TURNAROUND & COST ESTIMATOR
+// 1. CONSOLE SIMULATOR
+function initConsoleSimulator() {
+  const rerunBtn = document.getElementById('console-rerun-btn');
+  const stream = document.getElementById('console-stream');
+
+  if (!rerunBtn || !stream) return;
+
+  const logs = [
+    { text: '> ANALYZING PRODUCTION CRASH ON TARGET: checkout.bundle.js', class: 'text-studio-muted', delay: 100 },
+    { text: 'EXCEPTION DETECTED: Modal viewport height overflow blocking touch event', class: 'text-rose-400 flex items-center gap-2', icon: 'alert-circle', delay: 400 },
+    { text: '> INITIATING PATCH SEQUENCE...', class: 'text-studio-muted', delay: 800 },
+    { text: '+ Resolved CSS stacking context conflict\n+ Added native -webkit-overflow-scrolling momentum listener\n+ Verified 0% regression on mobile Safari & Chrome', class: 'text-white pl-4 border-l border-white/20', delay: 1200 },
+    { text: 'SUCCESS: 18/18 TEST SUITES GREEN (42ms) • READY FOR ESCROW RELEASE', class: 'text-studio-accent font-semibold flex items-center gap-2 pt-2', icon: 'check-circle-2', delay: 1800 }
+  ];
+
+  function runSimulation() {
+    stream.innerHTML = '';
+    rerunBtn.disabled = true;
+    rerunBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+    logs.forEach(step => {
+      setTimeout(() => {
+        const div = document.createElement('div');
+        div.className = step.class;
+
+        if (step.icon) {
+          const icon = document.createElement('i');
+          icon.setAttribute('data-lucide', step.icon);
+          icon.className = 'w-3.5 h-3.5';
+          div.appendChild(icon);
+        }
+
+        const span = document.createElement('span');
+        span.innerText = step.text;
+        div.appendChild(span);
+
+        stream.appendChild(div);
+        if (window.lucide) window.lucide.createIcons();
+      }, step.delay);
+    });
+
+    setTimeout(() => {
+      rerunBtn.disabled = false;
+      rerunBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+    }, 2200);
+  }
+
+  rerunBtn.addEventListener('click', runSimulation);
+}
+
+// 2. STUDIO PROJECT ESTIMATOR
 const PRICING_CONFIG = {
   bug: {
     basePrice: 45,
-    name: 'Emergency Bug Fix',
+    name: 'Emergency Bug Remediation',
     time: '1–2 Hours',
     rushTime: 'Under 45 Mins'
   },
   scraper: {
     basePrice: 75,
-    name: 'Web Scraper & Lead Extraction',
+    name: 'Web Scraper & Lead Extraction Pipeline',
     time: '2–4 Hours',
     rushTime: 'Under 90 Mins'
   },
   api: {
     basePrice: 110,
-    name: 'API & Webhook Integration',
+    name: 'API & Webhook Architecture Integration',
     time: 'Same Day (4–6 Hours)',
     rushTime: 'Under 2 Hours'
   },
   landing: {
     basePrice: 220,
-    name: '90+ High-Performance Landing Page',
+    name: '90+ High-Performance Landing Page Architecture',
     time: '24–48 Hours',
     rushTime: 'Under 12 Hours'
   }
@@ -70,21 +121,21 @@ function initCalculator() {
       const finalPrice = isRush ? taskData.basePrice + 25 : taskData.basePrice;
       const finalTime = isRush ? taskData.rushTime : taskData.time;
 
-      const briefText = `Hi Jahanzaib, I have an inquiry via your portfolio:
-- Task: ${taskData.name}
-- Priority: ${isRush ? 'EMERGENCY RUSH' : 'Standard'}
+      const briefText = `Hi Jahanzaib, I have a project inquiry from your studio portfolio:
+- Scope: ${taskData.name}
+- Priority: ${isRush ? 'EMERGENCY RUSH' : 'Standard Delivery'}
 - Target Investment: ~$${finalPrice}
-- Expected SLA: ${finalTime}
+- Guaranteed SLA: ${finalTime}
 
-Details of my issue / scope:
-[Paste error log, website URL, or project requirements here]`;
+Details of my task / error log:
+[Paste error log, website URL, or task description here]`;
 
-      copyToClipboard(briefText, 'Inquiry Brief Copied!', 'Paste it directly into Upwork or Email to get started.');
+      copyToClipboard(briefText, 'Production Brief Copied!', 'Paste directly into Upwork or Email to begin.');
     });
   }
 }
 
-// 2. ACCESSIBLE FAQ ACCORDION (WCAG 2.1 AA)
+// 3. ACCESSIBLE ACCORDION
 function initFaqAccordion() {
   const faqItems = document.querySelectorAll('.faq-item');
 
@@ -129,11 +180,10 @@ function initFaqAccordion() {
   });
 }
 
-// 3. CLIPBOARD & TOAST SYSTEM
+// 4. CLIPBOARD SYSTEM
 function initCopyActions() {
   const emailText = 'jahanzaibahmad630@gmail.com';
   const copyBtn = document.getElementById('copy-email-btn');
-  const copyHeaderBtn = document.getElementById('copy-email-header-btn');
 
   if (copyBtn) {
     copyBtn.addEventListener('click', () => {
@@ -146,12 +196,6 @@ function initCopyActions() {
           textLabel.innerHTML = original;
         }, 2500);
       }
-    });
-  }
-
-  if (copyHeaderBtn) {
-    copyHeaderBtn.addEventListener('click', () => {
-      copyToClipboard(emailText, 'Email Address Copied!', emailText);
     });
   }
 }
