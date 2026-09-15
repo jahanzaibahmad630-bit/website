@@ -1,0 +1,54 @@
+/* Custom Styles for Jahanzaib Ahmad Portfolio */
+
+/* Background Grid Pattern */
+.bg-grid-pattern {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* Custom Sleek Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #090a0f;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1f2438;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2e3654;
+}
+
+/* Card Glow Micro-effects */
+.bg-dark-card {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bg-dark-card:hover {
+  box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.08);
+}
+
+/* FAQ Accordion Transitions */
+.faq-answer {
+  transition: max-height 0.25s ease-out, opacity 0.25s ease-out;
+}
+
+/* Input / Radio transition effects */
+.task-radio-label input:checked + div {
+  box-shadow: 0 0 20px -5px rgba(16, 185, 129, 0.25);
+}
+
+/* Glassmorphism subtle borders */
+.glass-border {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Subtle code styling */
+code {
+  font-family: 'JetBrains Mono', monospace;
+}
