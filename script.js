@@ -1,9 +1,8 @@
 ﻿// ==========================================================================
-// Jahanzaib Ahmad — Figma Cosmic Purple Portfolio Interactive Engine
+// Jahanzaib Ahmad — Full-Stack Web Developer Interactive Engine
 // ==========================================================================
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Initialize Lucide Icons
   if (window.lucide) {
     window.lucide.createIcons();
   }
@@ -21,16 +20,17 @@ function initTypewriter() {
   if (!element) return;
 
   const phrases = [
-    "I'm a Software Engineer.",
-    "I'm a Full-Stack Problem Solver.",
-    "I'm an On-Demand Tech Partner.",
-    "I ship production code in hours."
+    "I'm a Full-Stack Web Developer.",
+    "I fix production crashes in < 2h.",
+    "I build resilient web scrapers.",
+    "I engineer scalable backend APIs.",
+    "I ship 90+ PageSpeed web apps."
   ];
 
   let phraseIndex = 0;
   let charIndex = 0;
   let isDeleting = false;
-  let typingSpeed = 90;
+  let typingSpeed = 85;
 
   function type() {
     const currentPhrase = phrases[phraseIndex];
@@ -38,20 +38,20 @@ function initTypewriter() {
     if (isDeleting) {
       charIndex--;
       element.textContent = currentPhrase.substring(0, charIndex);
-      typingSpeed = 45;
+      typingSpeed = 40;
     } else {
       charIndex++;
       element.textContent = currentPhrase.substring(0, charIndex);
-      typingSpeed = 85;
+      typingSpeed = 80;
     }
 
     if (!isDeleting && charIndex === currentPhrase.length) {
       isDeleting = true;
-      typingSpeed = 2200; // Pause at end of phrase
+      typingSpeed = 2200; // Pause when complete
     } else if (isDeleting && charIndex === 0) {
       isDeleting = false;
       phraseIndex = (phraseIndex + 1) % phrases.length;
-      typingSpeed = 400; // Pause before typing next
+      typingSpeed = 400; // Pause before typing next phrase
     }
 
     setTimeout(type, typingSpeed);
@@ -60,7 +60,7 @@ function initTypewriter() {
   type();
 }
 
-// 2. INTERACTIVE ESTIMATOR
+// 2. PROJECT COST & SCOPE ESTIMATOR
 const PRICING_CONFIG = {
   bug: {
     basePrice: 50,
@@ -70,7 +70,7 @@ const PRICING_CONFIG = {
   },
   scraper: {
     basePrice: 85,
-    name: 'Web Scraper & Lead Extraction Pipeline',
+    name: 'Web Scraper & Data Pipeline',
     time: '2–4 Hours',
     rushTime: 'Under 90 Mins'
   },
@@ -82,7 +82,7 @@ const PRICING_CONFIG = {
   },
   landing: {
     basePrice: 250,
-    name: '90+ High-Performance Landing Page Architecture',
+    name: '90+ High-Performance Web Application',
     time: '24–48 Hours',
     rushTime: 'Under 12 Hours'
   }
@@ -104,15 +104,15 @@ function initCalculator() {
     const config = PRICING_CONFIG[selectedTask] || PRICING_CONFIG.bug;
     let base = config.basePrice;
 
-    // Scope multiplier
+    // Scope scaling
     if (selectedTask === 'landing') {
-      base = base + (scopeVal - 1) * 80;
+      base += (scopeVal - 1) * 80;
     } else if (selectedTask === 'scraper') {
-      base = base + (scopeVal - 1) * 25;
+      base += (scopeVal - 1) * 30;
     } else if (selectedTask === 'api') {
-      base = base + (scopeVal - 1) * 35;
+      base += (scopeVal - 1) * 40;
     } else if (selectedTask === 'bug') {
-      base = base + (scopeVal - 1) * 30;
+      base += (scopeVal - 1) * 25;
     }
 
     // Addons
@@ -133,7 +133,8 @@ function initCalculator() {
 
     const sliderValDisplay = document.getElementById('slider-val-display');
     if (sliderValDisplay) {
-      sliderValDisplay.textContent = scopeVal;
+      const tierLabels = ['1 (Basic)', '2 (Standard)', '3 (Complex)', '4 (Enterprise)'];
+      sliderValDisplay.textContent = tierLabels[scopeVal - 1] || scopeVal;
     }
   }
 
@@ -155,22 +156,22 @@ function initCalculator() {
 Service: ${config.name}
 Urgency Level: ${urgency.toUpperCase()}
 Estimated Turnaround: ${time}
-Estimated Cost: ${price}
+Estimated Milestone: ${price}
 Contact: jahanzaibahmad630@gmail.com
 GitHub: https://github.com/jahanzaibahmad630-bit
 ----------------------------------------
-Please confirm availability for immediate kickoff under escrow protection.`;
+Please confirm project commencement under escrow protection.`;
 
       navigator.clipboard.writeText(briefText).then(() => {
         const originalHtml = copyBtn.innerHTML;
-        copyBtn.innerHTML = `<i data-lucide="check" class="w-4 h-4 text-emerald-400"></i><span class="text-emerald-400">Brief Copied to Clipboard!</span>`;
+        copyBtn.innerHTML = `<i data-lucide="check" class="w-4 h-4 text-emerald-400"></i><span class="text-emerald-400">Copied to Clipboard!</span>`;
         if (window.lucide) window.lucide.createIcons();
         setTimeout(() => {
           copyBtn.innerHTML = originalHtml;
           if (window.lucide) window.lucide.createIcons();
         }, 3000);
       }).catch(err => {
-        console.error('Failed to copy text: ', err);
+        console.error('Failed to copy brief: ', err);
       });
     });
   }
@@ -189,42 +190,42 @@ function initExperienceModals() {
   const experienceData = {
     bug: {
       title: "Emergency Bug Remediation (< 2 Hours)",
-      desc: "Instant live triage for mission-critical crashes, broken checkout workflows, Next.js / React hydration mismatches, and database lockouts.",
+      desc: "Live surgical triage for mission-critical production incidents, broken checkout funnels, Next.js hydration failures, and high-concurrency database lockouts.",
       deliverables: [
-        "Root-cause diagnostic within 30 minutes of repository access",
-        "Clean, surgical hotfix commit verified in isolated staging",
-        "Zero regression testing across responsive viewport matrix",
-        "100% Escrow release guarantee only upon verified production resolution"
+        "Root-cause diagnostic provided within 20 minutes of code access",
+        "Clean, surgical hotfix commit tested on isolated staging",
+        "Zero-regression testing across desktop and mobile Safari/Chrome",
+        "100% Escrow milestone release upon verified production delivery"
       ]
     },
     scraper: {
       title: "Web Scraping & Resilient Data Pipelines",
-      desc: "Industrial extraction infrastructure designed to reliably pull high-volume datasets without getting rate-limited, blocked, or challenged by Cloudflare / Datadome.",
+      desc: "Industrial extraction infrastructure designed to pull high-volume datasets without getting rate-limited, blocked, or challenged by anti-bot systems.",
       deliverables: [
         "Headless browser cluster orchestration (Playwright / Puppeteer)",
         "Fingerprint cloaking, TLS spoofing, and dynamic residential proxy rotation",
-        "Automated schema validation and export to PostgreSQL / BigQuery / CSV",
-        "Idempotent cron runners with automatic failure alerts"
+        "Automated schema validation and export to PostgreSQL, BigQuery, or CSV",
+        "Cron job automation with failure recovery alerts"
       ]
     },
     api: {
       title: "Custom API & Webhook Architecture Integrations",
-      desc: "Robust event-driven backends, webhook receivers, and third-party SaaS integrations built for zero message loss and seamless reconciliation.",
+      desc: "Event-driven backends, webhook receivers, and third-party SaaS synchronizations built for zero message drop and idempotent execution.",
       deliverables: [
-        "Stripe, PayPal, Shopify, HubSpot, and CRM bidirectional synchronizers",
+        "Stripe, PayPal, Shopify, and CRM bidirectional synchronizers",
         "HMAC signature validation and replay-attack security guards",
-        "Redis-backed asynchronous queueing for high-throughput traffic spikes",
-        "Full unit test suites with mocked API failure recovery"
+        "Redis-backed asynchronous queueing for sudden traffic spikes",
+        "Full unit & integration test suites with mocked API edge cases"
       ]
     },
     landing: {
-      title: "90+ High-Performance Landing Page Architecture",
-      desc: "Speed-first, highly persuasive landing page design and code engineered for sub-second LCP, zero layout shift (CLS), and maximum conversion rate.",
+      title: "90+ High-Performance Web Applications",
+      desc: "Speed-first web development engineered for sub-second LCP, zero layout shifts, WCAG AA accessibility, and maximum user conversion.",
       deliverables: [
         "90+ Google PageSpeed mobile and desktop compliance guarantee",
-        "Flawless responsive layouts adapted from Figma designs",
-        "Semantic HTML5, WCAG 2.1 AA accessibility, and rich JSON-LD schema",
-        "Sub-second asset loading with edge caching and modern WebP formats"
+        "Pixel-perfect responsive layout translation from Figma designs",
+        "Semantic HTML5, WCAG 2.1 AA accessibility, and schema markup",
+        "Optimized asset loading with edge caching and modern WebP formats"
       ]
     }
   };
@@ -239,8 +240,8 @@ function initExperienceModals() {
       modalTitle.textContent = data.title;
       modalDesc.textContent = data.desc;
       modalDeliverables.innerHTML = data.deliverables.map(item => `
-        <li class="flex items-start gap-2 text-sm text-slate-200">
-          <i data-lucide="check-circle-2" class="w-4 h-4 text-purple-400 shrink-0 mt-0.5"></i>
+        <li class="flex items-start gap-2 text-xs sm:text-sm text-slate-200">
+          <i data-lucide="check-circle-2" class="w-4 h-4 text-[#A261FF] shrink-0 mt-0.5"></i>
           <span>${item}</span>
         </li>
       `).join('');
