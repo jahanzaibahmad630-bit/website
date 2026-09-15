@@ -1,54 +1,139 @@
-/* Custom Styles for Jahanzaib Ahmad Portfolio */
+/* Modern Obsidian Design System Styles — Jahanzaib.dev */
 
-/* Background Grid Pattern */
-.bg-grid-pattern {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px);
-  background-size: 32px 32px;
+:root {
+  --bg-canvas: #07080b;
+  --bg-surface-1: #0e1017;
+  --bg-surface-2: #151824;
+  --bg-surface-3: #1d2233;
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --border-bright: rgba(255, 255, 255, 0.16);
+  --accent-emerald: #10b981;
+  --accent-cyan: #06b6d4;
+  --accent-indigo: #6366f1;
+  --accent-amber: #f59e0b;
+  --text-primary: #f8fafc;
+  --text-muted: #94a3b8;
 }
 
-/* Custom Sleek Scrollbar */
+/* Background Grid Pattern with Radial Fade */
+.bg-radial-grid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse 60% 50% at 50% 0%, #000 70%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 60% 50% at 50% 0%, #000 70%, transparent 100%);
+}
+
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
-
 ::-webkit-scrollbar-track {
-  background: #090a0f;
+  background: #07080b;
 }
-
 ::-webkit-scrollbar-thumb {
-  background: #1f2438;
+  background: #1e2438;
   border-radius: 4px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: #2e3654;
+  background: #2f3754;
 }
 
-/* Card Glow Micro-effects */
-.bg-dark-card {
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.bg-dark-card:hover {
-  box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.08);
-}
-
-/* FAQ Accordion Transitions */
-.faq-answer {
-  transition: max-height 0.25s ease-out, opacity 0.25s ease-out;
-}
-
-/* Input / Radio transition effects */
-.task-radio-label input:checked + div {
-  box-shadow: 0 0 20px -5px rgba(16, 185, 129, 0.25);
-}
-
-/* Glassmorphism subtle borders */
-.glass-border {
+/* Glassmorphism & Elevation */
+.glass-panel {
+  background: rgba(14, 16, 23, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* Subtle code styling */
-code {
+.glass-pill {
+  background: rgba(14, 16, 23, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+}
+
+/* Bento Card Hover Micro-Glow */
+.bento-card {
+  position: relative;
+  background: #0e1017;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.25rem;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+  overflow: hidden;
+}
+
+.bento-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent 40%, rgba(16, 185, 129, 0.15));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.bento-card:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 16px 36px -12px rgba(16, 185, 129, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Terminal Simulator Styles */
+.terminal-window {
+  background: #0b0d13;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 1rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px -10px rgba(16, 185, 129, 0.15);
+}
+
+.terminal-line {
   font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+/* Code Diff Highlighting */
+.diff-code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  line-height: 1.6;
+}
+
+.diff-del {
+  background: rgba(244, 63, 94, 0.15);
+  color: #fda4af;
+  border-left: 2px solid #f43f5e;
+  padding-left: 0.5rem;
+  display: block;
+}
+
+.diff-add {
+  background: rgba(16, 185, 129, 0.15);
+  color: #6ee7b7;
+  border-left: 2px solid #10b981;
+  padding-left: 0.5rem;
+  display: block;
+}
+
+/* Focus Rings (WCAG 2.1 AA) */
+a:focus-visible, button:focus-visible, input:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px #07080b, 0 0 0 4px #10b981;
+}
+
+/* Smooth Accordion */
+.faq-answer {
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+
+/* Radio button active glow */
+input[type="radio"]:checked + div {
+  border-color: #10b981 !important;
+  background: rgba(16, 185, 129, 0.08) !important;
+  box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.25);
 }
