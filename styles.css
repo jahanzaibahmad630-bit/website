@@ -1,4 +1,4 @@
-﻿/* ==========================================================================
+/* ==========================================================================
    Jahanzaib Ahmad — Full-Stack Web Developer Portfolio
    Theme: Figma Cosmic Deep Purple & Neon Violet Glassmorphism
    Typography: Preahvihear (Display/Headings), Poppins (Body/Cards), Plus Jakarta Sans (Nav/UI)
@@ -232,3 +232,40 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   outline: 2px solid var(--purple-vibrant);
   outline-offset: 3px;
 }
+
+/* AI Chatbot Window & Dock */
+.ai-chat-window {
+  width: 380px;
+  max-width: calc(100vw - 2rem);
+  height: 530px;
+  max-height: calc(100vh - 6rem);
+  background: rgba(21, 10, 40, 0.96);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(162, 97, 255, 0.35);
+  border-radius: 1.25rem;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9), 0 0 35px rgba(113, 39, 186, 0.4);
+}
+
+.ai-chat-messages::-webkit-scrollbar {
+  width: 5px;
+}
+.ai-chat-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+.ai-chat-messages::-webkit-scrollbar-thumb {
+  background: rgba(162, 97, 255, 0.3);
+  border-radius: 3px;
+}
+.ai-chat-messages::-webkit-scrollbar-thumb:hover {
+  background: rgba(162, 97, 255, 0.6);
+}
+
+.ai-chat-chips::-webkit-scrollbar {
+  height: 4px;
+}
+.ai-chat-chips::-webkit-scrollbar-thumb {
+  background: rgba(162, 97, 255, 0.3);
+  border-radius: 2px;
+}
+

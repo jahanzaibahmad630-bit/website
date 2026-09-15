@@ -730,22 +730,102 @@
     </div>
   </div>
 
-  <!-- FLOATING WHATSAPP BUTTON -->
-  <a href="https://wa.me/923187635856?text=Hi%20Jahanzaib,%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener noreferrer" class="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-4 py-3 rounded-full bg-[#25D366] text-white shadow-xl shadow-emerald-950/60 hover:bg-[#20ba5a] hover:scale-105 active:scale-95 transition-all duration-300 group border border-white/20" aria-label="Chat directly on WhatsApp Business">
-    <div class="relative flex items-center justify-center">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-        <path d="M12.004 2c-5.523 0-10 4.477-10 10 0 1.768.46 3.488 1.334 5.008L2 22l5.127-1.314c1.472.802 3.136 1.233 4.877 1.233 5.523 0 10-4.477 10-10s-4.477-10-10-10zm5.82 14.195c-.242.684-1.206 1.25-1.69 1.295-.445.041-.994.074-3.13-.808-2.56-1.055-4.22-3.66-4.348-3.832-.128-.172-1.042-1.385-1.042-2.64 0-1.255.656-1.874.888-2.129.232-.255.508-.318.677-.318.169 0 .339 0 .487.009.158.008.37-.06.578.438.216.516.74 1.803.805 1.934.065.132.109.287.022.459-.087.172-.131.28-.261.432-.13.152-.274.34-.391.457-.13.13-.266.27-.114.53.152.26.674 1.11 1.446 1.797.994.884 1.832 1.158 2.093 1.288.261.13.413.109.565-.065.152-.174.652-.76.826-1.02.174-.261.348-.217.587-.13.239.087 1.52.717 1.781.848.261.13.435.195.5.304.065.109.065.63-.177 1.314z"/>
-      </svg>
-      <span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-white animate-ping"></span>
-      <span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-white"></span>
+  <!-- FLOATING ACTION DOCK (WHATSAPP + AI ASSISTANT) -->
+  <div class="fixed bottom-6 right-6 z-40 flex items-center gap-3">
+    
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/923187635856?text=Hi%20Jahanzaib,%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-3.5 py-2.5 rounded-full bg-[#25D366] text-white shadow-xl shadow-emerald-950/60 hover:bg-[#20ba5a] hover:scale-105 active:scale-95 transition-all duration-300 group border border-white/20" aria-label="Chat directly on WhatsApp Business">
+      <div class="relative flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+          <path d="M12.004 2c-5.523 0-10 4.477-10 10 0 1.768.46 3.488 1.334 5.008L2 22l5.127-1.314c1.472.802 3.136 1.233 4.877 1.233 5.523 0 10-4.477 10-10s-4.477-10-10-10zm5.82 14.195c-.242.684-1.206 1.25-1.69 1.295-.445.041-.994.074-3.13-.808-2.56-1.055-4.22-3.66-4.348-3.832-.128-.172-1.042-1.385-1.042-2.64 0-1.255.656-1.874.888-2.129.232-.255.508-.318.677-.318.169 0 .339 0 .487.009.158.008.37-.06.578.438.216.516.74 1.803.805 1.934.065.132.109.287.022.459-.087.172-.131.28-.261.432-.13.152-.274.34-.391.457-.13.13-.266.27-.114.53.152.26.674 1.11 1.446 1.797.994.884 1.832 1.158 2.093 1.288.261.13.413.109.565-.065.152-.174.652-.76.826-1.02.174-.261.348-.217.587-.13.239.087 1.52.717 1.781.848.261.13.435.195.5.304.065.109.065.63-.177 1.314z"/>
+        </svg>
+        <span class="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-white animate-ping"></span>
+        <span class="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-white"></span>
+      </div>
+      <span class="hidden sm:inline text-xs font-poppins font-bold tracking-wide">WhatsApp</span>
+    </a>
+
+    <!-- AI Assistant Launcher Button -->
+    <button id="ai-chat-launcher" type="button" class="flex items-center gap-2 px-4 py-2.5 rounded-full bg-gradient-to-r from-[#7127BA] to-[#9757D3] text-white shadow-xl shadow-purple-950/70 hover:from-[#822ecf] hover:to-[#a466f5] hover:scale-105 active:scale-95 transition-all duration-300 border border-purple-400/40 group" aria-label="Open AI Assistant Chat">
+      <div class="relative flex items-center justify-center">
+        <i data-lucide="sparkles" class="w-5 h-5 text-purple-200 group-hover:rotate-12 transition-transform"></i>
+        <span class="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      </div>
+      <span class="text-xs font-poppins font-bold tracking-wide">Ask AI</span>
+    </button>
+
+  </div>
+
+  <!-- AI ASSISTANT CHAT MODAL -->
+  <div id="ai-chat-modal" class="fixed bottom-6 right-6 z-50 hidden flex-col ai-chat-window overflow-hidden">
+    
+    <!-- Chat Header -->
+    <div class="px-5 py-3.5 bg-[#1a0c33]/90 border-b border-purple-800/40 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="relative w-9 h-9 rounded-xl bg-gradient-to-br from-[#7127BA] to-[#9757D3] flex items-center justify-center text-white shadow-md">
+          <i data-lucide="bot" class="w-5 h-5"></i>
+          <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 ring-2 ring-[#1a0c33]"></span>
+        </div>
+        <div>
+          <h4 class="font-poppins font-bold text-sm text-white flex items-center gap-1.5">
+            <span>Jahanzaib AI</span>
+            <span class="text-[9px] px-1.5 py-0.5 rounded bg-purple-900/60 text-purple-300 border border-purple-700/40 font-mono">ONLINE</span>
+          </h4>
+          <p class="text-[10px] text-purple-300/70 font-light">Trained on technical skills, rates &amp; SLAs</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-1">
+        <button id="ai-chat-reset" type="button" class="p-1.5 rounded-lg text-purple-300 hover:text-white hover:bg-purple-900/40 transition-colors" title="Reset Chat">
+          <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+        </button>
+        <button id="ai-chat-close" type="button" class="p-1.5 rounded-lg text-purple-300 hover:text-white hover:bg-purple-900/40 transition-colors" title="Close Chat">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
     </div>
-    <div class="flex flex-col text-left">
-      <span class="text-[10px] uppercase font-poppins font-semibold text-emerald-100 tracking-wider">Chat Online</span>
-      <span class="text-xs font-poppins font-bold tracking-wide">WhatsApp</span>
+
+    <!-- Chat Message Log -->
+    <div id="ai-chat-messages" class="flex-1 p-4 overflow-y-auto space-y-3 ai-chat-messages text-xs sm:text-sm">
+      <div class="flex items-start gap-2.5 max-w-[90%] text-left">
+        <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-[#7127BA] to-[#9757D3] flex items-center justify-center text-white shrink-0 mt-0.5 shadow-md">
+          <i data-lucide="bot" class="w-4 h-4"></i>
+        </div>
+        <div class="p-3.5 rounded-2xl rounded-tl-none bg-[#24123d] border border-purple-800/40 text-xs sm:text-sm text-slate-100 leading-relaxed shadow-lg">
+          Hello! 👋 I'm <strong>Jahanzaib's AI Technical Assistant</strong>. Ask me anything about Jahanzaib's full-stack services, rates, emergency bug fixes, or tech stack!
+        </div>
+      </div>
     </div>
-  </a>
+
+    <!-- Quick Question Chips -->
+    <div class="px-3 py-2 border-t border-purple-900/40 bg-[#160a2c]/60 overflow-x-auto flex items-center gap-2 ai-chat-chips">
+      <div id="ai-chat-suggestions" class="flex items-center gap-2 shrink-0">
+        <!-- Injected via chatbot.js -->
+      </div>
+    </div>
+
+    <!-- Chat Input Form -->
+    <form id="ai-chat-form" class="p-3 bg-[#180b30] border-t border-purple-800/40 flex items-center gap-2">
+      <input 
+        id="ai-chat-input" 
+        type="text" 
+        autocomplete="off"
+        placeholder="Ask about bug turnaround, rates, skills..." 
+        class="flex-1 px-3.5 py-2.5 rounded-xl bg-[#23113d] border border-purple-800/50 text-xs sm:text-sm text-white placeholder-purple-300/40 focus:outline-none focus:border-[#A261FF] transition-colors"
+      />
+      <button 
+        type="submit" 
+        class="p-2.5 rounded-xl bg-gradient-to-br from-[#7127BA] to-[#9757D3] text-white hover:opacity-90 active:scale-95 transition-all flex items-center justify-center shrink-0 shadow-md"
+        aria-label="Send Message"
+      >
+        <i data-lucide="send" class="w-4 h-4"></i>
+      </button>
+    </form>
+
+  </div>
 
   <!-- Interactive JavaScript Engine -->
   <script src="script.js"></script>
+  <script src="chatbot.js"></script>
 </body>
 </html>
