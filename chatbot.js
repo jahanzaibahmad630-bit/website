@@ -1,68 +1,142 @@
 ﻿// ==========================================================================
-// Jahanzaib Ahmad — Portfolio AI Assistant Engine
-// Trained on Jahanzaib Ahmad's Full-Stack Engineering Knowledge Base
+// Jahanzaib Ahmad — Autonomous AI Technical Agent (Agent-JA v2.5)
+// Real-time Reasoning, Tool Execution, Autonomous Navigation & Diagnosis
 // ==========================================================================
 
 (function() {
   const KNOWLEDGE_BASE = [
     {
       keywords: ['who', 'about', 'jahanzaib', 'background', 'bio', 'developer', 'experience', 'years'],
-      reply: "I'm **Jahanzaib Ahmad**, a Senior Full-Stack Web Developer and on-demand engineering partner with **4+ years of hands-on experience**. I specialize in **emergency production bug fixes (< 2h turnaround)**, **anti-detect web scrapers**, **scalable APIs**, and **90+ PageSpeed web apps**.",
-      suggestions: ["What are your rates?", "How fast can you fix a bug?", "What stacks do you use?"]
+      thought: "Analyzing developer identity and credentials query...",
+      action: "query_database('developer_profile')",
+      reply: "I am **Jahanzaib Ahmad**, a Senior Full-Stack Software Engineer and on-demand technical partner with **4+ years of hands-on experience**.\n\n• **Specialization**: Rapid emergency hotfixes (< 2h turnaround), anti-detect web scrapers, high-throughput APIs, and 90+ PageSpeed web apps.\n• **Reliability**: 100% Escrow milestone protected, zero risk to clients.\n• **Status**: Currently accepting new client contracts & emergency tasks.",
+      suggestions: ["⚡ Emergency Bug Remediation", "💰 Calculate Project Cost", "🛠️ Technical Stack", "📱 Open WhatsApp"],
+      actions: [
+        { label: "📱 Chat on WhatsApp", url: "https://wa.me/923187635856?text=Hi%20Jahanzaib,%20I%20would%20like%20to%20discuss%20a%20full-stack%20project.", primary: true },
+        { label: "🚀 View Case Studies", scrollTo: "#projects" }
+      ]
     },
     {
-      keywords: ['bug', 'emergency', 'crash', 'fix', 'hotfix', 'broken', 'error', 'urgent', 'speed', 'fast', 'turnaround', 'sla', 'response'],
-      reply: "⚡ **Emergency Bug Remediation (< 2h Turnaround)**:\nI provide rapid live triage for production crashes, Next.js hydration failures, checkout flow dropoffs, and database lockouts.\n• **SLA**: Initial diagnostic within 15–20 minutes.\n• **Turnaround**: 1–2 hours for critical fixes.\n• **Guarantee**: 100% Escrow milestone release upon verified resolution.",
-      suggestions: ["What do you charge for a bug fix?", "Can we talk on WhatsApp?", "What stacks do you support?"]
+      keywords: ['bug', 'crash', 'hotfix', 'emergency', 'broken', 'error', 'urgent', 'fix', 'hydration', '500', 'cors', 'triage'],
+      thought: "Detecting production incident triage request. Checking SLA & hotfix availability...",
+      action: "execute_triage_engine('emergency_bug_fix')",
+      reply: "⚡ **Emergency Production Bug Remediation (< 2h SLA)**:\nI perform immediate live triage on mission-critical software blockers:\n\n• **Next.js & React**: Hydration mismatches, state race conditions, bundle bloat.\n• **Backend & DB**: Unhandled exceptions, deadlocks, connection pool exhaustion, 502/504 errors.\n• **E-Commerce**: Broken checkout funnels, payment gateway drops, inventory desync.\n\n**SLA Protocol**: Diagnosis in < 20 mins • Surgical patch in 1–2 hours • Staging verified • 100% escrow release upon delivery.",
+      suggestions: ["What do you charge for a bug fix?", "📱 Open WhatsApp for Urgent Fix", "Can you fix Next.js hydration?"],
+      actions: [
+        { label: "⚡ Dispatch Hotfix to WhatsApp", url: "https://wa.me/923187635856?text=EMERGENCY%20BUG%20HOTFIX:%20I%20have%20an%20urgent%20production%20issue.", primary: true },
+        { label: "💰 View Pricing Tiers", scrollTo: "#estimator" }
+      ]
+    },
+    {
+      keywords: ['hydration', 'nextjs', 'next.js', 'react error'],
+      thought: "Analyzing React / Next.js hydration error diagnosis request...",
+      action: "run_diagnostic_triage('nextjs_hydration_mismatch')",
+      reply: "🛠️ **Diagnostic: Next.js Hydration Mismatch**:\n• **Root Cause**: Server-rendered HTML differs from the first client-side DOM render (often caused by `typeof window`, random values, unmounted local storage, or invalid HTML nesting like `<p>` inside `<p>`).\n• **Resolution Protocol**: Implement client mounting gates with `useEffect` / `useState(false)`, dynamic imports with `{ ssr: false }`, or audit DOM node hierarchy.\n• **Turnaround**: Typically diagnosed and patched in **under 45 minutes**.",
+      suggestions: ["⚡ Fix my Next.js bug now", "What is your hourly rate?", "Can we talk on WhatsApp?"],
+      actions: [
+        { label: "📱 WhatsApp Jahanzaib", url: "https://wa.me/923187635856?text=Next.js%20Hydration%20Bug:%20Need%20help%20fixing%20a%20client/server%20mismatch.", primary: true }
+      ]
     },
     {
       keywords: ['price', 'pricing', 'cost', 'rate', 'rates', 'fee', 'charge', 'how much', 'quote', 'budget', 'estimate'],
-      reply: "💰 **Transparent Milestone Pricing**:\n• **Emergency Bug Fix**: From **$50** (< 2h turnaround)\n• **Web Scraper & Data Pipeline**: From **$85** (2–4h turnaround)\n• **API & Webhook Architecture**: From **$120** (Same day)\n• **90+ High-Performance Web App**: From **$250** (24–48h)\n\nYou can also use the interactive **[Estimator](#estimator)** on this page to calculate your project cost!",
-      suggestions: ["How does escrow work?", "Can we chat on WhatsApp?", "What is your turnaround?"]
+      thought: "Accessing transparent pricing matrix and milestone estimator...",
+      action: "fetch_pricing_matrix()",
+      reply: "💰 **Transparent Milestone Pricing Matrix**:\n\n• **Emergency Bug Remediation**: From **$50** (Turnaround: < 2 hours)\n• **Web Scraper & Data Pipeline**: From **$85** (Turnaround: 2–4 hours)\n• **Custom API & Webhook System**: From **$120** (Turnaround: Same Day)\n• **90+ High-Performance Web App**: From **$250** (Turnaround: 24–48 hours)\n\n*All payments are securely held in Upwork Escrow until verified production deployment.*",
+      suggestions: ["Calculate my project in Estimator", "How does escrow work?", "Contact on WhatsApp"],
+      actions: [
+        { label: "🧮 Launch Interactive Estimator", scrollTo: "#estimator", primary: true },
+        { label: "📱 WhatsApp for Custom Quote", url: "https://wa.me/923187635856?text=Hi%20Jahanzaib,%20I%20would%20like%20a%20quote%20for%20a%20project." }
+      ]
     },
     {
       keywords: ['whatsapp', 'phone', 'call', 'number', 'mobile', 'chat', 'direct'],
-      reply: "📱 **Direct WhatsApp Business Contact**:\nYou can reach me directly on WhatsApp at **+92 318 7635856**.\n\n👉 [Click here to Open WhatsApp](https://wa.me/923187635856?text=Hi%20Jahanzaib,%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20discuss%20a%20project.) for an instant response!",
-      suggestions: ["What is your email?", "Can you fix an urgent bug?", "What are your services?"]
+      thought: "Routing visitor to direct WhatsApp Business channel...",
+      action: "open_gateway('whatsapp_business')",
+      reply: "📱 **Direct WhatsApp Business Contact**:\nYou can reach Jahanzaib Ahmad directly on WhatsApp at **+92 318 7635856**.\n\n• **Status**: Online & responsive (< 15 mins SLA during active hours)\n• **Use Cases**: Emergency bug hotfixes, architecture reviews, quick quotes.",
+      suggestions: ["What is your email?", "Can you fix an urgent bug?", "View Case Studies"],
+      actions: [
+        { label: "📱 Open WhatsApp Conversation", url: "https://wa.me/923187635856?text=Hi%20Jahanzaib,%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20discuss%20a%20project.", primary: true }
+      ]
     },
     {
       keywords: ['email', 'mail', 'contact', 'hire', 'reach', 'message'],
-      reply: "📬 **How to Contact & Hire Me**:\n• **WhatsApp Business**: [+92 318 7635856](https://wa.me/923187635856)\n• **Email**: [jahanzaibahmad630@gmail.com](mailto:jahanzaibahmad630@gmail.com)\n• **GitHub**: [@jahanzaibahmad630-bit](https://github.com/jahanzaibahmad630-bit)\n• **Upwork**: Escrow-protected contracts available.\n\nStandard reply time is under 15 minutes during active hours!",
-      suggestions: ["What is your WhatsApp number?", "What are your rates?", "What is your tech stack?"]
+      thought: "Retrieving official contact gateways and contract protocols...",
+      action: "query_contact_endpoints()",
+      reply: "📬 **Verified Contact Channels**:\n\n• **WhatsApp Business**: [+92 318 7635856](https://wa.me/923187635856) *(Fastest response)*\n• **Direct Email**: [jahanzaibahmad630@gmail.com](mailto:jahanzaibahmad630@gmail.com)\n• **GitHub**: [@jahanzaibahmad630-bit](https://github.com/jahanzaibahmad630-bit)\n• **Upwork**: Contract escrow protected.",
+      suggestions: ["📱 Chat on WhatsApp", "💰 View Pricing Tiers", "🚀 View Projects"],
+      actions: [
+        { label: "📱 Open WhatsApp", url: "https://wa.me/923187635856?text=Hi%20Jahanzaib,%20I%20have%20a%20project%20inquiry.", primary: true },
+        { label: "✉️ Send Email", url: "mailto:jahanzaibahmad630@gmail.com" }
+      ]
     },
     {
       keywords: ['scrape', 'scraper', 'scraping', 'data', 'crawling', 'crawler', 'cloudflare', 'datadome', 'playwright', 'puppeteer', 'beautifulsoup', 'extraction'],
-      reply: "🕷️ **Web Scraping & Data Pipelines**:\nI engineer industrial extraction clusters capable of extracting 100k+ records daily:\n• Anti-bot evasion: Cloudflare, Datadome, PerimiterX, and reCAPTCHA bypass.\n• Headless browser clusters: Playwright, Puppeteer, Python BeautifulSoup.\n• Dynamic proxy rotation & TLS fingerprint spoofing.\n• Direct export to PostgreSQL, BigQuery, Supabase, or clean CSV/JSON.",
-      suggestions: ["How much for a scraper?", "What stacks do you use?", "Can we chat on WhatsApp?"]
+      thought: "Analyzing web scraping and anti-bot evasion capabilities...",
+      action: "inspect_toolchain('web_scraping_cluster')",
+      reply: "🕷️ **Industrial Web Scraping & Data Extraction**:\nI engineer automated extraction infrastructure designed to handle complex anti-bot protection:\n\n• **Anti-Bot Defeat**: Cloudflare Turnstile, Datadome, PerimeterX, reCAPTCHA v3.\n• **Toolchain**: Playwright, Puppeteer, Python BeautifulSoup, dynamic residential proxy pools, TLS fingerprint cloaking.\n• **Output Pipelines**: Automated schema validation into PostgreSQL, BigQuery, Supabase, or clean JSON/CSV.",
+      suggestions: ["How much for a scraper?", "Can you scrape Cloudflare?", "View Scraper Project"],
+      actions: [
+        { label: "🚀 View Scraper Case Study", scrollTo: "#projects", primary: true },
+        { label: "📱 Request Scraper on WhatsApp", url: "https://wa.me/923187635856?text=Web%20Scraper%20Inquiry:%20I%20need%20data%20extraction%20for%20my%20business." }
+      ]
     },
     {
       keywords: ['api', 'webhook', 'stripe', 'paypal', 'shopify', 'backend', 'integration', 'payment'],
-      reply: "🔌 **API & Webhook Architecture**:\n• Payment systems: Stripe (Checkout, Elements, Webhooks), PayPal, Escrow APIs.\n• E-Commerce: Shopify API, WooCommerce real-time inventory sync engines.\n• Event-driven architecture: Idempotent webhook listeners, Redis pub/sub queueing, zero message loss.\n• Backend frameworks: Node.js/Express, Python (FastAPI/Flask), PostgreSQL.",
-      suggestions: ["What are your rates for an API?", "View Featured Projects", "Contact on WhatsApp"]
+      thought: "Inspecting API, webhook, and payment integration architecture...",
+      action: "query_service('api_webhook_architecture')",
+      reply: "🔌 **Custom API & Webhook Systems**:\n• **Payment Gateways**: Stripe (Checkout, Elements, Subscription, Custom Webhook handlers), PayPal SDK.\n• **E-Commerce Sync**: Shopify API, WooCommerce real-time SKU and inventory sync engine.\n• **Reliability**: HMAC signature verification, idempotent execution, Redis pub/sub queueing to prevent duplicate transactions and message drops under high traffic.",
+      suggestions: ["View Shopify Sync Project", "What are your API rates?", "Chat on WhatsApp"],
+      actions: [
+        { label: "🚀 View Shopify Sync Case Study", scrollTo: "#projects", primary: true },
+        { label: "📱 Discuss API on WhatsApp", url: "https://wa.me/923187635856?text=API%20Integration:%20I%20need%20custom%20webhook/payment%20development." }
+      ]
     },
     {
-      keywords: ['stack', 'tech', 'skills', 'technologies', 'react', 'next', 'python', 'node', 'typescript', 'tailwind', 'database'],
-      reply: "🛠️ **Technical Stack & Architecture**:\n• **Frontend**: React, Next.js, TypeScript, Tailwind CSS, Vue.js, Semantic HTML5.\n• **Backend**: Node.js, Express, Python (FastAPI, Flask), RESTful APIs, GraphQL.\n• **Data & Automation**: Playwright, BeautifulSoup, PostgreSQL, Redis, BigQuery, Supabase.\n• **DevOps & Tools**: Docker, Git, CI/CD GitHub Actions, Linux.",
-      suggestions: ["How fast can you fix a bug?", "What are your rates?", "Can we talk on WhatsApp?"]
+      keywords: ['stack', 'tech', 'skills', 'technologies', 'react', 'next', 'python', 'node', 'typescript', 'tailwind', 'database', 'docker'],
+      thought: "Querying technical stack and framework competencies...",
+      action: "load_technology_matrix()",
+      reply: "🛠️ **Production Technology Stack**:\n\n• **Frontend**: React, Next.js, TypeScript, Tailwind CSS, Vue.js, Semantic HTML5/CSS3.\n• **Backend**: Node.js, Express, Python (FastAPI, Flask), RESTful APIs, GraphQL.\n• **Data & Automation**: Playwright, BeautifulSoup, PostgreSQL, Redis, BigQuery, Supabase.\n• **DevOps & Cloud**: Docker, Git, GitHub Actions CI/CD, Linux edge instances.",
+      suggestions: ["🚀 View Projects", "⚡ Emergency Bug Remediation", "💰 Estimate Cost"],
+      actions: [
+        { label: "🪐 View Skills Constellation", scrollTo: "#skills", primary: true },
+        { label: "📱 Inquire on WhatsApp", url: "https://wa.me/923187635856?text=Tech%20Stack%20Inquiry:%20Do%20you%20have%20experience%20with..." }
+      ]
     },
     {
       keywords: ['project', 'portfolio', 'work', 'case study', 'shopify sync', 'case studies'],
-      reply: "🚀 **Recent Production Case Studies**:\n1. **Shopify & WooCommerce Real-Time Sync Engine**: Reconciled 50,000+ SKUs with sub-second latency and Redis pub/sub queues.\n2. **Anti-Detect Distributed Web Scraper Cluster**: 100k+ daily pages extracted with automated proxy cycling and BigQuery export.\n\nCheck out the **[Projects Section](#projects)** for full architectural details!",
-      suggestions: ["What are your rates?", "Can you fix an emergency bug?", "Contact on WhatsApp"]
+      thought: "Locating production case studies and live architecture...",
+      action: "navigate_and_highlight('#projects')",
+      reply: "🚀 **Featured Production Projects**:\n\n1. **Shopify & WooCommerce Real-Time Sync Engine**: Reconciles inventory across 50,000+ active SKUs with sub-second latency and Redis queueing.\n2. **Anti-Detect Distributed Web Scraper Cluster**: 100k+ daily pages extracted with automated proxy cycling and BigQuery export.\n\n*I can navigate you directly to the Projects section right now!*",
+      suggestions: ["Show me the projects", "What are your rates?", "Chat on WhatsApp"],
+      actions: [
+        { label: "🚀 Navigate to Projects Section", scrollTo: "#projects", primary: true },
+        { label: "📱 Ask Jahanzaib on WhatsApp", url: "https://wa.me/923187635856?text=I%20would%20like%20to%20learn%20more%20about%20your%20projects." }
+      ]
     },
     {
       keywords: ['escrow', 'guarantee', 'safe', 'payment', 'upwork', 'trust', 'security'],
-      reply: "🛡️ **100% Escrow Milestone Protection**:\nAll client projects can be managed through **Upwork Escrow** or structured milestone agreements. Funds are held safely until you verify the code works on your side. Zero financial risk.",
-      suggestions: ["What are your rates?", "Can we chat on WhatsApp?", "What is your email?"]
+      thought: "Retrieving escrow terms and client protection policies...",
+      action: "check_client_guarantees()",
+      reply: "🛡️ **100% Escrow Milestone Protection**:\nAll projects are contracted through **Upwork Escrow** or formal escrow milestones:\n• Funds are only deposited into escrow.\n• Zero payment is released until you verify working code in staging/production.\n• Full money-back commitment if an agreed bug cannot be remediated.",
+      suggestions: ["⚡ Emergency Bug Remediation", "💰 View Pricing Tiers", "📱 Chat on WhatsApp"],
+      actions: [
+        { label: "📱 Discuss Escrow on WhatsApp", url: "https://wa.me/923187635856?text=Escrow%20Question:%20How%20do%20we%20set%20up%20milestone%20protection?", primary: true }
+      ]
     },
     {
       keywords: ['hello', 'hi', 'hey', 'greetings', 'morning', 'afternoon'],
-      reply: "Hello! 👋 I'm Jahanzaib's AI Technical Assistant. Ask me anything about Jahanzaib's full-stack services, rates, emergency bug fixes, or tech stack!",
-      suggestions: ["⚡ How fast can you fix a bug?", "💰 What are your rates?", "📱 What is your WhatsApp?", "🛠️ What tech stacks do you use?"]
+      thought: "Initializing session. Ready for autonomous technical queries...",
+      action: "handshake_visitor()",
+      reply: "Hello! 👋 I am **Agent JA**, Jahanzaib Ahmad's Autonomous Technical Partner.\n\nI can **diagnose errors**, **calculate project estimates**, **navigate the portfolio**, or **connect you directly with Jahanzaib on WhatsApp**.",
+      suggestions: ["⚡ How fast can you fix a bug?", "💰 What are your rates?", "🛠️ What tech stacks do you use?", "📱 Open WhatsApp"],
+      actions: [
+        { label: "📱 Chat on WhatsApp", url: "https://wa.me/923187635856?text=Hi%20Jahanzaib,%20I%20am%20exploring%20your%20portfolio.", primary: true },
+        { label: "🧮 Project Estimator", scrollTo: "#estimator" }
+      ]
     }
   ];
 
-  function getBotResponse(input) {
+  function getAgentResponse(input) {
     const cleanInput = input.toLowerCase().trim();
     if (!cleanInput) return null;
 
@@ -73,7 +147,7 @@
       let score = 0;
       entry.keywords.forEach(kw => {
         if (cleanInput.includes(kw)) {
-          score += (kw.length > 4 ? 2 : 1);
+          score += (kw.length > 4 ? 3 : 1);
         }
       });
 
@@ -88,8 +162,14 @@
     }
 
     return {
-      reply: "I'd be happy to help with that! While I'm Jahanzaib's AI assistant, for custom architectural requirements or urgent bug triage, you can connect directly with Jahanzaib:\n\n• 📱 **WhatsApp**: [+92 318 7635856](https://wa.me/923187635856?text=Hi%20Jahanzaib,%20I%20have%20a%20project%20inquiry.)\n• ✉️ **Email**: [jahanzaibahmad630@gmail.com](mailto:jahanzaibahmad630@gmail.com)",
-      suggestions: ["⚡ Emergency Bug Remediation", "💰 What are your rates?", "🛠️ Technical Stack", "📱 Open WhatsApp"]
+      thought: "No exact rule matched. Generating technical consultation fallback with direct WhatsApp link...",
+      action: "route_to_human_partner('whatsapp_business')",
+      reply: "I understand your query! For specific architectural designs, custom repository audits, or immediate emergency hotfixes, connect directly with Jahanzaib:\n\n• 📱 **WhatsApp**: [+92 318 7635856](https://wa.me/923187635856?text=Hi%20Jahanzaib,%20I%20have%20a%20technical%20inquiry.)\n• ✉️ **Email**: [jahanzaibahmad630@gmail.com](mailto:jahanzaibahmad630@gmail.com)",
+      suggestions: ["⚡ Emergency Bug Remediation", "💰 What are your rates?", "🛠️ Technical Stack", "📱 Open WhatsApp"],
+      actions: [
+        { label: "📱 Chat Directly on WhatsApp", url: "https://wa.me/923187635856?text=Hi%20Jahanzaib,%20I%20have%20a%20technical%20inquiry.", primary: true },
+        { label: "🧮 Estimate Project Cost", scrollTo: "#estimator" }
+      ]
     };
   }
 
@@ -112,7 +192,7 @@
 
     if (!launcherBtn || !chatModal || !messagesContainer || !chatForm || !chatInput) return;
 
-    let isTyping = false;
+    let isThinking = false;
 
     function openChat() {
       chatModal.classList.remove('hidden');
@@ -134,10 +214,10 @@
       }, 50);
     }
 
-    function appendMessage(sender, text, isBot = false) {
+    function appendMessage(sender, text, isBot = false, data = null) {
       const msgDiv = document.createElement('div');
       msgDiv.className = isBot 
-        ? 'flex items-start gap-2.5 max-w-[88%] text-left' 
+        ? 'flex items-start gap-2.5 max-w-[92%] text-left animate-[fadeIn_0.3s_ease]' 
         : 'flex items-start gap-2.5 max-w-[85%] ml-auto justify-end text-right';
 
       const bubbleClass = isBot
@@ -148,8 +228,24 @@
         ? `<div class="w-7 h-7 rounded-lg bg-gradient-to-br from-[#7127BA] to-[#9757D3] flex items-center justify-center text-white shrink-0 mt-0.5 shadow-md"><i data-lucide="bot" class="w-4 h-4"></i></div>`
         : '';
 
+      let actionsHtml = '';
+      if (isBot && data && data.actions && data.actions.length > 0) {
+        actionsHtml = `<div class="flex flex-wrap gap-2 mt-3 pt-3 border-t border-purple-800/40">`;
+        data.actions.forEach(act => {
+          if (act.url) {
+            const btnStyle = act.primary 
+              ? 'bg-gradient-to-r from-[#7127BA] to-[#9757D3] text-white hover:opacity-90' 
+              : 'bg-purple-950/80 border border-purple-700/50 text-purple-200 hover:text-white';
+            actionsHtml += `<a href="${act.url}" target="_blank" rel="noopener noreferrer" class="agent-card-button ${btnStyle}">${act.label} &rarr;</a>`;
+          } else if (act.scrollTo) {
+            actionsHtml += `<button type="button" onclick="document.querySelector('${act.scrollTo}')?.scrollIntoView({behavior:'smooth'});" class="agent-card-button bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 hover:bg-emerald-500/30">${act.label} &darr;</button>`;
+          }
+        });
+        actionsHtml += `</div>`;
+      }
+
       msgDiv.innerHTML = isBot
-        ? `${avatarHtml}<div class="${bubbleClass}">${formatMarkdown(text)}</div>`
+        ? `${avatarHtml}<div class="${bubbleClass}">${formatMarkdown(text)}${actionsHtml}</div>`
         : `<div class="${bubbleClass}">${text}</div>`;
 
       messagesContainer.appendChild(msgDiv);
@@ -177,37 +273,57 @@
     }
 
     function handleUserSubmit(userText) {
-      if (!userText || isTyping) return;
+      if (!userText || isThinking) return;
       appendMessage('User', userText, false);
       chatInput.value = '';
 
-      isTyping = true;
-      const typingIndicator = document.createElement('div');
-      typingIndicator.id = 'ai-typing-indicator';
-      typingIndicator.className = 'flex items-center gap-2 max-w-[85%] text-xs text-purple-300/80';
-      typingIndicator.innerHTML = `
+      // Check if user specifically requests navigation
+      const lower = userText.toLowerCase();
+      if (lower.includes('show project') || lower.includes('view project') || lower.includes('go to project')) {
+        document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' });
+      } else if (lower.includes('estimator') || lower.includes('calculator') || lower.includes('quote')) {
+        document.querySelector('#estimator')?.scrollIntoView({ behavior: 'smooth' });
+      } else if (lower.includes('experience') || lower.includes('service')) {
+        document.querySelector('#experience')?.scrollIntoView({ behavior: 'smooth' });
+      }
+
+      isThinking = true;
+      const responseObj = getAgentResponse(userText);
+
+      // Agent Thought & Execution Trace Card
+      const thoughtDiv = document.createElement('div');
+      thoughtDiv.id = 'agent-active-trace';
+      thoughtDiv.className = 'flex items-start gap-2.5 max-w-[92%]';
+      thoughtDiv.innerHTML = `
         <div class="w-7 h-7 rounded-lg bg-[#24123d] border border-purple-800/40 flex items-center justify-center shrink-0">
-          <i data-lucide="bot" class="w-4 h-4 text-[#A261FF]"></i>
+          <i data-lucide="cpu" class="w-4 h-4 text-[#A261FF] animate-spin"></i>
         </div>
-        <div class="p-3 rounded-2xl rounded-tl-none bg-[#24123d] border border-purple-800/40 flex items-center gap-1.5">
-          <span class="w-1.5 h-1.5 rounded-full bg-[#A261FF] animate-bounce"></span>
-          <span class="w-1.5 h-1.5 rounded-full bg-[#A261FF] animate-bounce [animation-delay:0.2s]"></span>
-          <span class="w-1.5 h-1.5 rounded-full bg-[#A261FF] animate-bounce [animation-delay:0.4s]"></span>
+        <div class="flex-1">
+          <div class="agent-thought-card">
+            <div class="flex items-center gap-1.5 text-[10px] text-purple-200 font-mono">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#A261FF] animate-ping"></span>
+              <span>Thinking: ${responseObj.thought}</span>
+            </div>
+          </div>
+          <div class="agent-action-badge">
+            <i data-lucide="terminal" class="w-3 h-3 text-emerald-400"></i>
+            <span>Action: ${responseObj.action}</span>
+          </div>
         </div>
       `;
-      messagesContainer.appendChild(typingIndicator);
+      messagesContainer.appendChild(thoughtDiv);
       scrollToBottom();
       if (window.lucide) window.lucide.createIcons();
 
+      // Simulated realistic agent computation delay
       setTimeout(() => {
-        const indicator = document.getElementById('ai-typing-indicator');
-        if (indicator) indicator.remove();
-        isTyping = false;
+        const trace = document.getElementById('agent-active-trace');
+        if (trace) trace.remove();
+        isThinking = false;
 
-        const responseObj = getBotResponse(userText);
-        appendMessage('AI', responseObj.reply, true);
+        appendMessage('AI', responseObj.reply, true, responseObj);
         updateSuggestions(responseObj.suggestions);
-      }, 450);
+      }, 500);
     }
 
     launcherBtn.addEventListener('click', openChat);
@@ -216,7 +332,7 @@
     if (resetBtn) {
       resetBtn.addEventListener('click', () => {
         messagesContainer.innerHTML = '';
-        appendMessage('AI', "Hi! I'm Jahanzaib's AI Technical Assistant. Ask me anything about Jahanzaib's full-stack services, rates, emergency bug fixes, or tech stack!", true);
+        appendMessage('AI', "Hello! 👋 I am **Agent JA**, Jahanzaib Ahmad's Autonomous Technical Partner.\n\nI can **diagnose errors**, **calculate project estimates**, **navigate the portfolio**, or **connect you directly with Jahanzaib on WhatsApp**.", true);
         updateSuggestions(["⚡ How fast can you fix a bug?", "💰 What are your rates?", "📱 What is your WhatsApp?", "🛠️ What tech stacks do you use?"]);
       });
     }

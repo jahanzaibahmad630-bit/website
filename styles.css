@@ -233,18 +233,61 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   outline-offset: 3px;
 }
 
-/* AI Chatbot Window & Dock */
+/* AI Agent Autonomous Window & Dock */
 .ai-chat-window {
-  width: 380px;
-  max-width: calc(100vw - 2rem);
-  height: 530px;
-  max-height: calc(100vh - 6rem);
-  background: rgba(21, 10, 40, 0.96);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(162, 97, 255, 0.35);
+  width: 410px;
+  max-width: calc(100vw - 1.5rem);
+  height: 560px;
+  max-height: calc(100vh - 5rem);
+  background: rgba(20, 9, 38, 0.97);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid rgba(162, 97, 255, 0.4);
   border-radius: 1.25rem;
-  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9), 0 0 35px rgba(113, 39, 186, 0.4);
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.95), 0 0 35px rgba(113, 39, 186, 0.45);
+}
+
+.agent-thought-card {
+  background: rgba(43, 17, 79, 0.45);
+  border-left: 2px solid #A261FF;
+  border-radius: 0.5rem;
+  padding: 0.45rem 0.75rem;
+  margin-bottom: 0.5rem;
+  font-family: monospace;
+  font-size: 10px;
+  color: #D8B4FE;
+  animation: fadeIn 0.3s ease;
+}
+
+.agent-action-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #34D399;
+  font-family: monospace;
+  font-size: 10px;
+  padding: 0.25rem 0.6rem;
+  border-radius: 9999px;
+  margin-bottom: 0.5rem;
+}
+
+.agent-card-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .ai-chat-messages::-webkit-scrollbar {
@@ -268,4 +311,5 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   background: rgba(162, 97, 255, 0.3);
   border-radius: 2px;
 }
+
 
