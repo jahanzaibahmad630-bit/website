@@ -89,6 +89,9 @@
         <a href="#experience" class="hover:text-purple-300 transition-colors">Services</a>
         <a href="#skills" class="hover:text-purple-300 transition-colors">Skills</a>
         <a href="#projects" class="hover:text-purple-300 transition-colors">Projects</a>
+        <a href="#demos" class="flex items-center gap-1.5 text-cyan-400 hover:text-cyan-300 transition-colors">
+          <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>Demos
+        </a>
         <a href="#estimator" class="hover:text-purple-300 transition-colors">Estimator</a>
         <a href="#contact" class="hover:text-purple-300 transition-colors">Contact</a>
       </nav>
@@ -118,6 +121,9 @@
         <a href="#experience" class="hover:text-purple-300 py-1">Services</a>
         <a href="#skills" class="hover:text-purple-300 py-1">Skills</a>
         <a href="#projects" class="hover:text-purple-300 py-1">Projects</a>
+        <a href="#demos" class="hover:text-cyan-300 py-1 flex items-center gap-1.5 text-cyan-400/80">
+          <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>Live Demos
+        </a>
         <a href="#estimator" class="hover:text-purple-300 py-1">Estimator</a>
         <a href="#contact" class="hover:text-purple-300 py-1">Contact</a>
         <a href="https://wa.me/923187635856?text=Hi%20Jahanzaib,%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 py-1 text-[#25D366]">
@@ -374,6 +380,95 @@
       </div>
 
     </section>
+
+    <!-- LIVE DEMOS SHOWCASE -->
+    <section id="demos" class="py-20 relative">
+      <div class="mb-12 text-center">
+        <div class="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/25 text-cyan-400 text-xs font-semibold px-3 py-1.5 rounded-full mb-5 font-poppins">
+          <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+          All demos run live — no login required
+        </div>
+        <h3 class="font-preahvihear text-3xl sm:text-4xl text-white mb-2">Try My Work Live</h3>
+        <p class="font-poppins text-purple-300/70 text-sm font-light">Three fully interactive demos — click any card to experience the actual product.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <!-- Demo 1: Scraper -->
+        <a href="scraper-demo.html" class="group block relative rounded-2xl overflow-hidden border border-purple-800/30 hover:border-violet-500/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-violet-900/40" style="background:linear-gradient(135deg,#0F0720,#180D30)">
+          <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style="background:radial-gradient(ellipse at top left,rgba(124,58,237,0.12),transparent 70%)"></div>
+          <div class="p-6 relative z-10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-5" style="background:rgba(124,58,237,0.15);border:1px solid rgba(124,58,237,0.3)">
+              <i data-lucide="database" class="w-5 h-5 text-violet-400"></i>
+            </div>
+            <div class="text-[10px] font-semibold tracking-widest uppercase text-violet-400/60 font-poppins mb-2">Demo 1 — Data Extraction</div>
+            <h4 class="font-poppins font-bold text-lg text-white mb-2 group-hover:text-violet-200 transition-colors">Anti-Detect Scraper</h4>
+            <p class="font-poppins text-xs text-slate-400 leading-relaxed mb-5">Choose a scenario — e-commerce, B2B leads, or real estate — and watch the bot extract live data with anti-detect evasion in real time.</p>
+            <div class="flex flex-wrap gap-1.5 mb-5">
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-violet-900/40 text-violet-300 border border-violet-800/40">Python</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-violet-900/40 text-violet-300 border border-violet-800/40">Playwright</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-violet-900/40 text-violet-300 border border-violet-800/40">Railway API</span>
+            </div>
+            <div class="flex items-center gap-2 text-violet-400 group-hover:text-white transition-colors text-xs font-semibold font-poppins">
+              <i data-lucide="play-circle" class="w-4 h-4"></i>
+              Run Live Demo
+              <i data-lucide="arrow-right" class="w-3 h-3 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+          <div class="h-1 w-full" style="background:linear-gradient(90deg,#7C3AED,#A261FF)"></div>
+        </a>
+
+        <!-- Demo 2: Chatbot -->
+        <a href="chatbot-demo.html" class="group block relative rounded-2xl overflow-hidden border border-purple-800/30 hover:border-cyan-500/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-cyan-900/40" style="background:linear-gradient(135deg,#040F1A,#071828)">
+          <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style="background:radial-gradient(ellipse at top left,rgba(6,182,212,0.10),transparent 70%)"></div>
+          <div class="p-6 relative z-10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-5" style="background:rgba(6,182,212,0.12);border:1px solid rgba(6,182,212,0.25)">
+              <i data-lucide="bot" class="w-5 h-5 text-cyan-400"></i>
+            </div>
+            <div class="text-[10px] font-semibold tracking-widest uppercase text-cyan-400/60 font-poppins mb-2">Demo 2 — AI Chatbot</div>
+            <h4 class="font-poppins font-bold text-lg text-white mb-2 group-hover:text-cyan-200 transition-colors">AI Sales Agent</h4>
+            <p class="font-poppins text-xs text-slate-400 leading-relaxed mb-5">Talk to a live AI sales agent. It qualifies your project, captures your contact details, and hands off to WhatsApp — a full lead gen flow.</p>
+            <div class="flex flex-wrap gap-1.5 mb-5">
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-900/30 text-cyan-300 border border-cyan-800/30">Gemini AI</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-900/30 text-cyan-300 border border-cyan-800/30">Lead Capture</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-900/30 text-cyan-300 border border-cyan-800/30">WhatsApp</span>
+            </div>
+            <div class="flex items-center gap-2 text-cyan-400 group-hover:text-white transition-colors text-xs font-semibold font-poppins">
+              <i data-lucide="message-square" class="w-4 h-4"></i>
+              Chat Now
+              <i data-lucide="arrow-right" class="w-3 h-3 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+          <div class="h-1 w-full" style="background:linear-gradient(90deg,#06B6D4,#0EA5E9)"></div>
+        </a>
+
+        <!-- Demo 3: PageSpeed -->
+        <a href="pagespeed-demo.html" class="group block relative rounded-2xl overflow-hidden border border-purple-800/30 hover:border-green-500/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-green-900/40" style="background:linear-gradient(135deg,#041008,#071A0A)">
+          <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style="background:radial-gradient(ellipse at top left,rgba(34,197,94,0.08),transparent 70%)"></div>
+          <div class="p-6 relative z-10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-5" style="background:rgba(34,197,94,0.10);border:1px solid rgba(34,197,94,0.22)">
+              <i data-lucide="zap" class="w-5 h-5 text-green-400"></i>
+            </div>
+            <div class="text-[10px] font-semibold tracking-widest uppercase text-green-400/60 font-poppins mb-2">Demo 3 — Performance</div>
+            <h4 class="font-poppins font-bold text-lg text-white mb-2 group-hover:text-green-200 transition-colors">PageSpeed Audit Lab</h4>
+            <p class="font-poppins text-xs text-slate-400 leading-relaxed mb-5">Toggle Before vs After. See how 10 optimisations move a Lighthouse score from 34 to 97 — LCP, CLS, INP, FCP all fixed with real code.</p>
+            <div class="flex flex-wrap gap-1.5 mb-5">
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-green-900/30 text-green-300 border border-green-800/30">Lighthouse</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-green-900/30 text-green-300 border border-green-800/30">Core Web Vitals</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-green-900/30 text-green-300 border border-green-800/30">Score 34→97</span>
+            </div>
+            <div class="flex items-center gap-2 text-green-400 group-hover:text-white transition-colors text-xs font-semibold font-poppins">
+              <i data-lucide="gauge" class="w-4 h-4"></i>
+              See the Audit
+              <i data-lucide="arrow-right" class="w-3 h-3 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+          <div class="h-1 w-full" style="background:linear-gradient(90deg,#22C55E,#10B981)"></div>
+        </a>
+
+      </div>
+    </section>
+
     <!-- FEATURED PROJECTS (ALTERNATING OVERLAPPING FIGMA LAYOUT) -->
     <section id="projects" class="py-20 relative">
       
