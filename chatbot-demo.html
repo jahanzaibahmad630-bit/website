@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>AI Sales Agent Demo - Jahanzaib Ahmad</title>
+<meta name="description" content="Live demo: AI-powered sales chatbot that qualifies leads, scopes projects, and sends qualified prospects on WhatsApp 24/7."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config={theme:{extend:{fontFamily:{jakarta:["Plus Jakarta Sans","sans-serif"],mono:["JetBrains Mono","monospace"]},animation:{"fade-up":"fadeUp 0.4s ease-out both","pulse-dot":"pulseDot 1.4s ease-in-out infinite","glow-ring":"glowRing 3s ease-in-out infinite"},keyframes:{fadeUp:{from:{opacity:"0",transform:"translateY(14px)"},to:{opacity:"1",transform:"translateY(0)"}},pulseDot:{"0%,80%,100%":{transform:"scale(0.6)",opacity:"0.4"},"40%":{transform:"scale(1)",opacity:"1"}},glowRing:{"0%,100%":{boxShadow:"0 0 20px 2px rgba(124,58,237,0.3)"},"50%":{boxShadow:"0 0 40px 8px rgba(124,58,237,0.6)"}}}}}}
+</script>
+<style>
+body{background:#0F0A1E;font-family:"Plus Jakarta Sans",sans-serif}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#5B21B6;border-radius:9999px}
+.bubble-agent{background:linear-gradient(135deg,#2E1065 0%,#17103A 100%);border:1px solid rgba(167,139,250,0.2);border-radius:4px 18px 18px 18px;max-width:82%}
+.bubble-user{background:linear-gradient(135deg,#7C3AED 0%,#5B21B6 100%);border-radius:18px 4px 18px 18px;max-width:75%}
+.dot-1{animation:pulseDot 1.4s ease-in-out infinite 0s}
+.dot-2{animation:pulseDot 1.4s ease-in-out infinite 0.2s}
+.dot-3{animation:pulseDot 1.4s ease-in-out infinite 0.4s}
+.chip{border:1px solid rgba(167,139,250,0.35);background:rgba(124,58,237,0.12);transition:all 0.2s ease;cursor:pointer}
+.chip:hover{background:rgba(124,58,237,0.3);border-color:rgba(167,139,250,0.7);transform:translateY(-1px)}
+.mcard{background:linear-gradient(135deg,#17103A,#1E1B4B);border:1px solid rgba(167,139,250,0.15)}
+.grad{background:linear-gradient(135deg,#A78BFA 0%,#06B6D4 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-blur{backdrop-filter:blur(16px);background:rgba(15,10,30,0.85)}
+.fbadge{background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.25);color:#06B6D4}
+</style>
+</head>
+<body class="text-white min-h-screen">
+
+<nav class="nav-blur fixed top-3 left-4 right-4 z-50 rounded-2xl border border-purple-700/30 px-5 py-3 flex items-center justify-between max-w-6xl mx-auto">
+  <a href="index.html" class="flex items-center gap-3 cursor-pointer group">
+    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-600 to-violet-800 flex items-center justify-center text-xs font-bold font-jakarta">JA</div>
+    <span class="text-sm font-semibold font-jakarta text-white/80 group-hover:text-white transition-colors">Jahanzaib Ahmad</span>
+    <span class="text-white/30 text-sm">/</span>
+    <span class="text-xs font-semibold text-violet-400 tracking-widest uppercase font-jakarta">AI Agent Demo</span>
+  </a>
+  <a href="https://wa.me/923187635856" target="_blank" rel="noopener" class="flex items-center gap-2 bg-gradient-to-r from-violet-600 to-violet-700 hover:from-violet-500 hover:to-violet-600 text-white text-xs font-semibold px-4 py-2 rounded-xl transition-all duration-200 cursor-pointer shadow-lg font-jakarta">
+    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    Hire Me on WhatsApp
+  </a>
+</nav>
+
+<section class="pt-28 pb-8 px-4 text-center">
+  <div class="max-w-3xl mx-auto">
+    <div class="inline-flex items-center gap-2 fbadge text-xs font-semibold px-3 py-1.5 rounded-full mb-6 font-jakarta animate-fade-up">
+      <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      Live Interactive Demo - No Sign-up Required
+    </div>
+    <h1 class="text-4xl md:text-5xl font-extrabold font-jakarta leading-tight mb-4">
+      Your AI Sales Agent<br/><span class="grad">Qualifies Leads While You Sleep</span>
+    </h1>
+    <p class="text-white/60 text-base md:text-lg font-jakarta font-light max-w-xl mx-auto">
+      Embed on any website. Chats with visitors, scopes their project, captures their contact, and sends you qualified leads on WhatsApp - 24/7.
+    </p>
+  </div>
+</section>
+
+<section class="px-4 pb-8">
+  <div class="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-3">
+    <div class="mcard rounded-2xl p-4 text-center"><div class="text-2xl font-extrabold font-jakarta grad" id="m-leads">0</div><div class="text-xs text-white/50 font-jakarta mt-1">Leads Captured</div></div>
+    <div class="mcard rounded-2xl p-4 text-center"><div class="text-2xl font-extrabold font-jakarta text-cyan-400">2.4x</div><div class="text-xs text-white/50 font-jakarta mt-1">Inbound Lift</div></div>
+    <div class="mcard rounded-2xl p-4 text-center"><div class="text-2xl font-extrabold font-jakarta text-violet-400">80%</div><div class="text-xs text-white/50 font-jakarta mt-1">Scoping Time Saved</div></div>
+    <div class="mcard rounded-2xl p-4 text-center"><div class="text-2xl font-extrabold font-jakarta text-green-400">&lt;400ms</div><div class="text-xs text-white/50 font-jakarta mt-1">Response Time</div></div>
+  </div>
+</section>
+
+<section class="px-4 pb-16">
+  <div class="max-w-5xl mx-auto grid md:grid-cols-5 gap-6">
+    <div class="md:col-span-3">
+      <div class="rounded-3xl border border-violet-700/30 overflow-hidden flex flex-col" style="height:580px;background:#0D0820;">
+        <div class="flex items-center gap-3 px-5 py-4 border-b border-violet-700/20" style="background:linear-gradient(135deg,#17103A,#1E1B4B)">
+          <div class="relative">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center text-sm font-bold font-jakarta animate-glow-ring">JA</div>
+            <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-400 rounded-full border-2 border-[#1E1B4B]"></span>
+          </div>
+          <div>
+            <div class="text-sm font-bold font-jakarta">Agent-JA</div>
+            <div class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-green-400"></span><span class="text-[11px] text-green-400 font-jakarta">Online - replies instantly</span></div>
+          </div>
+          <div class="ml-auto"><span class="fbadge text-[10px] font-semibold px-2 py-0.5 rounded-full font-jakarta">AI Powered</span></div>
+        </div>
+        <div id="chat-messages" class="flex-1 overflow-y-auto px-4 py-4 space-y-4" style="scroll-behavior:smooth"></div>
+        <div id="quick-replies" class="px-4 pb-3 flex flex-wrap gap-2"></div>
+        <div class="px-4 pb-4">
+          <div class="flex items-center gap-2 rounded-2xl border border-violet-700/30 bg-violet-950/40 px-4 py-2.5">
+            <input id="chat-input" type="text" placeholder="Type a message..." class="flex-1 bg-transparent text-sm text-white placeholder-white/30 font-jakarta outline-none" autocomplete="off"/>
+            <button onclick="sendMsg()" class="w-8 h-8 rounded-xl bg-gradient-to-br from-violet-600 to-violet-700 flex items-center justify-center hover:from-violet-500 hover:to-violet-600 transition-all duration-200 cursor-pointer flex-shrink-0">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="md:col-span-2 flex flex-col gap-4">
+      <div class="mcard rounded-2xl p-5">
+        <h3 class="text-sm font-bold font-jakarta text-white mb-3">What this agent does</h3>
+        <ul class="space-y-2.5">
+          <li class="flex items-start gap-2.5"><svg class="w-4 h-4 text-cyan-400 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span class="text-xs text-white/70 font-jakarta">Greets visitors and identifies their need</span></li>
+          <li class="flex items-start gap-2.5"><svg class="w-4 h-4 text-cyan-400 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span class="text-xs text-white/70 font-jakarta">Qualifies budget, timeline and tech stack</span></li>
+          <li class="flex items-start gap-2.5"><svg class="w-4 h-4 text-cyan-400 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span class="text-xs text-white/70 font-jakarta">Captures name, email and WhatsApp number</span></li>
+          <li class="flex items-start gap-2.5"><svg class="w-4 h-4 text-cyan-400 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span class="text-xs text-white/70 font-jakarta">Sends qualified lead to your WhatsApp instantly</span></li>
+          <li class="flex items-start gap-2.5"><svg class="w-4 h-4 text-cyan-400 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span class="text-xs text-white/70 font-jakarta">Exports all leads to CSV and JSON</span></li>
+        </ul>
+      </div>
+      <div class="mcard rounded-2xl p-5 flex-1">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-sm font-bold font-jakarta text-white">Captured Leads</h3>
+          <span id="lead-count" class="text-[11px] font-mono text-violet-400 bg-violet-900/30 px-2 py-0.5 rounded-full">0 leads</span>
+        </div>
+        <div id="leads-list" class="space-y-2 mb-4 min-h-[60px]"><p class="text-[11px] text-white/30 font-jakarta text-center py-4">Complete the chat flow to see leads here</p></div>
+        <div class="flex gap-2">
+          <button onclick="exportCSV()" class="flex-1 flex items-center justify-center gap-1.5 text-[11px] font-semibold font-jakarta py-2 rounded-xl border border-violet-600/40 text-violet-300 hover:bg-violet-900/30 transition-all duration-200 cursor-pointer">Export CSV</button>
+          <button onclick="exportJSON()" class="flex-1 flex items-center justify-center gap-1.5 text-[11px] font-semibold font-jakarta py-2 rounded-xl border border-cyan-600/40 text-cyan-300 hover:bg-cyan-900/20 transition-all duration-200 cursor-pointer">Export JSON</button>
+        </div>
+      </div>
+      <a href="https://wa.me/923187635856?text=Hi%20Jahanzaib!%20I%20saw%20your%20AI%20chatbot%20demo%20and%20I%20want%20to%20discuss%20building%20one%20for%20my%20business." target="_blank" rel="noopener" class="block w-full py-3.5 rounded-2xl text-center font-bold font-jakarta text-sm cursor-pointer transition-all duration-200 hover:scale-[1.02]" style="background:linear-gradient(135deg,#7C3AED,#06B6D4);box-shadow:0 8px 32px rgba(124,58,237,0.4)">Build This for My Business</a>
+    </div>
+  </div>
+</section>
+
+<section class="px-4 pb-16 border-t border-violet-900/30 pt-12">
+  <div class="max-w-5xl mx-auto">
+    <p class="text-center text-xs font-semibold tracking-widest text-white/30 uppercase font-jakarta mb-8">Tech Stack and Capabilities</p>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="mcard rounded-2xl p-4 text-center"><div class="text-violet-400 mb-2 flex justify-center"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div><div class="text-xs font-semibold font-jakarta text-white">LLM-Powered</div><div class="text-[10px] text-white/40 font-jakarta mt-0.5">Gemini / GPT-4o</div></div>
+      <div class="mcard rounded-2xl p-4 text-center"><div class="text-cyan-400 mb-2 flex justify-center"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.63a16 16 0 006.29 6.29l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div><div class="text-xs font-semibold font-jakarta text-white">WhatsApp Bridge</div><div class="text-[10px] text-white/40 font-jakarta mt-0.5">Instant lead alert</div></div>
+      <div class="mcard rounded-2xl p-4 text-center"><div class="text-violet-400 mb-2 flex justify-center"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><div class="text-xs font-semibold font-jakarta text-white">Embeddable</div><div class="text-[10px] text-white/40 font-jakarta mt-0.5">1-line script tag</div></div>
+      <div class="mcard rounded-2xl p-4 text-center"><div class="text-green-400 mb-2 flex justify-center"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="text-xs font-semibold font-jakarta text-white">GDPR Safe</div><div class="text-[10px] text-white/40 font-jakarta mt-0.5">No 3rd party storage</div></div>
+    </div>
+  </div>
+</section>
+
+<footer class="border-t border-violet-900/30 py-8 px-4 text-center">
+  <div class="max-w-2xl mx-auto">
+    <p class="text-xs text-white/30 font-jakarta mb-3">Built by <a href="index.html" class="text-violet-400 hover:text-violet-300 transition-colors cursor-pointer">Jahanzaib Ahmad</a> - 3 to 5 day delivery - Custom flows, CRM integration, multi-language available</p>
+    <div class="flex items-center justify-center gap-4">
+      <a href="index.html" class="text-xs text-white/40 hover:text-white/70 font-jakarta transition-colors cursor-pointer">Portfolio</a>
+      <a href="scraper-demo.html" class="text-xs text-white/40 hover:text-white/70 font-jakarta transition-colors cursor-pointer">Scraper Demo</a>
+      <a href="https://wa.me/923187635856" target="_blank" rel="noopener" class="text-xs text-violet-400 hover:text-violet-300 font-jakarta transition-colors cursor-pointer">WhatsApp</a>
+      <a href="mailto:jahanzaibahmad630@gmail.com" class="text-xs text-white/40 hover:text-white/70 font-jakarta transition-colors cursor-pointer">Email</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const leads=[],FLOWS={
+start:{msg:"Hey! I am Agent-JA, Jahanzaib's AI sales assistant.\n\nI can help you scope a project, get a price estimate, or connect you with Jahanzaib. What brings you here today?",chips:[{label:"I need a web scraper",next:"scraper"},{label:"I need an AI chatbot",next:"chatbot"},{label:"I need a fast website",next:"pagespeed"},{label:"I have a bug to fix",next:"bugfix"},{label:"Just exploring",next:"explore"}]},
+scraper:{msg:"Anti-detect scraping is one of Jahanzaib's core specialties.\n\nHow much data are you looking to extract?",chips:[{label:"100k-500k records/day",next:"scraper_hard"},{label:"Under 100k records/day",next:"scraper_easy"},{label:"One-time data pull",next:"scraper_easy"}]},
+scraper_hard:{msg:"That scale requires the full anti-detect stack: Playwright, rotating residential proxies, TLS fingerprint spoofing.\n\n**Scope: $350-$450 - Delivery: 2-3 days**\n\nWant a detailed proposal?",chips:[{label:"Yes, send me a proposal",next:"capture_name"},{label:"What is included?",next:"scraper_detail"}]},
+scraper_easy:{msg:"A standard scraper should handle this cleanly.\n\n**Scope: $200-$280 - Delivery: 1-2 days**\n\nReady to get started?",chips:[{label:"Yes, let us go!",next:"capture_name"},{label:"What is included?",next:"scraper_detail"}]},
+scraper_detail:{msg:"Every scraper delivery includes:\n- Anti-detect headers and proxy rotation\n- Pydantic schema validation\n- CSV, JSON, or PostgreSQL output\n- Rate limiting and retry logic\n- 30-day bug-fix guarantee",chips:[{label:"Yes, let us go!",next:"capture_name"},{label:"I need to think",next:"think"}]},
+chatbot:{msg:"Jahanzaib specializes in LLM-powered agents - exactly like the one you are talking to right now.\n\nWhat kind of chatbot do you need?",chips:[{label:"Sales and lead capture like this",next:"chatbot_sales"},{label:"Customer support or FAQ bot",next:"chatbot_support"},{label:"Internal knowledge base agent",next:"chatbot_kb"}]},
+chatbot_sales:{msg:"A well-built sales agent can 2-4x your inbound conversion rate.\n\n**Scope: $350-$500** plus optional $100/mo hosting retainer\n- Custom conversation flows\n- WhatsApp and email lead delivery\n- Embeds on any site with 1 script tag\n- Delivery: 3-5 days\n\nShall I connect you with Jahanzaib?",chips:[{label:"Yes, book a call!",next:"capture_name"},{label:"Send me a proposal",next:"capture_name"}]},
+chatbot_support:{msg:"A support bot trained on your docs can deflect 60-80% of repetitive tickets.\n\n**Scope: $400-$600**\n- RAG architecture over your knowledge base\n- Human handoff trigger\n- Delivery: 4-6 days",chips:[{label:"Yes, send proposal",next:"capture_name"},{label:"I need to think",next:"think"}]},
+chatbot_kb:{msg:"Internal knowledge agents are a huge productivity win.\n\n**Scope: $500-$750**\n- Connects to Notion, Confluence, or Google Docs\n- Slack or web interface\n- Delivery: 5-7 days",chips:[{label:"Let us scope it!",next:"capture_name"},{label:"I need to think",next:"think"}]},
+pagespeed:{msg:"Jahanzaib delivers 90+ Lighthouse score sites - sub-1s LCP, zero CLS, Core Web Vitals optimized.\n\n**New site:** $400-$650 - 2-3 days\n**Fix existing site:** $250-$400 - 24-48h",chips:[{label:"Build a new fast site",next:"capture_name"},{label:"Fix my existing slow site",next:"capture_name"},{label:"Tell me more",next:"pagespeed_detail"}]},
+pagespeed_detail:{msg:"Every delivery guarantees:\n- 90+ Lighthouse score\n- LCP under 1.0s\n- 0.00 CLS\n- Fully responsive mobile-first\n- SEO-optimized HTML structure\n- 30-day post-delivery support",chips:[{label:"Yes, let us go!",next:"capture_name"},{label:"I need to think",next:"think"}]},
+bugfix:{msg:"Emergency Bug Fix - guaranteed response within 2-4 hours.\n\n**Scope: $50-$150**\n- Any stack: JS, Python, Node.js, React\n- Root-cause analysis included\n- Pay only after the bug is resolved",chips:[{label:"Yes, let us fix it!",next:"capture_name"},{label:"I need to think",next:"think"}]},
+explore:{msg:"Exploring is how great projects start!\n\nJahanzaib specializes in three areas:\n- Anti-detect web scrapers and data pipelines\n- AI chatbots and sales agents\n- 90+ PageSpeed websites\n\nWhich sounds most relevant?",chips:[{label:"Web scraping",next:"scraper"},{label:"AI chatbots",next:"chatbot"},{label:"Fast websites",next:"pagespeed"}]},
+think:{msg:"No pressure at all!\n\nJahanzaib's portfolio is at:\njahanzaibahmad630-bit.github.io/website/\n\nOr reach him on WhatsApp: +92 318 763 5856\n\nAnything else I can help clarify?",chips:[{label:"Show me the services",next:"explore"},{label:"Actually, let us get started!",next:"capture_name"}]},
+capture_name:{msg:"Great - let us get you connected.\n\nWhat is your name?",chips:[],input:true,inputType:"name",inputPlaceholder:"Your full name..."},
+capture_email:{msg:"Nice to meet you, {name}!\n\nWhat is the best email to reach you?",chips:[],input:true,inputType:"email",inputPlaceholder:"your@email.com"},
+capture_whatsapp:{msg:"And your WhatsApp number? Jahanzaib typically replies within 1 hour.",chips:[],input:true,inputType:"phone",inputPlaceholder:"+1 234 567 8900"},
+capture_project:{msg:"Last one - briefly describe what you need built:",chips:[],input:true,inputType:"project",inputPlaceholder:"e.g. Scrape Amazon prices daily into Google Sheets..."},
+done:{msg:"You are all set, {name}!\n\nJahanzaib has been notified and will reach out to {contact} within 1 hour.\n\nYour lead details are saved in the panel - export to CSV or JSON anytime.",chips:[{label:"Start over",next:"restart"},{label:"Open WhatsApp directly",next:"whatsapp"}]}
+};
+let state={step:"start",lead:{name:"",email:"",phone:"",project:"",service:""},awaitingInput:false,inputType:null},lc=0;
+const msgEl=document.getElementById("chat-messages"),qrEl=document.getElementById("quick-replies"),inp=document.getElementById("chat-input");
+function sb(){setTimeout(()=>{msgEl.scrollTop=msgEl.scrollHeight},50)}
+function clrQ(){qrEl.innerHTML=""}
+function agentBubble(text,delay=0){return new Promise(r=>{const t=document.createElement("div");t.className="flex items-end gap-2";t.innerHTML='<div class="w-7 h-7 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center text-[10px] font-bold flex-shrink-0">JA</div><div class="bubble-agent px-4 py-3"><div class="flex gap-1 items-center h-4"><span class="w-1.5 h-1.5 rounded-full bg-violet-400 dot-1"></span><span class="w-1.5 h-1.5 rounded-full bg-violet-400 dot-2"></span><span class="w-1.5 h-1.5 rounded-full bg-violet-400 dot-3"></span></div></div>';msgEl.appendChild(t);sb();setTimeout(()=>{t.remove();const e=document.createElement("div");e.className="flex items-end gap-2 animate-fade-up";const f=text.replace(/\n/g,"<br/>").replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>");e.innerHTML='<div class="w-7 h-7 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center text-[10px] font-bold flex-shrink-0 mb-0.5">JA</div><div class="bubble-agent px-4 py-3 text-sm font-jakarta leading-relaxed text-white/90">'+f+"</div>";msgEl.appendChild(e);sb();r()},Math.min(600+text.length*10,1600)+delay)})}
+function userBubble(text){const e=document.createElement("div");e.className="flex justify-end animate-fade-up";e.innerHTML='<div class="bubble-user px-4 py-3 text-sm font-jakarta text-white/95">'+text+"</div>";msgEl.appendChild(e);sb()}
+function renderChips(chips){clrQ();chips.forEach(c=>{const b=document.createElement("button");b.className="chip text-xs font-semibold font-jakarta text-violet-300 px-3 py-1.5 rounded-xl animate-fade-up";b.textContent=c.label;b.onclick=()=>handleChip(c);qrEl.appendChild(b)})}
+async function goTo(key,delay=0){if(key==="restart"){restart();return}if(key==="whatsapp"){window.open("https://wa.me/923187635856?text=Hi%20Jahanzaib!%20I%20talked%20to%20Agent-JA%20and%20I%20am%20interested%20in%20working%20with%20you.","_blank");return}const flow=FLOWS[key];if(!flow)return;state.step=key;const msg=flow.msg.replace("{name}",state.lead.name||"friend").replace("{contact}",state.lead.email||state.lead.phone||"you");await agentBubble(msg,delay);clrQ();if(flow.input){state.awaitingInput=true;state.inputType=flow.inputType;inp.placeholder=flow.inputPlaceholder||"Type your answer...";inp.disabled=false;inp.focus()}else{state.awaitingInput=false;state.inputType=null;inp.placeholder="Type a message...";inp.disabled=false;if(flow.chips&&flow.chips.length>0)renderChips(flow.chips)}}
+async function handleChip(chip){clrQ();userBubble(chip.label);const sm={scraper:"Web Scraper",scraper_hard:"Anti-Detect Scraper",scraper_easy:"Standard Scraper",chatbot:"AI Chatbot",chatbot_sales:"AI Sales Agent",chatbot_support:"AI Support Bot",chatbot_kb:"AI Knowledge Base",pagespeed:"PageSpeed Site",bugfix:"Bug Fix"};if(sm[chip.next])state.lead.service=sm[chip.next];await goTo(chip.next)}
+async function sendMsg(){const val=inp.value.trim();if(!val)return;inp.value="";userBubble(val);clrQ();if(state.awaitingInput){state.awaitingInput=false;switch(state.inputType){case"name":state.lead.name=val;await goTo("capture_email");break;case"email":state.lead.email=val;await goTo("capture_whatsapp");break;case"phone":state.lead.phone=val;await goTo("capture_project");break;case"project":state.lead.project=val;saveLead();await goTo("done");break}}else{const v=val.toLowerCase();let n="explore";if(v.includes("scrap")||v.includes("data")||v.includes("crawl"))n="scraper";else if(v.includes("chat")||v.includes("bot")||v.includes("agent"))n="chatbot";else if(v.includes("speed")||v.includes("fast")||v.includes("website"))n="pagespeed";else if(v.includes("bug")||v.includes("fix")||v.includes("error"))n="bugfix";await goTo(n)}}
+inp.addEventListener("keydown",e=>{if(e.key==="Enter")sendMsg()});
+function saveLead(){leads.push({...state.lead,captured_at:new Date().toISOString(),source:"AI Chatbot Demo"});lc++;updatePanel();animMetric()}
+function updatePanel(){const list=document.getElementById("leads-list"),cnt=document.getElementById("lead-count");cnt.textContent=leads.length+" lead"+(leads.length!==1?"s":"");if(!leads.length){list.innerHTML='<p class="text-[11px] text-white/30 font-jakarta text-center py-4">Complete the chat flow to see leads here</p>';return}list.innerHTML=leads.map(l=>'<div class="rounded-xl border border-violet-700/20 bg-violet-950/30 px-3 py-2.5"><div class="flex items-center justify-between mb-1"><span class="text-xs font-bold font-jakarta text-white">'+(l.name||"Unknown")+'</span><span class="text-[10px] font-mono text-violet-400 bg-violet-900/30 px-1.5 py-0.5 rounded">'+(l.service||"General")+'</span></div><div class="text-[11px] text-white/50 font-jakarta">'+(l.email||"")+" "+(l.phone?"- "+l.phone:"")+'</div><div class="text-[10px] text-white/30 font-jakarta mt-0.5 truncate">'+(l.project||"")+"</div></div>").join("")}
+function animMetric(){const el=document.getElementById("m-leads");let n=0;const t=lc;const iv=setInterval(()=>{n=Math.min(n+1,t);el.textContent=n;if(n>=t)clearInterval(iv)},80)}
+function exportCSV(){if(!leads.length){alert("No leads yet - complete the chat flow first!");return}const h=["name","email","phone","service","project","captured_at","source"];const rows=leads.map(l=>h.map(k=>'"'+(l[k]||"").replace(/"/g,'""')+'"').join(","));const blob=new Blob([h.join(",")+"\n"+rows.join("\n")],{type:"text/csv"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="ja_leads_"+Date.now()+".csv";a.click();URL.revokeObjectURL(url)}
+function exportJSON(){if(!leads.length){alert("No leads yet!");return}const blob=new Blob([JSON.stringify({meta:{total:leads.length,exported_at:new Date().toISOString()},leads},null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="ja_leads_"+Date.now()+".json";a.click();URL.revokeObjectURL(url)}
+function restart(){state={step:"start",lead:{name:"",email:"",phone:"",project:"",service:""},awaitingInput:false,inputType:null};msgEl.innerHTML="";clrQ();goTo("start")}
+goTo("start");
+</script>
+</body>
+</html>
