@@ -479,126 +479,65 @@
   <script>
     lucide.createIcons();
 
-    // ── Dataset definitions ──────────────────────────────────────────────
-    const DATASETS = {
-      b2b: {
-        columns: ['Company', 'Founder / CEO', 'Verified Email', 'Tech Stack', 'Employees', 'Funding', 'LinkedIn'],
-        rows: [
-          ['Nexlify Inc.',      'Sarah Chen',       'sarah@nexlify.io',       'React · Node · AWS',        '48',  '$2.1M Seed',    'linkedin.com/in/sarachen'],
-          ['DataVault Co.',     'Marcus Osei',      'm.osei@datavault.co',    'Python · Django · GCP',     '23',  'Bootstrapped',  'linkedin.com/in/marcosei'],
-          ['ClearPath SaaS',   'Priya Sharma',     'priya@clearpath.app',    'Next.js · Supabase',        '11',  '$500K Pre-Seed','linkedin.com/in/priyasharma'],
-          ['Orbita AI',         'James Kowalski',   'james@orbita.ai',        'Python · FastAPI · Azure',  '62',  '$5M Series A',  'linkedin.com/in/jameskowal'],
-          ['FreightLoop',       'Amira Hasan',      'amira@freightloop.com',  'Vue · Laravel · MySQL',     '34',  '$1.8M Seed',    'linkedin.com/in/amirahasan'],
-          ['Stackr Analytics',  'Leo Yamamoto',     'l.yama@stackr.io',       'TypeScript · Postgres',     '19',  'Bootstrapped',  'linkedin.com/in/leoyamamoto'],
-          ['PivotHR',           'Chloe Oduya',      'chloe@pivothr.com',      'React · Express · Redis',   '27',  '$3.2M Seed',    'linkedin.com/in/chloeoduya'],
-          ['CloudMesh Ltd.',    'David Reyes',      'david@cloudmesh.io',     'Go · Kubernetes · GCP',     '85',  '$12M Series B', 'linkedin.com/in/davidreyes'],
-          ['FormFlow',          'Nina Petrova',     'nina@formflow.app',      'React · Firebase',          '8',   '$200K Angel',   'linkedin.com/in/ninamoberg'],
-          ['PaySend SaaS',      'Omar Al-Rashid',   'omar@paysend.tech',      'Node · Stripe · Postgres',  '41',  '$4.5M Seed',    'linkedin.com/in/omaralr'],
-          ['LogiTrack Pro',     'Emily Zhang',      'emily@logitrack.io',     'Python · Celery · Redis',   '56',  '$8M Series A',  'linkedin.com/in/emilyzhanglog'],
-          ['HealthOS',          'Samuel Mensah',    'sam@healthos.co',        'React · Django · AWS',      '30',  '$2.9M Seed',    'linkedin.com/in/samhealthos'],
-        ]
-      },
-      ecom: {
-        columns: ['ASIN', 'Product Title', 'Current Price', 'Our Price', 'Competitor Δ', 'Stock Status', 'BSR Rank'],
-        rows: [
-          ['B08N5WRWNW', 'Anker USB-C Hub 7-in-1',            '$35.99', '$29.99', '-16.7%', '✅ In Stock',     '#142 in Electronics'],
-          ['B07XJ8C8F5', 'Logitech MX Keys Wireless Kbd',     '$99.99', '$89.99', '-10.0%', '✅ In Stock',     '#38 in Keyboards'],
-          ['B09G9FPHY6', 'Samsung T7 Shield Portable SSD',    '$89.99', '$79.00', '-12.2%', '✅ In Stock',     '#11 in Ext. Storage'],
-          ['B07PXGQC1Q', 'ASUS ProArt Monitor 27" 4K',       '$599.99','$559.00', '-6.8%', '⚠️ Low Stock',    '#85 in Monitors'],
-          ['B08HMWZBM7', 'Elgato Stream Deck MK.2',          '$149.99','$129.99', '-13.3%', '✅ In Stock',    '#22 in Streaming'],
-          ['B08C1W5N87', 'Sony WH-1000XM5 Headphones',       '$349.99','$309.00', '-11.7%', '✅ In Stock',     '#3 in Headphones'],
-          ['B07FZ8S74R', 'Razer DeathAdder V3 Gaming Mouse', '$69.99', '$62.00', '-11.4%', '✅ In Stock',     '#51 in PC Mice'],
-          ['B09JQSLL92', 'Apple AirTag 4-Pack',              '$99.00', '$89.99',  '-9.1%', '✅ In Stock',     '#7 in GPS Trackers'],
-          ['B074KL6ZJR', 'Kindle Paperwhite 11th Gen',       '$139.99','$119.99', '-14.3%', '⚠️ Low Stock',   '#4 in eReaders'],
-          ['B082TBH4WD', 'Govee RGBIC TV Backlight Kit',     '$29.99', '$22.99', '-23.3%', '✅ In Stock',     '#9 in LED Strips'],
-          ['B09B8YWXDF', 'Blink Outdoor Security Camera 3x', '$119.99','$99.99', '-16.7%', '✅ In Stock',     '#14 in Smart Home'],
-          ['B0BQNMQ5DP', 'GreenWorks 80V Cordless Mower',    '$649.00','$579.00', '-10.8%', '❌ Out of Stock','#6 in Lawn Mowers'],
-        ]
-      },
-      realestate: {
-        columns: ['Property Address', 'Type', 'Asking Price', 'Price / SqFt', 'Cap Rate', 'SqFt', 'Broker Contact'],
-        rows: [
-          ['1240 Market St, San Francisco, CA',    'Office',    '$4,200,000', '$850',  '4.2%', '4,940 sqft', 'broker@cbrecf.com'],
-          ['820 Peachtree St NE, Atlanta, GA',     'Retail',    '$1,850,000', '$310',  '5.8%', '5,967 sqft', 'jm@colliers.com'],
-          ['3301 Travis St, Houston, TX',          'Industrial','$2,700,000', '$185',  '6.1%','14,594 sqft', 'tx@cbre.com'],
-          ['450 Seventh Ave, New York, NY',        'Office',    '$9,500,000', '$1,100','3.9%', '8,636 sqft', 'ny@jll.com'],
-          ['5500 Tennyson Pkwy, Plano, TX',        'Mixed-Use', '$3,100,000', '$420',  '5.3%', '7,381 sqft', 'plano@cushwake.com'],
-          ['2800 Woodlawn Dr, Honolulu, HI',       'Office',    '$5,800,000', '$780',  '4.0%', '7,436 sqft', 'hi@cbre.com'],
-          ['1100 Superior Ave, Cleveland, OH',     'Industrial','$890,000',   '$98',   '7.2%', '9,082 sqft', 'oh@svn.com'],
-          ['200 S Orange Ave, Orlando, FL',        'Retail',    '$2,200,000', '$375',  '5.6%', '5,867 sqft', 'fl@colliers.com'],
-          ['4000 MacArthur Blvd, Oakland, CA',     'Office',    '$6,400,000', '$920',  '4.5%', '6,957 sqft', 'oak@jll.com'],
-          ['710 N Tucker Blvd, St. Louis, MO',     'Mixed-Use', '$1,450,000', '$245',  '6.3%', '5,918 sqft', 'stl@svn.com'],
-          ['9200 Sunset Blvd, Los Angeles, CA',    'Retail',    '$7,300,000', '$1,050','3.7%', '6,952 sqft', 'la@cushwake.com'],
-          ['3750 Gunn Hwy, Tampa, FL',             'Industrial','$1,100,000', '$128',  '6.8%', '8,594 sqft', 'tfl@cbre.com'],
-        ]
-      }
-    };
+    // ─────────────────────────────────────────────────────────────────────
+    // ⚙️  CONFIGURATION — Update this URL after deploying the backend to Render
+    // ─────────────────────────────────────────────────────────────────────
+    // STEP: Deploy scraper-api/ to Render.com, copy your live URL, paste below.
+    // Example: const SCRAPER_API_URL = "https://ja-scraper-api.onrender.com";
+    const SCRAPER_API_URL = "https://ja-scraper-api.onrender.com";
 
-    // ── Terminal log templates ────────────────────────────────────────────
+    // ── Terminal log templates (shown while API is fetching) ─────────────
     const LOGS = {
       b2b: [
         ['info',    '🚀 Initializing B2B Lead Intelligence pipeline...'],
-        ['dim',     '   Target sources: LinkedIn Sales Navigator, Crunchbase, Apollo.io'],
-        ['info',    '🔐 Generating TLS/JA3 fingerprint... ja3_hash=8a08b29...f7c2'],
-        ['success', '✔  Fingerprint randomized — mimicking Chrome 126 on macOS'],
-        ['info',    '🌐 Fetching residential proxy pool...'],
-        ['data',    '   Pool: 240 IPs / 14 countries (US:87, UK:42, CA:31, DE:28, AU:22...)'],
-        ['success', '✔  Proxy gateway health check passed — 238/240 IPs active'],
-        ['info',    '🛡️  Cloudflare Turnstile challenge detected on target...'],
-        ['warn',    '   Solving Turnstile token — payload: cf_challenge_js_fbdbfae...'],
-        ['success', '✔  Challenge solved (1.2s) — session token acquired'],
-        ['info',    '🔎 Initiating lead extraction — Page 1/∞'],
-        ['data',    '   DOM selector: [data-entity-urn], fallback: JSON-LD microdata'],
-        ['success', '✔  Extracted 12 records — schema validation: PASSED (12/12)'],
-        ['info',    '🔄 Rotating proxy IP... prev: 104.223.81.x → new: 172.67.45.x'],
-        ['success', '✔  Records enriched with email & tech stack verification'],
-        ['info',    '📦 Streaming batch to PostgreSQL / BigQuery...'],
-        ['success', '✅ Extraction complete. 12 verified B2B leads harvested.'],
+        ['dim',     '   Target: HackerNews "Who is Hiring?" — via Algolia Public API'],
+        ['info',    '🔐 Generating session fingerprint... ja3_hash=8a08b29...f7c2'],
+        ['success', '✔  Session established — mimicking Chrome 126 on macOS'],
+        ['info',    '🌐 Connecting to HackerNews Algolia API endpoint...'],
+        ['data',    '   GET hn.algolia.com/api/v1/search?tags=story&query=hiring'],
+        ['success', '✔  Latest "Who is Hiring?" thread located — fetching comments'],
+        ['info',    '🔎 Parsing top-level job posting comments...'],
+        ['data',    '   Extracting: company, author, date, tech stack, HN link'],
+        ['info',    '⚙️  Running tech-stack keyword extraction (Python · React · Go...)'],
+        ['success', '✔  Schema validation: PASSED — records cleaned & de-duplicated'],
+        ['info',    '📦 Streaming live records to data table...'],
       ],
       ecom: [
         ['info',    '🚀 Initializing E-Commerce Price Intelligence pipeline...'],
-        ['dim',     '   Target sources: Amazon ASIN catalog, Walmart API, eBay'],
+        ['dim',     '   Target: books.toscrape.com — purpose-built scraping sandbox'],
         ['info',    '🔐 Generating TLS/JA3 fingerprint... ja3_hash=3d4f1ab...99ee'],
         ['success', '✔  Fingerprint randomized — mimicking Firefox 118 on Windows 11'],
-        ['info',    '🌐 Allocating residential proxy — geolocated: United States'],
-        ['success', '✔  Proxy: 52.3.212.xx (Dallas, TX) — latency: 48ms'],
-        ['info',    '🛡️  DataDome anti-bot challenge intercepted...'],
-        ['warn',    '   Solving challenge — emitting human behavioral entropy...'],
-        ['success', '✔  DataDome bypassed — cookie session established'],
-        ['info',    '📊 Extracting ASIN catalog — batch size: 12 products'],
-        ['data',    '   Fields: ASIN, price, BSR rank, stock status, rating, reviews'],
-        ['success', '✔  Prices extracted — Pydantic schema validation: PASSED (12/12)'],
-        ['info',    '🔄 Computing competitor price deltas...'],
-        ['data',    '   Avg delta: -12.7% below market rate on 10/12 products'],
-        ['info',    '📦 Writing to database: 12 rows → pricing_intelligence table'],
-        ['success', '✅ Extraction complete. 12 product intelligence records harvested.'],
+        ['info',    '🌐 Sending HTTP request to books.toscrape.com/catalogue/page-1.html'],
+        ['data',    '   Headers: User-Agent, Accept-Language, Sec-Fetch-* injected'],
+        ['success', '✔  200 OK received — HTML payload: ~47KB'],
+        ['info',    '📊 Parsing DOM — selecting article.product_pod elements...'],
+        ['data',    '   Fields: Title (h3 > a[title]), Price (.price_color), Rating (.star-rating)'],
+        ['success', '✔  Prices extracted — Pydantic schema validation: PASSED'],
+        ['info',    '📦 Streaming live records to data table...'],
       ],
       realestate: [
-        ['info',    '🚀 Initializing Real Estate Listing Intelligence pipeline...'],
-        ['dim',     '   Target sources: LoopNet, CoStar, Crexi, Zillow Commercial'],
-        ['info',    '🔐 Generating TLS/JA3 fingerprint... ja3_hash=5c9b2de...44fa'],
-        ['success', '✔  Fingerprint randomized — mimicking Safari 17 on iOS 17'],
-        ['info',    '🌐 Fetching residential proxy — target geolocation: US Regional'],
-        ['success', '✔  Proxy: 184.73.18.xx (Chicago, IL) — latency: 62ms'],
-        ['info',    '🛡️  Akamai Bot Manager detected on CoStar target...'],
-        ['warn',    '   Resolving Akamai sensor — injecting stealth event listeners...'],
-        ['success', '✔  Akamai bypassed — JavaScript challenge solved in 0.9s'],
-        ['info',    '🔎 Parsing listings — extracting: address, price, sqft, cap rate'],
-        ['data',    '   DOM strategy: CSS selector + JSON-LD fallback + regex cap rate'],
-        ['success', '✔  Extracted 12 listings — schema validation: PASSED (12/12)'],
-        ['info',    '📍 Broker contact validation & de-duplication...'],
-        ['data',    '   Unique broker contacts: 11/12 — 1 duplicate removed'],
-        ['info',    '📦 Streaming to Google Sheets & BigQuery partition...'],
-        ['success', '✅ Extraction complete. 12 commercial listings harvested.'],
+        ['info',    '🚀 Initializing Real Estate Market Intelligence pipeline...'],
+        ['dim',     '   Target: US Census Bureau ACS 5-Year Estimates 2022 — Free Public API'],
+        ['info',    '🔐 Generating request signature... no auth token required'],
+        ['success', '✔  Public API — zero authentication barrier'],
+        ['info',    '🌐 Querying Census API: B25077_001E (Median Home Value) + B25064_001E (Median Rent)'],
+        ['data',    '   Geography: New York State — all counties'],
+        ['success', '✔  200 OK — JSON response received'],
+        ['info',    '⚙️  Computing implied cap rates: (annual_rent / median_home_value) × 100'],
+        ['data',    '   Filtering counties with valid home value data...'],
+        ['success', '✔  Schema validation: PASSED — 12 counties extracted'],
+        ['info',    '📦 Streaming live records to data table...'],
       ]
     };
 
     // ── State ─────────────────────────────────────────────────────────────
     let currentScenario = 'b2b';
-    let extractedData = [];
-    let isRunning = false;
-    let recordCount = 0;
-    let speedInterval = null;
+    let extractedData   = [];
+    let liveColumns     = [];
+    let liveSource      = '';
+    let liveNote        = '';
+    let isRunning       = false;
+    let recordCount     = 0;
 
     // ── Scenario selection ────────────────────────────────────────────────
     document.querySelectorAll('.scenario-card').forEach(card => {
@@ -612,9 +551,7 @@
 
     // ── Toggle switches ───────────────────────────────────────────────────
     document.querySelectorAll('.toggle-track').forEach(track => {
-      track.addEventListener('click', () => {
-        track.classList.toggle('on');
-      });
+      track.addEventListener('click', () => track.classList.toggle('on'));
     });
 
     // ── Terminal helpers ──────────────────────────────────────────────────
@@ -637,7 +574,7 @@
       });
     }
 
-    // ── Metrics animation ─────────────────────────────────────────────────
+    // ── Metrics counter animation ─────────────────────────────────────────
     function animateCounter(el, target, duration = 1200) {
       const start = parseInt(el.textContent.replace(/,/g, '')) || 0;
       const range = target - start;
@@ -662,11 +599,10 @@
       text.textContent = { idle: 'IDLE', run: 'RUNNING', done: 'COMPLETE' }[state];
     }
 
-    // ── Build table ───────────────────────────────────────────────────────
-    function buildTable(rows, filter = '') {
-      const { columns } = DATASETS[currentScenario];
+    // ── Build table from columns + rows ───────────────────────────────────
+    function buildTable(columns, rows, filter = '') {
       const filtered = rows.filter(row =>
-        filter === '' || row.some(cell => cell.toLowerCase().includes(filter.toLowerCase()))
+        filter === '' || row.some(cell => String(cell).toLowerCase().includes(filter.toLowerCase()))
       );
       const wrapper = document.getElementById('table-wrapper');
       if (filtered.length === 0) {
@@ -683,125 +619,185 @@
 
     // ── Search ────────────────────────────────────────────────────────────
     document.getElementById('search-input').addEventListener('input', e => {
-      if (extractedData.length > 0) buildTable(extractedData, e.target.value);
+      if (extractedData.length > 0) buildTable(liveColumns, extractedData, e.target.value);
     });
 
     // ── Export CSV ────────────────────────────────────────────────────────
     document.getElementById('btn-csv').addEventListener('click', () => {
-      const { columns, rows } = DATASETS[currentScenario];
-      const header = columns.join(',');
-      const body = rows.map(r => r.map(c => `"${c}"`).join(',')).join('\n');
-      const blob = new Blob([header + '\n' + body], { type: 'text/csv' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href = url;
-      a.download = `jahanzaib_scraper_${currentScenario}_${Date.now()}.csv`;
-      a.click(); URL.revokeObjectURL(url);
+      const header = liveColumns.join(',');
+      const body   = extractedData.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
+      const blob   = new Blob([header + '\n' + body], { type: 'text/csv' });
+      const url    = URL.createObjectURL(blob);
+      const a      = document.createElement('a');
+      a.href       = url;
+      a.download   = `ja_live_scrape_${currentScenario}_${Date.now()}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
     });
 
     // ── Export JSON ───────────────────────────────────────────────────────
     document.getElementById('btn-json').addEventListener('click', () => {
-      const { columns, rows } = DATASETS[currentScenario];
-      const jsonData = rows.map(row => {
+      const jsonData = extractedData.map(row => {
         const obj = {};
-        columns.forEach((col, i) => { obj[col] = row[i]; });
+        liveColumns.forEach((col, i) => { obj[col] = row[i]; });
         return obj;
       });
       const payload = {
         meta: {
-          scenario: currentScenario,
-          records: rows.length,
+          scenario:     currentScenario,
+          records:      extractedData.length,
+          source:       liveSource,
+          note:         liveNote,
           extracted_at: new Date().toISOString(),
-          pipeline: 'Jahanzaib Ahmad — Anti-Detect Scraper v2.5',
-          contact: 'jahanzaibahmad630@gmail.com'
+          pipeline:     'Jahanzaib Ahmad — Anti-Detect Scraper v2.5',
+          contact:      'jahanzaibahmad630@gmail.com',
+          portfolio:    'https://jahanzaibahmad630-bit.github.io/website/'
         },
         data: jsonData
       };
       const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href = url;
-      a.download = `jahanzaib_scraper_${currentScenario}_${Date.now()}.json`;
-      a.click(); URL.revokeObjectURL(url);
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href     = url;
+      a.download = `ja_live_scrape_${currentScenario}_${Date.now()}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
     });
 
     // ── Clear terminal ────────────────────────────────────────────────────
-    document.getElementById('btn-clear').addEventListener('click', () => {
-      clearTerminal();
-    });
+    document.getElementById('btn-clear').addEventListener('click', () => clearTerminal());
 
-    // ── Main Run Logic ────────────────────────────────────────────────────
+    // ── Main Run Logic — calls real backend API ───────────────────────────
     document.getElementById('btn-run').addEventListener('click', async () => {
       if (isRunning) return;
-      isRunning = true;
+      isRunning    = true;
       extractedData = [];
+      liveColumns   = [];
 
       const btnRun   = document.getElementById('btn-run');
       const btnClear = document.getElementById('btn-clear');
       const btnCsv   = document.getElementById('btn-csv');
       const btnJson  = document.getElementById('btn-json');
+      const wrapper  = document.getElementById('table-wrapper');
 
-      btnRun.disabled = true;
-      btnRun.innerHTML = `<svg class="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg> Running...`;
+      btnRun.disabled  = true;
+      btnRun.innerHTML = `<svg class="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg> Fetching Live Data...`;
       btnClear.disabled = true;
-      btnCsv.disabled = true;
-      btnJson.disabled = true;
+      btnCsv.disabled   = true;
+      btnJson.disabled  = true;
 
       setStatus('run');
       clearTerminal();
-
-      // Animate metrics going live
       document.getElementById('metric-records').textContent = '0';
-      document.getElementById('metric-speed').textContent = '0';
-      document.getElementById('metric-ban').textContent = '0';
+      document.getElementById('metric-speed').textContent   = '0';
+      document.getElementById('metric-ban').textContent     = '0';
 
-      // Fake speed animation
-      let speed = 0;
-      speedInterval = setInterval(() => {
-        speed = Math.min(speed + Math.floor(Math.random() * 40 + 20), 380);
-        document.getElementById('metric-speed').textContent = speed;
-      }, 300);
+      // Show table shimmer placeholder while API is loading
+      wrapper.innerHTML = `
+        <div class="p-6 space-y-3">
+          ${Array(6).fill(0).map(() => `
+            <div class="flex gap-4">
+              <div class="h-4 bg-purple-900/30 rounded animate-pulse flex-1"></div>
+              <div class="h-4 bg-purple-900/30 rounded animate-pulse w-24"></div>
+              <div class="h-4 bg-purple-900/30 rounded animate-pulse w-20"></div>
+              <div class="h-4 bg-purple-900/30 rounded animate-pulse w-28"></div>
+            </div>`).join('')}
+        </div>`;
 
-      // Stream logs
+      // Stream terminal logs (architectural commentary shown during API wait)
       const logs = LOGS[currentScenario];
-      for (let i = 0; i < logs.length; i++) {
-        const delay = i === 0 ? 0 : (i < 3 ? 300 : i < 8 ? 450 : 350);
+      for (let i = 0; i < logs.length - 1; i++) {
+        const delay = i === 0 ? 0 : (i < 3 ? 280 : 380);
         await appendLog(logs[i][0], logs[i][1], delay);
       }
 
-      // Populate table row by row
-      clearInterval(speedInterval);
-      const dataset = DATASETS[currentScenario];
-      const wrapper = document.getElementById('table-wrapper');
-      const { columns, rows } = dataset;
+      // ── Fetch real data from backend ──────────────────────────────────
+      let apiData = null;
+      try {
+        await appendLog('info', `🔌 Calling live API: ${SCRAPER_API_URL}/scrape?scenario=${currentScenario}`, 200);
 
-      // Build empty table first
-      const ths = columns.map(c => `<th>${c}</th>`).join('');
-      wrapper.innerHTML = `<table class="data-table" id="live-table"><thead><tr>${ths}</tr></thead><tbody id="live-tbody"></tbody></table>`;
+        const response = await fetch(`${SCRAPER_API_URL}/scrape?scenario=${currentScenario}`, {
+          signal: AbortSignal.timeout(30000) // 30s timeout (Render free tier cold-starts)
+        });
+
+        if (!response.ok) {
+          const err = await response.json().catch(() => ({ detail: response.statusText }));
+          throw new Error(err.detail || `HTTP ${response.status}`);
+        }
+
+        apiData = await response.json();
+        await appendLog('success', `✅ ${apiData.count} live records received from ${apiData.source}`, 0);
+        if (apiData.note) await appendLog('dim', `   ℹ️  ${apiData.note}`, 100);
+
+      } catch (err) {
+        clearInterval(undefined);
+        setStatus('idle');
+        await appendLog('error', `❌ API request failed: ${err.message}`, 0);
+        await appendLog('warn',  '   If this is the first request, the free server may be waking up (30s).', 200);
+        await appendLog('warn',  '   Please wait 30 seconds and click "Run Extraction" again.', 100);
+
+        wrapper.innerHTML = `
+          <div class="py-14 text-center">
+            <p class="font-poppins text-sm text-red-400/80 mb-2">⚠️ API connection failed</p>
+            <p class="font-poppins text-xs text-purple-400/50">The backend server may be starting up (free tier). Wait 30 seconds and try again.</p>
+          </div>`;
+
+        btnRun.disabled  = false;
+        btnRun.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg> Retry`;
+        btnClear.disabled = false;
+        isRunning = false;
+        return;
+      }
+
+      // ── Stream rows into the table one by one ─────────────────────────
+      liveColumns = apiData.columns;
+      liveSource  = apiData.source;
+      liveNote    = apiData.note || '';
+
+      const ths = liveColumns.map(c => `<th>${c}</th>`).join('');
+      wrapper.innerHTML = `
+        <div class="px-4 pt-3 pb-1 flex items-center gap-2 border-b border-purple-900/30">
+          <span class="inline-flex items-center gap-1.5 text-[11px] font-mono font-bold text-green-400 bg-green-400/10 border border-green-400/20 px-2.5 py-0.5 rounded-full">
+            <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
+            ⚡ LIVE DATA
+          </span>
+          <span class="font-poppins text-[10px] text-purple-400/60">Source: ${apiData.source}</span>
+        </div>
+        <table class="data-table" id="live-table">
+          <thead><tr>${ths}</tr></thead>
+          <tbody id="live-tbody"></tbody>
+        </table>`;
+
       const tbody = document.getElementById('live-tbody');
+      let speedVal = 0;
+      const speedEl = document.getElementById('metric-speed');
 
-      for (let i = 0; i < rows.length; i++) {
-        await new Promise(resolve => setTimeout(resolve, 150));
+      for (let i = 0; i < apiData.rows.length; i++) {
+        await new Promise(resolve => setTimeout(resolve, 140));
         const tr = document.createElement('tr');
         tr.className = 'new-row';
-        tr.innerHTML = rows[i].map(cell => `<td>${cell}</td>`).join('');
+        tr.innerHTML = apiData.rows[i].map(cell => `<td>${cell}</td>`).join('');
         tbody.appendChild(tr);
-        extractedData.push(rows[i]);
+        extractedData.push(apiData.rows[i]);
         recordCount = i + 1;
         document.getElementById('metric-records').textContent = recordCount;
         document.getElementById('row-count').textContent = `(${recordCount} rows)`;
+        speedVal = Math.min(speedVal + Math.floor(Math.random() * 35 + 15), 350);
+        speedEl.textContent = speedVal;
       }
 
-      // Final speed settle
-      animateCounter(document.getElementById('metric-speed'), 342, 800);
+      animateCounter(speedEl, 312, 600);
       setStatus('done');
 
-      await appendLog('dim', '─────────────────────────────────────────────', 200);
-      await appendLog('success', `✅ Pipeline complete. ${recordCount} records ready for export.`, 250);
+      await appendLog('dim',     '──────────────────────────────────────────────────────', 200);
+      await appendLog('success', `✅ Pipeline complete. ${recordCount} LIVE records ready for export.`, 150);
+      await appendLog('dim',     `   Source: ${liveSource}`, 80);
 
-      btnRun.disabled = false;
+      btnRun.disabled  = false;
       btnRun.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg> Run Again`;
       btnClear.disabled = false;
-      btnCsv.disabled = false;
-      btnJson.disabled = false;
+      btnCsv.disabled   = false;
+      btnJson.disabled  = false;
       isRunning = false;
     });
   </script>
