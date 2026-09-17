@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>PageSpeed Audit Lab — Jahanzaib Ahmad</title>
+<meta name="description" content="Live before/after PageSpeed audit demo. See how Jahanzaib takes sites from score 34 to 97 — cutting LCP from 8.2s to 0.8s."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config={theme:{extend:{fontFamily:{jakarta:["Plus Jakarta Sans","sans-serif"],mono:["JetBrains Mono","monospace"]},animation:{"fade-up":"fadeUp 0.5s ease-out both","score-fill":"scoreFill 1.8s ease-out both","count-up":"countUp 0.3s ease-out"},keyframes:{fadeUp:{from:{opacity:"0",transform:"translateY(20px)"},to:{opacity:"1",transform:"translateY(0)"}},scoreFill:{from:{strokeDashoffset:"440"},to:{strokeDashoffset:"var(--dash-target)"}}}}}}
+</script>
+<style>
+body{background:#0A0714;font-family:"Plus Jakarta Sans",sans-serif;color:#fff;overflow-x:hidden}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:#5B21B6;border-radius:9999px}
+.nav-blur{backdrop-filter:blur(16px);background:rgba(10,7,20,0.88)}
+.tab-btn{transition:all 0.25s;cursor:pointer}
+.tab-btn.active-before{background:rgba(239,68,68,0.15);border-color:rgba(239,68,68,0.4);color:#FCA5A5}
+.tab-btn.active-after{background:rgba(34,197,94,0.15);border-color:rgba(34,197,94,0.4);color:#86EFAC}
+.score-circle-before{stroke:#EF4444}
+.score-circle-after{stroke:#22C55E}
+.metric-bar-track{background:rgba(255,255,255,0.06);border-radius:9999px;overflow:hidden;height:6px}
+.metric-bar-fill{height:100%;border-radius:9999px;transition:width 1.2s cubic-bezier(0.22,1,0.36,1)}
+.metric-bar-fill.bad{background:linear-gradient(90deg,#EF4444,#F97316)}
+.metric-bar-fill.good{background:linear-gradient(90deg,#22C55E,#10B981)}
+.fix-row{border-bottom:1px solid rgba(255,255,255,0.04);transition:background 0.2s}
+.fix-row:hover{background:rgba(124,58,237,0.06)}
+.card{background:linear-gradient(135deg,#160D2E,#1A1040);border:1px solid rgba(167,139,250,0.12)}
+.score-card-before{background:linear-gradient(135deg,#2D0A0A,#1A0808);border:1px solid rgba(239,68,68,0.15)}
+.score-card-after{background:linear-gradient(135deg,#0A2D0A,#081A08);border:1px solid rgba(34,197,94,0.15)}
+.code-block{background:#0D0D1A;border:1px solid rgba(255,255,255,0.06);border-radius:12px;font-family:"JetBrains Mono",monospace;font-size:12px;line-height:1.7;overflow-x:auto}
+.code-bad .keyword{color:#F87171}
+.code-good .keyword{color:#86EFAC}
+.code-comment{color:#6B7280}
+.code-string{color:#FCD34D}
+.tag{color:#93C5FD}
+.attr{color:#C4B5FD}
+.val{color:#FCD34D}
+.grad-text{background:linear-gradient(135deg,#A78BFA,#06B6D4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hidden-panel{display:none}
+.active-panel{display:block}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav-blur fixed top-0 left-0 right-0 z-50 border-b border-violet-900/20 px-6 py-4 flex items-center justify-between">
+  <a href="index.html" class="flex items-center gap-3">
+    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-600 to-violet-800 flex items-center justify-center text-xs font-bold font-jakarta">JA</div>
+    <span class="text-sm font-semibold text-white/70 font-jakarta hover:text-white transition-colors">Jahanzaib Ahmad</span>
+    <span class="text-white/25">/</span>
+    <span class="text-xs font-bold text-violet-400 tracking-widest uppercase">PageSpeed Lab</span>
+  </a>
+  <a href="https://wa.me/923187635856?text=Hi%20Jahanzaib!%20I%20need%20a%20PageSpeed%20audit%20for%20my%20site." target="_blank" rel="noopener"
+     class="flex items-center gap-2 bg-gradient-to-r from-violet-600 to-violet-700 hover:from-violet-500 hover:to-violet-600 text-white text-xs font-semibold px-4 py-2 rounded-xl transition-all font-jakarta">
+    Get My Site Audited
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="pt-28 pb-10 px-6 text-center">
+  <div class="max-w-3xl mx-auto">
+    <div class="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/25 text-cyan-400 text-xs font-semibold px-3 py-1.5 rounded-full mb-6 font-jakarta">
+      <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+      Live Audit Demo — Real Optimization Techniques
+    </div>
+    <h1 class="text-4xl md:text-5xl font-extrabold font-jakarta leading-tight mb-4">
+      Score 34 <span class="text-red-400">→</span> Score 97<br/>
+      <span class="grad-text">in One Audit Sprint</span>
+    </h1>
+    <p class="text-white/55 text-base font-jakarta font-light max-w-lg mx-auto">
+      Toggle between the Before and After versions. Every metric, every fix — fully documented and reproducible on any stack.
+    </p>
+  </div>
+</section>
+
+<!-- BEFORE/AFTER TOGGLE -->
+<section class="px-6 pb-8">
+  <div class="max-w-5xl mx-auto">
+    <div class="flex items-center justify-center gap-3 mb-10">
+      <button id="btn-before" onclick="setPanel('before')"
+        class="tab-btn active-before flex items-center gap-2 px-6 py-3 rounded-xl border border-red-500/40 font-jakarta text-sm font-semibold">
+        <span class="w-2 h-2 rounded-full bg-red-400"></span> Before Audit
+      </button>
+      <div class="text-white/20 font-jakarta text-lg">→</div>
+      <button id="btn-after" onclick="setPanel('after')"
+        class="tab-btn flex items-center gap-2 px-6 py-3 rounded-xl border border-white/10 text-white/40 font-jakarta text-sm font-semibold">
+        <span class="w-2 h-2 rounded-full bg-green-400"></span> After Audit
+      </button>
+    </div>
+
+    <!-- BEFORE PANEL -->
+    <div id="panel-before" class="active-panel">
+      <div class="grid md:grid-cols-3 gap-6 mb-8">
+
+        <!-- Score circle -->
+        <div class="score-card-before rounded-3xl p-6 flex flex-col items-center justify-center">
+          <div class="text-xs font-semibold tracking-widest uppercase text-red-400/60 font-jakarta mb-4">Lighthouse Score</div>
+          <div class="relative w-36 h-36">
+            <svg class="w-full h-full -rotate-90" viewBox="0 0 140 140">
+              <circle cx="70" cy="70" r="60" fill="none" stroke="rgba(239,68,68,0.08)" stroke-width="12"/>
+              <circle id="circle-before" cx="70" cy="70" r="60" fill="none" stroke="#EF4444" stroke-width="12"
+                stroke-dasharray="377" stroke-dashoffset="377" stroke-linecap="round"
+                style="transition:stroke-dashoffset 1.6s cubic-bezier(0.22,1,0.36,1)"/>
+            </svg>
+            <div class="absolute inset-0 flex flex-col items-center justify-center">
+              <span id="score-before-num" class="text-4xl font-extrabold font-jakarta text-red-400">0</span>
+              <span class="text-xs text-red-400/50 font-jakarta mt-0.5">/ 100</span>
+            </div>
+          </div>
+          <div class="mt-4 flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
+            <span class="text-xs font-semibold text-red-400 font-jakarta">Poor Performance</span>
+          </div>
+        </div>
+
+        <!-- Core Web Vitals -->
+        <div class="card rounded-3xl p-6 md:col-span-2">
+          <div class="text-xs font-semibold tracking-widest uppercase text-violet-400/60 font-jakarta mb-5">Core Web Vitals — Before</div>
+          <div class="space-y-5">
+            <div>
+              <div class="flex justify-between mb-1.5">
+                <span class="text-sm font-semibold font-jakarta text-white">LCP <span class="text-white/30 font-normal text-xs">Largest Contentful Paint</span></span>
+                <span class="text-sm font-mono text-red-400 font-semibold">8.2s</span>
+              </div>
+              <div class="metric-bar-track"><div class="metric-bar-fill bad" style="width:82%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-1.5">
+                <span class="text-sm font-semibold font-jakarta text-white">INP <span class="text-white/30 font-normal text-xs">Interaction to Next Paint</span></span>
+                <span class="text-sm font-mono text-red-400 font-semibold">420ms</span>
+              </div>
+              <div class="metric-bar-track"><div class="metric-bar-fill bad" style="width:74%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-1.5">
+                <span class="text-sm font-semibold font-jakarta text-white">CLS <span class="text-white/30 font-normal text-xs">Cumulative Layout Shift</span></span>
+                <span class="text-sm font-mono text-orange-400 font-semibold">0.42</span>
+              </div>
+              <div class="metric-bar-track"><div class="metric-bar-fill bad" style="width:88%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-1.5">
+                <span class="text-sm font-semibold font-jakarta text-white">FCP <span class="text-white/30 font-normal text-xs">First Contentful Paint</span></span>
+                <span class="text-sm font-mono text-red-400 font-semibold">4.1s</span>
+              </div>
+              <div class="metric-bar-track"><div class="metric-bar-fill bad" style="width:69%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-1.5">
+                <span class="text-sm font-semibold font-jakarta text-white">TTFB <span class="text-white/30 font-normal text-xs">Time to First Byte</span></span>
+                <span class="text-sm font-mono text-orange-400 font-semibold">1.8s</span>
+              </div>
+              <div class="metric-bar-track"><div class="metric-bar-fill bad" style="width:60%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bad code examples -->
+      <div class="card rounded-3xl p-6">
+        <div class="text-xs font-semibold tracking-widest uppercase text-red-400/60 font-jakarta mb-5">Problems Found in Source Code</div>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <div class="text-xs text-red-400 font-mono font-semibold mb-2">❌ Render-blocking scripts in &lt;head&gt;</div>
+            <div class="code-block code-bad p-4">
+<span class="tag">&lt;head&gt;</span>
+  <span class="code-comment">&#x3C;!-- 3 scripts blocking render --&gt;</span>
+  <span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="val">"jquery.min.js"</span><span class="tag">&gt;&lt;/script&gt;</span>
+  <span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="val">"bootstrap.js"</span><span class="tag">&gt;&lt;/script&gt;</span>
+  <span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="val">"analytics.js"</span><span class="tag">&gt;&lt;/script&gt;</span>
+  <span class="code-comment">&#x3C;!-- 2.4MB uncompressed image --&gt;</span>
+  <span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="val">"hero-image.jpg"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/head&gt;</span>
+            </div>
+          </div>
+          <div>
+            <div class="text-xs text-red-400 font-mono font-semibold mb-2">❌ Unoptimised images &amp; no lazy loading</div>
+            <div class="code-block code-bad p-4">
+<span class="code-comment">&#x3C;!-- No width/height = layout shift --&gt;</span>
+<span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="val">"photo.jpg"</span><span class="tag">/&gt;</span>
+
+<span class="code-comment">&#x3C;!-- All images load immediately --&gt;</span>
+<span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="val">"product1.jpg"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="val">"product2.jpg"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="val">"product3.jpg"</span><span class="tag">/&gt;</span>
+
+<span class="code-comment">&#x3C;!-- 68KB unused CSS loaded --&gt;</span>
+<span class="tag">&lt;link</span> <span class="attr">href</span>=<span class="val">"bootstrap.min.css"</span><span class="tag">/&gt;</span>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 grid grid-cols-3 gap-3">
+          <div class="bg-red-500/8 rounded-xl p-3 text-center border border-red-500/10">
+            <div class="text-xl font-extrabold font-mono text-red-400">2.4MB</div>
+            <div class="text-[10px] text-white/40 font-jakarta mt-0.5">Unoptimised Images</div>
+          </div>
+          <div class="bg-red-500/8 rounded-xl p-3 text-center border border-red-500/10">
+            <div class="text-xl font-extrabold font-mono text-red-400">68KB</div>
+            <div class="text-[10px] text-white/40 font-jakarta mt-0.5">Unused CSS</div>
+          </div>
+          <div class="bg-red-500/8 rounded-xl p-3 text-center border border-red-500/10">
+            <div class="text-xl font-extrabold font-mono text-red-400">3</div>
+            <div class="text-[10px] text-white/40 font-jakarta mt-0.5">Render-Blocking Scripts</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AFTER PANEL -->
+    <div id="panel-after" class="hidden-panel">
+      <div class="grid md:grid-cols-3 gap-6 mb-8">
+
+        <!-- Score circle -->
+        <div class="score-card-after rounded-3xl p-6 flex flex-col items-center justify-center">
+          <div class="text-xs font-semibold tracking-widest uppercase text-green-400/60 font-jakarta mb-4">Lighthouse Score</div>
+          <div class="relative w-36 h-36">
+            <svg class="w-full h-full -rotate-90" viewBox="0 0 140 140">
+              <circle cx="70" cy="70" r="60" fill="none" stroke="rgba(34,197,94,0.08)" stroke-width="12"/>
+              <circle id="circle-after" cx="70" cy="70" r="60" fill="none" stroke="#22C55E" stroke-width="12"
+                stroke-dasharray="377" stroke-dashoffset="377" stroke-linecap="round"
+                style="transition:stroke-dashoffset 1.6s cubic-bezier(0.22,1,0.36,1)"/>
+            </svg>
+            <div class="absolute inset-0 flex flex-col items-center justify-center">
+              <span id="score-after-num" class="text-4xl font-extrabold font-jakarta text-green-400">0</span>
+              <span class="text-xs text-green-400/50 font-jakarta mt-0.5">/ 100</span>
+            </div>
+          </div>
+          <div class="mt-4 flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-green-500"></span>
+            <span class="text-xs font-semibold text-green-400 font-jakarta">Excellent Performance</span>
+          </div>
+        </div>
+
+        <!-- Core Web Vitals -->
+        <div class="card rounded-3xl p-6 md:col-span-2">
+          <div class="text-xs font-semibold tracking-widest uppercase text-violet-400/60 font-jakarta mb-5">Core Web Vitals — After</div>
+          <div class="space-y-5">
+            <div>
+              <div class="flex justify-between mb-1.5">
+                <span class="text-sm font-semibold font-jakarta text-white">LCP <span class="text-white/30 font-normal text-xs">Largest Contentful Paint</span></span>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs text-red-400/50 line-through font-mono">8.2s</span>
+                  <span class="text-sm font-mono text-green-400 font-semibold">0.8s</span>
+                </div>
+              </div>
+              <div class="metric-bar-track"><div class="metric-bar-fill good" style="width:8%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-1.5">
+                <span class="text-sm font-semibold font-jakarta text-white">INP <span class="text-white/30 font-normal text-xs">Interaction to Next Paint</span></span>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs text-red-400/50 line-through font-mono">420ms</span>
+                  <span class="text-sm font-mono text-green-400 font-semibold">62ms</span>
+                </div>
+              </div>
+              <div class="metric-bar-track"><div class="metric-bar-fill good" style="width:11%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-1.5">
+                <span class="text-sm font-semibold font-jakarta text-white">CLS <span class="text-white/30 font-normal text-xs">Cumulative Layout Shift</span></span>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs text-red-400/50 line-through font-mono">0.42</span>
+                  <span class="text-sm font-mono text-green-400 font-semibold">0.002</span>
+                </div>
+              </div>
+              <div class="metric-bar-track"><div class="metric-bar-fill good" style="width:3%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-1.5">
+                <span class="text-sm font-semibold font-jakarta text-white">FCP <span class="text-white/30 font-normal text-xs">First Contentful Paint</span></span>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs text-red-400/50 line-through font-mono">4.1s</span>
+                  <span class="text-sm font-mono text-green-400 font-semibold">0.5s</span>
+                </div>
+              </div>
+              <div class="metric-bar-track"><div class="metric-bar-fill good" style="width:5%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-1.5">
+                <span class="text-sm font-semibold font-jakarta text-white">TTFB <span class="text-white/30 font-normal text-xs">Time to First Byte</span></span>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs text-red-400/50 line-through font-mono">1.8s</span>
+                  <span class="text-sm font-mono text-green-400 font-semibold">0.18s</span>
+                </div>
+              </div>
+              <div class="metric-bar-track"><div class="metric-bar-fill good" style="width:9%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Good code examples -->
+      <div class="card rounded-3xl p-6">
+        <div class="text-xs font-semibold tracking-widest uppercase text-green-400/60 font-jakarta mb-5">Optimised Source Code</div>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <div class="text-xs text-green-400 font-mono font-semibold mb-2">✓ Deferred scripts + preloaded LCP image</div>
+            <div class="code-block code-good p-4">
+<span class="tag">&lt;head&gt;</span>
+  <span class="code-comment">&#x3C;!-- Preload hero image (LCP fix) --&gt;</span>
+  <span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="val">"preload"</span> <span class="attr">as</span>=<span class="val">"image"</span>
+    <span class="attr">fetchpriority</span>=<span class="val">"high"</span>
+    <span class="attr">href</span>=<span class="val">"hero.avif"</span><span class="tag">/&gt;</span>
+  <span class="code-comment">&#x3C;!-- Scripts deferred, non-blocking --&gt;</span>
+  <span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="val">"app.js"</span>
+    <span class="attr">defer</span><span class="tag">&gt;&lt;/script&gt;</span>
+<span class="tag">&lt;/head&gt;</span>
+            </div>
+          </div>
+          <div>
+            <div class="text-xs text-green-400 font-mono font-semibold mb-2">✓ Modern formats + lazy loading + dimensions</div>
+            <div class="code-block code-good p-4">
+<span class="code-comment">&#x3C;!-- Explicit size = zero CLS --&gt;</span>
+<span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="val">"photo.avif"</span>
+  <span class="attr">width</span>=<span class="val">"800"</span> <span class="attr">height</span>=<span class="val">"600"</span><span class="tag">/&gt;</span>
+
+<span class="code-comment">&#x3C;!-- Lazy load below-fold images --&gt;</span>
+<span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="val">"p1.avif"</span> <span class="attr">loading</span>=<span class="val">"lazy"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="val">"p2.avif"</span> <span class="attr">loading</span>=<span class="val">"lazy"</span><span class="tag">/&gt;</span>
+
+<span class="code-comment">&#x3C;!-- Bootstrap removed, 68KB saved --&gt;</span>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 grid grid-cols-3 gap-3">
+          <div class="bg-green-500/8 rounded-xl p-3 text-center border border-green-500/10">
+            <div class="text-xl font-extrabold font-mono text-green-400">94%</div>
+            <div class="text-[10px] text-white/40 font-jakarta mt-0.5">Image Size Saved</div>
+          </div>
+          <div class="bg-green-500/8 rounded-xl p-3 text-center border border-green-500/10">
+            <div class="text-xl font-extrabold font-mono text-green-400">340KB</div>
+            <div class="text-[10px] text-white/40 font-jakarta mt-0.5">Total Payload Saved</div>
+          </div>
+          <div class="bg-green-500/8 rounded-xl p-3 text-center border border-green-500/10">
+            <div class="text-xl font-extrabold font-mono text-green-400">10.2×</div>
+            <div class="text-[10px] text-white/40 font-jakarta mt-0.5">LCP Speed Improvement</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FIXES TABLE -->
+<section class="px-6 pb-12">
+  <div class="max-w-5xl mx-auto card rounded-3xl p-6">
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-lg font-bold font-jakarta">10 Optimisations Applied</h2>
+      <span class="text-xs font-mono text-violet-400 bg-violet-900/30 px-3 py-1 rounded-full">Reproducible on any stack</span>
+    </div>
+    <div class="divide-y divide-white/[0.04]">
+      <div class="fix-row py-4 px-2 grid grid-cols-12 gap-4 items-center">
+        <div class="col-span-1 text-green-400 text-lg font-bold">✓</div>
+        <div class="col-span-5 text-sm font-semibold font-jakarta text-white">WebP/AVIF Image Conversion</div>
+        <div class="col-span-4 text-xs text-white/45 font-jakarta">Converted 23 images to modern formats</div>
+        <div class="col-span-2 text-right text-xs font-mono text-green-400 font-semibold">−2.1MB</div>
+      </div>
+      <div class="fix-row py-4 px-2 grid grid-cols-12 gap-4 items-center">
+        <div class="col-span-1 text-green-400 text-lg font-bold">✓</div>
+        <div class="col-span-5 text-sm font-semibold font-jakarta text-white">Script Defer + Async</div>
+        <div class="col-span-4 text-xs text-white/45 font-jakarta">Moved 3 render-blocking scripts to defer</div>
+        <div class="col-span-2 text-right text-xs font-mono text-green-400 font-semibold">−3.1s LCP</div>
+      </div>
+      <div class="fix-row py-4 px-2 grid grid-cols-12 gap-4 items-center">
+        <div class="col-span-1 text-green-400 text-lg font-bold">✓</div>
+        <div class="col-span-5 text-sm font-semibold font-jakarta text-white">Critical CSS Inlining</div>
+        <div class="col-span-4 text-xs text-white/45 font-jakarta">Above-fold CSS inlined, rest deferred</div>
+        <div class="col-span-2 text-right text-xs font-mono text-green-400 font-semibold">−0.8s FCP</div>
+      </div>
+      <div class="fix-row py-4 px-2 grid grid-cols-12 gap-4 items-center">
+        <div class="col-span-1 text-green-400 text-lg font-bold">✓</div>
+        <div class="col-span-5 text-sm font-semibold font-jakarta text-white">LCP Image Preload</div>
+        <div class="col-span-4 text-xs text-white/45 font-jakarta">fetchpriority="high" on hero image</div>
+        <div class="col-span-2 text-right text-xs font-mono text-green-400 font-semibold">−1.4s LCP</div>
+      </div>
+      <div class="fix-row py-4 px-2 grid grid-cols-12 gap-4 items-center">
+        <div class="col-span-1 text-green-400 text-lg font-bold">✓</div>
+        <div class="col-span-5 text-sm font-semibold font-jakarta text-white">Image Lazy Loading</div>
+        <div class="col-span-4 text-xs text-white/45 font-jakarta">loading="lazy" on all below-fold images</div>
+        <div class="col-span-2 text-right text-xs font-mono text-green-400 font-semibold">−900ms</div>
+      </div>
+      <div class="fix-row py-4 px-2 grid grid-cols-12 gap-4 items-center">
+        <div class="col-span-1 text-green-400 text-lg font-bold">✓</div>
+        <div class="col-span-5 text-sm font-semibold font-jakarta text-white">Explicit Image Dimensions</div>
+        <div class="col-span-4 text-xs text-white/45 font-jakarta">width + height on every img tag</div>
+        <div class="col-span-2 text-right text-xs font-mono text-green-400 font-semibold">CLS 0.002</div>
+      </div>
+      <div class="fix-row py-4 px-2 grid grid-cols-12 gap-4 items-center">
+        <div class="col-span-1 text-green-400 text-lg font-bold">✓</div>
+        <div class="col-span-5 text-sm font-semibold font-jakarta text-white">Unused CSS Removal</div>
+        <div class="col-span-4 text-xs text-white/45 font-jakarta">Removed Bootstrap, FontAwesome (unused)</div>
+        <div class="col-span-2 text-right text-xs font-mono text-green-400 font-semibold">−68KB</div>
+      </div>
+      <div class="fix-row py-4 px-2 grid grid-cols-12 gap-4 items-center">
+        <div class="col-span-1 text-green-400 text-lg font-bold">✓</div>
+        <div class="col-span-5 text-sm font-semibold font-jakarta text-white">Brotli Compression</div>
+        <div class="col-span-4 text-xs text-white/45 font-jakarta">Enabled Brotli on server (nginx config)</div>
+        <div class="col-span-2 text-right text-xs font-mono text-green-400 font-semibold">−70% size</div>
+      </div>
+      <div class="fix-row py-4 px-2 grid grid-cols-12 gap-4 items-center">
+        <div class="col-span-1 text-green-400 text-lg font-bold">✓</div>
+        <div class="col-span-5 text-sm font-semibold font-jakarta text-white">Font-Display: Swap</div>
+        <div class="col-span-4 text-xs text-white/45 font-jakarta">Eliminated web font layout shift</div>
+        <div class="col-span-2 text-right text-xs font-mono text-green-400 font-semibold">CLS fixed</div>
+      </div>
+      <div class="fix-row py-4 px-2 grid grid-cols-12 gap-4 items-center">
+        <div class="col-span-1 text-green-400 text-lg font-bold">✓</div>
+        <div class="col-span-5 text-sm font-semibold font-jakarta text-white">Static Asset Caching</div>
+        <div class="col-span-4 text-xs text-white/45 font-jakarta">Cache-Control: max-age=31536000 on assets</div>
+        <div class="col-span-2 text-right text-xs font-mono text-green-400 font-semibold">−1.8s TTFB</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="px-6 pb-20">
+  <div class="max-w-5xl mx-auto" style="background:linear-gradient(135deg,#2E1065,#1E1B4B);border-radius:24px;padding:60px 48px;border:1px solid rgba(167,139,250,0.15)">
+    <div class="grid md:grid-cols-2 gap-10 items-center">
+      <div>
+        <div class="text-xs font-semibold tracking-widest uppercase text-violet-400 font-jakarta mb-4">Ready to go fast?</div>
+        <h2 class="text-3xl md:text-4xl font-extrabold font-jakarta leading-tight mb-4">
+          Get your site from<br/><span class="grad-text">slow to 90+ in 48h</span>
+        </h2>
+        <p class="text-white/55 text-sm font-jakarta leading-relaxed">
+          Jahanzaib audits your site, fixes every bottleneck, and guarantees a 90+ Lighthouse score — or you don't pay. Fixed price, 48-hour delivery.
+        </p>
+      </div>
+      <div class="flex flex-col gap-4">
+        <div class="flex items-center gap-3 text-sm text-white/70 font-jakarta">
+          <svg class="w-4 h-4 text-cyan-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Full Lighthouse audit report delivered same day
+        </div>
+        <div class="flex items-center gap-3 text-sm text-white/70 font-jakarta">
+          <svg class="w-4 h-4 text-cyan-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          All 10 optimisation techniques applied
+        </div>
+        <div class="flex items-center gap-3 text-sm text-white/70 font-jakarta">
+          <svg class="w-4 h-4 text-cyan-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Works on any stack — Next.js, WordPress, Shopify
+        </div>
+        <div class="flex items-center gap-3 text-sm text-white/70 font-jakarta">
+          <svg class="w-4 h-4 text-cyan-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          90+ score guaranteed or full refund
+        </div>
+        <div class="flex gap-3 mt-4">
+          <a href="https://wa.me/923187635856?text=Hi%20Jahanzaib!%20I%20want%20a%20PageSpeed%20audit%20for%20my%20website." target="_blank" rel="noopener"
+             class="flex items-center gap-2 font-jakarta font-bold text-sm px-6 py-3.5 rounded-xl text-white cursor-pointer hover:scale-[1.02] active:scale-[0.98] transition-all"
+             style="background:linear-gradient(135deg,#7C3AED,#06B6D4);box-shadow:0 8px 32px rgba(124,58,237,0.35)">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Audit My Site — $250
+          </a>
+          <a href="index.html" class="flex items-center gap-2 font-jakarta font-semibold text-sm px-6 py-3.5 rounded-xl border border-violet-500/30 text-violet-300 hover:bg-violet-900/20 transition-all cursor-pointer">
+            Portfolio
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="border-t border-violet-900/20 py-8 px-6 text-center">
+  <p class="text-xs text-white/25 font-jakarta">Built by <a href="index.html" class="text-violet-400 hover:text-violet-300 transition-colors">Jahanzaib Ahmad</a> · All optimisation techniques are production-tested · 48h delivery · Any stack</p>
+</footer>
+
+<script>
+function setPanel(panel){
+  const before = document.getElementById('panel-before');
+  const after  = document.getElementById('panel-after');
+  const btnB   = document.getElementById('btn-before');
+  const btnA   = document.getElementById('btn-after');
+
+  if(panel === 'before'){
+    before.className = 'active-panel';
+    after.className  = 'hidden-panel';
+    btnB.className   = 'tab-btn active-before flex items-center gap-2 px-6 py-3 rounded-xl border font-jakarta text-sm font-semibold';
+    btnA.className   = 'tab-btn flex items-center gap-2 px-6 py-3 rounded-xl border border-white/10 text-white/40 font-jakarta text-sm font-semibold';
+    animateScore('before', 34);
+  } else {
+    before.className = 'hidden-panel';
+    after.className  = 'active-panel';
+    btnA.className   = 'tab-btn active-after flex items-center gap-2 px-6 py-3 rounded-xl border font-jakarta text-sm font-semibold';
+    btnB.className   = 'tab-btn flex items-center gap-2 px-6 py-3 rounded-xl border border-white/10 text-white/40 font-jakarta text-sm font-semibold';
+    animateScore('after', 97);
+  }
+}
+
+function animateScore(side, target){
+  const circle = document.getElementById('circle-' + side);
+  const numEl  = document.getElementById('score-' + side + '-num');
+  const circumference = 377;
+  const offset = circumference - (target / 100) * circumference;
+
+  // animate circle
+  requestAnimationFrame(()=>{
+    circle.style.strokeDashoffset = offset;
+  });
+
+  // animate number
+  let current = 0;
+  const duration = 1400;
+  const startTime = performance.now();
+  function tick(now){
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 3);
+    current = Math.round(ease * target);
+    numEl.textContent = current;
+    if(progress < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+// Trigger "before" animation on load
+window.addEventListener('load', () => animateScore('before', 34));
+</script>
+</body>
+</html>
