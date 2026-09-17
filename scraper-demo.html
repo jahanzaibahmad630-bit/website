@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live Anti-Detect Data Extraction Explorer — Jahanzaib Ahmad</title>
+  <meta name="description" content="Interactive live demo of an industrial anti-detect web scraping pipeline. See real-time data extraction with proxy rotation, fingerprint evasion, and instant CSV/JSON export." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Preahvihear&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            preahvihear: ['Preahvihear', 'sans-serif'],
+            poppins: ['Poppins', 'sans-serif'],
+            jakarta: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            cosmic: {
+              bg: '#11071F',
+              surface: '#190B2D',
+              deep: '#2B114F',
+              glow: '#9757D3',
+              vibrant: '#A261FF',
+              purple: '#7127BA'
+            }
+          },
+          animation: {
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'blink': 'blink 1s step-end infinite',
+            'slide-in': 'slideIn 0.3s ease-out',
+            'fade-in-up': 'fadeInUp 0.4s ease-out',
+          },
+          keyframes: {
+            blink: { '0%, 100%': { opacity: '1' }, '50%': { opacity: '0' } },
+            slideIn: { from: { opacity: '0', transform: 'translateX(-8px)' }, to: { opacity: '1', transform: 'translateX(0)' } },
+            fadeInUp: { from: { opacity: '0', transform: 'translateY(12px)' }, to: { opacity: '1', transform: 'translateY(0)' } },
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body { background-color: #11071F; }
+
+    /* Cosmic ambient background */
+    .cosmic-bg-overlay {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(113,39,186,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 80%, rgba(151,87,211,0.08) 0%, transparent 55%);
+    }
+
+    /* Glass card */
+    .glass-card {
+      background: rgba(25, 11, 45, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(113, 39, 186, 0.25);
+      border-radius: 16px;
+    }
+
+    /* Scenario card */
+    .scenario-card {
+      cursor: pointer;
+      border-radius: 12px;
+      border: 1px solid rgba(113, 39, 186, 0.25);
+      background: rgba(29, 13, 54, 0.6);
+      transition: all 0.2s ease;
+      padding: 1rem 1.25rem;
+    }
+    .scenario-card:hover { border-color: rgba(162, 97, 255, 0.5); background: rgba(46, 19, 84, 0.6); }
+    .scenario-card.active { border-color: #A261FF; background: rgba(46, 19, 84, 0.9); box-shadow: 0 0 20px rgba(162, 97, 255, 0.15); }
+
+    /* Toggle switch */
+    .toggle-track {
+      width: 36px; height: 20px; border-radius: 10px;
+      background: rgba(113, 39, 186, 0.3); border: 1px solid rgba(113,39,186,0.4);
+      position: relative; transition: all 0.2s; cursor: pointer;
+    }
+    .toggle-track.on { background: #7127BA; border-color: #A261FF; }
+    .toggle-thumb {
+      position: absolute; top: 2px; left: 2px;
+      width: 14px; height: 14px; border-radius: 50%;
+      background: rgba(200,180,255,0.5); transition: all 0.2s;
+    }
+    .toggle-track.on .toggle-thumb { left: 18px; background: white; }
+
+    /* Terminal */
+    .terminal-box {
+      background: #0a0415;
+      border: 1px solid rgba(113, 39, 186, 0.3);
+      border-radius: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.7;
+      overflow-y: auto;
+      max-height: 280px;
+    }
+    .terminal-box::-webkit-scrollbar { width: 4px; }
+    .terminal-box::-webkit-scrollbar-track { background: transparent; }
+    .terminal-box::-webkit-scrollbar-thumb { background: rgba(113,39,186,0.4); border-radius: 4px; }
+
+    .log-info    { color: #A78BFA; }
+    .log-success { color: #34D399; }
+    .log-warn    { color: #FBBF24; }
+    .log-data    { color: #60A5FA; }
+    .log-error   { color: #F87171; }
+    .log-dim     { color: rgba(200,180,255,0.4); }
+
+    /* Data table */
+    .data-table { width: 100%; border-collapse: collapse; }
+    .data-table th {
+      background: rgba(113, 39, 186, 0.25);
+      color: rgba(200, 180, 255, 0.8);
+      font-family: 'Poppins', sans-serif;
+      font-size: 10px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      padding: 10px 14px; text-align: left;
+      border-bottom: 1px solid rgba(113,39,186,0.3);
+      white-space: nowrap;
+    }
+    .data-table td {
+      padding: 9px 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: rgba(230, 220, 255, 0.85);
+      border-bottom: 1px solid rgba(113, 39, 186, 0.1);
+      white-space: nowrap;
+    }
+    .data-table tr:hover td { background: rgba(113, 39, 186, 0.08); }
+    .data-table tr.new-row td { animation: fadeInUp 0.35s ease-out; }
+
+    .table-wrapper {
+      overflow-x: auto; border-radius: 12px;
+      border: 1px solid rgba(113,39,186,0.25);
+    }
+    .table-wrapper::-webkit-scrollbar { height: 4px; }
+    .table-wrapper::-webkit-scrollbar-track { background: transparent; }
+    .table-wrapper::-webkit-scrollbar-thumb { background: rgba(113,39,186,0.4); border-radius: 4px; }
+
+    /* Metric pill */
+    .metric-pill {
+      display: flex; flex-direction: column; align-items: center;
+      background: rgba(113,39,186,0.12);
+      border: 1px solid rgba(113,39,186,0.2);
+      border-radius: 10px; padding: 10px 18px;
+    }
+
+    /* Buttons */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, #7127BA, #A261FF);
+      color: white; font-family: 'Poppins', sans-serif;
+      font-weight: 600; font-size: 13px;
+      padding: 10px 22px; border-radius: 10px;
+      border: none; cursor: pointer;
+      transition: all 0.2s; box-shadow: 0 4px 20px rgba(113,39,186,0.3);
+    }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 28px rgba(113,39,186,0.45); }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(113,39,186,0.1); color: #C4B5FD;
+      font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 12px;
+      padding: 8px 16px; border-radius: 9px;
+      border: 1px solid rgba(113,39,186,0.35); cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-outline:hover { background: rgba(113,39,186,0.25); border-color: #A261FF; color: white; }
+    .btn-outline:disabled { opacity: 0.35; cursor: not-allowed; }
+
+    /* Status badge */
+    .status-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600;
+    }
+    .status-idle  { background: rgba(113,39,186,0.15); color: #A78BFA; border: 1px solid rgba(113,39,186,0.3); }
+    .status-run   { background: rgba(52,211,153,0.1);  color: #34D399; border: 1px solid rgba(52,211,153,0.3); }
+    .status-done  { background: rgba(96,165,250,0.1);  color: #60A5FA; border: 1px solid rgba(96,165,250,0.3); }
+
+    .dot { width: 7px; height: 7px; border-radius: 50%; }
+    .dot-idle { background: #A78BFA; }
+    .dot-run  { background: #34D399; animation: pulse 1.2s infinite; }
+    .dot-done { background: #60A5FA; }
+
+    /* CTA card */
+    .cta-gradient {
+      background: linear-gradient(135deg, rgba(113,39,186,0.25) 0%, rgba(43,17,79,0.6) 100%);
+      border: 1px solid rgba(162,97,255,0.3);
+    }
+
+    /* Cursor blink */
+    .cursor { animation: blink 1s step-end infinite; }
+  </style>
+</head>
+<body class="text-white font-poppins antialiased min-h-screen relative overflow-x-hidden">
+
+  <div class="cosmic-bg-overlay"></div>
+
+  <!-- ── NAV ─────────────────────────────────────────────────────────────── -->
+  <header class="sticky top-0 z-50 backdrop-blur-xl bg-[#11071F]/80 border-b border-purple-950/40">
+    <div class="max-w-7xl mx-auto px-5 py-4 flex items-center justify-between">
+      <!-- Breadcrumb -->
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="flex items-center gap-2 group">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-[#7127BA] to-[#9757D3] flex items-center justify-center font-jakarta font-extrabold text-white text-xs shadow-lg group-hover:scale-105 transition-transform">JA</div>
+          <span class="font-jakarta font-bold text-sm text-white/70 group-hover:text-white transition-colors hidden sm:block">Jahanzaib Ahmad</span>
+        </a>
+        <span class="text-purple-700">/</span>
+        <span class="font-poppins text-xs font-semibold text-purple-400 uppercase tracking-wider">Scraper Demo</span>
+      </div>
+
+      <!-- CTA -->
+      <a href="https://wa.me/923187635856?text=Hi%2C+I%20saw%20your%20Data%20Extraction%20Demo%20and%20I%27m%20interested%20in%20a%20custom%20scraper." target="_blank"
+        class="btn-primary text-xs py-2 px-4">
+        <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
+        Hire Me on WhatsApp
+      </a>
+    </div>
+  </header>
+
+  <!-- ── HERO ──────────────────────────────────────────────────────────────── -->
+  <section class="relative z-10 max-w-7xl mx-auto px-5 pt-14 pb-8">
+    <div class="mb-2">
+      <span class="inline-flex items-center gap-2 text-[11px] font-poppins font-semibold uppercase tracking-widest text-[#A261FF] mb-3">
+        <span class="w-2 h-2 rounded-full bg-[#34D399] animate-pulse"></span>
+        Live Interactive Demo
+      </span>
+    </div>
+    <h1 class="font-preahvihear text-3xl sm:text-4xl lg:text-5xl text-white mb-3 leading-tight">
+      Anti-Detect Data<br class="hidden sm:block"/> <span class="text-[#A261FF]">Extraction Explorer</span>
+    </h1>
+    <p class="font-poppins text-sm text-purple-200/70 font-light max-w-2xl leading-relaxed">
+      A realistic simulation of an industrial web scraping pipeline with browser fingerprint evasion, residential proxy cycling, and real-time schema validation. Select a scenario, configure your extraction settings, and export live data.
+    </p>
+  </section>
+
+  <!-- ── MAIN INTERFACE ─────────────────────────────────────────────────── -->
+  <main class="relative z-10 max-w-7xl mx-auto px-5 pb-24 space-y-6">
+
+    <!-- ROW 1: Scenario + Config -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+      <!-- Scenario Selector -->
+      <div class="lg:col-span-2 glass-card p-6">
+        <div class="flex items-center gap-2 mb-5">
+          <i data-lucide="layers" class="w-4 h-4 text-[#A261FF]"></i>
+          <h2 class="font-poppins font-semibold text-sm text-white uppercase tracking-wider">Select Extraction Scenario</h2>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="scenarios">
+
+          <div class="scenario-card active" data-scenario="b2b">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-lg">🏢</span>
+              <span class="font-poppins font-semibold text-sm text-white">B2B Lead Intelligence</span>
+            </div>
+            <p class="font-poppins text-xs text-purple-300/70 leading-relaxed">Founder emails, tech stack, headcount & LinkedIn from business directories.</p>
+            <div class="mt-3 flex items-center gap-1.5">
+              <span class="text-[10px] font-mono text-green-400 bg-green-400/10 border border-green-400/20 px-2 py-0.5 rounded">LinkedIn</span>
+              <span class="text-[10px] font-mono text-blue-400 bg-blue-400/10 border border-blue-400/20 px-2 py-0.5 rounded">Apollo</span>
+              <span class="text-[10px] font-mono text-purple-400 bg-purple-400/10 border border-purple-400/20 px-2 py-0.5 rounded">Crunchbase</span>
+            </div>
+          </div>
+
+          <div class="scenario-card" data-scenario="ecom">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-lg">🛒</span>
+              <span class="font-poppins font-semibold text-sm text-white">E-Commerce Intelligence</span>
+            </div>
+            <p class="font-poppins text-xs text-purple-300/70 leading-relaxed">Product prices, stock levels, BSR rankings & competitor deltas from Amazon.</p>
+            <div class="mt-3 flex items-center gap-1.5">
+              <span class="text-[10px] font-mono text-yellow-400 bg-yellow-400/10 border border-yellow-400/20 px-2 py-0.5 rounded">Amazon</span>
+              <span class="text-[10px] font-mono text-blue-400 bg-blue-400/10 border border-blue-400/20 px-2 py-0.5 rounded">Walmart</span>
+              <span class="text-[10px] font-mono text-green-400 bg-green-400/10 border border-green-400/20 px-2 py-0.5 rounded">eBay</span>
+            </div>
+          </div>
+
+          <div class="scenario-card" data-scenario="realestate">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-lg">🏠</span>
+              <span class="font-poppins font-semibold text-sm text-white">Real Estate Listings</span>
+            </div>
+            <p class="font-poppins text-xs text-purple-300/70 leading-relaxed">Commercial property listings, cap rates, broker contacts & price per sqft.</p>
+            <div class="mt-3 flex items-center gap-1.5">
+              <span class="text-[10px] font-mono text-red-400 bg-red-400/10 border border-red-400/20 px-2 py-0.5 rounded">LoopNet</span>
+              <span class="text-[10px] font-mono text-blue-400 bg-blue-400/10 border border-blue-400/20 px-2 py-0.5 rounded">CoStar</span>
+              <span class="text-[10px] font-mono text-purple-400 bg-purple-400/10 border border-purple-400/20 px-2 py-0.5 rounded">Zillow</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Evasion Config -->
+      <div class="glass-card p-6">
+        <div class="flex items-center gap-2 mb-5">
+          <i data-lucide="shield" class="w-4 h-4 text-[#A261FF]"></i>
+          <h2 class="font-poppins font-semibold text-sm text-white uppercase tracking-wider">Anti-Bot Evasion Stack</h2>
+        </div>
+        <div class="space-y-4" id="toggles">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="font-poppins text-xs font-medium text-white">TLS/JA3 Fingerprint Spoof</p>
+              <p class="font-poppins text-[10px] text-purple-300/50">Randomize TLS handshake per request</p>
+            </div>
+            <div class="toggle-track on" data-toggle="tls"><div class="toggle-thumb"></div></div>
+          </div>
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="font-poppins text-xs font-medium text-white">Residential Proxy Rotation</p>
+              <p class="font-poppins text-[10px] text-purple-300/50">240 IPs across 14 countries</p>
+            </div>
+            <div class="toggle-track on" data-toggle="proxy"><div class="toggle-thumb"></div></div>
+          </div>
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="font-poppins text-xs font-medium text-white">Cloudflare Turnstile Bypass</p>
+              <p class="font-poppins text-[10px] text-purple-300/50">Auto-solve challenge tokens</p>
+            </div>
+            <div class="toggle-track on" data-toggle="cf"><div class="toggle-thumb"></div></div>
+          </div>
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="font-poppins text-xs font-medium text-white">Headless Chrome (Stealth)</p>
+              <p class="font-poppins text-[10px] text-purple-300/50">navigator.webdriver = false</p>
+            </div>
+            <div class="toggle-track on" data-toggle="headless"><div class="toggle-thumb"></div></div>
+          </div>
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="font-poppins text-xs font-medium text-white">Schema Validation (Pydantic)</p>
+              <p class="font-poppins text-[10px] text-purple-300/50">Drop malformed records at ingestion</p>
+            </div>
+            <div class="toggle-track on" data-toggle="schema"><div class="toggle-thumb"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 2: Metrics Bar -->
+    <div class="glass-card p-5">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="metric-pill">
+          <span class="font-mono text-xl font-bold text-[#A261FF]" id="metric-records">0</span>
+          <span class="font-poppins text-[10px] text-purple-300/60 uppercase tracking-wide mt-1">Records Harvested</span>
+        </div>
+        <div class="metric-pill">
+          <span class="font-mono text-xl font-bold text-green-400" id="metric-speed">0</span>
+          <span class="font-poppins text-[10px] text-purple-300/60 uppercase tracking-wide mt-1">Records / Min</span>
+        </div>
+        <div class="metric-pill">
+          <span class="font-mono text-xl font-bold text-blue-400" id="metric-success">99.8%</span>
+          <span class="font-poppins text-[10px] text-purple-300/60 uppercase tracking-wide mt-1">Extraction Success</span>
+        </div>
+        <div class="metric-pill">
+          <span class="font-mono text-xl font-bold text-yellow-400" id="metric-ban">0</span>
+          <span class="font-poppins text-[10px] text-purple-300/60 uppercase tracking-wide mt-1">IP Bans / Blocks</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 3: Terminal + Controls -->
+    <div class="glass-card p-6">
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
+        <div class="flex items-center gap-3">
+          <div class="flex gap-1.5">
+            <span class="w-3 h-3 rounded-full bg-red-500/70"></span>
+            <span class="w-3 h-3 rounded-full bg-yellow-500/70"></span>
+            <span class="w-3 h-3 rounded-full bg-green-500/70"></span>
+          </div>
+          <span class="font-mono text-xs text-purple-300/60">pipeline.log — Extraction Terminal</span>
+          <div class="status-badge status-idle" id="status-badge">
+            <span class="dot dot-idle" id="status-dot"></span>
+            <span id="status-text">IDLE</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="btn-clear" class="btn-outline text-[11px] py-1.5 px-3" disabled>
+            <i data-lucide="trash-2" class="w-3 h-3"></i>
+            Clear
+          </button>
+          <button id="btn-run" class="btn-primary text-xs py-2 px-5">
+            <i data-lucide="play" class="w-3.5 h-3.5"></i>
+            Run Extraction
+          </button>
+        </div>
+      </div>
+
+      <!-- Terminal Output -->
+      <div class="terminal-box p-4" id="terminal-output">
+        <div class="log-dim">— Pipeline ready. Select a scenario and click "Run Extraction" to begin. ─</div>
+      </div>
+    </div>
+
+    <!-- ROW 4: Data Table -->
+    <div class="glass-card p-6">
+      <div class="flex items-center justify-between mb-5 flex-wrap gap-3">
+        <div class="flex items-center gap-2">
+          <i data-lucide="database" class="w-4 h-4 text-[#A261FF]"></i>
+          <h2 class="font-poppins font-semibold text-sm text-white uppercase tracking-wider">Extracted Data — Live Feed</h2>
+          <span class="font-mono text-xs text-purple-400/60" id="row-count">(0 rows)</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="text" id="search-input" placeholder="Search extracted records..." class="bg-[#0a0415] border border-purple-800/40 rounded-lg px-3 py-1.5 text-xs font-poppins text-purple-200 placeholder-purple-700/60 outline-none focus:border-[#A261FF] transition-colors w-48" />
+          <button id="btn-csv" class="btn-outline" disabled>
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            Export CSV
+          </button>
+          <button id="btn-json" class="btn-outline" disabled>
+            <i data-lucide="file-json" class="w-3.5 h-3.5"></i>
+            Export JSON
+          </button>
+        </div>
+      </div>
+
+      <div class="table-wrapper" id="table-wrapper">
+        <div class="py-12 text-center font-poppins text-sm text-purple-400/50">
+          <i data-lucide="terminal" class="w-10 h-10 mx-auto mb-3 opacity-20"></i>
+          <p>No data yet. Run an extraction to populate the live feed.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 5: CTA -->
+    <div class="rounded-2xl cta-gradient p-8 text-center">
+      <div class="max-w-xl mx-auto">
+        <span class="text-xs font-poppins font-semibold uppercase tracking-widest text-[#A261FF]">Want This Built for Your Business?</span>
+        <h3 class="font-preahvihear text-2xl sm:text-3xl text-white mt-2 mb-3">Automated data pipelines, delivered in 3 days.</h3>
+        <p class="font-poppins text-sm text-purple-200/70 font-light leading-relaxed mb-6">
+          I build custom anti-detect web scrapers, data ingestion pipelines, and cloud database export systems for B2B companies, agencies, and SaaS platforms. Fixed-price, transparent delivery, zero IP bans.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          <a href="https://wa.me/923187635856?text=Hi!%20I%20saw%20the%20Data%20Extraction%20Demo%20and%20want%20a%20custom%20scraper." target="_blank" class="btn-primary">
+            <i data-lucide="message-circle" class="w-4 h-4"></i>
+            WhatsApp — Start a Project
+          </a>
+          <a href="mailto:jahanzaibahmad630@gmail.com?subject=Custom%20Scraper%20Project&body=Hi%20Jahanzaib%2C%20I%20saw%20your%20Data%20Extraction%20Demo..." class="btn-outline text-sm py-2.5 px-5">
+            <i data-lucide="mail" class="w-4 h-4"></i>
+            Email for a Quote
+          </a>
+        </div>
+        <p class="mt-4 font-poppins text-xs text-purple-400/50">Starting at <strong class="text-purple-300">$200 fixed</strong> · Delivered in 2–3 business days · Free revision</p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ── FOOTER ─────────────────────────────────────────────────────────── -->
+  <footer class="relative z-10 border-t border-purple-950/40 py-6">
+    <div class="max-w-7xl mx-auto px-5 flex items-center justify-between flex-wrap gap-4">
+      <p class="font-poppins text-xs text-purple-400/50">
+        Built by <a href="index.html" class="text-purple-400 hover:text-white transition-colors">Jahanzaib Ahmad</a> · 
+        <span class="text-green-400/70">Demo uses simulated data</span> for illustrative purposes.
+      </p>
+      <a href="index.html" class="btn-outline text-xs py-1.5 px-4">
+        <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+        Back to Portfolio
+      </a>
+    </div>
+  </footer>
+
+  <!-- ── JAVASCRIPT ─────────────────────────────────────────────────────── -->
+  <script>
+    lucide.createIcons();
+
+    // ── Dataset definitions ──────────────────────────────────────────────
+    const DATASETS = {
+      b2b: {
+        columns: ['Company', 'Founder / CEO', 'Verified Email', 'Tech Stack', 'Employees', 'Funding', 'LinkedIn'],
+        rows: [
+          ['Nexlify Inc.',      'Sarah Chen',       'sarah@nexlify.io',       'React · Node · AWS',        '48',  '$2.1M Seed',    'linkedin.com/in/sarachen'],
+          ['DataVault Co.',     'Marcus Osei',      'm.osei@datavault.co',    'Python · Django · GCP',     '23',  'Bootstrapped',  'linkedin.com/in/marcosei'],
+          ['ClearPath SaaS',   'Priya Sharma',     'priya@clearpath.app',    'Next.js · Supabase',        '11',  '$500K Pre-Seed','linkedin.com/in/priyasharma'],
+          ['Orbita AI',         'James Kowalski',   'james@orbita.ai',        'Python · FastAPI · Azure',  '62',  '$5M Series A',  'linkedin.com/in/jameskowal'],
+          ['FreightLoop',       'Amira Hasan',      'amira@freightloop.com',  'Vue · Laravel · MySQL',     '34',  '$1.8M Seed',    'linkedin.com/in/amirahasan'],
+          ['Stackr Analytics',  'Leo Yamamoto',     'l.yama@stackr.io',       'TypeScript · Postgres',     '19',  'Bootstrapped',  'linkedin.com/in/leoyamamoto'],
+          ['PivotHR',           'Chloe Oduya',      'chloe@pivothr.com',      'React · Express · Redis',   '27',  '$3.2M Seed',    'linkedin.com/in/chloeoduya'],
+          ['CloudMesh Ltd.',    'David Reyes',      'david@cloudmesh.io',     'Go · Kubernetes · GCP',     '85',  '$12M Series B', 'linkedin.com/in/davidreyes'],
+          ['FormFlow',          'Nina Petrova',     'nina@formflow.app',      'React · Firebase',          '8',   '$200K Angel',   'linkedin.com/in/ninamoberg'],
+          ['PaySend SaaS',      'Omar Al-Rashid',   'omar@paysend.tech',      'Node · Stripe · Postgres',  '41',  '$4.5M Seed',    'linkedin.com/in/omaralr'],
+          ['LogiTrack Pro',     'Emily Zhang',      'emily@logitrack.io',     'Python · Celery · Redis',   '56',  '$8M Series A',  'linkedin.com/in/emilyzhanglog'],
+          ['HealthOS',          'Samuel Mensah',    'sam@healthos.co',        'React · Django · AWS',      '30',  '$2.9M Seed',    'linkedin.com/in/samhealthos'],
+        ]
+      },
+      ecom: {
+        columns: ['ASIN', 'Product Title', 'Current Price', 'Our Price', 'Competitor Δ', 'Stock Status', 'BSR Rank'],
+        rows: [
+          ['B08N5WRWNW', 'Anker USB-C Hub 7-in-1',            '$35.99', '$29.99', '-16.7%', '✅ In Stock',     '#142 in Electronics'],
+          ['B07XJ8C8F5', 'Logitech MX Keys Wireless Kbd',     '$99.99', '$89.99', '-10.0%', '✅ In Stock',     '#38 in Keyboards'],
+          ['B09G9FPHY6', 'Samsung T7 Shield Portable SSD',    '$89.99', '$79.00', '-12.2%', '✅ In Stock',     '#11 in Ext. Storage'],
+          ['B07PXGQC1Q', 'ASUS ProArt Monitor 27" 4K',       '$599.99','$559.00', '-6.8%', '⚠️ Low Stock',    '#85 in Monitors'],
+          ['B08HMWZBM7', 'Elgato Stream Deck MK.2',          '$149.99','$129.99', '-13.3%', '✅ In Stock',    '#22 in Streaming'],
+          ['B08C1W5N87', 'Sony WH-1000XM5 Headphones',       '$349.99','$309.00', '-11.7%', '✅ In Stock',     '#3 in Headphones'],
+          ['B07FZ8S74R', 'Razer DeathAdder V3 Gaming Mouse', '$69.99', '$62.00', '-11.4%', '✅ In Stock',     '#51 in PC Mice'],
+          ['B09JQSLL92', 'Apple AirTag 4-Pack',              '$99.00', '$89.99',  '-9.1%', '✅ In Stock',     '#7 in GPS Trackers'],
+          ['B074KL6ZJR', 'Kindle Paperwhite 11th Gen',       '$139.99','$119.99', '-14.3%', '⚠️ Low Stock',   '#4 in eReaders'],
+          ['B082TBH4WD', 'Govee RGBIC TV Backlight Kit',     '$29.99', '$22.99', '-23.3%', '✅ In Stock',     '#9 in LED Strips'],
+          ['B09B8YWXDF', 'Blink Outdoor Security Camera 3x', '$119.99','$99.99', '-16.7%', '✅ In Stock',     '#14 in Smart Home'],
+          ['B0BQNMQ5DP', 'GreenWorks 80V Cordless Mower',    '$649.00','$579.00', '-10.8%', '❌ Out of Stock','#6 in Lawn Mowers'],
+        ]
+      },
+      realestate: {
+        columns: ['Property Address', 'Type', 'Asking Price', 'Price / SqFt', 'Cap Rate', 'SqFt', 'Broker Contact'],
+        rows: [
+          ['1240 Market St, San Francisco, CA',    'Office',    '$4,200,000', '$850',  '4.2%', '4,940 sqft', 'broker@cbrecf.com'],
+          ['820 Peachtree St NE, Atlanta, GA',     'Retail',    '$1,850,000', '$310',  '5.8%', '5,967 sqft', 'jm@colliers.com'],
+          ['3301 Travis St, Houston, TX',          'Industrial','$2,700,000', '$185',  '6.1%','14,594 sqft', 'tx@cbre.com'],
+          ['450 Seventh Ave, New York, NY',        'Office',    '$9,500,000', '$1,100','3.9%', '8,636 sqft', 'ny@jll.com'],
+          ['5500 Tennyson Pkwy, Plano, TX',        'Mixed-Use', '$3,100,000', '$420',  '5.3%', '7,381 sqft', 'plano@cushwake.com'],
+          ['2800 Woodlawn Dr, Honolulu, HI',       'Office',    '$5,800,000', '$780',  '4.0%', '7,436 sqft', 'hi@cbre.com'],
+          ['1100 Superior Ave, Cleveland, OH',     'Industrial','$890,000',   '$98',   '7.2%', '9,082 sqft', 'oh@svn.com'],
+          ['200 S Orange Ave, Orlando, FL',        'Retail',    '$2,200,000', '$375',  '5.6%', '5,867 sqft', 'fl@colliers.com'],
+          ['4000 MacArthur Blvd, Oakland, CA',     'Office',    '$6,400,000', '$920',  '4.5%', '6,957 sqft', 'oak@jll.com'],
+          ['710 N Tucker Blvd, St. Louis, MO',     'Mixed-Use', '$1,450,000', '$245',  '6.3%', '5,918 sqft', 'stl@svn.com'],
+          ['9200 Sunset Blvd, Los Angeles, CA',    'Retail',    '$7,300,000', '$1,050','3.7%', '6,952 sqft', 'la@cushwake.com'],
+          ['3750 Gunn Hwy, Tampa, FL',             'Industrial','$1,100,000', '$128',  '6.8%', '8,594 sqft', 'tfl@cbre.com'],
+        ]
+      }
+    };
+
+    // ── Terminal log templates ────────────────────────────────────────────
+    const LOGS = {
+      b2b: [
+        ['info',    '🚀 Initializing B2B Lead Intelligence pipeline...'],
+        ['dim',     '   Target sources: LinkedIn Sales Navigator, Crunchbase, Apollo.io'],
+        ['info',    '🔐 Generating TLS/JA3 fingerprint... ja3_hash=8a08b29...f7c2'],
+        ['success', '✔  Fingerprint randomized — mimicking Chrome 126 on macOS'],
+        ['info',    '🌐 Fetching residential proxy pool...'],
+        ['data',    '   Pool: 240 IPs / 14 countries (US:87, UK:42, CA:31, DE:28, AU:22...)'],
+        ['success', '✔  Proxy gateway health check passed — 238/240 IPs active'],
+        ['info',    '🛡️  Cloudflare Turnstile challenge detected on target...'],
+        ['warn',    '   Solving Turnstile token — payload: cf_challenge_js_fbdbfae...'],
+        ['success', '✔  Challenge solved (1.2s) — session token acquired'],
+        ['info',    '🔎 Initiating lead extraction — Page 1/∞'],
+        ['data',    '   DOM selector: [data-entity-urn], fallback: JSON-LD microdata'],
+        ['success', '✔  Extracted 12 records — schema validation: PASSED (12/12)'],
+        ['info',    '🔄 Rotating proxy IP... prev: 104.223.81.x → new: 172.67.45.x'],
+        ['success', '✔  Records enriched with email & tech stack verification'],
+        ['info',    '📦 Streaming batch to PostgreSQL / BigQuery...'],
+        ['success', '✅ Extraction complete. 12 verified B2B leads harvested.'],
+      ],
+      ecom: [
+        ['info',    '🚀 Initializing E-Commerce Price Intelligence pipeline...'],
+        ['dim',     '   Target sources: Amazon ASIN catalog, Walmart API, eBay'],
+        ['info',    '🔐 Generating TLS/JA3 fingerprint... ja3_hash=3d4f1ab...99ee'],
+        ['success', '✔  Fingerprint randomized — mimicking Firefox 118 on Windows 11'],
+        ['info',    '🌐 Allocating residential proxy — geolocated: United States'],
+        ['success', '✔  Proxy: 52.3.212.xx (Dallas, TX) — latency: 48ms'],
+        ['info',    '🛡️  DataDome anti-bot challenge intercepted...'],
+        ['warn',    '   Solving challenge — emitting human behavioral entropy...'],
+        ['success', '✔  DataDome bypassed — cookie session established'],
+        ['info',    '📊 Extracting ASIN catalog — batch size: 12 products'],
+        ['data',    '   Fields: ASIN, price, BSR rank, stock status, rating, reviews'],
+        ['success', '✔  Prices extracted — Pydantic schema validation: PASSED (12/12)'],
+        ['info',    '🔄 Computing competitor price deltas...'],
+        ['data',    '   Avg delta: -12.7% below market rate on 10/12 products'],
+        ['info',    '📦 Writing to database: 12 rows → pricing_intelligence table'],
+        ['success', '✅ Extraction complete. 12 product intelligence records harvested.'],
+      ],
+      realestate: [
+        ['info',    '🚀 Initializing Real Estate Listing Intelligence pipeline...'],
+        ['dim',     '   Target sources: LoopNet, CoStar, Crexi, Zillow Commercial'],
+        ['info',    '🔐 Generating TLS/JA3 fingerprint... ja3_hash=5c9b2de...44fa'],
+        ['success', '✔  Fingerprint randomized — mimicking Safari 17 on iOS 17'],
+        ['info',    '🌐 Fetching residential proxy — target geolocation: US Regional'],
+        ['success', '✔  Proxy: 184.73.18.xx (Chicago, IL) — latency: 62ms'],
+        ['info',    '🛡️  Akamai Bot Manager detected on CoStar target...'],
+        ['warn',    '   Resolving Akamai sensor — injecting stealth event listeners...'],
+        ['success', '✔  Akamai bypassed — JavaScript challenge solved in 0.9s'],
+        ['info',    '🔎 Parsing listings — extracting: address, price, sqft, cap rate'],
+        ['data',    '   DOM strategy: CSS selector + JSON-LD fallback + regex cap rate'],
+        ['success', '✔  Extracted 12 listings — schema validation: PASSED (12/12)'],
+        ['info',    '📍 Broker contact validation & de-duplication...'],
+        ['data',    '   Unique broker contacts: 11/12 — 1 duplicate removed'],
+        ['info',    '📦 Streaming to Google Sheets & BigQuery partition...'],
+        ['success', '✅ Extraction complete. 12 commercial listings harvested.'],
+      ]
+    };
+
+    // ── State ─────────────────────────────────────────────────────────────
+    let currentScenario = 'b2b';
+    let extractedData = [];
+    let isRunning = false;
+    let recordCount = 0;
+    let speedInterval = null;
+
+    // ── Scenario selection ────────────────────────────────────────────────
+    document.querySelectorAll('.scenario-card').forEach(card => {
+      card.addEventListener('click', () => {
+        if (isRunning) return;
+        document.querySelectorAll('.scenario-card').forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        currentScenario = card.dataset.scenario;
+      });
+    });
+
+    // ── Toggle switches ───────────────────────────────────────────────────
+    document.querySelectorAll('.toggle-track').forEach(track => {
+      track.addEventListener('click', () => {
+        track.classList.toggle('on');
+      });
+    });
+
+    // ── Terminal helpers ──────────────────────────────────────────────────
+    const terminal = document.getElementById('terminal-output');
+    function clearTerminal() {
+      terminal.innerHTML = '<div class="log-dim">─ Terminal cleared. Ready for next extraction. ─</div>';
+    }
+    function appendLog(type, msg, delay = 0) {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          const ts = new Date().toLocaleTimeString('en-US', { hour12: false });
+          const classes = { info: 'log-info', success: 'log-success', warn: 'log-warn', data: 'log-data', error: 'log-error', dim: 'log-dim' };
+          const el = document.createElement('div');
+          el.className = `${classes[type] || 'log-info'} animate-slide-in`;
+          el.innerHTML = `<span class="log-dim text-[10px]">${ts}</span>  ${msg}`;
+          terminal.appendChild(el);
+          terminal.scrollTop = terminal.scrollHeight;
+          resolve();
+        }, delay);
+      });
+    }
+
+    // ── Metrics animation ─────────────────────────────────────────────────
+    function animateCounter(el, target, duration = 1200) {
+      const start = parseInt(el.textContent.replace(/,/g, '')) || 0;
+      const range = target - start;
+      const startTime = performance.now();
+      function step(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.round(start + range * eased).toLocaleString();
+        if (progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    // ── Status badge ──────────────────────────────────────────────────────
+    function setStatus(state) {
+      const badge = document.getElementById('status-badge');
+      const dot   = document.getElementById('status-dot');
+      const text  = document.getElementById('status-text');
+      badge.className = `status-badge status-${state}`;
+      dot.className   = `dot dot-${state}`;
+      text.textContent = { idle: 'IDLE', run: 'RUNNING', done: 'COMPLETE' }[state];
+    }
+
+    // ── Build table ───────────────────────────────────────────────────────
+    function buildTable(rows, filter = '') {
+      const { columns } = DATASETS[currentScenario];
+      const filtered = rows.filter(row =>
+        filter === '' || row.some(cell => cell.toLowerCase().includes(filter.toLowerCase()))
+      );
+      const wrapper = document.getElementById('table-wrapper');
+      if (filtered.length === 0) {
+        wrapper.innerHTML = `<div class="py-12 text-center font-poppins text-sm text-purple-400/50"><p>No records match your search.</p></div>`;
+        return;
+      }
+      const ths = columns.map(c => `<th>${c}</th>`).join('');
+      const trs = filtered.map((row, i) =>
+        `<tr class="${i < 3 ? 'new-row' : ''}">` + row.map(cell => `<td>${cell}</td>`).join('') + '</tr>'
+      ).join('');
+      wrapper.innerHTML = `<table class="data-table"><thead><tr>${ths}</tr></thead><tbody>${trs}</tbody></table>`;
+      document.getElementById('row-count').textContent = `(${filtered.length} rows)`;
+    }
+
+    // ── Search ────────────────────────────────────────────────────────────
+    document.getElementById('search-input').addEventListener('input', e => {
+      if (extractedData.length > 0) buildTable(extractedData, e.target.value);
+    });
+
+    // ── Export CSV ────────────────────────────────────────────────────────
+    document.getElementById('btn-csv').addEventListener('click', () => {
+      const { columns, rows } = DATASETS[currentScenario];
+      const header = columns.join(',');
+      const body = rows.map(r => r.map(c => `"${c}"`).join(',')).join('\n');
+      const blob = new Blob([header + '\n' + body], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url;
+      a.download = `jahanzaib_scraper_${currentScenario}_${Date.now()}.csv`;
+      a.click(); URL.revokeObjectURL(url);
+    });
+
+    // ── Export JSON ───────────────────────────────────────────────────────
+    document.getElementById('btn-json').addEventListener('click', () => {
+      const { columns, rows } = DATASETS[currentScenario];
+      const jsonData = rows.map(row => {
+        const obj = {};
+        columns.forEach((col, i) => { obj[col] = row[i]; });
+        return obj;
+      });
+      const payload = {
+        meta: {
+          scenario: currentScenario,
+          records: rows.length,
+          extracted_at: new Date().toISOString(),
+          pipeline: 'Jahanzaib Ahmad — Anti-Detect Scraper v2.5',
+          contact: 'jahanzaibahmad630@gmail.com'
+        },
+        data: jsonData
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url;
+      a.download = `jahanzaib_scraper_${currentScenario}_${Date.now()}.json`;
+      a.click(); URL.revokeObjectURL(url);
+    });
+
+    // ── Clear terminal ────────────────────────────────────────────────────
+    document.getElementById('btn-clear').addEventListener('click', () => {
+      clearTerminal();
+    });
+
+    // ── Main Run Logic ────────────────────────────────────────────────────
+    document.getElementById('btn-run').addEventListener('click', async () => {
+      if (isRunning) return;
+      isRunning = true;
+      extractedData = [];
+
+      const btnRun   = document.getElementById('btn-run');
+      const btnClear = document.getElementById('btn-clear');
+      const btnCsv   = document.getElementById('btn-csv');
+      const btnJson  = document.getElementById('btn-json');
+
+      btnRun.disabled = true;
+      btnRun.innerHTML = `<svg class="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg> Running...`;
+      btnClear.disabled = true;
+      btnCsv.disabled = true;
+      btnJson.disabled = true;
+
+      setStatus('run');
+      clearTerminal();
+
+      // Animate metrics going live
+      document.getElementById('metric-records').textContent = '0';
+      document.getElementById('metric-speed').textContent = '0';
+      document.getElementById('metric-ban').textContent = '0';
+
+      // Fake speed animation
+      let speed = 0;
+      speedInterval = setInterval(() => {
+        speed = Math.min(speed + Math.floor(Math.random() * 40 + 20), 380);
+        document.getElementById('metric-speed').textContent = speed;
+      }, 300);
+
+      // Stream logs
+      const logs = LOGS[currentScenario];
+      for (let i = 0; i < logs.length; i++) {
+        const delay = i === 0 ? 0 : (i < 3 ? 300 : i < 8 ? 450 : 350);
+        await appendLog(logs[i][0], logs[i][1], delay);
+      }
+
+      // Populate table row by row
+      clearInterval(speedInterval);
+      const dataset = DATASETS[currentScenario];
+      const wrapper = document.getElementById('table-wrapper');
+      const { columns, rows } = dataset;
+
+      // Build empty table first
+      const ths = columns.map(c => `<th>${c}</th>`).join('');
+      wrapper.innerHTML = `<table class="data-table" id="live-table"><thead><tr>${ths}</tr></thead><tbody id="live-tbody"></tbody></table>`;
+      const tbody = document.getElementById('live-tbody');
+
+      for (let i = 0; i < rows.length; i++) {
+        await new Promise(resolve => setTimeout(resolve, 150));
+        const tr = document.createElement('tr');
+        tr.className = 'new-row';
+        tr.innerHTML = rows[i].map(cell => `<td>${cell}</td>`).join('');
+        tbody.appendChild(tr);
+        extractedData.push(rows[i]);
+        recordCount = i + 1;
+        document.getElementById('metric-records').textContent = recordCount;
+        document.getElementById('row-count').textContent = `(${recordCount} rows)`;
+      }
+
+      // Final speed settle
+      animateCounter(document.getElementById('metric-speed'), 342, 800);
+      setStatus('done');
+
+      await appendLog('dim', '─────────────────────────────────────────────', 200);
+      await appendLog('success', `✅ Pipeline complete. ${recordCount} records ready for export.`, 250);
+
+      btnRun.disabled = false;
+      btnRun.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg> Run Again`;
+      btnClear.disabled = false;
+      btnCsv.disabled = false;
+      btnJson.disabled = false;
+      isRunning = false;
+    });
+  </script>
+</body>
+</html>
