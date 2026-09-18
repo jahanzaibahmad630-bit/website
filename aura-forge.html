@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURA FORGE — Legendary Anime Swords, Forged in Light</title>
+<style>
+/* ============================================================
+   AURA FORGE — Daylight Edition
+   Single-file frontend: 4K-ready visuals, aura shaders (CSS+canvas),
+   butter-smooth motions, human-first design.
+   ============================================================ */
+:root{
+  --sky:#eaf4ff;
+  --paper:#faf8f2;
+  --paper-2:#f4f0e6;
+  --ink:#16233b;
+  --ink-soft:#4a5a75;
+  --aura:#3aa0ff;
+  --aura-deep:#1d6fe0;
+  --aura-ice:#9fdcff;
+  --gold:#c9a25a;
+  --hair:rgba(22,35,59,.09);
+  --radius:22px;
+  --shadow-soft:0 30px 60px -25px rgba(22,35,59,.22);
+  --font-head:"Georgia","Times New Roman",serif;
+  --font-body:"Avenir Next","Segoe UI",system-ui,-apple-system,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-body);
+  color:var(--ink);
+  background:var(--paper);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--aura-ice);color:var(--ink)}
+
+/* ---------- SKY & AMBIENT LIGHT ---------- */
+.sky{
+  position:fixed;inset:0;z-index:-3;
+  background:
+    radial-gradient(1200px 700px at 85% -10%, #cfe7ff 0%, transparent 60%),
+    radial-gradient(900px 600px at -10% 30%, #fdeecf 0%, transparent 55%),
+    radial-gradient(1000px 800px at 50% 110%, #d9ecff 0%, transparent 60%),
+    linear-gradient(180deg,#eef6ff 0%, #faf8f2 45%, #f6f1e7 100%);
+}
+.grain{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.5;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='.05'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+#fx{position:fixed;inset:0;z-index:-2;pointer-events:none}
+
+/* ---------- NAVIGATION ---------- */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  transition:background .4s ease, box-shadow .4s ease, backdrop-filter .4s ease;
+}
+nav.scrolled{
+  background:rgba(250,248,242,.78);
+  backdrop-filter:blur(18px) saturate(1.4);
+  -webkit-backdrop-filter:blur(18px) saturate(1.4);
+  box-shadow:0 1px 0 var(--hair), 0 18px 40px -30px rgba(22,35,59,.35);
+}
+.nav-inner{
+  max-width:1280px;margin:0 auto;padding:18px 32px;
+  display:flex;align-items:center;justify-content:space-between;gap:24px;
+}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
+.logo-mark{
+  width:40px;height:40px;border-radius:12px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--aura) 0%,var(--aura-deep) 100%);
+  box-shadow:0 10px 24px -8px rgba(58,160,255,.6), inset 0 1px 0 rgba(255,255,255,.5);
+}
+.logo-mark svg{width:22px;height:22px}
+.logo-text{font-family:var(--font-head);font-weight:700;font-size:19px;letter-spacing:.14em}
+.logo-text em{font-style:normal;color:var(--aura-deep)}
+.nav-links{display:flex;align-items:center;gap:6px;list-style:none}
+.nav-links a{
+  position:relative;text-decoration:none;color:var(--ink-soft);font-size:14.5px;font-weight:600;
+  letter-spacing:.04em;padding:10px 16px;border-radius:999px;transition:color .3s ease,background .3s ease;
+}
+.nav-links a::after{
+  content:"";position:absolute;left:16px;right:16px;bottom:6px;height:2px;border-radius:2px;
+  background:linear-gradient(90deg,var(--aura),var(--aura-deep));
+  transform:scaleX(0);transform-origin:left;transition:transform .35s cubic-bezier(.6,.05,.2,1);
+}
+.nav-links a:hover{color:var(--ink);background:rgba(58,160,255,.08)}
+.nav-links a.active{color:var(--ink)}
+.nav-links a.active::after{transform:scaleX(1)}
+.nav-cta{
+  display:inline-flex;align-items:center;gap:10px;text-decoration:none;
+  padding:11px 22px;border-radius:999px;font-size:14px;font-weight:700;letter-spacing:.03em;
+  color:#fff;background:linear-gradient(135deg,var(--ink) 0%,#2b3d61 100%);
+  box-shadow:0 14px 30px -12px rgba(22,35,59,.55);transition:transform .3s ease,box-shadow .3s ease;
+  cursor:pointer;border:none;
+}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 20px 40px -14px rgba(22,35,59,.6)}
+.nav-cta svg{width:15px;height:15px;transition:transform .3s ease}
+.nav-cta:hover svg{transform:translateX(3px)}
+.burger{display:none;background:none;border:none;cursor:pointer;width:44px;height:44px;border-radius:12px}
+.burger span{display:block;width:22px;height:2px;background:var(--ink);margin:5px auto;border-radius:2px;transition:.35s cubic-bezier(.6,.05,.2,1)}
+@media(max-width:900px){
+  .nav-links,.nav-cta{display:none}
+  .burger{display:block}
+  nav.open .burger span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  nav.open .burger span:nth-child(2){opacity:0;transform:scaleX(0)}
+  nav.open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .mobile-menu{
+    position:absolute;top:100%;left:16px;right:16px;border-radius:20px;padding:14px;
+    background:rgba(250,248,242,.92);backdrop-filter:blur(20px);
+    box-shadow:var(--shadow-soft);border:1px solid var(--hair);
+    display:flex;flex-direction:column;gap:4px;
+    opacity:0;transform:translateY(-12px) scale(.98);pointer-events:none;
+    transition:opacity .35s ease,transform .35s cubic-bezier(.6,.05,.2,1);
+  }
+  nav.open .mobile-menu{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+  .mobile-menu a{text-decoration:none;color:var(--ink);font-weight:600;padding:14px 18px;border-radius:14px}
+  .mobile-menu a:hover{background:rgba(58,160,255,.1)}
+}
+.mobile-menu{display:none}
+@media(max-width:900px){.mobile-menu{display:flex}}
+
+/* ---------- LAYOUT ---------- */
+.wrap{max-width:1280px;margin:0 auto;padding:0 32px}
+section{position:relative;padding:120px 0}
+
+/* ---------- HERO ---------- */
+.hero{min-height:100vh;display:flex;align-items:center;padding:150px 0 90px}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+@media(max-width:960px){.hero-grid{grid-template-columns:1fr;text-align:center}}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border-radius:999px;
+  border:1px solid var(--hair);background:rgba(255,255,255,.6);backdrop-filter:blur(8px);
+  font-size:12.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);
+  margin-bottom:26px;
+}
+.eyebrow .dot{width:8px;height:8px;border-radius:50%;background:var(--aura);box-shadow:0 0 0 0 rgba(58,160,255,.5);animation:pulse 2.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(58,160,255,.45)}70%{box-shadow:0 0 0 12px rgba(58,160,255,0)}100%{box-shadow:0 0 0 0 rgba(58,160,255,0)}}
+h1{
+  font-family:var(--font-head);font-size:clamp(44px,6.2vw,86px);line-height:1.02;
+  letter-spacing:-.015em;font-weight:700;
+}
+h1 .line{display:block;overflow:hidden}
+h1 .line>span{display:inline-block;transform:translateY(110%);animation:riseUp 1s cubic-bezier(.2,.7,.2,1) forwards}
+h1 .line:nth-child(2)>span{animation-delay:.12s}
+h1 .line:nth-child(3)>span{animation-delay:.24s}
+@keyframes riseUp{to{transform:translateY(0)}}
+h1 .glow-text{
+  background:linear-gradient(100deg,var(--aura-deep) 0%,var(--aura) 45%,#7cc4ff 70%,var(--aura-deep) 100%);
+  background-size:200% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shineText 6s linear infinite;
+}
+@keyframes shineText{to{background-position:200% 0}}
+.hero-copy p{margin-top:24px;font-size:17.5px;line-height:1.75;color:var(--ink-soft);max-width:52ch}
+@media(max-width:960px){.hero-copy p{margin-left:auto;margin-right:auto}}
+.hero-actions{display:flex;gap:16px;margin-top:38px;flex-wrap:wrap}
+@media(max-width:960px){.hero-actions{justify-content:center}}
+.btn{
+  position:relative;display:inline-flex;align-items:center;gap:12px;text-decoration:none;
+  padding:16px 30px;border-radius:999px;font-size:15px;font-weight:700;letter-spacing:.02em;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s ease;overflow:hidden;
+  cursor:pointer;border:none;
+}
+.btn-primary{color:#fff;background:linear-gradient(135deg,var(--aura) 0%,var(--aura-deep) 100%);box-shadow:0 18px 40px -14px rgba(29,111,224,.6)}
+.btn-primary::before{
+  content:"";position:absolute;top:0;bottom:0;left:-80%;width:50%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);
+  transform:skewX(-20deg);animation:sweep 3.2s ease-in-out infinite;
+}
+@keyframes sweep{0%,60%{left:-80%}100%{left:160%}}
+.btn-primary:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 26px 50px -16px rgba(29,111,224,.7)}
+.btn-ghost{color:var(--ink);border:1.5px solid var(--hair);background:rgba(255,255,255,.55);backdrop-filter:blur(8px)}
+.btn-ghost:hover{transform:translateY(-3px);border-color:var(--aura);box-shadow:0 16px 34px -18px rgba(22,35,59,.4)}
+.hero-stats{display:flex;gap:44px;margin-top:52px}
+@media(max-width:960px){.hero-stats{justify-content:center}}
+.hero-stats .stat b{font-family:var(--font-head);font-size:30px;display:block}
+.hero-stats .stat span{font-size:13px;color:var(--ink-soft);letter-spacing:.06em;text-transform:uppercase}
+
+/* ---------- SWORD STAGE ---------- */
+.sword-stage{position:relative;display:grid;place-items:center;perspective:1200px;min-height:560px}
+@media(max-width:960px){.sword-stage{min-height:460px}}
+.sword-float{position:relative;will-change:transform;transform-style:preserve-3d}
+.halo{
+  position:absolute;left:50%;top:50%;width:560px;height:560px;transform:translate(-50%,-50%);
+  border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(58,160,255,.30) 0%,rgba(58,160,255,.12) 38%,transparent 68%);
+  animation:breathe 5.5s ease-in-out infinite;filter:blur(6px);
+}
+@keyframes breathe{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.85}50%{transform:translate(-50%,-50%) scale(1.12);opacity:1}}
+.ring{
+  position:absolute;left:50%;top:50%;border-radius:50%;pointer-events:none;
+  border:1px solid rgba(58,160,255,.35);
+}
+.ring.r1{width:460px;height:460px;transform:translate(-50%,-50%);animation:spin 26s linear infinite}
+.ring.r2{width:540px;height:540px;transform:translate(-50%,-50%) rotateX(72deg);border-style:dashed;border-color:rgba(29,111,224,.3);animation:spin 40s linear infinite reverse}
+.ring.r3{width:400px;height:400px;transform:translate(-50%,-50%) rotateX(72deg) rotateY(12deg);border-color:rgba(201,162,90,.35);animation:spin 34s linear infinite}
+@keyframes spin{from{rotate:0deg}to{rotate:360deg}}
+.sword-svg{
+  height:540px;width:auto;position:relative;z-index:2;
+  filter:drop-shadow(0 30px 50px rgba(29,111,224,.35));
+  animation:floaty 6s ease-in-out infinite;
+}
+@media(max-width:960px){.sword-svg{height:430px}}
+@keyframes floaty{0%,100%{translate:0 0;rotate:-2deg}50%{translate:0 -22px;rotate:2deg}}
+.aura-blade{animation:auraPulse 3s ease-in-out infinite}
+@keyframes auraPulse{0%,100%{opacity:.55}50%{opacity:1}}
+.blade-shine{animation:shineMove 3.4s ease-in-out infinite}
+@keyframes shineMove{0%{transform:translateY(-120%)}55%,100%{transform:translateY(520%)}}
+.stage-chip{
+  position:absolute;z-index:3;padding:12px 18px;border-radius:16px;
+  background:rgba(255,255,255,.72);backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.8);box-shadow:var(--shadow-soft);
+  font-size:12.5px;font-weight:700;letter-spacing:.05em;color:var(--ink-soft);
+  display:flex;align-items:center;gap:9px;
+}
+.stage-chip i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.chip1{top:12%;left:2%;animation:chipFloat 5s ease-in-out infinite}
+.chip2{bottom:14%;right:0%;animation:chipFloat 5s ease-in-out 1.2s infinite}
+.chip3{top:44%;right:-4%;animation:chipFloat 5s ease-in-out .6s infinite}
+@media(max-width:960px){.chip3{display:none}}
+@keyframes chipFloat{0%,100%{translate:0 0}50%{translate:0 -12px}}
+.scroll-hint{
+  position:absolute;bottom:26px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--ink-soft);
+  font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;
+}
+.scroll-hint .wheel{width:24px;height:38px;border:2px solid var(--hair);border-radius:14px;position:relative}
+.scroll-hint .wheel::after{
+  content:"";position:absolute;left:50%;top:7px;width:4px;height:8px;margin-left:-2px;border-radius:4px;
+  background:var(--aura);animation:wheel 1.8s ease-in-out infinite;
+}
+@keyframes wheel{0%{transform:translateY(0);opacity:1}70%{transform:translateY(12px);opacity:0}100%{transform:translateY(0);opacity:0}}
+
+/* ---------- MARQUEE ---------- */
+.marquee{
+  padding:26px 0;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);
+  background:rgba(255,255,255,.5);overflow:hidden;white-space:nowrap;
+}
+.marquee-track{display:inline-flex;gap:56px;animation:marquee 30s linear infinite;padding-right:56px}
+@keyframes marquee{to{transform:translateX(-100%)}}
+.marquee span{
+  font-family:var(--font-head);font-size:20px;letter-spacing:.14em;color:var(--ink-soft);
+  display:inline-flex;align-items:center;gap:20px;
+}
+.marquee span::after{content:"✦";color:var(--aura);font-size:14px}
+
+/* ---------- SECTION HEADS ---------- */
+.sec-head{max-width:720px;margin-bottom:64px}
+.sec-head.center{margin-left:auto;margin-right:auto;text-align:center}
+.kicker{
+  display:inline-block;font-size:12.5px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--aura-deep);margin-bottom:16px;
+}
+.kicker::before{content:"";display:inline-block;width:26px;height:2px;background:var(--aura);vertical-align:middle;margin-right:12px;border-radius:2px}
+.sec-head.center .kicker::after{content:"";display:inline-block;width:26px;height:2px;background:var(--aura);vertical-align:middle;margin-left:12px;border-radius:2px}
+h2{font-family:var(--font-head);font-size:clamp(32px,4.2vw,54px);line-height:1.1;letter-spacing:-.01em}
+.sec-head p{margin-top:18px;font-size:16.5px;line-height:1.75;color:var(--ink-soft)}
+
+/* reveal on scroll */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:translateY(0)}
+.reveal[data-delay="1"]{transition-delay:.12s}
+.reveal[data-delay="2"]{transition-delay:.24s}
+.reveal[data-delay="3"]{transition-delay:.36s}
+
+/* ---------- COLLECTION ---------- */
+.collection{background:linear-gradient(180deg,transparent,rgba(234,244,255,.55) 20%,rgba(234,244,255,.55) 80%,transparent)}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+@media(max-width:960px){.cards{grid-template-columns:1fr;max-width:460px;margin:0 auto}}
+.card{
+  position:relative;border-radius:var(--radius);padding:34px 30px 30px;
+  background:rgba(255,255,255,.75);backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.9);
+  box-shadow:var(--shadow-soft);overflow:hidden;
+  transform-style:preserve-3d;will-change:transform;
+  transition:box-shadow .4s ease;
+}
+.card:hover{box-shadow:0 44px 80px -30px rgba(29,111,224,.4)}
+.card::before{
+  content:"";position:absolute;inset:0;opacity:0;transition:opacity .5s ease;pointer-events:none;
+  background:radial-gradient(420px 300px at var(--mx,50%) var(--my,0%),rgba(58,160,255,.16),transparent 65%);
+}
+.card:hover::before{opacity:1}
+.card .sword-icon{height:210px;display:grid;place-items:center;margin-bottom:22px;transform:translateZ(40px)}
+.card .sword-icon svg{height:200px;transition:transform .5s cubic-bezier(.34,1.56,.64,1)}
+.card:hover .sword-icon svg{transform:scale(1.07) rotate(-3deg)}
+.card h3{font-family:var(--font-head);font-size:26px;margin-bottom:6px}
+.card .sub{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--aura-deep);margin-bottom:14px}
+.card p{font-size:15px;line-height:1.7;color:var(--ink-soft)}
+.card .meta{
+  display:flex;justify-content:space-between;align-items:center;margin-top:24px;padding-top:20px;
+  border-top:1px solid var(--hair);
+}
+.card .price{font-family:var(--font-head);font-size:22px;font-weight:700}
+.card .price small{font-size:13px;color:var(--ink-soft);font-family:var(--font-body);font-weight:600;display:block;letter-spacing:.08em;text-transform:uppercase}
+.card .btn-mini{
+  width:46px;height:46px;border-radius:50%;display:grid;place-items:center;border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--aura),var(--aura-deep));color:#fff;
+  box-shadow:0 12px 24px -10px rgba(29,111,224,.6);transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+.card .btn-mini:hover{transform:scale(1.12) rotate(-8deg)}
+.card .tag{
+  position:absolute;top:20px;right:20px;padding:6px 13px;border-radius:999px;font-size:11px;font-weight:800;
+  letter-spacing:.1em;text-transform:uppercase;background:rgba(22,35,59,.06);color:var(--ink-soft);
+}
+
+/* ---------- FORGING TIMELINE ---------- */
+.forge{display:grid;grid-template-columns:.9fr 1.1fr;gap:70px;align-items:center}
+@media(max-width:960px){.forge{grid-template-columns:1fr}}
+.forge-visual{
+  position:relative;border-radius:28px;overflow:hidden;min-height:480px;
+  background:
+    radial-gradient(600px 400px at 30% 20%,rgba(255,255,255,.9),transparent 60%),
+    linear-gradient(160deg,#bcd9f7 0%,#8fbcec 45%,#5f96d9 100%);
+  box-shadow:var(--shadow-soft);display:grid;place-items:center;
+}
+.forge-visual::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 55%,rgba(22,35,59,.35));
+}
+.forge-visual svg{width:78%;filter:drop-shadow(0 24px 40px rgba(22,35,59,.4));animation:floaty 7s ease-in-out infinite}
+.forge-visual .caption{
+  position:absolute;bottom:24px;left:28px;right:28px;color:#fff;z-index:2;
+  font-size:14px;font-weight:600;letter-spacing:.04em;display:flex;justify-content:space-between;align-items:center;
+}
+.forge-visual .caption b{font-family:var(--font-head);font-size:20px;letter-spacing:0;display:block}
+.steps{display:flex;flex-direction:column;gap:0}
+.step{display:flex;gap:22px;padding:26px 6px;border-bottom:1px solid var(--hair);position:relative;transition:background .3s ease;border-radius:14px}
+.step:hover{background:rgba(255,255,255,.6)}
+.step:last-child{border-bottom:none}
+.step .num{
+  flex:0 0 52px;height:52px;border-radius:16px;display:grid;place-items:center;
+  font-family:var(--font-head);font-weight:700;font-size:19px;
+  background:linear-gradient(135deg,#fff,rgba(234,244,255,.9));border:1px solid var(--hair);
+  box-shadow:0 10px 20px -12px rgba(22,35,59,.35);color:var(--aura-deep);
+}
+.step h4{font-size:17.5px;font-weight:800;margin-bottom:6px;letter-spacing:.01em}
+.step p{font-size:14.5px;line-height:1.7;color:var(--ink-soft)}
+
+/* ---------- CRAFTSMAN STRIP ---------- */
+.strip{
+  margin-top:100px;display:grid;grid-template-columns:repeat(4,1fr);gap:20px;
+}
+@media(max-width:960px){.strip{grid-template-columns:repeat(2,1fr)}}
+.strip .box{
+  padding:30px 26px;border-radius:20px;background:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.9);
+  box-shadow:var(--shadow-soft);text-align:center;transition:transform .35s cubic-bezier(.34,1.56,.64,1);
+}
+.strip .box:hover{transform:translateY(-8px)}
+.strip .box b{font-family:var(--font-head);font-size:38px;display:block;color:var(--aura-deep)}
+.strip .box span{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+
+/* ---------- QUOTE / CTA ---------- */
+.cta{
+  text-align:center;padding:110px 32px;border-radius:32px;position:relative;overflow:hidden;
+  background:
+    radial-gradient(700px 400px at 50% -10%,rgba(255,255,255,.9),transparent 60%),
+    linear-gradient(135deg,#2b3d61 0%,#16233b 100%);
+  color:#fff;box-shadow:0 50px 100px -40px rgba(22,35,59,.6);
+}
+.cta::before,.cta::after{
+  content:"";position:absolute;border-radius:50%;filter:blur(2px);
+}
+.cta::before{width:380px;height:380px;left:-120px;bottom:-160px;background:radial-gradient(circle,rgba(58,160,255,.4),transparent 70%)}
+.cta::after{width:460px;height:460px;right:-140px;top:-180px;background:radial-gradient(circle,rgba(201,162,90,.3),transparent 70%)}
+.cta h2{color:#fff;font-size:clamp(36px,4.5vw,58px);margin-bottom:18px}
+.cta p{color:rgba(255,255,255,.8);max-width:54ch;margin:0 auto 36px;font-size:17.5px;line-height:1.7}
+.cta .btn-wrap{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+
+/* ---------- FOOTER ---------- */
+footer{padding:80px 0 40px;border-top:1px solid var(--hair)}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:60px}
+@media(max-width:960px){.footer-grid{grid-template-columns:1fr 1fr;gap:36px}}
+@media(max-width:540px){.footer-grid{grid-template-columns:1fr}}
+.footer-grid h5{font-family:var(--font-head);font-size:17px;margin-bottom:18px;color:var(--ink)}
+.footer-grid ul{list-style:none}
+.footer-grid ul li{margin-bottom:10px}
+.footer-grid ul a{color:var(--ink-soft);text-decoration:none;font-size:14px;transition:color .25s ease}
+.footer-grid ul a:hover{color:var(--aura-deep)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:30px;border-top:1px solid var(--hair);font-size:13px;color:var(--ink-soft)}
+@media(max-width:600px){.footer-bottom{flex-direction:column;gap:12px;text-align:center}}
+
+/* ---------- TOAST ---------- */
+.toast{
+  position:fixed;bottom:28px;right:28px;z-index:9999;
+  padding:16px 26px;border-radius:16px;
+  background:rgba(250,248,242,.92);backdrop-filter:blur(18px);
+  box-shadow:var(--shadow-soft), 0 0 0 1px rgba(255,255,255,.9);
+  color:var(--ink);font-weight:600;font-size:14px;
+  transform:translateY(120px);opacity:0;
+  transition:transform .4s cubic-bezier(.34,1.56,.64,1),opacity .3s ease;
+  pointer-events:none;
+}
+.toast.show{transform:translateY(0);opacity:1}
+</style>
+</head>
+<body>
+
+<!-- Ambient background canvas & grain -->
+<div class="sky"></div>
+<canvas id="fx"></canvas>
+<div class="grain"></div>
+
+<!-- Toast notification -->
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<!-- ================= NAVIGATION ================= -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#hero" class="logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"></polyline>
+          <line x1="13" y1="19" x2="19" y2="13"></line>
+          <line x1="16" y1="16" x2="20" y2="20"></line>
+          <line x1="19" y1="21" x2="21" y2="19"></line>
+        </svg>
+      </div>
+      <span class="logo-text">AURA<em>FORGE</em></span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#hero" class="active">Sanctum</a></li>
+      <li><a href="#collection">Blades</a></li>
+      <li><a href="#craft">Craftsmanship</a></li>
+      <li><a href="#delivery">3-Hour Delivery</a></li>
+      <li><a href="#legacy">Legacy</a></li>
+    </ul>
+
+    <button onclick="triggerToast('⚡ Amaterasu Grand Katana added to your Forge Order!')" class="nav-cta">
+      <span>Order Custom Blade</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+        <polyline points="12 5 19 12 12 19"></polyline>
+      </svg>
+    </button>
+
+    <button class="burger" id="burger" aria-label="Toggle navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#hero" onclick="closeMenu()">Sanctum</a>
+    <a href="#collection" onclick="closeMenu()">Blades</a>
+    <a href="#craft" onclick="closeMenu()">Craftsmanship</a>
+    <a href="#delivery" onclick="closeMenu()">3-Hour Delivery</a>
+    <a href="#legacy" onclick="closeMenu()">Legacy</a>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<main>
+  <section class="hero" id="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+        
+        <!-- Hero Text -->
+        <div class="hero-copy">
+          <div class="eyebrow">
+            <span class="dot"></span>
+            Daylight Edition • 4K Aura Shaders
+          </div>
+
+          <h1>
+            <span class="line"><span>Legendary Blades,</span></span>
+            <span class="line"><span class="glow-text">Forged In Pure Light.</span></span>
+          </h1>
+
+          <p>
+            Where sacred metallurgical heritage meets high-dimensional solar energy. Hand-tempered Japanese tamahagane steel encased in a realistic 4K dynamic aura — delivered within 3 hours.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#collection" class="btn btn-primary">
+              <span>Explore Collection</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+            <a href="#craft" class="btn btn-ghost">The Craftsmanship</a>
+          </div>
+
+          <div class="hero-stats">
+            <div class="stat">
+              <b>3 Hours</b>
+              <span>Guaranteed Delivery</span>
+            </div>
+            <div class="stat">
+              <b>0.02ms</b>
+              <span>Aura Response</span>
+            </div>
+            <div class="stat">
+              <b>10,000+</b>
+              <span>Folds of Steel</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Stage (Blade Showcase) -->
+        <div class="sword-stage">
+          <div class="sword-float" id="swordFloat">
+            <div class="halo"></div>
+            <div class="ring r1"></div>
+            <div class="ring r2"></div>
+            <div class="ring r3"></div>
+
+            <!-- Master Katana SVG -->
+            <svg class="sword-svg" viewBox="0 0 160 540" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <!-- Aura Glow Blur Filter -->
+                <filter id="auraGlow" x="-30%" y="-20%" width="160%" height="140%">
+                  <feGaussianBlur stdDeviation="8" result="blur"/>
+                  <feMerge>
+                    <feMergeNode in="blur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+                <!-- Blade Gradient -->
+                <linearGradient id="bladeGrad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#ffffff"/>
+                  <stop offset="45%" stop-color="#e6effa"/>
+                  <stop offset="65%" stop-color="#bacfe6"/>
+                  <stop offset="100%" stop-color="#7a9bbf"/>
+                </linearGradient>
+                <!-- Aura Light Gradient -->
+                <linearGradient id="auraGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#9fdcff" stop-opacity="0.9"/>
+                  <stop offset="35%" stop-color="#3aa0ff" stop-opacity="0.75"/>
+                  <stop offset="85%" stop-color="#1d6fe0" stop-opacity="0.4"/>
+                  <stop offset="100%" stop-color="#c9a25a" stop-opacity="0"/>
+                </linearGradient>
+                <!-- Gold Accent -->
+                <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#fcedb6"/>
+                  <stop offset="50%" stop-color="#c9a25a"/>
+                  <stop offset="100%" stop-color="#8a6728"/>
+                </linearGradient>
+              </defs>
+
+              <!-- Dynamic Outer Aura Silhouette -->
+              <path class="aura-blade" filter="url(#auraGlow)" d="M 76,40 C 76,40 85,160 84,310 C 83,370 79,400 79,400 L 87,400 C 87,400 93,365 94,305 C 95,155 84,40 84,40 Z" fill="url(#auraGrad)"/>
+
+              <!-- Katana Blade Edge & Spine -->
+              <path d="M 78,45 Q 81,170 80,310 Q 79,365 79,400 L 85,400 Q 86,365 87,310 Q 88,170 82,45 Z" fill="url(#bladeGrad)"/>
+              
+              <!-- Hamon (Wave Pattern on steel) -->
+              <path d="M 78.5,50 Q 82,80 79,110 Q 82,140 79.5,170 Q 82.5,200 80,230 Q 82.5,260 80,290 Q 82.5,320 80,350 Q 82,380 80,400" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" opacity="0.85"/>
+              
+              <!-- Blade Spine line -->
+              <line x1="81.5" y1="45" x2="82.5" y2="400" stroke="#4a6582" stroke-width="0.8" opacity="0.4"/>
+
+              <!-- Moving Light Glint / Reflection -->
+              <g class="blade-shine">
+                <line x1="77" y1="60" x2="85" y2="85" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" opacity="0.9"/>
+              </g>
+
+              <!-- Habaki (Blade Collar) -->
+              <rect x="76.5" y="398" width="10" height="12" rx="2" fill="url(#goldGrad)"/>
+
+              <!-- Tsuba (Guard - Eight-lobed solar aesthetic) -->
+              <ellipse cx="81.5" cy="412" rx="24" ry="6" fill="url(#goldGrad)" stroke="#6d4f18" stroke-width="0.8"/>
+              <ellipse cx="81.5" cy="412" rx="16" ry="3.5" fill="#2d2212"/>
+
+              <!-- Tsuka (Handle with Tsuka-ito diamond wrap) -->
+              <rect x="77.5" y="414" width="8" height="96" rx="3" fill="#1b2840"/>
+              <!-- Diamond wrap patterns -->
+              <g fill="url(#goldGrad)" opacity="0.8">
+                <polygon points="81.5,420 84,426 81.5,432 79,426"/>
+                <polygon points="81.5,434 84,440 81.5,446 79,440"/>
+                <polygon points="81.5,448 84,454 81.5,460 79,454"/>
+                <polygon points="81.5,462 84,468 81.5,474 79,468"/>
+                <polygon points="81.5,476 84,482 81.5,488 79,482"/>
+                <polygon points="81.5,490 84,496 81.5,502 79,496"/>
+              </g>
+
+              <!-- Kashira (Pommel) -->
+              <path d="M 77,510 Q 81.5,516 86,510 L 85.5,508 L 77.5,508 Z" fill="url(#goldGrad)"/>
+            </svg>
+
+            <!-- Floating Status Chips -->
+            <div class="stage-chip chip1">
+              <i style="background:#3aa0ff"></i>
+              <span>Solar Tempering: 99.8%</span>
+            </div>
+            <div class="stage-chip chip2">
+              <i style="background:#c9a25a"></i>
+              <span>Tamahagane Grade S+</span>
+            </div>
+            <div class="stage-chip chip3">
+              <i style="background:#10b981"></i>
+              <span>3h Express Dispatch</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-hint">
+      <div class="wheel"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- ================= MARQUEE ================= -->
+  <div class="marquee">
+    <div class="marquee-track">
+      <span>HAND-TEMPERED TAMAHAGANE</span>
+      <span>4K COLD LIGHT AURA</span>
+      <span>3-HOUR METROPOLITAN DELIVERY</span>
+      <span>SACRED JAPANESE FORGE TRADITION</span>
+      <span>DYNAMIC SHADER RESONANCE</span>
+      <span>HAND-TEMPERED TAMAHAGANE</span>
+      <span>4K COLD LIGHT AURA</span>
+      <span>3-HOUR METROPOLITAN DELIVERY</span>
+      <span>SACRED JAPANESE FORGE TRADITION</span>
+      <span>DYNAMIC SHADER RESONANCE</span>
+    </div>
+  </div>
+
+  <!-- ================= COLLECTION ================= -->
+  <section class="collection" id="collection">
+    <div class="wrap">
+      <div class="sec-head center reveal">
+        <span class="kicker">The Masterwork Series</span>
+        <h2>Three Blades. Infinite Radiance.</h2>
+        <p>Each masterpiece is commissioned individually, bound with active kinetic aura shaders that react dynamically to touch and motion.</p>
+      </div>
+
+      <div class="cards">
+        <!-- Card 1 -->
+        <article class="card reveal" data-delay="1">
+          <span class="tag">Flagship</span>
+          <div class="sword-icon">
+            <svg viewBox="0 0 80 200" fill="none">
+              <path d="M 39,20 Q 42,90 40,150 L 43,150 Q 45,90 42,20 Z" fill="#9fdcff" opacity="0.9" filter="drop-shadow(0 0 8px #3aa0ff)"/>
+              <ellipse cx="41" cy="155" rx="14" ry="4" fill="#c9a25a"/>
+              <rect x="39" y="157" width="4" height="35" rx="2" fill="#16233b"/>
+            </svg>
+          </div>
+          <div class="sub">Solar Frost Katana</div>
+          <h3>Tenran • 天嵐</h3>
+          <p>Forged from mountain-fold tamahagane and kissed by high-altitude daylight. The blade radiates a cool celestial aura that cuts through ambient shadow.</p>
+          <div class="meta">
+            <div class="price">
+              <small>Price</small>
+              $1,850
+            </div>
+            <button onclick="triggerToast('⚔️ Tenran (天嵐) added to inspection order!')" class="btn-mini" aria-label="Order Tenran">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+          </div>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="card reveal" data-delay="2">
+          <span class="tag">Solar Fire</span>
+          <div class="sword-icon">
+            <svg viewBox="0 0 80 200" fill="none">
+              <path d="M 39,20 Q 42,90 40,150 L 43,150 Q 45,90 42,20 Z" fill="#ffd175" opacity="0.95" filter="drop-shadow(0 0 10px #f59e0b)"/>
+              <ellipse cx="41" cy="155" rx="14" ry="4" fill="#f59e0b"/>
+              <rect x="39" y="157" width="4" height="35" rx="2" fill="#3b2316"/>
+            </svg>
+          </div>
+          <div class="sub">Infernal Sun Blade</div>
+          <h3>Kagutsuchi • 迦具土</h3>
+          <p>Tempered inside high-intensity solar furnaces. Micro-plasma edge vibrations produce a brilliant warm daylight pulse and superior edge retention.</p>
+          <div class="meta">
+            <div class="price">
+              <small>Price</small>
+              $2,400
+            </div>
+            <button onclick="triggerToast('🔥 Kagutsuchi (迦具土) reserved for express build!')" class="btn-mini" aria-label="Order Kagutsuchi">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+          </div>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="card reveal" data-delay="3">
+          <span class="tag">Nocturne Frost</span>
+          <div class="sword-icon">
+            <svg viewBox="0 0 80 200" fill="none">
+              <path d="M 39,20 Q 42,90 40,150 L 43,150 Q 45,90 42,20 Z" fill="#d2bbff" opacity="0.9" filter="drop-shadow(0 0 9px #8b5cf6)"/>
+              <ellipse cx="41" cy="155" rx="14" ry="4" fill="#c9a25a"/>
+              <rect x="39" y="157" width="4" height="35" rx="2" fill="#1b163b"/>
+            </svg>
+          </div>
+          <div class="sub">Celestial Nodachi</div>
+          <h3>Tsukuyomi • 月読</h3>
+          <p>An elongated two-handed odachi carrying an indigo-laced moonlight shimmer. Calibrated with balanced harmonic damping for fluid forms.</p>
+          <div class="meta">
+            <div class="price">
+              <small>Price</small>
+              $3,100
+            </div>
+            <button onclick="triggerToast('🌙 Tsukuyomi (月読) selected for heirloom forging!')" class="btn-mini" aria-label="Order Tsukuyomi">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CRAFTSMANSHIP & TIMELINE ================= -->
+  <section class="wrap" id="craft">
+    <div class="forge">
+      
+      <!-- Visual Box -->
+      <div class="forge-visual reveal">
+        <svg viewBox="0 0 300 420" fill="none">
+          <ellipse cx="150" cy="210" rx="110" ry="110" fill="rgba(255,255,255,0.2)" filter="drop-shadow(0 0 30px rgba(58,160,255,0.4))"/>
+          <path d="M 148,40 Q 152,180 150,320 L 154,320 Q 156,180 152,40 Z" fill="#ffffff" filter="drop-shadow(0 0 15px #3aa0ff)"/>
+          <rect x="146" y="320" width="8" height="18" rx="2" fill="#c9a25a"/>
+          <ellipse cx="150" cy="336" rx="26" ry="7" fill="#c9a25a"/>
+          <rect x="146" y="342" width="8" height="55" rx="3" fill="#16233b"/>
+        </svg>
+        <div class="caption">
+          <div>
+            <b>Tatara Smelting & Folding</b>
+            <span>Honshu Regional Forge Sanctuary</span>
+          </div>
+          <span style="font-size:12px;background:rgba(255,255,255,0.3);padding:4px 10px;border-radius:999px">Stage III</span>
+        </div>
+      </div>
+
+      <!-- Timeline Steps -->
+      <div class="steps reveal" data-delay="1">
+        <div class="sec-head">
+          <span class="kicker">The Four Pillars</span>
+          <h2>A Sacred Dialogue of Steel & Light</h2>
+          <p>Every sword requires days of manual folding and metallurgical harmonization before receiving its signature photonic aura excitation.</p>
+        </div>
+
+        <div class="step">
+          <div class="num">01</div>
+          <div>
+            <h4>Black Sand Tatara Extraction</h4>
+            <p>We source iron sand exclusively from ancient riverbeds, smelting in charcoal clay furnaces to isolate pristine high-carbon steel cores.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="num">02</div>
+          <div>
+            <h4>Kobuse Lamination & Clay Tempering</h4>
+            <p>Soft iron cores are jacketed with razor-hard exterior steel, coated with clay paste to create the iconic organic hamon wave boundary.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="num">03</div>
+          <div>
+            <h4>Photonic Aura Infusion</h4>
+            <p>Our proprietary micro-crystal coating traps and refracts ambient daytime lumens, producing the vivid 4K radiant glow surrounding the blade.</p>
+          </div>
+        </div>
+
+        <div class="step" id="delivery">
+          <div class="num">04</div>
+          <div>
+            <h4>3-Hour Armored Courier Dispatch</h4>
+            <p>Secured within a temperature-controlled cedar scabbard vault and hand-delivered directly to your door in under 3 hours, guaranteed.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Stats Strip -->
+    <div class="strip reveal">
+      <div class="box">
+        <b>99.4%</b>
+        <span>On-Time 3h Delivery</span>
+      </div>
+      <div class="box">
+        <b>64 HRC</b>
+        <span>Rockwell Edge Hardness</span>
+      </div>
+      <div class="box">
+        <b>2,400+</b>
+        <span>Master Swords Commissioned</span>
+      </div>
+      <div class="box">
+        <b>100%</b>
+        <span>Lifetime Authenticity Guarantee</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CTA BANNER ================= -->
+  <section class="wrap" id="legacy">
+    <div class="cta reveal">
+      <span class="kicker" style="color:var(--aura-ice)">Claim Your Blade</span>
+      <h2>Step Into the Radiant Vanguard</h2>
+      <p>
+        Whether for sacred collection, martial discipline, or architectural display, an Aura Forge blade is a permanent testament to human perfection.
+      </p>
+      <div class="cta .btn-wrap">
+        <button onclick="triggerToast('⚡ Custom artisan consultation scheduled!')" class="btn btn-primary">
+          <span>Commission a Masterwork</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+        <button onclick="triggerToast('📞 Connecting to Chief Swordsmith...')" class="btn btn-ghost" style="color:#fff;border-color:rgba(255,255,255,0.3)">
+          Talk with Chief Swordsmith
+        </button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a href="#hero" class="logo" style="margin-bottom:18px;display:inline-flex">
+          <div class="logo-mark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"></polyline>
+              <line x1="13" y1="19" x2="19" y2="13"></line>
+              <line x1="16" y1="16" x2="20" y2="20"></line>
+              <line x1="19" y1="21" x2="21" y2="19"></line>
+            </svg>
+          </div>
+          <span class="logo-text">AURA<em>FORGE</em></span>
+        </a>
+        <p style="color:var(--ink-soft);font-size:14.5px;line-height:1.75;max-width:34ch">
+          The world's premier artisan forge uniting historical Japanese sword craftsmanship with 4K daylight aura projection engineering.
+        </p>
+      </div>
+
+      <div>
+        <h5>Collections</h5>
+        <ul>
+          <li><a href="#collection">Tenran Solar Frost</a></li>
+          <li><a href="#collection">Kagutsuchi Sun Blade</a></li>
+          <li><a href="#collection">Tsukuyomi Nodachi</a></li>
+          <li><a href="#collection">Custom Artifacts</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h5>Craft & Delivery</h5>
+        <ul>
+          <li><a href="#craft">Tatara Smelting</a></li>
+          <li><a href="#craft">Photonic Aura Tech</a></li>
+          <li><a href="#delivery">3-Hour Delivery Vault</a></li>
+          <li><a href="#craft">Care & Maintenance</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h5>Sanctuary</h5>
+        <ul>
+          <li><a href="#hero">Tokyo Atelier</a></li>
+          <li><a href="#hero">Kyoto Metallurgical Lab</a></li>
+          <li><a href="#hero">Authentication Register</a></li>
+          <li><a href="#legacy">Contact Swordsmith</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>&copy; 2025 AURA FORGE STUDIO. Handcrafted with reverence in Honshu & Tokyo.</span>
+      <span>4K Daylight Shaders • All Rights Reserved</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ================= SCRIPTS ================= -->
+<script>
+// ---------- AMBIENT PARTICLE CANVAS ----------
+(function() {
+  const canvas = document.getElementById('fx');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let w = canvas.width = window.innerWidth;
+  let h = canvas.height = window.innerHeight;
+
+  window.addEventListener('resize', () => {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  });
+
+  const particles = [];
+  const count = Math.min(window.innerWidth < 768 ? 35 : 70, 70);
+
+  for(let i = 0; i < count; i++) {
+    particles.push({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      r: Math.random() * 2.5 + 1,
+      dx: (Math.random() - 0.5) * 0.4,
+      dy: -(Math.random() * 0.5 + 0.2),
+      alpha: Math.random() * 0.5 + 0.2,
+      color: Math.random() > 0.4 ? 'rgba(58,160,255,' : 'rgba(201,162,90,'
+    });
+  }
+
+  function loop() {
+    ctx.clearRect(0, 0, w, h);
+    for(let p of particles) {
+      p.x += p.dx;
+      p.y += p.dy;
+      if(p.y < -10) p.y = h + 10, p.x = Math.random() * w;
+      if(p.x < -10) p.x = w + 10;
+      if(p.x > w + 10) p.x = -10;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = p.color + p.alpha + ')';
+      ctx.shadowBlur = 10;
+      ctx.shadowColor = '#3aa0ff';
+      ctx.fill();
+    }
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+// ---------- NAVBAR SCROLL & ACTIVE LINK ----------
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 40) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
+}, { passive: true });
+
+// Mobile menu toggle
+const burger = document.getElementById('burger');
+burger.addEventListener('click', () => {
+  navbar.classList.toggle('open');
+});
+function closeMenu() {
+  navbar.classList.remove('open');
+}
+
+// ---------- 3D CARD TILT ON MOUSEMOVE ----------
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    card.style.setProperty('--mx', `${x}px`);
+    card.style.setProperty('--my', `${y}px`);
+
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
+    const rotX = -((y - cy) / cy) * 7;
+    const rotY = ((x - cx) / cx) * 7;
+    card.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-6px)`;
+  });
+
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)`;
+  });
+});
+
+// ---------- PARALLAX ON HERO SWORD ----------
+const swordFloat = document.getElementById('swordFloat');
+window.addEventListener('mousemove', (e) => {
+  if(!swordFloat) return;
+  const x = (e.clientX / window.innerWidth - 0.5) * 2;
+  const y = (e.clientY / window.innerHeight - 0.5) * 2;
+  swordFloat.style.transform = `rotateY(${x * 12}deg) rotateX(${-y * 10}deg)`;
+});
+
+// ---------- SCROLL REVEAL OBSERVER ----------
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting) {
+      entry.target.classList.add('in');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ---------- TOAST NOTIFICATIONS ----------
+let toastTimeout = null;
+function triggerToast(msg) {
+  const toast = document.getElementById('toast');
+  if(!toast) return;
+  toast.textContent = msg;
+  toast.classList.add('show');
+  if(toastTimeout) clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => {
+    toast.classList.remove('show');
+  }, 3200);
+}
+</script>
+</body>
+</html>

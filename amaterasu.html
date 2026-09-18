@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMATERASU // Daylight Artifacts 4K</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        orbitron: ['Orbitron', 'sans-serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        daylight: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            bg: '#f8fafc',
+                            card: 'rgba(255, 255, 255, 0.65)',
+                            border: 'rgba(255, 255, 255, 0.8)',
+                            gold: '#fbbf24',
+                            sun: '#f59e0b',
+                            cyan: '#06b6d4',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            /* Daylight Environment Gradient */
+            background: radial-gradient(circle at 50% 20%, #ffffff 0%, #edf4ff 50%, #e2e8f0 100%);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Glassmorphism Panels */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(20px) saturate(160%);
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 20px 50px rgba(14, 30, 80, 0.06), inset 0 1px 0 rgba(255, 255, 255, 1);
+        }
+        .glass-button {
+            background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.45));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.9);
+            box-shadow: 0 10px 25px rgba(14, 165, 233, 0.12);
+            transition: all .25s ease;
+        }
+        .glass-button:hover {
+            box-shadow: 0 12px 30px rgba(245, 158, 11, 0.25);
+        }
+        .glow-text {
+            text-shadow: 0 0 25px rgba(245, 158, 11, 0.35);
+        }
+        canvas {
+            outline: none;
+            display: block;
+        }
+
+        /* Smooth Range Sliders */
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px; height: 18px;
+            border-radius: 50%;
+            background: #fff;
+            border: 2px solid #f59e0b;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(245,158,11,0.4);
+        }
+        input[type="range"].cyan-thumb::-webkit-slider-thumb {
+            border-color: #06b6d4;
+            box-shadow: 0 0 10px rgba(6,182,212,0.4);
+        }
+
+        /* Active Nav Link */
+        .nav-link.active {
+            color: #f59e0b;
+        }
+
+        /* Toast notifications */
+        .amaterasu-toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            color: #0f172a;
+            padding: 14px 24px;
+            border-radius: 16px;
+            box-shadow: 0 16px 40px rgba(14, 30, 80, 0.12), 0 0 25px rgba(245, 158, 11, 0.2);
+            font-weight: 600;
+            font-size: 0.9rem;
+            z-index: 10000;
+            transform: translateY(120px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: auto;
+        }
+        .amaterasu-toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #e2e8f0; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800 antialiased selection:bg-cyan-500 selection:text-white">
+
+    <!-- ====================================================== -->
+    <!-- 3D CANVAS BACKGROUND (Fixed Layer)                     -->
+    <!-- ====================================================== -->
+    <div id="canvas-container" class="fixed inset-0 z-0 cursor-grab active:cursor-grabbing"></div>
+
+    <!-- ====================================================== -->
+    <!-- MAIN UI OVERLAY                                        -->
+    <!-- ====================================================== -->
+    <div class="relative z-10 min-h-screen flex flex-col justify-between pointer-events-none">
+
+        <!-- ============ NAVIGATION BAR ============ -->
+        <header class="w-full max-w-7xl mx-auto px-6 pt-6 pointer-events-auto">
+            <nav class="glass-panel rounded-full px-6 sm:px-8 py-4 flex items-center justify-between transition-all duration-300">
+                
+                <!-- Brand Logo -->
+                <a href="#home" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-400 via-cyan-400 to-blue-600 flex items-center justify-center shadow-md group-hover:rotate-12 transition-transform duration-500">
+                        <i data-lucide="sword" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <div class="hidden sm:block">
+                        <span class="font-orbitron text-lg font-black tracking-widest bg-gradient-to-r from-slate-900 via-slate-800 to-amber-600 bg-clip-text text-transparent">AMATERASU</span>
+                        <span class="block text-[9px] tracking-widest text-slate-400 font-semibold uppercase -mt-1">Daylight Artifacts</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Nav Links -->
+                <div class="hidden lg:flex items-center gap-7 font-medium text-sm text-slate-600">
+                    <a href="#home" class="nav-link active flex items-center gap-1.5 hover:text-amber-500 transition-colors"><i data-lucide="home" class="w-4 h-4"></i> Sanctum</a>
+                    <a href="#forge" onclick="showToast('🔥 The Forge: 10,000 suns thermal compression online')" class="nav-link flex items-center gap-1.5 hover:text-amber-500 transition-colors"><i data-lucide="flame" class="w-4 h-4"></i> The Forge</a>
+                    <a href="#specs" onclick="showToast('⚡ Shaders & Specs: 4K GLSL Ripple Displacement active')" class="nav-link flex items-center gap-1.5 hover:text-cyan-600 transition-colors"><i data-lucide="cpu" class="w-4 h-4"></i> Shaders & Specs</a>
+                    <a href="#lore" onclick="showToast('📜 Ancient Lore: Amaterasu solar blade legend decrypted')" class="nav-link flex items-center gap-1.5 hover:text-amber-500 transition-colors"><i data-lucide="book-open" class="w-4 h-4"></i> Lore</a>
+                    <a href="#custom" onclick="showToast('✨ Customizer: 4-Element Matrix Ready')" class="nav-link flex items-center gap-1.5 hover:text-cyan-600 transition-colors"><i data-lucide="sparkles" class="w-4 h-4"></i> Customizer</a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <button id="mobile-menu-btn" class="lg:hidden glass-button w-10 h-10 rounded-full flex items-center justify-center text-slate-800" aria-label="Toggle menu">
+                    <i data-lucide="menu" class="w-5 h-5"></i>
+                </button>
+
+                <!-- Right Action Button (Desktop) -->
+                <button onclick="showToast('⚔️ Kagayaki Solar Blade Equipped to your Loadout!')" class="hidden lg:flex glass-button px-6 py-2.5 rounded-full text-slate-800 font-semibold text-sm hover:bg-white hover:shadow-cyan-500/20 hover:scale-105 active:scale-95 transition-all items-center gap-2">
+                    <span>Equip Blade</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4 text-cyan-500"></i>
+                </button>
+            </nav>
+
+            <!-- Mobile Dropdown -->
+            <div id="mobile-menu" class="hidden mt-3 lg:hidden glass-panel rounded-3xl p-5 pointer-events-auto shadow-2xl">
+                <div class="grid grid-cols-2 gap-3 font-medium text-sm text-slate-700">
+                    <a href="#home" class="flex items-center gap-2 p-3 rounded-2xl bg-white/50"><i data-lucide="home" class="w-4 h-4 text-amber-500"></i> Sanctum</a>
+                    <a href="#forge" onclick="showToast('🔥 The Forge: 10,000 suns thermal compression online')" class="flex items-center gap-2 p-3 rounded-2xl bg-white/50"><i data-lucide="flame" class="w-4 h-4 text-amber-500"></i> The Forge</a>
+                    <a href="#specs" onclick="showToast('⚡ Shaders & Specs: 4K GLSL Ripple Displacement active')" class="flex items-center gap-2 p-3 rounded-2xl bg-white/50"><i data-lucide="cpu" class="w-4 h-4 text-cyan-500"></i> Shaders</a>
+                    <a href="#lore" onclick="showToast('📜 Ancient Lore: Amaterasu solar blade legend decrypted')" class="flex items-center gap-2 p-3 rounded-2xl bg-white/50"><i data-lucide="book-open" class="w-4 h-4 text-amber-500"></i> Lore</a>
+                </div>
+            </div>
+        </header>
+
+        <!-- ============ HERO CONTENT SECTION ============ -->
+        <main id="home" class="w-full max-w-7xl mx-auto px-6 py-10 lg:py-16 flex-1 flex flex-col lg:flex-row items-center justify-between pointer-events-none gap-10">
+            
+            <!-- LEFT INFO PANEL -->
+            <div class="max-w-xl space-y-6 pointer-events-auto order-2 lg:order-1">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel text-amber-600 text-xs font-bold tracking-wider uppercase shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                    4K Realtime Solar Shaders
+                </div>
+
+                <h1 class="font-orbitron text-5xl sm:text-7xl font-black text-slate-900 tracking-tight leading-none">
+                    KAGAYAKI <br>
+                    <span class="bg-gradient-to-r from-amber-500 via-cyan-500 to-blue-600 bg-clip-text text-transparent glow-text">
+                        SOLAR BLADE
+                    </span>
+                </h1>
+
+                <p class="text-slate-600 text-base sm:text-lg leading-relaxed font-normal max-w-lg">
+                    Forged beneath 10,000 suns. Features dynamic daylight refracting physical metal, ultra-high-definition energy flow shaders, and reactive dynamic aura particle motion physics.
+                </p>
+
+                <!-- Specs Grid -->
+                <div class="grid grid-cols-3 gap-3 sm:gap-4 pt-2">
+                    <div class="glass-panel p-3 sm:p-4 rounded-2xl text-center">
+                        <span class="block text-xl sm:text-2xl font-orbitron font-bold text-slate-900">4K</span>
+                        <span class="text-[10px] sm:text-xs text-slate-500 font-medium">Texture & Shaders</span>
+                    </div>
+                    <div class="glass-panel p-3 sm:p-4 rounded-2xl text-center">
+                        <span class="block text-xl sm:text-2xl font-orbitron font-bold text-amber-500">120 FPS</span>
+                        <span class="text-[10px] sm:text-xs text-slate-500 font-medium">Motion Physics</span>
+                    </div>
+                    <div class="glass-panel p-3 sm:p-4 rounded-2xl text-center">
+                        <span class="block text-xl sm:text-2xl font-orbitron font-bold text-cyan-500">0.02ms</span>
+                        <span class="text-[10px] sm:text-xs text-slate-500 font-medium">Aura Response</span>
+                    </div>
+                </div>
+
+                <!-- CTA Buttons -->
+                <div class="flex flex-wrap items-center gap-4 pt-4">
+                    <button id="btn-burst" class="pointer-events-auto px-6 sm:px-8 py-4 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold font-orbitron text-xs sm:text-sm shadow-xl shadow-amber-500/20 hover:shadow-amber-500/40 hover:scale-105 active:scale-95 transition-all flex items-center gap-3">
+                        <i data-lucide="zap" class="w-5 h-5"></i>
+                        Ignite Aura Surge
+                    </button>
+                    <button id="btn-color" class="pointer-events-auto glass-panel px-5 sm:px-6 py-4 rounded-2xl text-slate-700 font-semibold font-orbitron text-xs sm:text-sm hover:bg-white hover:scale-105 active:scale-95 transition-all flex items-center gap-2">
+                        <i data-lucide="palette" class="w-5 h-5 text-cyan-500"></i>
+                        Shift Element
+                    </button>
+                </div>
+            </div>
+
+            <!-- RIGHT INTERACTIVE PANEL -->
+            <div class="mt-0 lg:mt-0 pointer-events-auto order-1 lg:order-2 w-full lg:w-auto">
+                <div class="glass-panel p-5 sm:p-6 rounded-3xl w-full max-w-xs lg:max-w-sm space-y-5 shadow-2xl mx-auto">
+                    <div class="flex justify-between items-center border-b border-slate-200/60 pb-3">
+                        <span class="font-orbitron text-xs font-bold text-slate-400 tracking-widest uppercase">Aura Diagnostics</span>
+                        <span class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+                            <span class="text-[10px] font-bold text-emerald-600">LIVE</span>
+                        </span>
+                    </div>
+
+                    <!-- Sliders -->
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between text-xs font-semibold mb-2">
+                                <span class="text-slate-600 flex items-center gap-1.5"><i data-lucide="flame" class="w-3.5 h-3.5 text-amber-500"></i> Aura Intensity</span>
+                                <span id="aura-val" class="text-amber-500 font-orbitron">85%</span>
+                            </div>
+                            <input id="slider-aura" type="range" min="0" max="200" value="85" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-amber-500">
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-xs font-semibold mb-2">
+                                <span class="text-slate-600 flex items-center gap-1.5"><i data-lucide="rotate-3d" class="w-3.5 h-3.5 text-cyan-500"></i> Spin Speed</span>
+                                <span id="speed-val" class="text-cyan-500 font-orbitron">1.0x</span>
+                            </div>
+                            <input id="slider-speed" type="range" min="0" max="30" value="10" class="cyan-thumb w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-cyan-500">
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-white/50 rounded-2xl border border-white/80 space-y-2">
+                        <div class="flex items-center gap-2 text-xs font-semibold text-slate-700">
+                            <i data-lucide="mouse-pointer-click" class="w-4 h-4 text-cyan-500"></i>
+                            <span>Interactive Controls</span>
+                        </div>
+                        <p class="text-[11px] text-slate-500 leading-normal">
+                            Click & Drag on screen to rotate the sword. Scroll to zoom light field.
+                        </p>
+                    </div>
+
+                    <!-- Theme Info Cards -->
+                    <div class="grid grid-cols-3 gap-2 pt-2">
+                        <button onclick="setThemeDirect(0)" class="bg-gradient-to-br from-amber-100 to-amber-50 p-2 rounded-xl text-center border border-amber-200 hover:scale-105 transition-transform">
+                            <i data-lucide="sun" class="w-4 h-4 text-amber-500 mx-auto"></i>
+                            <span class="block text-[9px] font-bold text-amber-700 mt-1">SOLAR</span>
+                        </button>
+                        <button onclick="setThemeDirect(1)" class="bg-gradient-to-br from-cyan-100 to-cyan-50 p-2 rounded-xl text-center border border-cyan-200 hover:scale-105 transition-transform">
+                            <i data-lucide="snowflake" class="w-4 h-4 text-cyan-500 mx-auto"></i>
+                            <span class="block text-[9px] font-bold text-cyan-700 mt-1">PLASMA</span>
+                        </button>
+                        <button onclick="setThemeDirect(2)" class="bg-gradient-to-br from-pink-100 to-pink-50 p-2 rounded-xl text-center border border-pink-200 hover:scale-105 transition-transform">
+                            <i data-lucide="flower" class="w-4 h-4 text-pink-500 mx-auto"></i>
+                            <span class="block text-[9px] font-bold text-pink-700 mt-1">SAKURA</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- ============ FOOTER BAR ============ -->
+        <footer class="w-full max-w-7xl mx-auto px-6 pb-6 pointer-events-auto">
+            <div class="glass-panel rounded-2xl p-4 flex flex-col md:flex-row items-center justify-between gap-3 text-xs font-medium text-slate-500">
+                <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
+                    <span class="flex items-center gap-1.5"><i data-lucide="shield-check" class="w-4 h-4 text-emerald-500"></i> 100% Procedural Geometry</span>
+                    <span class="flex items-center gap-1.5"><i data-lucide="sun" class="w-4 h-4 text-amber-500"></i> Daylight HDR Lighting</span>
+                </div>
+                <div class="opacity-80">
+                    © 2025 SUNFORGE STUDIO • ALL RIGHTS RESERVED
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="amaterasu-toast" role="status" aria-live="polite"></div>
+
+    <!-- ====================================================== -->
+    <!-- THREE.JS 3D ENGINE & SHADERS                           -->
+    <!-- ====================================================== -->
+    <script>
+        // Initialize Icons safely
+        function initIcons() {
+            if (window.lucide && typeof lucide.createIcons === 'function') {
+                lucide.createIcons();
+            }
+        }
+        initIcons();
+        window.addEventListener('DOMContentLoaded', initIcons);
+
+        // Mobile menu toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (mobileBtn && mobileMenu) {
+            mobileBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                initIcons();
+            });
+        }
+
+        // Toast feedback
+        let toastTimer = null;
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            if (!toast) return;
+            toast.textContent = msg;
+            toast.classList.add('show');
+            if (toastTimer) clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3200);
+        }
+
+        // =========================================================
+        // 1. SCENE SETUP & RENDERER
+        // =========================================================
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+
+        // Daylight sky color & fog for depth
+        scene.background = new THREE.Color('#eef4ff');
+        scene.fog = new THREE.FogExp2('#eef4ff', 0.06);
+
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 0, window.innerWidth < 768 ? 10.5 : 8);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.15;
+        container.appendChild(renderer.domElement);
+
+        // =========================================================
+        // 2. DAYLIGHT LIGHTING SYSTEM
+        // =========================================================
+        scene.add(new THREE.AmbientLight(0xffffff, 1.1));
+
+        // Sunlight (warm)
+        const sunLight = new THREE.DirectionalLight(0xfff7ed, 3.2);
+        sunLight.position.set(5, 8, 5);
+        sunLight.castShadow = true;
+        sunLight.shadow.mapSize.width = 2048;
+        sunLight.shadow.mapSize.height = 2048;
+        scene.add(sunLight);
+
+        // Sky bounce (cool cyan)
+        const skyLight = new THREE.DirectionalLight(0x06b6d4, 1.4);
+        skyLight.position.set(-5, -2, -3);
+        scene.add(skyLight);
+
+        // Aura accent point light
+        const auraLight = new THREE.PointLight(0xf59e0b, 3, 10);
+        auraLight.position.set(0, 1.5, 0.5);
+        scene.add(auraLight);
+
+        // =========================================================
+        // 3. SWORD GEOMETRY (Anime High-Polish Katana)
+        // =========================================================
+        const swordGroup = new THREE.Group();
+
+        // Polished Steel Blade
+        const bladeMaterial = new THREE.MeshPhysicalMaterial({
+            color: 0xf8fafc,
+            metalness: 0.98,
+            roughness: 0.08,
+            clearcoat: 1.0,
+            clearcoatRoughness: 0.04,
+            reflectivity: 1.0,
+        });
+
+        // Gold Accent Material
+        const goldMaterial = new THREE.MeshStandardMaterial({
+            color: 0xf59e0b,
+            metalness: 0.9,
+            roughness: 0.18,
+        });
+
+        // Wrapped Handle Material
+        const handleMaterial = new THREE.MeshStandardMaterial({
+            color: 0x0f172a,
+            roughness: 0.85,
+            metalness: 0.05,
+        });
+
+        // Blade Shape (Katana curve)
+        const bladeShape = new THREE.Shape();
+        bladeShape.moveTo(0, 0);
+        bladeShape.lineTo(0.14, 0.04);
+        bladeShape.lineTo(0.025, 3.4);
+        bladeShape.lineTo(-0.025, 3.4);
+        bladeShape.lineTo(-0.14, 0.04);
+        bladeShape.closePath();
+
+        const extrudeSettings = {
+            steps: 1,
+            depth: 0.025,
+            bevelEnabled: true,
+            bevelThickness: 0.02,
+            bevelSize: 0.02,
+            bevelSegments: 4
+        };
+        const bladeGeo = new THREE.ExtrudeGeometry(bladeShape, extrudeSettings);
+        bladeGeo.center();
+        const bladeMesh = new THREE.Mesh(bladeGeo, bladeMaterial);
+        bladeMesh.position.y = 1.7;
+        bladeMesh.castShadow = true;
+        swordGroup.add(bladeMesh);
+
+        // Guard (Tsuba)
+        const guardGeo = new THREE.CylinderGeometry(0.42, 0.42, 0.08, 8);
+        const guardMesh = new THREE.Mesh(guardGeo, goldMaterial);
+        guardMesh.position.y = 0.0;
+        guardMesh.rotation.y = Math.PI / 4;
+        guardMesh.castShadow = true;
+        swordGroup.add(guardMesh);
+
+        // Handle (Tsuka)
+        const handleGeo = new THREE.CylinderGeometry(0.085, 0.095, 1.05, 16);
+        const handleMesh = new THREE.Mesh(handleGeo, handleMaterial);
+        handleMesh.position.y = -0.58;
+        handleMesh.castShadow = true;
+        swordGroup.add(handleMesh);
+
+        // Pommel
+        const pommelGeo = new THREE.SphereGeometry(0.12, 16, 16);
+        const pommelMesh = new THREE.Mesh(pommelGeo, goldMaterial);
+        pommelMesh.position.y = -1.15;
+        swordGroup.add(pommelMesh);
+
+        // Small handle wrap details
+        for (let i = 0; i < 5; i++) {
+            const ringGeo = new THREE.TorusGeometry(0.1, 0.012, 8, 16);
+            const ringMesh = new THREE.Mesh(ringGeo, goldMaterial);
+            ringMesh.position.y = -0.3 - (i * 0.18);
+            ringMesh.rotation.x = Math.PI / 2;
+            swordGroup.add(ringMesh);
+        }
+
+        scene.add(swordGroup);
+
+        // =========================================================
+        // 4. 4K REALISTIC AURA GLSL SHADER
+        // =========================================================
+        const auraVertexShader = `
+            varying vec3 vNormal;
+            varying vec3 vPosition;
+            uniform float uTime;
+            uniform float uIntensity;
+
+            void main() {
+                vNormal = normalize(normalMatrix * normal);
+                vPosition = position;
+
+                vec3 pos = position;
+                pos.x += sin(pos.y * 12.0 + uTime * 5.0) * 0.03 * uIntensity;
+                pos.z += cos(pos.y * 12.0 + uTime * 5.0) * 0.03 * uIntensity;
+
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+            }
+        `;
+
+        const auraFragmentShader = `
+            varying vec3 vNormal;
+            varying vec3 vPosition;
+            uniform float uTime;
+            uniform float uIntensity;
+            uniform vec3 uColor;
+
+            void main() {
+                vec3 viewDir = vec3(0.0, 0.0, 1.0);
+                float intensity = pow(0.75 - dot(vNormal, viewDir), 2.2);
+
+                float wave = sin(vPosition.y * 10.0 - uTime * 4.5) * 0.5 + 0.5;
+                float flicker = sin(uTime * 25.0 + vPosition.y * 30.0) * 0.15 + 0.85;
+
+                vec3 finalColor = mix(uColor, vec3(1.0, 1.0, 1.0), wave * 0.5);
+                gl_FragColor = vec4(finalColor, intensity * uIntensity * (0.55 + wave * 0.5) * flicker);
+            }
+        `;
+
+        const auraGeo = new THREE.CylinderGeometry(0.28, 0.18, 3.6, 32, 32);
+        const auraUniforms = {
+            uTime: { value: 0 },
+            uIntensity: { value: 0.85 },
+            uColor: { value: new THREE.Color('#f59e0b') }
+        };
+
+        const auraMaterial = new THREE.ShaderMaterial({
+            vertexShader: auraVertexShader,
+            fragmentShader: auraFragmentShader,
+            uniforms: auraUniforms,
+            transparent: true,
+            blending: THREE.AdditiveBlending,
+            side: THREE.DoubleSide,
+            depthWrite: false
+        });
+
+        const auraMesh = new THREE.Mesh(auraGeo, auraMaterial);
+        auraMesh.position.y = 1.7;
+        swordGroup.add(auraMesh);
+
+        // =========================================================
+        // 5. ENERGY PARTICLE SYSTEM
+        // =========================================================
+        const particleCount = 250;
+        const particleGeo = new THREE.BufferGeometry();
+        const particlePos = new Float32Array(particleCount * 3);
+        const particleVel = [];
+
+        for (let i = 0; i < particleCount * 3; i += 3) {
+            particlePos[i]   = (Math.random() - 0.5) * 2;
+            particlePos[i+1] = Math.random() * 4 - 0.5;
+            particlePos[i+2] = (Math.random() - 0.5) * 2;
+
+            particleVel.push({
+                x: (Math.random() - 0.5) * 0.008,
+                y: Math.random() * 0.015 + 0.008,
+                z: (Math.random() - 0.5) * 0.008
+            });
+        }
+        particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePos, 3));
+
+        const particleMat = new THREE.PointsMaterial({
+            color: 0xfbbf24,
+            size: 0.045,
+            transparent: true,
+            opacity: 0.85,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
+        });
+
+        const particleSystem = new THREE.Points(particleGeo, particleMat);
+        swordGroup.add(particleSystem);
+
+        // =========================================================
+        // 6. INTERACTION CONTROLS
+        // =========================================================
+        let mouseX = 0, mouseY = 0;
+        let targetRotationX = 0, targetRotationY = 0;
+        let isDragging = false;
+        let previousMouse = { x: 0, y: 0 };
+        let spinSpeedMultiplier = 1.0;
+
+        // Resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.position.z = window.innerWidth < 768 ? 10.5 : 8;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Mouse controls with snap prevention
+        container.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            previousMouse = { x: e.clientX, y: e.clientY };
+        });
+        window.addEventListener('mouseup', () => isDragging = false);
+
+        window.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                const dx = e.clientX - previousMouse.x;
+                const dy = e.clientY - previousMouse.y;
+                targetRotationY += dx * 0.01;
+                targetRotationX += dy * 0.01;
+            }
+
+            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+
+            previousMouse = { x: e.clientX, y: e.clientY };
+        });
+
+        // Touch support
+        container.addEventListener('touchstart', (e) => {
+            if (e.touches.length > 0) {
+                isDragging = true;
+                previousMouse = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            }
+        }, { passive: true });
+
+        window.addEventListener('touchend', () => isDragging = false);
+
+        window.addEventListener('touchmove', (e) => {
+            if (isDragging && e.touches.length > 0) {
+                const dx = e.touches[0].clientX - previousMouse.x;
+                const dy = e.touches[0].clientY - previousMouse.y;
+                targetRotationY += dx * 0.01;
+                targetRotationX += dy * 0.01;
+                previousMouse = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            }
+        }, { passive: true });
+
+        // Wheel zoom
+        window.addEventListener('wheel', (e) => {
+            camera.position.z = Math.min(Math.max(camera.position.z + e.deltaY * 0.005, 4), 14);
+        }, { passive: true });
+
+        // UI Sliders
+        const sliderAura = document.getElementById('slider-aura');
+        const auraVal = document.getElementById('aura-val');
+        sliderAura.addEventListener('input', (e) => {
+            const val = e.target.value / 100;
+            auraUniforms.uIntensity.value = val;
+            auraVal.innerText = `${Math.round(val * 100)}%`;
+        });
+
+        const sliderSpeed = document.getElementById('slider-speed');
+        const speedVal = document.getElementById('speed-val');
+        sliderSpeed.addEventListener('input', (e) => {
+            spinSpeedMultiplier = e.target.value / 10;
+            speedVal.innerText = `${spinSpeedMultiplier.toFixed(1)}x`;
+        });
+
+        // Aura Burst button
+        document.getElementById('btn-burst').addEventListener('click', () => {
+            auraUniforms.uIntensity.value = 3.0;
+            sliderAura.value = 200;
+            auraVal.innerText = '200%';
+            showToast('⚡ Aura Surge Activated: 300% Maximum Radiance!');
+
+            setTimeout(() => {
+                auraUniforms.uIntensity.value = 0.85;
+                sliderAura.value = 85;
+                auraVal.innerText = '85%';
+            }, 1200);
+        });
+
+        // Color/Element Shift button
+        const btnColor = document.getElementById('btn-color');
+        let themeIndex = 0;
+        const themes = [
+            { name: 'Solar Gold', aura: '#f59e0b', light: 0xf59e0b, particle: 0xfbbf24 },
+            { name: 'Plasma Cyan', aura: '#06b6d4', light: 0x06b6d4, particle: 0x38bdf8 },
+            { name: 'Sakura Pink', aura: '#ec4899', light: 0xec4899, particle: 0xf472b6 },
+            { name: 'Jade Green', aura: '#10b981', light: 0x10b981, particle: 0x34d399 },
+        ];
+
+        function applyTheme(index) {
+            themeIndex = index % themes.length;
+            const t = themes[themeIndex];
+            auraUniforms.uColor.value.set(t.aura);
+            auraLight.color.setHex(t.light);
+            particleMat.color.setHex(t.particle);
+            showToast(`✨ Element Matrix Shifted: ${t.name}`);
+        }
+
+        function setThemeDirect(index) {
+            applyTheme(index);
+        }
+
+        btnColor.addEventListener('click', () => {
+            applyTheme(themeIndex + 1);
+        });
+
+        // =========================================================
+        // 7. ANIMATION LOOP
+        // =========================================================
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const t = clock.getElapsedTime();
+
+            // Update shader time
+            auraUniforms.uTime.value = t;
+
+            // Idle floating motion
+            swordGroup.position.y = Math.sin(t * 1.5) * 0.15;
+
+            // Idle spin + drag rotation interpolation
+            if (!isDragging) {
+                targetRotationY += 0.005 * spinSpeedMultiplier;
+            }
+            swordGroup.rotation.y += (targetRotationY - swordGroup.rotation.y) * 0.06;
+            swordGroup.rotation.x += (targetRotationX - swordGroup.rotation.x) * 0.06;
+            swordGroup.rotation.z = Math.sin(t) * 0.05 + (mouseX * 0.08);
+
+            // Animate particles
+            const positions = particleSystem.geometry.attributes.position.array;
+            for (let i = 0; i < particleCount; i++) {
+                const i3 = i * 3;
+                positions[i3]     += particleVel[i].x;
+                positions[i3 + 1] += particleVel[i].y;
+                positions[i3 + 2] += particleVel[i].z;
+
+                if (positions[i3 + 1] > 3.5) {
+                    positions[i3]     = (Math.random() - 0.5) * 1.5;
+                    positions[i3 + 1] = -0.5;
+                    positions[i3 + 2] = (Math.random() - 0.5) * 1.5;
+                }
+            }
+            particleSystem.geometry.attributes.position.needsUpdate = true;
+
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
+</body>
+</html>

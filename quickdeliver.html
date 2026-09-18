@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickDeliver - Professional Delivery Service</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #10b981;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --bg-light: #f9fafb;
+            --border: #e5e7eb;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ===== NAVIGATION ===== */
+        nav {
+            background: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-login {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 0.6rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-login:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, var(--primary) 100%);
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ===== FEATURES SECTION ===== */
+        .features {
+            padding: 5rem 2rem;
+            background: var(--bg-light);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        /* ===== THREE HOUR DELIVERY ===== */
+        .three-hour {
+            padding: 5rem 2rem;
+            background: white;
+        }
+
+        .three-hour-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .three-hour-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .three-hour-content p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .timeline-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .timeline-content h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content p {
+            color: var(--text-light);
+            margin: 0;
+        }
+
+        .three-hour-image {
+            background: linear-gradient(135deg, var(--bg-light), #f0f9ff);
+            border-radius: 12px;
+            padding: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .delivery-illustration {
+            font-size: 150px;
+            animation: float 3s ease-in-out infinite;
+            user-select: none;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* ===== PRICING SECTION ===== */
+        .pricing {
+            padding: 5rem 2rem;
+            background: var(--bg-light);
+        }
+
+        .pricing-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid var(--border);
+            position: relative;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--primary);
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(37, 99, 235, 0.2);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            color: var(--primary);
+            font-weight: 800;
+            margin: 1rem 0;
+        }
+
+        .price-subtitle {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            text-align: left;
+            margin: 2rem 0;
+        }
+
+        .pricing-features li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .pricing-features li:before {
+            content: '✓';
+            color: var(--success);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .pricing-card button {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .pricing-card.featured button {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+
+        .pricing-card:not(.featured) button {
+            background: var(--border);
+            color: var(--text-dark);
+        }
+
+        .pricing-card button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+        }
+
+        /* ===== STATS SECTION ===== */
+        .stats {
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            text-align: center;
+        }
+
+        .stat {
+            padding: 1rem;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* ===== CTA SECTION ===== */
+        .cta {
+            padding: 4rem 2rem;
+            background: white;
+            text-align: center;
+        }
+
+        .cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        .cta-input-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .cta-input-group input {
+            flex: 1;
+            min-width: 250px;
+            padding: 1rem;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .cta-input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 3rem 2rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.7rem;
+        }
+
+        .footer-section a {
+            color: #9ca3af;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #4b5563;
+            padding-top: 2rem;
+            text-align: center;
+            color: #9ca3af;
+        }
+
+        /* Toast notification */
+        .quick-toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #1f2937;
+            color: #ffffff;
+            padding: 12px 24px;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            font-size: 0.95rem;
+            z-index: 9999;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .quick-toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .three-hour-container {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-input-group {
+                flex-direction: column;
+            }
+
+            .cta-input-group input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== NAVIGATION ===== -->
+    <nav>
+        <div class="navbar-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">⚡</div>
+                QuickDeliver
+            </a>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#three-hour">3-Hour Delivery</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="nav-buttons">
+                <button class="btn-login" onclick="showFeedback('Login modal coming soon!')">Login</button>
+                <button class="btn-primary" onclick="scrollToSection('pricing')">Get Started</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section class="hero">
+        <div class="hero-container">
+            <h1>Fast, Reliable Delivery in Just 3 Hours</h1>
+            <p>Experience the fastest delivery service in your city. Order now and receive your package within 3 hours, guaranteed.</p>
+            <div class="hero-buttons">
+                <button class="btn-primary" onclick="scrollToSection('pricing')">Order Now</button>
+                <button class="btn-secondary" onclick="scrollToSection('three-hour')">Learn More</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FEATURES SECTION ===== -->
+    <section class="features" id="features">
+        <div class="features-container">
+            <div style="text-align: center; grid-column: 1 / -1; margin-bottom: 2rem;">
+                <div class="section-header">
+                    <h2>Why Choose QuickDeliver?</h2>
+                    <p>We provide the best delivery experience with cutting-edge technology and dedicated support.</p>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🚚</div>
+                <h3>3-Hour Guarantee</h3>
+                <p>Your package delivered in 3 hours or less. If we're late, delivery is on us.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📍</div>
+                <h3>Real-time Tracking</h3>
+                <p>Track your delivery in real-time with live GPS updates and driver information.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3>Safe & Secure</h3>
+                <p>All deliveries are insured and our drivers are thoroughly background checked.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <h3>Affordable Pricing</h3>
+                <p>Competitive rates without compromising on quality. Simple, transparent pricing.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🌍</div>
+                <h3>Wide Coverage</h3>
+                <p>Serving multiple cities and expanding daily. Available 24/7 for your convenience.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">⭐</div>
+                <h3>Customer Support</h3>
+                <p>Dedicated support team available round the clock to assist you with any issues.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== THREE HOUR DELIVERY ===== -->
+    <section class="three-hour" id="three-hour">
+        <div class="three-hour-container">
+            <div class="three-hour-content">
+                <h2>How Our 3-Hour Delivery Works</h2>
+                <p>Our streamlined process ensures your package reaches you in the fastest time possible. Here's how we do it:</p>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-number">1</div>
+                        <div class="timeline-content">
+                            <h4>Place Your Order</h4>
+                            <p>Select your items and enter delivery address in our app or website.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-number">2</div>
+                        <div class="timeline-content">
+                            <h4>Instant Confirmation</h4>
+                            <p>Get instant confirmation and a dedicated driver is assigned immediately.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-number">3</div>
+                        <div class="timeline-content">
+                            <h4>Real-Time Tracking</h4>
+                            <p>Track your delivery live on your phone with driver location and ETA.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-number">4</div>
+                        <div class="timeline-content">
+                            <h4>Safe Delivery</h4>
+                            <p>Receive your package within 3 hours. Photo proof upon delivery.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="three-hour-image">
+                <div class="delivery-illustration" aria-hidden="true">🚚</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== STATS SECTION ===== -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat">
+                <div class="stat-number">50K+</div>
+                <div class="stat-label">Happy Customers</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">100K+</div>
+                <div class="stat-label">Deliveries Completed</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">99.2%</div>
+                <div class="stat-label">On-Time Rate</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">15</div>
+                <div class="stat-label">Cities Covered</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PRICING SECTION ===== -->
+    <section class="pricing" id="pricing">
+        <div class="pricing-container">
+            <div class="section-header">
+                <h2>Simple, Transparent Pricing</h2>
+                <p>Choose the plan that works best for your delivery needs.</p>
+            </div>
+
+            <div class="pricing-cards">
+                <div class="pricing-card">
+                    <h3>Standard</h3>
+                    <div class="price">$4.99</div>
+                    <p class="price-subtitle">Per delivery</p>
+                    <ul class="pricing-features">
+                        <li>Up to 5 km delivery</li>
+                        <li>Standard packaging</li>
+                        <li>Basic tracking</li>
+                        <li>Email support</li>
+                    </ul>
+                    <button onclick="selectPlan('Standard')">Choose Plan</button>
+                </div>
+
+                <div class="pricing-card featured">
+                    <div class="pricing-badge">POPULAR</div>
+                    <h3>Express</h3>
+                    <div class="price">$7.99</div>
+                    <p class="price-subtitle">Per delivery</p>
+                    <ul class="pricing-features">
+                        <li>Up to 15 km delivery</li>
+                        <li>Premium packaging</li>
+                        <li>Real-time tracking</li>
+                        <li>Phone support</li>
+                        <li>Guaranteed 3 hours</li>
+                    </ul>
+                    <button onclick="selectPlan('Express')">Get Started</button>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>Premium</h3>
+                    <div class="price">$12.99</div>
+                    <p class="price-subtitle">Per delivery</p>
+                    <ul class="pricing-features">
+                        <li>Unlimited distance</li>
+                        <li>White glove service</li>
+                        <li>Priority tracking</li>
+                        <li>24/7 VIP support</li>
+                        <li>Special handling</li>
+                    </ul>
+                    <button onclick="selectPlan('Premium')">Choose Plan</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CTA SECTION ===== -->
+    <section class="cta" id="contact">
+        <div class="cta-container">
+            <h2>Ready to Get Your Package Fast?</h2>
+            <p>Join thousands of satisfied customers enjoying 3-hour deliveries. Sign up today and get 20% off your first order.</p>
+            <form class="cta-input-group" onsubmit="handleSignup(event)">
+                <input type="email" id="cta-email" required placeholder="Enter your email address">
+                <button type="submit" class="btn-primary">Sign Up Now</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>About QuickDeliver</h4>
+                <p style="color: #9ca3af; margin-bottom: 1rem;">We're revolutionizing delivery with fast, reliable, and affordable service. Your satisfaction is our priority.</p>
+            </div>
+
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#three-hour">How It Works</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#contact">Help Center</a></li>
+                    <li><a href="#contact">Contact Us</a></li>
+                    <li><a href="#contact">Privacy Policy</a></li>
+                    <li><a href="#contact">Terms of Service</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 QuickDeliver. All rights reserved. | Delivering Excellence, Every Time.</p>
+        </div>
+    </footer>
+
+    <!-- Toast -->
+    <div id="toast" class="quick-toast" role="status" aria-live="polite"></div>
+
+    <script>
+        // Smooth scrolling for navigation links with safety check
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (targetId && targetId !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(targetId);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Feedback toast notification
+        let toastTimer = null;
+        function showFeedback(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            if (toastTimer) clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3500);
+        }
+
+        function selectPlan(name) {
+            showFeedback(`Selected ${name} Plan! Redirecting to checkout...`);
+        }
+
+        function handleSignup(e) {
+            e.preventDefault();
+            const emailInput = document.getElementById('cta-email');
+            if (emailInput && emailInput.value) {
+                showFeedback(`Thank you! 20% discount code sent to ${emailInput.value}`);
+                emailInput.value = '';
+            }
+        }
+
+        // Scroll animation with IntersectionObserver
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card, .pricing-card, .timeline-item, .stat').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(24px)';
+            el.style.transition = 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

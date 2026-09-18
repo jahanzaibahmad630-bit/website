@@ -1,0 +1,1626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShintetsuBlade - Premium Anime Swords | 4K Aura Craftsmanship</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00d4ff;
+            --primary-dark: #0099cc;
+            --secondary: #ff006e;
+            --accent: #ffd60a;
+            --glow-blue: #00f0ff;
+            --glow-purple: #c77dff;
+            --dark-bg: #0a0e27;
+            --card-bg: #1a1f3a;
+            --text-light: #e0e0ff;
+            --text-muted: #a0a0ff;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100%;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #0f1535 100%);
+            color: var(--text-light);
+            line-height: 1.6;
+            position: relative;
+        }
+
+        /* ===== ANIMATED BACKGROUND ===== */
+        .bg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0a0e27 100%);
+            pointer-events: none;
+        }
+
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            animation: twinkle 3s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.4); }
+        }
+
+        /* ===== PARTICLE SYSTEM ===== */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            will-change: transform, opacity;
+        }
+
+        .particle::before {
+            content: '';
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: radial-gradient(circle, var(--primary), transparent 70%);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary), 0 0 20px rgba(0, 212, 255, 0.6);
+        }
+
+        @keyframes moveParticle {
+            0% {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx, 60px), var(--ty, -60px));
+                opacity: 0;
+            }
+        }
+
+        /* ===== NAVIGATION ===== */
+        nav {
+            background: rgba(26, 31, 58, 0.75);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid rgba(0, 212, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+
+        .navbar-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.6), 
+                        0 0 40px rgba(255, 0, 110, 0.3);
+            animation: pulse-glow 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.6), 0 0 40px rgba(255, 0, 110, 0.3); }
+            50% { box-shadow: 0 0 30px rgba(0, 212, 255, 0.9), 0 0 60px rgba(255, 0, 110, 0.6); }
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 600;
+            font-size: 0.95rem;
+            position: relative;
+            transition: color 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        /* ===== BUTTONS ===== */
+        button {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(0);
+            animation: ripple-effect 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple-effect {
+            to {
+                transform: scale(2.5);
+                opacity: 0;
+            }
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 0.7rem 1.8rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+            z-index: 1;
+        }
+
+        .btn-outline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary);
+            z-index: -1;
+            transition: left 0.3s ease;
+        }
+
+        .btn-outline:hover {
+            color: var(--dark-bg);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
+        }
+
+        .btn-outline:hover::before {
+            left: 0;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--dark-bg);
+            border: none;
+            padding: 0.7rem 1.8rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4), 0 0 40px rgba(255, 0, 110, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.8), 0 0 60px rgba(255, 0, 110, 0.4);
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 4rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.15), transparent 70%);
+            border-radius: 50%;
+            animation: floatBg 6s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes floatBg {
+            0%, 100% { transform: translateY(0px) translateX(0px); }
+            50% { transform: translateY(-30px) translateX(-30px); }
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero-content h1 {
+            font-size: 4.2rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: slideInLeft 1s ease forwards;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            animation: slideInLeft 1.2s ease forwards;
+        }
+
+        .hero-description {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            line-height: 1.9;
+            max-width: 540px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            animation: slideInLeft 1.4s ease forwards;
+            flex-wrap: wrap;
+        }
+
+        .btn-large {
+            padding: 1rem 2.5rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-large.primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--dark-bg);
+            border: none;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.5), 0 0 60px rgba(255, 0, 110, 0.3);
+        }
+
+        .btn-large.primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 50px rgba(0, 212, 255, 0.8), 0 0 100px rgba(255, 0, 110, 0.5);
+        }
+
+        .btn-large.secondary {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-large.secondary:hover {
+            background: var(--primary);
+            color: var(--dark-bg);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.8);
+        }
+
+        /* ===== SWORD SHOWCASE ===== */
+        .sword-showcase {
+            position: relative;
+            width: 100%;
+            height: 550px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: slideInRight 1s ease forwards;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .sword-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sword-aura {
+            position: absolute;
+            width: 480px;
+            height: 480px;
+            background: radial-gradient(ellipse at center, 
+                        rgba(0, 212, 255, 0.35) 0%, 
+                        rgba(255, 0, 110, 0.25) 45%, 
+                        transparent 70%);
+            border-radius: 50%;
+            animation: auraPulse 3s ease-in-out infinite;
+            filter: blur(25px);
+            pointer-events: none;
+        }
+
+        @keyframes auraPulse {
+            0%, 100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 0.7;
+            }
+            50% {
+                transform: scale(1.12) rotate(6deg);
+                opacity: 0.95;
+            }
+        }
+
+        .sword-glow {
+            position: absolute;
+            width: 420px;
+            height: 420px;
+            background: conic-gradient(
+                from 0deg,
+                var(--primary),
+                var(--secondary),
+                var(--accent),
+                var(--primary)
+            );
+            border-radius: 50%;
+            opacity: 0.2;
+            animation: rotateGlow 10s linear infinite;
+            filter: blur(35px);
+            pointer-events: none;
+        }
+
+        @keyframes rotateGlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .sword-image {
+            position: relative;
+            z-index: 10;
+            width: 400px;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 260px;
+            filter: drop-shadow(0 0 35px rgba(0, 212, 255, 0.85)) 
+                    drop-shadow(0 0 70px rgba(255, 0, 110, 0.55));
+            animation: swordFloat 3.5s ease-in-out infinite;
+            user-select: none;
+            transition: filter 0.15s ease-out;
+        }
+
+        @keyframes swordFloat {
+            0%, 100% {
+                transform: translateY(0px) rotateZ(-5deg);
+            }
+            50% {
+                transform: translateY(-28px) rotateZ(5deg);
+            }
+        }
+
+        /* ===== FEATURES SECTION ===== */
+        .features {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(26, 31, 58, 0.45);
+            backdrop-filter: blur(12px);
+            padding: 2.5rem;
+            border-radius: 14px;
+            border: 2px solid rgba(0, 212, 255, 0.2);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.12), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(0, 212, 255, 0.7);
+            transform: translateY(-8px);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.3), 0 0 80px rgba(255, 0, 110, 0.2);
+            background: rgba(26, 31, 58, 0.7);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #ffffff;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        /* ===== 3 HOUR DELIVERY SECTION ===== */
+        .delivery {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .delivery-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .delivery-content h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .delivery-content p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .timeline-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--dark-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
+        }
+
+        .timeline-content h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #ffffff;
+        }
+
+        .timeline-content p {
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .delivery-visual {
+            position: relative;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .delivery-icon {
+            font-size: 160px;
+            filter: drop-shadow(0 0 30px rgba(0, 212, 255, 0.6))
+                    drop-shadow(0 0 60px rgba(255, 0, 110, 0.3));
+            animation: bounceDelivery 2.5s ease-in-out infinite;
+            user-select: none;
+        }
+
+        @keyframes bounceDelivery {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-25px); }
+        }
+
+        /* ===== PRICING SECTION ===== */
+        .pricing {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .pricing-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            align-items: center;
+        }
+
+        .pricing-card {
+            background: rgba(26, 31, 58, 0.45);
+            backdrop-filter: blur(12px);
+            border-radius: 14px;
+            padding: 2.5rem;
+            text-align: center;
+            border: 2px solid rgba(0, 212, 255, 0.2);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--primary);
+            transform: scale(1.05);
+            background: rgba(26, 31, 58, 0.7);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.4), 0 0 80px rgba(255, 0, 110, 0.2);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--dark-bg);
+            padding: 0.6rem 1.5rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
+        }
+
+        .pricing-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #ffffff;
+        }
+
+        .price {
+            font-size: 3rem;
+            color: var(--primary);
+            font-weight: 800;
+            margin: 1.5rem 0;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+
+        .price-subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            text-align: left;
+            margin: 2rem 0;
+        }
+
+        .pricing-features li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .pricing-features li::before {
+            content: '⚡';
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .pricing-card button {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            margin-top: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.95rem;
+        }
+
+        .pricing-card.featured button {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--dark-bg);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+
+        .pricing-card:not(.featured) button {
+            background: rgba(0, 212, 255, 0.2);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .pricing-card button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.8);
+        }
+
+        /* ===== STATS SECTION ===== */
+        .stats {
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(255, 0, 110, 0.1));
+            backdrop-filter: blur(10px);
+            border-top: 2px solid rgba(0, 212, 255, 0.3);
+            border-bottom: 2px solid rgba(0, 212, 255, 0.3);
+            position: relative;
+            z-index: 10;
+        }
+
+        .stats-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            text-align: center;
+        }
+
+        .stat {
+            padding: 1rem;
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ===== GALLERY SECTION ===== */
+        .gallery {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .gallery-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            height: 300px;
+            border-radius: 14px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            background: rgba(26, 31, 58, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 110px;
+            filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.3));
+            user-select: none;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--primary);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.6), 0 0 80px rgba(255, 0, 110, 0.3);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.25), rgba(255, 0, 110, 0.25));
+            display: flex;
+            align-items: flex-end;
+            padding: 1.5rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+        }
+
+        /* ===== CTA SECTION ===== */
+        .cta {
+            padding: 5rem 2rem;
+            position: relative;
+            z-index: 10;
+            text-align: center;
+        }
+
+        .cta-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .cta h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cta p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: rgba(10, 14, 39, 0.85);
+            backdrop-filter: blur(14px);
+            border-top: 2px solid rgba(0, 212, 255, 0.3);
+            padding: 3rem 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--primary);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.7rem;
+        }
+
+        .footer-section a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(0, 212, 255, 0.2);
+            padding-top: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        /* ===== TOAST NOTIFICATION ===== */
+        .anime-toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(26, 31, 58, 0.9);
+            border: 2px solid var(--primary);
+            color: var(--text-light);
+            padding: 16px 26px;
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.6);
+            z-index: 10000;
+            transform: translateY(120px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            backdrop-filter: blur(12px);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .anime-toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+
+            .hero-description {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .sword-showcase {
+                height: 400px;
+            }
+
+            .sword-image {
+                font-size: 180px;
+                width: 280px;
+                height: 350px;
+            }
+
+            .sword-aura, .sword-glow {
+                width: 320px;
+                height: 320px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .section-header h2, .delivery-content h2, .cta h2 {
+                font-size: 2.5rem;
+            }
+
+            .delivery-container {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .stat-number {
+                font-size: 2.5rem;
+            }
+
+            .logo {
+                font-size: 1.3rem;
+            }
+
+            .btn-large {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== BACKGROUND ===== -->
+    <div class="bg-container">
+        <div class="stars" id="stars"></div>
+    </div>
+    <div class="particles" id="particles"></div>
+
+    <!-- ===== TOAST ===== -->
+    <div id="toast" class="anime-toast" role="status" aria-live="polite"></div>
+
+    <!-- ===== NAVIGATION ===== -->
+    <nav>
+        <div class="navbar-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">⚔️</div>
+                ShintetsuBlade
+            </a>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#delivery">Delivery</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+            </ul>
+            <div class="nav-buttons">
+                <button class="btn-outline" onclick="showToast('⚔️ Master Portal: Login system opening shortly!')">Login</button>
+                <button class="btn-primary" onclick="scrollToSection('pricing')">Order Now</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>⚡ Legendary Swords<br>Delivered in 3 Hours</h1>
+                <p>Experience the ultimate anime-inspired blade collection with 4K aura effects</p>
+                <p class="hero-description">Handcrafted with precision, glowing with mystical power. Each sword carries an ethereal aura that captivates. Get your legendary blade delivered to your door in just 3 hours.</p>
+                <div class="hero-buttons">
+                    <button class="btn-large primary" onclick="scrollToSection('pricing')">⚡ Order Now</button>
+                    <button class="btn-large secondary" onclick="scrollToSection('features')">📖 Learn More</button>
+                </div>
+            </div>
+
+            <div class="sword-showcase">
+                <div class="sword-container">
+                    <div class="sword-aura"></div>
+                    <div class="sword-glow"></div>
+                    <div class="sword-image">⚔️</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FEATURES SECTION ===== -->
+    <section class="features" id="features">
+        <div class="section-header">
+            <h2>⭐ Why Choose Our Blades?</h2>
+            <p>Premium craftsmanship meets anime-inspired design with stunning 4K aura effects</p>
+        </div>
+
+        <div class="features-container">
+            <div class="feature-card">
+                <div class="feature-icon">✨</div>
+                <h3>4K Aura Effects</h3>
+                <p>Each blade features cutting-edge 4K holographic aura with realistic light reflections and particle effects.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <h3>Anime-Inspired Design</h3>
+                <p>Hand-designed by master craftspeople inspired by legendary anime swords. Authentic to the source material.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">💎</div>
+                <h3>Premium Materials</h3>
+                <p>Crafted from highest-grade materials with reinforced edges. Built to last forever with proper care.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🌟</div>
+                <h3>Glowing Blade Tech</h3>
+                <p>Advanced LED aura system with 16 million color combinations. Fully customizable to your preference.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📦</div>
+                <h3>3-Hour Delivery</h3>
+                <p>Express delivery service guarantees your blade arrives within 3 hours of order. Track in real-time.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎁</div>
+                <h3>Exclusive Packaging</h3>
+                <p>Premium display packaging with custom stand. Perfect for collectors and anime enthusiasts alike.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 3 HOUR DELIVERY ===== -->
+    <section class="delivery" id="delivery">
+        <div class="delivery-container">
+            <div class="delivery-content">
+                <h2>⚡ 3-Hour Delivery Guarantee</h2>
+                <p>Our advanced logistics system ensures your legendary blade reaches you faster than ever before.</p>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-number">1</div>
+                        <div class="timeline-content">
+                            <h4>Place Order</h4>
+                            <p>Browse our collection and select your legendary blade. Customize aura color if desired.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-number">2</div>
+                        <div class="timeline-content">
+                            <h4>Instant Dispatch</h4>
+                            <p>Your blade is immediately prepared with full aura activation and quality verification.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-number">3</div>
+                        <div class="timeline-content">
+                            <h4>Real-Time Tracking</h4>
+                            <p>Live GPS tracking shows your package location every second during delivery.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-number">4</div>
+                        <div class="timeline-content">
+                            <h4>Legendary Arrival</h4>
+                            <p>Receive your blade within 3 hours. If late, delivery is free and you get a bonus!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="delivery-visual">
+                <div class="delivery-icon">🚗⚡</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== STATS SECTION ===== -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat">
+                <div class="stat-number">50K+</div>
+                <div class="stat-label">Blades Delivered</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">99.8%</div>
+                <div class="stat-label">On-Time Rate</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">4.9/5</div>
+                <div class="stat-label">Customer Rating</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">25</div>
+                <div class="stat-label">Unique Designs</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PRICING SECTION ===== -->
+    <section class="pricing" id="pricing">
+        <div class="pricing-container">
+            <div class="section-header">
+                <h2>✨ Choose Your Blade</h2>
+                <p>From apprentice to legendary master - find the perfect sword for you</p>
+            </div>
+
+            <div class="pricing-cards">
+                <div class="pricing-card">
+                    <h3>Starter Blade</h3>
+                    <div class="price">$49.99</div>
+                    <p class="price-subtitle">Perfect for beginners</p>
+                    <ul class="pricing-features">
+                        <li>Basic aura effects</li>
+                        <li>Standard materials</li>
+                        <li>3-hour delivery</li>
+                        <li>Basic support</li>
+                    </ul>
+                    <button onclick="orderBlade('Starter Blade', '$49.99')">⚡ Order Now</button>
+                </div>
+
+                <div class="pricing-card featured">
+                    <div class="pricing-badge">⭐ Most Popular</div>
+                    <h3>Master's Blade</h3>
+                    <div class="price">$129.99</div>
+                    <p class="price-subtitle">Best for enthusiasts</p>
+                    <ul class="pricing-features">
+                        <li>4K ultra aura effects</li>
+                        <li>Premium materials</li>
+                        <li>Guaranteed 3-hour</li>
+                        <li>Priority support</li>
+                        <li>Customizable colors</li>
+                    </ul>
+                    <button onclick="orderBlade('Master\'s Blade', '$129.99')">⚡ Get Started</button>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>Legendary Blade</h3>
+                    <div class="price">$249.99</div>
+                    <p class="price-subtitle">For true collectors</p>
+                    <ul class="pricing-features">
+                        <li>Ultimate 4K aura</li>
+                        <li>Platinum materials</li>
+                        <li>2-hour express</li>
+                        <li>24/7 VIP support</li>
+                        <li>Lifetime warranty</li>
+                    </ul>
+                    <button onclick="orderBlade('Legendary Blade', '$249.99')">⚡ Order Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== GALLERY SECTION ===== -->
+    <section class="gallery" id="gallery">
+        <div class="section-header">
+            <h2>🎨 Blade Collection</h2>
+            <p>Explore our stunning collection of anime-inspired legendary swords</p>
+        </div>
+
+        <div class="gallery-grid">
+            <div class="gallery-item" onclick="showToast('🗡️ Sky Piercer: Wind element aura engaged!')">
+                <div style="font-size: 140px;">⚔️</div>
+                <div class="gallery-overlay">
+                    <div class="gallery-title">Sky Piercer</div>
+                </div>
+            </div>
+
+            <div class="gallery-item" onclick="showToast('🔥 Flame Breath: Infernal dragon heat activated!')">
+                <div style="font-size: 140px;">🔥⚔️</div>
+                <div class="gallery-overlay">
+                    <div class="gallery-title">Flame Breath</div>
+                </div>
+            </div>
+
+            <div class="gallery-item" onclick="showToast('❄️ Frost Fang: Absolute zero chill aura unleashed!')">
+                <div style="font-size: 140px;">❄️⚔️</div>
+                <div class="gallery-overlay">
+                    <div class="gallery-title">Frost Fang</div>
+                </div>
+            </div>
+
+            <div class="gallery-item" onclick="showToast('⚡ Thunder God: 100,000 volt lightning blade!')">
+                <div style="font-size: 140px;">⚡⚔️</div>
+                <div class="gallery-overlay">
+                    <div class="gallery-title">Thunder God</div>
+                </div>
+            </div>
+
+            <div class="gallery-item" onclick="showToast('💜 Shadow Edge: Dark dimension slash infused!')">
+                <div style="font-size: 140px;">💜⚔️</div>
+                <div class="gallery-overlay">
+                    <div class="gallery-title">Shadow Edge</div>
+                </div>
+            </div>
+
+            <div class="gallery-item" onclick="showToast('✨ Celestial Divine: Goddess sacred light radiance!')">
+                <div style="font-size: 140px;">✨⚔️</div>
+                <div class="gallery-overlay">
+                    <div class="gallery-title">Celestial Divine</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CTA SECTION ===== -->
+    <section class="cta">
+        <div class="cta-container">
+            <h2>⚡ Become a Legend Today</h2>
+            <p>Join thousands of collectors who've discovered their legendary blade. Get your exclusive sword delivered in 3 hours.</p>
+            <div class="cta-buttons">
+                <button class="btn-large primary" onclick="scrollToSection('pricing')">🛒 Order Your Blade</button>
+                <button class="btn-large secondary" onclick="showToast('📞 Support Hotline: Connected with Sword Master!')">📞 Contact Support</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>About Us</h4>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">ShintetsuBlade is Japan's premier anime sword collection and delivery service. Handcrafted with passion, delivered with pride.</p>
+            </div>
+
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#delivery">Delivery Info</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#delivery">Help Center</a></li>
+                    <li><a href="#delivery">Contact Us</a></li>
+                    <li><a href="#pricing">FAQ</a></li>
+                    <li><a href="#features">Warranty</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <ul>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Discord</a></li>
+                    <li><a href="#">YouTube</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 ShintetsuBlade. All rights reserved. | Legendary Craftsmanship, Divine Delivery ⚡</p>
+        </div>
+    </footer>
+
+    <script>
+        // ===== STAR GENERATION =====
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            if (!starsContainer) return;
+            const fragment = document.createDocumentFragment();
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                fragment.appendChild(star);
+            }
+            starsContainer.appendChild(fragment);
+        }
+
+        // ===== HARDWARE ACCELERATED PARTICLE SYSTEM =====
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            if (!particlesContainer) return;
+
+            setInterval(() => {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+
+                const duration = Math.random() * 2500 + 2000;
+                const distance = Math.random() * 120 + 50;
+                const angle = Math.random() * Math.PI * 2;
+
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+
+                particle.style.setProperty('--tx', `${tx}px`);
+                particle.style.setProperty('--ty', `${ty}px`);
+                particle.style.animation = `moveParticle ${duration}ms cubic-bezier(0.25, 1, 0.5, 1) forwards`;
+
+                particlesContainer.appendChild(particle);
+
+                setTimeout(() => {
+                    if (particle.parentNode) particle.remove();
+                }, duration);
+            }, 250);
+        }
+
+        // ===== SMOOTH SCROLLING =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href && href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ===== TOAST SYSTEM =====
+        let toastTimer = null;
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            if (!toast) return;
+            toast.textContent = msg;
+            toast.classList.add('show');
+            if (toastTimer) clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3500);
+        }
+
+        function orderBlade(name, price) {
+            showToast(`⚔️ Selected ${name} (${price})! Initializing 3-hour dispatch...`);
+        }
+
+        // ===== INTERSECTION OBSERVER FOR ANIMATIONS =====
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -60px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card, .pricing-card, .timeline-item, .gallery-item, .stat').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+            observer.observe(el);
+        });
+
+        // ===== BUTTON RIPPLE EFFECT =====
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                ripple.className = 'ripple';
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                this.appendChild(ripple);
+
+                ripple.addEventListener('animationend', () => ripple.remove());
+            });
+        });
+
+        // ===== SMOOTH MOUSE FOLLOW EFFECT ON SWORD =====
+        const swordImage = document.querySelector('.sword-image');
+        let currentMouseX = 0, currentMouseY = 0;
+        let targetMouseX = 0, targetMouseY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            targetMouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+            targetMouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+        });
+
+        function animateSwordGlow() {
+            currentMouseX += (targetMouseX - currentMouseX) * 0.1;
+            currentMouseY += (targetMouseY - currentMouseY) * 0.1;
+
+            if (swordImage) {
+                swordImage.style.filter = `drop-shadow(${currentMouseX * 25}px ${currentMouseY * 25}px 35px rgba(0, 212, 255, 0.85)) 
+                                           drop-shadow(${-currentMouseX * 15}px ${-currentMouseY * 15}px 70px rgba(255, 0, 110, 0.55))`;
+            }
+            requestAnimationFrame(animateSwordGlow);
+        }
+        animateSwordGlow();
+
+        // ===== INITIALIZE =====
+        window.addEventListener('DOMContentLoaded', () => {
+            createStars();
+            createParticles();
+        });
+    </script>
+</body>
+</html>

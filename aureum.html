@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AUREUM — Crafted Excellence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: '#0a0a0a',
+            card: '#141210',
+            accent: '#c8956c',
+            cream: '#e8d5b7',
+            warm: '#f5f0eb',
+            muted: '#7a746e',
+            border: '#2a2520',
+            cool: '#6cb5c8',
+          },
+          fontFamily: {
+            display: ['Playfair Display', 'serif'],
+            body: ['DM Sans', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: #0a0a0a; color: #f5f0eb; overflow-x: hidden; }
+
+    /* Scroll progress bar */
+    #scroll-progress {
+      position: fixed; top: 0; left: 0; height: 3px; z-index: 9999;
+      background: linear-gradient(90deg, #c8956c, #e8d5b7);
+      width: 0%; transition: width 0.05s linear;
+    }
+
+    /* Nav */
+    #navbar { transition: background 0.4s ease, box-shadow 0.4s ease, backdrop-filter 0.4s ease; }
+    #navbar.scrolled { background: rgba(10,10,10,0.92); backdrop-filter: blur(16px); box-shadow: 0 1px 0 #2a2520; }
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px;
+      background: #c8956c; transition: width 0.3s ease;
+    }
+    .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+
+    /* Reveal animations */
+    .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-left { opacity: 0; transform: translateX(-50px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right { opacity: 0; transform: translateX(50px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+    .reveal-scale { opacity: 0; transform: scale(0.9); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+    .reveal-scale.visible { opacity: 1; transform: scale(1); }
+
+    /* Stagger children */
+    .stagger-children > * { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .stagger-children.visible > *:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0s; }
+    .stagger-children.visible > *:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.1s; }
+    .stagger-children.visible > *:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.2s; }
+    .stagger-children.visible > *:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
+
+    /* Hero */
+    #hero-canvas { position: absolute; inset: 0; z-index: 0; pointer-events: auto; }
+    .hero-gradient {
+      position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(105deg, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.75) 35%, rgba(10,10,10,0.25) 65%, rgba(10,10,10,0.1) 100%);
+      pointer-events: none;
+    }
+
+    /* Cards */
+    .project-card { transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s ease; }
+    .project-card:hover { transform: translateY(-8px); box-shadow: 0 24px 60px rgba(200,149,108,0.12); }
+    .project-card .card-img { transition: transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+    .project-card:hover .card-img { transform: scale(1.08); }
+    .project-card .card-overlay { opacity: 0; transition: opacity 0.4s ease; }
+    .project-card:hover .card-overlay { opacity: 1; }
+
+    /* Team cards */
+    .team-card .team-img { transition: transform 0.6s cubic-bezier(0.16,1,0.3,1), filter 0.6s ease; }
+    .team-card:hover .team-img { transform: scale(1.06); filter: brightness(1.1); }
+    .team-card .team-bio { max-height: 0; opacity: 0; transition: max-height 0.5s ease, opacity 0.4s ease, margin 0.4s ease; margin-top: 0; }
+    .team-card:hover .team-bio { max-height: 100px; opacity: 1; margin-top: 8px; }
+
+    /* Testimonial */
+    .testimonial-card { transition: transform 0.4s ease, border-color 0.4s ease; }
+    .testimonial-card:hover { transform: translateY(-4px); border-color: #c8956c; }
+
+    /* Buttons */
+    .btn-primary {
+      background: linear-gradient(135deg, #c8956c, #b07a50);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(200,149,108,0.35); }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-outline {
+      border: 1.5px solid #c8956c; color: #c8956c;
+      transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    }
+    .btn-outline:hover { background: #c8956c; color: #0a0a0a; transform: translateY(-2px); }
+
+    /* Form inputs */
+    .form-input {
+      background: #141210; border: 1px solid #2a2520; color: #f5f0eb;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .form-input:focus { outline: none; border-color: #c8956c; box-shadow: 0 0 0 3px rgba(200,149,108,0.15); }
+    .form-input::placeholder { color: #7a746e; }
+    .form-input.error { border-color: #e05555; }
+
+    /* Toast */
+    .toast {
+      position: fixed; bottom: 32px; right: 32px; z-index: 10000;
+      padding: 16px 24px; border-radius: 12px;
+      background: #141210; border: 1px solid #2a2520;
+      color: #f5f0eb; font-size: 14px;
+      transform: translateY(120px); opacity: 0;
+      transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), opacity 0.5s ease;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { border-color: #5cb85c; }
+    .toast.error { border-color: #e05555; }
+
+    /* Mobile menu */
+    #mobile-menu {
+      transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+    }
+    #mobile-menu.open { transform: translateX(0); }
+    #menu-overlay { opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+    #menu-overlay.open { opacity: 1; pointer-events: auto; }
+
+    /* Stat counter */
+    .stat-number { font-variant-numeric: tabular-nums; }
+
+    /* Scroll indicator */
+    @keyframes scrollBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+    .scroll-indicator { animation: scrollBounce 2s ease-in-out infinite; }
+
+    /* Floating blobs */
+    @keyframes float1 { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -20px) scale(1.05); } 66% { transform: translate(-15px, 15px) scale(0.97); } }
+    @keyframes float2 { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(-25px, 25px) scale(0.95); } 66% { transform: translate(20px, -10px) scale(1.04); } }
+    .blob1 { animation: float1 12s ease-in-out infinite; }
+    .blob2 { animation: float2 15s ease-in-out infinite; }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .reveal-left, .reveal-right, .reveal-scale { transition: none; opacity: 1; transform: none; }
+      .stagger-children > * { transition: none; opacity: 1; transform: none; }
+      .scroll-indicator { animation: none; }
+      .blob1, .blob2 { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Scroll Progress -->
+  <div id="scroll-progress"></div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- Mobile Menu Overlay -->
+  <div id="menu-overlay" class="fixed inset-0 bg-black/60 z-40" onclick="closeMobileMenu()"></div>
+
+  <!-- Mobile Menu -->
+  <nav id="mobile-menu" class="fixed top-0 right-0 h-full w-72 bg-card z-50 flex flex-col p-8 border-l border-border" aria-label="Mobile Navigation">
+    <button onclick="closeMobileMenu()" class="self-end mb-10 text-muted hover:text-warm transition-colors" aria-label="Close menu">
+      <i data-lucide="x" class="w-6 h-6"></i>
+    </button>
+    <a href="#hero" onclick="closeMobileMenu()" class="text-warm text-lg font-medium py-3 border-b border-border hover:text-accent transition-colors">Home</a>
+    <a href="#work" onclick="closeMobileMenu()" class="text-warm text-lg font-medium py-3 border-b border-border hover:text-accent transition-colors">Work</a>
+    <a href="#philosophy" onclick="closeMobileMenu()" class="text-warm text-lg font-medium py-3 border-b border-border hover:text-accent transition-colors">Philosophy</a>
+    <a href="#team" onclick="closeMobileMenu()" class="text-warm text-lg font-medium py-3 border-b border-border hover:text-accent transition-colors">Team</a>
+    <a href="#contact" onclick="closeMobileMenu()" class="text-warm text-lg font-medium py-3 border-b border-border hover:text-accent transition-colors">Contact</a>
+  </nav>
+
+  <!-- Navigation -->
+  <header id="navbar" class="fixed top-0 left-0 w-full z-30">
+    <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+      <a href="#hero" class="font-display text-2xl font-bold text-warm tracking-wide">AUREUM</a>
+      <div class="hidden md:flex items-center gap-10">
+        <a href="#hero" class="nav-link text-sm font-medium text-muted hover:text-warm transition-colors" data-section="hero">Home</a>
+        <a href="#work" class="nav-link text-sm font-medium text-muted hover:text-warm transition-colors" data-section="work">Work</a>
+        <a href="#philosophy" class="nav-link text-sm font-medium text-muted hover:text-warm transition-colors" data-section="philosophy">Philosophy</a>
+        <a href="#team" class="nav-link text-sm font-medium text-muted hover:text-warm transition-colors" data-section="team">Team</a>
+        <a href="#contact" class="btn-primary px-6 py-2.5 rounded-full text-sm font-semibold text-bg">Start a Project</a>
+      </div>
+      <button onclick="openMobileMenu()" class="md:hidden text-warm hover:text-accent transition-colors" aria-label="Open menu">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section id="hero" class="relative min-h-screen flex items-center overflow-hidden">
+      <div id="hero-canvas"></div>
+      <div class="hero-gradient"></div>
+      <!-- Decorative blobs -->
+      <div class="blob1 absolute top-20 left-10 w-72 h-72 rounded-full bg-accent/5 blur-3xl z-0 pointer-events-none"></div>
+      <div class="blob2 absolute bottom-20 right-20 w-96 h-96 rounded-full bg-cool/5 blur-3xl z-0 pointer-events-none"></div>
+
+      <div class="relative z-10 max-w-7xl mx-auto px-6 w-full pt-24 pb-16">
+        <div class="max-w-2xl">
+          <p class="reveal text-accent font-body text-sm font-semibold tracking-[0.2em] uppercase mb-6">Design &middot; Engineering &middot; Strategy</p>
+          <h1 class="reveal font-display text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.08] mb-6">
+            Where Vision<br><span class="text-accent">Meets Craft</span>
+          </h1>
+          <p class="reveal text-muted text-lg leading-relaxed mb-10 max-w-lg">
+            We transform ambitious ideas into extraordinary digital experiences that captivate, inspire, and endure. Every detail serves the human on the other side.
+          </p>
+          <div class="reveal flex flex-wrap gap-4">
+            <a href="#work" class="btn-primary px-8 py-3.5 rounded-full font-semibold text-bg text-sm">Explore Our Work</a>
+            <a href="#contact" class="btn-outline px-8 py-3.5 rounded-full font-semibold text-sm">Start a Project</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll indicator -->
+      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-muted pointer-events-none">
+        <span class="text-xs tracking-widest uppercase">Scroll</span>
+        <div class="scroll-indicator">
+          <i data-lucide="chevron-down" class="w-4 h-4"></i>
+        </div>
+      </div>
+    </section>
+
+    <!-- Work Section -->
+    <section id="work" class="py-28 lg:py-36 relative">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="reveal flex items-end justify-between mb-16">
+          <div>
+            <p class="text-accent text-sm font-semibold tracking-[0.15em] uppercase mb-3">Selected Work</p>
+            <h2 class="font-display text-4xl lg:text-5xl font-bold">Crafted with Intent</h2>
+          </div>
+          <a href="#contact" class="hidden sm:flex items-center gap-2 text-muted hover:text-accent transition-colors text-sm font-medium group">
+            View all projects <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+          </a>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-7 stagger-children">
+          <!-- Project 1 -->
+          <article class="project-card rounded-2xl overflow-hidden bg-card border border-border group">
+            <div class="relative overflow-hidden aspect-[4/3]">
+              <img src="https://picsum.photos/seed/meridian-lux/800/600.jpg" alt="Meridian Hotels brand identity" class="card-img w-full h-full object-cover">
+              <div class="card-overlay absolute inset-0 bg-accent/20 flex items-center justify-center">
+                <span class="bg-bg/80 backdrop-blur-sm px-5 py-2.5 rounded-full text-sm font-medium text-warm">View Case Study</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <span class="text-accent text-xs font-semibold tracking-wider uppercase">Brand Identity</span>
+              <h3 class="font-display text-xl font-bold mt-2 mb-2">Meridian</h3>
+              <p class="text-muted text-sm leading-relaxed">A complete visual language for a luxury hospitality group spanning twelve properties across three continents.</p>
+            </div>
+          </article>
+
+          <!-- Project 2 -->
+          <article class="project-card rounded-2xl overflow-hidden bg-card border border-border group">
+            <div class="relative overflow-hidden aspect-[4/3]">
+              <img src="https://picsum.photos/seed/solaris-energy/800/600.jpg" alt="Solaris digital platform" class="card-img w-full h-full object-cover">
+              <div class="card-overlay absolute inset-0 bg-cool/20 flex items-center justify-center">
+                <span class="bg-bg/80 backdrop-blur-sm px-5 py-2.5 rounded-full text-sm font-medium text-warm">View Case Study</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <span class="text-cool text-xs font-semibold tracking-wider uppercase">Digital Platform</span>
+              <h3 class="font-display text-xl font-bold mt-2 mb-2">Solaris</h3>
+              <p class="text-muted text-sm leading-relaxed">An immersive web experience for sustainable energy, turning complex data into compelling visual narratives.</p>
+            </div>
+          </article>
+
+          <!-- Project 3 -->
+          <article class="project-card rounded-2xl overflow-hidden bg-card border border-border group">
+            <div class="relative overflow-hidden aspect-[4/3]">
+              <img src="https://picsum.photos/seed/noctis-product/800/600.jpg" alt="Noctis product design" class="card-img w-full h-full object-cover">
+              <div class="card-overlay absolute inset-0 bg-cream/15 flex items-center justify-center">
+                <span class="bg-bg/80 backdrop-blur-sm px-5 py-2.5 rounded-full text-sm font-medium text-warm">View Case Study</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <span class="text-cream text-xs font-semibold tracking-wider uppercase">Product Design</span>
+              <h3 class="font-display text-xl font-bold mt-2 mb-2">Noctis</h3>
+              <p class="text-muted text-sm leading-relaxed">Where elegant hardware meets intuitive software — an interface that disappears into the experience.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Philosophy Section -->
+    <section id="philosophy" class="py-28 lg:py-36 relative overflow-hidden">
+      <div class="blob2 absolute -top-40 -right-40 w-[500px] h-[500px] rounded-full bg-accent/4 blur-3xl pointer-events-none"></div>
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+          <div class="reveal-left">
+            <div class="relative rounded-2xl overflow-hidden aspect-[4/5]">
+              <img src="https://picsum.photos/seed/philosophy-craft/800/1000.jpg" alt="Design philosophy visual" class="w-full h-full object-cover">
+              <div class="absolute inset-0 bg-gradient-to-t from-bg/60 via-transparent to-transparent"></div>
+              <div class="absolute bottom-6 left-6 right-6">
+                <div class="flex items-center gap-3">
+                  <div class="w-2 h-2 rounded-full bg-accent animate-pulse"></div>
+                  <span class="text-cream/80 text-xs tracking-wider uppercase">Currently accepting projects</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="reveal-right">
+            <p class="text-accent text-sm font-semibold tracking-[0.15em] uppercase mb-3">Our Philosophy</p>
+            <h2 class="font-display text-4xl lg:text-5xl font-bold mb-8">Design with Purpose</h2>
+            <p class="text-muted text-lg leading-relaxed mb-8">
+              Great design is invisible. It doesn't demand attention — it earns it. Every pixel, every interaction, every transition serves the human on the other side of the screen. We don't decorate; we solve.
+            </p>
+            <div class="space-y-6 mb-10">
+              <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <i data-lucide="heart" class="w-5 h-5 text-accent"></i>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-warm mb-1">Human-First</h4>
+                  <p class="text-muted text-sm leading-relaxed">Technology serves people, not the other way around. We start every project by understanding the humans who'll use it.</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <i data-lucide="scan-eye" class="w-5 h-5 text-accent"></i>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-warm mb-1">Detail-Obsessed</h4>
+                  <p class="text-muted text-sm leading-relaxed">The difference between good and extraordinary lives in the details — the 2px adjustment that makes everything click.</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <i data-lucide="zap" class="w-5 h-5 text-accent"></i>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-warm mb-1">Future-Ready</h4>
+                  <p class="text-muted text-sm leading-relaxed">We build for tomorrow's standards today. Scalable, accessible, and resilient — never just trendy.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section id="stats" class="py-20 border-y border-border relative overflow-hidden">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 stagger-children">
+          <div class="text-center">
+            <p class="stat-number font-display text-4xl lg:text-5xl font-bold text-accent" data-target="150" data-suffix="+">0</p>
+            <p class="text-muted text-sm mt-2">Projects Delivered</p>
+          </div>
+          <div class="text-center">
+            <p class="stat-number font-display text-4xl lg:text-5xl font-bold text-warm" data-target="12" data-suffix="">0</p>
+            <p class="text-muted text-sm mt-2">Years of Craft</p>
+          </div>
+          <div class="text-center">
+            <p class="stat-number font-display text-4xl lg:text-5xl font-bold text-accent" data-target="98" data-suffix="%">0</p>
+            <p class="text-muted text-sm mt-2">Client Retention</p>
+          </div>
+          <div class="text-center">
+            <p class="stat-number font-display text-4xl lg:text-5xl font-bold text-warm" data-target="40" data-suffix="">0</p>
+            <p class="text-muted text-sm mt-2">Team Members</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="py-28 lg:py-36 relative">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="reveal text-center mb-16">
+          <p class="text-accent text-sm font-semibold tracking-[0.15em] uppercase mb-3">The Humans</p>
+          <h2 class="font-display text-4xl lg:text-5xl font-bold">Meet the Team</h2>
+          <p class="text-muted text-lg mt-4 max-w-xl mx-auto">The people behind the pixels — each one obsessed with their craft and united by purpose.</p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-7 stagger-children">
+          <article class="team-card text-center p-6 rounded-2xl bg-card border border-border transition-all hover:border-accent/30">
+            <div class="relative w-28 h-28 mx-auto mb-5 rounded-full overflow-hidden ring-2 ring-border">
+              <img src="https://picsum.photos/seed/elena-vasquez/200/200.jpg" alt="Elena Vasquez" class="team-img w-full h-full object-cover">
+            </div>
+            <h3 class="font-display text-lg font-bold text-warm">Elena Vasquez</h3>
+            <p class="text-accent text-sm font-medium mt-1">Creative Director</p>
+            <p class="team-bio text-muted text-xs leading-relaxed">Fifteen years shaping visual narratives for brands that refuse to blend in.</p>
+          </article>
+
+          <article class="team-card text-center p-6 rounded-2xl bg-card border border-border transition-all hover:border-accent/30">
+            <div class="relative w-28 h-28 mx-auto mb-5 rounded-full overflow-hidden ring-2 ring-border">
+              <img src="https://picsum.photos/seed/marcus-chen/200/200.jpg" alt="Marcus Chen" class="team-img w-full h-full object-cover">
+            </div>
+            <h3 class="font-display text-lg font-bold text-warm">Marcus Chen</h3>
+            <p class="text-accent text-sm font-medium mt-1">Lead Engineer</p>
+            <p class="team-bio text-muted text-xs leading-relaxed">Architect of systems that perform as beautifully as they're built.</p>
+          </article>
+
+          <article class="team-card text-center p-6 rounded-2xl bg-card border border-border transition-all hover:border-accent/30">
+            <div class="relative w-28 h-28 mx-auto mb-5 rounded-full overflow-hidden ring-2 ring-border">
+              <img src="https://picsum.photos/seed/sophia-kim/200/200.jpg" alt="Sophia Kim" class="team-img w-full h-full object-cover">
+            </div>
+            <h3 class="font-display text-lg font-bold text-warm">Sophia Kim</h3>
+            <p class="text-accent text-sm font-medium mt-1">Design Lead</p>
+            <p class="team-bio text-muted text-xs leading-relaxed">Transforms complexity into clarity with an obsessive eye for micro-interactions.</p>
+          </article>
+
+          <article class="team-card text-center p-6 rounded-2xl bg-card border border-border transition-all hover:border-accent/30">
+            <div class="relative w-28 h-28 mx-auto mb-5 rounded-full overflow-hidden ring-2 ring-border">
+              <img src="https://picsum.photos/seed/james-okafor/200/200.jpg" alt="James Okafor" class="team-img w-full h-full object-cover">
+            </div>
+            <h3 class="font-display text-lg font-bold text-warm">James Okafor</h3>
+            <p class="text-accent text-sm font-medium mt-1">Strategy Director</p>
+            <p class="team-bio text-muted text-xs leading-relaxed">Connects business ambition to human need, making strategy tangible.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-28 lg:py-36 relative overflow-hidden">
+      <div class="blob1 absolute -bottom-40 -left-40 w-[400px] h-[400px] rounded-full bg-cool/4 blur-3xl pointer-events-none"></div>
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="reveal text-center mb-16">
+          <p class="text-accent text-sm font-semibold tracking-[0.15em] uppercase mb-3">Testimonials</p>
+          <h2 class="font-display text-4xl lg:text-5xl font-bold">Words from Our Partners</h2>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-7 stagger-children">
+          <article class="testimonial-card p-7 rounded-2xl bg-card border border-border">
+            <div class="flex items-center gap-1 mb-5">
+              <i data-lucide="star" class="w-4 h-4 text-accent fill-accent"></i>
+              <i data-lucide="star" class="w-4 h-4 text-accent fill-accent"></i>
+              <i data-lucide="star" class="w-4 h-4 text-accent fill-accent"></i>
+              <i data-lucide="star" class="w-4 h-4 text-accent fill-accent"></i>
+              <i data-lucide="star" class="w-4 h-4 text-accent fill-accent"></i>
+            </div>
+            <p class="text-warm/90 leading-relaxed mb-6 text-sm italic">
+              "Aureum didn't just build a website — they built an experience that our customers fall in love with every single day."
+            </p>
+            <div class="flex items-center gap-3">
+              <img src="https://picsum.photos/seed/sarah-mitchell/80/80.jpg" alt="Sarah Mitchell" class="w-10 h-10 rounded-full object-cover">
+              <div>
+                <p class="text-warm font-semibold text-sm">Sarah Mitchell</p>
+                <p class="text-muted text-xs">CEO, Meridian Hotels</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="testimonial-card p-7 rounded-2xl bg-card border border-border">
+            <div class="flex items-center gap-1 mb-5">
+              <i data-lucide="star" class="w-4 h-4 text-accent fill-accent"></i>
+              <i data-lucide="star" class="w-4 h-4 text-accent fill-accent"></i>
+              <i data-lucide="star" class="w-4 h-4 text-accent fill-accent"></i>
+              <i data-lucide="star" class="w-4 h-4 text-accent fill-accent"></i>
+              <i data-lucide="star" class="w-4 h-4 text-accent fill-accent"></i>
+            </div>
+            <p class="text-warm/90 leading-relaxed mb-6 text-sm italic">
+              "Their attention to detail is unmatched. Every interaction feels intentional, every transition feels polished. They raised our standard."
+            </p>
+            <div class="flex items-center gap-3">
+              <img src="https://picsum.photos/seed/david-park/80/80.jpg" alt="David Park" class="w-10 h-10 rounded-full object-cover">
+              <div>
+                <p class="text-warm font-semibold text-sm">David Park</p>
+                <p class="text-muted text-xs">Founder, Solaris Energy</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="testimonial-card p-7 rounded-2xl bg-card border border-border">
+            <div class="flex items-center gap-1 mb-5">
+              <i data-lucide="star" class="w-4 h-4 text-accent fill-accent"></i>
+              <i data-lucide="star" class="w-4 h-4 text-accent fill-accent"></i>
+              <i data-lucide="star" class="w-4 h-4 text-accent fill-accent"></i>
+              <i data-lucide="star" class="w-4 h-4 text-accent fill-accent"></i>
+              <i data-lucide="star" class="w-4 h-4 text-accent fill-accent"></i>
+            </div>
+            <p class="text-warm/90 leading-relaxed mb-6 text-sm italic">
+              "Working with Aureum felt like having an extension of our own team. They truly understood our vision and brought it to life beyond expectations."
+            </p>
+            <div class="flex items-center gap-3">
+              <img src="https://picsum.photos/seed/lisa-zhang/80/80.jpg" alt="Lisa Zhang" class="w-10 h-10 rounded-full object-cover">
+              <div>
+                <p class="text-warm font-semibold text-sm">Lisa Zhang</p>
+                <p class="text-muted text-xs">CPO, Noctis Labs</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-28 lg:py-36 relative overflow-hidden">
+      <div class="blob2 absolute top-10 right-10 w-[300px] h-[300px] rounded-full bg-accent/4 blur-3xl pointer-events-none"></div>
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="grid lg:grid-cols-2 gap-16">
+          <div class="reveal-left">
+            <p class="text-accent text-sm font-semibold tracking-[0.15em] uppercase mb-3">Get in Touch</p>
+            <h2 class="font-display text-4xl lg:text-5xl font-bold mb-6">Let's Create Something Extraordinary</h2>
+            <p class="text-muted text-lg leading-relaxed mb-10">
+              Whether you have a defined brief or just a spark of an idea, we'd love to hear from you. Every great project starts with a conversation.
+            </p>
+            <div class="space-y-5">
+              <div class="flex items-center gap-4">
+                <div class="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center">
+                  <i data-lucide="mail" class="w-5 h-5 text-accent"></i>
+                </div>
+                <div>
+                  <p class="text-muted text-xs">Email</p>
+                  <p class="text-warm text-sm font-medium">hello@aureum.studio</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-4">
+                <div class="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center">
+                  <i data-lucide="map-pin" class="w-5 h-5 text-accent"></i>
+                </div>
+                <div>
+                  <p class="text-muted text-xs">Location</p>
+                  <p class="text-warm text-sm font-medium">San Francisco & London</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-4">
+                <div class="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center">
+                  <i data-lucide="clock" class="w-5 h-5 text-accent"></i>
+                </div>
+                <div>
+                  <p class="text-muted text-xs">Response Time</p>
+                  <p class="text-warm text-sm font-medium">Within 24 hours</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <form id="contact-form" class="reveal-right space-y-5" onsubmit="handleSubmit(event)" novalidate>
+            <div>
+              <label for="name" class="text-sm font-medium text-warm mb-1.5 block">Full Name</label>
+              <input type="text" id="name" name="name" required placeholder="Your name" class="form-input w-full px-4 py-3 rounded-xl text-sm">
+              <p class="text-xs text-red-400 mt-1 hidden" id="name-error">Please enter your name</p>
+            </div>
+            <div>
+              <label for="email" class="text-sm font-medium text-warm mb-1.5 block">Email Address</label>
+              <input type="email" id="email" name="email" required placeholder="you@company.com" class="form-input w-full px-4 py-3 rounded-xl text-sm">
+              <p class="text-xs text-red-400 mt-1 hidden" id="email-error">Please enter a valid email</p>
+            </div>
+            <div>
+              <label for="project-type" class="text-sm font-medium text-warm mb-1.5 block">Project Type</label>
+              <select id="project-type" name="project-type" class="form-input w-full px-4 py-3 rounded-xl text-sm appearance-none cursor-pointer">
+                <option value="" disabled selected class="text-muted">Select a category</option>
+                <option value="brand">Brand Identity</option>
+                <option value="web">Web Platform</option>
+                <option value="product">Product Design</option>
+                <option value="strategy">Strategy & Consulting</option>
+                <option value="other">Something Else</option>
+              </select>
+            </div>
+            <div>
+              <label for="message" class="text-sm font-medium text-warm mb-1.5 block">Tell Us About Your Vision</label>
+              <textarea id="message" name="message" rows="5" required placeholder="Describe your project, goals, and timeline..." class="form-input w-full px-4 py-3 rounded-xl text-sm resize-none"></textarea>
+              <p class="text-xs text-red-400 mt-1 hidden" id="message-error">Please describe your project</p>
+            </div>
+            <button type="submit" class="btn-primary w-full px-8 py-3.5 rounded-xl font-semibold text-bg text-sm flex items-center justify-center gap-2">
+              Send Message <i data-lucide="send" class="w-4 h-4"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-border py-16">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+        <div class="lg:col-span-1">
+          <a href="#hero" class="font-display text-2xl font-bold text-warm tracking-wide">AUREUM</a>
+          <p class="text-muted text-sm mt-3 leading-relaxed">Crafting digital experiences that move people and drive results.</p>
+          <div class="flex gap-3 mt-5">
+            <a href="#" class="w-9 h-9 rounded-lg bg-card border border-border flex items-center justify-center text-muted hover:text-accent hover:border-accent/30 transition-all" aria-label="Twitter">
+              <i data-lucide="twitter" class="w-4 h-4"></i>
+            </a>
+            <a href="#" class="w-9 h-9 rounded-lg bg-card border border-border flex items-center justify-center text-muted hover:text-accent hover:border-accent/30 transition-all" aria-label="LinkedIn">
+              <i data-lucide="linkedin" class="w-4 h-4"></i>
+            </a>
+            <a href="#" class="w-9 h-9 rounded-lg bg-card border border-border flex items-center justify-center text-muted hover:text-accent hover:border-accent/30 transition-all" aria-label="Instagram">
+              <i data-lucide="instagram" class="w-4 h-4"></i>
+            </a>
+            <a href="#" class="w-9 h-9 rounded-lg bg-card border border-border flex items-center justify-center text-muted hover:text-accent hover:border-accent/30 transition-all" aria-label="Dribbble">
+              <i data-lucide="dribbble" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h4 class="font-semibold text-warm text-sm mb-4">Services</h4>
+          <ul class="space-y-2.5">
+            <li><a href="#" class="text-muted text-sm hover:text-accent transition-colors">Brand Identity</a></li>
+            <li><a href="#" class="text-muted text-sm hover:text-accent transition-colors">Web Development</a></li>
+            <li><a href="#" class="text-muted text-sm hover:text-accent transition-colors">Product Design</a></li>
+            <li><a href="#" class="text-muted text-sm hover:text-accent transition-colors">Strategy</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold text-warm text-sm mb-4">Company</h4>
+          <ul class="space-y-2.5">
+            <li><a href="#philosophy" class="text-muted text-sm hover:text-accent transition-colors">Philosophy</a></li>
+            <li><a href="#team" class="text-muted text-sm hover:text-accent transition-colors">Team</a></li>
+            <li><a href="#" class="text-muted text-sm hover:text-accent transition-colors">Careers</a></li>
+            <li><a href="#contact" class="text-muted text-sm hover:text-accent transition-colors">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold text-warm text-sm mb-4">Legal</h4>
+          <ul class="space-y-2.5">
+            <li><a href="#" class="text-muted text-sm hover:text-accent transition-colors">Privacy Policy</a></li>
+            <li><a href="#" class="text-muted text-sm hover:text-accent transition-colors">Terms of Service</a></li>
+            <li><a href="#" class="text-muted text-sm hover:text-accent transition-colors">Cookie Settings</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-border pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p class="text-muted text-xs">&copy; 2024 Aureum Studio. All rights reserved.</p>
+        <p class="text-muted text-xs">Designed & engineered with care in San Francisco & London.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Three.js 3D Scene -->
+  <script type="module">
+    import * as THREE from 'three';
+    import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+    const container = document.getElementById('hero-canvas');
+    if (!container) throw new Error('Hero canvas container not found');
+
+    let width = container.clientWidth || window.innerWidth;
+    let height = container.clientHeight || window.innerHeight;
+
+    // Determine responsive placement for 3D focus
+    function getResponsiveTargetX() {
+      return window.innerWidth < 768 ? 0 : (window.innerWidth < 1024 ? 1.2 : 2.2);
+    }
+    let targetX = getResponsiveTargetX();
+
+    // Scene
+    const scene = new THREE.Scene();
+
+    // Camera
+    const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100);
+    const baseCamZ = window.innerWidth < 768 ? 9.5 : 8;
+    camera.position.set(0, 0, baseCamZ);
+
+    // Renderer
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.1;
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    container.appendChild(renderer.domElement);
+
+    // Environment map for realistic reflections
+    const pmremGenerator = new THREE.PMREMGenerator(renderer);
+    const roomEnv = new RoomEnvironment();
+    const envTexture = pmremGenerator.fromScene(roomEnv).texture;
+    scene.environment = envTexture;
+    roomEnv.dispose();
+    pmremGenerator.dispose();
+
+    // Main object — Torus Knot with copper metallic material
+    const mainGeo = new THREE.TorusKnotGeometry(1.2, 0.35, 256, 32);
+    const mainMat = new THREE.MeshPhysicalMaterial({
+      color: new THREE.Color(0xc8956c),
+      metalness: 0.92,
+      roughness: 0.12,
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.05,
+      envMapIntensity: 1.8,
+    });
+    const mainMesh = new THREE.Mesh(mainGeo, mainMat);
+    mainMesh.position.x = targetX;
+    scene.add(mainMesh);
+
+    // Floating orbs — small metallic and glass objects
+    const orbGroup = new THREE.Group();
+    orbGroup.position.x = targetX;
+    scene.add(orbGroup);
+
+    const orbMatMetallic = new THREE.MeshPhysicalMaterial({
+      color: new THREE.Color(0xe8d5b7),
+      metalness: 0.85,
+      roughness: 0.08,
+      clearcoat: 1.0,
+      envMapIntensity: 2.0,
+    });
+
+    const orbMatGlass = new THREE.MeshPhysicalMaterial({
+      color: new THREE.Color(0xffffff),
+      metalness: 0.0,
+      roughness: 0.02,
+      transmission: 0.92,
+      thickness: 0.6,
+      ior: 1.45,
+      envMapIntensity: 1.0,
+    });
+
+    const orbs = [];
+    for (let i = 0; i < 6; i++) {
+      const radius = Math.max(0.06, 0.06 + Math.random() * 0.14);
+      const geo = new THREE.IcosahedronGeometry(radius, 3);
+      const mat = i % 2 === 0 ? orbMatMetallic : orbMatGlass;
+      const mesh = new THREE.Mesh(geo, mat);
+      const angle = (i / 6) * Math.PI * 2;
+      const dist = 1.8 + Math.random() * 0.8;
+      mesh.userData = {
+        angle,
+        dist,
+        speed: 0.2 + Math.random() * 0.35,
+        yOff: (Math.random() - 0.5) * 1.6,
+        floatSpeed: 0.4 + Math.random() * 0.4,
+      };
+      orbGroup.add(mesh);
+      orbs.push(mesh);
+    }
+
+    // Particle system — soft glowing dots
+    const particleCount = 400;
+    const pPositions = new Float32Array(particleCount * 3);
+    const pSizes = new Float32Array(particleCount);
+    for (let i = 0; i < particleCount; i++) {
+      pPositions[i * 3] = (Math.random() - 0.5) * 16;
+      pPositions[i * 3 + 1] = (Math.random() - 0.5) * 16;
+      pPositions[i * 3 + 2] = (Math.random() - 0.5) * 10;
+      pSizes[i] = 0.03 + Math.random() * 0.06;
+    }
+    const pGeo = new THREE.BufferGeometry();
+    pGeo.setAttribute('position', new THREE.BufferAttribute(pPositions, 3));
+    pGeo.setAttribute('size', new THREE.BufferAttribute(pSizes, 1));
+
+    // Create circular soft particle texture
+    const pCanvas = document.createElement('canvas');
+    pCanvas.width = 64;
+    pCanvas.height = 64;
+    const pCtx = pCanvas.getContext('2d');
+    const grad = pCtx.createRadialGradient(32, 32, 0, 32, 32, 32);
+    grad.addColorStop(0, 'rgba(255,255,255,1)');
+    grad.addColorStop(0.15, 'rgba(200,149,108,0.9)');
+    grad.addColorStop(0.5, 'rgba(200,149,108,0.2)');
+    grad.addColorStop(1, 'rgba(0,0,0,0)');
+    pCtx.fillStyle = grad;
+    pCtx.fillRect(0, 0, 64, 64);
+    const pTexture = new THREE.CanvasTexture(pCanvas);
+
+    const pMat = new THREE.PointsMaterial({
+      map: pTexture,
+      size: 0.14,
+      transparent: true,
+      opacity: 0.5,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+      sizeAttenuation: true,
+    });
+    const particles = new THREE.Points(pGeo, pMat);
+    scene.add(particles);
+
+    // Lighting — warm key + cool fill + rim
+    const keyLight = new THREE.PointLight(0xc8956c, 45);
+    keyLight.position.set(5, 4, 5);
+    scene.add(keyLight);
+
+    const fillLight = new THREE.PointLight(0x6cb5c8, 25);
+    fillLight.position.set(-5, -2, 4);
+    scene.add(fillLight);
+
+    const rimLight = new THREE.PointLight(0xe8d5b7, 20);
+    rimLight.position.set(0, 5, -4);
+    scene.add(rimLight);
+
+    const bottomLight = new THREE.PointLight(0x4a3525, 15);
+    bottomLight.position.set(0, -5, 2);
+    scene.add(bottomLight);
+
+    // Mouse tracking
+    let mouseX = 0, mouseY = 0;
+    let targetMouseX = 0, targetMouseY = 0;
+    document.addEventListener('mousemove', (e) => {
+      targetMouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+      targetMouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+    });
+
+    // Touch support
+    document.addEventListener('touchmove', (e) => {
+      if (e.touches.length > 0) {
+        targetMouseX = (e.touches[0].clientX / window.innerWidth - 0.5) * 2;
+        targetMouseY = (e.touches[0].clientY / window.innerHeight - 0.5) * 2;
+      }
+    }, { passive: true });
+
+    // Animation loop
+    const clock = new THREE.Clock();
+    let currentX = targetX;
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const t = clock.getElapsedTime();
+
+      // Smooth mouse interpolation
+      mouseX += (targetMouseX - mouseX) * 0.05;
+      mouseY += (targetMouseY - mouseY) * 0.05;
+
+      // Smooth responsive position interpolation
+      currentX += (targetX - currentX) * 0.05;
+      mainMesh.position.x = currentX;
+      orbGroup.position.x = currentX;
+
+      // Main object — slow rotation + mouse influence + floating
+      mainMesh.rotation.y = t * 0.12 + mouseX * 0.4;
+      mainMesh.rotation.x = t * 0.06 + mouseY * 0.25;
+      mainMesh.position.y = Math.sin(t * 0.4) * 0.18;
+
+      // Orbs — orbital motion
+      orbs.forEach((orb) => {
+        const d = orb.userData;
+        const a = d.angle + t * d.speed;
+        orb.position.x = Math.cos(a) * d.dist;
+        orb.position.z = Math.sin(a) * d.dist;
+        orb.position.y = d.yOff + Math.sin(t * d.floatSpeed + d.angle) * 0.35;
+        orb.rotation.x = t * 0.6;
+        orb.rotation.y = t * 0.4;
+      });
+
+      // Particles — gentle drift
+      const posArr = pGeo.attributes.position.array;
+      for (let i = 0; i < particleCount; i++) {
+        posArr[i * 3 + 1] += 0.0015;
+        posArr[i * 3] += Math.sin(t * 0.1 + i) * 0.0003;
+        if (posArr[i * 3 + 1] > 8) posArr[i * 3 + 1] = -8;
+      }
+      pGeo.attributes.position.needsUpdate = true;
+
+      // Particles subtle rotation
+      particles.rotation.y = t * 0.015;
+
+      // Camera — subtle mouse tracking
+      camera.position.x += (mouseX * 0.6 - camera.position.x) * 0.02;
+      camera.position.y += (-mouseY * 0.35 - camera.position.y) * 0.02;
+      camera.lookAt(currentX, 0, 0);
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // Resize handler
+    window.addEventListener('resize', () => {
+      width = container.clientWidth || window.innerWidth;
+      height = container.clientHeight || window.innerHeight;
+      targetX = getResponsiveTargetX();
+      camera.aspect = width / height;
+      camera.position.z = window.innerWidth < 768 ? 9.5 : 8;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height);
+    });
+  </script>
+
+  <!-- UI Interactions -->
+  <script>
+    // Initialize Lucide icons safely
+    function initIcons() {
+      if (window.lucide && typeof lucide.createIcons === 'function') {
+        lucide.createIcons();
+      }
+    }
+    initIcons();
+    window.addEventListener('DOMContentLoaded', initIcons);
+
+    // ---- Mobile Menu ----
+    function openMobileMenu() {
+      document.getElementById('mobile-menu').classList.add('open');
+      document.getElementById('menu-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMobileMenu() {
+      document.getElementById('mobile-menu').classList.remove('open');
+      document.getElementById('menu-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // ---- Navbar scroll state ----
+    const navbar = document.getElementById('navbar');
+    const scrollProgress = document.getElementById('scroll-progress');
+    const sections = ['hero', 'work', 'philosophy', 'team', 'contact'];
+
+    window.addEventListener('scroll', () => {
+      // Nav background
+      if (window.scrollY > 60) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+
+      // Scroll progress
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = Math.min(100, (window.scrollY / Math.max(1, docHeight)) * 100);
+      scrollProgress.style.width = scrollPercent + '%';
+
+      // Active nav link
+      let currentSection = 'hero';
+      sections.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 200) currentSection = id;
+        }
+      });
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.toggle('active', link.dataset.section === currentSection);
+      });
+    }, { passive: true });
+
+    // ---- Scroll Reveal (IntersectionObserver) ----
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .stagger-children').forEach(el => {
+      revealObserver.observe(el);
+    });
+
+    // ---- Stat Counter Animation ----
+    let statsAnimated = false;
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !statsAnimated) {
+          statsAnimated = true;
+          animateCounters();
+        }
+      });
+    }, { threshold: 0.3 });
+
+    const statsSection = document.getElementById('stats');
+    if (statsSection) statsObserver.observe(statsSection);
+
+    function animateCounters() {
+      document.querySelectorAll('.stat-number').forEach(el => {
+        const target = parseInt(el.dataset.target, 10);
+        const suffix = el.dataset.suffix || '';
+        const duration = 2000;
+        const startTime = performance.now();
+
+        function update(now) {
+          const elapsed = now - startTime;
+          const progress = Math.min(1, elapsed / duration);
+          // Ease out cubic
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const current = Math.round(eased * target);
+          el.textContent = current + suffix;
+          if (progress < 1) requestAnimationFrame(update);
+        }
+        requestAnimationFrame(update);
+      });
+    }
+
+    // ---- Form Validation & Submission ----
+    function handleSubmit(e) {
+      e.preventDefault();
+      let valid = true;
+
+      // Reset errors
+      document.querySelectorAll('.form-input').forEach(i => i.classList.remove('error'));
+      document.querySelectorAll('[id$="-error"]').forEach(p => p.classList.add('hidden'));
+
+      // Validate name
+      const name = document.getElementById('name');
+      if (!name.value.trim()) {
+        name.classList.add('error');
+        document.getElementById('name-error').classList.remove('hidden');
+        valid = false;
+      }
+
+      // Validate email
+      const email = document.getElementById('email');
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email.value.trim())) {
+        email.classList.add('error');
+        document.getElementById('email-error').classList.remove('hidden');
+        valid = false;
+      }
+
+      // Validate message
+      const message = document.getElementById('message');
+      if (!message.value.trim()) {
+        message.classList.add('error');
+        document.getElementById('message-error').classList.remove('hidden');
+        valid = false;
+      }
+
+      if (valid) {
+        showToast('Message sent successfully! We\'ll be in touch within 24 hours.', 'success');
+        e.target.reset();
+      } else {
+        showToast('Please fill in all required fields correctly.', 'error');
+      }
+    }
+
+    // ---- Toast Notification ----
+    let toastTimeout = null;
+    function showToast(msg, type) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.className = 'toast ' + type;
+      // Force reflow
+      void toast.offsetWidth;
+      toast.classList.add('show');
+
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 4000);
+    }
+
+    // ---- Keyboard accessibility for mobile menu ----
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeMobileMenu();
+    });
+  </script>
+</body>
+</html>

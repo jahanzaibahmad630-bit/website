@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUNFORGE // Kagayaki Anime Blade 4K</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        orbitron: ['Orbitron', 'sans-serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        daylight: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            bg: '#f8fafc',
+                            card: 'rgba(255, 255, 255, 0.65)',
+                            border: 'rgba(255, 255, 255, 0.8)',
+                            gold: '#fbbf24',
+                            sun: '#f59e0b',
+                            cyan: '#06b6d4',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: radial-gradient(circle at 50% 20%, #ffffff 0%, #edf4ff 50%, #e2e8f0 100%);
+            overflow-x: hidden;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 1);
+        }
+        .glass-button {
+            background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.4));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.9);
+            box-shadow: 0 10px 25px rgba(14, 165, 233, 0.15);
+        }
+        .glow-text {
+            text-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+        }
+        canvas {
+            outline: none;
+        }
+        /* Custom Toast */
+        .forge-toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            color: #0f172a;
+            padding: 14px 22px;
+            border-radius: 16px;
+            box-shadow: 0 12px 35px rgba(245, 158, 11, 0.2);
+            font-weight: 600;
+            font-size: 0.9rem;
+            z-index: 10000;
+            transform: translateY(120px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: auto;
+        }
+        .forge-toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800 antialiased selection:bg-cyan-500 selection:text-white">
+
+    <!-- 3D Canvas Background -->
+    <div id="canvas-container" class="fixed inset-0 z-0 pointer-events-auto cursor-grab active:cursor-grabbing"></div>
+
+    <!-- MAIN UI OVERLAY -->
+    <div class="relative z-10 min-h-screen flex flex-col justify-between pointer-events-none">
+
+        <!-- NAVIGATION BAR -->
+        <header class="w-full max-w-7xl mx-auto px-6 pt-6 pointer-events-auto">
+            <nav class="glass-panel rounded-full px-8 py-4 flex items-center justify-between transition-all duration-300">
+                <!-- Brand Logo -->
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-400 via-cyan-400 to-blue-600 flex items-center justify-center shadow-md">
+                        <i data-lucide="sword" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <div>
+                        <span class="font-orbitron text-lg font-black tracking-widest bg-gradient-to-r from-slate-900 via-slate-800 to-amber-600 bg-clip-text text-transparent">AMATERASU</span>
+                        <span class="block text-[9px] tracking-widest text-slate-400 font-semibold uppercase -mt-1">Daylight Artifacts</span>
+                    </div>
+                </div>
+
+                <!-- Nav Links -->
+                <div class="hidden md:flex items-center gap-8 font-medium text-sm text-slate-600">
+                    <button onclick="triggerEquip('Solar Forge Mode Activated')" class="hover:text-amber-500 transition-colors flex items-center gap-1.5"><i data-lucide="flame" class="w-4 h-4"></i> The Forge</button>
+                    <button onclick="triggerEquip('GLSL Shaders: 4K PBR + Fresnel Mesh Active')" class="hover:text-cyan-600 transition-colors flex items-center gap-1.5"><i data-lucide="cpu" class="w-4 h-4"></i> Shaders & Specs</button>
+                    <button onclick="triggerEquip('Amaterasu Lore: Forged under 10,000 suns')" class="hover:text-amber-500 transition-colors flex items-center gap-1.5"><i data-lucide="book-open" class="w-4 h-4"></i> Lore</button>
+                    <button onclick="triggerEquip('Elemental Customizer Ready')" class="hover:text-cyan-600 transition-colors flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4"></i> Customizer</button>
+                </div>
+
+                <!-- Action Button -->
+                <button onclick="triggerEquip('⚔️ Kagayaki Solar Blade Equipped!')" class="glass-button px-6 py-2.5 rounded-full text-slate-800 font-semibold text-sm hover:bg-white hover:shadow-cyan-500/20 hover:scale-105 active:scale-95 transition-all flex items-center gap-2">
+                    <span>Equip Blade</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4 text-cyan-500"></i>
+                </button>
+            </nav>
+        </header>
+
+        <!-- HERO CONTENT SECTION -->
+        <main class="w-full max-w-7xl mx-auto px-6 py-12 flex-1 flex flex-col lg:flex-row items-center justify-between pointer-events-none">
+            
+            <!-- Left Info Panel -->
+            <div class="max-w-xl space-y-6 pointer-events-auto">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel text-amber-600 text-xs font-bold tracking-wider uppercase shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                    4K Realtime Solar Shaders
+                </div>
+
+                <h1 class="font-orbitron text-5xl sm:text-7xl font-black text-slate-900 tracking-tight leading-none">
+                    KAGAYAKI <br>
+                    <span class="bg-gradient-to-r from-amber-500 via-cyan-500 to-blue-600 bg-clip-text text-transparent glow-text">
+                        SOLAR BLADE
+                    </span>
+                </h1>
+
+                <p class="text-slate-600 text-base sm:text-lg leading-relaxed font-normal max-w-lg">
+                    Forged under 10,000 suns. Features dynamic daylight refracting physical metal, ultra-high-definition energy flow shaders, and reactive dynamic aura particle motion physics.
+                </p>
+
+                <!-- Specs Grid -->
+                <div class="grid grid-cols-3 gap-4 pt-2">
+                    <div class="glass-panel p-4 rounded-2xl text-center">
+                        <span class="block text-2xl font-orbitron font-bold text-slate-900">4K</span>
+                        <span class="text-xs text-slate-500 font-medium">Texture & Shaders</span>
+                    </div>
+                    <div class="glass-panel p-4 rounded-2xl text-center">
+                        <span class="block text-2xl font-orbitron font-bold text-amber-500">120 FPS</span>
+                        <span class="text-xs text-slate-500 font-medium">Motion Physics</span>
+                    </div>
+                    <div class="glass-panel p-4 rounded-2xl text-center">
+                        <span class="block text-2xl font-orbitron font-bold text-cyan-500">0.02ms</span>
+                        <span class="text-xs text-slate-500 font-medium">Aura Response</span>
+                    </div>
+                </div>
+
+                <!-- CTA Buttons -->
+                <div class="flex items-center gap-4 pt-4">
+                    <button id="btn-burst" class="pointer-events-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold font-orbitron text-sm shadow-xl shadow-amber-500/20 hover:shadow-amber-500/40 hover:scale-105 active:scale-95 transition-all flex items-center gap-3">
+                        <i data-lucide="zap" class="w-5 h-5"></i>
+                        Ignite Aura Surge
+                    </button>
+                    <button id="btn-color" class="pointer-events-auto glass-panel px-6 py-4 rounded-2xl text-slate-700 font-semibold font-orbitron text-sm hover:bg-white hover:scale-105 active:scale-95 transition-all flex items-center gap-2">
+                        <i data-lucide="palette" class="w-5 h-5 text-cyan-500"></i>
+                        Shift Element
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Interactive Controls / Legend Panel -->
+            <div class="mt-12 lg:mt-0 pointer-events-auto">
+                <div class="glass-panel p-6 rounded-3xl w-full max-w-xs space-y-6 shadow-2xl">
+                    <div class="flex justify-between items-center border-b border-slate-200/60 pb-4">
+                        <span class="font-orbitron text-xs font-bold text-slate-400 tracking-widest uppercase">Aura Diagnostics</span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+                    </div>
+
+                    <!-- Sliders & Interactive Elements -->
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between text-xs font-semibold mb-2">
+                                <span class="text-slate-600">Aura Intensity</span>
+                                <span id="aura-val" class="text-amber-500 font-orbitron">85%</span>
+                            </div>
+                            <input id="slider-aura" type="range" min="0" max="200" value="85" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-amber-500">
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-xs font-semibold mb-2">
+                                <span class="text-slate-600">Spin Speed</span>
+                                <span id="speed-val" class="text-cyan-500 font-orbitron">1.0x</span>
+                            </div>
+                            <input id="slider-speed" type="range" min="0" max="30" value="10" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-cyan-500">
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-white/50 rounded-2xl border border-white/80 space-y-2">
+                        <div class="flex items-center gap-2 text-xs font-semibold text-slate-700">
+                            <i data-lucide="mouse-pointer-click" class="w-4 h-4 text-cyan-500"></i>
+                            <span>Interactive Controls</span>
+                        </div>
+                        <p class="text-[11px] text-slate-500 leading-normal">
+                            Click & Drag on screen to rotate sword. Scroll to zoom light field.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- FOOTER BAR -->
+        <footer class="w-full max-w-7xl mx-auto px-6 pb-6 pointer-events-auto">
+            <div class="glass-panel rounded-2xl p-4 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-medium text-slate-500">
+                <div class="flex items-center gap-6">
+                    <span class="flex items-center gap-2"><i data-lucide="shield-check" class="w-4 h-4 text-emerald-500"></i> 100% Procedural Geometry</span>
+                    <span class="flex items-center gap-2"><i data-lucide="sun" class="w-4 h-4 text-amber-500"></i> High Dynamic Range Daylight HDR</span>
+                </div>
+                <div>
+                    © 2025 SUNFORGE STUDIO • ALL RIGHTS RESERVED
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="forge-toast" role="status" aria-live="polite"></div>
+
+    <!-- THREE.JS 3D ENGINE & SHADER SCRIPT -->
+    <script>
+        // Initialize Lucide Icons safely
+        function initLucide() {
+            if (window.lucide && typeof lucide.createIcons === 'function') {
+                lucide.createIcons();
+            }
+        }
+        initLucide();
+        window.addEventListener('DOMContentLoaded', initLucide);
+
+        // Toast Feedback System
+        let toastTimeout = null;
+        function triggerEquip(msg) {
+            const toast = document.getElementById('toast');
+            if (!toast) return;
+            toast.textContent = msg;
+            toast.classList.add('show');
+            if (toastTimeout) clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // -------------------------------------------------------------
+        // 1. SCENE SETUP & RENDERER
+        // -------------------------------------------------------------
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        
+        // Soft atmospheric sky fog for Daylight theme
+        scene.background = new THREE.Color('#f1f5f9');
+        scene.fog = new THREE.FogExp2('#f1f5f9', 0.08);
+
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 0, window.innerWidth < 768 ? 10 : 8);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.2;
+        container.appendChild(renderer.domElement);
+
+        // -------------------------------------------------------------
+        // 2. DAYLIGHT LIGHTING SYSTEM
+        // -------------------------------------------------------------
+        const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
+        scene.add(ambientLight);
+
+        // Bright Sunlight
+        const sunLight = new THREE.DirectionalLight(0xfff7ed, 3.5);
+        sunLight.position.set(5, 8, 5);
+        sunLight.castShadow = true;
+        sunLight.shadow.mapSize.width = 2048;
+        sunLight.shadow.mapSize.height = 2048;
+        scene.add(sunLight);
+
+        // Soft Cyan Sky Bounce Light
+        const skyLight = new THREE.DirectionalLight(0x06b6d4, 1.5);
+        skyLight.position.set(-5, -2, -3);
+        scene.add(skyLight);
+
+        // Dynamic Accent Light inside Aura
+        const auraLight = new THREE.PointLight(0xf59e0b, 3, 10);
+        auraLight.position.set(0, 0, 0);
+        scene.add(auraLight);
+
+        // -------------------------------------------------------------
+        // 3. ANIME SWORD GEOMETRY & HIGH REALISM PBR MATERIALS
+        // -------------------------------------------------------------
+        const swordGroup = new THREE.Group();
+
+        // Shiny Polished Steel Katana Blade Material
+        const bladeMaterial = new THREE.MeshPhysicalMaterial({
+            color: 0xf8fafc,
+            metalness: 0.98,
+            roughness: 0.1,
+            clearcoat: 1.0,
+            clearcoatRoughness: 0.05,
+            reflectivity: 1.0,
+        });
+
+        // Golden Guard Material
+        const goldMaterial = new THREE.MeshStandardMaterial({
+            color: 0xf59e0b,
+            metalness: 0.9,
+            roughness: 0.2,
+        });
+
+        // Dark Handle Wrap Material
+        const handleMaterial = new THREE.MeshStandardMaterial({
+            color: 0x0f172a,
+            roughness: 0.8,
+            metalness: 0.1,
+        });
+
+        // --- BLADE CREATION ---
+        const bladeShape = new THREE.Shape();
+        bladeShape.moveTo(0, 0);
+        bladeShape.lineTo(0.12, 0.03);
+        bladeShape.lineTo(0.02, 3.2); // Curved Tip
+        bladeShape.lineTo(-0.02, 3.2);
+        bladeShape.lineTo(-0.12, 0.03);
+        bladeShape.closePath();
+
+        const extrudeSettings = {
+            steps: 1,
+            depth: 0.02,
+            bevelEnabled: true,
+            bevelThickness: 0.02,
+            bevelSize: 0.02,
+            bevelSegments: 3
+        };
+
+        const bladeGeo = new THREE.ExtrudeGeometry(bladeShape, extrudeSettings);
+        bladeGeo.center();
+        const bladeMesh = new THREE.Mesh(bladeGeo, bladeMaterial);
+        bladeMesh.position.y = 1.6;
+        bladeMesh.castShadow = true;
+        swordGroup.add(bladeMesh);
+
+        // --- TSUBAM/GUARD (Anime Style Design) ---
+        const guardGeo = new THREE.CylinderGeometry(0.4, 0.4, 0.06, 8);
+        const guardMesh = new THREE.Mesh(guardGeo, goldMaterial);
+        guardMesh.position.y = 0.0;
+        guardMesh.rotation.y = Math.PI / 4;
+        guardMesh.castShadow = true;
+        swordGroup.add(guardMesh);
+
+        // --- HANDLE (TSUKA) ---
+        const handleGeo = new THREE.CylinderGeometry(0.08, 0.09, 1.0, 16);
+        const handleMesh = new THREE.Mesh(handleGeo, handleMaterial);
+        handleMesh.position.y = -0.55;
+        handleMesh.castShadow = true;
+        swordGroup.add(handleMesh);
+
+        // Handle Gold Pommel
+        const pommelGeo = new THREE.SphereGeometry(0.11, 16, 16);
+        const pommelMesh = new THREE.Mesh(pommelGeo, goldMaterial);
+        pommelMesh.position.y = -1.1;
+        swordGroup.add(pommelMesh);
+
+        scene.add(swordGroup);
+
+        // -------------------------------------------------------------
+        // 4. CUSTOM 4K REALISTIC AURA GLSL SHADER
+        // -------------------------------------------------------------
+        const auraVertexShader = `
+            varying vec3 vNormal;
+            varying vec3 vPosition;
+            uniform float uTime;
+
+            void main() {
+                vNormal = normalize(normalMatrix * normal);
+                vPosition = position;
+                
+                // Dynamic aura ripple displacement
+                vec3 pos = position;
+                pos.x += sin(pos.y * 10.0 + uTime * 5.0) * 0.02;
+                pos.z += cos(pos.y * 10.0 + uTime * 5.0) * 0.02;
+
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+            }
+        `;
+
+        const auraFragmentShader = `
+            varying vec3 vNormal;
+            varying vec3 vPosition;
+            uniform float uTime;
+            uniform float uIntensity;
+            uniform vec3 uColor;
+
+            void main() {
+                // Fresnel intensity rim calculation
+                vec3 viewDir = vec3(0.0, 0.0, 1.0);
+                float intensity = pow(0.7 - dot(vNormal, viewDir), 2.5);
+                
+                // Pulsating effect along blade height
+                float wave = sin(vPosition.y * 8.0 - uTime * 4.0) * 0.5 + 0.5;
+                
+                vec3 finalColor = mix(uColor, vec3(1.0, 1.0, 1.0), wave * 0.4);
+                gl_FragColor = vec4(finalColor, intensity * uIntensity * (0.6 + wave * 0.4));
+            }
+        `;
+
+        // Aura Mesh Capsule Encapsulating the Blade
+        const auraGeo = new THREE.CylinderGeometry(0.25, 0.15, 3.4, 32, 32);
+        const auraUniforms = {
+            uTime: { value: 0 },
+            uIntensity: { value: 0.85 },
+            uColor: { value: new THREE.Color('#f59e0b') }
+        };
+
+        const auraMaterial = new THREE.ShaderMaterial({
+            vertexShader: auraVertexShader,
+            fragmentShader: auraFragmentShader,
+            uniforms: auraUniforms,
+            transparent: true,
+            blending: THREE.AdditiveBlending,
+            side: THREE.DoubleSide,
+            depthWrite: false
+        });
+
+        const auraMesh = new THREE.Mesh(auraGeo, auraMaterial);
+        auraMesh.position.y = 1.6;
+        swordGroup.add(auraMesh);
+
+        // -------------------------------------------------------------
+        // 5. AMBIENT ENERGY PARTICLES SYSTEM
+        // -------------------------------------------------------------
+        const particleCount = 200;
+        const particleGeo = new THREE.BufferGeometry();
+        const particlePos = new Float32Array(particleCount * 3);
+        const particleVel = [];
+
+        for(let i = 0; i < particleCount * 3; i += 3) {
+            particlePos[i] = (Math.random() - 0.5) * 2;
+            particlePos[i+1] = Math.random() * 4 - 0.5;
+            particlePos[i+2] = (Math.random() - 0.5) * 2;
+
+            particleVel.push({
+                x: (Math.random() - 0.5) * 0.01,
+                y: Math.random() * 0.02 + 0.01,
+                z: (Math.random() - 0.5) * 0.01
+            });
+        }
+
+        particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePos, 3));
+
+        const particleMat = new THREE.PointsMaterial({
+            color: 0xfbbf24,
+            size: 0.04,
+            transparent: true,
+            opacity: 0.8,
+            blending: THREE.AdditiveBlending
+        });
+
+        const particleSystem = new THREE.Points(particleGeo, particleMat);
+        swordGroup.add(particleSystem);
+
+        // -------------------------------------------------------------
+        // 6. INTERACTION, MOUSE & TOUCH PHYSICS
+        // -------------------------------------------------------------
+        let mouseX = 0, mouseY = 0;
+        let targetRotationX = 0, targetRotationY = 0;
+        let isDragging = false;
+        let previousMousePosition = { x: 0, y: 0 };
+        let spinSpeedMultiplier = 1.0;
+
+        // Window Resize Listener
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.position.z = window.innerWidth < 768 ? 10 : 8;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Mouse Drag Controls with snap prevention
+        window.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            previousMousePosition = { x: e.clientX, y: e.clientY };
+        });
+        window.addEventListener('mouseup', () => isDragging = false);
+
+        window.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                const deltaMove = {
+                    x: e.clientX - previousMousePosition.x,
+                    y: e.clientY - previousMousePosition.y
+                };
+                targetRotationY += deltaMove.x * 0.01;
+                targetRotationX += deltaMove.y * 0.01;
+            }
+
+            // Parallax movement offset
+            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+
+            previousMousePosition = { x: e.clientX, y: e.clientY };
+        });
+
+        // Touch Drag Controls for mobile devices
+        window.addEventListener('touchstart', (e) => {
+            if (e.touches.length > 0) {
+                isDragging = true;
+                previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            }
+        }, { passive: true });
+
+        window.addEventListener('touchend', () => isDragging = false);
+
+        window.addEventListener('touchmove', (e) => {
+            if (isDragging && e.touches.length > 0) {
+                const deltaX = e.touches[0].clientX - previousMousePosition.x;
+                const deltaY = e.touches[0].clientY - previousMousePosition.y;
+                targetRotationY += deltaX * 0.01;
+                targetRotationX += deltaY * 0.01;
+                previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            }
+        }, { passive: true });
+
+        // Zoom with wheel
+        window.addEventListener('wheel', (e) => {
+            camera.position.z = Math.min(Math.max(camera.position.z + e.deltaY * 0.005, 4), 14);
+        }, { passive: true });
+
+        // UI Controls Integration
+        const sliderAura = document.getElementById('slider-aura');
+        const auraVal = document.getElementById('aura-val');
+        sliderAura.addEventListener('input', (e) => {
+            const val = e.target.value / 100;
+            auraUniforms.uIntensity.value = val;
+            auraVal.innerText = `${Math.round(val * 100)}%`;
+        });
+
+        const sliderSpeed = document.getElementById('slider-speed');
+        const speedVal = document.getElementById('speed-val');
+        sliderSpeed.addEventListener('input', (e) => {
+            spinSpeedMultiplier = e.target.value / 10;
+            speedVal.innerText = `${spinSpeedMultiplier.toFixed(1)}x`;
+        });
+
+        // Button Interactions
+        const btnBurst = document.getElementById('btn-burst');
+        btnBurst.addEventListener('click', () => {
+            auraUniforms.uIntensity.value = 3.0;
+            sliderAura.value = 200;
+            auraVal.innerText = '200%';
+            triggerEquip('⚡ Solar Aura Surge Erupted!');
+
+            setTimeout(() => {
+                auraUniforms.uIntensity.value = 0.85;
+                sliderAura.value = 85;
+                auraVal.innerText = '85%';
+            }, 1200);
+        });
+
+        const btnColor = document.getElementById('btn-color');
+        let currentTheme = 0;
+        const colorThemes = [
+            { name: 'Gold Solar', aura: '#f59e0b', light: 0xf59e0b, particle: 0xfbbf24 },
+            { name: 'Cyan Plasma', aura: '#06b6d4', light: 0x06b6d4, particle: 0x38bdf8 },
+            { name: 'Anime Sakura', aura: '#ec4899', light: 0xec4899, particle: 0xf472b6 },
+        ];
+
+        btnColor.addEventListener('click', () => {
+            currentTheme = (currentTheme + 1) % colorThemes.length;
+            const theme = colorThemes[currentTheme];
+
+            auraUniforms.uColor.value.set(theme.aura);
+            auraLight.color.setHex(theme.light);
+            particleMat.color.setHex(theme.particle);
+            triggerEquip(`✨ Element Shifted: ${theme.name}`);
+        });
+
+        // -------------------------------------------------------------
+        // 7. ANIMATION & RENDER LOOP
+        // -------------------------------------------------------------
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const elapsedTime = clock.getElapsedTime();
+
+            // Update Uniform Shader Time
+            auraUniforms.uTime.value = elapsedTime;
+
+            // Idle Floating Sword Motions
+            swordGroup.position.y = Math.sin(elapsedTime * 1.5) * 0.15;
+            
+            // Continuous Idle Spin + Drag Rotation Interpolation
+            if(!isDragging) {
+                targetRotationY += 0.005 * spinSpeedMultiplier;
+            }
+            
+            swordGroup.rotation.y += (targetRotationY - swordGroup.rotation.y) * 0.05;
+            swordGroup.rotation.x += (targetRotationX - swordGroup.rotation.x) * 0.05;
+            
+            // Subtle Z-tilt based on mouse motion
+            swordGroup.rotation.z = Math.sin(elapsedTime) * 0.05 + (mouseX * 0.1);
+
+            // Animate Particles Floating Upwards
+            const positions = particleSystem.geometry.attributes.position.array;
+            for(let i = 0; i < particleCount; i++) {
+                const i3 = i * 3;
+                positions[i3 + 1] += particleVel[i].y;
+                positions[i3] += particleVel[i].x;
+                positions[i3 + 2] += particleVel[i].z;
+
+                // Reset particle to bottom when reaching apex
+                if(positions[i3 + 1] > 3.5) {
+                    positions[i3 + 1] = -0.5;
+                    positions[i3] = (Math.random() - 0.5) * 1.5;
+                    positions[i3 + 2] = (Math.random() - 0.5) * 1.5;
+                }
+            }
+            particleSystem.geometry.attributes.position.needsUpdate = true;
+
+            renderer.render(scene, camera);
+        }
+
+        // Start render loop
+        animate();
+    </script>
+</body>
+</html>
