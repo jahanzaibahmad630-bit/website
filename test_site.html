@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MONOLITH ARCHITECTURE — Studies in Concrete & Light</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bone:#e8e4dc;
+    --ash:#a8a39a;
+    --graphite:#3a3a3a;
+    --titanium:#1a1a1a;
+    --void:#0a0a0a;
+    --accent:#c9a96e;
+  }
+  *{box-sizing:border-box}
+  html,body{background:var(--void);color:var(--bone);font-family:'Space Mono',monospace;margin:0;padding:0;overflow-x:hidden}
+  body{cursor:none}
+  .font-display{font-family:'Syne',sans-serif;letter-spacing:-0.02em}
+  .font-mono{font-family:'Space Mono',monospace}
+  .font-serif{font-family:'Cormorant Garamond',serif}
+  .grain{position:fixed;inset:0;pointer-events:none;z-index:100;opacity:0.08;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E")}
+  .grid-overlay{position:fixed;inset:0;pointer-events:none;z-index:50;
+    background-image:linear-gradient(rgba(232,228,220,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(232,228,220,0.025) 1px,transparent 1px);
+    background-size:80px 80px}
+  .vignette{position:fixed;inset:0;pointer-events:none;z-index:90;
+    background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,0.7) 100%)}
+  #cursor{position:fixed;width:32px;height:32px;border:1px solid var(--bone);border-radius:50%;pointer-events:none;z-index:200;transform:translate(-50%,-50%);transition:width .3s,height .3s,background .3s,border-color .3s;mix-blend-mode:difference}
+  #cursor-dot{position:fixed;width:4px;height:4px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:201;transform:translate(-50%,-50%)}
+  .cursor-hover{width:64px;height:64px;background:rgba(201,169,110,0.1);border-color:var(--accent)}
+  #cube-canvas{position:fixed;inset:0;z-index:1;pointer-events:none}
+  .hero-title{font-size:clamp(3rem,12vw,11rem);line-height:0.85;font-weight:800;letter-spacing:-0.04em}
+  .marquee{display:flex;white-space:nowrap;animation:scroll 40s linear infinite}
+  @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+  .project-card{position:relative;overflow:hidden;border:1px solid rgba(232,228,220,0.08);transition:all .6s cubic-bezier(.22,1,.36,1)}
+  .project-card:hover{border-color:var(--accent)}
+  .project-img{filter:grayscale(100%) contrast(1.1) brightness(0.7);transition:all .8s cubic-bezier(.22,1,.36,1)}
+  .project-card:hover .project-img{filter:grayscale(40%) contrast(1.15) brightness(0.85);transform:scale(1.05)}
+  .badge{border:1px solid rgba(232,228,220,0.2);padding:2px 8px;font-size:10px;letter-spacing:0.1em}
+  .reveal{opacity:0;transform:translateY(40px);transition:all 1s cubic-bezier(.22,1,.36,1)}
+  .reveal.in{opacity:1;transform:translateY(0)}
+  .nav-link{position:relative;transition:color .3s}
+  .nav-link::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--accent);transition:width .4s}
+  .nav-link:hover::after{width:100%}
+  .ticker{font-variant-numeric:tabular-nums}
+  .sound-btn{display:flex;align-items:center;gap:6px}
+  .bar{width:2px;background:var(--bone);transition:height .2s}
+  .scroll-indicator{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);width:1px;height:60px;background:linear-gradient(to bottom,transparent,var(--bone));overflow:hidden}
+  .scroll-indicator::after{content:'';position:absolute;top:0;left:0;width:100%;height:30%;background:var(--accent);animation:scrollDown 2s ease-in-out infinite}
+  @keyframes scrollDown{0%{top:-30%}100%{top:100%}}
+  ::selection{background:var(--accent);color:var(--void)}
+  .corner{position:absolute;width:16px;height:16px;border:1px solid var(--bone)}
+  .corner-tl{top:-1px;left:-1px;border-right:none;border-bottom:none}
+  .corner-tr{top:-1px;right:-1px;border-left:none;border-bottom:none}
+  .corner-bl{bottom:-1px;left:-1px;border-right:none;border-top:none}
+  .corner-br{bottom:-1px;right:-1px;border-left:none;border-top:none}
+  .num{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300}
+  .h-line{height:1px;background:linear-gradient(90deg,transparent,rgba(232,228,220,0.3),transparent)}
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="grid-overlay"></div>
+<div class="vignette"></div>
+<div id="cursor"></div>
+<div id="cursor-dot"></div>
+
+<canvas id="cube-canvas"></canvas>
+
+<!-- NAV -->
+<nav class="fixed top-0 left-0 right-0 z-[120] px-6 md:px-10 py-5 flex justify-between items-center mix-blend-difference">
+  <div class="flex items-center gap-3">
+    <div class="w-6 h-6 border border-[var(--bone)] flex items-center justify-center">
+      <div class="w-2 h-2 bg-[var(--accent)]"></div>
+    </div>
+    <div class="font-display font-bold text-sm tracking-widest">MONOLITH</div>
+  </div>
+  <div class="hidden md:flex gap-8 text-xs tracking-[0.2em] uppercase">
+    <a href="#work" class="nav-link">Work</a>
+    <a href="#studio" class="nav-link">Studio</a>
+    <a href="#manifesto" class="nav-link">Manifesto</a>
+    <a href="#contact" class="nav-link">Contact</a>
+  </div>
+  <div class="flex items-center gap-4">
+    <button id="sound-toggle" class="sound-btn text-xs tracking-widest uppercase">
+      <div class="flex items-end gap-[2px] h-3" id="sound-bars">
+        <div class="bar h-2"></div><div class="bar h-3"></div><div class="bar h-1"></div>
+      </div>
+      <span id="sound-label">Sound</span>
+    </button>
+    <div class="hidden md:block text-[10px] tracking-widest text-[var(--ash)]">
+      <span class="ticker" id="local-time">--:--:--</span> UTC
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="relative min-h-screen flex flex-col justify-between px-6 md:px-10 pt-32 pb-10 z-10">
+  <div class="flex justify-between items-start text-[10px] tracking-[0.2em] uppercase text-[var(--ash)]">
+    <div>
+      <div>Est. 2014 — Berlin / Tokyo</div>
+      <div class="mt-1">N 52.5200° / E 13.4050°</div>
+    </div>
+    <div class="text-right">
+      <div>Volume IX — MMXXV</div>
+      <div class="mt-1">Studies in Concrete & Light</div>
+    </div>
+  </div>
+
+  <div class="relative">
+    <div class="overflow-hidden">
+      <h1 class="hero-title font-display reveal">
+        <span class="block">MONO</span>
+        <span class="block ml-[8vw]">LITH<span class="text-[var(--accent)]">.</span></span>
+      </h1>
+    </div>
+    <div class="absolute right-0 top-1/2 -translate-y-1/2 hidden lg:block max-w-[260px] text-right">
+      <p class="font-serif italic text-lg text-[var(--ash)] leading-snug">
+        "We do not design buildings. We carve silence from mass, and let light decide the rest."
+      </p>
+      <div class="mt-3 text-[10px] tracking-widest text-[var(--ash)]">— K. VASARI, PRINCIPAL</div>
+    </div>
+  </div>
+
+  <div class="flex justify-between items-end gap-8 flex-wrap">
+    <div class="max-w-md text-sm text-[var(--ash)] leading-relaxed reveal">
+      An architectural practice working at the intersection of brutalist heritage and computational form. We build structures that resist time, fashion, and explanation.
+    </div>
+    <div class="flex gap-6 text-[10px] tracking-widest uppercase">
+      <div><div class="text-[var(--ash)]">Projects</div><div class="font-display text-2xl text-[var(--bone)] mt-1">047</div></div>
+      <div><div class="text-[var(--ash)]">Awards</div><div class="font-display text-2xl text-[var(--bone)] mt-1">012</div></div>
+      <div><div class="text-[var(--ash)]">Years</div><div class="font-display text-2xl text-[var(--bone)] mt-1">011</div></div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator"></div>
+</section>
+
+<!-- MARQUEE -->
+<div class="relative z-10 border-y border-[rgba(232,228,220,0.1)] py-4 overflow-hidden">
+  <div class="marquee font-display text-3xl md:text-5xl font-bold uppercase">
+    <span class="px-8">Concrete</span><span class="px-8 text-[var(--accent)]">◆</span>
+    <span class="px-8">Light</span><span class="px-8 text-[var(--accent)]">◆</span>
+    <span class="px-8">Mass</span><span class="px-8 text-[var(--accent)]">◆</span>
+    <span class="px-8">Void</span><span class="px-8 text-[var(--accent)]">◆</span>
+    <span class="px-8">Geometry</span><span class="px-8 text-[var(--accent)]">◆</span>
+    <span class="px-8">Silence</span><span class="px-8 text-[var(--accent)]">◆</span>
+    <span class="px-8">Concrete</span><span class="px-8 text-[var(--accent)]">◆</span>
+    <span class="px-8">Light</span><span class="px-8 text-[var(--accent)]">◆</span>
+    <span class="px-8">Mass</span><span class="px-8 text-[var(--accent)]">◆</span>
+    <span class="px-8">Void</span><span class="px-8 text-[var(--accent)]">◆</span>
+    <span class="px-8">Geometry</span><span class="px-8 text-[var(--accent)]">◆</span>
+    <span class="px-8">Silence</span><span class="px-8 text-[var(--accent)]">◆</span>
+  </div>
+</div>
+
+<!-- MANIFESTO -->
+<section id="manifesto" class="relative z-10 px-6 md:px-10 py-32 md:py-48">
+  <div class="grid md:grid-cols-12 gap-8">
+    <div class="md:col-span-3">
+      <div class="text-[10px] tracking-widest uppercase text-[var(--ash)] mb-4">[ 01 ] — Manifesto</div>
+      <div class="badge inline-block">M / 001</div>
+    </div>
+    <div class="md:col-span-9">
+      <h2 class="font-display text-4xl md:text-7xl font-bold leading-[0.95] reveal">
+        Architecture is the<br>
+        <span class="font-serif italic font-light text-[var(--ash)]">thoughtful</span> making<br>
+        of <span class="text-[var(--accent)]">space</span>.
+      </h2>
+      <div class="grid md:grid-cols-2 gap-12 mt-16">
+        <div class="reveal">
+          <p class="text-sm leading-relaxed text-[var(--ash)]">
+            We reject ornament. We reject the decorative impulse. Our work begins with a single block — a monolith — and proceeds by subtraction. What remains is not less, but essential.
+          </p>
+        </div>
+        <div class="reveal">
+          <p class="text-sm leading-relaxed text-[var(--ash)]">
+            Each project is a study in the relationship between concrete and light: how mass catches shadow, how shadow defines form, how form organizes silence. We build for those who understand that restraint is the highest luxury.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK GRID -->
+<section id="work" class="relative z-10 px-6 md:px-10 py-24">
+  <div class="flex justify-between items-end mb-12 flex-wrap gap-4">
+    <div>
+      <div class="text-[10px] tracking-widest uppercase text-[var(--ash)] mb-3">[ 02 ] — Selected Work</div>
+      <h2 class="font-display text-5xl md:text-7xl font-bold">PROJECTS</h2>
+    </div>
+    <div class="text-xs text-[var(--ash)] max-w-xs">
+      A curated index of built and unbuilt works, 2018 — present. Drag to explore. Hover to reveal.
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-[rgba(232,228,220,0.08)]" id="project-grid">
+    <!-- Projects injected via JS -->
+  </div>
+</section>
+
+<!-- STUDIO -->
+<section id="studio" class="relative z-10 px-6 md:px-10 py-32 md:py-48 border-t border-[rgba(232,228,220,0.08)]">
+  <div class="grid md:grid-cols-12 gap-8">
+    <div class="md:col-span-4">
+      <div class="text-[10px] tracking-widest uppercase text-[var(--ash)] mb-4">[ 03 ] — Studio</div>
+      <h2 class="font-display text-4xl md:text-6xl font-bold leading-[0.95] reveal">
+        A practice of<br>twelve minds.
+      </h2>
+    </div>
+    <div class="md:col-span-8 grid md:grid-cols-2 gap-12">
+      <div class="reveal">
+        <p class="text-sm leading-relaxed text-[var(--ash)] mb-6">
+          Founded in Berlin in 2014 by Klaus Vasari and Yumi Tanaka, MONOLITH operates from a converted industrial warehouse in Kreuzberg, with a satellite studio in Tokyo's Shimokitazawa district.
+        </p>
+        <p class="text-sm leading-relaxed text-[var(--ash)]">
+          The studio works intentionally small — twelve architects, three materials researchers, and a rotating cast of collaborators. We take on no more than four projects per year.
+        </p>
+      </div>
+      <div class="reveal space-y-6">
+        <div class="border-t border-[rgba(232,228,220,0.15)] pt-4">
+          <div class="text-[10px] tracking-widest text-[var(--ash)]">PRINCIPALS</div>
+          <div class="font-display text-xl mt-1">Klaus Vasari</div>
+          <div class="font-display text-xl">Yumi Tanaka</div>
+        </div>
+        <div class="border-t border-[rgba(232,228,220,0.15)] pt-4">
+          <div class="text-[10px] tracking-widest text-[var(--ash)]">DISCIPLINES</div>
+          <div class="text-sm mt-1 leading-relaxed">Architecture · Interior · Urban Design · Material Research · Computational Form</div>
+        </div>
+        <div class="border-t border-[rgba(232,228,220,0.15)] pt-4">
+          <div class="text-[10px] tracking-widest text-[var(--ash)]">RECOGNITION</div>
+          <div class="text-sm mt-1 leading-relaxed">AIA Honor Award · Mies van der Rohe Nomination · Wallpaper* Design Award · Dezeen Emerging</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="relative z-10 px-6 md:px-10 py-24 border-t border-[rgba(232,228,220,0.08)]">
+  <div class="text-[10px] tracking-widest uppercase text-[var(--ash)] mb-12">[ 04 ] — Process</div>
+  <div class="grid md:grid-cols-4 gap-px bg-[rgba(232,228,220,0.08)]">
+    <div class="bg-[var(--void)] p-8 relative reveal">
+      <div class="corner corner-tl"></div><div class="corner corner-br"></div>
+      <div class="num text-5xl text-[var(--accent)] mb-4">i.</div>
+      <div class="font-display text-xl font-bold mb-2">EXCAVATE</div>
+      <p class="text-xs text-[var(--ash)] leading-relaxed">Site analysis, historical context, material sourcing. We dig before we draw.</p>
+    </div>
+    <div class="bg-[var(--void)] p-8 relative reveal">
+      <div class="corner corner-tl"></div><div class="corner corner-br"></div>
+      <div class="num text-5xl text-[var(--accent)] mb-4">ii.</div>
+      <div class="font-display text-xl font-bold mb-2">SUBTRACT</div>
+      <p class="text-xs text-[var(--ash)] leading-relaxed">From a single monolithic mass, we remove. Form emerges through negation.</p>
+    </div>
+    <div class="bg-[var(--void)] p-8 relative reveal">
+      <div class="corner corner-tl"></div><div class="corner corner-br"></div>
+      <div class="num text-5xl text-[var(--accent)] mb-4">iii.</div>
+      <div class="font-display text-xl font-bold mb-2">ILLUMINATE</div>
+      <p class="text-xs text-[var(--ash)] leading-relaxed">Light studies, solar analysis, shadow mapping. We design with the sun as collaborator.</p>
+    </div>
+    <div class="bg-[var(--void)] p-8 relative reveal">
+      <div class="corner corner-tl"></div><div class="corner corner-br"></div>
+      <div class="num text-5xl text-[var(--accent)] mb-4">iv.</div>
+      <div class="font-display text-xl font-bold mb-2">REALIZE</div>
+      <p class="text-xs text-[var(--ash)] leading-relaxed">Construction documentation, on-site supervision. We build what we draw.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="relative z-10 px-6 md:px-10 py-32 md:py-48 border-t border-[rgba(232,228,220,0.08)]">
+  <div class="text-[10px] tracking-widest uppercase text-[var(--ash)] mb-8">[ 05 ] — Contact</div>
+  <h2 class="font-display text-6xl md:text-[10rem] font-bold leading-[0.85] reveal">
+    BEGIN<br>
+    <span class="font-serif italic font-light text-[var(--ash)]">a</span> PROJECT<span class="text-[var(--accent)]">.</span>
+  </h2>
+  <div class="grid md:grid-cols-3 gap-8 mt-16">
+    <div class="reveal">
+      <div class="text-[10px] tracking-widest text-[var(--ash)] mb-2">BERLIN</div>
+      <div class="text-sm leading-relaxed">Monolith Studio<br>Skalitzer Str. 134<br>10999 Berlin, DE</div>
+      <div class="text-sm mt-3 text-[var(--accent)]">+49 30 555 0147</div>
+    </div>
+    <div class="reveal">
+      <div class="text-[10px] tracking-widest text-[var(--ash)] mb-2">TOKYO</div>
+      <div class="text-sm leading-relaxed">Monolith Satellite<br>2-15-3 Kitazawa<br>Setagaya, Tokyo, JP</div>
+      <div class="text-sm mt-3 text-[var(--accent)]">+81 3 555 0147</div>
+    </div>
+    <div class="reveal">
+      <div class="text-[10px] tracking-widest text-[var(--ash)] mb-2">INQUIRIES</div>
+      <a href="#" class="block text-sm hover:text-[var(--accent)] transition">studio@monolith.arc</a>
+      <a href="#" class="block text-sm hover:text-[var(--accent)] transition mt-1">press@monolith.arc</a>
+      <div class="flex gap-4 mt-4 text-xs">
+        <a href="#" class="nav-link">Instagram</a>
+        <a href="#" class="nav-link">Are.na</a>
+        <a href="#" class="nav-link">Journal</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="relative z-10 px-6 md:px-10 py-8 border-t border-[rgba(232,228,220,0.08)] flex justify-between items-center flex-wrap gap-4">
+  <div class="text-[10px] tracking-widest text-[var(--ash)]">© MMXXV MONOLITH ARCHITECTURE — ALL RIGHTS RESERVED</div>
+  <div class="text-[10px] tracking-widest text-[var(--ash)]">
+    <span id="footer-coords">X: 0.00 / Y: 0.00</span> · BUILT WITH INTENT
+  </div>
+</footer>
+
+<script>
+/* ============ LENIS SMOOTH SCROLL ============ */
+const lenis = new Lenis({ duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+function raf(time){ lenis.raf(time); requestAnimationFrame(raf); }
+requestAnimationFrame(raf);
+gsap.registerPlugin(ScrollTrigger);
+lenis.on('scroll', ScrollTrigger.update);
+
+/* ============ CUSTOM CURSOR ============ */
+const cursor = document.getElementById('cursor');
+const cursorDot = document.getElementById('cursor-dot');
+let mx = window.innerWidth/2, my = window.innerHeight/2;
+let cx = mx, cy = my;
+window.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursorDot.style.left = mx+'px'; cursorDot.style.top = my+'px';
+  document.getElementById('footer-coords').textContent = `X: ${mx.toFixed(0).padStart(4,'0')} / Y: ${my.toFixed(0).padStart(4,'0')}`;
+});
+function animateCursor(){
+  cx += (mx-cx)*0.15; cy += (my-cy)*0.15;
+  cursor.style.left = cx+'px'; cursor.style.top = cy+'px';
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+document.querySelectorAll('a, button, .project-card, .nav-link').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+});
+
+/* ============ CLOCK ============ */
+function updateClock(){
+  const d = new Date();
+  const h = String(d.getUTCHours()).padStart(2,'0');
+  const m = String(d.getUTCMinutes()).padStart(2,'0');
+  const s = String(d.getUTCSeconds()).padStart(2,'0');
+  document.getElementById('local-time').textContent = `${h}:${m}:${s}`;
+}
+setInterval(updateClock, 1000); updateClock();
+
+/* ============ PROJECT GRID ============ */
+const projects = [
+  { id:'047', title:'House for No One', loc:'Brandenburg, DE', year:'2024', cat:'Residential', seed:'monolith-1' },
+  { id:'046', title:'The Quiet Pavilion', loc:'Naoshima, JP', year:'2024', cat:'Cultural', seed:'monolith-2' },
+  { id:'045', title:'Concrete Cantata', loc:'Porto, PT', year:'2023', cat:'Cultural', seed:'monolith-3' },
+  { id:'044', title:'Atelier Vasari', loc:'Berlin, DE', year:'2023', cat:'Studio', seed:'monolith-4' },
+  { id:'043', title:'The Long Wall', loc:'Lisbon, PT', year:'2022', cat:'Urban', seed:'monolith-5' },
+  { id:'042', title:'Shadow Chapel', loc:'Kyoto, JP', year:'2022', cat:'Religious', seed:'monolith-6' },
+];
+const grid = document.getElementById('project-grid');
+projects.forEach((p, i) => {
+  const card = document.createElement('div');
+  card.className = 'project-card bg-[var(--void)] p-6 md:p-8 group cursor-pointer reveal';
+  card.innerHTML = `
+    <div class="relative aspect-[4/5] mb-6 overflow-hidden bg-[var(--titanium)]">
+      <img src="https://picsum.photos/seed/${p.seed}/600/750.jpg" class="project-img w-full h-full object-cover" alt="${p.title}">
+      <div class="absolute top-3 left-3 text-[10px] tracking-widest text-[var(--bone)] mix-blend-difference">N° ${p.id}</div>
+      <div class="absolute bottom-3 right-3 badge text-[var(--bone)] mix-blend-difference">${p.cat}</div>
+    </div>
+    <div class="flex justify-between items-start gap-4">
+      <div>
+        <h3 class="font-display text-xl md:text-2xl font-bold leading-tight group-hover:text-[var(--accent)] transition">${p.title}</h3>
+        <div class="text-xs text-[var(--ash)] mt-1">${p.loc}</div>
+      </div>
+      <div class="text-xs text-[var(--ash)] tabular-nums">${p.year}</div>
+    </div>
+  `;
+  grid.appendChild(card);
+  card.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+  card.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+});
+
+/* ============ REVEAL ON SCROLL ============ */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* ============ THREE.JS WIREFRAME CUBE ============ */
+const canvas = document.getElementById('cube-canvas');
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 100);
+camera.position.set(0, 0, 8);
+const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+const cubeGroup = new THREE.Group();
+scene.add(cubeGroup);
+
+// Main wireframe cube
+const cubeGeo = new THREE.BoxGeometry(3, 3, 3);
+const edges = new THREE.EdgesGeometry(cubeGeo);
+const cubeLine = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0xe8e4dc, transparent:true, opacity:0.6 }));
+cubeGroup.add(cubeLine);
+
+// Inner cube
+const innerGeo = new THREE.BoxGeometry(2, 2, 2);
+const innerEdges = new THREE.EdgesGeometry(innerGeo);
+const innerLine = new THREE.LineSegments(innerEdges, new THREE.LineBasicMaterial({ color: 0xc9a96e, transparent:true, opacity:0.5 }));
+cubeGroup.add(innerLine);
+
+// Smaller inner cube
+const coreGeo = new THREE.BoxGeometry(1, 1, 1);
+const coreEdges = new THREE.EdgesGeometry(coreGeo);
+const coreLine = new THREE.LineSegments(coreEdges, new THREE.LineBasicMaterial({ color: 0xe8e4dc, transparent:true, opacity:0.3 }));
+cubeGroup.add(coreLine);
+
+// Dotted vertices spheres
+const sphereGeo = new THREE.SphereGeometry(0.04, 12, 12);
+const sphereMat = new THREE.MeshBasicMaterial({ color: 0xc9a96e });
+const verts = [
+  [1.5,1.5,1.5],[-1.5,1.5,1.5],[1.5,-1.5,1.5],[-1.5,-1.5,1.5],
+  [1.5,1.5,-1.5],[-1.5,1.5,-1.5],[1.5,-1.5,-1.5],[-1.5,-1.5,-1.5]
+];
+verts.forEach(v => {
+  const s = new THREE.Mesh(sphereGeo, sphereMat);
+  s.position.set(v[0], v[1], v[2]);
+  cubeGroup.add(s);
+});
+
+// Outer ghost planes
+const planeGeo = new THREE.PlaneGeometry(5, 5);
+const planeMat = new THREE.MeshBasicMaterial({ color: 0xe8e4dc, wireframe:true, transparent:true, opacity:0.04, side:THREE.DoubleSide });
+const plane1 = new THREE.Mesh(planeGeo, planeMat);
+plane1.position.z = -2;
+scene.add(plane1);
+const plane2 = new THREE.Mesh(planeGeo, planeMat);
+plane2.position.z = -3;
+plane2.rotation.z = Math.PI/4;
+scene.add(plane2);
+
+// Particles
+const particleCount = 200;
+const particleGeo = new THREE.BufferGeometry();
+const positions = new Float32Array(particleCount * 3);
+for(let i=0;i<particleCount*3;i++){ positions[i] = (Math.random()-0.5)*20; }
+particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+const particleMat = new THREE.PointsMaterial({ color: 0xe8e4dc, size: 0.02, transparent:true, opacity:0.4 });
+const particles = new THREE.Points(particleGeo, particleMat);
+scene.add(particles);
+
+let scrollProgress = 0;
+let targetRotX = 0, targetRotY = 0;
+let mouseX = 0, mouseY = 0;
+
+window.addEventListener('mousemove', e => {
+  mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+  mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+});
+
+lenis.on('scroll', ({ scroll }) => {
+  scrollProgress = scroll / window.innerHeight;
+});
+
+function animate(){
+  requestAnimationFrame(animate);
+  const t = performance.now() * 0.001;
+
+  // Auto rotation + scroll + mouse influence
+  targetRotY = t * 0.15 + scrollProgress * 0.8 + mouseX * 0.3;
+  targetRotX = t * 0.08 + scrollProgress * 0.4 + mouseY * 0.2;
+
+  cubeGroup.rotation.y += (targetRotY - cubeGroup.rotation.y) * 0.05;
+  cubeGroup.rotation.x += (targetRotX - cubeGroup.rotation.x) * 0.05;
+
+  innerLine.rotation.y = -t * 0.2;
+  innerLine.rotation.x = t * 0.15;
+  coreLine.rotation.y = t * 0.4;
+  coreLine.rotation.z = t * 0.2;
+
+  // Camera subtle parallax
+  camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.03;
+  camera.position.y += (-mouseY * 0.5 - camera.position.y) * 0.03;
+  camera.lookAt(0, 0, 0);
+
+  // Scale based on scroll
+  const scale = Math.max(0.3, 1 - scrollProgress * 0.4);
+  cubeGroup.scale.setScalar(scale);
+
+  // Move cube up slightly with scroll
+  cubeGroup.position.y = -scrollProgress * 0.5;
+
+  particles.rotation.y = t * 0.02;
+
+  renderer.render(scene, camera);
+}
+animate();
+
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+/* ============ WEB AUDIO DRONE ============ */
+let audioCtx, droneNodes = [], audioOn = false;
+const soundBtn = document.getElementById('sound-toggle');
+const soundLabel = document.getElementById('sound-label');
+const soundBars = document.getElementById('sound-bars');
+
+function initAudio(){
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const master = audioCtx.createGain();
+  master.gain.value = 0;
+  master.connect(audioCtx.destination);
+
+  // Drone chord — minor 7th
+  const freqs = [55, 82.4, 110, 164.8];
+  freqs.forEach((f, i) => {
+    const osc = audioCtx.createOscillator();
+    osc.type = i % 2 === 0 ? 'sine' : 'triangle';
+    osc.frequency.value = f;
+    const gain = audioCtx.createGain();
+    gain.gain.value = 0.08;
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.value = 400;
+    osc.connect(filter); filter.connect(gain); gain.connect(master);
+    osc.start();
+    droneNodes.push({ osc, gain });
+
+    // LFO for subtle modulation
+    const lfo = audioCtx.createOscillator();
+    lfo.frequency.value = 0.1 + i * 0.03;
+    const lfoGain = audioCtx.createGain();
+    lfoGain.gain.value = 0.02;
+    lfo.connect(lfoGain);
+    lfoGain.connect(gain.gain);
+    lfo.start();
+  });
+
+  droneNodes.master = master;
+}
+
+soundBtn.addEventListener('click', () => {
+  if(!audioCtx) initAudio();
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  audioOn = !audioOn;
+  const target = audioOn ? 0.5 : 0;
+  droneNodes.master.gain.cancelScheduledValues(audioCtx.currentTime);
+  droneNodes.master.gain.linearRampToValueAtTime(target, audioCtx.currentTime + 1.5);
+  soundLabel.textContent = audioOn ? 'Mute' : 'Sound';
+});
+
+// Animate sound bars
+setInterval(() => {
+  if(audioOn){
+    soundBars.querySelectorAll('.bar').forEach(bar => {
+      bar.style.height = (4 + Math.random()*8) + 'px';
+    });
+  } else {
+    soundBars.querySelectorAll('.bar').forEach(bar => {
+      bar.style.height = (3 + Math.random()*3) + 'px';
+    });
+  }
+}, 150);
+
+/* ============ GSAP HERO ============ */
+gsap.from('.hero-title span', {
+  y: '100%',
+  opacity: 0,
+  duration: 1.4,
+  stagger: 0.15,
+  ease: 'power4.out',
+  delay: 0.3
+});
+
+gsap.to('.reveal', { /* handled by IO */ });
+</script>
+</body>
+</html>

@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MERIDIAN — Haute Horlogerie · S-300 GMT</title>
+<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="%230e0d0b"/><text x="32" y="45" font-family="Georgia" font-size="38" fill="%23c3a163" text-anchor="middle">M</text></svg>'>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0e0d0b; --panel:#12100d; --ink:#eae3d3; --mut:#98907e;
+  --gold:#c3a163; --line:rgba(234,227,211,.14);
+  --serif:'Cormorant Garamond',Georgia,serif; --sans:'Jost',sans-serif;
+  --ease:cubic-bezier(.19,1,.22,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{overflow-x:clip;scrollbar-color:#3a352c transparent}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;
+  overflow-x:clip;touch-action:pan-y;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+input,textarea{user-select:text;-webkit-user-select:text}
+::selection{background:rgba(195,161,99,.35)}
+::-webkit-scrollbar{width:9px}::-webkit-scrollbar-thumb{background:#2c2822;border-radius:6px}
+@media(pointer:fine){ *{cursor:none!important} }
+em{font-style:italic;color:var(--gold);font-weight:300}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--sans);background:none;border:0;color:inherit}
+:focus-visible{outline:1px solid var(--gold);outline-offset:3px}
+
+/* ---------- fixed stage layers ---------- */
+#gl{position:fixed;inset:0;width:100%;height:100%;z-index:1;display:block}
+#vig{position:fixed;inset:0;z-index:2;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 44%,transparent 52%,rgba(4,3,2,.6) 100%)}
+#anno{position:fixed;inset:0;z-index:6;pointer-events:none}
+#annoSvg{position:absolute;inset:0;width:100%;height:100%}
+.ann-line{stroke:rgba(195,161,99,.45);stroke-width:1}
+.ann-dot{fill:none;stroke:var(--gold);stroke-width:1}
+.ann{position:absolute;top:0;left:0;width:min(240px,34vw);opacity:0;will-change:transform,opacity}
+.ann h4{font:400 11px var(--sans);letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+.ann p{font:italic 300 15px/1.45 var(--serif);color:rgba(234,227,211,.62);margin-top:6px}
+.annR{text-align:right}
+#dip{position:fixed;inset:0;background:#080706;opacity:0;z-index:18;pointer-events:none}
+#barT,#barB{position:fixed;left:0;right:0;height:0;background:#000;z-index:20;pointer-events:none}
+#barT{top:0}#barB{bottom:0}
+#grain{position:fixed;inset:-120px;z-index:45;pointer-events:none;opacity:.06;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+  animation:grain .8s steps(2,end) infinite}
+@keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(-38px,26px)}
+  50%{transform:translate(28px,-22px)}75%{transform:translate(-22px,-34px)}100%{transform:translate(0,0)}}
+
+/* ---------- loader ---------- */
+#loader{position:fixed;inset:0;z-index:100;background:#0b0a08;display:grid;place-items:center;
+  transition:opacity .9s ease .15s,visibility .9s .15s}
+#loader.done{opacity:0;visibility:hidden}
+.ld-c{text-align:center}
+.ld-mark{font:500 28px var(--serif);letter-spacing:.52em;text-indent:.52em}
+.ld-sub{font-size:9px;letter-spacing:.5em;text-indent:.5em;color:var(--gold);margin-top:12px}
+.ld-bar{width:180px;height:1px;background:rgba(234,227,211,.12);margin:36px auto 0;position:relative}
+.ld-bar i{position:absolute;inset:0;background:var(--gold);transform-origin:left;transform:scaleX(0)}
+
+/* ---------- navigation ---------- */
+#nav{position:fixed;z-index:40;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;
+  padding:24px 4.5vw;border-bottom:1px solid transparent;
+  transition:background .5s,padding .5s,border-color .5s,opacity .8s;opacity:0}
+body.is-ready #nav{opacity:1;transition:background .5s,padding .5s,border-color .5s,opacity 1s .3s}
+#nav.scrolled{background:rgba(14,13,11,.72);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  padding:14px 4.5vw;border-color:var(--line)}
+.brand{font:500 21px var(--serif);letter-spacing:.34em;line-height:1}
+.brand small{display:block;font:300 8px var(--sans);letter-spacing:.55em;color:var(--gold);margin-top:5px}
+.nav-links{display:flex;gap:36px}
+.nav-links a{font:400 10.5px var(--sans);letter-spacing:.3em;text-transform:uppercase;color:var(--mut);
+  padding:6px 0;position:relative;transition:color .3s}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:0;height:1px;width:100%;background:var(--gold);
+  transform:scaleX(0);transform-origin:right;transition:transform .45s var(--ease)}
+.nav-links a:hover,.nav-links a.act{color:var(--ink)}
+.nav-links a:hover::after,.nav-links a.act::after{transform:scaleX(1);transform-origin:left}
+.nav-right{display:flex;align-items:center;gap:22px}
+.btn-ghost{border:1px solid var(--line);padding:13px 24px;font:400 10.5px var(--sans);
+  letter-spacing:.28em;text-transform:uppercase;transition:.35s;display:inline-block;cursor:pointer}
+.btn-ghost:hover{background:var(--ink);color:#141210;border-color:var(--ink)}
+.btn-solid{background:var(--ink);color:#161310;border:1px solid var(--ink);padding:15px 28px;
+  font:400 10.5px var(--sans);letter-spacing:.28em;text-transform:uppercase;transition:.35s;display:inline-block;cursor:pointer}
+.btn-solid:hover{background:transparent;color:var(--ink)}
+.burger{display:none;width:34px;height:26px;position:relative}
+.burger span{position:absolute;left:4px;right:4px;height:1px;background:var(--ink);transition:.4s var(--ease)}
+.burger span:first-child{top:9px}.burger span:last-child{bottom:9px}
+#mmenu{position:fixed;inset:0;z-index:70;background:rgba(11,10,8,.97);-webkit-backdrop-filter:blur(10px);
+  backdrop-filter:blur(10px);transform:translateY(-102%);transition:transform .65s var(--ease);
+  display:flex;flex-direction:column;justify-content:center;padding:0 9vw;visibility:hidden}
+#mmenu.open{transform:none;visibility:visible}
+#mmenu a{font:300 38px var(--serif);padding:14px 0;border-bottom:1px solid var(--line);display:block}
+#mmenu a span{font:300 10px var(--sans);letter-spacing:.3em;color:var(--gold);margin-right:20px;vertical-align:middle}
+.mm-foot{margin-top:40px;font:300 11px var(--sans);letter-spacing:.2em;color:var(--mut)}
+
+/* ---------- shared type ---------- */
+main{position:relative;z-index:3}
+.eyebrow{font:400 10.5px var(--sans);letter-spacing:.36em;text-transform:uppercase;color:var(--gold)}
+.eyebrow::before{content:'';display:inline-block;width:34px;height:1px;background:var(--gold);
+  vertical-align:middle;margin-right:14px}
+.h2{font:300 clamp(40px,4.8vw,72px)/1.05 var(--serif);margin-top:22px}
+.rv{opacity:0;transform:translateY(26px);transition:opacity 1s var(--ease) var(--d,0s),transform 1s var(--ease) var(--d,0s)}
+.rv.in{opacity:1;transform:none}
+
+/* ---------- hero ---------- */
+#hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 6vw 4vh;position:relative}
+.hero-inner{margin-bottom:6vh;max-width:720px}
+.h1{font:300 clamp(52px,8.2vw,122px)/.98 var(--serif);margin-top:26px;letter-spacing:.01em;
+  text-shadow:0 3px 40px rgba(0,0,0,.55)}
+.h1 .line{display:block;overflow:hidden}
+.h1 .li{display:block;transform:translateY(115%);transition:transform 1.3s var(--ease)}
+.h1 .line:nth-child(2) .li{transition-delay:.12s}
+body.is-ready .h1 .li{transform:none}
+.lede{margin-top:28px;max-width:540px;font:300 16.5px/1.75 var(--sans);color:var(--mut)}
+.cta{margin-top:36px;display:flex;gap:16px;flex-wrap:wrap}
+.hero-stats{display:flex;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:24px}
+.hs{padding:0 36px;border-left:1px solid var(--line)}
+.hs:first-child{padding-left:0;border-left:0}
+.hs b{display:block;font:400 22px var(--serif);letter-spacing:.04em}
+.hs span{font-size:9.5px;letter-spacing:.32em;text-transform:uppercase;color:var(--mut)}
+.drag-hint{position:absolute;right:5vw;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:12px;
+  font:400 10px var(--sans);letter-spacing:.34em;text-transform:uppercase;color:var(--mut)}
+.drag-hint svg{color:var(--gold)}
+.hint{position:absolute;right:6vw;bottom:15vh;display:flex;flex-direction:column;align-items:center;gap:12px;
+  font-size:9.5px;letter-spacing:.4em;text-transform:uppercase;color:var(--mut)}
+.hint i{width:1px;height:58px;background:var(--line);position:relative;overflow:hidden}
+.hint i::after{content:'';position:absolute;left:0;top:-55%;width:1px;height:55%;background:var(--gold);
+  animation:drop 2.2s cubic-bezier(.7,0,.3,1) infinite}
+@keyframes drop{to{top:115%}}
+
+/* ---------- movement ---------- */
+#movement{height:560vh;position:relative}
+.mv-pin{position:sticky;top:0;height:100vh;pointer-events:none}
+.mv-head{position:absolute;top:15vh;left:6vw;max-width:560px}
+.mv-head h2{font:300 clamp(42px,5.6vw,80px)/1.04 var(--serif);margin-top:20px}
+.mv-sub{margin-top:20px;max-width:420px;font:300 14.5px/1.7 var(--sans);color:var(--mut)}
+.mv-hud{position:absolute;left:6vw;bottom:6vh}
+.hud-k{font:400 10px var(--sans);letter-spacing:.3em;text-transform:uppercase;color:var(--mut)}
+.hud-line{width:190px;height:1px;background:var(--line);margin:14px 0 12px}
+.hud-line i{display:block;height:100%;background:var(--gold);transform-origin:left;transform:scaleX(0)}
+.hud-num{font:300 12px var(--sans);letter-spacing:.32em;color:var(--ink)}
+.mv-hintR{position:absolute;right:6vw;bottom:6vh;font:400 9.5px var(--sans);letter-spacing:.36em;
+  text-transform:uppercase;color:var(--mut)}
+.mv-end{position:absolute;inset:0;display:grid;place-items:center;text-align:center;opacity:0;padding:0 6vw}
+.mv-end h3{font:italic 300 clamp(34px,4.6vw,62px) var(--serif);margin:24px 0 18px}
+.mv-end p{max-width:480px;margin:0 auto 34px;font:300 15px/1.8 var(--sans);color:var(--mut)}
+.mv-end .eyebrow::before{display:none}
+.mv-end button{pointer-events:auto}
+
+/* ---------- collection / configurator ---------- */
+#collection{height:190vh;position:relative}
+.col-panel{position:sticky;top:10vh;margin-left:auto;width:min(480px,42vw);margin-right:8vw}
+.col-desc{margin-top:24px;font:300 15px/1.8 var(--sans);color:var(--mut)}
+.opt{margin-top:32px}
+.opt-k{font:400 10.5px var(--sans);letter-spacing:.3em;text-transform:uppercase;color:var(--mut)}
+.opt-k span{color:var(--ink)}
+.swatches{display:flex;gap:16px;margin-top:14px}
+.swatch{width:36px;height:36px;border-radius:50%;background:var(--c);border:1px solid rgba(234,227,211,.28);
+  transition:transform .3s var(--ease);cursor:pointer}
+.swatch:hover{transform:scale(1.12)}
+.swatch.is-active{box-shadow:0 0 0 4px var(--bg),0 0 0 5px var(--gold)}
+.price-row{display:flex;gap:56px;margin-top:36px;padding-top:26px;border-top:1px solid var(--line)}
+.price{font:400 34px var(--serif);margin-top:8px}
+.ref p:last-child{margin-top:12px;font:300 13px var(--sans);letter-spacing:.14em;color:var(--ink)}
+.col-cta{margin-top:32px;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.drag-mini{font:italic 300 14px var(--serif);color:var(--mut)}
+
+/* ---------- atelier ---------- */
+#atelier{background:var(--bg);border-top:1px solid var(--line);padding:20vh 7vw 16vh;position:relative}
+.quote{font:italic 300 clamp(30px,4vw,56px)/1.25 var(--serif);max-width:880px;margin-top:26px}
+.quote-by{margin-top:26px;font:400 10.5px var(--sans);letter-spacing:.32em;text-transform:uppercase;color:var(--mut)}
+.acc{margin-top:11vh;border-top:1px solid var(--line)}
+.acc-item{border-bottom:1px solid var(--line)}
+.acc-row{width:100%;display:flex;align-items:baseline;gap:4vw;padding:30px 4px;text-align:left;transition:padding .4s var(--ease);cursor:pointer}
+.acc-row:hover{padding-left:16px}
+.acc-idx{font:italic 300 17px var(--serif);color:var(--gold);min-width:38px}
+.acc-name{font:400 clamp(24px,2.6vw,36px) var(--serif);letter-spacing:.02em;flex:1}
+.acc-plus{position:relative;width:16px;height:16px;align-self:center}
+.acc-plus::before,.acc-plus::after{content:'';position:absolute;background:var(--mut);transition:.4s var(--ease)}
+.acc-plus::before{left:0;right:0;top:7.5px;height:1px}
+.acc-plus::after{top:0;bottom:0;left:7.5px;width:1px}
+.acc-item.open .acc-plus::after{transform:scaleY(0)}
+.acc-item.open .acc-plus::before{background:var(--gold)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .55s cubic-bezier(.4,0,.2,1)}
+.acc-body p{max-width:640px;padding:0 4px 34px calc(38px + 4vw);font:300 15px/1.85 var(--sans);color:var(--mut)}
+.chrono{position:relative;height:320px;margin-top:13vh}
+.chr-line{position:absolute;top:50%;left:0;right:0;height:1px;background:var(--line)}
+.chr-item{position:absolute;left:var(--x);width:250px}
+.chr-item span{font:400 30px var(--serif);color:var(--ink)}
+.chr-item p{margin-top:10px;font:300 13.5px/1.7 var(--sans);color:var(--mut)}
+.chr-item::after{content:'';position:absolute;width:7px;height:7px;border-radius:50%;
+  background:var(--bg);border:1px solid var(--gold);left:2px}
+.chr-item.up{bottom:56%}.chr-item.up::after{bottom:-31px}
+.chr-item.dn{top:56%}.chr-item.dn::after{top:-31px}
+
+/* ---------- footer ---------- */
+#contact{background:#0a0908;border-top:1px solid var(--line);padding:16vh 7vw 6vh;position:relative}
+.ft-sub{margin-top:20px;font:300 15px/1.8 var(--sans);color:var(--mut);max-width:460px}
+.ft-actions{margin-top:44px;display:flex;align-items:center;gap:30px;flex-wrap:wrap}
+.mail{font:italic 400 clamp(20px,2.4vw,28px) var(--serif);border-bottom:1px solid var(--gold);
+  padding-bottom:6px;display:inline-flex;align-items:center;gap:12px;transition:color .3s;cursor:pointer}
+.mail:hover{color:var(--gold)}
+.mail svg{opacity:.6}
+.ft-grid{display:grid;grid-template-columns:2fr 1.2fr 1fr;gap:40px;margin-top:12vh;padding-top:34px;
+  border-top:1px solid var(--line);font:300 13.5px/2 var(--sans);color:var(--mut)}
+.ft-grid h5{font:400 10px var(--sans);letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.ft-grid a{display:block;transition:color .3s}
+.ft-grid a:hover{color:var(--ink)}
+.ft-base{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:9vh;
+  font:300 11px var(--sans);letter-spacing:.2em;color:var(--mut)}
+
+/* ---------- modal / toasts / cursor ---------- */
+#modal{position:fixed;inset:0;z-index:80;display:grid;place-items:center;visibility:hidden;opacity:0;transition:.4s}
+#modal.open{visibility:visible;opacity:1}
+.mo-bg{position:absolute;inset:0;background:rgba(8,7,5,.78);-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px)}
+.mo-card{position:relative;width:min(480px,92vw);background:#12100d;border:1px solid var(--line);
+  padding:46px 42px;transform:translateY(18px);transition:transform .5s var(--ease);max-height:92vh;overflow:auto}
+#modal.open .mo-card{transform:none}
+.mo-x{position:absolute;top:18px;right:18px;padding:8px;color:var(--mut);cursor:pointer}
+.mo-x:hover{color:var(--ink)}
+.mo-t{font:300 34px var(--serif);margin:18px 0 8px}
+.mo-s{font:300 13px/1.7 var(--sans);color:var(--mut);margin-bottom:28px}
+#apForm label{display:block;font:400 10px var(--sans);letter-spacing:.3em;text-transform:uppercase;
+  color:var(--mut);margin-top:22px}
+#apForm input,#apForm textarea{width:100%;background:transparent;border:0;border-bottom:1px solid var(--line);
+  padding:11px 0 9px;margin-top:6px;color:var(--ink);font:300 15px var(--sans);resize:none;transition:border-color .3s}
+#apForm input:focus,#apForm textarea:focus{outline:none;border-color:var(--gold)}
+#apForm .bad{border-color:#b0563e}
+.ferr{font:300 12px var(--sans);color:#c67a5e;margin-top:14px;min-height:16px}
+.mo-send{margin-top:20px;width:100%}
+#toasts{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);z-index:90;display:flex;
+  flex-direction:column;gap:10px;align-items:center;pointer-events:none;width:max-content;max-width:92vw}
+.toast{background:#161310;border:1px solid var(--line);border-left:2px solid var(--gold);padding:15px 24px;
+  font:300 13px var(--sans);letter-spacing:.04em;opacity:0;transform:translateY(10px);transition:.45s var(--ease)}
+.toast.on{opacity:1;transform:none}
+.cur-dot{position:fixed;z-index:120;width:5px;height:5px;border-radius:50%;background:var(--ink);
+  pointer-events:none;transform:translate(-50%,-50%);left:0;top:0}
+.cur-ring{position:fixed;z-index:120;width:34px;height:34px;border-radius:50%;left:0;top:0;
+  border:1px solid rgba(234,227,211,.4);pointer-events:none;transform:translate(-50%,-50%);
+  display:grid;place-items:center;transition:width .3s,height .3s,border-color .3s,background .3s}
+.cur-ring span{font-size:8px;letter-spacing:.32em;text-indent:.32em;color:var(--gold);opacity:0;transition:.3s}
+body.cur-hover .cur-ring{width:54px;height:54px;border-color:var(--gold)}
+body.cur-drag .cur-ring{width:66px;height:66px;background:rgba(14,13,11,.45)}
+body.cur-drag .cur-ring span{opacity:1}
+@media(pointer:coarse){.cur-dot,.cur-ring{display:none}}
+
+/* ---------- responsive ---------- */
+@media(max-width:900px){
+  .nav-links,.nav-book,.drag-hint,.hint{display:none}
+  .burger{display:block}
+  #hero{padding:0 7vw 5vh}
+  .hs{padding:0 20px}
+  .hero-inner{margin-bottom:5vh}
+  #movement{height:520vh}
+  .mv-head{top:11vh}
+  .ann{width:38vw}.ann p{font-size:12px}
+  #collection{height:auto;padding:56vh 7vw 14vh}
+  .col-panel{position:static;width:auto;margin:0}
+  .chrono{height:auto;margin-top:10vh;border-left:1px solid var(--line);padding-left:30px}
+  .chr-line{display:none}
+  .chr-item{position:static;width:auto;padding:18px 0;border-bottom:1px solid var(--line)}
+  .chr-item::after{top:26px!important;bottom:auto!important;left:-34px}
+  .ft-grid{grid-template-columns:1fr;gap:30px}
+  .acc-body p{padding-left:4px}
+}
+@media (prefers-reduced-motion:reduce){
+  #grain,.hint i::after{animation:none}
+  html{scroll-behavior:auto}
+}
+</style>
+<script type="importmap">
+{ "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
+</script>
+<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+</head>
+<body>
+
+<div id="loader"><div class="ld-c">
+  <div class="ld-mark">MERIDIAN</div>
+  <div class="ld-sub">HAUTE HORLOGERIE — GENÈVE</div>
+  <div class="ld-bar"><i id="ldBar"></i></div>
+</div></div>
+
+<canvas id="gl"></canvas>
+<div id="vig"></div>
+<div id="anno"><svg id="annoSvg"></svg></div>
+<div id="dip"></div><div id="barT"></div><div id="barB"></div>
+<div id="grain"></div>
+
+<header id="nav">
+  <a class="brand" href="#hero" data-go="#hero">MERIDIAN<small>GENÈVE</small></a>
+  <nav class="nav-links">
+    <a href="#movement" data-go="#movement">Calibre</a>
+    <a href="#collection" data-go="#collection">Collection</a>
+    <a href="#atelier" data-go="#atelier">Atelier</a>
+    <a href="#contact" data-go="#contact">Contact</a>
+  </nav>
+  <div class="nav-right">
+    <button class="btn-ghost nav-book book-btn">Book an appointment</button>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span></button>
+  </div>
+</header>
+
+<div id="mmenu">
+  <nav>
+    <a href="#movement" data-go="#movement"><span>02</span>Calibre</a>
+    <a href="#collection" data-go="#collection"><span>03</span>Collection</a>
+    <a href="#atelier" data-go="#atelier"><span>04</span>Atelier</a>
+    <a href="#contact" data-go="#contact"><span>05</span>Contact</a>
+  </nav>
+  <div class="mm-foot">14 RUE DU RHÔNE, 1204 GENÈVE<br><br>HELLO@MERIDIAN-GENEVE.CH</div>
+</div>
+
+<main>
+  <!-- 01 · hero -->
+  <section id="hero">
+    <div class="hero-inner">
+      <p class="eyebrow rv">Maison de haute horlogerie — Genève, est. 1948</p>
+      <h1 class="h1">
+        <span class="line"><span class="li">Two meridians,</span></span>
+        <span class="line"><span class="li"><em>one wrist.</em></span></span>
+      </h1>
+      <p class="lede rv" style="--d:.2s">The S-300 GMT — three hundred metres, a true 24-hour hand in luminous
+        orange, and 214 components finished by hand behind a pane of box sapphire.</p>
+      <div class="cta rv" style="--d:.35s">
+        <button class="btn-solid" data-go="#movement">Explore the calibre</button>
+        <button class="btn-ghost" data-go="#collection">The collection</button>
+      </div>
+    </div>
+    <div class="drag-hint">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
+        <path d="M20 12a8 8 0 1 1-2.34-5.66"/><path d="M20 3v4.2h-4.2"/></svg>
+      <span>Drag — 360°</span>
+    </div>
+    <div class="hero-stats rv" style="--d:.5s">
+      <div class="hs"><b>300 m</b><span>Water resistance</span></div>
+      <div class="hs"><b>24 h</b><span>GMT hand</span></div>
+      <div class="hs"><b>72 h</b><span>Reserve</span></div>
+      <div class="hs"><b>28,800</b><span>Vph</span></div>
+    </div>
+    <div class="hint"><i></i><span>Scroll</span></div>
+  </section>
+
+  <!-- 02 · exploded calibre -->
+  <section id="movement">
+    <div class="mv-pin">
+      <div class="mv-head" id="mvHead">
+        <p class="eyebrow">02 — The calibre</p>
+        <h2>Anatomy of <em>a second.</em></h2>
+        <p class="mv-sub">Scroll — the S-300 opens in your hands. Two hundred and fourteen components,
+          laid out in eleven seconds of scroll.</p>
+      </div>
+      <div class="mv-hud">
+        <p class="hud-k">Calibre G-24 — 214 components</p>
+        <div class="hud-line"><i id="hudBar"></i></div>
+        <p class="hud-num">DISASSEMBLY <span id="hudPct">000</span>%</p>
+      </div>
+      <div class="mv-hintR" id="mvHintR">Scroll to disassemble</div>
+      <div class="mv-end" id="mvEnd">
+        <p class="eyebrow">214 components — zero shortcuts</p>
+        <h3>Every part earns its place.</h3>
+        <p>Eleven days of assembly. Regulated in five positions to −2 / +4 seconds a day —
+          and a GMT hand that keeps a second meridian honest.</p>
+        <button class="btn-ghost" id="reasm">Reassemble the calibre</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 · configurator -->
+  <section id="collection">
+    <div class="col-panel">
+      <p class="eyebrow">03 — The collection</p>
+      <h2 class="h2">The S-300, <em>three ways.</em></h2>
+      <p class="col-desc">One tool-watch, three dresses. The dial is brass, galvanically coloured and
+        sunburst-turned for eleven minutes; the GMT hand reads a second meridian against the 24-hour bezel.</p>
+      <div class="opt">
+        <div class="opt-k">Case — <span id="caseName">Brushed Steel</span></div>
+        <div class="swatches" id="caseSw">
+          <button class="swatch is-active" data-metal="steel" style="--c:#d8dbdf" aria-label="Brushed steel"></button>
+          <button class="swatch" data-metal="ti" style="--c:#a9adb3" aria-label="Titanium"></button>
+          <button class="swatch" data-metal="pvd" style="--c:#313438" aria-label="Black PVD"></button>
+        </div>
+      </div>
+      <div class="opt">
+        <div class="opt-k">Dial — <span id="dialName">Galvanic Blue</span></div>
+        <div class="swatches" id="dialSw">
+          <button class="swatch is-active" data-dial="blue" style="--c:#14356b" aria-label="Galvanic blue"></button>
+          <button class="swatch" data-dial="onyx" style="--c:#101014" aria-label="Onyx"></button>
+          <button class="swatch" data-dial="verdant" style="--c:#12402f" aria-label="Verdant"></button>
+        </div>
+      </div>
+      <div class="opt">
+        <div class="opt-k">Strap — <span id="strapName">Black FKM Rubber</span></div>
+        <div class="swatches" id="strapSw">
+          <button class="swatch is-active" data-strap="black" style="--c:#17181a" aria-label="Black rubber"></button>
+          <button class="swatch" data-strap="orange" style="--c:#b4551e" aria-label="Ocean orange"></button>
+          <button class="swatch" data-strap="ivory" style="--c:#d8d0bd" aria-label="Ivory rubber"></button>
+        </div>
+      </div>
+      <div class="price-row">
+        <div><p class="opt-k">From</p><p class="price" id="price">$6,450</p></div>
+        <div class="ref"><p class="opt-k">Reference</p><p id="refcode">REF. S300-ST-GB-RB</p></div>
+      </div>
+      <div class="col-cta">
+        <button class="btn-solid" id="reserveBtn">Reserve this reference</button>
+        <span class="drag-mini">Drag the watch to inspect</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 · atelier -->
+  <section id="atelier">
+    <p class="eyebrow rv">04 — The atelier</p>
+    <p class="quote rv" style="--d:.1s">“We spend eleven days finishing what no eye will ever see.”</p>
+    <p class="quote-by rv" style="--d:.2s">Élise Marchand — Chef d’atelier</p>
+
+    <div class="acc rv" style="--d:.1s">
+      <div class="acc-item open">
+        <button class="acc-row"><span class="acc-idx">01</span><span class="acc-name">Anglage</span><span class="acc-plus"></span></button>
+        <div class="acc-body"><p>Every bridge edge is filed to a 45° bevel and polished with gentian-wood pegs
+          until the metal holds a line of light — inside corners included, especially inside corners.</p></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-row"><span class="acc-idx">02</span><span class="acc-name">Perlage</span><span class="acc-plus"></span></button>
+        <div class="acc-body"><p>The plates are stamped with overlapping pearls of boxwood and diamond paste,
+          one rotation at a time. Eight hundred to a plate, none exactly alike.</p></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-row"><span class="acc-idx">03</span><span class="acc-name">Black polish</span><span class="acc-plus"></span></button>
+        <div class="acc-body"><p>Reserved for steel: the surface is worked on tin until it reflects only what is
+          placed before it. Under the loupe, a mirror; in the hand, nothing at all.</p></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-row"><span class="acc-idx">04</span><span class="acc-name">Assembly</span><span class="acc-plus"></span></button>
+        <div class="acc-body"><p>One watchmaker, one watch, eleven days. The calibre is regulated in five positions
+          and against six extremes of heat before the case back is closed.</p></div>
+      </div>
+    </div>
+
+    <div class="chrono rv">
+      <div class="chr-line"></div>
+      <div class="chr-item up" style="--x:3%"><span>1948</span>
+        <p>Henri Aubert opens a one-bench atelier above a bookbinder on the Rue du Rhône.</p></div>
+      <div class="chr-item dn" style="--x:44%"><span>1969</span>
+        <p>The Calibre 69 — one of the first micro-rotor movements under three millimetres.</p></div>
+      <div class="chr-item up" style="--x:76%"><span>2024</span>
+        <p>Calibre G-24. Three years of development; six pairs of hands; 214 parts.</p></div>
+    </div>
+  </section>
+
+  <!-- 05 · contact / footer -->
+  <footer id="contact">
+    <p class="eyebrow rv">05 — Correspondence</p>
+    <h2 class="h2 rv" style="--d:.1s">Write to <em>the atelier.</em></h2>
+    <p class="ft-sub rv" style="--d:.2s">For appointments, servicing, or a question that deserves a proper answer.</p>
+    <div class="ft-actions rv" style="--d:.3s">
+      <button class="mail" id="mailBtn">hello@meridian-geneve.ch
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+          <rect x="9" y="9" width="12" height="12" rx="1.5"/><path d="M5 15H4a1.5 1.5 0 0 1-1.5-1.5v-9A1.5 1.5 0 0 1 4 3h9A1.5 1.5 0 0 1 14.5 4.5V5"/></svg>
+      </button>
+      <button class="btn-ghost book-btn">Book an appointment</button>
+    </div>
+    <div class="ft-grid">
+      <div><h5>Atelier</h5>14 Rue du Rhône<br>1204 Genève — Suisse</div>
+      <div><h5>Hours</h5>Monday – Friday, 9h – 18h<br>By appointment only</div>
+      <div><h5>Explore</h5>
+        <a href="#movement" data-go="#movement">The calibre</a>
+        <a href="#collection" data-go="#collection">The collection</a>
+        <a href="#atelier" data-go="#atelier">The atelier</a></div>
+    </div>
+    <div class="ft-base"><span>© MMXXV MERIDIAN HORLOGERIE SA</span><span>SWISS MADE, OF COURSE.</span></div>
+  </footer>
+</main>
+
+<!-- appointment modal -->
+<div id="modal" role="dialog" aria-modal="true" aria-label="Book an appointment">
+  <div class="mo-bg" id="moBg"></div>
+  <div class="mo-card">
+    <button class="mo-x" id="moX" aria-label="Close">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+        <path d="M5 5l14 14M19 5L5 19"/></svg>
+    </button>
+    <p class="eyebrow">Private appointment</p>
+    <h3 class="mo-t">An hour with <em>time itself.</em></h3>
+    <p class="mo-s" id="moCtx">The Geneva atelier receives by appointment only. We reply within two working days.</p>
+    <form id="apForm" novalidate>
+      <label>Your name<input id="fName" type="text" autocomplete="name"></label>
+      <label>Email<input id="fMail" type="email" autocomplete="email"></label>
+      <label>A word about the piece<textarea id="fMsg" rows="3" placeholder="Optional"></textarea></label>
+      <p class="ferr" id="fErr"></p>
+      <button class="btn-solid mo-send" type="submit">Send request</button>
+    </form>
+  </div>
+</div>
+
+<div id="toasts"></div>
+<div class="cur-dot"></div>
+<div class="cur-ring"><span>DRAG</span></div>
+
+<script type="module">
+import * as THREE from 'three';
+
+/* ================= utils ================= */
+const $=s=>document.querySelector(s);
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const lerp=(a,b,t)=>a+(b-a)*t;
+const sstep=t=>{t=clamp(t,0,1);return t*t*(3-2*t)};
+const easeIO=t=>{t=clamp(t,0,1);return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2};
+
+let vw=innerWidth,vh=innerHeight;
+const mx={x:innerWidth/2,y:innerHeight/2};
+
+/* ================= horology data ================= */
+const ACC='#ff7a1a';
+const METALS={
+  steel:{pol:0xc9ccd1,bri:0xaab0b6,name:'Brushed Steel',code:'ST',price:6450},
+  ti:{pol:0x9da2a9,bri:0x7e848b,name:'Grade-5 Titanium',code:'TI',price:7150},
+  pvd:{pol:0x3c3f44,bri:0x26282c,name:'Black PVD Steel',code:'BP',price:6950},
+};
+const DIALS={
+  blue:{c0:'#2c5a9e',c1:'#0d2145',c2:'#02050b',print:'#e3e1d8',burst:.85,label:'Galvanic Blue',code:'GB',extra:0},
+  onyx:{c0:'#34373d',c1:'#111216',c2:'#030304',print:'#dedcd4',burst:.22,label:'Onyx Black',code:'ON',extra:0},
+  verdant:{c0:'#256545',c1:'#0a2c1e',c2:'#020a07',print:'#dedcd2',burst:.7,label:'Verdant Green',code:'VG',extra:150},
+};
+const STRAPS={
+  black:{c:'#1b1c1f',name:'Black FKM Rubber',code:'RB'},
+  orange:{c:'#a34c1a',name:'Ocean Orange Rubber',code:'RO'},
+  ivory:{c:'#cdc5b1',name:'Ivory Rubber',code:'RI'},
+};
+const WHEELS=[[-.52,.30],[.12,.02],[.62,.32],[.72,-.22],[.35,-.55]];
+/* explode choreography: z0 = assembled offset, dz = full displacement, d = stagger start */
+const LAYERS=[
+  {k:'crystal', z0:.38, dz:3.9, d:0},
+  {k:'bezel',   z0:.20, dz:1.62,d:.045},
+  {k:'hands',   z0:.13, dz:3.05,d:.09},
+  {k:'dial',    z0:.09, dz:2.35,d:.14},
+  {k:'rehaut',  z0:.108,dz:1.55,d:.19},
+  {k:'balance', z0:-.02,dz:1.20,d:.25},
+  {k:'gears',   z0:-.06,dz:.80, d:.31},
+  {k:'barrel',  z0:-.10,dz:.45, d:.37},
+  {k:'plate',   z0:-.16,dz:.08, d:.43},
+  {k:'rotor',   z0:-.30,dz:-.46,d:.50},
+  {k:'caseback',z0:-.37,dz:-1.5,d:.56},
+];
+const LABELS=[
+  {k:'crystal', side:'R',ax:0,   ay:.30, dy:-40,t:'Box sapphire', d:'Domed · double anti-reflective coating'},
+  {k:'bezel',   side:'L',ax:-1.42,ay:.05,dy:-20,t:'24-hour bezel',d:'Bidirectional · 120 clicks · lumed pip'},
+  {k:'hands',   side:'R',ax:0,   ay:.10, dy:20, t:'Sword & GMT hands', d:'Super-LumiNova · orange second meridian'},
+  {k:'dial',    side:'L',ax:-.55,ay:-.20,dy:30, t:'Galvanic dial', d:'Brass, sunburst-turned · date at three'},
+  {k:'barrel',  side:'L',ax:-.52,ay:.30, dy:-50,t:'Mainspring barrel', d:'One spring · seventy-two hours of reserve'},
+  {k:'balance', side:'L',ax:-.55,ay:-.48,dy:40, t:'Balance oscillator', d:'Free-sprung · 4 Hz · 28,800 vph'},
+  {k:'gears',   side:'R',ax:.62, ay:.32, dy:60, t:'Going train', d:'Brass wheels · steel pinions · hand-bevelled'},
+  {k:'plate',   side:'R',ax:1.0, ay:-.30,dy:-10,t:'Main plate', d:'Côtes de Genève · perlage · 31 jewels'},
+  {k:'rotor',   side:'L',ax:-.30,ay:-.10,dy:-20,t:'Oscillating weight', d:'21k gold · tungsten rim · bidirectional'},
+  {k:'caseback',side:'R',ax:.55, ay:-.55,dy:50, t:'Case back', d:'Screwed · brushed · 300 metres'},
+];
+const startOf=k=>(LAYERS.find(l=>l.k===k).d+.05);
+
+/* ================= procedural textures ================= */
+let ANISO=4;
+function brushedTex(){
+  const S=512,c=document.createElement('canvas');c.width=c.height=S;const g=c.getContext('2d');
+  g.fillStyle='#8f8f8f';g.fillRect(0,0,S,S);
+  for(let i=0;i<900;i++){const y=Math.random()*S;
+    g.strokeStyle=Math.random()>.5?`rgba(255,255,255,${.04+Math.random()*.09})`:`rgba(0,0,0,${.04+Math.random()*.09})`;
+    g.lineWidth=.6+Math.random()*1.3;const x=Math.random()*S,w=60+Math.random()*300;
+    g.beginPath();g.moveTo(x-w/2,y);g.lineTo(x+w/2,y);g.stroke();}
+  const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;return t;
+}
+function rubberTexture(){
+  const c=document.createElement('canvas');c.width=1024;c.height=256;const g=c.getContext('2d');
+  g.fillStyle='#c9c9c9';g.fillRect(0,0,1024,256);
+  for(let i=0;i<2200;i++){g.fillStyle=Math.random()>.5?'rgba(255,255,255,.05)':'rgba(0,0,0,.07)';
+    g.beginPath();g.arc(Math.random()*1024,Math.random()*256,1+Math.random()*2,0,7);g.fill();}
+  for(let x=-40;x<1080;x+=76){
+    g.strokeStyle='#9a9a9a';g.lineWidth=26;g.lineCap='round';
+    g.beginPath();g.moveTo(x,34);g.lineTo(x+34,128);g.lineTo(x,222);g.stroke();
+    g.strokeStyle='#e6e6e6';g.lineWidth=7;
+    g.beginPath();g.moveTo(x-5,36);g.lineTo(x+29,128);g.lineTo(x-5,220);g.stroke();}
+  const lg=g.createLinearGradient(0,0,0,256);
+  lg.addColorStop(0,'rgba(0,0,0,.5)');lg.addColorStop(.12,'rgba(0,0,0,0)');
+  lg.addColorStop(.88,'rgba(0,0,0,0)');lg.addColorStop(1,'rgba(0,0,0,.5)');
+  g.fillStyle=lg;g.fillRect(0,0,1024,256);
+  const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;
+  t.wrapS=THREE.RepeatWrapping;t.repeat.set(2,1);return t;
+}
+/* ---- dial (2048px) ---- */
+function drawCompass(g,x,y,r,col){
+  g.save();g.translate(x,y);g.strokeStyle=col;g.fillStyle=col;
+  g.lineWidth=3;g.beginPath();g.arc(0,0,r*.62,0,7);g.stroke();
+  for(let i=0;i<4;i++){const a=i*Math.PI/2;
+    g.save();g.rotate(a);
+    g.beginPath();g.moveTo(0,-r);g.lineTo(r*.15,-r*.18);g.lineTo(-r*.15,-r*.18);g.closePath();g.fill();
+    g.restore();}
+  for(let i=0;i<4;i++){const a=i*Math.PI/2+Math.PI/4;
+    g.save();g.rotate(a);
+    g.beginPath();g.moveTo(0,-r*.55);g.lineTo(r*.11,-r*.1);g.lineTo(-r*.11,-r*.1);g.closePath();g.fill();
+    g.restore();}
+  g.beginPath();g.arc(0,0,r*.09,0,7);g.fill();
+  g.restore();
+}
+function drawDial(c,key){
+  const D=DIALS[key],g=c.getContext('2d'),S=2048,K=1024;
+  g.setTransform(1,0,0,1,0,0);
+  g.fillStyle=D.c2;g.fillRect(0,0,S,S);
+  g.save();g.translate(K,K);
+  const rg=g.createRadialGradient(0,-K*.10,K*.06,0,0,K);
+  rg.addColorStop(0,D.c0);rg.addColorStop(.45,D.c1);rg.addColorStop(1,D.c2);
+  g.fillStyle=rg;g.fillRect(-K,-K,S,S);
+  for(let i=0;i<1400;i++){const a=Math.random()*Math.PI*2;
+    g.strokeStyle=Math.random()>.5?`rgba(255,255,255,${(.010+Math.random()*.035)*D.burst})`:`rgba(0,0,0,${(.02+Math.random()*.06)*D.burst})`;
+    g.lineWidth=.8+Math.random()*1.6;
+    g.beginPath();g.moveTo(Math.cos(a)*30,Math.sin(a)*30);g.lineTo(Math.cos(a)*K,Math.sin(a)*K);g.stroke();}
+  const lg=g.createLinearGradient(0,-K,0,K*.2);
+  lg.addColorStop(0,'rgba(255,255,255,.06)');lg.addColorStop(1,'rgba(255,255,255,0)');
+  g.fillStyle=lg;g.fillRect(-K,-K,S,S*.62);
+  drawCompass(g,0,-K*.41,62,D.print);
+  g.fillStyle=D.print;g.textAlign='center';g.textBaseline='middle';
+  try{g.letterSpacing='20px'}catch(e){}
+  g.font='500 86px Jost, sans-serif';g.fillText('MERIDIAN',10,-K*.245);
+  try{g.letterSpacing='10px'}catch(e){}
+  g.fillStyle=ACC;g.font='500 46px Jost, sans-serif';g.fillText('S-300 GMT',5,K*.335);
+  g.fillStyle=D.print;g.font='300 40px Jost, sans-serif';g.fillText('990ft – 300m',4,K*.415);
+  g.fillStyle='#8f959e';g.font='300 33px Jost, sans-serif';g.fillText('AUTOMATIC',4,K*.485);
+  const dx=K*.73;
+  g.fillStyle='rgba(0,0,0,.55)';g.fillRect(dx-78,-52,168,132);
+  g.fillStyle='#e9e7e0';g.fillRect(dx-84,-58,168,132);
+  g.strokeStyle='#f2f0ea';g.lineWidth=6;g.strokeRect(dx-84,-58,168,132);
+  g.fillStyle='#17181b';try{g.letterSpacing='0px'}catch(e){}
+  g.font='500 96px Jost, sans-serif';g.fillText(String(new Date().getDate()),dx,6);
+  g.restore();
+}
+const dialCache={};
+function dialCanvas(key){let c=dialCache[key];if(!c){c=document.createElement('canvas');c.width=c.height=2048;dialCache[key]=c;drawDial(c,key);}return c}
+function dialTexture(key){
+  const t=new THREE.CanvasTexture(dialCanvas(key));
+  t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=ANISO;t.flipY=false;return t;
+}
+/* ---- chapter ring / rehaut ---- */
+let rehautC,rehautTex;
+function drawRehaut(c){
+  const S=1024,K=S/2,g=c.getContext('2d');
+  g.setTransform(1,0,0,1,0,0);
+  g.fillStyle='#080c13';g.fillRect(0,0,S,S);
+  g.save();g.translate(K,K);
+  const rg=g.createRadialGradient(0,0,K*.7,0,0,K);
+  rg.addColorStop(0,'rgba(0,0,0,0)');rg.addColorStop(1,'rgba(0,0,0,.4)');
+  g.fillStyle=rg;g.fillRect(-K,-K,S,S);
+  for(let i=0;i<60;i++){const major=i%5===0;
+    g.save();g.rotate(i/60*Math.PI*2);
+    g.strokeStyle=major?'#d3d6da':'rgba(190,196,204,.45)';g.lineWidth=major?4:2;
+    g.beginPath();g.moveTo(0,-K*.945);g.lineTo(0,-K*(major?.878:.905));g.stroke();
+    g.restore();}
+  g.textAlign='center';g.textBaseline='middle';
+  g.font='400 42px Jost, sans-serif';
+  for(let i=5;i<=60;i+=5){if(i===30)continue;
+    g.save();g.rotate(i/60*Math.PI*2);
+    g.fillStyle=(i===60||i===45)?ACC:'#c8cdd3';
+    try{g.letterSpacing='2px'}catch(e){}
+    g.fillText(i===60?'60':String(i),0,-K*.925);g.restore();}
+  g.save();g.rotate(Math.PI);g.fillStyle=ACC;
+  try{g.letterSpacing='9px'}catch(e){}
+  g.font='500 36px Jost, sans-serif';g.fillText('GENÈVE',3,-K*.922);g.restore();
+  g.restore();
+}
+function getRehautTex(){
+  if(rehautTex)return rehautTex;
+  rehautC=document.createElement('canvas');rehautC.width=rehautC.height=1024;
+  drawRehaut(rehautC);
+  rehautTex=new THREE.CanvasTexture(rehautC);
+  rehautTex.colorSpace=THREE.SRGBColorSpace;rehautTex.anisotropy=ANISO;return rehautTex;
+}
+/* ---- 24h bezel insert ---- */
+let bezC,bezTex;
+function drawBezel(c){
+  const S=1024,K=S/2,g=c.getContext('2d');
+  g.setTransform(1,0,0,1,0,0);
+  const lg=g.createLinearGradient(0,0,0,S);
+  lg.addColorStop(0,'#03050a');lg.addColorStop(.55,'#060f20');lg.addColorStop(1,'#0d2c55');
+  g.fillStyle=lg;g.fillRect(0,0,S,S);
+  g.save();g.translate(K,K);
+  const rg=g.createRadialGradient(0,0,K*.55,0,0,K);
+  rg.addColorStop(0,'rgba(0,0,0,0)');rg.addColorStop(1,'rgba(0,0,0,.4)');
+  g.fillStyle=rg;g.fillRect(-K,-K,S,S);
+  g.strokeStyle='rgba(255,255,255,.06)';g.lineWidth=8;
+  g.beginPath();g.arc(0,0,K-4,0,7);g.stroke();
+  g.textAlign='center';g.textBaseline='middle';
+  for(let h=2;h<=22;h+=2){
+    g.save();g.rotate(h/24*Math.PI*2);
+    g.fillStyle='#dcdfe2';try{g.letterSpacing='0px'}catch(e){}
+    g.font='500 82px Jost, sans-serif';g.fillText(String(h),0,-K*.865);g.restore();}
+  for(let h=1;h<=23;h+=2){
+    g.save();g.rotate(h/24*Math.PI*2);
+    g.fillStyle='#e4e8ea';g.fillRect(-9,-K*.865-9,18,18);g.restore();}
+  g.strokeStyle='#eef0f2';g.lineWidth=7;g.lineJoin='round';
+  g.beginPath();g.moveTo(0,-K*.865-36);g.lineTo(31,-K*.865+24);g.lineTo(-31,-K*.865+24);g.closePath();g.stroke();
+  g.restore();
+}
+function getBezelTex(){
+  if(bezTex)return bezTex;
+  bezC=document.createElement('canvas');bezC.width=bezC.height=1024;
+  drawBezel(bezC);
+  bezTex=new THREE.CanvasTexture(bezC);
+  bezTex.colorSpace=THREE.SRGBColorSpace;bezTex.anisotropy=ANISO;return bezTex;
+}
+/* ---- main plate ---- */
+let plateCanvas,plateTex;
+function drawPlate(c){
+  const S=1024,g=c.getContext('2d'),K=(S/2)/1.28;
+  g.setTransform(1,0,0,1,0,0);
+  g.fillStyle='#878d95';g.fillRect(0,0,S,S);
+  g.save();g.translate(S/2,S/2);g.rotate(-.34);
+  for(let x=-1100;x<1100;x+=92){
+    const gr=g.createLinearGradient(x,0,x+92,0);
+    gr.addColorStop(0,'rgba(255,255,255,.18)');gr.addColorStop(.4,'rgba(255,255,255,.04)');
+    gr.addColorStop(.72,'rgba(0,0,0,.15)');gr.addColorStop(1,'rgba(0,0,0,.03)');
+    g.fillStyle=gr;g.fillRect(x,-1200,92,2400);}
+  g.restore();
+  g.save();g.beginPath();g.arc(S/2,S/2,S/2,0,7);g.arc(S/2,S/2,K,0,7,true);g.clip('evenodd');
+  for(let y=0;y<S;y+=30)for(let x=((y/30)%2)*15;x<S;x+=30){
+    g.strokeStyle='rgba(255,255,255,.07)';g.lineWidth=1.5;g.beginPath();g.arc(x,y,15,0,7);g.stroke();}
+  g.restore();
+  const rg=g.createRadialGradient(S/2,S/2,S*.32,S/2,S/2,S*.5);
+  rg.addColorStop(0,'rgba(0,0,0,0)');rg.addColorStop(1,'rgba(10,12,16,.42)');
+  g.fillStyle=rg;g.fillRect(0,0,S,S);
+  for(const [wx,wy] of WHEELS.concat([[-.55,-.48],[.9,.05],[-.9,.15]])){
+    const x=S/2+wx*K,y=S/2-wy*K;
+    g.fillStyle='rgba(20,22,26,.4)';g.beginPath();g.arc(x,y,K*.075,0,7);g.fill();
+    g.strokeStyle='rgba(255,255,255,.45)';g.lineWidth=3;g.beginPath();g.arc(x,y,K*.075,0,7);g.stroke();}
+  g.fillStyle='rgba(42,46,52,.95)';g.textAlign='center';g.textBaseline='middle';
+  try{g.letterSpacing='6px'}catch(e){}
+  g.font='500 30px Jost, sans-serif';g.fillText('CALIBRE G-24',S/2+K*.45,S/2-K*.32);
+  g.font='300 19px Jost, sans-serif';g.fillText('THIRTY-ONE JEWELS',S/2+K*.45,S/2-K*.245);
+  g.fillText('SWISS MADE',S/2,S/2+K*.95);
+}
+function makePlateTex(){
+  plateCanvas=document.createElement('canvas');plateCanvas.width=plateCanvas.height=1024;
+  drawPlate(plateCanvas);
+  plateTex=new THREE.CanvasTexture(plateCanvas);
+  plateTex.colorSpace=THREE.SRGBColorSpace;plateTex.anisotropy=ANISO;plateTex.flipY=false;return plateTex;
+}
+
+/* ================= geometry helpers ================= */
+function gearGeometry(rOut,rRoot,teeth,depth,holeR,spokes){
+  const s=new THREE.Shape();const P=(a,r)=>[Math.cos(a)*r,Math.sin(a)*r];
+  for(let i=0;i<teeth;i++){const b=i/teeth*Math.PI*2,w=Math.PI*2/teeth;
+    if(i===0)s.moveTo(...P(b,rRoot));
+    s.lineTo(...P(b+w*.30,rRoot));s.lineTo(...P(b+w*.38,rOut));
+    s.lineTo(...P(b+w*.62,rOut));s.lineTo(...P(b+w*.70,rRoot));s.lineTo(...P(b+w,rRoot));}
+  if(holeR>0){const h=new THREE.Path();h.absarc(0,0,holeR,0,Math.PI*2,true);s.holes.push(h);}
+  if(spokes){const cr=(rRoot*.72-holeR*2.1)/2;
+    if(cr>0.05){const cm=holeR*2.1+cr;
+      for(let i=0;i<5;i++){const a=i/5*Math.PI*2,h=new THREE.Path();
+        h.absarc(Math.cos(a)*cm,Math.sin(a)*cm,cr,0,Math.PI*2,true);s.holes.push(h);}}}
+  const g=new THREE.ExtrudeGeometry(s,{depth,bevelEnabled:true,bevelThickness:.004,bevelSize:.004,bevelSegments:1,curveSegments:5});
+  g.translate(0,0,-depth/2);return g;
+}
+function coneRing(rIn,rOut,slope,seg=160){
+  const g=new THREE.RingGeometry(rIn,rOut,seg,3);
+  const p=g.attributes.position;
+  for(let i=0;i<p.count;i++){
+    const x=p.getX(i),y=p.getY(i),r=Math.hypot(x,y);
+    p.setZ(i,(r-rIn)*slope);
+  }
+  g.computeVertexNormals();return g;
+}
+function swordHand(len,wid,mats){
+  const grp=new THREE.Group();
+  const s=new THREE.Shape();
+  s.moveTo(-wid*.5,-.12);s.lineTo(wid*.5,-.12);s.lineTo(wid,len*.5);
+  s.lineTo(0,len);s.lineTo(-wid,len*.5);s.closePath();
+  grp.add(new THREE.Mesh(new THREE.ExtrudeGeometry(s,{depth:.014,bevelEnabled:true,bevelThickness:.004,bevelSize:.004,bevelSegments:1}),mats.polished));
+  const lume=new THREE.Mesh(new THREE.BoxGeometry(wid*.78,len*.52,.014),mats.lume);
+  lume.position.set(0,len*.38,.02);grp.add(lume);
+  return grp;
+}
+function spiralTube(r0,r1,turns,tubeR,seg=240){
+  const pts=[];for(let i=0;i<=seg;i++){const t=i/seg,a=t*turns*Math.PI*2,r=r0+(r1-r0)*t;
+    pts.push(new THREE.Vector3(Math.cos(a)*r,Math.sin(a)*r,0));}
+  return new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),seg*2,tubeR,6,false);
+}
+
+/* ================= materials & watch factory ================= */
+const BRUSHED=brushedTex(),RUBBER=rubberTexture();
+function buildMaterials(metalKey,dialKey){
+  const m=METALS[metalKey];
+  const polished=new THREE.MeshPhysicalMaterial({color:m.pol,metalness:1,roughness:.17,clearcoat:.35,clearcoatRoughness:.35,envMapIntensity:.85});
+  const polishedFlat=polished.clone();polishedFlat.flatShading=true;polishedFlat.roughness=.24;
+  const brushed=new THREE.MeshPhysicalMaterial({color:m.bri,metalness:1,roughness:.48,roughnessMap:BRUSHED,envMapIntensity:.6,anisotropy:.5});
+  const dark=new THREE.MeshStandardMaterial({color:0x121316,metalness:.6,roughness:.6,side:THREE.DoubleSide,envMapIntensity:.35});
+  const brass=new THREE.MeshPhysicalMaterial({color:0xbf9a55,metalness:.95,roughness:.36,envMapIntensity:.7});
+  const steel=new THREE.MeshPhysicalMaterial({color:0xb4b8be,metalness:1,roughness:.3,envMapIntensity:.65});
+  const blued=new THREE.MeshPhysicalMaterial({color:0x27436f,metalness:1,roughness:.28,envMapIntensity:.7});
+  const ruby=new THREE.MeshPhysicalMaterial({color:0x6e0f1b,metalness:.1,roughness:.2,clearcoat:.6,envMapIntensity:.8});
+  const crystal=new THREE.MeshPhysicalMaterial({color:0xffffff,metalness:0,roughness:.04,transmission:1,thickness:.1,ior:1.77,specularIntensity:.6,envMapIntensity:.45});
+  const rotor=new THREE.MeshPhysicalMaterial({color:0xb18c4e,metalness:.95,roughness:.38,envMapIntensity:.7});
+  const tungsten=new THREE.MeshPhysicalMaterial({color:0x44454a,metalness:1,roughness:.46,envMapIntensity:.6});
+  const lume=new THREE.MeshStandardMaterial({color:0xd7e2ca,roughness:.62,envMapIntensity:.28});
+  const accent=new THREE.MeshPhysicalMaterial({color:ACC,roughness:.44,clearcoat:.25,clearcoatRoughness:.4,envMapIntensity:.5});
+  const rubber=new THREE.MeshStandardMaterial({map:RUBBER,color:STRAPS.black.c,roughness:.93,metalness:0,envMapIntensity:.25,side:THREE.DoubleSide});
+  const dial=new THREE.MeshPhysicalMaterial({map:dialTexture(dialKey),metalness:.18,roughness:.52,clearcoat:.28,clearcoatRoughness:.5,envMapIntensity:.5});
+  const plate=new THREE.MeshStandardMaterial({map:plateTex,metalness:.85,roughness:.46,envMapIntensity:.55});
+  const bzTex=getBezelTex(),rhTex=getRehautTex();
+  const insert=new THREE.MeshPhysicalMaterial({map:bzTex,roughness:.28,metalness:0,clearcoat:.65,clearcoatRoughness:.25,envMapIntensity:.6});
+  const rehaut=new THREE.MeshStandardMaterial({map:rhTex,roughness:.58,metalness:.15,envMapIntensity:.4});
+  return {polished,polishedFlat,brushed,dark,brass,steel,blued,ruby,crystal,rotor,tungsten,lume,accent,rubber,dial,plate,insert,rehaut};
+}
+function buildWatch(mats,opts={}){
+  const g=new THREE.Group();const L={};
+  const mk=(k,z)=>{const gr=new THREE.Group();gr.position.z=z;g.add(gr);L[k]=gr;return gr};
+
+  /* ---- case band, crown guards, fluted crown, He valve, straps ---- */
+  const caseG=mk('case',0);
+  const caseGeo=new THREE.LatheGeometry(
+    [[1.26,-.34],[1.42,-.28],[1.53,-.12],[1.545,.02],[1.48,.16],[1.34,.235],[1.26,.235],[1.26,-.34]]
+    .map(p=>new THREE.Vector2(p[0],p[1])),140);
+  caseGeo.rotateX(Math.PI/2);
+  caseG.add(new THREE.Mesh(caseGeo,mats.brushed));
+  caseG.add(new THREE.Mesh(new THREE.CylinderGeometry(1.26,1.26,.56,96,1,true).rotateX(Math.PI/2),mats.dark));
+  const midRing=new THREE.Mesh(new THREE.CylinderGeometry(1.47,1.33,.07,96,1,true).rotateX(Math.PI/2),mats.brushed);
+  midRing.position.z=.27;caseG.add(midRing);
+  const chamfer=new THREE.Mesh(new THREE.TorusGeometry(1.30,.022,12,120),mats.polished);
+  chamfer.position.z=.24;caseG.add(chamfer);
+  const lugGeo=new THREE.TorusGeometry(.34,.085,20,40,1.9);
+  for(const sy of[1,-1])for(const sx of[1,-1]){
+    const lug=new THREE.Mesh(lugGeo,mats.brushed);
+    lug.position.set(.56*sx,1.78*sy,0);
+    lug.rotation.z=(sy>0?Math.PI*1.5:Math.PI*.5)-.95-sx*sy*.12;
+    caseG.add(lug);}
+  for(const sy of[1,-1]){
+    const guard=new THREE.Mesh(new THREE.SphereGeometry(.22,20,14),mats.brushed);
+    guard.position.set(1.32,.30*sy,.02);guard.scale.set(.55,.85,.75);caseG.add(guard);}
+  const crown=new THREE.Group();
+  const cKnurl=new THREE.Mesh(gearGeometry(.205,.17,24,.17,0,false).rotateY(Math.PI/2),mats.polishedFlat);
+  const cCap=new THREE.Mesh(new THREE.CylinderGeometry(.175,.155,.035,24).rotateZ(Math.PI/2),mats.polished);cCap.position.x=.105;
+  const stem=new THREE.Mesh(new THREE.CylinderGeometry(.055,.055,.2,16).rotateZ(Math.PI/2),mats.polished);stem.position.x=-.15;
+  crown.add(cKnurl,cCap,stem);crown.position.set(1.70,0,.02);caseG.add(crown);
+  const hev=new THREE.Group();
+  const hBody=new THREE.Mesh(new THREE.CylinderGeometry(.085,.085,.14,20).rotateZ(Math.PI/2),mats.brushed);
+  const hCap=new THREE.Mesh(new THREE.CylinderGeometry(.095,.09,.035,20).rotateX(Math.PI/2),mats.polishedFlat);hCap.position.x=-.085;
+  hev.add(hBody,hCap);hev.position.set(-1.52,0,0);caseG.add(hev);
+  const straps=new THREE.Group();
+  if(opts.straps){
+    const sg=new THREE.CylinderGeometry(1.58,1.58,.8,72,1,true,1.42,1.35).rotateZ(Math.PI/2);
+    const s1=new THREE.Mesh(sg,mats.rubber),s2=new THREE.Mesh(sg,mats.rubber);
+    s1.position.z=-.32;s2.position.z=-.32;s2.rotation.z=Math.PI;
+    straps.add(s1,s2);caseG.add(straps);}
+
+  /* ---- case back ---- */
+  const cbG=mk('caseback',-.37);
+  const cb1=new THREE.Mesh(new THREE.CylinderGeometry(1.345,1.345,.06,96).rotateX(Math.PI/2),mats.brushed);
+  const cbRim=new THREE.Mesh(new THREE.TorusGeometry(1.30,.05,16,96),mats.brushed);cbRim.position.z=.03;
+  cbG.add(cb1,cbRim);
+
+  /* ---- micro-rotor ---- */
+  const roG=mk('rotor',-.30);
+  const rBody=new THREE.Shape();
+  rBody.absarc(0,0,.88,0,Math.PI,false);rBody.lineTo(-.16,0);
+  rBody.absarc(0,0,.16,Math.PI,0,true);rBody.closePath();
+  const rRim=new THREE.Shape();
+  rRim.absarc(0,0,.90,.2,Math.PI-.2,false);rRim.absarc(0,0,.70,Math.PI-.2,.2,true);rRim.closePath();
+  const exO={depth:.04,bevelEnabled:true,bevelThickness:.005,bevelSize:.005,bevelSegments:1,curveSegments:24};
+  roG.add(new THREE.Mesh(new THREE.ExtrudeGeometry(rBody,exO),mats.rotor));
+  roG.add(new THREE.Mesh(new THREE.ExtrudeGeometry(rRim,exO),mats.tungsten));
+  const hub=new THREE.Mesh(new THREE.CylinderGeometry(.09,.09,.07,24).rotateX(Math.PI/2),mats.steel);
+  const hScr=new THREE.Mesh(new THREE.CylinderGeometry(.045,.045,.02,16).rotateX(Math.PI/2),mats.blued);hScr.position.z=.045;
+  roG.add(hub,hScr);
+  const rotorW=new THREE.Group();rotorW.add(...roG.children);roG.add(rotorW);
+
+  /* ---- main plate ---- */
+  const plG=mk('plate',-.16);
+  const plate=new THREE.Mesh(new THREE.CylinderGeometry(1.28,1.28,.09,96).rotateX(Math.PI/2),
+    [mats.dark,mats.plate,mats.brass]);
+  plG.add(plate);
+  for(const [wx,wy] of WHEELS.concat([[-.55,-.48],[.9,.05],[-.9,.15]])){
+    const j=new THREE.Mesh(new THREE.CylinderGeometry(.045,.045,.03,16).rotateX(Math.PI/2),mats.ruby);
+    j.position.set(wx,wy,.055);
+    const ch=new THREE.Mesh(new THREE.TorusGeometry(.055,.012,10,24),mats.brass);ch.position.set(wx,wy,.05);
+    plG.add(j,ch);}
+  for(let i=0;i<5;i++){const a=(i/5)*Math.PI*2+.4;
+    const sc=new THREE.Mesh(new THREE.CylinderGeometry(.035,.035,.025,12).rotateX(Math.PI/2),mats.blued);
+    sc.position.set(Math.cos(a)*1.02,Math.sin(a)*1.02,.05);
+    const slot=new THREE.Mesh(new THREE.BoxGeometry(.05,.012,.008),mats.dark);
+    slot.position.z=.016;slot.rotation.z=Math.random()*3;sc.add(slot);plG.add(sc);}
+
+  /* ---- mainspring barrel ---- */
+  const baG=mk('barrel',-.10);
+  const barrel=new THREE.Mesh(gearGeometry(.42,.375,40,.11,.05,false),mats.brass);
+  barrel.position.set(-.52,.30,.06);
+  const spring=new THREE.Mesh(spiralTube(.05,.32,2.8,.009),mats.steel);
+  spring.position.set(-.52,.30,.125);
+  const arbor=new THREE.Mesh(new THREE.CylinderGeometry(.05,.05,.18,16).rotateX(Math.PI/2),mats.steel);
+  arbor.position.set(-.52,.30,.06);
+  baG.add(barrel,spring,arbor);
+
+  /* ---- going train ---- */
+  const geG=mk('gears',-.06);
+  const anim={gears:[],esc:null,bal:null,rotor:rotorW};
+  const addGear=(r,rr,teeth,hole,spokes,x,y,z,mat,sp)=>{
+    const gm=new THREE.Mesh(gearGeometry(r,rr,teeth,.026,hole,spokes),mat);
+    gm.position.set(x,y,z);geG.add(gm);
+    if(sp)anim.gears.push({m:gm,sp});
+    return gm;};
+  addGear(.335,.29,42,.045,true, .12,.02,.03,mats.brass,.35);
+  addGear(.24,.205,32,.03,false, .62,.32,.03,mats.brass,-.6);
+  addGear(.175,.15,26,.025,false,.72,-.22,.025,mats.brass,.9);
+  const esc=addGear(.135,.11,15,.02,false,.35,-.55,.02,mats.steel,0);
+  anim.esc=esc;
+  const pin1=new THREE.Mesh(new THREE.CylinderGeometry(.06,.06,.09,16).rotateX(Math.PI/2),mats.steel);
+  pin1.position.set(.12,.02,.07);geG.add(pin1);
+  const pin2=pin1.clone();pin2.position.set(.62,.32,.07);geG.add(pin2);
+
+  /* ---- balance assembly ---- */
+  const blG=mk('balance',-.02);
+  const bal=new THREE.Group();
+  const rim=new THREE.Mesh(new THREE.TorusGeometry(.30,.038,16,64),mats.brass);
+  const spoke=new THREE.Mesh(new THREE.BoxGeometry(.58,.045,.03),mats.brass);
+  const staff=new THREE.Mesh(new THREE.CylinderGeometry(.022,.022,.16,12).rotateX(Math.PI/2),mats.steel);
+  bal.add(rim,spoke,staff);
+  for(let i=0;i<4;i++){const a=i*Math.PI/2+Math.PI/4;
+    const ts=new THREE.Mesh(new THREE.CylinderGeometry(.02,.02,.045,10),mats.brass);
+    ts.position.set(Math.cos(a)*.315,Math.sin(a)*.315,0);ts.rotation.z=a-Math.PI/2;bal.add(ts);}
+  bal.position.set(-.55,-.48,.04);
+  const hSpr=new THREE.Mesh(spiralTube(.02,.24,5,.006,300),mats.blued);
+  hSpr.position.set(-.55,-.48,.095);
+  const cock=new THREE.Mesh(new THREE.BoxGeometry(.52,.16,.045),mats.polished);
+  cock.position.set(-.80,-.55,.115);cock.rotation.z=.29;
+  const cScr=new THREE.Mesh(new THREE.CylinderGeometry(.038,.038,.025,14).rotateX(Math.PI/2),mats.blued);
+  cScr.position.set(-1.02,-.62,.145);
+  blG.add(bal,hSpr,cock,cScr);anim.bal=bal;
+
+  /* ---- chapter ring (minute track, sloped) ---- */
+  const reG=mk('rehaut',.108);
+  reG.add(new THREE.Mesh(coneRing(.99,1.135,.60),mats.rehaut));
+
+  /* ---- dial + applied indices ---- */
+  const diG=mk('dial',.09);
+  const dialMesh=new THREE.Mesh(new THREE.CylinderGeometry(.99,.99,.022,96).rotateX(Math.PI/2),
+    [mats.dark,mats.dial,mats.dark]);
+  diG.add(dialMesh);
+  const dotR=.80;
+  const ringGeo=new THREE.TorusGeometry(.062,.011,10,28);
+  const dotGeo=new THREE.CylinderGeometry(.05,.05,.022,20).rotateX(Math.PI/2);
+  for(let h=1;h<=11;h++){
+    if(h===3||h===6||h===9)continue;
+    const a=h/12*Math.PI*2,x=Math.sin(a)*dotR,y=Math.cos(a)*dotR;
+    const ring=new THREE.Mesh(ringGeo,mats.polished);ring.position.set(x,y,.028);
+    const dot=new THREE.Mesh(dotGeo,mats.lume);dot.position.set(x,y,.03);
+    diG.add(ring,dot);}
+  const barMetal=new THREE.BoxGeometry(.32,.10,.016),barLume=new THREE.BoxGeometry(.24,.062,.03);
+  for(const [bx,by,rz] of [[-.78,0,Math.PI],[0,-.78,-Math.PI/2]]){
+    const bm=new THREE.Mesh(barMetal,mats.polished);bm.position.set(bx,by,.026);bm.rotation.z=rz;
+    const bl=new THREE.Mesh(barLume,mats.lume);bl.position.set(bx,by,.04);bl.rotation.z=rz;
+    diG.add(bm,bl);}
+  { /* 12 — framed lume triangle */
+    const outer=new THREE.Shape();outer.moveTo(0,.115);outer.lineTo(.105,-.075);outer.lineTo(-.105,-.075);outer.closePath();
+    const inner=new THREE.Path();inner.moveTo(0,.06);inner.lineTo(.062,-.045);inner.lineTo(-.062,-.045);inner.closePath();
+    outer.holes.push(inner);
+    const frame=new THREE.Mesh(new THREE.ExtrudeGeometry(outer,{depth:.014,bevelEnabled:false}),mats.polished);
+    const lt=new THREE.Shape();lt.moveTo(0,.06);lt.lineTo(.062,-.045);lt.lineTo(-.062,-.045);lt.closePath();
+    const lumeTri=new THREE.Mesh(new THREE.ExtrudeGeometry(lt,{depth:.03,bevelEnabled:false}),mats.lume);
+    frame.position.set(0,dotR+.03,.028);lumeTri.position.set(0,dotR+.03,.026);
+    diG.add(frame,lumeTri);}
+
+  /* ---- hands: sword set + GMT + seconds (all tell real time) ---- */
+  const haG=mk('hands',.13);
+  const hour=swordHand(.56,.075,mats);hour.position.z=.015;
+  const minute=swordHand(.86,.058,mats);minute.position.z=.042;
+  const gmt=new THREE.Group();
+  const gShaft=new THREE.Mesh(new THREE.BoxGeometry(.026,.62,.013),mats.steel);gShaft.position.y=.16;
+  const gTri=new THREE.Shape();gTri.moveTo(0,.47);gTri.lineTo(.085,.92);gTri.lineTo(-.085,.92);gTri.closePath();
+  const gTip=new THREE.Mesh(new THREE.ExtrudeGeometry(gTri,{depth:.012,bevelEnabled:false}),mats.accent);
+  const gLume=new THREE.Shape();gLume.moveTo(0,.55);gLume.lineTo(.048,.82);gLume.lineTo(-.048,.82);gLume.closePath();
+  const gLumeM=new THREE.Mesh(new THREE.ExtrudeGeometry(gLume,{depth:.02,bevelEnabled:false}),mats.lume);
+  const gTail=new THREE.Mesh(new THREE.BoxGeometry(.02,.34,.012),mats.steel);gTail.position.y=-.32;
+  const gArr=new THREE.Shape();gArr.moveTo(0,-.44);gArr.lineTo(.045,-.60);gArr.lineTo(-.045,-.60);gArr.closePath();
+  const gArrM=new THREE.Mesh(new THREE.ExtrudeGeometry(gArr,{depth:.012,bevelEnabled:false}),mats.accent);
+  gmt.add(gShaft,gTip,gLumeM,gTail,gArrM);gmt.position.z=.07;
+  const sec=new THREE.Group();
+  const sStick=new THREE.Mesh(new THREE.BoxGeometry(.014,1.2,.011).translate(0,.35,0),mats.steel);
+  const sTipS=new THREE.Shape();sTipS.moveTo(0,.78);sTipS.lineTo(.04,.95);sTipS.lineTo(-.04,.95);sTipS.closePath();
+  const sTip=new THREE.Mesh(new THREE.ExtrudeGeometry(sTipS,{depth:.011,bevelEnabled:false}),mats.accent);
+  const sCw=new THREE.Mesh(new THREE.TorusGeometry(.05,.014,10,24),mats.accent);sCw.position.y=-.19;
+  sec.add(sStick,sTip,sCw);sec.position.z=.098;
+  const cap=new THREE.Mesh(new THREE.CylinderGeometry(.048,.048,.026,20).rotateX(Math.PI/2),mats.polished);cap.position.z=.115;
+  haG.add(hour,minute,gmt,sec,cap);
+  anim.hands={h:hour,m:minute,g:gmt,s:sec,z:{h:.015,m:.042,g:.07,s:.098}};
+
+  /* ---- 24h bezel: coin-edge + ceramic insert ---- */
+  const bzG=mk('bezel',.20);
+  const knurl=new THREE.Mesh(gearGeometry(1.52,1.45,100,.12,1.40,false),mats.polished);
+  knurl.position.z=.072;bzG.add(knurl);
+  const insert=new THREE.Mesh(coneRing(1.12,1.42,.42),mats.insert);
+  bzG.add(insert);
+  const pipGeo=new THREE.BoxGeometry(.055,.055,.02);
+  for(let h=1;h<=23;h+=2){
+    const a=h/24*Math.PI*2;
+    const pip=new THREE.Mesh(pipGeo,mats.lume);
+    pip.position.set(Math.sin(a)*1.27,Math.cos(a)*1.27,.078);pip.rotation.z=-a;
+    bzG.add(pip);}
+  const triPip=new THREE.Mesh(new THREE.CylinderGeometry(.036,.036,.022,20).rotateX(Math.PI/2),mats.lume);
+  triPip.position.set(0,1.27,.085);bzG.add(triPip);
+
+  /* ---- box sapphire ---- */
+  const crG=mk('crystal',.38);
+  const Rs=(1.10*1.10+.15*.15)/(2*.15);
+  const crGeo=new THREE.SphereGeometry(Rs,96,24,0,Math.PI*2,0,Math.asin(1.10/Rs));
+  crGeo.rotateX(Math.PI/2);
+  const crystal=new THREE.Mesh(crGeo,mats.crystal);
+  crystal.position.z=-(Rs*Math.cos(Math.asin(1.10/Rs)));
+  crG.add(crystal);
+
+  /* first frame — 10:09:35, GMT at UTC */
+  hour.rotation.z=-((10+9/60)/12)*Math.PI*2;minute.rotation.z=-((9+35/60)/60)*Math.PI*2;sec.rotation.z=-.6;
+  gmt.rotation.z=-(((new Date().getUTCHours()+new Date().getUTCMinutes()/60))/24)*Math.PI*2;
+
+  g.ud={mats,layers:L,anim,metal:opts.metal||'steel',dial:opts.dial||'blue',strap:opts.strap||'black',uy:0,ux:0,vy:0,straps};
+  return g;
+}
+function setMetal(w,key){
+  if(!w)return;
+  const M=METALS[key],m=w.ud.mats;
+  m.polished.userData.tc=new THREE.Color(M.pol);
+  m.polishedFlat.userData.tc=new THREE.Color(M.pol);
+  m.brushed.userData.tc=new THREE.Color(M.bri);
+  w.ud.metal=key;
+}
+function setDial(w,key){
+  if(!w)return;
+  const m=w.ud.mats;
+  m.dial.map=dialTexture(key);m.dial.needsUpdate=true;
+  w.ud.dial=key;
+}
+function setStrap(w,key){
+  if(!w)return;
+  w.ud.mats.rubber.userData.tc=new THREE.Color(STRAPS[key].c);
+  w.ud.strap=key;
+}
+
+/* ================= three.js stage ================= */
+let renderer,scene,camera;
+let wHero,wEx,wCfg;
+try{
+  renderer=new THREE.WebGLRenderer({canvas:$('#gl'),antialias:true,alpha:true,powerPreference:'high-performance'});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  renderer.setSize(vw,vh);
+  renderer.toneMapping=THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure=1.0;
+  renderer.outputColorSpace=THREE.SRGBColorSpace;
+  renderer.setClearColor(0x000000,0);
+  ANISO=Math.min(8,renderer.capabilities.getMaxAnisotropy());
+
+  scene=new THREE.Scene();
+  camera=new THREE.PerspectiveCamera(40,vw/vh,.1,60);
+  camera.position.set(0,.3,11);
+
+  function makeStudioEnv(){
+    const es=new THREE.Scene();
+    es.background=new THREE.Color(0x000000);
+    const plane=new THREE.PlaneGeometry(1,1);
+    const strip=(w,h,pos,tgt,inten,col=0xffffff)=>{
+      const mat=new THREE.MeshBasicMaterial({side:THREE.DoubleSide});
+      mat.color.set(col).multiplyScalar(inten);
+      const mesh=new THREE.Mesh(plane,mat);
+      mesh.scale.set(w,h,1);mesh.position.set(...pos);mesh.lookAt(...tgt);
+      es.add(mesh);};
+    strip(16,4,  [0,7,1],   [0,0,0], 6.5);
+    strip(2.2,12,[-8,2,3],  [0,0,0], 4.5,0xfff1dd);
+    strip(1.6,10,[8,1.5,-2],[0,0,0], 3.2,0xdfe9f5);
+    strip(12,1.6,[0,2.5,-8],[0,0,0], 2.0);
+    strip(7,1.4, [0,-2,7],  [0,0,0], 1.0);
+    const pmrem=new THREE.PMREMGenerator(renderer);
+    const tex=pmrem.fromScene(es,.035).texture;
+    pmrem.dispose();
+    return tex;
+  }
+  scene.environment=makeStudioEnv();
+
+  const key=new THREE.DirectionalLight(0xfff0dc,1.05);key.position.set(3.5,4,5.5);scene.add(key);
+  const rim=new THREE.DirectionalLight(0xdfe8f2,.4);rim.position.set(-5,1.5,-4.5);scene.add(rim);
+
+  plateTex=makePlateTex();
+  wHero=buildWatch(buildMaterials('steel','blue'),{straps:true,metal:'steel',dial:'blue',strap:'black'});
+  wEx  =buildWatch(buildMaterials('steel','blue'),{straps:false,metal:'steel',dial:'blue'});
+  wCfg =buildWatch(buildMaterials('steel','blue'),{straps:true,metal:'steel',dial:'blue',strap:'black'});
+  scene.add(wHero,wEx,wCfg);
+}catch(err){
+  console.warn('3D stage unavailable:',err);
+}
+
+/* ================= annotation labels ================= */
+const NSVG='http://www.w3.org/2000/svg';
+const annoEl=$('#anno'),svg=$('#annoSvg');
+LABELS.forEach(L=>{
+  const el=document.createElement('div');
+  el.className='ann '+(L.side==='L'?'annL':'annR');
+  el.innerHTML=`<h4>${L.t}</h4><p>${L.d}</p>`;
+  annoEl.appendChild(el);
+  const ln=document.createElementNS(NSVG,'line');ln.setAttribute('class','ann-line');
+  const c1=document.createElementNS(NSVG,'circle');c1.setAttribute('class','ann-dot');c1.setAttribute('r','4.5');
+  const c2=document.createElementNS(NSVG,'circle');c2.setAttribute('fill','#c3a163');c2.setAttribute('r','1.4');
+  svg.append(ln,c1,c2);
+  Object.assign(L,{el,ln,c1,c2,w:220,h:44,start:startOf(L.k)});
+});
+
+/* ================= scroll metrics & layout ================= */
+const M={mvTop:1,mvLen:10,coTop:2,atTop:3,foTop:4};
+const off=sel=>{let el=$(sel),y=0;while(el){y+=el.offsetTop;el=el.offsetParent}return y};
+function measure(){
+  vw=innerWidth;vh=innerHeight;
+  M.mvTop=off('#movement');M.mvLen=$('#movement').offsetHeight;
+  M.coTop=off('#collection');M.atTop=off('#atelier');M.foTop=off('#contact');
+  if(!renderer)return;
+  const mob=vw<900;
+  wHero.position.set(mob?0:1.8,mob?1.15:.02,0);wHero.scale.setScalar(mob?.6:1);
+  wCfg.position.set(mob?0:-1.85,mob?1.25:.02,0);wCfg.scale.setScalar(mob?.58:1);
+  wEx.scale.setScalar(mob?.58:1);
+  LABELS.forEach(L=>{L.w=L.el.offsetWidth||220;L.h=L.el.offsetHeight||44;});
+}
+function resize(){
+  measure();
+  if(!renderer)return;
+  renderer.setSize(vw,vh);
+  camera.aspect=vw/vh;camera.updateProjectionMatrix();
+}
+addEventListener('resize',()=>{clearTimeout(resize._t);resize._t=setTimeout(resize,80)});
+measure();
+
+/* ================= smooth scroll ================= */
+let lenis=null;
+if(window.Lenis){lenis=new Lenis({lerp:.09});}
+function goTo(sel){
+  const top=sel==='#hero'?0:off(sel);
+  if(lenis)lenis.scrollTo(top,{duration:1.7,easing:t=>1-Math.pow(1-t,3)});
+  else window.scrollTo({top,behavior:'smooth'});
+}
+document.addEventListener('click',e=>{
+  const g=e.target.closest('[data-go]');
+  if(g){e.preventDefault();closeMenu();goTo(g.dataset.go);}
+});
+
+/* ================= UI wiring ================= */
+const navEl=$('#nav'),dipEl=$('#dip'),barT=$('#barT'),barB=$('#barB');
+const hudPct=$('#hudPct'),hudBar=$('#hudBar'),mvHead=$('#mvHead'),mvEnd=$('#mvEnd'),mvHintR=$('#mvHintR');
+const navLinks=[...document.querySelectorAll('.nav-links a')];
+function toast(msg){
+  const t=document.createElement('div');t.className='toast';t.textContent=msg;
+  $('#toasts').appendChild(t);
+  requestAnimationFrame(()=>t.classList.add('on'));
+  setTimeout(()=>{t.classList.remove('on');setTimeout(()=>t.remove(),500)},3600);
+}
+const mmenu=$('#mmenu'),burger=$('#burger');
+function closeMenu(){mmenu.classList.remove('open');lenis&&lenis.start();document.documentElement.style.overflow=''}
+burger.addEventListener('click',()=>{
+  const open=mmenu.classList.toggle('open');
+  if(lenis)open?lenis.stop():lenis.start();
+  document.documentElement.style.overflow=open?'hidden':'';
+});
+function initReveals(){
+  const io=new IntersectionObserver(es=>es.forEach(x=>{
+    if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.16});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+}
+document.querySelectorAll('.acc-item').forEach(item=>{
+  item.querySelector('.acc-row').addEventListener('click',()=>{
+    const wasOpen=item.classList.contains('open');
+    document.querySelectorAll('.acc-item.open').forEach(o=>{
+      o.classList.remove('open');o.querySelector('.acc-body').style.maxHeight='0px';});
+    if(!wasOpen){item.classList.add('open');
+      const b=item.querySelector('.acc-body');b.style.maxHeight=b.scrollHeight+'px';}
+  });
+});
+{const first=$('.acc-item.open .acc-body');if(first)first.style.maxHeight=first.scrollHeight+'px';}
+
+/* configurator */
+const fmt=new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0});
+function updCfg(){
+  if(!wCfg)return;
+  const u=wCfg.ud;
+  $('#price').textContent=fmt.format(METALS[u.metal].price+DIALS[u.dial].extra);
+  $('#refcode').textContent=`REF. S300-${METALS[u.metal].code}-${DIALS[u.dial].code}-${STRAPS[u.strap].code}`;
+}
+$('#caseSw').addEventListener('click',e=>{
+  const b=e.target.closest('.swatch');if(!b||!wCfg)return;
+  [...b.parentNode.children].forEach(x=>x.classList.toggle('is-active',x===b));
+  setMetal(wCfg,b.dataset.metal);
+  $('#caseName').textContent=METALS[b.dataset.metal].name;
+  wCfg.ud.vy+=.11;updCfg();
+});
+$('#dialSw').addEventListener('click',e=>{
+  const b=e.target.closest('.swatch');if(!b||!wCfg)return;
+  [...b.parentNode.children].forEach(x=>x.classList.toggle('is-active',x===b));
+  setDial(wCfg,b.dataset.dial);
+  $('#dialName').textContent=DIALS[b.dataset.dial].label;
+  wCfg.ud.vy+=.11;updCfg();
+});
+$('#strapSw').addEventListener('click',e=>{
+  const b=e.target.closest('.swatch');if(!b||!wCfg)return;
+  [...b.parentNode.children].forEach(x=>x.classList.toggle('is-active',x===b));
+  setStrap(wCfg,b.dataset.strap);
+  $('#strapName').textContent=STRAPS[b.dataset.strap].name;
+  wCfg.ud.vy+=.11;updCfg();
+});
+updCfg();
+
+/* modal */
+const modal=$('#modal');
+function openModal(ctx){
+  if(ctx)$('#moCtx').textContent=ctx+' — the Geneva atelier receives by appointment only.';
+  modal.classList.add('open');lenis&&lenis.stop();
+  document.documentElement.style.overflow='hidden';
+  setTimeout(()=>$('#fName').focus(),350);
+}
+function closeModal(){modal.classList.remove('open');lenis&&lenis.start();document.documentElement.style.overflow=''}
+document.querySelectorAll('.book-btn').forEach(b=>b.addEventListener('click',()=>openModal()));
+$('#reserveBtn').addEventListener('click',()=>openModal('Reference '+$('#refcode').textContent.replace('REF. ','')));
+$('#moX').addEventListener('click',closeModal);
+$('#moBg').addEventListener('click',closeModal);
+addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeMenu();}});
+$('#apForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const n=$('#fName'),m=$('#fMail'),err=$('#fErr');
+  n.classList.remove('bad');m.classList.remove('bad');err.textContent='';
+  if(n.value.trim().length<2){n.classList.add('bad');err.textContent='May we have your name?';return;}
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(m.value)){m.classList.add('bad');err.textContent='That email doesn’t look quite right.';return;}
+  const btn=e.target.querySelector('.mo-send');btn.textContent='Sending…';btn.disabled=true;
+  setTimeout(()=>{
+    btn.textContent='Send request';btn.disabled=false;
+    e.target.reset();closeModal();
+    toast('Received. The atelier writes back within two working days.');
+  },700);
+});
+$('#mailBtn').addEventListener('click',async()=>{
+  try{await navigator.clipboard.writeText('hello@meridian-geneve.ch');
+    toast('hello@meridian-geneve.ch — copied to your clipboard.');}
+  catch{toast('hello@meridian-geneve.ch');}
+});
+$('#reasm').addEventListener('click',()=>goTo('#movement'));
+
+/* ================= interaction: drag to rotate ================= */
+let dragS=null,uiHover=false;
+const canDrag=()=>renderer&&((sceneKey==='hero'&&wHero.visible)||(sceneKey==='collection'&&wCfg.visible));
+addEventListener('pointerdown',e=>{
+  if(e.pointerType==='mouse'&&e.button!==0)return;
+  if(e.target.closest('a,button,input,textarea,select,.acc-row,#modal,#nav,#mmenu'))return;
+  if(!canDrag())return;
+  dragS={x:e.clientX,y:e.clientY,w:sceneKey==='hero'?wHero:wCfg};
+});
+addEventListener('pointermove',e=>{
+  mx.x=e.clientX;mx.y=e.clientY;
+  uiHover=!!e.target.closest('a,button,input,textarea,select,.acc-row,#nav,#mmenu,.swatch');
+  if(!dragS)return;
+  const dx=e.clientX-dragS.x,dy=e.clientY-dragS.y,u=dragS.w.ud;
+  u.uy+=dx*.0062;u.vy=dx*.0034;
+  u.ux=clamp(u.ux+dy*.004,-.55,.6);
+  dragS.x=e.clientX;dragS.y=e.clientY;
+});
+const endDrag=()=>dragS=null;
+addEventListener('pointerup',endDrag);
+addEventListener('pointercancel',endDrag);
+
+/* ================= master loop ================= */
+const camCurve=new THREE.CatmullRomCurve3([
+  new THREE.Vector3(0,.9,9.6),new THREE.Vector3(3.1,1.6,8.6),
+  new THREE.Vector3(1.7,2.9,9.9),new THREE.Vector3(-3.3,1.05,10.7)]);
+const ct=new THREE.Vector3(),lt=new THREE.Vector3(),_v=new THREE.Vector3();
+const par={x:0,y:0};
+let sceneKey='hero',prevScene=null,lastPct=-1,lastHint='',introT0=-1;
+const watches=()=>[wHero,wEx,wCfg].filter(Boolean);
+
+function setHands(w){
+  const H=w.ud.anim.hands;if(!H)return;
+  const n=new Date();
+  const sRaw=n.getSeconds()+n.getMilliseconds()/1000;
+  const sQ=Math.floor(sRaw*8)/8;
+  const m=n.getMinutes()+sRaw/60,h=(n.getHours()%12)+m/60;
+  const u=n.getUTCHours()+n.getUTCMinutes()/60+sRaw/3600;
+  H.h.rotation.z=-(h/12)*Math.PI*2;
+  H.m.rotation.z=-(m/60)*Math.PI*2;
+  H.s.rotation.z=-(sQ/60)*Math.PI*2;
+  H.g.rotation.z=-(u/24)*Math.PI*2;
+}
+function update(t,dt){
+  const y=window.scrollY,mob=vw<900;
+  navEl.classList.toggle('scrolled',y>40);
+  const active=y<M.mvTop-2?'hero':y<M.coTop-2?'movement':y<M.atTop-2?'collection':'after';
+  sceneKey=active;
+  if(active!==prevScene&&renderer){ct.copy(camera.position);prevScene=active;}
+  navLinks.forEach(a=>a.classList.toggle('act',a.dataset.go==='#'+(active==='after'?'contact':active==='hero'?'none':active)));
+
+  const p=clamp((y-M.mvTop)/(M.mvLen-vh),0,1);
+
+  /* chapter dips + letterbox bars */
+  let d=Math.pow(Math.max(0,1-Math.abs(y-M.mvTop)/(vh*.55)),1.6);
+  d=Math.max(d,Math.pow(Math.max(0,1-Math.abs(y-M.coTop)/(vh*.55)),1.6));
+  dipEl.style.opacity=(d*.92).toFixed(3);
+  const bp=(active==='movement'||(y>M.mvTop-vh*.3&&y<M.coTop))
+    ?sstep((y-M.mvTop+vh*.05)/(vh*.18))*(1-sstep((y-(M.coTop-vh*.30))/(vh*.18))):0;
+  const bh=(bp*3.6).toFixed(2)+'vh';
+  if(barT.style.height!==bh){barT.style.height=bh;barB.style.height=bh;}
+
+  if(!renderer)return;
+
+  wHero.visible=active==='hero';
+  wEx.visible=active==='movement';
+  wCfg.visible=active==='collection';
+
+  /* explode choreography */
+  if(wEx.visible){
+    for(const ld of LAYERS){
+      const e=easeIO((p-ld.d)/.34);
+      wEx.ud.layers[ld.k].position.z=ld.z0+ld.dz*e;
+    }
+    wEx.rotation.set(-.08-p*.28,.45-p*1.08,0);
+    wEx.updateMatrixWorld(true);
+    /* fan the four hands apart as their layer lifts */
+    const lh=LAYERS.find(l=>l.k==='hands');
+    const eh=easeIO((p-lh.d)/.34);
+    const H=wEx.ud.anim.hands;
+    H.m.position.z=H.z.m+eh*.12;
+    H.g.position.z=H.z.g+eh*.24;
+    H.s.position.z=H.z.s+eh*.36;
+  }
+  /* living mechanics + hands */
+  for(const w of watches()){
+    if(!w.visible)continue;
+    setHands(w);
+    const a=w.ud.anim;
+    if(w===wEx){
+      const k=.4+p*1.4;
+      for(const g of a.gears)g.m.rotation.z+=g.sp*dt*k;
+      a.esc.rotation.z=-Math.floor(t*8)*.209;
+      a.bal.rotation.z=2.2*Math.sin(t*Math.PI*2*3);
+      a.rotor.rotation.z=.55*Math.sin(t*.6)+.2*Math.sin(t*1.7);
+    }
+    const mats=w.ud.mats;
+    const kk=1-Math.exp(-6*dt);
+    for(const mm of[mats.polished,polishedFlatFix(mats),mats.brushed,mats.rubber])
+      if(mm.userData.tc)mm.color.lerp(mm.userData.tc,kk);
+  }
+  /* drag inertia & idle life */
+  const introK=introT0<0?0:sstep((t-introT0)/2.4);
+  for(const w of[wHero,wCfg]){
+    const u=w.ud;
+    u.uy+=u.vy;u.vy*=.93;
+    u.uy*=Math.exp(-.10*dt);u.ux*=Math.exp(-1.1*dt);
+    const idle=(w===wHero?-.55:-.4)+Math.sin(t*(w===wHero?.28:.22))*.08;
+    w.rotation.y=idle+u.uy-(w===wHero?(1-introK)*2.6:0);
+    w.rotation.x=(w===wHero?.06:.04)+u.ux+Math.sin(t*.19)*.03;
+  }
+  /* camera per chapter */
+  par.x=lerp(par.x,(mx.x/vw-.5),1-Math.exp(-4*dt));
+  par.y=lerp(par.y,(mx.y/vh-.5),1-Math.exp(-4*dt));
+  if(active==='movement'){camCurve.getPoint(p,ct);ct.x*=mob?.8:1;ct.z+=mob?2.2:0;lt.set(0,0,.4);}
+  else if(active==='hero'){ct.set(par.x*.55,.12-par.y*.3,(mob?9.4:7.6)+(1-introK)*3.2);lt.set(mob?0:.55,mob?.45:.02,0);}
+  else if(active==='collection'){ct.set(par.x*.5,.06-par.y*.28,7.9);lt.set(mob?0:-.55,.02,0);}
+  else{ct.set(0,.3,8);lt.set(0,0,0);}
+  if(prevScene===active)camera.position.lerp(ct,1-Math.exp(-5*dt));
+  else camera.position.copy(ct);
+  camera.lookAt(lt);
+
+  /* movement HUD */
+  const pct=Math.round(p*100);
+  if(pct!==lastPct){lastPct=pct;hudPct.textContent=String(pct).padStart(3,'0');hudBar.style.transform=`scaleX(${p})`;}
+  const ho=(1-sstep(p/.09)).toFixed(3);
+  mvHead.style.opacity=ho;mvHead.style.transform=`translateY(${-p*60}px)`;
+  const eo=sstep((p-.86)/.09);
+  mvEnd.style.opacity=eo.toFixed(3);
+  const hint=p>.5?'Scroll to reassemble':'Scroll to disassemble';
+  if(hint!==lastHint){lastHint=hint;mvHintR.textContent=hint;}
+
+  /* projected annotations */
+  if(wEx.visible){
+    const laneL=Math.max(12,vw*.05),laneR=vw-Math.max(12,vw*.05);
+    for(const L of LABELS){
+      const a=sstep((p-L.start)/.08)*(1-sstep((p-.90)/.06));
+      if(a<=.01){L.el.style.opacity=0;L.ln.style.opacity=0;L.c1.style.opacity=0;L.c2.style.opacity=0;continue;}
+      _v.set(L.ax,L.ay,0);wEx.ud.layers[L.k].localToWorld(_v);_v.project(camera);
+      const sx=(_v.x*.5+.5)*vw,sy=(-_v.y*.5+.5)*vh;
+      const lx=L.side==='L'?laneL:laneR-L.w;
+      const ly=clamp(sy+L.dy,vh*.13,vh*.80);
+      L.el.style.opacity=a.toFixed(3);
+      L.el.style.transform=`translate3d(${lx.toFixed(1)}px,${ly.toFixed(1)}px,0)`;
+      const attachX=L.side==='L'?lx+L.w:lx;
+      L.ln.setAttribute('x1',sx);L.ln.setAttribute('y1',sy);
+      L.ln.setAttribute('x2',attachX);L.ln.setAttribute('y2',ly+L.h*.45);
+      L.ln.style.opacity=a.toFixed(3);
+      for(const c of[L.c1,L.c2]){c.setAttribute('cx',sx);c.setAttribute('cy',sy);c.style.opacity=a.toFixed(3);}
+    }
+  }else{
+    for(const L of LABELS){L.el.style.opacity=0;L.ln.style.opacity=0;L.c1.style.opacity=0;L.c2.style.opacity=0;}
+  }
+
+  cursorTick(dt);
+  if(!(active==='after'&&y>M.atTop-vh*.4))renderer.render(scene,camera);
+}
+function polishedFlatFix(m){return m.polishedFlat}
+
+/* cursor */
+const dotEl=$('.cur-dot'),ringEl=$('.cur-ring');
+let rx=mx.x,ry=mx.y;
+function cursorTick(dt){
+  rx=lerp(rx,mx.x,1-Math.exp(-14*dt));ry=lerp(ry,mx.y,1-Math.exp(-14*dt));
+  dotEl.style.transform=`translate(${mx.x}px,${mx.y}px) translate(-50%,-50%)`;
+  ringEl.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`;
+  document.body.classList.toggle('cur-hover',uiHover);
+  document.body.classList.toggle('cur-drag',canDrag()&&!uiHover);
+}
+
+/* ================= boot ================= */
+let last=0;
+function loop(t){
+  requestAnimationFrame(loop);
+  const dt=Math.min((t-last)/1000,.05);last=t;
+  if(lenis)lenis.raf(t);
+  update(t/1000,dt);
+}
+requestAnimationFrame(loop);
+
+let ld=0;const ldBar=$('#ldBar');
+const ldIv=setInterval(()=>{
+  ld=Math.min(100,ld+Math.random()*16+6);
+  ldBar.style.transform=`scaleX(${ld/100})`;
+  if(ld>=100){clearInterval(ldIv);
+    setTimeout(()=>{
+      $('#loader').classList.add('done');
+      document.body.classList.add('is-ready');
+      introT0=performance.now()/1000;
+      initReveals();measure();
+    },260);}
+},110);
+setTimeout(()=>{if(ld<100){clearInterval(ldIv);$('#loader').classList.add('done');
+  document.body.classList.add('is-ready');introT0=performance.now()/1000;initReveals();}},6000);
+
+/* crisp canvas type once fonts arrive */
+document.fonts.ready.then(()=>{
+  for(const k in dialCache)drawDial(dialCache[k],k);
+  if(rehautC)drawRehaut(rehautC);
+  if(bezC)drawBezel(bezC);
+  if(rehautTex)rehautTex.needsUpdate=true;
+  if(bezTex)bezTex.needsUpdate=true;
+  if(plateCanvas)drawPlate(plateCanvas);
+  if(plateTex)plateTex.needsUpdate=true;
+  for(const w of watches())if(w.ud.mats.dial.map)w.ud.mats.dial.map.needsUpdate=true;
+  measure();
+});
+</script>
+</body>
+</html>

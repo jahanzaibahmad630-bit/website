@@ -1,0 +1,1702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TAKUMI 匠 — Creative Technologist & 3D Web Artisan</title>
+<meta name="description" content="Portfolio of Takumi — Creative technologist, 3D WebGL specialist, and digital craftsman building high-performance, human-centred web experiences.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ============ FOUNDATION & COLOR TOKENS ============ */
+:root{
+  --paper:#f4efe4;
+  --paper2:#ece5d3;
+  --paper3:#e4dcbe;
+  --ink:#191712;
+  --ink2:#5d5749;
+  --ink3:#8c8470;
+  --line:rgba(25,23,18,.16);
+  --line-strong:rgba(25,23,18,.32);
+  --verm:#c1391f;
+  --gold:#96772f;
+  --serif:'Shippori Mincho',serif;
+  --sans:'Zen Kaku Gothic New',sans-serif;
+  --gx:clamp(22px,5vw,76px);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.7;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+body.dragging{user-select:none;cursor:grabbing!important}
+body.can-grab{cursor:grab}
+::selection{background:var(--verm);color:var(--paper)}
+:focus-visible{outline:2px solid var(--verm);outline-offset:3px}
+
+/* paper grain overlay */
+body::after{
+  content:'';position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.4;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.16 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ============ LOADER ============ */
+.loader{
+  position:fixed;inset:0;z-index:100;
+  background:var(--paper);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
+  transition:opacity .7s ease,visibility .7s;
+}
+.loader .lk{
+  font-family:var(--serif);font-weight:800;
+  font-size:clamp(3.2rem,8.5vw,5.8rem);
+  letter-spacing:.2em;overflow:hidden;
+}
+.loader .lk span{
+  display:inline-block;transform:translateY(110%);
+  animation:lkup 1s cubic-bezier(.16,1,.3,1) .1s forwards;
+}
+@keyframes lkup{to{transform:none}}
+.loader .ln{width:130px;height:1px;background:var(--line);position:relative;overflow:hidden}
+.loader .ln i{
+  position:absolute;inset:0;background:var(--verm);
+  transform:translateX(-100%);
+  animation:lkbar 1.4s cubic-bezier(.6,0,.2,1) forwards;
+}
+@keyframes lkbar{to{transform:none}}
+.loader p{
+  font-size:10px;letter-spacing:.42em;color:var(--ink2);
+  text-transform:uppercase;font-weight:500;
+}
+body.ready .loader{opacity:0;visibility:hidden}
+
+/* ============ 3D STAGE ============ */
+#stage{position:fixed;inset:0;z-index:1;pointer-events:none}
+
+/* ============ NAV ============ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px var(--gx);
+  transition:background .4s,box-shadow .4s,backdrop-filter .4s;
+}
+.nav.scrolled{
+  background:rgba(244,239,228,.85);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
+.hanko{
+  width:36px;height:36px;background:var(--verm);color:var(--paper);
+  font-family:var(--serif);font-weight:700;font-size:20px;
+  display:grid;place-items:center;border-radius:3px;
+  box-shadow:0 1px 0 rgba(0,0,0,.15);
+}
+.bname{
+  font-family:var(--serif);font-weight:700;font-size:18px;letter-spacing:.14em;
+  display:flex;flex-direction:column;line-height:1.1;
+}
+.bname small{
+  font-family:var(--sans);font-weight:500;font-size:9px;
+  letter-spacing:.34em;color:var(--ink2);
+}
+.nlinks{display:flex;gap:clamp(16px,2.8vw,40px)}
+.nlinks a{
+  position:relative;text-decoration:none;color:var(--ink);
+  font-size:11.5px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;
+  padding:6px 0;display:flex;flex-direction:column;align-items:center;line-height:1.4;
+}
+.nlinks a i{font-style:normal;font-size:9.5px;letter-spacing:.3em;color:var(--ink2);font-family:var(--serif)}
+.nlinks a::after{
+  content:'';position:absolute;left:0;right:0;bottom:-2px;height:2px;
+  background:var(--verm);transform:scaleX(0);transform-origin:left;
+  transition:transform .35s cubic-bezier(.16,1,.3,1);
+}
+.nlinks a:hover::after,.nlinks a.on::after{transform:scaleX(1)}
+.nlinks a.on{color:var(--verm)}
+.burger{display:none;background:none;border:0;width:40px;height:40px;cursor:pointer;position:relative;z-index:75}
+.burger span{position:absolute;left:8px;right:8px;height:2px;background:var(--ink);transition:.35s cubic-bezier(.16,1,.3,1)}
+.burger span:nth-child(1){top:15px}.burger span:nth-child(2){top:24px}
+.burger.open span:nth-child(1){top:19px;transform:rotate(45deg)}
+.burger.open span:nth-child(2){top:19px;transform:rotate(-45deg)}
+.mmenu{
+  position:fixed;inset:0;z-index:70;background:var(--paper);
+  display:flex;flex-direction:column;justify-content:center;
+  padding:0 var(--gx);gap:8px;opacity:0;visibility:hidden;transition:.45s ease;
+}
+.mmenu.open{opacity:1;visibility:visible}
+.mmenu a{
+  font-family:var(--serif);font-weight:700;font-size:clamp(2.1rem,8.5vw,3.2rem);
+  color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line);
+  padding:14px 0;display:flex;justify-content:space-between;align-items:baseline;
+  transform:translateY(24px);opacity:0;transition:.5s cubic-bezier(.16,1,.3,1);
+}
+.mmenu.open a{transform:none;opacity:1}
+.mmenu a i{font-style:normal;font-size:12px;letter-spacing:.3em;color:var(--verm)}
+.mmenu a:nth-child(2){transition-delay:.06s}
+.mmenu a:nth-child(3){transition-delay:.12s}
+.mmenu a:nth-child(4){transition-delay:.18s}
+.mmenu a:nth-child(5){transition-delay:.24s}
+.mmenu a:nth-child(6){transition-delay:.30s}
+
+/* ============ SHARED STYLES ============ */
+section{position:relative;z-index:10}
+.overline{
+  font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--ink2);
+  display:flex;align-items:center;gap:12px;font-weight:500;
+}
+.overline::before{content:'';width:8px;height:8px;background:var(--verm);flex:none}
+h2{
+  font-family:var(--serif);font-weight:700;font-size:clamp(2.3rem,4.6vw,4.2rem);
+  line-height:1.08;letter-spacing:-.01em;margin-top:20px;
+}
+.rv{
+  opacity:0;transform:translateY(28px);
+  transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);
+  transition-delay:var(--d,0s);
+}
+.rv.in{opacity:1;transform:none}
+.wm{
+  position:absolute;font-family:var(--serif);font-weight:800;
+  font-size:min(38vw,25rem);line-height:1;color:rgba(25,23,18,.04);
+  pointer-events:none;user-select:none;z-index:-1;
+}
+.btn{
+  display:inline-flex;align-items:center;gap:14px;background:var(--ink);color:var(--paper);
+  text-decoration:none;font-size:11.5px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;
+  padding:17px 28px;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,0 100%);
+  transition:background .35s;cursor:pointer;border:0;font-family:var(--sans);
+}
+.btn svg{transition:transform .35s cubic-bezier(.16,1,.3,1)}
+.btn:hover{background:var(--verm)}
+.btn:hover svg{transform:translateX(5px)}
+.tlink{
+  display:inline-flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none;
+  font-size:11.5px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;
+  border-bottom:1px solid var(--ink);padding-bottom:5px;transition:color .3s,border-color .3s;
+}
+.tlink svg{transition:transform .35s cubic-bezier(.16,1,.3,1)}
+.tlink:hover{color:var(--verm);border-color:var(--verm)}
+.tlink:hover svg{transform:translateX(5px)}
+
+/* ============ HERO ============ */
+.hero{min-height:100vh;display:flex;align-items:center;padding:120px var(--gx) 130px}
+.hero-copy{max-width:760px;pointer-events:none}
+.hero-copy .btn,.hero-copy .tlink{pointer-events:auto}
+.hero-title{
+  font-family:var(--serif);font-weight:700;font-size:clamp(3.1rem,8.4vw,7.4rem);
+  line-height:1.02;letter-spacing:-.015em;margin:26px 0 30px;
+}
+.rl{display:block;overflow:hidden}
+.rl>span{display:block;transform:translateY(112%);transition:transform 1.1s cubic-bezier(.16,1,.3,1)}
+body.ready .rl:nth-child(1)>span{transform:none;transition-delay:.25s}
+body.ready .rl:nth-child(2)>span{transform:none;transition-delay:.37s}
+body.ready .rl:nth-child(3)>span{transform:none;transition-delay:.49s}
+.hollow{color:transparent;-webkit-text-stroke:1.5px var(--ink);position:relative;display:inline-block}
+.hollow svg{position:absolute;left:-2%;bottom:-.14em;width:104%;height:.28em;overflow:visible}
+.hollow svg path{
+  stroke:var(--verm);stroke-width:6;fill:none;stroke-linecap:round;
+  stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1s cubic-bezier(.6,0,.2,1) 1.5s;
+}
+body.ready .hollow svg path{stroke-dashoffset:0}
+.hero-sub{max-width:500px;color:var(--ink2);font-size:15.5px}
+.hero-cta{display:flex;align-items:center;gap:32px;margin-top:42px;flex-wrap:wrap}
+.vside{
+  position:absolute;right:calc(var(--gx) - 6px);bottom:16vh;
+  writing-mode:vertical-rl;font-family:var(--serif);font-size:16px;
+  letter-spacing:.5em;color:var(--ink2);display:flex;align-items:center;gap:16px;
+}
+.vside .sq{width:8px;height:8px;background:var(--verm)}
+.scue{
+  position:absolute;left:var(--gx);bottom:86px;display:flex;
+  flex-direction:column;align-items:center;gap:12px;font-size:9.5px;
+  letter-spacing:.4em;text-transform:uppercase;color:var(--ink2);
+}
+.scue .line{width:1px;height:52px;background:var(--line);position:relative;overflow:hidden}
+.scue .line::after{
+  content:'';position:absolute;left:0;top:-100%;width:100%;height:100%;
+  background:var(--verm);animation:scue 2.2s cubic-bezier(.6,0,.3,1) infinite;
+}
+@keyframes scue{0%{top:-100%}55%{top:0}100%{top:100%}}
+.marquee{
+  position:absolute;left:0;right:0;bottom:0;border-top:1px solid var(--line);
+  padding:15px 0;overflow:hidden;background:rgba(244,239,228,.65);backdrop-filter:blur(5px);
+}
+.track{display:flex;gap:64px;width:max-content;animation:mq 32s linear infinite}
+.track:hover{animation-play-state:paused}
+.mi{display:flex;align-items:baseline;gap:14px;white-space:nowrap}
+.mi .jp{font-family:var(--serif);font-weight:600;font-size:15px}
+.mi .en{font-size:10px;letter-spacing:.26em;color:var(--ink2);text-transform:uppercase}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* ============ WORKS (MASTERPIECES) ============ */
+.works{padding:140px var(--gx) 150px;background:linear-gradient(var(--paper),var(--paper2))}
+.w-head{max-width:880px;margin-bottom:60px}
+.w-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:32px;max-width:1300px;margin:0 auto}
+.card{
+  background:var(--paper);border:1px solid var(--line);padding:34px 30px;
+  display:flex;flex-direction:column;justify-content:space-between;
+  clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,0 100%);
+  position:relative;transition:transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s,border-color .4s;
+}
+.card:hover{
+  transform:translateY(-8px);
+  border-color:var(--ink);
+  box-shadow:0 24px 48px -18px rgba(25,23,18,.14);
+}
+.card.featured{
+  grid-column:1/-1;
+  background:linear-gradient(135deg,#fbf8f0,var(--paper2));
+  border-color:var(--line-strong);
+}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px}
+.c-badge{
+  display:inline-flex;align-items:center;gap:8px;font-size:9.5px;
+  letter-spacing:.28em;text-transform:uppercase;color:var(--ink2);font-weight:500;
+}
+.c-badge::before{content:'';width:6px;height:6px;background:var(--verm)}
+.c-kanji{
+  font-family:var(--serif);font-weight:700;font-size:26px;color:var(--verm);line-height:1;
+}
+.card h3{
+  font-family:var(--serif);font-size:clamp(1.5rem,2.2vw,2rem);font-weight:700;
+  line-height:1.15;margin-bottom:12px;
+}
+.card p{
+  color:var(--ink2);font-size:14.5px;line-height:1.65;margin-bottom:24px;flex-grow:1;
+}
+.c-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px}
+.c-tag{
+  font-size:10px;letter-spacing:.14em;padding:4px 9px;
+  background:var(--paper2);border:1px solid var(--line);
+  color:var(--ink);text-transform:uppercase;
+}
+.card-actions{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  width:100%;padding-top:16px;border-top:1px solid var(--line);margin-top:auto;
+}
+.card-btn{
+  display:inline-flex;align-items:center;justify-content:space-between;flex:1;
+  color:var(--ink);text-decoration:none;font-size:11px;
+  letter-spacing:.22em;text-transform:uppercase;font-weight:500;
+  transition:color .3s,border-color .3s;
+}
+.card-btn svg{transition:transform .35s cubic-bezier(.16,1,.3,1)}
+.card:hover .card-btn{color:var(--verm)}
+.card:hover .card-btn svg{transform:translate(4px,-4px)}
+.preview-btn{
+  display:inline-flex;align-items:center;gap:6px;padding:7px 14px;
+  background:var(--paper2);border:1px solid var(--line);color:var(--ink);
+  font-family:var(--sans);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;
+  cursor:pointer;transition:all .3s ease;white-space:nowrap;
+}
+.preview-btn svg{transition:transform .3s ease}
+.preview-btn:hover{background:var(--verm);color:var(--paper);border-color:var(--verm)}
+.preview-btn:hover svg{transform:scale(1.15)}
+
+/* ============ PREVIEW MODAL ============ */
+.preview-modal{
+  position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;
+  opacity:0;visibility:hidden;transition:opacity .4s ease,visibility .4s;
+}
+.preview-modal.open{opacity:1;visibility:visible}
+.p-backdrop{
+  position:absolute;inset:0;background:rgba(25,23,18,.75);backdrop-filter:blur(10px);
+}
+.p-box{
+  position:relative;z-index:1;width:min(1240px,94vw);height:min(860px,88vh);
+  background:var(--paper);border:1px solid var(--line-strong);
+  display:flex;flex-direction:column;box-shadow:0 30px 80px rgba(0,0,0,.45);
+  transform:scale(0.96);transition:transform .4s cubic-bezier(.16,1,.3,1);
+}
+.preview-modal.open .p-box{transform:scale(1)}
+.p-header{
+  display:flex;align-items:center;justify-content:space-between;padding:14px 22px;
+  border-bottom:1px solid var(--line);background:var(--paper2);
+}
+.p-title-wrap{display:flex;align-items:center;gap:14px}
+.p-badge{
+  font-size:8.5px;letter-spacing:.24em;text-transform:uppercase;background:var(--verm);
+  color:var(--paper);padding:3px 8px;font-weight:600;
+}
+.p-title-wrap h4{
+  font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink);letter-spacing:.05em;
+}
+.p-ctrls{display:flex;align-items:center;gap:12px}
+.p-ext-btn{
+  display:inline-flex;align-items:center;gap:6px;font-size:10px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ink);text-decoration:none;padding:6px 14px;
+  border:1px solid var(--line);background:var(--paper);transition:all .3s;
+}
+.p-ext-btn:hover{background:var(--ink);color:var(--paper)}
+.p-x-btn{
+  background:none;border:none;cursor:pointer;color:var(--ink);padding:6px;display:grid;place-items:center;
+  opacity:.7;transition:opacity .3s,transform .3s;
+}
+.p-x-btn:hover{opacity:1;transform:rotate(90deg)}
+.p-frame-wrap{flex:1;position:relative;background:#0e0d0b}
+.p-frame-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+
+/* ============ ANATOMY (DISCIPLINES) ============ */
+.anatomy{height:280vh}
+.anatomy .pin{
+  position:sticky;top:0;height:100vh;
+  display:grid;grid-template-columns:300px 1fr 360px;
+  align-items:center;padding:90px var(--gx) 60px;gap:20px;
+}
+.a-left h2{font-size:clamp(1.9rem,3vw,2.7rem);margin:16px 0 8px}
+.parts{margin-top:22px}
+.part{
+  display:grid;grid-template-columns:34px 44px 1fr;align-items:baseline;
+  gap:10px;width:100%;text-align:left;background:none;border:0;
+  border-bottom:1px solid var(--line);padding:14px 6px;
+  cursor:pointer;font-family:var(--sans);position:relative;transition:padding .3s;
+}
+.part::before{
+  content:'';position:absolute;left:0;top:50%;width:3px;height:0;
+  background:var(--verm);transform:translateY(-50%);transition:height .3s;
+}
+.part .p-num{font-size:10px;letter-spacing:.15em;color:var(--ink2);transition:color .3s}
+.part .p-jp{font-family:var(--serif);font-weight:700;font-size:20px}
+.part .p-en{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:500}
+.part .p-en small{display:block;font-size:9px;letter-spacing:.2em;color:var(--ink2);text-transform:none;margin-top:1px}
+.part:hover{padding-left:14px}
+.part.on::before{height:60%}
+.part.on .p-num{color:var(--verm)}
+.part.on .p-en{color:var(--verm)}
+.a-right{align-self:center}
+.detail{
+  position:relative;min-height:380px;border-left:1px solid var(--line);
+  padding-left:32px;transition:opacity .22s ease,transform .22s ease;
+}
+.detail.swap{opacity:0;transform:translateY(10px)}
+.d-kanji{font-family:var(--serif);font-weight:800;font-size:clamp(5rem,7vw,7.5rem);line-height:1;color:var(--verm)}
+.d-name{display:flex;align-items:baseline;gap:14px;margin:10px 0 18px;flex-wrap:wrap}
+.d-name h3{font-family:var(--serif);font-size:1.6rem;font-weight:700}
+.d-romaji{font-size:10.5px;letter-spacing:.32em;text-transform:uppercase;color:var(--ink2)}
+.d-desc{color:var(--ink2);font-size:15px;max-width:340px}
+.d-nav{display:flex;align-items:center;gap:18px;margin-top:30px}
+.d-nav button{
+  width:42px;height:42px;border:1px solid var(--ink);background:none;
+  cursor:pointer;display:grid;place-items:center;transition:.3s;color:var(--ink);
+}
+.d-nav button:hover{background:var(--ink);color:var(--paper)}
+.d-nav span{font-size:11px;letter-spacing:.3em;color:var(--ink2)}
+
+/* ============ FORGE (THE PROCESS) ============ */
+.forge{padding:150px var(--gx) 170px;overflow:hidden}
+.forge .wm{top:60px;right:-2vw}
+.f-head{max-width:900px;margin-bottom:70px}
+.steps{max-width:900px;margin-left:auto}
+.step{
+  display:grid;grid-template-columns:150px 1fr;gap:clamp(20px,4vw,60px);
+  padding:52px 0;border-top:1px solid var(--line);align-items:start;
+}
+.step:nth-child(even){transform:translateX(clamp(0px,4vw,60px))}
+.step .s-num{
+  font-family:var(--serif);font-weight:800;font-size:clamp(3.4rem,6vw,5.4rem);
+  line-height:.9;color:transparent;-webkit-text-stroke:1px var(--ink2);
+}
+.step .s-jp{font-family:var(--serif);font-weight:700;font-size:clamp(1.5rem,2.4vw,2rem)}
+.step .s-en{
+  font-size:10.5px;letter-spacing:.32em;text-transform:uppercase;
+  color:var(--verm);margin:4px 0 12px;font-weight:500;
+}
+.step p{color:var(--ink2);font-size:15px;max-width:560px}
+.step.hot .s-num{-webkit-text-stroke:1px var(--verm);color:rgba(193,57,31,.12)}
+.step.hot{border-top-color:var(--verm)}
+.step.hot .s-en{color:var(--ink)}
+.step.hot .s-jp::after{
+  content:'核心';font-size:10px;letter-spacing:.3em;color:var(--paper);
+  background:var(--verm);padding:3px 8px;margin-left:14px;vertical-align:middle;
+  font-family:var(--sans);
+}
+
+/* ============ SPECS (THE LEDGER) ============ */
+.specs{padding:0 var(--gx) 150px}
+.specstage{height:46vh;position:relative}
+.ruler{
+  position:absolute;left:4%;right:4%;top:64%;height:1px;background:var(--ink);
+  opacity:0;transform:translateY(16px);
+  transition:opacity .8s ease,transform .8s cubic-bezier(.16,1,.3,1);
+}
+.ruler.on{opacity:1;transform:none}
+.ruler::before,.ruler::after{content:'';position:absolute;top:-9px;width:1px;height:19px;background:var(--ink)}
+.ruler::before{left:0}.ruler::after{right:0}
+.ruler span{
+  position:absolute;left:50%;top:-38px;transform:translateX(-50%);white-space:nowrap;
+  font-size:10.5px;letter-spacing:.32em;text-transform:uppercase;color:var(--ink2);
+  background:var(--paper);padding:0 18px;
+}
+.ruler span b{font-family:var(--serif);font-size:16px;color:var(--ink);letter-spacing:.06em;font-weight:700}
+.ledger{max-width:800px;margin:0 auto}
+.lrow{display:flex;align-items:baseline;gap:18px;padding:19px 0;border-bottom:1px solid var(--line)}
+.lrow .lt{font-family:var(--serif);font-weight:700;font-size:17px;white-space:nowrap}
+.lrow .lt i{
+  font-style:normal;display:block;font-family:var(--sans);font-weight:500;
+  font-size:9.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink2);
+}
+.lrow .ld{flex:1;border-bottom:1px dotted rgba(25,23,18,.35);transform:translateY(-5px)}
+.lrow .lv{font-family:var(--serif);font-size:18px;font-weight:600;white-space:nowrap}
+.snote{
+  max-width:800px;margin:36px auto 0;font-size:13px;color:var(--ink2);
+  font-style:normal;border-left:2px solid var(--verm);padding-left:18px;
+}
+
+/* ============ COMMISSION (INQUIRY) ============ */
+.commission{
+  padding:160px var(--gx) 120px;border-top:1px solid var(--line);
+  background:linear-gradient(var(--paper),var(--paper2));
+}
+.c-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,7vw,120px);
+  max-width:1200px;margin:0 auto;align-items:start;
+}
+.c-left p.pitch{color:var(--ink2);margin:26px 0 40px;max-width:440px}
+.c-facts{border-top:1px solid var(--line)}
+.c-facts div{
+  display:flex;justify-content:space-between;gap:20px;padding:14px 0;
+  border-bottom:1px solid var(--line);font-size:13px;
+}
+.c-facts dt{color:var(--ink2);letter-spacing:.14em;text-transform:uppercase;font-size:10px;padding-top:3px}
+.c-facts dd{font-family:var(--serif);font-weight:600;text-align:right}
+.c-form .fld{margin-bottom:28px;position:relative}
+.c-form label{display:block;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink2);margin-bottom:8px}
+.c-form input,.c-form select,.c-form textarea{
+  width:100%;background:transparent;border:0;border-bottom:1px solid var(--line);
+  padding:10px 2px;font-family:var(--serif);font-size:17px;color:var(--ink);
+  transition:border-color .3s;border-radius:0;
+}
+.c-form textarea{resize:vertical;min-height:96px}
+.c-form input:focus,.c-form select:focus,.c-form textarea:focus{outline:none;border-color:var(--ink)}
+.c-form .err{
+  position:absolute;right:0;top:0;font-size:10px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--verm);opacity:0;transition:opacity .3s;
+}
+.c-form .fld.bad .err{opacity:1}
+.c-form .fld.bad input,.c-form .fld.bad textarea{border-color:var(--verm)}
+.selwrap{position:relative}
+.selwrap select{appearance:none;cursor:pointer}
+.selwrap::after{
+  content:'';position:absolute;right:6px;top:50%;width:8px;height:8px;
+  border-right:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);
+  transform:translateY(-70%) rotate(45deg);pointer-events:none;
+}
+.c-note{font-size:12px;color:var(--ink2);margin:6px 0 28px}
+.c-note b{color:var(--verm);font-weight:600}
+
+/* ============ FOOTER / TOAST ============ */
+footer{
+  position:relative;z-index:10;border-top:1px solid var(--line);padding:34px var(--gx);
+  display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;background:var(--paper2);
+}
+footer .fbrand{font-family:var(--serif);font-weight:700;letter-spacing:.12em}
+footer nav{display:flex;gap:26px}
+footer nav a{color:var(--ink2);text-decoration:none;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;transition:color .3s}
+footer nav a:hover{color:var(--verm)}
+footer .credit{font-size:10.5px;color:var(--ink2);letter-spacing:.08em}
+.toast{
+  position:fixed;left:50%;bottom:34px;transform:translate(-50%,80px);z-index:90;
+  background:var(--ink);color:var(--paper);padding:16px 26px;font-size:13px;
+  letter-spacing:.06em;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%);
+  opacity:0;transition:.5s cubic-bezier(.16,1,.3,1);pointer-events:none;max-width:90vw;
+}
+.toast.show{transform:translate(-50%,0);opacity:1}
+.toast b{color:#e8a795;font-family:var(--serif);margin-right:10px}
+
+/* ============ RESPONSIVE ============ */
+@media(max-width:1060px){
+  .anatomy .pin{grid-template-columns:260px 1fr 310px}
+  .nlinks{gap:18px}
+}
+@media(max-width:920px){
+  .nlinks{display:none}
+  .burger{display:block}
+  .hero{align-items:flex-end;padding-bottom:150px}
+  .hero-copy{max-width:100%}
+  .vside{display:none}
+  .anatomy{height:auto;padding:110px var(--gx) 90px}
+  .anatomy .pin{position:static;height:auto;display:block;padding:0}
+  .a-mid{display:none}
+  .a-left h2{margin-bottom:26px}
+  .a-right{margin-top:44px}
+  .detail{border-left:0;border-top:1px solid var(--line);padding:26px 0 0;min-height:0}
+  .step{grid-template-columns:90px 1fr}
+  .step:nth-child(even){transform:none}
+  .c-grid{grid-template-columns:1fr}
+  .specstage{height:36vh}
+}
+@media(max-width:560px){
+  .step{grid-template-columns:1fr;gap:12px}
+  .lrow .lv{font-size:15px}
+  .lrow .lt{font-size:14px}
+  .w-grid{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){
+  .track{animation-duration:200s}
+  .scue .line::after{animation:none}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div class="loader" id="loader">
+  <div class="lk"><span>匠心</span></div>
+  <div class="ln"><i></i></div>
+  <p>Takumi Atelier — Digital Craftsman</p>
+</div>
+
+<!-- 3D STAGE -->
+<canvas id="stage"></canvas>
+
+<!-- NAV -->
+<header class="nav" id="nav">
+  <a class="brand" href="#top">
+    <span class="hanko">匠</span>
+    <span class="bname">TAKUMI<small>デジタル職人 · 東京</small></span>
+  </a>
+  <nav class="nlinks">
+    <a href="#works" data-spy="works">Works<i>作品</i></a>
+    <a href="#disciplines" data-spy="disciplines">Craft<i>技法</i></a>
+    <a href="#process" data-spy="process">Forge<i>鍛錬</i></a>
+    <a href="#specs" data-spy="specs">Ledger<i>寸法</i></a>
+    <a href="#commission" data-spy="commission">Inquiry<i>注文</i></a>
+    <a href="./generator.html" target="_blank" rel="noopener" style="color:var(--verm);font-weight:700">AI Studio<i>生成</i></a>
+  </nav>
+  <button class="burger" id="burger" aria-label="Open menu"><span></span><span></span></button>
+</header>
+<div class="mmenu" id="mmenu">
+  <a href="#works">Works<i>作品</i></a>
+  <a href="#disciplines">Craft<i>技法</i></a>
+  <a href="#process">Forge<i>鍛錬</i></a>
+  <a href="#specs">Ledger<i>寸法</i></a>
+  <a href="#commission">Inquiry<i>注文</i></a>
+  <a href="./generator.html" target="_blank" rel="noopener" style="color:var(--verm)">AI Studio (GLM-5.2)<i>生成</i></a>
+</div>
+
+<main>
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="hero-copy">
+    <p class="overline rv">匠工芸 — Creative Technologist & 3D Web Artisan · Tokyo & Worldwide</p>
+    <h1 class="hero-title">
+      <span class="rl"><span>code forged with</span></span>
+      <span class="rl"><span>the precision of</span></span>
+      <span class="rl"><span class="hollow">folded steel<svg viewBox="0 0 300 24" preserveAspectRatio="none"><path pathLength="1" d="M4,18 C60,4 180,2 296,11"/></svg></span></span>
+    </h1>
+    <p class="hero-sub rv" style="--d:.55s">Bridging ancient Japanese craftsmanship with state-of-the-art WebGL, procedural shaders, and kinetic mathematics. Zero asset bloat, rock-solid 120 FPS performance, and an editorial touch no machine can counterfeit.</p>
+    <div class="hero-cta rv" style="--d:.7s">
+      <a class="btn" href="#works">Explore Selected Works
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M2 8l5 5 5-5" stroke="currentColor" stroke-width="1.5"/></svg>
+      </a>
+      <a class="tlink" href="#commission">Commission a Project
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg>
+      </a>
+    </div>
+  </div>
+  <div class="vside">技術と美の調和<span class="sq"></span></div>
+  <div class="scue"><span class="line"></span>scroll</div>
+  <div class="marquee"><div class="track" id="mtrack">
+    <span class="mi"><span class="jp">仕立解剖</span><span class="en">535-Frame Photorealistic CGI Scrub</span></span>
+    <span class="mi"><span class="jp">立体計算</span><span class="en">WebGL & Three.js 3D Engines</span></span>
+    <span class="mi"><span class="jp">陰影魔術</span><span class="en">Custom GPU GLSL Shaders</span></span>
+    <span class="mi"><span class="jp">幾何構造</span><span class="en">100% Procedural Generation</span></span>
+    <span class="mi"><span class="jp">秒間六十振</span><span class="en">60–120 FPS Fluid Motion</span></span>
+    <span class="mi"><span class="jp">旋輪機構</span><span class="en">Flying Tourbillon & Calibres</span></span>
+    <span class="mi"><span class="jp">人本位意匠</span><span class="en">Human-Centred Editorial UI</span></span>
+    <span class="mi"><span class="jp">零重量</span><span class="en">Zero-Asset Asset Weight</span></span>
+  </div></div>
+</section>
+
+<!-- ============ WORKS (MASTERPIECES) ============ -->
+<section class="works" id="works">
+  <div class="w-head">
+    <p class="overline rv">作品集 — Masterpieces (11 Selected Works)</p>
+    <h2 class="rv" style="--d:.1s">Forged in code.<br>Finished for people.</h2>
+    <p class="rv" style="--d:.18s;color:var(--ink2);margin-top:14px;max-width:560px">A collection of bespoke web architectures, WebGL environments, and responsive interactive products crafted for discerning clients.</p>
+  </div>
+  <div class="w-grid">
+
+    <!-- Card 1: ASAGIRI -->
+    <article class="card featured rv">
+      <div>
+        <div class="card-top">
+          <span class="c-badge">Flagship 3D Showcase</span>
+          <span class="c-kanji">刀身</span>
+        </div>
+        <h3>ASAGIRI 朝霧 — Hand-Forged Katana</h3>
+        <p>A daylight WebGL single-file masterpiece. Features 100% procedural katana geometry (sori, shinogi, kissaki), live GPU martensite crystal hamon shader injected via onBeforeCompile, instanced aerodynamic sakura physics, and interactive anatomy inspection.</p>
+        <div class="c-tags">
+          <span class="c-tag">Three.js</span>
+          <span class="c-tag">Procedural Katana</span>
+          <span class="c-tag">Live Hamon Shader</span>
+          <span class="c-tag">Sakura Particles</span>
+        </div>
+      </div>
+      <div class="card-actions">
+        <a class="card-btn" href="./asagiri.html" target="_blank" rel="noopener">
+          <span>Launch Experience</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/></svg>
+        </a>
+        <button class="preview-btn" type="button" data-preview="./asagiri.html" data-title="ASAGIRI 朝霧 — Hand-Forged Katana">
+          <span>Preview</span>
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.3"/><polygon points="6,5 10,7 6,9" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </article>
+
+    <!-- Card 2: MIDDAY -->
+    <article class="card rv">
+      <div>
+        <div class="card-top">
+          <span class="c-badge">Editorial Studio</span>
+          <span class="c-kanji">美学</span>
+        </div>
+        <h3>MIDDAY® — Human-Centred Design</h3>
+        <p>Warm editorial agency platform featuring interactive 3D still-life in Three.js, GSAP ScrollTrigger, Lenis smooth scrolling, pinned velocity-skew gallery, and accessible case study modal.</p>
+        <div class="c-tags">
+          <span class="c-tag">GSAP</span>
+          <span class="c-tag">Lenis</span>
+          <span class="c-tag">3D Still-Life</span>
+          <span class="c-tag">Editorial Typography</span>
+        </div>
+      </div>
+      <div class="card-actions">
+        <a class="card-btn" href="./midday.html" target="_blank" rel="noopener">
+          <span>Launch Experience</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/></svg>
+        </a>
+        <button class="preview-btn" type="button" data-preview="./midday.html" data-title="MIDDAY® — Human-Centred Design">
+          <span>Preview</span>
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.3"/><polygon points="6,5 10,7 6,9" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </article>
+
+    <!-- Card 3: AUREUM -->
+    <article class="card rv">
+      <div>
+        <div class="card-top">
+          <span class="c-badge">Luxury Atelier</span>
+          <span class="c-kanji">黄金</span>
+        </div>
+        <h3>AUREUM — Crafted Excellence</h3>
+        <p>Ultra-luxury design studio site with interactive copper torus knot in Three.js, floating celestial orbs, RoomEnvironment PBR, particle field, and Lucide iconography.</p>
+        <div class="c-tags">
+          <span class="c-tag">Three.js</span>
+          <span class="c-tag">PBR Copper</span>
+          <span class="c-tag">Tailwind CSS</span>
+          <span class="c-tag">Lucide</span>
+        </div>
+      </div>
+      <div class="card-actions">
+        <a class="card-btn" href="./index.html" target="_blank" rel="noopener">
+          <span>Launch Experience</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/></svg>
+        </a>
+        <button class="preview-btn" type="button" data-preview="./index.html" data-title="AUREUM — Crafted Excellence">
+          <span>Preview</span>
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.3"/><polygon points="6,5 10,7 6,9" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </article>
+
+    <!-- Card 4: CHRONOS LUXE -->
+    <article class="card rv">
+      <div>
+        <div class="card-top">
+          <span class="c-badge">Mechanical 3D Watch</span>
+          <span class="c-kanji">時計</span>
+        </div>
+        <h3>CHRONOS LUXE — Premium Timepieces</h3>
+        <p>High-horology luxury timepiece platform featuring an interactive 3D mechanical watch, real-time clock hands, scroll-triggered exploded view animation with working gear trains and ruby jewel bearings, and interactive collection cards.</p>
+        <div class="c-tags">
+          <span class="c-tag">Three.js</span>
+          <span class="c-tag">Exploded View</span>
+          <span class="c-tag">Mechanical Gears</span>
+          <span class="c-tag">PBR Gold & Steel</span>
+        </div>
+      </div>
+      <div class="card-actions">
+        <a class="card-btn" href="./chronos.html" target="_blank" rel="noopener">
+          <span>Launch Experience</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/></svg>
+        </a>
+        <button class="preview-btn" type="button" data-preview="./chronos.html" data-title="CHRONOS LUXE — Premium Timepieces">
+          <span>Preview</span>
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.3"/><polygon points="6,5 10,7 6,9" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </article>
+
+    <!-- Card 5: MERIDIAN S-300 GMT -->
+    <article class="card rv">
+      <div>
+        <div class="card-top">
+          <span class="c-badge">Haute Horlogerie 3D</span>
+          <span class="c-kanji">子午</span>
+        </div>
+        <h3>MERIDIAN — Haute Horlogerie · S-300 GMT</h3>
+        <p>Swiss precision horology platform featuring a scroll-choreographed 214-part exploded calibre disassembly with live projected SVG annotations, Côtes de Genève movement plate, 2048px sunburst dial, UTC GMT complication, 8 Hz sweep second hand, and 3-way live configurator.</p>
+        <div class="c-tags">
+          <span class="c-tag">Three.js Calibre</span>
+          <span class="c-tag">214-Part Exploded</span>
+          <span class="c-tag">Projected SVG Pins</span>
+          <span class="c-tag">3-Way Configurator</span>
+          <span class="c-tag">Lenis Scroll</span>
+        </div>
+      </div>
+      <div class="card-actions">
+        <a class="card-btn" href="./meridian.html" target="_blank" rel="noopener">
+          <span>Launch Experience</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/></svg>
+        </a>
+        <button class="preview-btn" type="button" data-preview="./meridian.html" data-title="MERIDIAN — Haute Horlogerie · S-300 GMT">
+          <span>Preview</span>
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.3"/><polygon points="6,5 10,7 6,9" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </article>
+
+    <!-- Card 6: AURELINE (Co-Flagship Haute Horlogerie) -->
+    <article class="card featured rv">
+      <div>
+        <div class="card-top">
+          <span class="c-badge">Haute Horlogerie · Flying Tourbillon 3D</span>
+          <span class="c-kanji">旋輪</span>
+        </div>
+        <h3>AURELINE — Méridienne · Calibre AL-01</h3>
+        <p>The Méridienne — a flying-tourbillon wristwatch told in five scroll-driven acts. Features custom procedural studio HDRi lighting via PMREM, Geneva-striped mainplate with 6h tourbillon aperture, continuous hairspring tube geometry, live local-time Dauphine hands, 208-part exploded view with dynamically projected SVG leader lines, and dramatic daylight-to-obsidian cinematic transitions.</p>
+        <div class="c-tags">
+          <span class="c-tag">Three.js</span>
+          <span class="c-tag">Flying Tourbillon</span>
+          <span class="c-tag">GSAP ScrollTrigger</span>
+          <span class="c-tag">Lenis Smooth Scroll</span>
+          <span class="c-tag">208-Part Exploded View</span>
+          <span class="c-tag">Procedural PMREM Studio</span>
+        </div>
+      </div>
+      <div class="card-actions">
+        <a class="card-btn" href="./aureline.html" target="_blank" rel="noopener">
+          <span>Launch Experience</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/></svg>
+        </a>
+        <button class="preview-btn" type="button" data-preview="./aureline.html" data-title="AURELINE — Méridienne · Calibre AL-01">
+          <span>Preview</span>
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.3"/><polygon points="6,5 10,7 6,9" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </article>
+
+    <!-- Card 7: AURA FORGE -->
+    <article class="card rv">
+      <div>
+        <div class="card-top">
+          <span class="c-badge">2D Canvas FX</span>
+          <span class="c-kanji">光気</span>
+        </div>
+        <h3>AURA FORGE — Daylight Edition</h3>
+        <p>Single-file sword platform featuring a custom 60 FPS interactive particle canvas engine, 3D card tilt physics, inline vector katana craft, and interactive timeline.</p>
+        <div class="c-tags">
+          <span class="c-tag">Canvas 2D</span>
+          <span class="c-tag">Card Tilt Physics</span>
+          <span class="c-tag">Vector Katana</span>
+        </div>
+      <div class="card-actions">
+        <a class="card-btn" href="./aura-forge.html" target="_blank" rel="noopener">
+          <span>Launch Experience</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/></svg>
+        </a>
+        <button class="preview-btn" type="button" data-preview="./aura-forge.html" data-title="AURA FORGE — Daylight Edition">
+          <span>Preview</span>
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.3"/><polygon points="6,5 10,7 6,9" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </article>
+
+    <!-- Card 8: QUICKDELIVER -->
+    <article class="card rv">
+      <div>
+        <div class="card-top">
+          <span class="c-badge">Full Web App</span>
+          <span class="c-kanji">迅速</span>
+        </div>
+        <h3>QuickDeliver — 3-Hour Courier</h3>
+        <p>Complete logistics platform with real-time parcel fee calculation, dynamic delivery vehicle selection, live status simulation, and toast feedback systems.</p>
+        <div class="c-tags">
+          <span class="c-tag">Interactive Calculator</span>
+          <span class="c-tag">Timeline UI</span>
+          <span class="c-tag">Full Navigation</span>
+        </div>
+      </div>
+      <div class="card-actions">
+        <a class="card-btn" href="./quickdeliver.html" target="_blank" rel="noopener">
+          <span>Launch Experience</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/></svg>
+        </a>
+        <button class="preview-btn" type="button" data-preview="./quickdeliver.html" data-title="QuickDeliver — 3-Hour Courier">
+          <span>Preview</span>
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.3"/><polygon points="6,5 10,7 6,9" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </article>
+
+    <!-- Card 9: VELA ARMON -->
+    <article class="card rv">
+      <div>
+        <div class="card-top">
+          <span class="c-badge">Cinematic Web Agency</span>
+          <span class="c-kanji">崇高</span>
+        </div>
+        <h3>VELA ARMON — A Web Agency for Luxury Spaces</h3>
+        <p>Exclusive digital spaces for residences, horology, yachts and aviation. Features five procedural canvas atmospheres (overture cloud descent, golden penthouse, living mechanical horology movement, sunset yacht marina, and runway jet departure), generative Web Audio soundscape, inquiry drawer, and 13.9vh GSAP scrub timeline.</p>
+        <div class="c-tags">
+          <span class="c-tag">Procedural Canvas Engines</span>
+          <span class="c-tag">GSAP ScrollTrigger</span>
+          <span class="c-tag">Lenis Momentum</span>
+          <span class="c-tag">Web Audio Soundscape</span>
+          <span class="c-tag">Inquiry Drawer</span>
+          <span class="c-tag">Film Grain</span>
+        </div>
+      </div>
+      <div class="card-actions">
+        <a class="card-btn" href="./vela-armon.html" target="_blank" rel="noopener">
+          <span>Launch Experience</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/></svg>
+        </a>
+        <button class="preview-btn" type="button" data-preview="./vela-armon.html" data-title="VELA ARMON — A Web Agency for Luxury Spaces">
+          <span>Preview</span>
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.3"/><polygon points="6,5 10,7 6,9" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </article>
+
+    <!-- Card 10: ALCHE / WORKS -->
+    <article class="card rv">
+      <div>
+        <div class="card-top">
+          <span class="c-badge">Brutalist 3D Creative Engineering</span>
+          <span class="c-kanji">錬金</span>
+        </div>
+        <h3>ALCHE / WORKS — 3D Brutalist Studio</h3>
+        <p>Interactive 3D agency portfolio system inspired by Alche Studio: rotating wireframe triangular "A" prism with inner refractive tetrahedron lines, realtime chromatic fluid shader backdrop reacting to mouse drift and scroll momentum, 6-layer parallax coordinate depth grid, horizontal pinned works slider, and dynamic waypoint contrast inversion (OLED Black to Stark White).</p>
+        <div class="c-tags">
+          <span class="c-tag">Three.js / R3F</span>
+          <span class="c-tag">Custom GLSL Chromatic Fluid</span>
+          <span class="c-tag">Wireframe A-Prism</span>
+          <span class="c-tag">GSAP ScrollTrigger</span>
+          <span class="c-tag">Contrast Inversion Waypoint</span>
+          <span class="c-tag">Magnetic Crosshair</span>
+        </div>
+      </div>
+      <div class="card-actions">
+        <a class="card-btn" href="./alche.html" target="_blank" rel="noopener">
+          <span>Launch Experience</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/></svg>
+        </a>
+        <button class="preview-btn" type="button" data-preview="./alche.html" data-title="ALCHE / WORKS — 3D Brutalist Studio">
+          <span>Preview</span>
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.3"/><polygon points="6,5 10,7 6,9" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </article>
+
+    <!-- Card 11: THE ANATOMY OF A SUIT (Co-Flagship Scrollytelling) -->
+    <article class="card featured rv">
+      <div>
+        <div class="card-top">
+          <span class="c-badge" style="background:rgba(198,163,92,0.18);color:#96772f;border:1px solid rgba(198,163,92,0.45);font-weight:600;">Co-Flagship Masterwork · 535-Frame Photorealistic CGI</span>
+          <span class="c-kanji">仕立</span>
+        </div>
+        <h3>The Anatomy of a Suit — Bespoke Atelier</h3>
+        <p>An ultra-luxury cinematic scrollytelling masterwork inspired by Savile Row ateliers. Features a 535-frame photorealistic CGI sequence scrubbed via GSAP ScrollTrigger and Lenis across seven anatomical movements: Egyptian poplin foundation, Como silk waistcoat, hand-padded full horsehair canvas, sharp architectural cut, living drape, 4-man Mayfair colour procession, and macro working surgeon's cuffs. Includes procedural Web Audio cello soundscape and private fitting booking drawer.</p>
+        <div class="c-tags">
+          <span class="c-tag">535-Frame CGI Sequence</span>
+          <span class="c-tag">GSAP ScrollTrigger Scrub</span>
+          <span class="c-tag">Lenis Momentum</span>
+          <span class="c-tag">Web Audio Cello Drone</span>
+          <span class="c-tag">Interactive Booking Drawer</span>
+          <span class="c-tag">Savile Row Noir</span>
+        </div>
+      </div>
+      <div class="card-actions">
+        <a class="card-btn" href="./anatomy-suit.html" target="_blank" rel="noopener">
+          <span>Launch Experience</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/></svg>
+        </a>
+        <button class="preview-btn" type="button" data-preview="./anatomy-suit.html" data-title="THE ANATOMY OF A SUIT — Bespoke Atelier">
+          <span>Preview</span>
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.3"/><polygon points="6,5 10,7 6,9" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ============ ANATOMY (DISCIPLINES) ============ -->
+<section class="anatomy" id="disciplines">
+  <div class="pin">
+    <div class="a-left">
+      <p class="overline rv">技術解剖 — Disciplines</p>
+      <h2 class="rv" style="--d:.1s">Anatomy of<br>modern craft.</h2>
+      <p class="rv" style="--d:.18s;font-size:12.5px;color:var(--ink2);margin-top:6px">Select a discipline — the artisan sculpture will turn to reflect it.</p>
+      <div class="parts rv" id="parts" style="--d:.25s"></div>
+    </div>
+    <div class="a-mid"></div>
+    <div class="a-right">
+      <div class="detail" id="detail">
+        <div class="d-kanji" id="dKanji">立</div>
+        <div class="d-name"><h3 id="dName">WebGL 3D Engines</h3><span class="d-romaji" id="dRomaji">rittai — Spatial Computing</span></div>
+        <p class="d-desc" id="dDesc">Constructing bespoke mathematical geometry and procedural environments directly in Three.js and WebGL 2.0 without heavy external models. Zero download weight, infinite resolution.</p>
+        <div class="d-nav">
+          <button id="dPrev" aria-label="Previous discipline"><svg width="15" height="15" viewBox="0 0 14 14" fill="none"><path d="M13 7H1M6 2 1 7l5 5" stroke="currentColor" stroke-width="1.5"/></svg></button>
+          <span id="dIdx">01 / 06</span>
+          <button id="dNext" aria-label="Next discipline"><svg width="15" height="15" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FORGE (THE PROCESS) ============ -->
+<section class="forge" id="process">
+  <span class="wm">匠</span>
+  <div class="f-head">
+    <p class="overline rv">鍛錬 — Creative Process</p>
+    <h2 class="rv" style="--d:.1s">Conceived in silence,<br>quenched in flame.</h2>
+  </div>
+  <div class="steps">
+    <article class="step rv"><div class="s-num">01</div><div>
+      <h3 class="s-jp">玉鋼</h3><p class="s-en">Tamahagane — Raw Intent</p>
+      <p>Every breakthrough digital product begins as unformed thought. We sift through ambiguity, requirements, and brand heritage to discover the irreducible core intent.</p>
+    </div></article>
+    <article class="step rv"><div class="s-num">02</div><div>
+      <h3 class="s-jp">折返</h3><p class="s-en">Orikaeshi — Architecture & Code Folding</p>
+      <p>Modular mathematical foundations layered thirty thousand times over. We write lean, dependency-free code where redundant abstractions are hammered out and pure structure remains.</p>
+    </div></article>
+    <article class="step rv"><div class="s-num">03</div><div>
+      <h3 class="s-jp">素延</h3><p class="s-en">Sunobe — Geometric Sculpting</p>
+      <p>Drawing out the silhouette: camera choreographies, light bounce topologies, shader curves, and micro-interactions. The experience takes its permanent, unforgettable shape.</p>
+    </div></article>
+    <article class="step hot rv"><div class="s-num">04</div><div>
+      <h3 class="s-jp">焼入れ</h3><p class="s-en">Yaki-ire — The Quench (Performance Stress-Test)</p>
+      <p>Plunging the codebase into real-world hardware limits. We eliminate GPU memory leaks, optimize draw calls, and lock in 60 to 120 FPS buttery-smooth frame times.</p>
+    </div></article>
+    <article class="step rv"><div class="s-num">05</div><div>
+      <h3 class="s-jp">研ぎ</h3><p class="s-en">Togi — The Twelve-Stone Polish</p>
+      <p>Weeks dedicated to easing curves, haptic feedback, typography hierarchies, and mobile touch dynamics. What emerges is not merely software, but digital craftsmanship.</p>
+    </div></article>
+  </div>
+</section>
+
+<!-- ============ SPECS (THE LEDGER) ============ -->
+<section class="specs" id="specs">
+  <div class="specstage" id="specstage">
+    <div class="ruler" id="ruler"><span>Frame Budget — <b>16.6 ms</b> · 60 to 120 FPS Fluid Motion</span></div>
+  </div>
+  <p class="overline rv" style="max-width:800px;margin:0 auto 26px">寸法 — Technical Ledger</p>
+  <div class="ledger">
+    <div class="lrow rv"><div class="lt">描画速度<i>Framerate · Performance Budget</i></div><div class="ld"></div><div class="lv">60–120 FPS / &lt;16.6ms</div></div>
+    <div class="lrow rv"><div class="lt">外部依存<i>Dependencies · External Assets</i></div><div class="ld"></div><div class="lv">0 KB 3D Assets (100% Procedural)</div></div>
+    <div class="lrow rv"><div class="lt">色調空間<i>Color Pipeline · Tone Mapping</i></div><div class="ld"></div><div class="lv">ACESFilmic · Wide Gamut sRGB</div></div>
+    <div class="lrow rv"><div class="lt">陰影処理<i>Shaders · Material Architecture</i></div><div class="ld"></div><div class="lv">Custom GLSL onBeforeCompile</div></div>
+    <div class="lrow rv"><div class="lt">端末対応<i>Responsiveness · Viewport Scale</i></div><div class="ld"></div><div class="lv">320px Mobile to 4K Ultra-Wide</div></div>
+    <div class="lrow rv"><div class="lt">微細物理<i>Physics · Inertia Interaction</i></div><div class="ld"></div><div class="lv">Spherical Raycast & Damped Drag</div></div>
+    <div class="lrow rv"><div class="lt">組版設計<i>Typography · Font System</i></div><div class="ld"></div><div class="lv">Shippori Mincho × Zen Kaku Gothic</div></div>
+    <div class="lrow rv"><div class="lt">美意識<i>Philosophy · Human-Centred</i></div><div class="ld"></div><div class="lv">Wabi-Sabi Daylight Aesthetic</div></div>
+  </div>
+  <p class="snote rv">Every metric is benchmarked across real mobile devices and high-refresh desktop monitors. We believe software should feel as deliberate and tactile as hand-forged steel.</p>
+</section>
+
+<!-- ============ COMMISSION (INQUIRY) ============ -->
+<section class="commission" id="commission">
+  <div class="c-grid">
+    <div class="c-left">
+      <p class="overline rv">注文 — Atelier Inquiry</p>
+      <h2 class="rv" style="--d:.1s">Commission<br>an experience.</h2>
+      <p class="pitch rv" style="--d:.18s">We collaborate with visionary founders, design studios, and luxury brands seeking web systems that stand outside conventional templates. Each project is tailored, bespoke, and built to endure.</p>
+      <dl class="c-facts rv" style="--d:.26s">
+        <div><dt>Atelier</dt><dd>Tokyo · Seki · Worldwide Remote</dd></div>
+        <div><dt>Inquiries answered</dt><dd>Within 48 hours</dd></div>
+        <div><dt>Quarterly intake</dt><dd>3 selected commissions</dd></div>
+        <div><dt>Next opening</dt><dd>Q3 / Q4 Season — 2 slots open</dd></div>
+      </dl>
+    </div>
+    <form class="c-form rv" id="cform" novalidate style="--d:.2s">
+      <div class="fld" id="fName">
+        <label for="inName">Your name or studio</label>
+        <input id="inName" type="text" autocomplete="name" placeholder="—">
+        <span class="err">Required</span>
+      </div>
+      <div class="fld" id="fMail">
+        <label for="inMail">Email address</label>
+        <input id="inMail" type="email" autocomplete="email" placeholder="—">
+        <span class="err">A valid address, please</span>
+      </div>
+      <div class="fld">
+        <label for="inIntent">Project Intent</label>
+        <div class="selwrap">
+          <select id="inIntent">
+            <option>Custom 3D WebGL Showcase</option>
+            <option>Full Atelier / Studio Platform</option>
+            <option>Creative Direction & Shaders</option>
+            <option>High-Performance Frontend Engineering</option>
+          </select>
+        </div>
+      </div>
+      <div class="fld" id="fMsg">
+        <label for="inMsg">Letter to the atelier</label>
+        <textarea id="inMsg" placeholder="Describe the ambition, timeline, and vision of your project…"></textarea>
+        <span class="err">A few words at least</span>
+      </div>
+      <p class="c-note">Direct studio bookings require a brief consultation call. Serious inquiries receive an architectural proposal within five days.</p>
+      <button class="btn" type="submit">Send to the Atelier
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg>
+      </button>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <span class="fbrand">TAKUMI <span style="color:var(--verm)">匠</span></span>
+  <nav>
+    <a href="#top">Top</a>
+    <a href="#works">Works</a>
+    <a href="#disciplines">Craft</a>
+    <a href="#process">Forge</a>
+    <a href="#specs">Ledger</a>
+    <a href="#commission">Inquiry</a>
+  </nav>
+  <span class="credit">© 2026 Takumi Atelier · Rendered in WebGL 2.0 — Procedural Origami Sculpture</span>
+</footer>
+
+<div class="toast" id="toast" role="status"></div>
+
+<!-- ============ PROJECT PREVIEW MODAL ============ -->
+<div class="preview-modal" id="pModal" aria-hidden="true">
+  <div class="p-backdrop" id="pClose"></div>
+  <div class="p-box">
+    <header class="p-header">
+      <div class="p-title-wrap">
+        <span class="p-badge">Live Experience</span>
+        <h4 id="pModalTitle">AURELINE — Méridienne · Calibre AL-01</h4>
+      </div>
+      <div class="p-ctrls">
+        <a class="p-ext-btn" id="pExtLink" href="./aureline.html" target="_blank" rel="noopener" title="Open in new window">
+          <span>New Tab</span>
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/></svg>
+        </a>
+        <button class="p-x-btn" id="pModalClose" type="button" aria-label="Close Preview">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+      </div>
+    </header>
+    <div class="p-frame-wrap">
+      <iframe id="pIframe" src="" title="Project Live Preview" loading="lazy" allow="accelerometer; autoplay; encrypted-media; gyroscope"></iframe>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+
+/* ================================================================
+   UTILITIES
+================================================================ */
+const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+const lerp=(a,b,t)=>a+(b-a)*t;
+const sstep=(a,b,x)=>{x=clamp((x-a)/(b-a),0,1);return x*x*(3-2*x)};
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ================================================================
+   PROCEDURAL TEXTURES (Zero External Asset Overhead)
+================================================================ */
+function skyTexture(){
+  const c=document.createElement('canvas');c.width=32;c.height=256;const x=c.getContext('2d');
+  const g=x.createLinearGradient(0,0,0,256);
+  g.addColorStop(0,'#9ebfdc');
+  g.addColorStop(.38,'#e7ebd8');
+  g.addColorStop(.70,'#f3ebd4');
+  g.addColorStop(1,'#ccbd99');
+  x.fillStyle=g;x.fillRect(0,0,32,256);
+  const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t;
+}
+
+function washiTexture(){
+  const c=document.createElement('canvas');c.width=256;c.height=256;const x=c.getContext('2d');
+  x.fillStyle='#f5f1e7';x.fillRect(0,0,256,256);
+  for(let i=0;i<600;i++){
+    const gx=Math.random()*256, gy=Math.random()*256;
+    const len=Math.random()*16+4, ang=Math.random()*Math.PI;
+    x.strokeStyle=`rgba(160,140,110,${Math.random()*.12})`;
+    x.lineWidth=Math.random()*1.2+.3;
+    x.beginPath();x.moveTo(gx,gy);
+    x.lineTo(gx+Math.cos(ang)*len,gy+Math.sin(ang)*len);
+    x.stroke();
+  }
+  const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.colorSpace=THREE.SRGBColorSpace;return t;
+}
+
+function petalTexture(){
+  const c=document.createElement('canvas');c.width=64;c.height=64;const x=c.getContext('2d');
+  x.translate(32,30);
+  const g=x.createRadialGradient(0,-4,2,0,0,30);
+  g.addColorStop(0,'rgba(250,212,220,1)');
+  g.addColorStop(.65,'rgba(244,182,196,.95)');
+  g.addColorStop(1,'rgba(240,168,186,0)');
+  x.fillStyle=g;x.beginPath();
+  x.moveTo(0,-26);
+  x.bezierCurveTo(16,-24,22,-4,16,10);x.bezierCurveTo(13,17,7,22,3,24);
+  x.lineTo(0,19);x.lineTo(-3,24);
+  x.bezierCurveTo(-7,22,-13,17,-16,10);x.bezierCurveTo(-22,-4,-16,-24,0,-26);
+  x.fill();
+  const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t;
+}
+
+/* ================================================================
+   THREE.JS — RENDERER, DAYLIGHT SCENE & ENVIRONMENT
+================================================================ */
+const canvas=document.getElementById('stage');
+let renderer;
+try{
+  renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference:'high-performance'});
+}catch(e){ canvas.style.display='none'; }
+
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(38,innerWidth/innerHeight,.1,60);
+camera.position.set(0,0,3.6);
+
+if(renderer){
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  renderer.setSize(innerWidth,innerHeight);
+  renderer.setClearColor(0x000000,0);
+  renderer.outputColorSpace=THREE.SRGBColorSpace;
+  renderer.toneMapping=THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure=1.04;
+
+  /* Daylight Environment Map (PMREM) */
+  (function buildEnv(){
+    const es=new THREE.Scene();
+    es.add(new THREE.Mesh(new THREE.SphereGeometry(30,24,16),
+      new THREE.MeshBasicMaterial({map:skyTexture(),side:THREE.BackSide})));
+    const sun=new THREE.Mesh(new THREE.SphereGeometry(3.2,16,16),
+      new THREE.MeshBasicMaterial({color:new THREE.Color(9.2,7.8,5.6)}));
+    sun.position.set(9,12,-8);es.add(sun);
+    const panel=(w,h,col,pos)=>{
+      const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({color:col,side:THREE.DoubleSide}));
+      m.position.copy(pos);m.lookAt(0,0,0);es.add(m);
+    };
+    panel(12,8,new THREE.Color(2.4,2.5,2.7),new THREE.Vector3(-12,6,6));
+    panel(10,6,new THREE.Color(1.7,1.45,1.1),new THREE.Vector3(11,3,7));
+    panel(16,16,new THREE.Color(.75,.62,.45),new THREE.Vector3(0,-11,0));
+    const pm=new THREE.PMREMGenerator(renderer);
+    scene.environment=pm.fromScene(es,.06).texture;
+    pm.dispose();
+  })();
+
+  const sunL=new THREE.DirectionalLight(0xfff3e0,2.4);sunL.position.set(2.4,3.6,2.8);scene.add(sunL);
+  scene.add(new THREE.HemisphereLight(0xdde8f2,0xc8be9f,.85));
+}
+
+/* ================================================================
+   PROCEDURAL 3D SCULPTURE — THE ORIGAMI CRANE OF STEEL & WASHI
+================================================================ */
+function buildOrigamiGeometry(){
+  const V = [
+    [0, 0.05, 0.48],     // 0: chest top
+    [0, -0.38, 0],       // 1: keel bottom
+    [0, 0.38, 0.88],     // 2: neck base
+    [0, 0.65, 1.24],     // 3: head/beak
+    [0, 0.28, -0.68],    // 4: tail base
+    [0, 0.68, -1.14],    // 5: tail tip
+    [-0.42, 0.12, 0],    // 6: left fold inner
+    [0.42, 0.12, 0],     // 7: right fold inner
+    [-1.42, 0.76, 0.1],  // 8: left wing tip
+    [1.42, 0.76, 0.1],   // 9: right wing tip
+    [-0.76, 0.48, 0.42], // 10: left wing shoulder
+    [0.76, 0.48, 0.42],  // 11: right wing shoulder
+    [-0.70, 0.36, -0.4], // 12: left wing rear
+    [0.70, 0.36, -0.4]   // 13: right wing rear
+  ];
+
+  const F = [
+    // Chest
+    [0, 6, 2], [0, 2, 7], [0, 1, 6], [0, 7, 1],
+    // Neck & Head
+    [2, 6, 3], [2, 3, 7],
+    // Tail
+    [6, 4, 5], [7, 5, 4], [6, 1, 4], [7, 4, 1],
+    // Left Wing Top
+    [6, 10, 8], [6, 8, 12],
+    // Right Wing Top
+    [7, 9, 11], [7, 13, 9],
+    // Left Wing Bottom
+    [1, 8, 10], [1, 12, 8],
+    // Right Wing Bottom
+    [1, 11, 9], [1, 9, 13]
+  ];
+
+  const pos = [];
+  for (let i = 0; i < F.length; i++) {
+    const f = F[i];
+    for (let j = 0; j < 3; j++) {
+      pos.push(V[f[j]][0], V[f[j]][1], V[f[j]][2]);
+    }
+  }
+
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  geo.computeVertexNormals();
+  return geo;
+}
+
+const artifact = new THREE.Group();
+let craneMesh = null;
+let ring1 = null, ring2 = null, coreGem = null;
+const partMats = {};
+
+if(renderer){
+  const washi = washiTexture();
+
+  /* Origami Crane Wings & Body - Washi & Polished Steel */
+  partMats.crane = new THREE.MeshPhysicalMaterial({
+    color: 0xf6f3ea,
+    bumpMap: washi,
+    bumpScale: 0.25,
+    metalness: 0.35,
+    roughness: 0.38,
+    clearcoat: 0.65,
+    clearcoatRoughness: 0.3,
+    reflectivity: 0.8,
+    side: THREE.DoubleSide
+  });
+  partMats.crane.emissive = new THREE.Color(0.85, 0.28, 0.15);
+  partMats.crane.emissiveIntensity = 0;
+
+  craneMesh = new THREE.Mesh(buildOrigamiGeometry(), partMats.crane);
+  artifact.add(craneMesh);
+
+  /* Gyroscopic Celestial Rings - Brushed Brass & Tamahagane */
+  const brassMat = new THREE.MeshStandardMaterial({
+    color: 0xcaa14e,
+    metalness: 0.95,
+    roughness: 0.28
+  });
+  partMats.brass = brassMat.clone();
+  partMats.brass.emissive = new THREE.Color(0.9, 0.35, 0.16);
+  partMats.brass.emissiveIntensity = 0;
+
+  ring1 = new THREE.Mesh(new THREE.TorusGeometry(1.68, 0.016, 16, 80), partMats.brass);
+  ring1.rotation.x = Math.PI / 3;
+  artifact.add(ring1);
+
+  const ironMat = new THREE.MeshStandardMaterial({
+    color: 0x2e3038,
+    metalness: 0.88,
+    roughness: 0.45
+  });
+  partMats.iron = ironMat.clone();
+  partMats.iron.emissive = new THREE.Color(0.9, 0.35, 0.16);
+  partMats.iron.emissiveIntensity = 0;
+
+  ring2 = new THREE.Mesh(new THREE.TorusGeometry(1.42, 0.012, 16, 80), partMats.iron);
+  ring2.rotation.y = Math.PI / 4;
+  ring2.rotation.x = -Math.PI / 6;
+  artifact.add(ring2);
+
+  /* Floating Cinnabar Core Seal */
+  const coreMat = new THREE.MeshPhysicalMaterial({
+    color: 0xc1391f,
+    metalness: 0.2,
+    roughness: 0.18,
+    clearcoat: 0.9,
+    clearcoatRoughness: 0.1
+  });
+  partMats.core = coreMat;
+  coreGem = new THREE.Mesh(new THREE.OctahedronGeometry(0.18, 0), coreMat);
+  coreGem.position.set(0, 0.05, 0);
+  artifact.add(coreGem);
+}
+scene.add(artifact);
+
+/* ================================================================
+   SAKURA PETALS — INSTANCED WIND-DRIFT PHYSICS
+================================================================ */
+const PETN = RM ? 0 : 26;
+let petals = null, petalData = [];
+if(renderer && PETN){
+  petals = new THREE.InstancedMesh(
+    new THREE.PlaneGeometry(.055, .055),
+    new THREE.MeshBasicMaterial({map:petalTexture(),transparent:true,depthWrite:false,side:THREE.DoubleSide,opacity:.85}),
+    PETN
+  );
+  petals.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+  for(let i=0; i<PETN; i++){
+    petalData.push({
+      x: lerp(-1.7, 1.7, Math.random()),
+      y: lerp(-1.5, 1.6, Math.random()),
+      z: lerp(-0.6, 0.7, Math.random()),
+      ph: Math.random() * Math.PI * 2,
+      sp: lerp(0.05, 0.11, Math.random()),
+      f1: lerp(0.5, 1.1, Math.random()),
+      f2: lerp(0.6, 1.4, Math.random())
+    });
+  }
+  scene.add(petals);
+}
+const dummy = new THREE.Object3D();
+
+/* ================================================================
+   SCROLL CHOREOGRAPHY & POSITION TIMELINE
+================================================================ */
+const HERO  = { px:  1.02, py:  0.02, rx: -0.15, ry: -0.65, rz: -0.12, sc: 0.92, spin: 1 };
+const WORKS = { px: -0.75, py: -0.10, rx:  0.22, ry:  0.85, rz:  0.08, sc: 0.78, spin: 0.5 };
+const DISC1 = { px: -0.65, py:  0.00, rx:  0.05, ry: -0.45, rz:  0.02, sc: 1.15, spin: 0 };
+const DISC2 = { px: -0.65, py:  0.00, rx:  0.05, ry:  0.35, rz:  0.02, sc: 1.15, spin: 0 };
+const FORGE = { px: -0.70, py: -0.38, rx:  0.15, ry:  1.90, rz:  0.95, sc: 0.65, spin: 0.8 };
+const SPECS = { px:  0.00, py:  0.42, rx:  0.02, ry:  0.32, rz: -1.54, sc: 0.90, spin: 0 };
+const SPEC2 = { px:  0.00, py:  0.42, rx:  0.02, ry: -0.30, rz: -1.60, sc: 0.90, spin: 0 };
+const COMM  = { px:  0.00, py: -0.85, rx:  0.25, ry:  0.80, rz:  0.06, sc: 0.88, spin: 0 };
+
+let KEYS = [];
+const $ = id => document.getElementById(id);
+
+function computeKeys(){
+  const vh = innerHeight;
+  const works = $('works'), disc = $('disciplines'), forge = $('process'), specs = $('specs'), comm = $('commission');
+  if(!works || !disc || !forge || !specs || !comm) return;
+  KEYS = [
+    { y: 0, s: HERO },
+    { y: works.offsetTop, s: WORKS },
+    { y: disc.offsetTop, s: DISC1 },
+    { y: disc.offsetTop + disc.offsetHeight - vh, s: DISC2 },
+    { y: forge.offsetTop, s: FORGE },
+    { y: specs.offsetTop, s: SPECS },
+    { y: specs.offsetTop + specs.offsetHeight - vh, s: SPEC2 },
+    { y: comm.offsetTop, s: COMM }
+  ];
+}
+computeKeys();
+
+let scrollYNow = 0, spinAngle = 0, dragY = 0, dragX = 0, dragging = false;
+addEventListener('scroll', () => { scrollYNow = window.scrollY; }, { passive: true });
+
+function stateAt(sc){
+  if(!KEYS.length) return HERO;
+  if(sc <= KEYS[0].y) return KEYS[0].s;
+  if(sc >= KEYS[KEYS.length - 1].y) return KEYS[KEYS.length - 1].s;
+  let i = 0; while(i < KEYS.length - 2 && sc > KEYS[i + 1].y) i++;
+  const a = KEYS[i], b = KEYS[i + 1], t = sstep(0, 1, (sc - a.y) / Math.max(1, b.y - a.y)), o = {};
+  for(const k in a.s) o[k] = k === 'spin' ? lerp(a.s[k], b.s[k], t) : lerp(a.s[k], b.s[k], t);
+  return o;
+}
+
+/* Discipline Part Focus */
+let focusCur = { rx: 0, ry: 0, py: 0 }, focusTgt = { rx: 0, ry: 0, py: 0 };
+const matTgt = { crane: 0, brass: 0, iron: 0 };
+
+/* ================================================================
+   POINTER INTERACTIVITY — RAYCAST DRAG & INERTIA
+================================================================ */
+const ray = new THREE.Raycaster(), ndc = new THREE.Vector2(), sphere = new THREE.Sphere();
+let mx = 0, my = 0, camX = 0, camY = 0, lastX = 0, lastY = 0;
+
+addEventListener('pointermove', e => {
+  mx = (e.clientX / innerWidth) * 2 - 1;
+  my = (e.clientY / innerHeight) * 2 - 1;
+  if(dragging){
+    dragY = clamp(dragY + (e.clientX - lastX) * 0.006, -1.4, 1.4);
+    dragX = clamp(dragX + (e.clientY - lastY) * 0.004, -0.5, 0.6);
+    lastX = e.clientX; lastY = e.clientY;
+    return;
+  }
+  if(e.pointerType === 'mouse' && renderer){
+    ndc.set(mx, -my); ray.setFromCamera(ndc, camera);
+    sphere.set(artifact.position, 1.2 * artifact.scale.x);
+    document.body.classList.toggle('can-grab', ray.ray.intersectsSphere(sphere));
+  }
+});
+
+addEventListener('pointerdown', e => {
+  if(e.pointerType !== 'mouse' || e.button !== 0) return;
+  if(e.target.closest('button, a, input, select, textarea, label')) return;
+  ndc.set((e.clientX / innerWidth) * 2 - 1, -((e.clientY / innerHeight) * 2 - 1));
+  ray.setFromCamera(ndc, camera);
+  sphere.set(artifact.position, 1.2 * artifact.scale.x);
+  if(ray.ray.intersectsSphere(sphere)){
+    dragging = true; lastX = e.clientX; lastY = e.clientY;
+    document.body.classList.add('dragging');
+    e.preventDefault();
+  }
+});
+
+addEventListener('pointerup', () => {
+  dragging = false;
+  document.body.classList.remove('dragging');
+});
+
+/* ================================================================
+   ANIMATION & RENDER LOOP
+================================================================ */
+const clock = new THREE.Clock();
+const cur = { px: 1.02, py: 0.02, rx: 0, ry: 0, rz: 0, sc: 0.92 };
+
+if(renderer){
+  renderer.setAnimationLoop(() => {
+    const dt = Math.min(clock.getDelta(), 0.05);
+    const T = clock.elapsedTime;
+    const st = stateAt(scrollYNow);
+
+    spinAngle += st.spin * 0.28 * dt * (RM ? 0 : 1);
+    if(!dragging){ dragY *= 0.975; dragX *= 0.97; }
+
+    const narrow = camera.aspect < 0.85;
+    const xf = 0.45 + 0.55 * Math.min(1, camera.aspect / 1.5);
+    cur.px = lerp(cur.px, st.px * xf, 0.08);
+    cur.py = lerp(cur.py, st.py + (narrow ? 0.22 : 0), 0.08);
+    cur.rx = lerp(cur.rx, st.rx, 0.08);
+    cur.ry = lerp(cur.ry, st.ry, 0.08);
+    cur.rz = lerp(cur.rz, st.rz, 0.08);
+    cur.sc = lerp(cur.sc, st.sc * (narrow ? 0.86 : 1), 0.08);
+
+    focusCur.rx = lerp(focusCur.rx, focusTgt.rx, 0.06);
+    focusCur.ry = lerp(focusCur.ry, focusTgt.ry, 0.06);
+    focusCur.py = lerp(focusCur.py, focusTgt.py, 0.06);
+
+    artifact.position.set(cur.px, cur.py + focusCur.py + Math.sin(T * 1.2) * 0.02, 0);
+    artifact.rotation.set(cur.rx + focusCur.rx + dragX, cur.ry + focusCur.ry + spinAngle + dragY, cur.rz);
+    artifact.scale.setScalar(cur.sc);
+
+    if(ring1) { ring1.rotation.z = T * 0.35; ring1.rotation.x = Math.PI / 3 + Math.sin(T * 0.5) * 0.15; }
+    if(ring2) { ring2.rotation.z = -T * 0.45; ring2.rotation.y = Math.PI / 4 + Math.cos(T * 0.6) * 0.15; }
+    if(coreGem) { coreGem.rotation.y = T * 0.8; coreGem.rotation.x = T * 0.5; }
+
+    for(const k in matTgt){
+      const m = partMats[k];
+      if(m) m.emissiveIntensity = lerp(m.emissiveIntensity, matTgt[k], 0.08);
+    }
+
+    if(petals){
+      for(let i=0; i<PETN; i++){
+        const p = petalData[i];
+        p.y -= p.sp * dt;
+        if(p.y < -1.5){ p.y = 1.6; p.x = lerp(-1.7, 1.7, Math.random()); p.z = lerp(-0.6, 0.7, Math.random()); }
+        dummy.position.set(p.x + Math.sin(T * p.f1 + p.ph) * 0.09, p.y, p.z);
+        dummy.rotation.set(T * p.f1 + p.ph, T * p.f2 + p.ph * 0.7, Math.sin(T * 0.7 + p.ph) * 0.8);
+        dummy.updateMatrix();
+        petals.setMatrixAt(i, dummy.matrix);
+      }
+      petals.instanceMatrix.needsUpdate = true;
+    }
+
+    camX = lerp(camX, mx * 0.07, 0.04);
+    camY = lerp(camY, -my * 0.05, 0.04);
+    camera.position.set(camX, camY, 3.6);
+    camera.lookAt(0, 0, 0);
+    renderer.render(scene, camera);
+  });
+}
+
+addEventListener('resize', () => {
+  if(!renderer) return;
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+  computeKeys();
+});
+
+/* ================================================================
+   DISCIPLINES — DATA & INTERACTION
+================================================================ */
+const DISCIPLINES = [
+  { jp: '立体', en: '3D WebGL Engines', gl: 'Spatial Computing', romaji: 'rittai',
+    desc: 'Constructing mathematical geometry and procedural environments directly in Three.js without external 3D models. Zero download weight, infinite resolution, and 120 FPS render performance.',
+    focus: { rx: 0.35, ry: -0.45, py: -0.15 }, mat: 'crane' },
+  { jp: '陰影', en: 'Custom GLSL Shaders', gl: 'GPU Alchemy', romaji: 'in’ei',
+    desc: 'Bespoke vertex displacement, Fresnel luminescence, and raymarched procedural textures injected directly into WebGL pipeline via onBeforeCompile. Pure mathematics turned to light.',
+    focus: { rx: 0.15, ry: 1.15, py: -0.05 }, mat: 'brass' },
+  { jp: '構造', en: 'Frontend Architecture', gl: 'Systems Engineering', romaji: 'kōzō',
+    desc: 'Writing clean, resilient, framework-independent architectures. Modular code designed for extreme longevity, instant cold starts, and zero dependency decay.',
+    focus: { rx: -0.15, ry: 0.35, py: 0.1 }, mat: 'iron' },
+  { jp: '律動', en: 'Kinetic Motion & Physics', gl: 'Choreography', romaji: 'ritsudō',
+    desc: 'Natural momentum, spring damping, spherical raycast inertia, and organic gesture feedback that makes digital surfaces feel tactile and alive.',
+    focus: { rx: 0.45, ry: 0.75, py: -0.2 }, mat: 'crane' },
+  { jp: '研磨', en: 'Performance Optimization', gl: 'The 120 FPS Quench', romaji: 'kenma',
+    desc: 'Tenacious profiling against low-end mobile CPUs. Eliminating GC thrash, draw-call batching, GPU pipeline synchronization, and guaranteeing sub-16ms frames.',
+    focus: { rx: -0.25, ry: 1.45, py: 0.25 }, mat: 'brass' },
+  { jp: '調和', en: 'Human-Centred Editorial UX', gl: 'Aesthetic Balance', romaji: 'chōwa',
+    desc: 'Harmonizing classic typography, generous negative space, and Japanese wabi-sabi principles into digital interfaces that calm and inspire the human mind.',
+    focus: { rx: 0.05, ry: -0.85, py: 0 }, mat: 'iron' }
+];
+
+const partsEl = $('parts');
+DISCIPLINES.forEach((p, i) => {
+  const b = document.createElement('button');
+  b.className = 'part';
+  b.type = 'button';
+  b.innerHTML = `<span class="p-num">0${i+1}</span><span class="p-jp">${p.jp}</span><span class="p-en">${p.en}<small>${p.gl}</small></span>`;
+  b.addEventListener('click', () => selectDiscipline(i));
+  partsEl.appendChild(b);
+});
+
+let curPart = -1, discInit = false;
+const detail = $('detail');
+
+function selectDiscipline(i){
+  if(i === curPart) return;
+  curPart = i;
+  const P = DISCIPLINES[i];
+  [...partsEl.children].forEach((b, j) => b.classList.toggle('on', j === i));
+  detail.classList.add('swap');
+  setTimeout(() => {
+    $('dKanji').textContent = P.jp;
+    $('dName').textContent = P.en;
+    $('dRomaji').textContent = P.romaji + ' — ' + P.gl;
+    $('dDesc').textContent = P.desc;
+    $('dIdx').textContent = `0${i+1} / 0${DISCIPLINES.length}`;
+    detail.classList.remove('swap');
+  }, 200);
+
+  focusTgt = { ...P.focus };
+  for(const k in matTgt) matTgt[k] = P.mat === k ? 0.75 : 0;
+}
+
+$('dPrev').addEventListener('click', () => selectDiscipline((Math.max(0, curPart) + DISCIPLINES.length - 1) % DISCIPLINES.length));
+$('dNext').addEventListener('click', () => selectDiscipline((Math.max(-1, curPart) + 1) % DISCIPLINES.length));
+
+/* ================================================================
+   UI — NAV, SCROLL-SPY, MOBILE MENU, REVEALS, RULER, FORM, TOAST
+================================================================ */
+const nav = $('nav');
+const spyIds = ['works', 'disciplines', 'process', 'specs', 'commission'];
+const spyLinks = [...document.querySelectorAll('.nlinks a')];
+
+function spy(){
+  nav.classList.toggle('scrolled', scrollYNow > 40);
+  let act = null;
+  for(const id of spyIds){
+    const el = document.getElementById(id);
+    if(el && scrollYNow >= el.offsetTop - innerHeight * 0.45) act = id;
+  }
+  spyLinks.forEach(a => a.classList.toggle('on', a.dataset.spy === act));
+  if(act === 'disciplines' && !discInit){
+    discInit = true;
+    setTimeout(() => selectDiscipline(0), 350);
+  }
+}
+addEventListener('scroll', spy, { passive: true });
+spy();
+
+/* Mobile Menu */
+const burger = $('burger'), mmenu = $('mmenu');
+burger.addEventListener('click', () => {
+  const open = mmenu.classList.toggle('open');
+  burger.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+});
+mmenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  mmenu.classList.remove('open');
+  burger.classList.remove('open');
+  document.body.style.overflow = '';
+}));
+
+/* Scroll Reveals */
+const ro = new IntersectionObserver(es => es.forEach(e => {
+  if(e.isIntersecting){ e.target.classList.add('in'); ro.unobserve(e.target); }
+}), { threshold: 0.15 });
+document.querySelectorAll('.rv').forEach(el => ro.observe(el));
+
+/* Ledger Ruler Observer */
+new IntersectionObserver(es => es.forEach(e => $('ruler').classList.toggle('on', e.isIntersecting)), { threshold: 0.35 })
+  .observe($('specstage'));
+
+/* Marquee Duplication for Seamless Loop */
+const mt = $('mtrack');
+if(mt) mt.innerHTML += mt.innerHTML;
+
+/* Toast System */
+let toastT;
+function toast(msg){
+  const t = $('toast');
+  t.innerHTML = msg;
+  t.classList.add('show');
+  clearTimeout(toastT);
+  toastT = setTimeout(() => t.classList.remove('show'), 4200);
+}
+
+/* Commission Form Handling */
+$('cform').addEventListener('submit', e => {
+  e.preventDefault();
+  const name = $('inName'), mail = $('inMail'), msg = $('inMsg');
+  let ok = true;
+  const mark = (fld, bad) => { $(fld).classList.toggle('bad', bad); if(bad) ok = false; };
+  mark('fName', name.value.trim().length < 2);
+  mark('fMail', !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail.value.trim()));
+  mark('fMsg', msg.value.trim().length < 5);
+  if(!ok){
+    toast('<b>一歩待て</b>The atelier needs your name, email, and a few words about the project.');
+    return;
+  }
+  toast('<b>便りを受け取った</b>Your commission inquiry has reached the atelier — we reply within 48 hours.');
+  e.target.reset();
+});
+['inName', 'inMail', 'inMsg'].forEach(id => $(id).addEventListener('input', e => e.target.closest('.fld').classList.remove('bad')));
+
+/* Project Live Preview Modal */
+const pModal = $('pModal'), pIframe = $('pIframe'), pModalTitle = $('pModalTitle'), pExtLink = $('pExtLink');
+function openPreview(url, title){
+  if(!pModal || !pIframe) return;
+  pIframe.src = url;
+  if(pModalTitle) pModalTitle.textContent = title || 'Live Experience';
+  if(pExtLink) pExtLink.href = url;
+  pModal.classList.add('open');
+  pModal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+function closePreview(){
+  if(!pModal || !pIframe) return;
+  pModal.classList.remove('open');
+  pModal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+  setTimeout(() => { if(!pModal.classList.contains('open')) pIframe.src = ''; }, 320);
+}
+document.querySelectorAll('[data-preview]').forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.preventDefault();
+    openPreview(btn.dataset.preview, btn.dataset.title);
+  });
+});
+const pCloseBtn = $('pModalClose'), pBackdrop = $('pClose');
+if(pCloseBtn) pCloseBtn.addEventListener('click', closePreview);
+if(pBackdrop) pBackdrop.addEventListener('click', closePreview);
+window.addEventListener('keydown', e => {
+  if(e.key === 'Escape' && pModal && pModal.classList.contains('open')) closePreview();
+});
+
+/* Initialize first discipline */
+selectDiscipline(0);
+
+/* Loader Dismissal */
+const ready = () => {
+  computeKeys();
+  document.body.classList.add('ready');
+};
+if(document.readyState === 'complete'){
+  setTimeout(ready, 650);
+} else {
+  addEventListener('load', () => setTimeout(ready, 650));
+}
+setTimeout(ready, 2600); // safety fallback
+</script>
+</body>
+</html>

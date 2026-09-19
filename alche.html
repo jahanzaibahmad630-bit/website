@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALCHE STUDIO - Creative Digital Agency</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-primary: #050505;
+            --bg-secondary: #0a0a0a;
+            --text-primary: #ffffff;
+            --text-secondary: #888888;
+            --accent-cyan: #00f0ff;
+            --accent-magenta: #ff00aa;
+            --accent-gold: #ffcc00;
+            --grid-line: rgba(255,255,255,0.03);
+            --border-subtle: rgba(255,255,255,0.08);
+        }
+
+        .light-mode {
+            --bg-primary: #fafafa;
+            --bg-secondary: #f0f0f0;
+            --text-primary: #050505;
+            --text-secondary: #666666;
+            --grid-line: rgba(0,0,0,0.05);
+            --border-subtle: rgba(0,0,0,0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-family: 'Syne', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        html.lenis, html.lenis body {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+
+        .font-mono { font-family: 'Space Mono', monospace; }
+        .font-syne { font-family: 'Syne', sans-serif; }
+
+        /* Custom Cursor */
+        .cursor-dot {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: difference;
+            transition: width 0.3s, height 0.3s, background 0.3s;
+        }
+
+        .cursor-ring {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--accent-cyan);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, border-color 0.3s;
+        }
+
+        .cursor-dot.hovering {
+            width: 60px;
+            height: 60px;
+            background: var(--accent-magenta);
+        }
+
+        .cursor-ring.hovering {
+            width: 80px;
+            height: 80px;
+            border-color: var(--accent-magenta);
+        }
+
+        /* Canvas Container */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        /* Content Sections */
+        .content-section {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Navigation */
+        .nav-link {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--accent-cyan);
+            transform: translateX(-101%);
+            transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+
+        .nav-link:hover::after {
+            transform: translateX(0);
+        }
+
+        /* Hero Title */
+        .hero-title {
+            font-size: clamp(4rem, 15vw, 16rem);
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 0.9;
+            background: linear-gradient(135deg, #fff 0%, var(--accent-cyan) 50%, var(--accent-magenta) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleShimmer 8s ease-in-out infinite;
+        }
+
+        @keyframes titleShimmer {
+            0%, 100% { filter: brightness(1) hue-rotate(0deg); }
+            50% { filter: brightness(1.2) hue-rotate(15deg); }
+        }
+
+        /* Work Cards */
+        .work-card {
+            position: relative;
+            overflow: hidden;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), 
+                        box-shadow 0.6s cubic-bezier(0.23, 1, 0.32, 1),
+                        border-color 0.4s;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .work-card:hover {
+            transform: translateY(-10px) rotateX(2deg) rotateY(-2deg);
+            box-shadow: 0 30px 60px rgba(0, 240, 255, 0.1),
+                        0 0 100px rgba(255, 0, 170, 0.05);
+            border-color: var(--accent-cyan);
+        }
+
+        .work-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .work-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Tags */
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            transition: all 0.3s;
+        }
+
+        .work-card:hover .tag {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        /* Grid Lines Decoration */
+        .grid-decoration {
+            position: absolute;
+            pointer-events: none;
+        }
+
+        .grid-line-h {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--grid-line), transparent);
+        }
+
+        .grid-line-v {
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(180deg, transparent, var(--grid-line), transparent);
+        }
+
+        /* Crosshair */
+        .crosshair {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            opacity: 0.3;
+        }
+
+        .crosshair::before,
+        .crosshair::after {
+            content: '';
+            position: absolute;
+            background: var(--text-primary);
+        }
+
+        .crosshair::before {
+            width: 1px;
+            height: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .crosshair::after {
+            width: 100%;
+            height: 1px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* Section Transitions */
+        .section-reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 1s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .section-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Horizontal Scroll Container */
+        .horizontal-scroll-container {
+            display: flex;
+            gap: 40px;
+            padding: 40px 0;
+        }
+
+        /* Button Styles */
+        .btn-primary {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 32px;
+            background: transparent;
+            border: 1px solid var(--text-primary);
+            color: var(--text-primary);
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.4s;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--text-primary);
+            transition: left 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+            z-index: -1;
+        }
+
+        .btn-primary:hover {
+            color: var(--bg-primary);
+        }
+
+        .btn-primary:hover::before {
+            left: 0;
+        }
+
+        /* Audio Toggle */
+        .audio-toggle {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-subtle);
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .audio-toggle:hover {
+            border-color: var(--accent-cyan);
+        }
+
+        .audio-toggle svg {
+            transition: transform 0.3s;
+        }
+
+        .audio-toggle.playing svg {
+            animation: audioPulse 0.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes audioPulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+
+        /* Coordinate Display */
+        .coord-display {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            color: var(--text-secondary);
+            z-index: 100;
+            opacity: 0.6;
+        }
+
+        /* Scroll Progress */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta));
+            z-index: 1000;
+            transform-origin: left;
+            transform: scaleX(0);
+        }
+
+        /* Footer Grid Pattern */
+        .footer-grid {
+            background-image: 
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: clamp(3rem, 12vw, 8rem);
+            }
+            
+            .cursor-dot, .cursor-ring {
+                display: none;
+            }
+        }
+
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-ring" id="cursor-ring"></div>
+
+    <!-- Scroll Progress -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+
+    <!-- 3D Canvas -->
+    <div id="canvas-container"></div>
+
+    <!-- Coordinate Display -->
+    <div class="coord-display" id="coord-display">
+        X: 0000 Y: 0000 SCROLL: 000%
+    </div>
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 w-full z-50 px-6 md:px-12 py-6 flex items-center justify-between mix-blend-difference">
+        <div class="flex items-center gap-12">
+            <a href="#" class="font-syne font-bold text-xl tracking-wider">ALCHE</a>
+            <nav class="hidden md:flex items-center gap-8 font-mono text-xs tracking-widest uppercase">
+                <a href="#news" class="nav-link">News</a>
+                <a href="#works" class="nav-link">Works</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#" class="nav-link">Stelllla</a>
+            </nav>
+        </div>
+        <div class="flex items-center gap-4">
+            <button class="audio-toggle" id="audio-toggle" aria-label="Toggle audio">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+                    <path class="sound-wave" d="M15.54 8.46a5 5 0 010 7.07M19.07 4.93a10 10 0 010 14.14"/>
+                </svg>
+            </button>
+            <a href="#contact" class="btn-primary hidden sm:flex">Contact / Recruit</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="relative z-10">
+        <!-- Hero Section -->
+        <section id="hero" class="min-h-screen flex flex-col justify-center items-center px-6 md:px-12 relative overflow-hidden">
+            <!-- Crosshair decorations -->
+            <div class="crosshair absolute top-20 left-20"></div>
+            <div class="crosshair absolute bottom-32 right-32"></div>
+            
+            <!-- Grid lines -->
+            <div class="grid-decoration grid-line-h absolute top-1/3 left-0"></div>
+            <div class="grid-decoration grid-line-h absolute top-2/3 left-0"></div>
+            <div class="grid-decoration grid-line-v absolute top-0 left-1/4 h-full"></div>
+            <div class="grid-decoration grid-line-v absolute top-0 left-3/4 h-full"></div>
+
+            <div class="text-center max-w-6xl mx-auto">
+                <p class="font-mono text-xs md:text-sm tracking-[0.3em] text-[var(--text-secondary)] mb-6 uppercase section-reveal">
+                    Creative Digital Agency — Est. 2020
+                </p>
+                <h1 class="hero-title font-syne section-reveal" style="transition-delay: 0.1s;">
+                    ALCHE
+                </h1>
+                <p class="font-mono text-xs md:text-base mt-8 max-w-xl mx-auto text-[var(--text-secondary)] section-reveal" style="transition-delay: 0.2s;">
+                    We craft immersive digital experiences at the intersection of 
+                    art, technology, and human connection.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4 mt-12 section-reveal" style="transition-delay: 0.3s;">
+                    <span class="tag">WebGL</span>
+                    <span class="tag">Three.js</span>
+                    <span class="tag">Unreal Engine</span>
+                    <span class="tag">Metaverse</span>
+                    <span class="tag">Creative Tech</span>
+                </div>
+            </div>
+
+            <!-- Scroll indicator -->
+            <div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 section-reveal" style="transition-delay: 0.5s;">
+                <span class="font-mono text-[10px] tracking-[0.2em] text-[var(--text-secondary)]">SCROLL</span>
+                <div class="w-[1px] h-12 bg-gradient-to-b from-[var(--accent-cyan)] to-transparent animate-pulse"></div>
+            </div>
+        </section>
+
+        <!-- News Ticker / Bulletin Anchor -->
+        <div id="news" class="w-full border-y border-[var(--border-subtle)] py-3 px-6 md:px-12 bg-[var(--bg-secondary)] overflow-hidden flex flex-wrap items-center justify-between font-mono text-xs text-[var(--text-secondary)] gap-4">
+            <div class="flex items-center gap-4">
+                <span class="inline-block w-2 h-2 rounded-full bg-[var(--accent-cyan)] animate-ping"></span>
+                <span class="tracking-widest uppercase text-[var(--accent-cyan)] font-bold">DISPATCH / 2024</span>
+                <span class="text-[var(--text-primary)]">Site of the Day Winner: DISCOAT 2025SS Exhibition & Metaverse Interactive Hub.</span>
+            </div>
+            <div class="flex items-center gap-6">
+                <span class="text-[var(--accent-gold)]">TOKYO 35.6764° N, 139.6500° E</span>
+                <a href="#works" class="hover:text-[var(--accent-cyan)] uppercase tracking-wider text-[11px] transition-colors flex items-center gap-1">
+                    <span>Explore Archives</span>
+                    <span>&darr;</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Works Section -->
+        <section id="works" class="py-32 px-6 md:px-12 relative">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+                    <div>
+                        <p class="font-mono text-xs tracking-[0.2em] text-[var(--accent-cyan)] mb-4 section-reveal">SELECTED WORKS</p>
+                        <h2 class="font-syne text-4xl md:text-6xl font-bold section-reveal" style="transition-delay: 0.1s;">Featured<br/>Projects</h2>
+                    </div>
+                    <p class="font-mono text-sm text-[var(--text-secondary)] max-w-md section-reveal" style="transition-delay: 0.2s;">
+                        Exploring new frontiers in digital creativity through cutting-edge technology and bold artistic vision.
+                    </p>
+                </div>
+
+                <!-- Projects Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid">
+                    <!-- Projects will be inserted here by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-32 px-6 md:px-12 relative min-h-screen flex items-center">
+            <div class="max-w-7xl mx-auto w-full">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <div>
+                        <p class="font-mono text-xs tracking-[0.2em] text-[var(--accent-magenta)] mb-4 section-reveal">ABOUT US</p>
+                        <h2 class="font-syne text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-8 section-reveal" style="transition-delay: 0.1s;">
+                            Building the future of digital experiences
+                        </h2>
+                        <div class="space-y-6 text-[var(--text-secondary)] section-reveal" style="transition-delay: 0.2s;">
+                            <p class="leading-relaxed">
+                                Alche Studio is a creative digital agency specializing in immersive web experiences, 
+                                virtual events, and metaverse activations. We blend technical excellence with 
+                                artistic vision to create unforgettable digital moments.
+                            </p>
+                            <p class="leading-relaxed">
+                                Our team of designers, developers, and creative technologists work at the 
+                                forefront of WebGL, real-time 3D, and interactive storytelling.
+                            </p>
+                        </div>
+                        <div class="mt-12 grid grid-cols-3 gap-8 section-reveal" style="transition-delay: 0.3s;">
+                            <div>
+                                <p class="font-syne text-4xl md:text-5xl font-bold text-[var(--accent-cyan)]">50+</p>
+                                <p class="font-mono text-xs text-[var(--text-secondary)] mt-2">PROJECTS</p>
+                            </div>
+                            <div>
+                                <p class="font-syne text-4xl md:text-5xl font-bold text-[var(--accent-magenta)]">4</p>
+                                <p class="font-mono text-xs text-[var(--text-secondary)] mt-2">YEARS</p>
+                            </div>
+                            <div>
+                                <p class="font-syne text-4xl md:text-5xl font-bold text-[var(--accent-gold)]">12</p>
+                                <p class="font-mono text-xs text-[var(--text-secondary)] mt-2">AWARDS</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative section-reveal" style="transition-delay: 0.4s;">
+                        <div class="aspect-square bg-[var(--bg-secondary)] border border-[var(--border-subtle)] relative overflow-hidden group" id="about-image-container">
+                            <canvas id="about-canvas" class="absolute inset-0 w-full h-full"></canvas>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="text-center">
+                                    <p class="font-mono text-[10px] tracking-[0.3em] text-[var(--text-secondary)] mb-4">HOVER TO INTERACT</p>
+                                    <div class="w-20 h-20 mx-auto border border-[var(--accent-cyan)] flex items-center justify-center group-hover:bg-[var(--accent-cyan)] transition-all duration-500">
+                                        <span class="font-syne font-bold text-2xl group-hover:text-[var(--bg-primary)] transition-colors duration-500">A</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Corner brackets -->
+                        <div class="absolute -top-2 -left-2 w-6 h-6 border-t border-l border-[var(--accent-cyan)]"></div>
+                        <div class="absolute -top-2 -right-2 w-6 h-6 border-t border-r border-[var(--accent-cyan)]"></div>
+                        <div class="absolute -bottom-2 -left-2 w-6 h-6 border-b border-l border-[var(--accent-cyan)]"></div>
+                        <div class="absolute -bottom-2 -right-2 w-6 h-6 border-b border-r border-[var(--accent-cyan)]"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="py-32 px-6 md:px-12 border-t border-[var(--border-subtle)]">
+            <div class="max-w-7xl mx-auto">
+                <p class="font-mono text-xs tracking-[0.2em] text-[var(--text-secondary)] mb-12 section-reveal">CAPABILITIES</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-[var(--border-subtle)]">
+                    <div class="bg-[var(--bg-primary)] p-8 hover:bg-[var(--bg-secondary)] transition-colors duration-500 group section-reveal">
+                        <h3 class="font-syne text-xl font-bold mb-4 group-hover:text-[var(--accent-cyan)] transition-colors">WebGL & Three.js</h3>
+                        <p class="font-mono text-xs text-[var(--text-secondary)] leading-relaxed">High-performance 3D web experiences with custom shaders and physics simulations.</p>
+                    </div>
+                    <div class="bg-[var(--bg-primary)] p-8 hover:bg-[var(--bg-secondary)] transition-colors duration-500 group section-reveal" style="transition-delay: 0.1s;">
+                        <h3 class="font-syne text-xl font-bold mb-4 group-hover:text-[var(--accent-magenta)] transition-colors">Virtual Production</h3>
+                        <p class="font-mono text-xs text-[var(--text-secondary)] leading-relaxed">Unreal Engine powered virtual events, concerts, and brand experiences.</p>
+                    </div>
+                    <div class="bg-[var(--bg-primary)] p-8 hover:bg-[var(--bg-secondary)] transition-colors duration-500 group section-reveal" style="transition-delay: 0.2s;">
+                        <h3 class="font-syne text-xl font-bold mb-4 group-hover:text-[var(--accent-gold)] transition-colors">Metaverse Development</h3>
+                        <p class="font-mono text-xs text-[var(--text-secondary)] leading-relaxed">Fortnite Creative, Roblox, and custom metaverse platform development.</p>
+                    </div>
+                    <div class="bg-[var(--bg-primary)] p-8 hover:bg-[var(--bg-secondary)] transition-colors duration-500 group section-reveal" style="transition-delay: 0.3s;">
+                        <h3 class="font-syne text-xl font-bold mb-4 group-hover:text-[var(--accent-cyan)] transition-colors">Interactive Installations</h3>
+                        <p class="font-mono text-xs text-[var(--text-secondary)] leading-relaxed">Physical-digital hybrid experiences with sensors, AR, and real-time graphics.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer id="contact" class="footer-grid py-24 px-6 md:px-12 border-t border-[var(--border-subtle)] relative">
+            <!-- Large A logo in background -->
+            <div class="absolute inset-0 flex items-center justify-center opacity-[0.02] pointer-events-none">
+                <span class="font-syne text-[40vw] font-bold">A</span>
+            </div>
+
+            <div class="max-w-7xl mx-auto relative z-10">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                    <div>
+                        <h4 class="font-syne font-bold text-2xl mb-6">ALCHE</h4>
+                        <p class="font-mono text-xs text-[var(--text-secondary)] leading-relaxed">
+                            Crafting digital experiences that push boundaries and inspire wonder.
+                        </p>
+                    </div>
+                    <div>
+                        <h5 class="font-mono text-xs tracking-widest mb-6 text-[var(--text-secondary)]">NAVIGATION</h5>
+                        <ul class="space-y-3">
+                            <li><a href="#" class="hover:text-[var(--accent-cyan)] transition-colors">News</a></li>
+                            <li><a href="#" class="hover:text-[var(--accent-cyan)] transition-colors">Works</a></li>
+                            <li><a href="#" class="hover:text-[var(--accent-cyan)] transition-colors">About</a></li>
+                            <li><a href="#" class="hover:text-[var(--accent-cyan)] transition-colors">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h5 class="font-mono text-xs tracking-widest mb-6 text-[var(--text-secondary)]">SOCIAL</h5>
+                        <ul class="space-y-3">
+                            <li><a href="#" class="hover:text-[var(--accent-cyan)] transition-colors">Twitter / X</a></li>
+                            <li><a href="#" class="hover:text-[var(--accent-cyan)] transition-colors">Instagram</a></li>
+                            <li><a href="#" class="hover:text-[var(--accent-cyan)] transition-colors">LinkedIn</a></li>
+                            <li><a href="#" class="hover:text-[var(--accent-cyan)] transition-colors">Behance</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h5 class="font-mono text-xs tracking-widest mb-6 text-[var(--text-secondary)]">CONTACT</h5>
+                        <ul class="space-y-3 font-mono text-sm">
+                            <li>hello@alche.studio</li>
+                            <li>Tokyo, Japan</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="pt-8 border-t border-[var(--border-subtle)] flex flex-col md:flex-row justify-between items-center gap-4">
+                    <p class="font-mono text-xs text-[var(--text-secondary)]">
+                        © 2024 ALCHE STUDIO. ALL RIGHTS RESERVED.
+                    </p>
+                    <p class="font-mono text-xs text-[var(--text-secondary)]">
+                        CRAFTED WITH PRECISION AND PASSION
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+
+    <script type="module">
+        import * as THREE from 'three';
+
+        // ============================================
+        // DATA
+        // ============================================
+        const projects = [
+            {
+                id: 1,
+                title: "KizunaAI 'Hello, Fortnite'",
+                client: "Kizuna AI / Activision Fortnite",
+                year: "2024",
+                tags: ["Fortnite Creative", "Unreal Engine", "Virtual Event"],
+                description: "Immersive virtual concert experience featuring virtual YouTuber Kizuna AI in Fortnite.",
+                color: "#00f0ff"
+            },
+            {
+                id: 2,
+                title: "DISCOAT 2025SS Exhibition",
+                client: "DISCOAT Fashion Brand",
+                year: "2024",
+                tags: ["WebGL", "Three.js", "E-commerce"],
+                description: "Interactive virtual fashion showroom with real-time garment visualization.",
+                color: "#ff00aa"
+            },
+            {
+                id: 3,
+                title: "Metaverse Art Gallery",
+                client: "Tokyo Contemporary Art Museum",
+                year: "2023",
+                tags: ["WebXR", "Three.js", "NFT Integration"],
+                description: "Persistent virtual space for digital art exhibition and NFT showcasing.",
+                color: "#ffcc00"
+            },
+            {
+                id: 4,
+                title: "Neural Interface Dashboard",
+                client: "TechCorp Innovation Lab",
+                year: "2024",
+                tags: ["React", "D3.js", "Real-time Data"],
+                description: "Advanced data visualization interface for neural network monitoring.",
+                color: "#00f0ff"
+            },
+            {
+                id: 5,
+                title: "Virtual Fashion Week Tokyo",
+                client: "Tokyo Fashion Council",
+                year: "2023",
+                tags: ["Unreal Engine", "Live Streaming", "AR"],
+                description: "Hybrid physical-virtual fashion event with augmented reality features.",
+                color: "#ff00aa"
+            },
+            {
+                id: 6,
+                title: "Interactive Brand Experience",
+                client: "Global Beverage Company",
+                year: "2024",
+                tags: ["WebGL", "GSAP", "Sound Design"],
+                description: "Immersive brand storytelling experience with reactive audiovisual elements.",
+                color: "#ffcc00"
+            }
+        ];
+
+        // ============================================
+        // THREE.JS SETUP
+        // ============================================
+        let scene, camera, renderer, prismMesh, gridHelper, fluidMaterial;
+        let mouseX = 0, mouseY = 0;
+        let targetMouseX = 0, targetMouseY = 0;
+        let scrollProgress = 0;
+
+        const container = document.getElementById('canvas-container');
+        const clock = new THREE.Clock();
+
+        // Vertex Shader for Fluid Effect
+        const fluidVertexShader = `
+            varying vec2 vUv;
+            varying vec3 vPosition;
+            uniform float uTime;
+            uniform vec2 uMouse;
+            
+            void main() {
+                vUv = uv;
+                vPosition = position;
+                
+                vec3 pos = position;
+                float dist = length(uv - uMouse);
+                pos.z += sin(dist * 10.0 - uTime * 2.0) * 0.05;
+                
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+            }
+        `;
+
+        // Fragment Shader for Chromatic Aberration Effect
+        const fluidFragmentShader = `
+            precision highp float;
+            
+            varying vec2 vUv;
+            varying vec3 vPosition;
+            
+            uniform float uTime;
+            uniform vec2 uMouse;
+            uniform vec2 uResolution;
+            uniform float uScrollProgress;
+            
+            void main() {
+                vec2 uv = vUv;
+                vec2 center = vec2(0.5);
+                
+                // Distortion based on mouse
+                vec2 mouseOffset = (uMouse - center) * 0.3;
+                float mouseDist = length(uv - uMouse);
+                float distortion = smoothstep(0.5, 0.0, mouseDist) * 0.02;
+                
+                // Chromatic aberration
+                float r = length(uv + vec2(distortion, 0.0) + mouseOffset * 0.1);
+                float g = length(uv + mouseOffset * 0.1);
+                float b = length(uv + vec2(-distortion, 0.0) + mouseOffset * 0.1);
+                
+                // Color channels with iridescence
+                vec3 colR = vec3(0.0, 0.94, 1.0) * (0.5 + 0.5 * sin(r * 20.0 - uTime));
+                vec3 colG = vec3(1.0, 0.0, 0.67) * (0.5 + 0.5 * sin(g * 20.0 - uTime + 2.094));
+                vec3 colB = vec3(1.0, 0.8, 0.0) * (0.5 + 0.5 * sin(b * 20.0 - uTime + 4.188));
+                
+                vec3 finalColor = vec3(colR.r, colG.g, colB.b);
+                
+                // Add noise texture
+                float noise = fract(sin(dot(uv * 100.0, vec2(12.9898, 78.233))) * 43758.5453);
+                finalColor += noise * 0.03;
+                
+                // Vignette
+                float vignette = 1.0 - length((uv - center) * 1.2);
+                vignette = smoothstep(0.0, 1.0, vignette);
+                
+                // Alpha based on distance from center and scroll
+                float alpha = (0.15 + 0.1 * sin(uTime * 0.5)) * vignette;
+                alpha *= (1.0 - uScrollProgress * 0.8);
+                
+                // Clamp colors
+                finalColor = clamp(finalColor, 0.0, 1.0);
+                
+                gl_FragColor = vec4(finalColor, alpha);
+            }
+        `;
+
+        // Prism Vertex Shader
+        const prismVertexShader = `
+            varying vec3 vNormalVec;
+            varying vec3 vWorldPos;
+            uniform float uTime;
+            uniform float uScrollProgress;
+            
+            void main() {
+                vNormalVec = normalize(normalMatrix * normal);
+                
+                vec3 pos = position;
+                
+                // Subtle breathing animation
+                float breathe = sin(uTime * 0.5) * 0.02;
+                pos *= 1.0 + breathe;
+                
+                // Rotation based on scroll
+                float angle = uScrollProgress * Math.PI * 0.5;
+                float c = cos(angle * 0.3);
+                float s = sin(angle * 0.3);
+                pos.xz = mat2(c, -s, s, c) * pos.xz;
+                
+                vWorldPos = pos;
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+            }
+        `;
+
+        // Prism Fragment Shader (Wireframe Style)
+        const prismFragmentShader = `
+            precision highp float;
+            
+            varying vec3 vNormalVec;
+            varying vec3 vWorldPos;
+            uniform float uTime;
+            uniform vec2 uMouse;
+            
+            void main() {
+                // Fresnel effect for edge glow
+                vec3 viewDir = normalize(cameraPosition - vWorldPos);
+                float fresnel = pow(1.0 - abs(dot(viewDir, vNormalVec)), 2.0);
+                
+                // Iridescent color shift
+                vec3 color1 = vec3(0.0, 0.94, 1.0);
+                vec3 color2 = vec3(1.0, 0.0, 0.67);
+                vec3 baseColor = mix(color1, color2, fresnel + sin(uTime * 0.5) * 0.3);
+                
+                // Edge highlight
+                float edge = fresnel * 2.0;
+                
+                vec3 finalColor = baseColor * (0.3 + edge * 0.7);
+                finalColor += vec3(1.0) * pow(fresnel, 4.0) * 0.5;
+                
+                // Alpha based on fresnel
+                float alpha = 0.4 + fresnel * 0.6;
+                
+                gl_FragColor = vec4(finalColor, alpha);
+            }
+        `;
+
+        function init() {
+            // Scene
+            scene = new THREE.Scene();
+            
+            // Camera
+            camera = new THREE.PerspectiveCamera(
+                60,
+                window.innerWidth / window.innerHeight,
+                0.1,
+                1000
+            );
+            camera.position.z = 5;
+            
+            // Renderer
+            renderer = new THREE.WebGLRenderer({
+                antialias: true,
+                alpha: true
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
+
+            // Create Fluid Background Plane
+            const fluidGeometry = new THREE.PlaneGeometry(20, 20, 64, 64);
+            fluidMaterial = new THREE.ShaderMaterial({
+                vertexShader: fluidVertexShader,
+                fragmentShader: fluidFragmentShader,
+                uniforms: {
+                    uTime: { value: 0 },
+                    uMouse: { value: new THREE.Vector2(0.5, 0.5) },
+                    uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+                    uScrollProgress: { value: 0 }
+                },
+                transparent: true,
+                depthWrite: false,
+                blending: THREE.AdditiveBlending
+            });
+            const fluidPlane = new THREE.Mesh(fluidGeometry, fluidMaterial);
+            fluidPlane.position.z = -2;
+            scene.add(fluidPlane);
+
+            // Create Wireframe Prism (Triangular "A" shape)
+            createPrism();
+
+            // Create Coordinate Grid
+            createGrid();
+
+            // Add ambient particles
+            createParticles();
+
+            // Start animation loop
+            animate();
+        }
+
+        function createPrism() {
+            // Create a triangular prism shape (stylized "A")
+            const prismGeometry = new THREE.ConeGeometry(1.2, 2.5, 3, 1, true);
+            
+            const prismMat = new THREE.ShaderMaterial({
+                vertexShader: prismVertexShader,
+                fragmentShader: prismFragmentShader,
+                uniforms: {
+                    uTime: { value: 0 },
+                    uScrollProgress: { value: 0 },
+                    uMouse: { value: new THREE.Vector2(0.5, 0.5) }
+                },
+                transparent: true,
+                side: THREE.DoubleSide,
+                wireframe: false,
+                depthWrite: false
+            });
+
+            prismMesh = new THREE.Mesh(prismGeometry, prismMat);
+            prismMesh.position.y = 0.2;
+            scene.add(prismMesh);
+
+            // Add wireframe overlay
+            const wireframeGeom = new THREE.EdgesGeometry(prismGeometry);
+            const wireframeMat = new THREE.LineBasicMaterial({
+                color: 0x00f0ff,
+                transparent: true,
+                opacity: 0.6
+            });
+            const wireframe = new THREE.LineSegments(wireframeGeom, wireframeMat);
+            prismMesh.add(wireframe);
+        }
+
+        function createGrid() {
+            // Custom grid with perspective
+            const gridSize = 40;
+            const divisions = 40;
+            const gridGeometry = new THREE.BufferGeometry();
+            const positions = [];
+            const halfSize = gridSize / 2;
+            const step = gridSize / divisions;
+
+            for (let i = 0; i <= divisions; i++) {
+                const pos = -halfSize + i * step;
+                // Lines along X
+                positions.push(-halfSize, -2, pos, halfSize, -2, pos);
+                // Lines along Z
+                positions.push(pos, -2, -halfSize, pos, -2, halfSize);
+            }
+
+            gridGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+
+            const gridMaterial = new THREE.LineBasicMaterial({
+                color: 0x00f0ff,
+                transparent: true,
+                opacity: 0.06
+            });
+
+            gridHelper = new THREE.LineSegments(gridGeometry, gridMaterial);
+            gridHelper.rotation.x = -Math.PI * 0.1;
+            scene.add(gridHelper);
+        }
+
+        function createParticles() {
+            const particleCount = 200;
+            const positions = new Float32Array(particleCount * 3);
+            const sizes = new Float32Array(particleCount);
+
+            for (let i = 0; i < particleCount; i++) {
+                positions[i * 3] = (Math.random() - 0.5) * 20;
+                positions[i * 3 + 1] = (Math.random() - 0.5) * 20;
+                positions[i * 3 + 2] = (Math.random() - 0.5) * 10 - 2;
+                sizes[i] = Math.random() * 3 + 1;
+            }
+
+            const particleGeometry = new THREE.BufferGeometry();
+            particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            particleGeometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+
+            const particleMaterial = new THREE.PointsMaterial({
+                color: 0x00f0ff,
+                size: 0.02,
+                transparent: true,
+                opacity: 0.4,
+                blending: THREE.AdditiveBlending,
+                sizeAttenuation: true
+            });
+
+            const particles = new THREE.Points(particleGeometry, particleMaterial);
+            particles.name = 'particles';
+            scene.add(particles);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const time = clock.getElapsedTime();
+            const delta = clock.getDelta();
+
+            // Smooth mouse follow
+            targetMouseX += (mouseX - targetMouseX) * 0.05;
+            targetMouseY += (mouseY - targetMouseY) * 0.05;
+
+            // Update shaders
+            if (fluidMaterial) {
+                fluidMaterial.uniforms.uTime.value = time;
+                fluidMaterial.uniforms.uMouse.value.set(targetMouseX, 1 - targetMouseY);
+                fluidMaterial.uniforms.uScrollProgress.value = scrollProgress;
+            }
+
+            if (prismMesh && prismMesh.material.uniforms) {
+                prismMesh.material.uniforms.uTime.value = time;
+                prismMesh.material.uniforms.uScrollProgress.value = scrollProgress;
+                prismMesh.material.uniforms.uMouse.value.set(targetMouseX, 1 - targetMouseY);
+                
+                // Subtle rotation based on mouse
+                prismMesh.rotation.y += (targetMouseX * 0.5 - prismMesh.rotation.y) * 0.02;
+                prismMesh.rotation.x += (-targetMouseY * 0.3 - prismMesh.rotation.x) * 0.02;
+            }
+
+            // Move grid with parallax
+            if (gridHelper) {
+                gridHelper.position.x = targetMouseX * 0.5;
+                gridHelper.position.y = targetMouseY * 0.3 - 2;
+            }
+
+            // Animate particles
+            const particles = scene.getObjectByName('particles');
+            if (particles) {
+                particles.rotation.y = time * 0.02;
+                const positions = particles.geometry.attributes.position.array;
+                for (let i = 0; i < positions.length; i += 3) {
+                    positions[i + 1] += Math.sin(time + positions[i]) * 0.001;
+                }
+                particles.geometry.attributes.position.needsUpdate = true;
+            }
+
+            // Camera subtle movement
+            camera.position.x += (targetMouseX * 0.5 - camera.position.x) * 0.02;
+            camera.position.y += (-targetMouseY * 0.3 - camera.position.y) * 0.02;
+            camera.lookAt(scene.position);
+
+            renderer.render(scene, camera);
+        }
+
+        function handleResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            
+            if (fluidMaterial) {
+                fluidMaterial.uniforms.uResolution.value.set(window.innerWidth, window.innerHeight);
+            }
+        }
+
+        // Initialize Three.js
+        init();
+        window.addEventListener('resize', handleResize);
+
+        // ============================================
+        // MOUSE TRACKING
+        // ============================================
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorRing = document.getElementById('cursor-ring');
+        const coordDisplay = document.getElementById('coord-display');
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX / window.innerWidth;
+            mouseY = e.clientY / window.innerHeight;
+
+            // Update custom cursor
+            gsap.to(cursorDot, {
+                x: e.clientX,
+                y: e.clientY,
+                duration: 0.1
+            });
+
+            gsap.to(cursorRing, {
+                x: e.clientX,
+                y: e.clientY,
+                duration: 0.3,
+                ease: 'power2.out'
+            });
+
+            // Update coordinates display
+            const scrollY = window.scrollY || window.pageYOffset;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = ((scrollY / docHeight) * 100).toFixed(0);
+            coordDisplay.textContent = `X: ${e.clientX.toString().padStart(4, '0')} Y: ${e.clientY.toString().padStart(4, '0')} SCROLL: ${scrollPercent.padStart(3, '0')}%`;
+        });
+
+        // Hover states for interactive elements
+        const interactiveElements = document.querySelectorAll('a, button, .work-card, .btn-primary');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursorDot.classList.add('hovering');
+                cursorRing.classList.add('hovering');
+            });
+            el.addEventListener('mouseleave', () => {
+                cursorDot.classList.remove('hovering');
+                cursorRing.classList.remove('hovering');
+            });
+        });
+
+        // ============================================
+        // LENIS SMOOTH SCROLL
+        // ============================================
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            smoothTouch: false,
+            touchMultiplier: 2
+        });
+
+        lenis.on('scroll', ({ scroll, limit }) => {
+            scrollProgress = Math.max(0, Math.min(1, scroll / limit));
+            
+            // Update scroll progress bar
+            document.getElementById('scroll-progress').style.transform = `scaleX(${scrollProgress})`;
+            
+            // Theme transition based on scroll
+            const aboutSection = document.getElementById('about');
+            if (aboutSection) {
+                const rect = aboutSection.getBoundingClientRect();
+                if (rect.top < window.innerHeight / 2 && rect.bottom > window.innerHeight / 2) {
+                    document.body.classList.add('light-mode');
+                } else {
+                    document.body.classList.remove('light-mode');
+                }
+            }
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // ============================================
+        // GSAP ANIMATIONS
+        // ============================================
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Reveal animations
+        const revealElements = document.querySelectorAll('.section-reveal');
+        revealElements.forEach(el => {
+            ScrollTrigger.create({
+                trigger: el,
+                start: 'top 85%',
+                onEnter: () => el.classList.add('revealed'),
+                onLeaveBack: () => el.classList.remove('revealed')
+            });
+        });
+
+        // Initial hero animations
+        gsap.from('.hero-title', {
+            y: 100,
+            opacity: 0,
+            duration: 1.5,
+            delay: 0.3,
+            ease: 'power4.out'
+        });
+
+        // Parallax for sections
+        gsap.utils.toArray('section').forEach(section => {
+            const heading = section.querySelector('h1, h2');
+            if (heading) {
+                gsap.to(heading, {
+                    y: -50,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: section,
+                        start: 'top bottom',
+                        end: 'bottom top',
+                        scrub: 1
+                    }
+                });
+            }
+        });
+
+        // ============================================
+        // RENDER PROJECTS
+        // ============================================
+        function getProjectGraphic(id, color) {
+            switch(id) {
+                case 1:
+                    return `<svg class="w-3/5 h-3/5 opacity-40 transition-transform duration-700 group-hover/card:scale-110" viewBox="0 0 100 100" fill="none" stroke="${color}">
+                        <circle cx="50" cy="50" r="38" stroke-dasharray="4 4" stroke-width="0.8"/>
+                        <polygon points="50,18 82,78 18,78" stroke-width="1.2"/>
+                        <circle cx="50" cy="50" r="14" stroke-width="1"/>
+                        <path d="M50 20 L50 80 M20 50 L80 50" stroke-width="0.6" opacity="0.6"/>
+                    </svg>`;
+                case 2:
+                    return `<svg class="w-3/5 h-3/5 opacity-40 transition-transform duration-700 group-hover/card:scale-110" viewBox="0 0 100 100" fill="none" stroke="${color}">
+                        <rect x="25" y="25" width="50" height="50" stroke-width="1"/>
+                        <rect x="35" y="15" width="50" height="50" stroke-width="0.8" stroke-dasharray="2 3"/>
+                        <path d="M25 25 L35 15 M75 25 L85 15 M25 75 L35 65 M75 75 L85 65" stroke-width="0.8"/>
+                        <circle cx="50" cy="50" r="22" stroke-width="0.8"/>
+                    </svg>`;
+                case 3:
+                    return `<svg class="w-3/5 h-3/5 opacity-40 transition-transform duration-700 group-hover/card:scale-110" viewBox="0 0 100 100" fill="none" stroke="${color}">
+                        <polygon points="50,15 85,35 85,65 50,85 15,65 15,35" stroke-width="1.2"/>
+                        <polyline points="50,15 50,85" stroke-width="0.8"/>
+                        <polyline points="15,35 50,50 85,35" stroke-width="0.8"/>
+                        <polyline points="15,65 50,50 85,65" stroke-width="0.8"/>
+                    </svg>`;
+                case 4:
+                    return `<svg class="w-3/5 h-3/5 opacity-40 transition-transform duration-700 group-hover/card:scale-110" viewBox="0 0 100 100" fill="none" stroke="${color}">
+                        <circle cx="28" cy="30" r="6" stroke-width="1.2"/><circle cx="72" cy="30" r="6" stroke-width="1.2"/>
+                        <circle cx="50" cy="50" r="9" stroke-width="1.5"/><circle cx="28" cy="70" r="6" stroke-width="1.2"/>
+                        <circle cx="72" cy="70" r="6" stroke-width="1.2"/>
+                        <line x1="34" y1="30" x2="43" y2="45" stroke-width="0.8"/><line x1="66" y1="30" x2="57" y2="45" stroke-width="0.8"/>
+                        <line x1="34" y1="70" x2="43" y2="55" stroke-width="0.8"/><line x1="66" y1="70" x2="57" y2="55" stroke-width="0.8"/>
+                    </svg>`;
+                case 5:
+                    return `<svg class="w-3/5 h-3/5 opacity-40 transition-transform duration-700 group-hover/card:scale-110" viewBox="0 0 100 100" fill="none" stroke="${color}">
+                        <path d="M20 30 Q50 10 80 30 T20 60 T80 90" stroke-width="1" stroke-dasharray="3 2"/>
+                        <polygon points="50,22 75,50 50,78 25,50" stroke-width="1.2"/>
+                        <circle cx="50" cy="50" r="5" fill="${color}" opacity="0.6"/>
+                    </svg>`;
+                case 6:
+                default:
+                    return `<svg class="w-3/5 h-3/5 opacity-40 transition-transform duration-700 group-hover/card:scale-110" viewBox="0 0 100 100" fill="none" stroke="${color}">
+                        <circle cx="50" cy="50" r="38" stroke-width="0.8"/>
+                        <circle cx="50" cy="50" r="28" stroke-width="1" stroke-dasharray="5 3"/>
+                        <circle cx="50" cy="50" r="18" stroke-width="1.2"/>
+                        <circle cx="50" cy="50" r="6" fill="${color}" opacity="0.7"/>
+                        <path d="M10 50 L90 50 M50 10 L50 90" stroke-width="0.5" opacity="0.5"/>
+                    </svg>`;
+            }
+        }
+
+        const projectsGrid = document.getElementById('projects-grid');
+
+        projects.forEach((project, index) => {
+            const card = document.createElement('article');
+            card.className = 'work-card section-reveal';
+            card.style.transitionDelay = `${index * 0.1}s`;
+            
+            card.innerHTML = `
+                <div class="aspect-[4/3] bg-[var(--bg-primary)] relative overflow-hidden">
+                    <div class="absolute inset-0 flex items-center justify-center" style="background: linear-gradient(135deg, ${project.color}11, transparent);">
+                        <span class="font-syne text-6xl font-bold opacity-10">${String(project.id).padStart(2, '0')}</span>
+                    </div>
+                    <div class="absolute top-4 left-4 font-mono text-[10px] tracking-widest text-[var(--text-secondary)]">${project.year}</div>
+                    <div class="absolute bottom-4 right-4 w-8 h-8 border border-current opacity-30" style="color: ${project.color}"></div>
+                </div>
+                <div class="p-6">
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                    <h3 class="font-syne text-lg font-bold mb-2 line-clamp-2">${project.title}</h3>
+                    <p class="font-mono text-xs text-[var(--text-secondary)] mb-3">${project.client}</p>
+                    <p class="text-sm text-[var(--text-secondary)] line-clamp-2">${project.description}</p>
+                </div>
+                <div class="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[${project.color}] to-transparent opacity-0 hover:opacity-100 transition-opacity"></div>
+            `;
+            
+            projectsGrid.appendChild(card);
+        });
+
+        // ============================================
+        // AUDIO TOGGLE (Visual only - no actual audio)
+        // ============================================
+        const audioToggle = document.getElementById('audio-toggle');
+        let isPlaying = false;
+
+        audioToggle.addEventListener('click', () => {
+            isPlaying = !isPlaying;
+            audioToggle.classList.toggle('playing', isPlaying);
+            
+            const soundWaves = audioToggle.querySelectorAll('.sound-wave');
+            soundWaves.forEach(wave => {
+                wave.style.opacity = isPlaying ? '1' : '0.5';
+            });
+        });
+
+        // ============================================
+        // ABOUT SECTION CANVAS INTERACTION
+        // ============================================
+        const aboutCanvas = document.getElementById('about-canvas');
+        if (aboutCanvas) {
+            const aboutScene = new THREE.Scene();
+            const aboutCamera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
+            aboutCamera.position.z = 3;
+            
+            const aboutRenderer = new THREE.WebGLRenderer({
+                canvas: aboutCanvas,
+                antialias: true,
+                alpha: true
+            });
+            aboutRenderer.setSize(Math.max(aboutCanvas.clientWidth, 300), Math.max(aboutCanvas.clientHeight, 300));
+            aboutRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            // Create torus knot for about section
+            const torusKnotGeo = new THREE.TorusKnotGeometry(0.8, 0.25, 128, 32);
+            const torusKnotMat = new THREE.MeshBasicMaterial({
+                color: 0x00f0ff,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.3
+            });
+            const torusKnot = new THREE.Mesh(torusKnotGeo, torusKnotMat);
+            aboutScene.add(torusKnot);
+
+            // Animation loop for about canvas
+            function animateAbout() {
+                requestAnimationFrame(animateAbout);
+                torusKnot.rotation.x += 0.005;
+                torusKnot.rotation.y += 0.007;
+                aboutRenderer.render(aboutScene, aboutCamera);
+            }
+            animateAbout();
+
+            // Handle resize
+            const aboutContainer = document.getElementById('about-image-container');
+            if (aboutContainer) {
+                const resizeObserver = new ResizeObserver(() => {
+                    const rect = aboutContainer.getBoundingClientRect();
+                    aboutCamera.aspect = rect.width / rect.height;
+                    aboutCamera.updateProjectionMatrix();
+                    aboutRenderer.setSize(rect.width, rect.height);
+                });
+                resizeObserver.observe(aboutContainer);
+            }
+
+            // Mouse interaction
+            let aboutHovered = false;
+            const imageContainer = document.getElementById('about-image-container');
+            
+            if (imageContainer) {
+                imageContainer.addEventListener('mouseenter', () => {
+                    aboutHovered = true;
+                    gsap.to(torusKnotMat, { opacity: 0.8, duration: 0.5 });
+                    gsap.to(torusKnot.scale, { x: 1.2, y: 1.2, z: 1.2, duration: 0.5 });
+                });
+                
+                imageContainer.addEventListener('mouseleave', () => {
+                    aboutHovered = false;
+                    gsap.to(torusKnotMat, { opacity: 0.3, duration: 0.5 });
+                    gsap.to(torusKnot.scale, { x: 1, y: 1, z: 1, duration: 0.5 });
+                });
+            }
+        }
+
+        // ============================================
+        // INITIAL REVEAL TRIGGER
+        // ============================================
+        setTimeout(() => {
+            document.querySelectorAll('#hero .section-reveal').forEach(el => {
+                el.classList.add('revealed');
+            });
+        }, 100);
+
+        console.log('%c ALCHE STUDIO ', 'background: #050505; color: #00f0ff; font-size: 20px; font-weight: bold; padding: 10px 20px;');
+        console.log('%c Creative Digital Agency ', 'background: #050505; color: #ff00aa; font-size: 12px; padding: 5px 20px;');
+    </script>
+</body>
+</html>

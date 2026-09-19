@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #050505;
+  --fg: rgba(255,255,255,0.92);
+  --muted: rgba(255,255,255,0.58);
+  --line: rgba(255,255,255,0.16);
+  --grid: rgba(255,255,255,0.06);
+  --accent: rgba(120, 240, 255, 0.9);
+  --accent2: rgba(255, 120, 210, 0.9);
+}
+
+[data-theme="light"] {
+  --bg: #fbfbfb;
+  --fg: rgba(10,10,10,0.92);
+  --muted: rgba(10,10,10,0.56);
+  --line: rgba(10,10,10,0.18);
+  --grid: rgba(10,10,10,0.08);
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+body {
+  overflow-x: hidden;
+  font-family: ui-sans-serif, system-ui;
+}
+
+::selection {
+  background: rgba(120, 240, 255, 0.25);
+}
+
+.tech-grid {
+  background-image:
+    linear-gradient(to right, var(--grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+  background-size: 64px 64px;
+  background-position: center;
+}
+
+.hairline {
+  border: 1px solid var(--line);
+}
+
+.crosshair {
+  position: relative;
+}
+.crosshair::before,
+.crosshair::after {
+  content: "";
+  position: absolute;
+  background: var(--line);
+  opacity: 0.9;
+}
+.crosshair::before { width: 18px; height: 1px; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+.crosshair::after { width: 1px; height: 18px; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+
+.big-title {
+  font-family: ui-sans-serif, system-ui;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.masked-title {
+  mix-blend-mode: screen;
+  color: rgba(255,255,255,0.92);
+}
+[data-theme="light"] .masked-title {
+  mix-blend-mode: multiply;
+  color: rgba(5,5,5,0.92);
+}

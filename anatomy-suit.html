@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>THE ANATOMY OF A SUIT — Vandenberg & Co. Bespoke Atelier</title>
+<meta name="description" content="An ultra-luxury cinematic scrollytelling experience. Seven movements of bespoke tailoring craft, from the measure of a man to the last quarter-inch of a working cuff." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230a0a0b'/%3E%3Cpath d='M16 14 L32 30 L48 14 L42 50 L22 50 Z' fill='none' stroke='%23c6a35c' stroke-width='2.2' stroke-linejoin='round'/%3E%3Ccircle cx='32' cy='22' r='2' fill='%23c6a35c'/%3E%3C/svg%3E" />
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+
+<!-- GSAP + ScrollTrigger + Lenis Smooth Scroll -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+
+<style>
+  /* ===================================================================
+     DESIGN SYSTEM & THEME TOKENS
+     =================================================================== */
+  :root {
+    --bg:        #0a0a0b;
+    --bg-soft:   #111114;
+    --ink:       #f3efe6;
+    --ink-dim:   #b8b2a6;
+    --ink-faint: #6d685f;
+    --gold:      #c6a35c;
+    --gold-soft: #d8bd82;
+    --gold-glow: rgba(198, 163, 92, 0.35);
+    --line:      rgba(198, 163, 92, 0.22);
+    --border:    rgba(255, 255, 255, 0.09);
+    --serif:     "Cormorant Garamond", "Times New Roman", serif;
+    --sans:      "Jost", system-ui, -apple-system, sans-serif;
+    --mono:      "JetBrains Mono", monospace;
+    --ease:      cubic-bezier(0.16, 0.84, 0.32, 1);
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    background-color: var(--bg);
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    cursor: default;
+  }
+
+  @media (pointer: fine) {
+    body { cursor: none; }
+  }
+
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button { background: none; border: none; font: inherit; color: inherit; cursor: pointer; }
+
+  /* Selection highlight */
+  ::selection {
+    background: var(--gold);
+    color: var(--bg);
+  }
+
+  /* Custom dual luxury cursor */
+  #cursor-dot {
+    position: fixed;
+    top: 0; left: 0;
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s ease;
+  }
+
+  #cursor-ring {
+    position: fixed;
+    top: 0; left: 0;
+    width: 38px; height: 38px;
+    border: 1px solid rgba(198, 163, 92, 0.45);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s var(--ease), height 0.3s var(--ease), border-color 0.3s, background-color 0.3s;
+  }
+
+  .cursor-hover #cursor-ring {
+    width: 64px; height: 64px;
+    border-color: var(--gold);
+    background: rgba(198, 163, 92, 0.08);
+  }
+
+  /* Shared typography */
+  .eyebrow {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 400;
+    letter-spacing: 0.44em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .eyebrow--center { text-align: center; }
+
+  /* ===================================================================
+     PRELOADER
+     =================================================================== */
+  .loader {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.6rem;
+    background: var(--bg);
+    transition: opacity 1s var(--ease), visibility 1s var(--ease);
+  }
+  .loader.is-done {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .loader__mark {
+    width: 64px;
+    height: 64px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    position: relative;
+    animation: breathe 2.8s ease-in-out infinite;
+  }
+  .loader__mark svg {
+    width: 28px;
+    height: 28px;
+    stroke: var(--gold);
+  }
+  @keyframes breathe {
+    0%, 100% { opacity: 0.4; transform: translateY(0) scale(0.98); }
+    50% { opacity: 1; transform: translateY(-4px) scale(1.02); }
+  }
+  .loader__bar {
+    width: min(280px, 60vw);
+    height: 1px;
+    background: rgba(255, 255, 255, 0.12);
+    overflow: hidden;
+    position: relative;
+  }
+  .loader__bar span {
+    display: block;
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-soft));
+    transition: width 0.25s linear;
+  }
+  .loader__pct {
+    font-family: var(--serif);
+    font-size: 2.2rem;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+  }
+  .loader__pct i {
+    font-style: normal;
+    font-size: 0.95rem;
+    color: var(--gold);
+    margin-left: 2px;
+  }
+  .loader__label {
+    font-size: 0.64rem;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  /* ===================================================================
+     HEADER & BRAND NAVIGATION
+     =================================================================== */
+  .site-header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.6rem clamp(1.2rem, 4vw, 3.2rem);
+    mix-blend-mode: difference;
+    transition: transform 0.5s var(--ease);
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: #fff;
+  }
+  .brand__mark {
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+  }
+  .brand__mark svg { width: 100%; height: 100%; stroke: #fff; }
+  .brand__word {
+    font-size: 0.88rem;
+    letter-spacing: 0.42em;
+    font-weight: 400;
+    color: #fff;
+    text-transform: uppercase;
+  }
+  .brand__sub {
+    font-family: var(--mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    margin-left: 0.5rem;
+    display: none;
+  }
+  @media (min-width: 768px) { .brand__sub { display: inline-block; } }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: clamp(1rem, 2.5vw, 2.4rem);
+  }
+  .nav a, .nav button {
+    font-size: 0.72rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: #fff;
+    opacity: 0.82;
+    transition: opacity 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .nav a:hover, .nav button:hover { opacity: 1; }
+  .nav__cta {
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    padding: 0.55rem 1.15rem;
+    opacity: 1 !important;
+    transition: background 0.3s, color 0.3s, border-color 0.3s !important;
+  }
+  .nav__cta:hover {
+    background: #fff;
+    color: #0a0a0b !important;
+  }
+
+  /* Equalizer icon in audio toggle */
+  .eq-bars {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 12px;
+  }
+  .eq-bar {
+    width: 2px;
+    height: 3px;
+    background: currentColor;
+    transition: height 0.2s;
+  }
+  .sound-playing .eq-bar:nth-child(1) { animation: eq1 0.8s ease-in-out infinite alternate; }
+  .sound-playing .eq-bar:nth-child(2) { animation: eq2 0.7s ease-in-out infinite alternate 0.2s; }
+  .sound-playing .eq-bar:nth-child(3) { animation: eq3 0.9s ease-in-out infinite alternate 0.4s; }
+  @keyframes eq1 { 0% { height: 3px; } 100% { height: 12px; } }
+  @keyframes eq2 { 0% { height: 4px; } 100% { height: 10px; } }
+  @keyframes eq3 { 0% { height: 2px; } 100% { height: 13px; } }
+
+  /* ===================================================================
+     SCROLL SCENE — PINNED 535-FRAME CANVAS & EDITORIAL PANELS
+     =================================================================== */
+  .scene {
+    position: relative;
+    height: 850vh;
+    background: var(--bg);
+  }
+  .sticky {
+    position: sticky;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .frames-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* Cinematic overlays */
+  .grade {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .grade--vignette {
+    box-shadow: inset 0 0 28vw 7vw rgba(0, 0, 0, 0.76);
+  }
+  .grade--top {
+    height: 38%;
+    top: 0;
+    background: linear-gradient(to bottom, rgba(7, 8, 10, 0.72), transparent);
+  }
+  .grade--bottom {
+    height: 44%;
+    bottom: 0;
+    top: auto;
+    background: linear-gradient(to top, rgba(7, 8, 10, 0.78), transparent);
+  }
+  .grain {
+    position: absolute;
+    inset: -50%;
+    pointer-events: none;
+    opacity: 0.055;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation: grain 6s steps(6) infinite;
+  }
+  @keyframes grain {
+    0% { transform: translate(0, 0); }
+    20% { transform: translate(-4%, 3%); }
+    40% { transform: translate(3%, -5%); }
+    60% { transform: translate(-3%, 4%); }
+    80% { transform: translate(5%, -2%); }
+    100% { transform: translate(0, 0); }
+  }
+
+  /* ===================================================================
+     EDITORIAL PANELS
+     =================================================================== */
+  .panel {
+    position: absolute;
+    z-index: 20;
+    max-width: min(32ch, 36vw);
+    opacity: 0;
+    visibility: hidden;
+    will-change: transform, opacity;
+  }
+
+  /* Hero Panel (Movement 00) */
+  .panel--hero {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    max-width: 48ch;
+  }
+  .hero-title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(3.2rem, 9.5vw, 8.2rem);
+    line-height: 0.94;
+    letter-spacing: -0.01em;
+    margin: 1.1rem 0 1.4rem;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold-soft);
+    font-weight: 300;
+  }
+  .hero-sub {
+    font-size: clamp(0.85rem, 1.1vw, 1.02rem);
+    color: var(--ink-dim);
+    max-width: 42ch;
+    margin: 0 auto;
+    letter-spacing: 0.02em;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+  .scroll-cue {
+    margin-top: 2.8rem;
+    font-size: 0.62rem;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.9rem;
+  }
+  .scroll-cue span {
+    width: 1px;
+    height: 48px;
+    background: linear-gradient(var(--gold), transparent);
+    animation: cue 2.4s var(--ease) infinite;
+  }
+  @keyframes cue {
+    0% { transform: scaleY(0); transform-origin: top; }
+    45% { transform: scaleY(1); transform-origin: top; }
+    55% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  /* Left / Right alternating panels */
+  .panel--left {
+    left: clamp(1.6rem, 7vw, 7.5rem);
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: left;
+  }
+  .panel--right {
+    right: clamp(1.6rem, 7vw, 7.5rem);
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: right;
+  }
+
+  .panel__index {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+  .panel__kicker {
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--ink);
+    opacity: 0.75;
+    margin-bottom: 1.1rem;
+  }
+  .panel__title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(2.4rem, 4.4vw, 4rem);
+    line-height: 0.98;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.3rem;
+  }
+  .panel__body {
+    font-size: clamp(0.9rem, 1.05vw, 1rem);
+    color: var(--ink-dim);
+    line-height: 1.75;
+    letter-spacing: 0.015em;
+    font-weight: 300;
+  }
+  .panel__spec {
+    margin-top: 1.6rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid var(--line);
+    font-size: 0.66rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+  .panel__spec i {
+    font-style: normal;
+    color: var(--gold);
+    margin-right: 0.7em;
+  }
+  .panel--right .panel__spec { display: inline-block; }
+
+  /* ===================================================================
+     HUD, TELEMETRY & NAVIGATION CONTROLS
+     =================================================================== */
+  /* Scroll Progress Bar */
+  .progress {
+    position: absolute;
+    left: 0; bottom: 0;
+    z-index: 40;
+    width: 100%;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.06);
+  }
+  .progress span {
+    display: block;
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-soft));
+    box-shadow: 0 0 10px var(--gold-glow);
+  }
+
+  /* Movement Counter */
+  .scene-count {
+    position: absolute;
+    bottom: 1.6rem;
+    right: clamp(1.4rem, 4vw, 3.2rem);
+    z-index: 40;
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    color: var(--ink);
+    letter-spacing: 0.1em;
+  }
+  .scene-count i {
+    font-style: normal;
+    color: var(--ink-faint);
+    font-size: 0.85rem;
+    margin-left: 0.3em;
+  }
+
+  /* Telemetry Status HUD (Bottom Left) */
+  .telemetry {
+    position: absolute;
+    bottom: 1.6rem;
+    left: clamp(1.4rem, 4vw, 3.2rem);
+    z-index: 40;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    color: var(--ink-faint);
+    display: flex;
+    align-items: center;
+    gap: 1.8rem;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+  .telemetry span b {
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  /* Left Vertical Quick-Jump Rail */
+  .rail {
+    position: absolute;
+    left: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 45;
+    display: none;
+    flex-direction: column;
+    gap: 12px;
+  }
+  @media (min-width: 1200px) { .rail { display: flex; } }
+  .rail__dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid transparent;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+  }
+  .rail__dot:hover {
+    background: var(--gold);
+    transform: scale(1.4);
+  }
+  .rail__dot.active {
+    background: var(--gold);
+    border-color: var(--gold);
+    box-shadow: 0 0 10px var(--gold);
+    transform: scale(1.5);
+  }
+  .rail__dot span {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+  }
+  .rail__dot:hover span { opacity: 1; }
+
+  /* ===================================================================
+     OUTRO & SARTORIAL COMMISSION SECTION
+     =================================================================== */
+  .outro {
+    position: relative;
+    z-index: 2;
+    background: radial-gradient(120% 90% at 50% 0%, #16151a 0%, var(--bg) 60%);
+    padding: clamp(6rem, 14vh, 11rem) 1.5rem 0;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .outro__mark {
+    width: 56px;
+    height: 56px;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    margin-bottom: 2rem;
+  }
+  .outro__mark svg {
+    width: 26px; height: 26px;
+    stroke: var(--gold);
+  }
+  .outro__title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(2.8rem, 8vw, 6.4rem);
+    line-height: 0.96;
+    margin: 1.1rem 0 1.6rem;
+    letter-spacing: -0.01em;
+  }
+  .outro__title em {
+    font-style: italic;
+    color: var(--gold-soft);
+  }
+  .outro__body {
+    max-width: 48ch;
+    color: var(--ink-dim);
+    font-size: 1.05rem;
+    line-height: 1.8;
+  }
+
+  .outro__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3rem;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 1.15rem 2.8rem;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    transition: background 0.4s var(--ease), color 0.4s var(--ease), border-color 0.4s;
+    border-radius: 0px;
+  }
+  .btn:hover {
+    background: var(--gold);
+    color: #0a0a0b;
+  }
+  .btn--secondary {
+    border-color: var(--border);
+    color: var(--ink-dim);
+  }
+  .btn--secondary:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  /* Footer */
+  .site-footer {
+    width: 100%;
+    max-width: 1200px;
+    margin: clamp(6rem, 12vh, 10rem) auto 0;
+    padding: 3.5rem clamp(1.2rem, 4vw, 2.5rem) 2.6rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2.5rem;
+    text-align: left;
+  }
+  .foot-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    align-self: start;
+  }
+  .foot-brand svg { width: 22px; height: 22px; stroke: var(--gold); }
+  .foot-brand span {
+    letter-spacing: 0.38em;
+    font-size: 0.84rem;
+    text-transform: uppercase;
+  }
+  .foot-cols {
+    display: flex;
+    gap: clamp(2rem, 5vw, 4.5rem);
+  }
+  .foot-cols h4 {
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.1rem;
+    font-weight: 400;
+  }
+  .foot-cols a {
+    display: block;
+    font-size: 0.82rem;
+    color: var(--ink-dim);
+    margin-bottom: 0.6rem;
+    transition: color 0.3s;
+  }
+  .foot-cols a:hover { color: var(--ink); }
+  .foot-legal {
+    grid-column: 1 / -1;
+    margin-top: 2rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    color: var(--ink-faint);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  /* ===================================================================
+     PRIVATE FITTING BOOKING DRAWER MODAL
+     =================================================================== */
+  .drawer-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 300;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s var(--ease), visibility 0.5s;
+  }
+  .drawer-overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .drawer {
+    position: fixed;
+    top: 0; right: 0; bottom: 0;
+    width: min(480px, 92vw);
+    height: 100vh;
+    background: linear-gradient(180deg, #101216 0%, #08090b 100%);
+    border-left: 1px solid var(--line);
+    z-index: 310;
+    transform: translateX(100%);
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: clamp(2rem, 4vw, 3rem) clamp(1.6rem, 3.5vw, 2.8rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-y: auto;
+  }
+  .drawer-overlay.is-open .drawer {
+    transform: translateX(0);
+  }
+
+  .drawer-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .drawer-title {
+    font-family: var(--serif);
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: var(--ink);
+  }
+  .drawer-sub {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-top: 0.2rem;
+  }
+  .drawer-close {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    display: grid;
+    place-items: center;
+    color: var(--ink-dim);
+    transition: all 0.3s;
+  }
+  .drawer-close:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    transform: rotate(90deg);
+  }
+
+  .fld {
+    margin-top: 1.4rem;
+  }
+  .fld label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 0.45rem;
+  }
+  .fld input, .fld select, .fld textarea {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--ink);
+    padding: 0.75rem 0.9rem;
+    font-family: var(--sans);
+    font-size: 0.88rem;
+    outline: none;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .fld input:focus, .fld select:focus, .fld textarea:focus {
+    border-color: var(--gold);
+    background: rgba(198, 163, 92, 0.04);
+  }
+  .fld select option {
+    background: #111114;
+    color: #fff;
+  }
+
+  /* Toast Notification */
+  .toast {
+    position: fixed;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: #16171d;
+    border: 1px solid var(--gold);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 20px var(--gold-glow);
+    padding: 1.1rem 2rem;
+    border-radius: 4px;
+    z-index: 999;
+    font-size: 0.82rem;
+    color: var(--ink);
+    letter-spacing: 0.08em;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    opacity: 0;
+    transition: transform 0.5s var(--ease), opacity 0.5s;
+    pointer-events: none;
+  }
+  .toast.is-visible {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+  .toast svg {
+    stroke: var(--gold);
+    width: 20px; height: 20px;
+    flex-shrink: 0;
+  }
+
+  /* ===================================================================
+     RESPONSIVE ADJUSTMENTS
+     =================================================================== */
+  @media (max-width: 900px) {
+    .scene { height: 760vh; }
+    .panel {
+      max-width: none;
+      width: min(88vw, 44ch);
+    }
+    .panel--left, .panel--right {
+      left: 50%; right: auto; top: auto; bottom: 12vh;
+      transform: translateX(-50%);
+      text-align: center;
+    }
+    .panel--right .panel__spec { display: inline-block; }
+    .grade--bottom { height: 58%; }
+    .nav a:not(.nav__cta) { display: none; }
+    .site-footer { grid-template-columns: 1fr; }
+    .scene-count { display: none; }
+    .telemetry { font-size: 0.55rem; gap: 1rem; }
+  }
+
+  @media (max-width: 540px) {
+    .brand__word { display: none; }
+    .hero-title { font-size: clamp(2.8rem, 15vw, 4.8rem); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .grain, .scroll-cue span, .loader__mark { animation: none; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+
+<body>
+
+  <!-- Custom Luxury Cursor -->
+  <div id="cursor-dot" aria-hidden="true"></div>
+  <div id="cursor-ring" aria-hidden="true"></div>
+
+  <!-- ===== Preloader ===== -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader__mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 3 L12 11 L18 3 L15 21 L9 21 Z"></path>
+      </svg>
+    </div>
+    <div class="loader__bar"><span id="loaderFill"></span></div>
+    <div class="loader__pct"><span id="loaderPct">0</span><i>%</i></div>
+    <div class="loader__label">Preparing the bespoke atelier</div>
+  </div>
+
+  <!-- ===== Site Navigation Header ===== -->
+  <header class="site-header" id="header">
+    <a class="brand" href="#top" aria-label="Atelier Home">
+      <div class="brand__mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+          <path d="M6 3 L12 11 L18 3 L15 21 L9 21 Z"></path>
+        </svg>
+      </div>
+      <span class="brand__word">VANDENBERG &amp; CO.</span>
+      <span class="brand__sub">SAVILE ROW</span>
+    </a>
+
+    <nav class="nav">
+      <a href="#scene">The Anatomy</a>
+      <a href="#movements">7 Movements</a>
+      <a href="./portfolio.html" title="Master Portfolio">Portfolio</a>
+      
+      <!-- Ambient Procedural Soundscape Toggle -->
+      <button id="soundToggle" type="button" aria-label="Toggle ambient luxury soundscape">
+        <span class="eq-bars">
+          <i class="eq-bar"></i>
+          <i class="eq-bar"></i>
+          <i class="eq-bar"></i>
+        </span>
+        <span id="soundText">Sound: Off</span>
+      </button>
+
+      <button class="nav__cta" id="navBookBtn" type="button">Book a Fitting</button>
+    </nav>
+  </header>
+
+  <main id="top">
+
+    <!-- ===== The Scroll Scene (Pinned 535-Frame Canvas + Editorial Panels) ===== -->
+    <section class="scene" id="scene" aria-label="The Anatomy of a Bespoke Suit">
+      <div class="sticky" id="sticky">
+
+        <!-- 535 Photorealistic WebP Frame Scrubbing Canvas -->
+        <canvas id="frames" class="frames-canvas"></canvas>
+
+        <!-- Cinematic Optical Overlays -->
+        <div class="grade grade--vignette"></div>
+        <div class="grade grade--top"></div>
+        <div class="grade grade--bottom"></div>
+        <div class="grain"></div>
+
+        <!-- Left Vertical Quick-Jump Rail -->
+        <div class="rail" id="jumpRail">
+          <div class="rail__dot active" data-target="0" title="Hero"><span>00 Overture</span></div>
+          <div class="rail__dot" data-target="0.14" title="01 Foundation"><span>01 Foundation</span></div>
+          <div class="rail__dot" data-target="0.28" title="02 Waistcoat"><span>02 Waistcoat</span></div>
+          <div class="rail__dot" data-target="0.45" title="03 Canvas"><span>03 Canvas</span></div>
+          <div class="rail__dot" data-target="0.59" title="04 Cut"><span>04 Cut</span></div>
+          <div class="rail__dot" data-target="0.71" title="05 Man"><span>05 Man</span></div>
+          <div class="rail__dot" data-target="0.84" title="06 Procession"><span>06 Procession</span></div>
+          <div class="rail__dot" data-target="0.95" title="07 Detail"><span>07 Detail</span></div>
+        </div>
+
+        <!-- Hero Title (Movement 00 — Particle Form Dissolve) -->
+        <div class="panel panel--hero" data-panel="hero">
+          <p class="eyebrow">VANDENBERG &amp; CO. · BESPOKE SINCE MDCCCXCVIII</p>
+          <h1 class="hero-title">The Anatomy<br><em>of a Suit</em></h1>
+          <p class="hero-sub">Seven movements of bespoke tailoring craft, from the measure of a man to the last quarter-inch of a working cuff.</p>
+          <div class="scroll-cue">
+            <span></span>
+            Scroll to Dissect
+          </div>
+        </div>
+
+        <!-- Movement 01: The Foundation -->
+        <article class="panel panel--left" data-panel="1">
+          <span class="panel__index">01</span>
+          <p class="panel__kicker">The Foundation</p>
+          <h2 class="panel__title">A Shirt of<br>Pure Cotton</h2>
+          <p class="panel__body">The base of all sartorial equilibrium. Two-ply Egyptian cotton poplin spun to an airy 120-yarn count, draping over the torso with floating cuffs and crisp spread collar.</p>
+          <p class="panel__spec"><i>Cloth</i> Egyptian Two-Ply Poplin · 120s</p>
+        </article>
+
+        <!-- Movement 02: The Waistcoat -->
+        <article class="panel panel--right" data-panel="2">
+          <span class="panel__index">02</span>
+          <p class="panel__kicker">The Waistcoat</p>
+          <h2 class="panel__title">Structure,<br>Held Close</h2>
+          <p class="panel__body">The waistcoat draws the line of the body inward. Five buttons, a silk-backed rear, and a tie cut on the bias so the knot falls true and never twists.</p>
+          <p class="panel__spec"><i>Silk</i> Mulberry, Woven in Como</p>
+        </article>
+
+        <!-- Movement 03: The Canvas -->
+        <article class="panel panel--left" data-panel="3">
+          <span class="panel__index">03</span>
+          <p class="panel__kicker">The Canvas</p>
+          <h2 class="panel__title">Built on<br>Full Canvas</h2>
+          <p class="panel__body">No glue. No synthetic fusing. Floating between outer wool and cupro silk is a living skeleton of hand-padded Siberian horsehair that permanently memory-molds to the chest.</p>
+          <p class="panel__spec"><i>Construction</i> Hand-Padded Full Canvas</p>
+        </article>
+
+        <!-- Movement 04: The Cut -->
+        <article class="panel panel--right" data-panel="4">
+          <span class="panel__index">04</span>
+          <p class="panel__kicker">The Cut</p>
+          <h2 class="panel__title">The Complete<br>Silhouette</h2>
+          <p class="panel__body">The outer jacket snaps into equilibrium. Roped sleeve heads (<em>con rollino</em>), clean waist suppression, and an unbroken vertical balance from collar to trouser break.</p>
+          <p class="panel__spec"><i>Cloth</i> Super 150's Merino · 240g</p>
+        </article>
+
+        <!-- Movement 05: The Man -->
+        <article class="panel panel--left" data-panel="5">
+          <span class="panel__index">05</span>
+          <p class="panel__kicker">The Man</p>
+          <h2 class="panel__title">Made<br>to Be Worn</h2>
+          <p class="panel__body">A bespoke suit does not imprison its wearer; it liberates his movement. Sculpted around the natural posture of the gentleman, adjusting cuff and lapel with effortless grace.</p>
+          <p class="panel__spec"><i>Fit</i> Individually Made to Measure</p>
+        </article>
+
+        <!-- Movement 06: The Procession -->
+        <article class="panel panel--right" data-panel="6">
+          <span class="panel__index">06</span>
+          <p class="panel__kicker">The Procession</p>
+          <h2 class="panel__title">A Language<br>of Colour</h2>
+          <p class="panel__body">Four signature cuts advancing down the rain-slicked stones of Mayfair. Melange charcoal, midnight obsidian, loden forest, and warm vicuña camel.</p>
+          <p class="panel__spec"><i>Palette</i> Four Signature Tones</p>
+        </article>
+
+        <!-- Movement 07: The Detail -->
+        <article class="panel panel--left" data-panel="7">
+          <span class="panel__index">07</span>
+          <p class="panel__kicker">The Detail</p>
+          <h2 class="panel__title">The Last<br>Quarter-Inch</h2>
+          <p class="panel__body">Functioning surgeon's cuffs. Water buffalo horn buttons, each hand-shanked. Milanese buttonholes and delicate pick-stitching you will only ever find by touch.</p>
+          <p class="panel__spec"><i>Finish</i> Working Surgeon's Cuffs</p>
+        </article>
+
+        <!-- Telemetry HUD & Status -->
+        <div class="telemetry">
+          <span>FRAME: <b id="frameDisplay">001</b> / 535</span>
+          <span>LOCATION: <b>SAVILE ROW · LONDON</b></span>
+          <span>CADENCE: <b id="cadenceDisplay">0.0</b> PX/S</span>
+        </div>
+
+        <!-- Bottom Gold Progress Track -->
+        <div class="progress"><span id="progressFill"></span></div>
+        <div class="scene-count"><span id="movementNo">00</span><i>/ 07</i></div>
+
+      </div>
+    </section>
+
+    <!-- ===== Movements Guide Section ===== -->
+    <section id="movements" style="padding: clamp(5rem, 10vh, 8rem) clamp(1.5rem, 5vw, 4rem); background: #07080a; border-top: 1px solid rgba(255,255,255,0.06);">
+      <div style="max-width: 1200px; margin: 0 auto;">
+        <p class="eyebrow" style="margin-bottom: 0.8rem;">THE SEVEN MOVEMENTS OF BESPOKE</p>
+        <h2 style="font-family: var(--serif); font-size: clamp(2.4rem, 5vw, 4.2rem); font-weight: 400; margin-bottom: 3rem;">The Architecture of Craft</h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem;">
+          <div style="padding: 2rem; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 2px;">
+            <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--gold); margin-bottom: 0.5rem;">01 // FOUNDATION</div>
+            <h3 style="font-family: var(--serif); font-size: 1.6rem; margin-bottom: 0.8rem; font-weight: 400;">Egyptian Poplin</h3>
+            <p style="font-size: 0.85rem; color: var(--ink-dim); line-height: 1.6;">Two-ply yarn spun on vintage Swiss looms for natural breathability and soft lustre under artificial salon light.</p>
+          </div>
+          <div style="padding: 2rem; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 2px;">
+            <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--gold); margin-bottom: 0.5rem;">02 // THE CORE</div>
+            <h3 style="font-family: var(--serif); font-size: 1.6rem; margin-bottom: 0.8rem; font-weight: 400;">Como Silk Twill</h3>
+            <p style="font-size: 0.85rem; color: var(--ink-dim); line-height: 1.6;">Double-breasted waistcoat cut to hug the ribcage without pulling, lined with high-density Bemberg cupro.</p>
+          </div>
+          <div style="padding: 2rem; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 2px;">
+            <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--gold); margin-bottom: 0.5rem;">03 // THE SKELETON</div>
+            <h3 style="font-family: var(--serif); font-size: 1.6rem; margin-bottom: 0.8rem; font-weight: 400;">Horsehair Canvas</h3>
+            <p style="font-size: 0.85rem; color: var(--ink-dim); line-height: 1.6;">2,400 hand-sewn pad stitches creating an organic three-dimensional chest curve that never collapses.</p>
+          </div>
+          <div style="padding: 2rem; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 2px;">
+            <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--gold); margin-bottom: 0.5rem;">07 // MACRO PRECISION</div>
+            <h3 style="font-family: var(--serif); font-size: 1.6rem; margin-bottom: 0.8rem; font-weight: 400;">Milanese Buttonhole</h3>
+            <p style="font-size: 0.85rem; color: var(--ink-dim); line-height: 1.6;">The legendary <em>asola lucida</em>, hand-sewn over silk gimp cord. 45 minutes of solitary mastery for a single lapel hole.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Outro / Sartorial Commission Section ===== -->
+    <section class="outro" id="book">
+      <div class="outro__mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+          <path d="M6 3 L12 11 L18 3 L15 21 L9 21 Z"></path>
+        </svg>
+      </div>
+      <p class="eyebrow eyebrow--center">THE HOUSE OF VANDENBERG &amp; CO.</p>
+      <h2 class="outro__title">Tailoring<br><em>for the few.</em></h2>
+      <p class="outro__body">Every bespoke commission is unique to one man and one man only. A singular pattern drafted on brown paper, cut by hand, and preserved in our London Mayfair vault for life.</p>
+
+      <div class="outro__actions">
+        <button class="btn" id="bookFittingCta" type="button">Book a Private Fitting</button>
+        <a class="btn btn--secondary" href="./portfolio.html">Return to Portfolio</a>
+      </div>
+
+      <footer class="site-footer">
+        <div class="foot-brand">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+            <path d="M6 3 L12 11 L18 3 L15 21 L9 21 Z"></path>
+          </svg>
+          <span>VANDENBERG &amp; CO.</span>
+        </div>
+        <div class="foot-cols">
+          <div>
+            <h4>Atelier</h4>
+            <a href="#scene">The Anatomy</a>
+            <a href="#movements">Full Canvas</a>
+            <a href="#book">The Cloth Library</a>
+          </div>
+          <div>
+            <h4>Wardrobe</h4>
+            <a href="#book">Two-Piece Bespoke</a>
+            <a href="#book">Evening Tailcoat</a>
+            <a href="#book">Shirting &amp; Ties</a>
+          </div>
+          <div>
+            <h4>Salons</h4>
+            <a href="#book">Savile Row · London</a>
+            <a href="#book">Via Monte Napoleone · Milano</a>
+            <a href="#book">Madison Ave · New York</a>
+          </div>
+        </div>
+        <p class="foot-legal">
+          <span>© <span id="year"></span> Vandenberg &amp; Co. Atelier Bespoke — Hand-cut in Mayfair, for a lifetime.</span>
+          <span>Privacy &amp; Non-Disclosure Assured</span>
+        </p>
+      </footer>
+    </section>
+
+  </main>
+
+  <!-- ===== Private Fitting Booking Drawer Modal ===== -->
+  <div class="drawer-overlay" id="drawerOverlay" aria-hidden="true">
+    <div class="drawer" id="drawer" role="dialog" aria-labelledby="drawerTitle">
+      <div>
+        <div class="drawer-head">
+          <div>
+            <h3 class="drawer-title" id="drawerTitle">Private Fitting</h3>
+            <p class="drawer-sub">SAVILE ROW · MILANO · NEW YORK · TOKYO</p>
+          </div>
+          <button class="drawer-close" id="drawerClose" type="button" aria-label="Close booking drawer">&times;</button>
+        </div>
+
+        <form id="fittingForm" style="margin-top: 1rem;">
+          <div class="fld">
+            <label for="clientName">CLIENT FULL NAME</label>
+            <input type="text" id="clientName" required placeholder="Lord Alistair Sterling" />
+          </div>
+
+          <div class="fld">
+            <label for="clientEmail">CONCIERGE / PRIVATE EMAIL</label>
+            <input type="email" id="clientEmail" required placeholder="sterling@mayfair.co.uk" />
+          </div>
+
+          <div class="fld">
+            <label for="salonLocation">PREFERRED ATELIER SALON</label>
+            <select id="salonLocation">
+              <option value="London">Savile Row Salon, London (Global HQ)</option>
+              <option value="Milano">Via Monte Napoleone, Milano</option>
+              <option value="New York">Madison Avenue Suite, New York</option>
+              <option value="Tokyo">Ginza Private Atelier, Tokyo</option>
+            </select>
+          </div>
+
+          <div class="fld">
+            <label for="clothHouse">PREFERRED CLOTH MILL</label>
+            <select id="clothHouse">
+              <option value="Loro Piana">Loro Piana Zenith Cashmere &amp; Vicuña (210g)</option>
+              <option value="Scabal">Scabal Golden Ribbon Super 240s Wool</option>
+              <option value="Holland & Sherry">Holland &amp; Sherry Crispaire High-Twist</option>
+              <option value="Dormeuil">Dormeuil Royal 11 Flannel Melange</option>
+            </select>
+          </div>
+
+          <div class="fld">
+            <label for="fittingDate">DESIRED FITTING DATE</label>
+            <input type="date" id="fittingDate" required />
+          </div>
+
+          <div class="fld">
+            <label for="clientNotes">SARTORIAL PREFERENCES (OPTIONAL)</label>
+            <textarea id="clientNotes" rows="3" placeholder="Double-breasted peak lapels, working surgeon's cuffs, horn button selection..."></textarea>
+          </div>
+
+          <button type="submit" class="btn" style="width: 100%; margin-top: 2rem;">
+            Request Confidential Fitting
+          </button>
+        </form>
+      </div>
+
+      <div style="padding-top: 2rem; border-top: 1px solid var(--border); font-family: var(--mono); font-size: 0.6rem; color: var(--ink-faint); letter-spacing: 0.15em;">
+        All consultations are held in absolute privacy under non-disclosure.
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast" role="status">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+      <polyline points="22 4 12 14.01 9 11.01"></polyline>
+    </svg>
+    <span id="toastMsg">Fitting appointment requested. Our Master Cutter will contact your concierge.</span>
+  </div>
+
+  <!-- ===================================================================
+       APPLICATION SCRIPT
+       =================================================================== -->
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    /* ===================================================================
+       1. 535-FRAME SCRUBBED IMAGE SEQUENCE ARCHITECTURE
+       =================================================================== */
+    const FRAME_COUNT = 535;
+    const framePath = (i) => `https://tailor-by-octaboot.vercel.app/assets/frames/frame_${String(i).padStart(5, "0")}.webp`;
+
+    const canvas = document.getElementById("frames");
+    const ctx = canvas.getContext("2d", { alpha: false });
+
+    const images = new Array(FRAME_COUNT);
+    const state = { frame: 0 };
+    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    /* Canvas Sizing with Double-Buffered Cover-Fit */
+    function sizeCanvas() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width  = Math.floor(window.innerWidth * dpr);
+      canvas.height = Math.floor(window.innerHeight * dpr);
+      render();
+    }
+
+    function render() {
+      const frameIdx = Math.max(0, Math.min(FRAME_COUNT - 1, state.frame | 0));
+      let img = images[frameIdx];
+
+      // If current frame isn't yet ready, search backwards for closest loaded frame
+      if (!img || !img.complete || !img.naturalWidth) {
+        for (let j = frameIdx - 1; j >= 0; j--) {
+          if (images[j] && images[j].complete && images[j].naturalWidth) {
+            img = images[j];
+            break;
+          }
+        }
+      }
+
+      if (!img || !img.complete || !img.naturalWidth) return;
+
+      const cw = canvas.width, ch = canvas.height;
+      const iw = img.naturalWidth, ih = img.naturalHeight;
+      const scale = Math.max(cw / iw, ch / ih);   // cover fit
+      const dw = iw * scale, dh = ih * scale;
+      const dx = (cw - dw) * 0.5;
+      const dy = (ch - dh) * 0.5;
+
+      ctx.fillStyle = "#0a0a0b";
+      ctx.fillRect(0, 0, cw, ch);
+      ctx.drawImage(img, dx, dy, dw, dh);
+    }
+
+    /* Progressive Preloader */
+    const loaderEl  = document.getElementById("loader");
+    const fillEl    = document.getElementById("loaderFill");
+    const pctEl     = document.getElementById("loaderPct");
+
+    function preload(onEnough) {
+      let loaded = 0;
+      let started = false;
+
+      for (let i = 0; i < FRAME_COUNT; i++) {
+        const img = new Image();
+        img.decoding = "async";
+        img.onload = img.onerror = () => {
+          loaded++;
+          const p = loaded / FRAME_COUNT;
+          const pct = Math.round(p * 100);
+          fillEl.style.width = pct + "%";
+          pctEl.textContent = pct;
+
+          // Paint frame 1 immediately to avoid any black flash
+          if (i === 0) render();
+
+          // Start the experience once we have a comfortable initial buffer (60 frames)
+          if (!started && (loaded >= 60 || p === 1)) {
+            started = true;
+            loaderEl.classList.add("is-done");
+            onEnough();
+          }
+          if (p === 1) {
+            loaderEl.classList.add("is-done");
+          }
+        };
+        img.src = framePath(i + 1);
+        images[i] = img;
+      }
+    }
+
+    /* ===================================================================
+       2. SCROLL EXPERIENCE & EDITORIAL CHOREOGRAPHY
+       =================================================================== */
+    function buildExperience() {
+      sizeCanvas();
+
+      const progressFill   = document.getElementById("progressFill");
+      const movementNo     = document.getElementById("movementNo");
+      const frameDisplay   = document.getElementById("frameDisplay");
+      const cadenceDisplay = document.getElementById("cadenceDisplay");
+      const heroPanel      = document.querySelector('[data-panel="hero"]');
+      const panels         = gsap.utils.toArray(".panel:not(.panel--hero)");
+      const railDots       = document.querySelectorAll(".rail__dot");
+
+      /* Exact timing cues corresponding to the 535-frame photorealistic CGI sequence:
+         01 Foundation   shirt       ~0.115–0.205
+         02 Waistcoat    vest+tie    ~0.235–0.355
+         03 Canvas       jacket      ~0.385–0.535
+         04 Cut          full suit   ~0.560–0.635
+         05 Man          worn/cuff   ~0.660–0.765
+         06 Procession   colour walk ~0.790–0.905
+         07 Detail       macro cuff  ~0.925–0.995 */
+      const cues = [
+        [0.115, 0.205],
+        [0.235, 0.355],
+        [0.385, 0.535],
+        [0.560, 0.635],
+        [0.660, 0.765],
+        [0.790, 0.905],
+        [0.925, 0.995]
+      ];
+      const FADE = 0.035;
+
+      /* Master timeline with GSAP ScrollTrigger scrub */
+      const tl = gsap.timeline({
+        defaults: { ease: "none" },
+        scrollTrigger: {
+          trigger: "#scene",
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 0.6,
+          pin: "#sticky",
+          pinSpacing: true,
+          onUpdate: (self) => {
+            const p = self.progress;
+            progressFill.style.width = (p * 100).toFixed(2) + "%";
+
+            // Telemetry updates
+            const currentFrame = Math.floor(p * (FRAME_COUNT - 1)) + 1;
+            frameDisplay.textContent = String(currentFrame).padStart(3, "0");
+            cadenceDisplay.textContent = Math.abs(self.getVelocity() * 0.1).toFixed(1);
+
+            // Derive current movement number from scroll position
+            let no = 0;
+            for (let i = 0; i < cues.length; i++) {
+              if (p >= cues[i][0] - FADE) no = i + 1;
+            }
+            movementNo.textContent = String(no).padStart(2, "0");
+
+            // Update rail dots
+            railDots.forEach((dot, idx) => {
+              if (idx === 0) {
+                dot.classList.toggle("active", no === 0);
+              } else {
+                dot.classList.toggle("active", no === idx);
+              }
+            });
+          }
+        }
+      });
+
+      // 1 — Frame scrubber driving canvas across whole scroll
+      tl.to(state, {
+        frame: FRAME_COUNT - 1,
+        duration: 1,
+        ease: "none",
+        onUpdate: render
+      }, 0);
+
+      // Hero Title — visible over initial particle form, dissolves when scrolling begins
+      gsap.set(heroPanel, { autoAlpha: 1 });
+      tl.to(heroPanel, { autoAlpha: 0, y: -35, duration: 0.03, ease: "power2.in" }, 0.004);
+
+      // Editorial Panels — fade in / out smoothly across their milestone ranges
+      panels.forEach((panel, i) => {
+        const [inAt, outAt] = cues[i];
+        const isRight = panel.classList.contains("panel--right");
+        const fromX = isRight ? 44 : -44;
+
+        gsap.set(panel, { autoAlpha: 0, x: fromX, y: "-50%" });
+        tl.to(panel, { autoAlpha: 1, x: 0, duration: FADE, ease: "power2.out" }, inAt);
+        tl.to(panel, { autoAlpha: 0, x: -fromX * 0.5, duration: FADE, ease: "power2.in" }, outAt);
+      });
+
+      ScrollTrigger.refresh();
+    }
+
+    /* Lenis Smooth Momentum Scrolling Integration */
+    const lenis = new Lenis({
+      duration: 1.25,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: "vertical",
+      smoothWheel: true,
+      wheelMultiplier: 0.9
+    });
+
+    lenis.on("scroll", ScrollTrigger.update);
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+    gsap.ticker.lagSmoothing(0);
+
+    /* Left Rail Quick-Jump Click Handlers */
+    document.querySelectorAll(".rail__dot").forEach((dot) => {
+      dot.addEventListener("click", () => {
+        const targetProgress = parseFloat(dot.getAttribute("data-target"));
+        const scene = document.getElementById("scene");
+        const sceneTop = scene.offsetTop;
+        const sceneHeight = scene.offsetHeight - window.innerHeight;
+        const scrollTarget = sceneTop + sceneHeight * targetProgress;
+        lenis.scrollTo(scrollTarget, { duration: 1.6, ease: (t) => t });
+      });
+    });
+
+    /* Resize debounced */
+    let resizeRAF;
+    window.addEventListener("resize", () => {
+      cancelAnimationFrame(resizeRAF);
+      resizeRAF = requestAnimationFrame(sizeCanvas);
+    });
+
+    /* Header hide on scroll-down */
+    const header = document.getElementById("header");
+    let lastY = 0;
+    ScrollTrigger.create({
+      start: 0,
+      end: "max",
+      onUpdate: (self) => {
+        const y = self.scroll();
+        if (y > 120 && y > lastY) header.style.transform = "translateY(-140%)";
+        else header.style.transform = "translateY(0)";
+        lastY = y;
+      }
+    });
+
+    /* ===================================================================
+       3. PROCEDURAL CELLO SOUNDSCAPE (WEB AUDIO API)
+       =================================================================== */
+    class SartorialSoundscape {
+      constructor() {
+        this.ctx = null;
+        this.isPlaying = false;
+        this.masterGain = null;
+        this.oscillators = [];
+      }
+
+      init() {
+        if (this.ctx) return;
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        this.ctx = new AudioContext();
+
+        // Master Gain
+        this.masterGain = this.ctx.createGain();
+        this.masterGain.gain.setValueAtTime(0.001, this.ctx.currentTime);
+        this.masterGain.connect(this.ctx.destination);
+
+        // Low-pass warm cello filter
+        this.filter = this.ctx.createBiquadFilter();
+        this.filter.type = "lowpass";
+        this.filter.frequency.setValueAtTime(260, this.ctx.currentTime);
+        this.filter.Q.setValueAtTime(4.5, this.ctx.currentTime);
+        this.filter.connect(this.masterGain);
+
+        // Warm harmonics (C2 = 65.41Hz, G2 = 97.99Hz, C3 = 130.81Hz)
+        const notes = [65.41, 65.75, 97.99, 130.81];
+        notes.forEach((freq) => {
+          const osc = this.ctx.createOscillator();
+          osc.type = "sawtooth";
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+
+          // Subtle LFO vibrato
+          const lfo = this.ctx.createOscillator();
+          const lfoGain = this.ctx.createGain();
+          lfo.frequency.setValueAtTime(4.8, this.ctx.currentTime);
+          lfoGain.gain.setValueAtTime(0.8, this.ctx.currentTime);
+          lfo.connect(lfoGain);
+          lfoGain.connect(osc.frequency);
+          lfo.start();
+
+          const oscGain = this.ctx.createGain();
+          oscGain.gain.setValueAtTime(0.2, this.ctx.currentTime);
+          osc.connect(oscGain);
+          oscGain.connect(this.filter);
+          osc.start();
+          this.oscillators.push(osc);
+        });
+
+        // Ambient vintage vinyl air crackle (procedural pink noise)
+        const bufferSize = this.ctx.sampleRate * 2;
+        const noiseBuffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+        const output = noiseBuffer.getChannelData(0);
+        let b0 = 0, b1 = 0, b2 = 0;
+        for (let i = 0; i < bufferSize; i++) {
+          const white = Math.random() * 2 - 1;
+          b0 = 0.99886 * b0 + white * 0.0555179;
+          b1 = 0.99332 * b1 + white * 0.0750759;
+          b2 = 0.96900 * b2 + white * 0.1538520;
+          output[i] = (b0 + b1 + b2 + white * 0.5362) * 0.015;
+        }
+        const whiteNoise = this.ctx.createBufferSource();
+        whiteNoise.buffer = noiseBuffer;
+        whiteNoise.loop = true;
+        whiteNoise.start();
+        whiteNoise.connect(this.masterGain);
+      }
+
+      toggle() {
+        if (!this.ctx) this.init();
+        if (this.ctx.state === "suspended") this.ctx.resume();
+
+        if (this.isPlaying) {
+          this.masterGain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 1.2);
+          this.isPlaying = false;
+        } else {
+          this.masterGain.gain.exponentialRampToValueAtTime(0.35, this.ctx.currentTime + 1.5);
+          this.isPlaying = true;
+        }
+        return this.isPlaying;
+      }
+    }
+
+    const soundscape = new SartorialSoundscape();
+    const soundToggle = document.getElementById("soundToggle");
+    const soundText = document.getElementById("soundText");
+
+    soundToggle.addEventListener("click", () => {
+      const active = soundscape.toggle();
+      soundText.textContent = active ? "Sound: On" : "Sound: Off";
+      soundToggle.classList.toggle("sound-playing", active);
+    });
+
+    /* ===================================================================
+       4. PRIVATE FITTING DRAWER MODAL & TOAST
+       =================================================================== */
+    const drawerOverlay = document.getElementById("drawerOverlay");
+    const drawerClose   = document.getElementById("drawerClose");
+    const navBookBtn    = document.getElementById("navBookBtn");
+    const bookFittingCta= document.getElementById("bookFittingCta");
+    const fittingForm   = document.getElementById("fittingForm");
+    const toast         = document.getElementById("toast");
+    const toastMsg      = document.getElementById("toastMsg");
+
+    function openDrawer() {
+      drawerOverlay.classList.add("is-open");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeDrawer() {
+      drawerOverlay.classList.remove("is-open");
+      document.body.style.overflow = "";
+    }
+
+    navBookBtn.addEventListener("click", openDrawer);
+    if (bookFittingCta) bookFittingCta.addEventListener("click", openDrawer);
+    drawerClose.addEventListener("click", closeDrawer);
+    drawerOverlay.addEventListener("click", (e) => {
+      if (e.target === drawerOverlay) closeDrawer();
+    });
+
+    fittingForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = document.getElementById("clientName").value;
+      const salon = document.getElementById("salonLocation").value;
+      closeDrawer();
+
+      toastMsg.textContent = `Confidential request received for ${name} (${salon} Salon). Our Master Cutter will reach out shortly.`;
+      toast.classList.add("is-visible");
+      setTimeout(() => {
+        toast.classList.remove("is-visible");
+      }, 5500);
+
+      fittingForm.reset();
+    });
+
+    /* Set minimum date in picker to tomorrow */
+    const dateInput = document.getElementById("fittingDate");
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    dateInput.min = tomorrow.toISOString().split("T")[0];
+
+    /* ===================================================================
+       5. CUSTOM DUAL LUXURY CURSOR
+       =================================================================== */
+    const dot = document.getElementById("cursor-dot");
+    const ring = document.getElementById("cursor-ring");
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let ringX = mouseX;
+    let ringY = mouseY;
+
+    window.addEventListener("mousemove", (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      dot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+    });
+
+    function updateCursor() {
+      ringX += (mouseX - ringX) * 0.18;
+      ringY += (mouseY - ringY) * 0.18;
+      ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
+      requestAnimationFrame(updateCursor);
+    }
+    requestAnimationFrame(updateCursor);
+
+    // Hover state over interactive elements
+    const interactiveElements = "a, button, input, select, textarea, .rail__dot";
+    document.querySelectorAll(interactiveElements).forEach((el) => {
+      el.addEventListener("mouseenter", () => document.body.classList.add("cursor-hover"));
+      el.addEventListener("mouseleave", () => document.body.classList.remove("cursor-hover"));
+    });
+
+    /* ===================================================================
+       6. KICKOFF
+       =================================================================== */
+    document.getElementById("year").textContent = new Date().getFullYear();
+    preload(buildExperience);
+  </script>
+</body>
+</html>

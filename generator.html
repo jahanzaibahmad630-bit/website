@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ALCHE FORGE // Video & Reel-to-Website AI Studio</title>
+<meta name="description" content="Autonomous Video-to-Website & Prompt-to-Website Synthesis Studio powered by Gemini Vision & Z.ai GLM-5.2.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23050505'/%3E%3Cpolygon points='32,12 52,48 12,48' fill='none' stroke='%2300f0ff' stroke-width='3'/%3E%3Ccircle cx='32' cy='36' r='6' fill='%23ff00aa'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Syne:wght@600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          dark: '#070707',
+          panel: '#0e0e0e',
+          panel2: '#141414',
+          panel3: '#1a1a1a',
+          cyan: '#00f0ff',
+          magenta: '#ff00aa',
+          gold: '#ffcc00'
+        },
+        fontFamily: {
+          mono: ['"IBM Plex Mono"', 'ui-monospace', 'monospace'],
+          syne: ['"Syne"', 'sans-serif'],
+          sans: ['"Space Grotesk"', 'sans-serif']
+        }
+      }
+    }
+  }
+</script>
+<style>
+  :root {
+    --cyan: #00f0ff;
+    --magenta: #ff00aa;
+    --gold: #ffcc00;
+  }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: #0a0a0a; }
+  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--cyan); }
+  
+  .tech-grid {
+    background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+  .glow-cyan { box-shadow: 0 0 25px rgba(0,240,255,0.15); }
+  .glow-btn:hover { box-shadow: 0 0 20px rgba(0,240,255,0.4); }
+  
+  .drop-zone {
+    border: 2px dashed rgba(255,255,255,0.15);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .drop-zone.dragover {
+    border-color: var(--cyan);
+    background: rgba(0,240,255,0.05);
+    box-shadow: 0 0 25px rgba(0,240,255,0.15);
+  }
+
+  @keyframes scanline {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(1000%); }
+  }
+  .scanline-bar { animation: scanline 8s linear infinite; }
+</style>
+</head>
+
+<body class="bg-dark text-neutral-200 font-sans h-screen flex flex-col overflow-hidden select-none">
+
+  <!-- TOP HEADER -->
+  <header class="h-14 border-b border-neutral-800 bg-panel px-4 md:px-6 flex items-center justify-between z-30 shrink-0">
+    <div class="flex items-center gap-6">
+      <a href="./portfolio.html" class="flex items-center gap-3 group" title="Return to Master Portfolio">
+        <span class="w-8 h-8 border border-neutral-700 group-hover:border-cyan flex items-center justify-center font-syne font-bold text-xs text-cyan transition-colors">
+          ▲
+        </span>
+        <div>
+          <div class="font-syne font-extrabold text-sm tracking-widest text-white group-hover:text-cyan transition-colors flex items-center gap-2">
+            <span>ALCHE FORGE</span>
+            <span class="text-[10px] font-mono px-1.5 py-0.5 border border-cyan/40 text-cyan rounded">REEL-TO-CODE</span>
+          </div>
+          <div class="font-mono text-[9px] text-neutral-500 tracking-wider">GEMINI VISION + GLM-5.2 ENGINE</div>
+        </div>
+      </a>
+      
+      <div class="hidden lg:flex items-center gap-3 font-mono text-xs text-neutral-400 pl-4 border-l border-neutral-800">
+        <span class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="text-neutral-300">VISION:</span>
+          <span class="text-cyan text-xs">Gemini 2.5 Flash</span>
+        </span>
+        <span class="text-neutral-600">→</span>
+        <span class="flex items-center gap-2">
+          <span class="text-neutral-300">CODE:</span>
+          <select id="modelSelect" class="bg-panel2 border border-neutral-700 text-cyan px-2 py-1 text-xs rounded focus:outline-none focus:border-cyan">
+            <option value="google/gemini-2.5-flash" selected>Gemini 2.5 Flash (Recommended · High Token Budget)</option>
+            <option value="z-ai/glm-5.2">GLM-5.2 (Z.ai Creative Reasoning · Requires OpenRouter Credits)</option>
+            <option value="deepseek/deepseek-v4-flash-0731:free">DeepSeek V4 Flash (100% Free · $0 Credits)</option>
+            <option value="openai/gpt-4o-mini">GPT-4o Mini (High Speed)</option>
+          </select>
+        </span>
+      </div>
+    </div>
+
+    <!-- Header Actions -->
+    <div class="flex items-center gap-3">
+      <button id="keyBtn" class="font-mono text-[11px] px-3 py-1.5 border border-neutral-700 hover:border-cyan text-neutral-300 hover:text-cyan rounded transition-all flex items-center gap-2">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <span>OpenRouter API Key</span>
+      </button>
+
+      <a href="./portfolio.html" class="font-mono text-[11px] px-3 py-1.5 border border-neutral-700 hover:border-neutral-500 text-neutral-400 hover:text-white rounded transition-all flex items-center gap-1.5">
+        <span>Master Portfolio</span>
+        <svg width="10" height="10" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- MAIN WORKSPACE -->
+  <main class="flex-1 flex flex-col lg:flex-row overflow-hidden relative">
+
+    <!-- LEFT CONSOLE (Mode Toggle, Video Dropzone, Prompt & Controls) -->
+    <section class="w-full lg:w-[480px] xl:w-[540px] border-r border-neutral-800 bg-panel flex flex-col shrink-0 z-20 overflow-y-auto">
+      
+      <!-- Studio Mode Navigation Tabs -->
+      <div class="grid grid-cols-2 p-3 bg-panel2 border-b border-neutral-800 gap-2">
+        <button id="modeVideoBtn" class="py-2.5 px-3 rounded font-syne font-bold text-xs flex items-center justify-center gap-2 border border-cyan bg-cyan/15 text-cyan transition-all">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+          <span>REEL / VIDEO AUTO-PILOT</span>
+        </button>
+
+        <button id="modePromptBtn" class="py-2.5 px-3 rounded font-syne font-bold text-xs flex items-center justify-center gap-2 border border-neutral-800 bg-panel text-neutral-400 hover:text-white transition-all">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          <span>TEXT PROMPT STUDIO</span>
+        </button>
+      </div>
+
+      <!-- ========================================================
+           MODE A: VIDEO & REEL REPLICATION AUTO-PILOT
+           ======================================================== -->
+      <div id="videoModeSection" class="p-5 flex-1 flex flex-col">
+        <div class="mb-4">
+          <div class="flex items-center justify-between mb-1">
+            <span class="font-mono text-[10px] tracking-[0.2em] text-cyan uppercase">AUTOMATED 4-STEP PIPELINE</span>
+            <span class="font-mono text-[9px] text-emerald-400">ZERO COPY-PASTE</span>
+          </div>
+          <h2 class="font-syne text-lg font-bold text-white">Drop Instagram Reel or Video</h2>
+          <p class="font-mono text-xs text-neutral-400 mt-1 leading-relaxed">
+            Upload any screen recording or reel. Gemini Vision samples keyframes, extracts the motion & design system, and GLM-5.2 synthesizes the working code automatically.
+          </p>
+        </div>
+
+        <!-- Video Drag & Drop Zone -->
+        <div id="videoDropZone" class="drop-zone p-6 rounded-lg bg-panel2 text-center cursor-pointer flex flex-col items-center justify-center relative group">
+          <input type="file" id="videoFileInput" accept="video/mp4,video/webm,video/quicktime,image/*" class="absolute inset-0 opacity-0 cursor-pointer z-10" multiple>
+          
+          <div class="w-12 h-12 rounded-full border border-neutral-700 group-hover:border-cyan flex items-center justify-center text-cyan mb-3 transition-colors">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          </div>
+          <div class="font-syne font-bold text-xs text-white mb-1 group-hover:text-cyan transition-colors">
+            Drop Instagram Reel / Video Here or Click to Browse
+          </div>
+          <div class="font-mono text-[10px] text-neutral-500">
+            Supports .mp4, .mov, .webm or screenshot sequences
+          </div>
+        </div>
+
+        <!-- Extracted Keyframe Filmstrip -->
+        <div id="filmstripContainer" class="mt-4 hidden">
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-mono text-[10px] text-neutral-400 tracking-wider">SAMPLED KEYFRAMES (<span id="keyframeCount">0</span>)</span>
+            <span class="font-mono text-[9px] text-cyan" id="videoDurationLabel">0.0s video</span>
+          </div>
+          <div id="filmstripRow" class="grid grid-cols-3 sm:grid-cols-6 gap-1.5 p-2 bg-dark border border-neutral-800 rounded">
+            <!-- Dynamically populated keyframe thumbnails -->
+          </div>
+        </div>
+
+        <!-- Additional Creative Directives (Optional) -->
+        <div class="mt-4">
+          <label for="extraNotes" class="block font-mono text-[10px] tracking-wider text-neutral-400 uppercase mb-1.5">
+            Custom Notes / Rebranding (Optional)
+          </label>
+          <input type="text" id="extraNotes" placeholder="e.g. Brand name 'AURA', keep the exact suit scrub, add audio drone..."
+            class="w-full bg-dark border border-neutral-700 focus:border-cyan text-neutral-100 placeholder-neutral-600 font-mono text-xs px-3 py-2.5 rounded focus:outline-none">
+        </div>
+
+        <!-- Action Button -->
+        <div class="mt-5">
+          <button id="autoPilotBtn" disabled class="w-full py-3.5 px-4 bg-cyan text-black font-syne font-extrabold text-xs tracking-wider rounded glow-btn transition-all flex items-center justify-center gap-2 opacity-50 cursor-not-allowed">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <span id="autoPilotBtnText">DROP VIDEO TO START PIPELINE</span>
+          </button>
+        </div>
+
+        <!-- Collapsible Architectural Blueprint Log -->
+        <div id="blueprintBox" class="mt-4 p-3 bg-panel2 border border-neutral-800 rounded font-mono text-[11px] hidden">
+          <div class="flex items-center justify-between text-neutral-300 font-bold mb-1">
+            <span class="text-cyan flex items-center gap-1.5">
+              <span>✦</span> Gemini Vision Architectural Blueprint
+            </span>
+            <button id="toggleBlueprintBtn" class="text-[10px] text-neutral-500 hover:text-white">Hide</button>
+          </div>
+          <div id="blueprintContent" class="text-[10px] text-neutral-400 mt-2 max-h-36 overflow-y-auto leading-relaxed border-t border-neutral-800 pt-2 font-mono"></div>
+        </div>
+      </div>
+
+      <!-- ========================================================
+           MODE B: DIRECT TEXT PROMPT STUDIO (CLASSIC)
+           ======================================================== -->
+      <div id="promptModeSection" class="p-5 flex-1 flex flex-col hidden">
+        <!-- Archetype Quick Presets -->
+        <div class="mb-4">
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-mono text-[11px] tracking-wider text-neutral-400">CREATIVE ARCHETYPES</span>
+            <span class="font-mono text-[10px] text-neutral-600">Click to load</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <button class="preset-btn p-2 text-left bg-panel2 border border-neutral-800 hover:border-cyan text-xs rounded transition-all group"
+              data-prompt="A high-end luxury Swiss Haute Horlogerie brand named 'VORTEX NOIR' showcasing an interactive 3D mechanical tourbillon watch. Dark theme with brushed titanium and rose gold accents, continuous 8Hz sweeping seconds hand, exploded calibre layer view on scroll, Côtes de Genève movement texture, and harmonic ticking ambient sound toggle.">
+              <div class="font-syne font-bold text-white group-hover:text-cyan text-[11px]">⏱️ Haute Horlogerie</div>
+              <div class="font-mono text-[9px] text-neutral-500 mt-0.5">3D Tourbillon Calibre</div>
+            </button>
+
+            <button class="preset-btn p-2 text-left bg-panel2 border border-neutral-800 hover:border-magenta text-xs rounded transition-all group"
+              data-prompt="An ultra-brutalist Tokyo creative agency named 'NEXUS ZERO'. Black OLED aesthetic with chromatic fluid GLSL background shader reacting to mouse speed, floating wireframe 3D geometric emblem, horizontal projects showcase carousel, real-time telemetry crosshair HUD, and high-contrast waypoint theme inversion on scroll.">
+              <div class="font-syne font-bold text-white group-hover:text-magenta text-[11px]">▲ Brutalist 3D Studio</div>
+              <div class="font-mono text-[9px] text-neutral-500 mt-0.5">Fluid Shaders & Grid HUD</div>
+            </button>
+
+            <button class="preset-btn p-2 text-left bg-panel2 border border-neutral-800 hover:border-gold text-xs rounded transition-all group"
+              data-prompt="An ultra-luxury bespoke yacht and private aviation digital atelier named 'SOLIS MARIS'. Featuring procedural canvas atmospheres of sunset marinas, floor-to-ceiling penthouse views, golden light reflections on ocean ripples, private jet departure flight paths, inquiry modal drawer, and ambient harmonic sound bed.">
+              <div class="font-syne font-bold text-white group-hover:text-gold text-[11px]">⛵ Yacht & Aviation</div>
+              <div class="font-mono text-[9px] text-neutral-500 mt-0.5">Cinematic Canvas</div>
+            </button>
+
+            <button class="preset-btn p-2 text-left bg-panel2 border border-neutral-800 hover:border-cyan text-xs rounded transition-all group"
+              data-prompt="A futuristic autonomous cybernetic hypercar showcase named 'APEX-01 QUANTUM'. Dark futuristic showroom with 3D wireframe vehicle silhouette rotating in WebGL, live interactive telemetry dashboard (RPM, G-force, battery thermal levels), dynamic aerodynamic airflow particle simulation, and throttle rev audio trigger.">
+              <div class="font-syne font-bold text-white group-hover:text-cyan text-[11px]">⚡ Cyber Hypercar</div>
+              <div class="font-mono text-[9px] text-neutral-500 mt-0.5">Airflow Particles</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Prompt Textarea -->
+        <label for="promptInput" class="font-mono text-[11px] tracking-wider text-neutral-400 mb-1.5 flex items-center justify-between">
+          <span>CREATIVE SPECIFICATION</span>
+          <span class="text-[10px] text-neutral-500">Ctrl + Enter</span>
+        </label>
+        <textarea id="promptInput" rows="5" placeholder="Describe the website you want GLM-5.2 to construct (brand name, aesthetic, color palette, 3D elements, interactions, animations)..."
+          class="w-full bg-dark border border-neutral-700 focus:border-cyan text-neutral-100 placeholder-neutral-600 font-mono text-xs p-3 rounded leading-relaxed focus:outline-none focus:ring-1 focus:ring-cyan resize-none"></textarea>
+
+        <div class="mt-4 flex items-center gap-3">
+          <button id="genBtn" class="flex-1 py-3 px-4 bg-cyan text-black font-syne font-extrabold text-xs tracking-wider rounded glow-btn transition-all flex items-center justify-center gap-2">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <span id="genBtnText">SYNTHESIZE WEBSITE</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- STATUS & TELEMETRY PROGRESS -->
+      <div id="statusBox" class="p-4 bg-panel2 border-t border-neutral-800 font-mono text-[11px] hidden">
+        <div class="flex items-center justify-between text-neutral-400 mb-2">
+          <span id="statusText" class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-cyan animate-ping"></span>
+            <span>Processing...</span>
+          </span>
+          <span id="statusTimer" class="text-cyan font-bold">0.0s</span>
+        </div>
+        <div class="w-full bg-dark h-1.5 rounded-full overflow-hidden">
+          <div id="progressBar" class="bg-gradient-to-r from-cyan via-magenta to-gold h-full w-0 transition-all duration-300"></div>
+        </div>
+        <div class="mt-2 text-[10px] text-neutral-500 flex justify-between">
+          <span id="pipelineStep">Step 1: Frame Decomposition</span>
+          <span id="tokenCounter">Tokens: --</span>
+        </div>
+      </div>
+
+      <!-- SESSION HISTORY ARCHIVE -->
+      <div class="p-4 border-t border-neutral-800 bg-panel">
+        <div class="flex items-center justify-between mb-2">
+          <span class="font-mono text-[10px] text-neutral-400 tracking-wider">ARCHIVED EXPERIENCES</span>
+          <button id="clearHistBtn" class="font-mono text-[9px] text-neutral-500 hover:text-red-400">Clear</button>
+        </div>
+        <div id="historyList" class="space-y-1.5 max-h-32 overflow-y-auto">
+          <div class="font-mono text-[10px] text-neutral-600 italic">No websites generated in this session yet.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT WORKSPACE (Live Split-Screen Preview & Code Inspector) -->
+    <section class="flex-1 flex flex-col bg-dark overflow-hidden relative">
+
+      <!-- Preview Header Toolbar -->
+      <div class="h-12 border-b border-neutral-800 bg-panel px-4 flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-2">
+          <button id="tabPreview" class="font-mono text-xs px-3 py-1.5 rounded border border-cyan/40 bg-cyan/10 text-cyan flex items-center gap-2">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <span>Live Render</span>
+          </button>
+          <button id="tabCode" class="font-mono text-xs px-3 py-1.5 rounded border border-transparent text-neutral-400 hover:text-white hover:border-neutral-700 flex items-center gap-2">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            <span>Inspect Code</span>
+          </button>
+        </div>
+
+        <!-- Viewport Controls & Actions -->
+        <div class="flex items-center gap-2">
+          <div class="hidden sm:flex items-center gap-1 bg-dark p-1 border border-neutral-800 rounded">
+            <button id="vpDesktop" class="p-1.5 text-cyan hover:text-white rounded" title="Desktop View (100%)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </button>
+            <button id="vpTablet" class="p-1.5 text-neutral-500 hover:text-white rounded" title="Tablet View (768px)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            </button>
+            <button id="vpMobile" class="p-1.5 text-neutral-500 hover:text-white rounded" title="Mobile View (375px)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            </button>
+          </div>
+
+          <button id="refreshBtn" class="p-2 text-neutral-400 hover:text-white rounded border border-neutral-800 hover:border-neutral-700" title="Reload Preview">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          </button>
+
+          <button id="openNewTabBtn" class="p-2 text-neutral-400 hover:text-cyan rounded border border-neutral-800 hover:border-cyan" title="Open Fullscreen in New Tab">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </button>
+
+          <button id="downloadBtn" class="font-mono text-xs px-3 py-1.5 bg-neutral-800 hover:bg-neutral-700 text-white rounded border border-neutral-700 flex items-center gap-1.5 transition-colors" title="Download Standalone HTML">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>Download .html</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Viewport Display Container -->
+      <div class="flex-1 flex items-center justify-center p-2 sm:p-4 tech-grid overflow-hidden relative">
+        
+        <!-- Live Preview Iframe Container -->
+        <div id="previewWrapper" class="w-full h-full bg-black shadow-2xl border border-neutral-800 transition-all duration-300 relative flex flex-col">
+          <iframe id="previewIframe" class="w-full h-full border-0 bg-black" sandbox="allow-scripts allow-same-origin allow-forms allow-modals" title="Generated Website Preview"></iframe>
+          
+          <!-- Empty State Overlay -->
+          <div id="emptyState" class="absolute inset-0 bg-dark/95 flex flex-col items-center justify-center p-8 text-center">
+            <div class="w-16 h-16 border border-neutral-800 flex items-center justify-center text-cyan mb-4 font-syne text-2xl font-bold">
+              ▲
+            </div>
+            <h3 class="font-syne text-xl font-bold text-white mb-2">Automated Video-to-Code Studio</h3>
+            <p class="font-mono text-xs text-neutral-400 max-w-md mb-6 leading-relaxed">
+              Drop an Instagram Reel or screen recording of a website on the left. Gemini Vision will deconstruct the animations and layout, and GLM-5.2 will synthesize the working code automatically.
+            </p>
+            <div class="flex flex-wrap gap-2 justify-center">
+              <span class="font-mono text-[10px] px-2.5 py-1 bg-panel border border-neutral-800 text-neutral-400">Gemini 2.5 Vision</span>
+              <span class="font-mono text-[10px] px-2.5 py-1 bg-panel border border-neutral-800 text-neutral-400">GLM-5.2 Synthesizer</span>
+              <span class="font-mono text-[10px] px-2.5 py-1 bg-panel border border-neutral-800 text-neutral-400">Three.js 3D &amp; Canvas</span>
+              <span class="font-mono text-[10px] px-2.5 py-1 bg-panel border border-neutral-800 text-neutral-400">Zero Copy-Paste</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Code Inspector Container -->
+        <div id="codeWrapper" class="w-full h-full bg-panel border border-neutral-800 flex flex-col hidden">
+          <div class="h-9 border-b border-neutral-800 px-4 flex items-center justify-between text-neutral-400 font-mono text-xs">
+            <span id="codeMeta">index.html (0 characters)</span>
+            <button id="copyCodeBtn" class="hover:text-cyan flex items-center gap-1.5 transition-colors">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span>Copy Code</span>
+            </button>
+          </div>
+          <textarea id="codeView" readonly class="flex-1 w-full p-4 bg-dark text-cyan/90 font-mono text-xs leading-relaxed focus:outline-none resize-none selection:bg-cyan/20 select-text"></textarea>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- API KEY MODAL -->
+  <div id="keyModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-panel border border-neutral-700 w-full max-w-md p-6 rounded shadow-2xl">
+      <div class="flex items-center justify-between mb-4">
+        <h4 class="font-syne font-bold text-white text-lg">OpenRouter Configuration</h4>
+        <button id="closeKeyModal" class="text-neutral-400 hover:text-white">&times;</button>
+      </div>
+      <p class="font-mono text-xs text-neutral-400 mb-4 leading-relaxed">
+        Your API key powers both <strong class="text-cyan">Gemini 2.5 Flash (Vision)</strong> and <strong class="text-magenta">GLM-5.2 (Code Synthesis)</strong> directly via OpenRouter.
+      </p>
+      <label class="block font-mono text-[11px] text-neutral-300 mb-1.5">OPENROUTER API KEY</label>
+      <input type="password" id="apiKeyInput" class="w-full bg-dark border border-neutral-700 focus:border-cyan text-cyan font-mono text-xs p-3 rounded focus:outline-none mb-5" placeholder="sk-or-v1-...">
+      
+      <div class="flex justify-end gap-3">
+        <button id="saveKeyBtn" class="px-5 py-2 bg-cyan text-black font-syne font-bold text-xs tracking-wider rounded glow-btn">
+          Save Configuration
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hidden off-screen canvas and video element for frame extraction -->
+  <video id="offscreenVideo" class="hidden" playsinline muted></video>
+  <canvas id="offscreenCanvas" class="hidden"></canvas>
+
+  <!-- SCRIPT LOGIC -->
+  <script>
+    const DEFAULT_KEY = '';
+    let currentHtml = '';
+    let isGenerating = false;
+    let timerInterval = null;
+    let sampledFrames = []; // Array of base64 JPEG data URLs
+
+    // Mode Toggle Elements
+    const modeVideoBtn = document.getElementById('modeVideoBtn');
+    const modePromptBtn = document.getElementById('modePromptBtn');
+    const videoModeSection = document.getElementById('videoModeSection');
+    const promptModeSection = document.getElementById('promptModeSection');
+
+    // Mode Toggle
+    modeVideoBtn.addEventListener('click', () => {
+      modeVideoBtn.className = 'py-2.5 px-3 rounded font-syne font-bold text-xs flex items-center justify-center gap-2 border border-cyan bg-cyan/15 text-cyan transition-all';
+      modePromptBtn.className = 'py-2.5 px-3 rounded font-syne font-bold text-xs flex items-center justify-center gap-2 border border-neutral-800 bg-panel text-neutral-400 hover:text-white transition-all';
+      videoModeSection.classList.remove('hidden');
+      promptModeSection.classList.add('hidden');
+    });
+
+    modePromptBtn.addEventListener('click', () => {
+      modePromptBtn.className = 'py-2.5 px-3 rounded font-syne font-bold text-xs flex items-center justify-center gap-2 border border-cyan bg-cyan/15 text-cyan transition-all';
+      modeVideoBtn.className = 'py-2.5 px-3 rounded font-syne font-bold text-xs flex items-center justify-center gap-2 border border-neutral-800 bg-panel text-neutral-400 hover:text-white transition-all';
+      promptModeSection.classList.remove('hidden');
+      videoModeSection.classList.add('hidden');
+    });
+
+    // UI Elements
+    const videoDropZone = document.getElementById('videoDropZone');
+    const videoFileInput = document.getElementById('videoFileInput');
+    const filmstripContainer = document.getElementById('filmstripContainer');
+    const filmstripRow = document.getElementById('filmstripRow');
+    const keyframeCount = document.getElementById('keyframeCount');
+    const videoDurationLabel = document.getElementById('videoDurationLabel');
+    const autoPilotBtn = document.getElementById('autoPilotBtn');
+    const autoPilotBtnText = document.getElementById('autoPilotBtnText');
+    const extraNotes = document.getElementById('extraNotes');
+    const blueprintBox = document.getElementById('blueprintBox');
+    const blueprintContent = document.getElementById('blueprintContent');
+    const toggleBlueprintBtn = document.getElementById('toggleBlueprintBtn');
+
+    const promptInput = document.getElementById('promptInput');
+    const genBtn = document.getElementById('genBtn');
+    const genBtnText = document.getElementById('genBtnText');
+    const modelSelect = document.getElementById('modelSelect');
+    const previewIframe = document.getElementById('previewIframe');
+    const emptyState = document.getElementById('emptyState');
+    const statusBox = document.getElementById('statusBox');
+    const statusText = document.getElementById('statusText');
+    const statusTimer = document.getElementById('statusTimer');
+    const progressBar = document.getElementById('progressBar');
+    const pipelineStep = document.getElementById('pipelineStep');
+    const tokenCounter = document.getElementById('tokenCounter');
+    const codeView = document.getElementById('codeView');
+    const codeMeta = document.getElementById('codeMeta');
+    const historyList = document.getElementById('historyList');
+
+    // Off-screen elements
+    const offVideo = document.getElementById('offscreenVideo');
+    const offCanvas = document.getElementById('offscreenCanvas');
+    const offCtx = offCanvas.getContext('2d');
+
+    // API Key Storage
+    function getApiKey() {
+      return localStorage.getItem('openrouter_key') || DEFAULT_KEY;
+    }
+
+    document.getElementById('apiKeyInput').value = getApiKey();
+    document.getElementById('keyBtn').addEventListener('click', () => {
+      document.getElementById('keyModal').classList.remove('hidden');
+    });
+    document.getElementById('closeKeyModal').addEventListener('click', () => {
+      document.getElementById('keyModal').classList.add('hidden');
+    });
+    document.getElementById('saveKeyBtn').addEventListener('click', () => {
+      const val = document.getElementById('apiKeyInput').value.trim();
+      if (val) localStorage.setItem('openrouter_key', val);
+      document.getElementById('keyModal').classList.add('hidden');
+    });
+
+    // ================================================================
+    // VIDEO DRAG & DROP AND OFFSCREEN FRAME EXTRACTION
+    // ================================================================
+    videoDropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      videoDropZone.classList.add('dragover');
+    });
+    videoDropZone.addEventListener('dragleave', () => {
+      videoDropZone.classList.remove('dragover');
+    });
+    videoDropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      videoDropZone.classList.remove('dragover');
+      if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+        handleMediaFiles(e.dataTransfer.files);
+      }
+    });
+
+    videoFileInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files.length > 0) {
+        handleMediaFiles(e.target.files);
+      }
+    });
+
+    async function handleMediaFiles(files) {
+      sampledFrames = [];
+      filmstripRow.innerHTML = '';
+      filmstripContainer.classList.remove('hidden');
+
+      const firstFile = files[0];
+
+      // Case 1: Video file (.mp4, .mov, .webm)
+      if (firstFile.type.startsWith('video/')) {
+        autoPilotBtnText.textContent = 'SAMPLING VIDEO KEYFRAMES...';
+        autoPilotBtn.disabled = true;
+        autoPilotBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+        const videoUrl = URL.createObjectURL(firstFile);
+        offVideo.src = videoUrl;
+
+        offVideo.onloadedmetadata = async () => {
+          const duration = offVideo.duration || 10;
+          videoDurationLabel.textContent = `${duration.toFixed(1)}s video`;
+          
+          // Sample 6 representative timestamps
+          const timestamps = [
+            duration * 0.08,
+            duration * 0.25,
+            duration * 0.45,
+            duration * 0.65,
+            duration * 0.82,
+            duration * 0.95
+          ];
+
+          offCanvas.width = 640;
+          offCanvas.height = Math.round((offVideo.videoHeight / offVideo.videoWidth) * 640) || 360;
+
+          for (let i = 0; i < timestamps.length; i++) {
+            const time = timestamps[i];
+            await seekVideo(offVideo, time);
+            offCtx.drawImage(offVideo, 0, 0, offCanvas.width, offCanvas.height);
+            const dataUrl = offCanvas.toDataURL('image/jpeg', 0.82);
+            sampledFrames.push({ time: `${time.toFixed(1)}s`, dataUrl });
+            appendFilmstripThumb(dataUrl, `${time.toFixed(1)}s`);
+          }
+
+          keyframeCount.textContent = sampledFrames.length;
+          autoPilotBtn.disabled = false;
+          autoPilotBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+          autoPilotBtnText.textContent = '⚡ REPLICATE WEBSITE FROM REEL';
+        };
+      } 
+      // Case 2: Image screenshots dropped
+      else {
+        autoPilotBtnText.textContent = 'LOADING SCREENSHOTS...';
+        videoDurationLabel.textContent = `${files.length} images`;
+        for (let i = 0; i < Math.min(files.length, 6); i++) {
+          const f = files[i];
+          if (f.type.startsWith('image/')) {
+            const dataUrl = await readFileAsDataUrl(f);
+            sampledFrames.push({ time: `Frame ${i+1}`, dataUrl });
+            appendFilmstripThumb(dataUrl, `Frame ${i+1}`);
+          }
+        }
+        keyframeCount.textContent = sampledFrames.length;
+        if (sampledFrames.length > 0) {
+          autoPilotBtn.disabled = false;
+          autoPilotBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+          autoPilotBtnText.textContent = '⚡ REPLICATE WEBSITE FROM IMAGES';
+        }
+      }
+    }
+
+    function seekVideo(video, time) {
+      return new Promise((resolve) => {
+        const onSeek = () => {
+          video.removeEventListener('seeked', onSeek);
+          resolve();
+        };
+        video.addEventListener('seeked', onSeek);
+        video.currentTime = time;
+      });
+    }
+
+    function readFileAsDataUrl(file) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => resolve(e.target.result);
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function appendFilmstripThumb(dataUrl, label) {
+      const col = document.createElement('div');
+      col.className = 'relative rounded overflow-hidden border border-neutral-700 aspect-[9/14] bg-panel2';
+      col.innerHTML = `
+        <img src="${dataUrl}" class="w-full h-full object-cover">
+        <div class="absolute bottom-0 inset-x-0 bg-black/80 font-mono text-[8px] text-cyan text-center py-0.5">${label}</div>
+      `;
+      filmstripRow.appendChild(col);
+    }
+
+    toggleBlueprintBtn.addEventListener('click', () => {
+      const isHidden = blueprintContent.classList.contains('hidden');
+      blueprintContent.classList.toggle('hidden');
+      toggleBlueprintBtn.textContent = isHidden ? 'Hide' : 'Show';
+    });
+
+    // ================================================================
+    // END-TO-END AUTOMATED PIPELINE: GEMINI VISION -> GLM-5.2
+    // ================================================================
+    autoPilotBtn.addEventListener('click', runAutomatedReelPipeline);
+
+    async function runAutomatedReelPipeline() {
+      if (sampledFrames.length === 0 || isGenerating) return;
+
+      isGenerating = true;
+      autoPilotBtn.disabled = true;
+      autoPilotBtn.classList.add('opacity-50');
+      statusBox.classList.remove('hidden');
+      emptyState.classList.add('hidden');
+      progressBar.style.width = '10%';
+      blueprintBox.classList.remove('hidden');
+      blueprintContent.classList.remove('hidden');
+      toggleBlueprintBtn.textContent = 'Hide';
+      blueprintContent.innerHTML = '<span class="text-neutral-500 animate-pulse">Deconstructing video frames with Gemini 2.5 Flash Vision...</span>';
+
+      const startTime = Date.now();
+      timerInterval = setInterval(() => {
+        const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+        statusTimer.textContent = `${elapsed}s`;
+      }, 100);
+
+      const apiKey = getApiKey();
+      const userNotes = extraNotes.value.trim();
+
+      try {
+        // -------------------------------------------------------------
+        // STAGE 1: GEMINI VISION MULTIMODAL DECONSTRUCTION
+        // -------------------------------------------------------------
+        pipelineStep.textContent = 'Stage 1/2: Gemini Vision Deconstruction';
+        statusText.innerHTML = `<span class="w-2 h-2 rounded-full bg-cyan animate-ping"></span><span>Gemini is auditing visual design system...</span>`;
+        progressBar.style.width = '30%';
+
+        const imageContents = sampledFrames.map(f => ({
+          type: 'image_url',
+          image_url: { url: f.dataUrl }
+        }));
+
+        const visionPromptText = `You are a Principal Creative Technologist, WebGL Specialist, and Design Architect.
+Analyze these sequential video frames of an award-winning digital website or product.
+
+CRITICAL INSTRUCTIONS FOR FRAME ANALYSIS:
+1. SCREEN ISOLATION: If the video is a screen recording or a phone recording of a physical laptop/monitor/phone screen (showing desk, keyboard, room, or plants), COMPLETELY IGNORE the physical room, laptop chassis, keyboard, and surroundings! Focus EXCLUSIVELY on the website content displayed inside the digital display.
+2. EXACT BRAND & PRODUCT IDENTITY: Extract the EXACT brand name, website title, headlines, navigation labels, and product category shown on the screen (e.g. "The Anatomy of a Suit", bespoke tailoring, luxury watch, fintech SaaS). DO NOT INVENT A RANDOM BRAND NAME.
+3. ATMOSPHERE & COLOR PALETTE: Exact background hex tones (e.g. #07080a OLED noir, stark white #ffffff), primary accents, rim light glow colors, glassmorphism borders.
+4. VISUAL CENTERPIECE & MEDIA:
+   - Identify the primary visual subject (e.g. bespoke luxury suit, mechanical watch movement, cybernetic 3D emblem, architecture, SaaS dashboard).
+   - Specify how to render it at maximum fidelity (e.g. cinematic scroll-driven canvas sequence, high-resolution imagery, procedural GLSL fluid/mesh shader, or interactive exploded SVG/WebGL).
+5. TYPOGRAPHY & COPY: Transcribe the actual headlines, subheads, and editorial copy visible on the screen.
+6. MOTION & INTERACTION: Pinned scrolltrack, scrubbed progression, bento grid layout, audio drone, interactive modals.
+${userNotes ? `USER DIRECTIVES: ${userNotes}` : ''}
+
+Output a comprehensive, highly descriptive Creative Architecture Blueprint ready for code synthesis. Ensure the exact brand name and product subject are prominently specified.`;
+
+        const visionPayload = {
+          model: 'google/gemini-2.5-flash',
+          messages: [
+            {
+              role: 'user',
+              content: [
+                { type: 'text', text: visionPromptText },
+                ...imageContents
+              ]
+            }
+          ],
+          max_tokens: 2500
+        };
+
+        const visionRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json',
+            'HTTP-Referer': window.location.href,
+            'X-Title': 'ALCHE FORGE Vision Deconstructor'
+          },
+          body: JSON.stringify(visionPayload)
+        });
+
+        if (!visionRes.ok) {
+          throw new Error(`Gemini Vision API error (HTTP ${visionRes.status})`);
+        }
+
+        const visionData = await visionRes.json();
+        const architecturalBlueprint = visionData.choices?.[0]?.message?.content || 'Modern luxury 3D interactive scrollytelling website.';
+        
+        blueprintContent.textContent = architecturalBlueprint;
+        progressBar.style.width = '55%';
+
+        // -------------------------------------------------------------
+        // STAGE 2: GLM-5.2 FULL CODE SYNTHESIS
+        // -------------------------------------------------------------
+        pipelineStep.textContent = 'Stage 2/2: GLM-5.2 Full Code Synthesis';
+        statusText.innerHTML = `<span class="w-2 h-2 rounded-full bg-magenta animate-ping"></span><span>GLM-5.2 is coding Three.js, GSAP & Tailwind...</span>`;
+
+        const targetCodeModel = modelSelect.value || 'z-ai/glm-5.2';
+
+        const codeSystemPrompt = `You are an elite Creative Technologist, Principal WebGL Engineer, and Master Digital Artisan.
+You synthesize breathtaking, award-winning, production-ready, standalone single-file HTML5 websites that push the limits of modern browser design.
+
+CRITICAL RULES:
+1. EXACT BRAND & THEME FIDELITY:
+   - Use the EXACT brand name, title, and product subject identified in the blueprint. NEVER invent unrelated brand names or unrelated products (e.g. NEVER make a wireframe boot or random mesh if the site is about tailoring, luxury, architecture, or tech).
+   - If the subject is a luxury product (suit, watch, fashion, car, architecture), use high-resolution thematic Unsplash imagery (e.g. curated https://images.unsplash.com/... URLs), rich procedural GLSL background shaders, dynamic HTML5 canvas effects, and luxury editorial serif/sans typography.
+2. DELIVER COMPLETE CODE: Output a single, fully functional HTML5 document starting with <!DOCTYPE html> and ending with </html>. Never use placeholders or comments like "// Add remaining code here".
+3. ARCHITECTURE & CDN LIBRARIES:
+   - Tailwind CSS via CDN (https://cdn.tailwindcss.com)
+   - Google Fonts for dramatic typography (Cormorant Garamond, Cinzel, Syne, Space Grotesk, IBM Plex Mono)
+   - Three.js via ES Module importmap OR UMD bundle (cdnjs three.min.js) OR dynamic HTML5 Canvas rendering
+   - GSAP + ScrollTrigger and Lenis for fluid momentum scrolling
+   - Lucide icons or inline SVGs for micro-details
+4. VISUAL FIDELITY & SECTIONS:
+   - Replicate the exact visual atmosphere, dark/light contrast, interactive components, and smooth transitions described in the blueprint.
+   - Include interactive elements: pinned hero section, animated counter metrics, interactive showcase tabs or modal drawers, and responsive navigation.
+5. WEB AUDIO (Optional): Ambient procedural drone chord or soundscape via native Web Audio API with an interactive sound toggle button.
+6. STANDALONE ZERO BUILD: Must render directly in any modern browser or iframe with zero build tools.
+7. FORMAT: Output only the code block inside \`\`\`html ... \`\`\`. No conversational preamble.`;
+
+        let codePayload = {
+          model: targetCodeModel,
+          messages: [
+            { role: 'system', content: codeSystemPrompt },
+            { role: 'user', content: `Synthesize a complete, visually sublime, interactive single-file website replicating the design and motion from this visual deconstruction blueprint:\n\n${architecturalBlueprint}\n\nEnsure full interactivity, responsive layout, smooth momentum scrolling, and dramatic visual craft.` }
+          ],
+          max_tokens: 7500,
+          temperature: 0.7
+        };
+
+        let codeRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json',
+            'HTTP-Referer': window.location.href,
+            'X-Title': 'ALCHE FORGE Code Synthesizer'
+          },
+          body: JSON.stringify(codePayload)
+        });
+
+        // Auto-fallback if GLM credits are exhausted (HTTP 402)
+        if (codeRes.status === 402 && targetCodeModel !== 'google/gemini-2.5-flash') {
+          statusText.innerHTML = `<span class="text-amber-400 font-bold">GLM credits depleted. Auto-routing to Gemini 2.5 Flash...</span>`;
+          codePayload.model = 'google/gemini-2.5-flash';
+          codePayload.max_tokens = 7500;
+          codeRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${apiKey}`,
+              'Content-Type': 'application/json',
+              'HTTP-Referer': window.location.href,
+              'X-Title': 'ALCHE FORGE Code Synthesizer'
+            },
+            body: JSON.stringify(codePayload)
+          });
+        }
+
+        progressBar.style.width = '90%';
+
+        if (!codeRes.ok) {
+          let errDetail = `HTTP ${codeRes.status}`;
+          try {
+            const errData = await codeRes.json();
+            if (errData?.error?.message) errDetail = errData.error.message;
+          } catch(e) {}
+          throw new Error(`Code Synthesis error (${errDetail})`);
+        }
+
+        const codeData = await codeRes.json();
+        const choice = codeData.choices?.[0];
+        let rawCode = choice?.message?.content || choice?.message?.reasoning || '';
+
+        // Extract HTML
+        let extractedHtml = rawCode;
+        const htmlFenceMatch = rawCode.match(/```html([\s\S]*?)```/i);
+        if (htmlFenceMatch) {
+          extractedHtml = htmlFenceMatch[1].trim();
+        } else {
+          const docTypeIdx = rawCode.indexOf('<!DOCTYPE html>');
+          const htmlEndIdx = rawCode.indexOf('</html>');
+          if (docTypeIdx !== -1 && htmlEndIdx !== -1) {
+            extractedHtml = rawCode.substring(docTypeIdx, htmlEndIdx + 7).trim();
+          }
+        }
+
+        currentHtml = extractedHtml;
+        progressBar.style.width = '100%';
+
+        // Render into iframe
+        previewIframe.srcdoc = currentHtml;
+
+        // Populate Code Inspector
+        codeView.value = currentHtml;
+        codeMeta.textContent = `index.html (${currentHtml.length.toLocaleString()} characters)`;
+
+        // Update token counter
+        if (codeData.usage) {
+          tokenCounter.textContent = `Tokens: ${codeData.usage.total_tokens || codeData.usage.completion_tokens || '--'}`;
+        }
+
+        statusText.innerHTML = `<span class="text-emerald-400 font-bold">✓ Replicated Successfully!</span>`;
+        pipelineStep.textContent = 'Pipeline Complete';
+        addHistoryItem(`Video Reel: ${userNotes || 'Autonomously Replicated'}`, currentHtml);
+
+      } catch (err) {
+        statusText.innerHTML = `<span class="text-red-400">Error: ${err.message.substring(0, 50)}</span>`;
+        console.error(err);
+      } finally {
+        clearInterval(timerInterval);
+        isGenerating = false;
+        autoPilotBtn.disabled = false;
+        autoPilotBtn.classList.remove('opacity-50');
+        autoPilotBtnText.textContent = '⚡ REPLICATE ANOTHER REEL';
+      }
+    }
+
+    // ================================================================
+    // PROMPT MODE GENERATION
+    // ================================================================
+    document.querySelectorAll('.preset-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        promptInput.value = btn.dataset.prompt;
+        promptInput.focus();
+      });
+    });
+
+    promptInput.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        startPromptSynthesis();
+      }
+    });
+
+    genBtn.addEventListener('click', startPromptSynthesis);
+
+    async function startPromptSynthesis() {
+      const prompt = promptInput.value.trim();
+      if (!prompt || isGenerating) return;
+
+      isGenerating = true;
+      genBtn.disabled = true;
+      genBtnText.textContent = 'SYNTHESIZING...';
+      statusBox.classList.remove('hidden');
+      emptyState.classList.add('hidden');
+      progressBar.style.width = '30%';
+
+      const startTime = Date.now();
+      timerInterval = setInterval(() => {
+        const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+        statusTimer.textContent = `${elapsed}s`;
+      }, 100);
+
+      const apiKey = getApiKey();
+      const model = modelSelect.value;
+
+      try {
+        statusText.innerHTML = `<span class="w-2 h-2 rounded-full bg-cyan animate-ping"></span><span>GLM-5.2 is reasoning & synthesizing...</span>`;
+        pipelineStep.textContent = 'Direct Prompt Mode';
+
+        let promptPayload = {
+          model: model,
+          messages: [
+            { role: 'system', content: `You are an elite Creative Technologist synthesizing award-winning standalone single-file HTML5 websites with Tailwind CSS, Three.js/Canvas, GSAP ScrollTrigger, Lenis momentum, and Web Audio. Output only \`\`\`html ... \`\`\`.` },
+            { role: 'user', content: `Synthesize a complete, visually sublime, interactive single-file website based on this specification:\n\n${prompt}` }
+          ],
+          max_tokens: 7500,
+          temperature: 0.7
+        };
+
+        let res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json',
+            'HTTP-Referer': window.location.href,
+            'X-Title': 'ALCHE FORGE Studio'
+          },
+          body: JSON.stringify(promptPayload)
+        });
+
+        if (res.status === 402 && model !== 'google/gemini-2.5-flash') {
+          statusText.innerHTML = `<span class="text-amber-400 font-bold">Credits depleted. Auto-routing to Gemini 2.5 Flash...</span>`;
+          promptPayload.model = 'google/gemini-2.5-flash';
+          res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${apiKey}`,
+              'Content-Type': 'application/json',
+              'HTTP-Referer': window.location.href,
+              'X-Title': 'ALCHE FORGE Studio'
+            },
+            body: JSON.stringify(promptPayload)
+          });
+        }
+
+        progressBar.style.width = '85%';
+        if (!res.ok) {
+          let errDetail = `HTTP ${res.status}`;
+          try {
+            const errData = await res.json();
+            if (errData?.error?.message) errDetail = errData.error.message;
+          } catch(e) {}
+          throw new Error(`API error (${errDetail})`);
+        }
+
+        const data = await res.json();
+        let raw = data.choices?.[0]?.message?.content || data.choices?.[0]?.message?.reasoning || '';
+        let extractedHtml = raw;
+        const htmlFenceMatch = raw.match(/```html([\s\S]*?)```/i);
+        if (htmlFenceMatch) {
+          extractedHtml = htmlFenceMatch[1].trim();
+        } else {
+          const docTypeIdx = raw.indexOf('<!DOCTYPE html>');
+          const htmlEndIdx = raw.indexOf('</html>');
+          if (docTypeIdx !== -1 && htmlEndIdx !== -1) {
+            extractedHtml = raw.substring(docTypeIdx, htmlEndIdx + 7).trim();
+          }
+        }
+
+        currentHtml = extractedHtml;
+        progressBar.style.width = '100%';
+        previewIframe.srcdoc = currentHtml;
+        codeView.value = currentHtml;
+        codeMeta.textContent = `index.html (${currentHtml.length.toLocaleString()} characters)`;
+        statusText.innerHTML = `<span class="text-emerald-400 font-bold">✓ Complete!</span>`;
+        addHistoryItem(prompt, currentHtml);
+
+      } catch (err) {
+        statusText.innerHTML = `<span class="text-red-400">Error: ${err.message.substring(0, 45)}...</span>`;
+      } finally {
+        clearInterval(timerInterval);
+        isGenerating = false;
+        genBtn.disabled = false;
+        genBtnText.textContent = 'SYNTHESIZE WEBSITE';
+      }
+    }
+
+    // ================================================================
+    // VIEWPORT & TAB CONTROLS
+    // ================================================================
+    const previewWrapper = document.getElementById('previewWrapper');
+    document.getElementById('vpDesktop').addEventListener('click', () => { previewWrapper.style.maxWidth = '100%'; });
+    document.getElementById('vpTablet').addEventListener('click', () => { previewWrapper.style.maxWidth = '768px'; });
+    document.getElementById('vpMobile').addEventListener('click', () => { previewWrapper.style.maxWidth = '375px'; });
+
+    const tabPreview = document.getElementById('tabPreview');
+    const tabCode = document.getElementById('tabCode');
+    const codeWrapper = document.getElementById('codeWrapper');
+
+    tabPreview.addEventListener('click', () => {
+      tabPreview.className = 'font-mono text-xs px-3 py-1.5 rounded border border-cyan/40 bg-cyan/10 text-cyan flex items-center gap-2';
+      tabCode.className = 'font-mono text-xs px-3 py-1.5 rounded border border-transparent text-neutral-400 hover:text-white hover:border-neutral-700 flex items-center gap-2';
+      previewWrapper.classList.remove('hidden');
+      codeWrapper.classList.add('hidden');
+    });
+
+    tabCode.addEventListener('click', () => {
+      tabCode.className = 'font-mono text-xs px-3 py-1.5 rounded border border-cyan/40 bg-cyan/10 text-cyan flex items-center gap-2';
+      tabPreview.className = 'font-mono text-xs px-3 py-1.5 rounded border border-transparent text-neutral-400 hover:text-white hover:border-neutral-700 flex items-center gap-2';
+      codeWrapper.classList.remove('hidden');
+      previewWrapper.classList.add('hidden');
+    });
+
+    document.getElementById('refreshBtn').addEventListener('click', () => {
+      if (currentHtml) previewIframe.srcdoc = currentHtml;
+    });
+
+    document.getElementById('openNewTabBtn').addEventListener('click', () => {
+      if (!currentHtml) return;
+      const win = window.open('', '_blank');
+      win.document.write(currentHtml);
+      win.document.close();
+    });
+
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+      if (!currentHtml) return;
+      const blob = new Blob([currentHtml], { type: 'text/html;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `alche_forge_${Date.now()}.html`;
+      a.click();
+    });
+
+    document.getElementById('copyCodeBtn').addEventListener('click', () => {
+      if (!currentHtml) return;
+      navigator.clipboard.writeText(currentHtml);
+      const btn = document.getElementById('copyCodeBtn');
+      btn.innerHTML = `<span>✓ Copied!</span>`;
+      setTimeout(() => {
+        btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy Code</span>`;
+      }, 2000);
+    });
+
+    // History System
+    let sessionHistory = [];
+    function addHistoryItem(prompt, html) {
+      sessionHistory.unshift({ prompt, html, time: new Date().toLocaleTimeString() });
+      if (sessionHistory.length > 8) sessionHistory.pop();
+      renderHistory();
+    }
+
+    function renderHistory() {
+      if (sessionHistory.length === 0) {
+        historyList.innerHTML = '<div class="font-mono text-[10px] text-neutral-600 italic">No websites generated in this session yet.</div>';
+        return;
+      }
+      historyList.innerHTML = sessionHistory.map((item, idx) => `
+        <button class="w-full text-left p-2 bg-panel border border-neutral-800 hover:border-cyan text-xs rounded transition-all flex items-center justify-between group" data-idx="${idx}">
+          <span class="font-mono text-[10px] text-neutral-300 truncate max-w-[280px]">${item.prompt}</span>
+          <span class="font-mono text-[9px] text-neutral-500">${item.time}</span>
+        </button>
+      `).join('');
+
+      historyList.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const item = sessionHistory[btn.dataset.idx];
+          if (item) {
+            currentHtml = item.html;
+            previewIframe.srcdoc = currentHtml;
+            codeView.value = currentHtml;
+            codeMeta.textContent = `index.html (${currentHtml.length.toLocaleString()} characters)`;
+            emptyState.classList.add('hidden');
+          }
+        });
+      });
+    }
+
+    document.getElementById('clearHistBtn').addEventListener('click', () => {
+      sessionHistory = [];
+      renderHistory();
+    });
+  </script>
+</body>
+</html>

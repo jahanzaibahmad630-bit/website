@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Anatomy of a Suit — Maison Aurelian</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<style>
+  :root{
+    --void:#07080a;
+    --ash:#0d0f12;
+    --titanium:#1a1d22;
+    --bone:#ece7dd;
+    --champagne:#c9a86a;
+    --gold:#d4b27a;
+    --rust:#8a5a3b;
+    --mute:#6b6960;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--void);color:var(--bone);font-family:'Cormorant Garamond',serif;overflow-x:hidden}
+  body{cursor:none}
+  .mono{font-family:'JetBrains Mono',monospace;letter-spacing:.15em}
+  .serif{font-family:'Cormorant Garamond',serif}
+  ::selection{background:var(--champagne);color:var(--void)}
+  /* grain */
+  .grain{position:fixed;inset:0;pointer-events:none;z-index:60;opacity:.08;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.7'/></svg>")}
+  /* vignette */
+  .vignette{position:fixed;inset:0;pointer-events:none;z-index:55;background:radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,.85) 100%)}
+  /* cursor */
+  .cursor{position:fixed;top:0;left:0;width:8px;height:8px;border-radius:50%;background:var(--champagne);pointer-events:none;z-index:200;transform:translate(-50%,-50%);transition:width .25s,height .25s,background .25s;mix-blend-mode:difference}
+  .cursor.ring{width:8px;height:8px;background:transparent;border:1px solid var(--champagne);width:38px;height:38px}
+  .cursor-trail{position:fixed;top:0;left:0;width:38px;height:38px;border:1px solid rgba(201,168,106,.4);border-radius:50%;pointer-events:none;z-index:199;transform:translate(-50%,-50%);transition:transform .15s ease-out}
+  /* canvas */
+  #stage{position:fixed;inset:0;z-index:1}
+  /* nav */
+  .topnav{position:fixed;top:0;left:0;right:0;z-index:90;display:flex;justify-content:space-between;align-items:center;padding:22px 40px;mix-blend-mode:difference}
+  .brand{font-family:'Cormorant Garamond',serif;font-weight:500;letter-spacing:.32em;font-size:14px;color:var(--bone)}
+  .brand span{color:var(--champagne)}
+  /* telemetry */
+  .telemetry{position:fixed;z-index:80;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--mute);pointer-events:none}
+  .tel-bl{bottom:24px;left:32px}
+  .tel-br{bottom:24px;right:32px;text-align:right}
+  .tel-tr{top:64px;right:32px;text-align:right}
+  .tel-tl{top:64px;left:32px}
+  .telemetry .v{color:var(--champagne)}
+  .crosshair{position:fixed;width:14px;height:14px;border:1px solid var(--champagne);border-radius:50%;z-index:80;pointer-events:none;transition:opacity .3s}
+  .crosshair::before,.crosshair::after{content:'';position:absolute;background:var(--champagne)}
+  .crosshair::before{left:50%;top:-6px;width:1px;height:4px;transform:translateX(-50%)}
+  .crosshair::after{top:50%;left:-6px;width:4px;height:1px;transform:translateY(-50%)}
+  /* sections */
+  section{position:relative;z-index:10;min-height:100vh;display:flex;align-items:center;padding:0 8vw}
+  .stage-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.4em;color:var(--champagne);margin-bottom:24px;display:flex;align-items:center;gap:14px}
+  .stage-label::before{content:'';width:36px;height:1px;background:var(--champagne)}
+  .stage-title{font-family:'Cormorant Garamond',serif;font-weight:300;line-height:.95;letter-spacing:-.02em}
+  .stage-title em{font-style:italic;color:var(--champagne);font-weight:300}
+  .stage-body{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:18px;line-height:1.7;color:rgba(236,231,221,.7);max-width:420px;margin-top:32px}
+  .stage-meta{margin-top:40px;display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:420px}
+  .meta-cell{border-top:1px solid rgba(201,168,106,.25);padding-top:12px}
+  .meta-cell .k{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.25em;color:var(--mute);text-transform:uppercase}
+  .meta-cell .v{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--bone);margin-top:4px;font-weight:400}
+  /* hero */
+  .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;z-index:10}
+  .hero h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(60px,11vw,180px);line-height:.88;letter-spacing:-.03em;margin:0}
+  .hero h1 .it{font-style:italic;color:var(--champagne);font-weight:300}
+  .hero .sub{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.5em;color:var(--mute);margin-top:36px;text-transform:uppercase}
+  .hero .line{width:1px;height:80px;background:linear-gradient(to bottom,transparent,var(--champagne),transparent);margin:48px auto 0;animation:pulse 3s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+  /* progress rail */
+  .rail{position:fixed;left:32px;top:50%;transform:translateY(-50%);z-index:85;display:flex;flex-direction:column;gap:14px}
+  .rail .dot{width:6px;height:6px;border:1px solid var(--mute);border-radius:50%;transition:all .4s;cursor:pointer}
+  .rail .dot.active{background:var(--champagne);border-color:var(--champagne);box-shadow:0 0 12px var(--champagne)}
+  .rail .dot.passed{border-color:var(--champagne)}
+  .rail .label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--mute);writing-mode:vertical-rl;margin-left:14px;position:absolute;left:0;top:50%;transform:translate(20px,-50%);text-transform:uppercase}
+  /* booking */
+  .book-btn{position:fixed;bottom:32px;right:32px;z-index:95;padding:14px 28px;border:1px solid var(--champagne);background:rgba(7,8,10,.6);backdrop-filter:blur(10px);color:var(--bone);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.3em;text-transform:uppercase;cursor:none;transition:all .3s;mix-blend-mode:difference}
+  .book-btn:hover{background:var(--champagne);color:var(--void)}
+  .drawer{position:fixed;top:0;right:0;height:100vh;width:min(440px,90vw);background:linear-gradient(180deg,#0a0c0f,#07080a);border-left:1px solid rgba(201,168,106,.3);z-index:120;transform:translateX(100%);transition:transform .6s cubic-bezier(.7,0,.2,1);padding:48px 40px;overflow-y:auto}
+  .drawer.open{transform:translateX(0)}
+  .drawer h3{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:42px;line-height:1;letter-spacing:-.02em;margin:0 0 8px}
+  .drawer h3 em{font-style:italic;color:var(--champagne)}
+  .drawer .lead{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.3em;color:var(--mute);text-transform:uppercase;margin-bottom:36px}
+  .field{margin-bottom:24px}
+  .field label{display:block;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.25em;color:var(--mute);text-transform:uppercase;margin-bottom:8px}
+  .field input,.field select,.field textarea{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(236,231,221,.2);color:var(--bone);font-family:'Cormorant Garamond',serif;font-size:18px;padding:8px 0;outline:none;transition:border-color .3s}
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--champagne)}
+  .field select option{background:var(--ash);color:var(--bone)}
+  .submit{width:100%;padding:18px;background:var(--champagne);color:var(--void);border:none;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;cursor:none;margin-top:16px;transition:all .3s}
+  .submit:hover{background:var(--bone)}
+  .close-drawer{position:absolute;top:24px;right:24px;width:32px;height:32px;border:1px solid var(--mute);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:none;color:var(--mute);transition:all .3s}
+  .close-drawer:hover{border-color:var(--champagne);color:var(--champagne);transform:rotate(90deg)}
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);z-index:110;opacity:0;pointer-events:none;transition:opacity .4s}
+  .overlay.on{opacity:1;pointer-events:auto}
+  /* sound */
+  .sound{position:fixed;bottom:32px;left:50%;transform:translateX(-50%);z-index:95;display:flex;align-items:center;gap:14px;cursor:none;mix-blend-mode:difference}
+  .sound .bars{display:flex;gap:2px;align-items:flex-end;height:14px}
+  .sound .bars i{width:2px;background:var(--champagne);height:4px;transition:height .2s}
+  .sound .txt{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.3em;color:var(--mute);text-transform:uppercase}
+  /* final */
+  .final-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(201,168,106,.2);border:1px solid rgba(201,168,106,.2);max-width:900px;margin-top:48px}
+  .final-cell{background:var(--void);padding:32px 24px;min-height:160px}
+  .final-cell .n{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.25em;color:var(--champagne)}
+  .final-cell .t{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;line-height:1.1;margin-top:12px;font-style:italic}
+  .final-cell .d{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--mute);margin-top:12px;text-transform:uppercase;line-height:1.6}
+  /* marquee */
+  .marquee{overflow:hidden;border-top:1px solid rgba(201,168,106,.2);border-bottom:1px solid rgba(201,168,106,.2);padding:18px 0;margin:80px 0 0}
+  .marquee-track{display:flex;gap:80px;white-space:nowrap;animation:scroll 40s linear infinite;font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:var(--mute)}
+  .marquee-track span{color:var(--champagne);font-style:normal}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  /* stage content alignment */
+  .stage-content.right{margin-left:auto;text-align:right}
+  .stage-content.right .stage-label{justify-content:flex-end}
+  .stage-content.right .stage-label::before{display:none}
+  .stage-content.right .stage-label::after{content:'';width:36px;height:1px;background:var(--champagne)}
+  .stage-content.right .stage-meta{margin-left:auto}
+  @media(max-width:768px){
+    .rail{display:none}
+    .telemetry{display:none}
+    section{padding:0 6vw}
+    .final-grid{grid-template-columns:1fr}
+    .stage-content.right{text-align:left}
+    .stage-content.right .stage-label{justify-content:flex-start}
+    .stage-content.right .stage-label::after{display:none}
+    .stage-content.right .stage-label::before{display:block}
+  }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="vignette"></div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-trail" id="trail"></div>
+
+<canvas id="stage"></canvas>
+
+<!-- Nav -->
+<nav class="topnav">
+  <div class="brand">MAISON <span>AURELIAN</span> · EST. MCMXII</div>
+  <div class="brand mono" style="font-size:10px">SAVILE ROW · LONDON</div>
+</nav>
+
+<!-- Telemetry -->
+<div class="telemetry tel-tl">
+  <div>LAT 51°30'26"N</div>
+  <div>LON 0°08'32"W</div>
+</div>
+<div class="telemetry tel-tr">
+  <div>SESSION <span class="v" id="sess">A-0427</span></div>
+  <div>STAGE <span class="v" id="stg">00 / 05</span></div>
+</div>
+<div class="telemetry tel-bl">
+  <div>CURSOR <span class="v" id="cx">0000</span> · <span class="v" id="cy">0000</span></div>
+  <div>SCROLL <span class="v" id="scr">0.000</span></div>
+</div>
+<div class="telemetry tel-br">
+  <div>RENDER <span class="v" id="fps">60</span> FPS</div>
+  <div>SHADER · GLSL ES 1.0</div>
+</div>
+
+<!-- Rail -->
+<div class="rail" id="rail">
+  <div class="dot" data-i="0"></div>
+  <div class="dot" data-i="1"></div>
+  <div class="dot" data-i="2"></div>
+  <div class="dot" data-i="3"></div>
+  <div class="dot" data-i="4"></div>
+</div>
+
+<!-- Sound -->
+<div class="sound" id="sound">
+  <div class="bars"><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="txt">Ambient · Off</div>
+</div>
+
+<!-- Hero -->
+<section class="hero" data-stage="-1">
+  <div class="stage-label" style="justify-content:center">CHAPTER ZERO · OVERTURE</div>
+  <h1>The Anatomy<br>of <span class="it">a Suit</span></h1>
+  <div class="sub">A Deconstruction in Five Movements</div>
+  <div class="line"></div>
+</section>
+
+<!-- Stage 1 -->
+<section data-stage="0">
+  <div class="stage-content">
+    <div class="stage-label">I · FOUNDATION</div>
+    <h2 class="stage-title" style="font-size:clamp(48px,7vw,108px)">The <em>base</em><br>layer.</h2>
+    <p class="stage-body">Before the cloth, before the cut, there is the body. A cotton ventile shell, drawn against the skin, mapping the architecture of the wearer. Eighty-two measurements. One silhouette. The first whisper of form.</p>
+    <div class="stage-meta">
+      <div class="meta-cell"><div class="k">Cloth</div><div class="v">Ventile Cotton</div></div>
+      <div class="meta-cell"><div class="k">Measurements</div><div class="v">Eighty-Two</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Stage 2 -->
+<section data-stage="1">
+  <div class="stage-content right">
+    <div class="stage-label">II · INTERMEDIARY</div>
+    <h2 class="stage-title" style="font-size:clamp(48px,7vw,108px)">The <em>waistcoat</em>.<br>A second skin.</h2>
+    <p class="stage-body">Six panels of superfine wool, hand-stitched at the gorge. The waistcoat is the suit's quiet conscience — holding the line between ceremony and ease. Twelve mother-of-pearl buttons, each bored by candlelight.</p>
+    <div class="stage-meta">
+      <div class="meta-cell"><div class="k">Panels</div><div class="v">Six</div></div>
+      <div class="meta-cell"><div class="k">Buttons</div><div class="v">MOP · 12</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Stage 3 -->
+<section data-stage="2">
+  <div class="stage-content">
+    <div class="stage-label">III · THE HIDDEN SPINE</div>
+    <h2 class="stage-title" style="font-size:clamp(48px,7vw,108px)">Horsehair<br><em>canvas</em>.</h2>
+    <p class="stage-body">The soul of the coat, never seen, always felt. Woven from long-tail horsehair and linen, the canvas is the structure that breathes — rolling the lapel, lifting the chest, remembering the body after a thousand wearings.</p>
+    <div class="stage-meta">
+      <div class="meta-cell"><div class="k">Composition</div><div class="v">Hair · Linen</div></div>
+      <div class="meta-cell"><div class="k">Stitches</div><div class="v">4,200 hand</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Stage 4 -->
+<section data-stage="3">
+  <div class="stage-content right">
+    <div class="stage-label">IV · THE WHOLE</div>
+    <h2 class="stage-title" style="font-size:clamp(48px,7vw,108px)">Complete<br><em>silhouette</em>.</h2>
+    <p class="stage-body">Two-piece, three-piece, double-breasted — the silhouette resolves. A peak lapel rolled by hand. A shoulder drawn without padding. The cloth falls as water falls, governed only by gravity and the tailor's memory.</p>
+    <div class="stage-meta">
+      <div class="meta-cell"><div class="k">Hours</div><div class="v">112</div></div>
+      <div class="meta-cell"><div class="k">Cloth</div><div class="v">12oz Worsted</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Stage 5 -->
+<section data-stage="4">
+  <div class="stage-content">
+    <div class="stage-label">V · THE FINAL DETAIL</div>
+    <h2 class="stage-title" style="font-size:clamp(48px,7vw,108px)">Craftsmanship,<br>in <em>minutiae</em>.</h2>
+    <p class="stage-body">Working buttonholes. Hand-rolled hems. A silk lining painted in the house pattern. Each detail a signature, invisible to all but the wearer — and to time itself.</p>
+    <div class="final-grid">
+      <div class="final-cell"><div class="n">01</div><div class="t">Surgeon's cuff</div><div class="d">Four working buttonholes, hand-bound in silk gimp</div></div>
+      <div class="final-cell"><div class="n">02</div><div class="t">Pick-stitch lapel</div><div class="d">Visible at 6spi, a quiet confession of the hand</div></div>
+      <div class="final-cell"><div class="n">03</div><div class="t">Hand-rolled hem</div><div class="d">No machine touches the skirt's edge</div></div>
+    </div>
+    <div class="marquee">
+      <div class="marquee-track">
+        <span>—</span> Bespoke · Made by Hand <span>·</span> 112 Hours <span>—</span> Savile Row · London <span>·</span> Since 1912 <span>—</span> Bespoke · Made by Hand <span>·</span> 112 Hours <span>—</span> Savile Row · London <span>·</span> Since 1912 <span>—</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Booking -->
+<button class="book-btn" id="bookBtn">Request a Fitting</button>
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer">
+  <div class="close-drawer" id="closeDrawer">✕</div>
+  <div class="lead">Private Appointment</div>
+  <h3>Arrange your<br><em>fitting</em>.</h3>
+  <div style="font-family:'Cormorant Garamond',serif;color:rgba(236,231,221,.6);font-size:16px;line-height:1.6;margin:24px 0 36px">Each commission begins with a private consultation — three hours, two cloths, one silhouette. By appointment only.</div>
+  <form id="form">
+    <div class="field"><label>Surname</label><input type="text" required placeholder="Aurelian" /></div>
+    <div class="field"><label>Given Names</label><input type="text" required placeholder="Edmund Charles" /></div>
+    <div class="field"><label>Correspondence</label><input type="email" required placeholder="e.aurelian@house.com" /></div>
+    <div class="field"><label>Preferred Cloth</label>
+      <select><option>Worsted — 11oz</option><option>Flannel — 13oz</option><option>Cashmere — 14oz</option><option>Vicuña — by request</option></select>
+    </div>
+    <div class="field"><label>Preferred Month</label>
+      <select><option>January</option><option>February</option><option>March</option><option>April</option><option>May</option><option>June</option></select>
+    </div>
+    <div class="field"><label>Notes to the Cutter</label><textarea rows="2" placeholder="Occasion, preferences, particularities..."></textarea></div>
+    <button class="submit" type="submit">Submit Request</button>
+  </form>
+</aside>
+
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js';
+</script>
+<script>
+/* ============================================================
+   THE ANATOMY OF A SUIT — Maison Aurelian
+   ============================================================ */
+
+// ---------- Lenis smooth scroll ----------
+const lenis = new Lenis({ duration: 1.4, easing: t => Math.min(1,1.001-Math.pow(2,-10*t)), smoothWheel:true });
+function raf(t){ lenis.raf(t); requestAnimationFrame(raf); }
+requestAnimationFrame(raf);
+lenis.on('scroll', () => ScrollTrigger.update());
+gsap.registerPlugin(ScrollTrigger);
+
+// ---------- Custom cursor ----------
+const cursor = document.getElementById('cursor');
+const trail = document.getElementById('trail');
+let mx=window.innerWidth/2, my=window.innerHeight/2, tx=mx, ty=my;
+window.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; cursor.style.left=mx+'px'; cursor.style.top=my+'px'; document.getElementById('cx').textContent=String(Math.round(mx)).padStart(4,'0'); document.getElementById('cy').textContent=String(Math.round(my)).padStart(4,'0'); });
+function trailLoop(){ tx+=(mx-tx)*0.18; ty+=(my-ty)*0.18; trail.style.left=tx+'px'; trail.style.top=ty+'px'; requestAnimationFrame(trailLoop); }
+trailLoop();
+document.querySelectorAll('a,button,.dot,.book-btn,.sound,input,select,textarea,.close-drawer').forEach(el=>{
+  el.addEventListener('mouseenter',()=>cursor.classList.add('ring'));
+  el.addEventListener('mouseleave',()=>cursor.classList.remove('ring'));
+});
+
+// ---------- Three.js Scene ----------
+const canvas = document.getElementById('stage');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.1;
+
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x07080a, 0.04);
+
+const camera = new THREE.PerspectiveCamera(38, window.innerWidth/window.innerHeight, 0.1, 100);
+camera.position.set(0, 0.4, 9);
+
+// ---------- Lights ----------
+const key = new THREE.SpotLight(0xc9a86a, 2.4, 30, Math.PI/5, 0.6, 1);
+key.position.set(3, 5, 6); scene.add(key);
+const fill = new THREE.PointLight(0x6b7a8f, 0.8, 30);
+fill.position.set(-4, 2, 4); scene.add(fill);
+const rim = new THREE.PointLight(0xc9a86a, 1.2, 25);
+rim.position.set(0, 2, -4); scene.add(rim);
+const amb = new THREE.AmbientLight(0x202428, 0.5); scene.add(amb);
+
+// ---------- Background particles (dust motes) ----------
+const dustGeo = new THREE.BufferGeometry();
+const dustCount = 600;
+const dustPos = new Float32Array(dustCount*3);
+for(let i=0;i<dustCount;i++){
+  dustPos[i*3]=(Math.random()-0.5)*20;
+  dustPos[i*3+1]=(Math.random()-0.5)*14;
+  dustPos[i*3+2]=(Math.random()-0.5)*10-2;
+}
+dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPos,3));
+const dustMat = new THREE.PointsMaterial({ color:0xc9a86a, size:0.012, transparent:true, opacity:0.5, blending:THREE.AdditiveBlending, depthWrite:false });
+const dust = new THREE.Points(dustGeo, dustMat);
+scene.add(dust);
+
+// ---------- Suit construction (procedural layered torso) ----------
+const suitGroup = new THREE.Group();
+scene.add(suitGroup);
+
+// Mannequin torso profile (lathe)
+function makeTorsoProfile(){
+  const pts = [];
+  for(let i=0;i<=24;i++){
+    const t = i/24;
+    const y = -2.2 + t*4.4; // height
+    // shoulder wide at top, taper to waist, widen to hips
+    let r;
+    if(t<0.15){ r = 0.55 + t*2.2; }        // neck -> shoulder
+    else if(t<0.35){ r = 1.35 - (t-0.15)*0.6; } // shoulder -> chest
+    else if(t<0.55){ r = 1.23 - (t-0.35)*0.3; } // chest -> waist
+    else { r = 1.17 + (t-0.55)*0.5; }       // waist -> hip
+    pts.push(new THREE.Vector2(Math.max(0.05,r), y));
+  }
+  return pts;
+}
+
+// --- Layer 0: Base (ventile cotton undershirt) ---
+const baseProfile = makeTorsoProfile();
+const baseGeo = new THREE.LatheGeometry(baseProfile, 64);
+const baseMat = new THREE.MeshStandardMaterial({ color:0x1a1c20, roughness:0.95, metalness:0.05, side:THREE.DoubleSide, transparent:true, opacity:0 });
+const baseMesh = new THREE.Mesh(baseGeo, baseMat);
+baseMesh.scale.set(0.92,1,0.78);
+suitGroup.add(baseMesh);
+
+// --- Layer 1: Waistcoat ---
+function makeWaistcoatProfile(){
+  // slightly larger than base, with V-neck cut
+  const pts = [];
+  for(let i=0;i<=24;i++){
+    const t = i/24;
+    const y = -2.0 + t*4.0;
+    let r;
+    if(t<0.15){ r = 0.4 + t*1.6; }
+    else if(t<0.35){ r = 1.25 - (t-0.15)*0.5; }
+    else if(t<0.6){ r = 1.15 - (t-0.35)*0.25; }
+    else { r = 1.1 + (t-0.6)*0.4; }
+    // V-neck: cut top portion
+    if(t<0.18) r *= 0.3;
+    pts.push(new THREE.Vector2(Math.max(0.05,r), y));
+  }
+  return pts;
+}
+const waistcoatGeo = new THREE.LatheGeometry(makeWaistcoatProfile(), 64);
+const waistcoatMat = new THREE.MeshStandardMaterial({ color:0x2a2620, roughness:0.7, metalness:0.1, side:THREE.DoubleSide, transparent:true, opacity:0 });
+const waistcoatMesh = new THREE.Mesh(waistcoatGeo, waistcoatMat);
+waistcoatMesh.scale.set(0.98,1,0.82);
+suitGroup.add(waistcoatMesh);
+
+// Waistcoat buttons (small spheres)
+const buttonsGroup = new THREE.Group();
+const btnGeo = new THREE.SphereGeometry(0.04, 16, 16);
+const btnMat = new THREE.MeshStandardMaterial({ color:0xece7dd, roughness:0.2, metalness:0.4, emissive:0x222018, emissiveIntensity:0.2 });
+for(let i=0;i<6;i++){
+  const b = new THREE.Mesh(btnGeo, btnMat);
+  const y = 0.4 - i*0.28;
+  b.position.set(0.0, y, 0.92);
+  buttonsGroup.add(b);
+}
+buttonsGroup.visible = false;
+suitGroup.add(buttonsGroup);
+
+// --- Layer 2: Horsehair canvas (internal structure, translucent mesh) ---
+const canvasProfile = makeTorsoProfile().map(p => new THREE.Vector2(p.x*0.96, p.y));
+const canvasGeo = new THREE.LatheGeometry(canvasProfile, 48);
+// Custom shader for canvas: wireframe-like with iridescence
+const canvasMat = new THREE.ShaderMaterial({
+  uniforms: { uTime:{value:0}, uOpacity:{value:0}, uColor:{value:new THREE.Color(0xc9a86a)} },
+  vertexShader: `
+    varying vec3 vNormal;
+    varying vec3 vPos;
+    void main(){
+      vNormal = normalize(normalMatrix * normal);
+      vPos = position;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+    }
+  `,
+  fragmentShader: `
+    uniform float uTime;
+    uniform float uOpacity;
+    uniform vec3 uColor;
+    varying vec3 vNormal;
+    varying vec3 vPos;
+    void main(){
+      float fres = pow(1.0 - abs(dot(vNormal, vec3(0.0,0.0,1.0))), 2.0);
+      float wave = sin(vPos.y*8.0 + uTime*0.5)*0.5+0.5;
+      float grid = step(0.92, fract(vPos.y*4.0)) + step(0.92, fract(vPos.x*4.0));
+      vec3 col = uColor * (fres*1.5 + wave*0.3 + grid*0.4);
+      gl_FragColor = vec4(col, uOpacity * (0.35 + fres*0.5));
+    }
+  `,
+  transparent:true, side:THREE.DoubleSide, depthWrite:false, blending:THREE.AdditiveBlending
+});
+const canvasMesh = new THREE.Mesh(canvasGeo, canvasMat);
+canvasMesh.scale.set(0.95,1,0.8);
+suitGroup.add(canvasMesh);
+
+// Canvas stitch lines (visible thread)
+const stitchGroup = new THREE.Group();
+for(let i=0;i<14;i++){
+  const lineGeo = new THREE.BufferGeometry();
+  const yy = -1.8 + i*0.28;
+  const pts = [];
+  for(let j=0;j<=20;j++){
+    const a = (j/20)*Math.PI*2;
+    const r = 0.95 * (1 - Math.abs(yy)*0.15);
+    pts.push(Math.cos(a)*r*0.78, yy, Math.sin(a)*r*0.62);
+  }
+  lineGeo.setAttribute('position', new THREE.Float32BufferAttribute(pts,3));
+  const lineMat = new THREE.LineBasicMaterial({ color:0xc9a86a, transparent:true, opacity:0 });
+  const line = new THREE.Line(lineGeo, lineMat);
+  line.userData.mat = lineMat;
+  stitchGroup.add(line);
+}
+suitGroup.add(stitchGroup);
+
+// --- Layer 3: Complete jacket (outer shell) ---
+function makeJacketProfile(){
+  const pts = [];
+  for(let i=0;i<=28;i++){
+    const t = i/28;
+    const y = -2.3 + t*4.6;
+    let r;
+    if(t<0.1){ r = 0.35 + t*3.0; }
+    else if(t<0.2){ r = 1.45 - (t-0.1)*0.8; }   // shoulder
+    else if(t<0.4){ r = 1.37 - (t-0.2)*0.4; }   // chest
+    else if(t<0.62){ r = 1.29 - (t-0.4)*0.3; }  // waist
+    else { r = 1.22 + (t-0.62)*0.45; }           // hip/skirt
+    pts.push(new THREE.Vector2(Math.max(0.05,r), y));
+  }
+  return pts;
+}
+const jacketGeo = new THREE.LatheGeometry(makeJacketProfile(), 72);
+const jacketMat = new THREE.MeshStandardMaterial({ color:0x0d1014, roughness:0.55, metalness:0.15, side:THREE.DoubleSide, transparent:true, opacity:0 });
+const jacketMesh = new THREE.Mesh(jacketGeo, jacketMat);
+jacketMesh.scale.set(1.02,1,0.84);
+suitGroup.add(jacketMesh);
+
+// Lapels (two extruded shapes)
+function makeLapelShape(){
+  const s = new THREE.Shape();
+  s.moveTo(0, 1.6);
+  s.bezierCurveTo(0.3, 1.2, 0.5, 0.6, 0.4, 0.0);
+  s.bezierCurveTo(0.3, -0.2, 0.15, -0.3, 0.0, -0.25);
+  s.bezierCurveTo(-0.05, 0.4, -0.05, 1.0, 0, 1.6);
+  return s;
+}
+const lapelGeo = new THREE.ExtrudeGeometry(makeLapelShape(), { depth:0.08, bevelEnabled:false });
+const lapelMat = new THREE.MeshStandardMaterial({ color:0x0a0c10, roughness:0.5, metalness:0.2, transparent:true, opacity:0 });
+const lapelL = new THREE.Mesh(lapelGeo, lapelMat);
+lapelL.rotation.y = Math.PI/2;
+lapelL.position.set(0.0, 0, 0.78);
+lapelL.rotation.z = 0.08;
+const lapelR = lapelL.clone();
+lapelR.rotation.z = -0.08;
+lapelR.scale.x = -1;
+const lapels = new THREE.Group();
+lapels.add(lapelL); lapels.add(lapelR);
+suitGroup.add(lapels);
+
+// --- Layer 4: Detail overlays (buttonholes, pick-stitch glow) ---
+const detailGroup = new THREE.Group();
+// Surgeon's cuff buttons on sleeves
+const sleeveGeo = new THREE.CylinderGeometry(0.18, 0.22, 1.6, 24, 1, true);
+const sleeveMat = new THREE.MeshStandardMaterial({ color:0x0d1014, roughness:0.55, metalness:0.15, side:THREE.DoubleSide, transparent:true, opacity:0 });
+const sleeveL = new THREE.Mesh(sleeveGeo, sleeveMat);
+sleeveL.position.set(-1.4, -0.3, 0);
+sleeveL.rotation.z = 0.25;
+const sleeveR = sleeveL.clone();
+sleeveR.position.x = 1.4;
+sleeveR.rotation.z = -0.25;
+detailGroup.add(sleeveL); detailGroup.add(sleeveR);
+
+// Cuff buttons
+for(let s=-1;s<=1;s+=2){
+  for(let i=0;i<4;i++){
+    const b = new THREE.Mesh(btnGeo, btnMat);
+    b.position.set(s*1.45 + s*0.05, -1.0 - i*0.08, 0.18);
+    detailGroup.add(b);
+  }
+}
+
+// Glowing pick-stitch lines on lapel edges (using line segments)
+const stitchGlowMat = new THREE.LineBasicMaterial({ color:0xd4b27a, transparent:true, opacity:0 });
+for(let side=-1;side<=1;side+=2){
+  const geo = new THREE.BufferGeometry();
+  const pts = [];
+  for(let i=0;i<=40;i++){
+    const t = i/40;
+    const y = 1.6 - t*1.85;
+    const x = side * (0.0 + Math.sin(t*Math.PI*0.5)*0.32);
+    const z = 0.82 + Math.sin(t*Math.PI)*0.02;
+    pts.push(x, y, z);
+  }
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(pts,3));
+  const line = new THREE.Line(geo, stitchGlowMat.clone());
+  line.userData.mat = line.material;
+  detailGroup.add(line);
+}
+detailGroup.visible = true;
+suitGroup.add(detailGroup);
+
+// Position suit
+suitGroup.position.y = -0.2;
+suitGroup.rotation.y = -0.3;
+
+// ---------- Floor reflection plane ----------
+const floorGeo = new THREE.PlaneGeometry(40,40);
+const floorMat = new THREE.MeshStandardMaterial({ color:0x050608, roughness:0.4, metalness:0.6, transparent:true, opacity:0.7 });
+const floor = new THREE.Mesh(floorGeo, floorMat);
+floor.rotation.x = -Math.PI/2;
+floor.position.y = -2.5;
+scene.add(floor);
+
+// ---------- Stage state ----------
+const stageState = {
+  current: -1,
+  progress: 0,    // global scroll progress 0..1
+  stageProgress: 0, // 0..1 within current stage
+  // layer opacities
+  base: 0, waistcoat: 0, canvas: 0, jacket: 0, lapels: 0, detail: 0, buttons: 0, stitches: 0
+};
+
+// ---------- Animate layers based on stage ----------
+function applyStage(targetStage, blend){
+  // targetStage: 0..4, blend: 0..1 transition into target
+  const L = stageState;
+  // define target opacities per stage
+  const presets = [
+    // base, waistcoat, canvas, jacket, lapels, detail, buttons, stitches
+    { base:1.0, waistcoat:0, canvas:0,    jacket:0,    lapels:0, detail:0,    buttons:0, stitches:0 },    // 0: base only
+    { base:0.4, waistcoat:1, canvas:0,    jacket:0,    lapels:0, detail:0,    buttons:1, stitches:0 },    // 1: waistcoat
+    { base:0.2, waistcoat:0.3,canvas:0.9, jacket:0,    lapels:0, detail:0,    buttons:0.4, stitches:1 },  // 2: canvas
+    { base:0.1, waistcoat:0.1,canvas:0.4, jacket:1,    lapels:1, detail:0.3,  buttons:0, stitches:0.5 },  // 3: complete
+    { base:0.05,waistcoat:0.05,canvas:0.2,jacket:1,    lapels:1, detail:1,    buttons:0, stitches:0.8 }   // 4: details
+  ];
+  const cur = presets[Math.max(0,Math.min(4,targetStage))];
+  // interpolate from previous
+  const prev = presets[Math.max(0,Math.min(4,targetStage-1))] || presets[0];
+  const lerp = (a,b)=> a + (b-a)*blend;
+  L.base      = lerp(prev.base, cur.base);
+  L.waistcoat = lerp(prev.waistcoat, cur.waistcoat);
+  L.canvas    = lerp(prev.canvas, cur.canvas);
+  L.jacket    = lerp(prev.jacket, cur.jacket);
+  L.lapels    = lerp(prev.lapels, cur.lapels);
+  L.detail    = lerp(prev.detail, cur.detail);
+  L.buttons   = lerp(prev.buttons, cur.buttons);
+  L.stitches  = lerp(prev.stitches, cur.stitches);
+}
+
+// ---------- ScrollTrigger per stage ----------
+const sections = document.querySelectorAll('section[data-stage]');
+const railDots = document.querySelectorAll('.rail .dot');
+
+sections.forEach((sec, idx) => {
+  ScrollTrigger.create({
+    trigger: sec,
+    start: 'top 60%',
+    end: 'bottom 40%',
+    onEnter: () => setStage(idx),
+    onEnterBack: () => setStage(idx),
+    onUpdate: (self) => {
+      // store per-stage progress for fine animation
+      stageState.stageProgress = self.progress;
+    }
+  });
+});
+
+function setStage(i){
+  if(stageState.current === i) return;
+  stageState.current = i;
+  document.getElementById('stg').textContent = String(i+1).padStart(2,'0') + ' / 05';
+  railDots.forEach((d,k)=>{ d.classList.toggle('active', k===i); d.classList.toggle('passed', k<i); });
+  // GSAP tween the layer opacities via applyStage over time
+  const start = {
+    base: stageState.base, waistcoat: stageState.waistcoat, canvas: stageState.canvas,
+    jacket: stageState.jacket, lapels: stageState.lapels, detail: stageState.detail,
+    buttons: stageState.buttons, stitches: stageState.stitches
+  };
+  applyStage(i, 1); // compute target
+  const target = { ...stageState };
+  // restore start
+  Object.assign(stageState, start);
+  gsap.to(stageState, {
+    base: target.base, waistcoat: target.waistcoat, canvas: target.canvas,
+    jacket: target.jacket, lapels: target.lapels, detail: target.detail,
+    buttons: target.buttons, stitches: target.stitches,
+    duration: 1.6, ease: 'power2.inOut'
+  });
+  // camera move
+  const camTargets = [
+    { x:0, y:0.4, z:9, ry:-0.3 },
+    { x:1.2, y:0.2, z:7.5, ry:-0.6 },
+    { x:-1.4, y:0.6, z:7, ry:0.5 },
+    { x:0, y:0.3, z:8, ry:-0.15 },
+    { x:0.6, y:-0.2, z:6.5, ry:-0.4 }
+  ];
+  const ct = camTargets[i] || camTargets[0];
+  gsap.to(camera.position, { x:ct.x, y:ct.y, z:ct.z, duration:1.6, ease:'power2.inOut' });
+  gsap.to(suitGroup.rotation, { y:ct.ry, duration:1.6, ease:'power2.inOut' });
+}
+
+// Global scroll progress (for telemetry + dust)
+lenis.on('scroll', ({ progress }) => {
+  stageState.progress = progress || 0;
+  document.getElementById('scr').textContent = (stageState.progress).toFixed(3);
+});
+
+// ---------- Render loop ----------
+const clock = new THREE.Clock();
+let frames=0, lastT=performance.now();
+function render(){
+  const t = clock.getElapsedTime();
+  canvasMat.uniforms.uTime.value = t;
+
+  // Apply opacities
+  baseMat.opacity = stageState.base;
+  waistcoatMat.opacity = stageState.waistcoat;
+  canvasMat.uniforms.uOpacity.value = stageState.canvas;
+  jacketMat.opacity = stageState.jacket;
+  lapelMat.opacity = stageState.lapels;
+  sleeveMat.opacity = stageState.jacket;
+  buttonsGroup.visible = stageState.buttons > 0.02;
+  btnMat.opacity = stageState.buttons;
+  btnMat.transparent = true;
+  // stitch lines opacity
+  stitchGroup.children.forEach(l => { if(l.userData.mat) l.userData.mat.opacity = stageState.stitches; });
+  detailGroup.children.forEach(c => {
+    if(c.userData.mat){ c.userData.mat.opacity = stageState.detail * 0.9; }
+    if(c.isMesh && c.material === sleeveMat){ /* already set */ }
+  });
+  // pick-stitch glow lines
+  detailGroup.children.forEach(c => {
+    if(c.isLine && c.userData.mat){ c.userData.mat.opacity = stageState.detail; }
+  });
+
+  // Gentle suit breathing
+  suitGroup.position.y = -0.2 + Math.sin(t*0.6)*0.04;
+  suitGroup.rotation.x = Math.sin(t*0.4)*0.02;
+
+  // Dust drift
+  dust.rotation.y = t*0.02;
+  dust.position.y = Math.sin(t*0.3)*0.3;
+
+  // Camera subtle parallax with cursor
+  const px = (mx/window.innerWidth - 0.5)*0.4;
+  const py = (my/window.innerHeight - 0.5)*0.3;
+  camera.position.x += (camera.position.x + px*0.3 - camera.position.x)*0.0; // keep gsap-controlled
+  camera.lookAt(0, 0, 0);
+
+  renderer.render(scene, camera);
+
+  // FPS
+  frames++;
+  const now = performance.now();
+  if(now-lastT > 500){
+    document.getElementById('fps').textContent = Math.round(frames*1000/(now-lastT));
+    frames = 0; lastT = now;
+  }
+  requestAnimationFrame(render);
+}
+render();
+
+window.addEventListener('resize', ()=>{
+  camera.aspect = window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// ---------- Booking drawer ----------
+const drawer = document.getElementById('drawer');
+const overlay = document.getElementById('overlay');
+document.getElementById('bookBtn').addEventListener('click', ()=>{
+  drawer.classList.add('open'); overlay.classList.add('on');
+});
+document.getElementById('closeDrawer').addEventListener('click', ()=>{
+  drawer.classList.remove('open'); overlay.classList.remove('on');
+});
+overlay.addEventListener('click', ()=>{ drawer.classList.remove('open'); overlay.classList.remove('on'); });
+document.getElementById('form').addEventListener('submit', e=>{
+  e.preventDefault();
+  const btn = e.target.querySelector('.submit');
+  btn.textContent = 'Request Received';
+  btn.style.background = 'var(--bone)';
+  setTimeout(()=>{ drawer.classList.remove('open'); overlay.classList.remove('on'); setTimeout(()=>{ btn.textContent='Submit Request'; btn.style.background=''; },600); }, 1200);
+});
+
+// ---------- Web Audio ambient drone ----------
+let audioCtx, masterGain, oscillators=[], audioOn=false;
+const soundEl = document.getElementById('sound');
+const bars = soundEl.querySelectorAll('.bars i');
+const soundTxt = soundEl.querySelector('.txt');
+function initAudio(){
+  audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+  masterGain = audioCtx.createGain();
+  masterGain.gain.value = 0;
+  masterGain.connect(audioCtx.destination);
+  // filter
+  const filter = audioCtx.createBiquadFilter();
+  filter.type = 'lowpass'; filter.frequency.value = 800; filter.Q.value = 1;
+  filter.connect(masterGain);
+  // drone chord: D2, A2, D3, F#3 (D major-ish, low)
+  const freqs = [73.42, 110.00, 146.83, 185.00];
+  freqs.forEach((f,i)=>{
+    const o = audioCtx.createOscillator();
+    o.type = i%2===0 ? 'sine' : 'triangle';
+    o.frequency.value = f;
+    const g = audioCtx.createGain();
+    g.gain.value = 0.15;
+    // slow LFO on gain
+    const lfo = audioCtx.createOscillator();
+    lfo.frequency.value = 0.05 + i*0.03;
+    const lfoG = audioCtx.createGain();
+    lfoG.gain.value = 0.06;
+    lfo.connect(lfoG); lfoG.connect(g.gain);
+    lfo.start();
+    o.connect(g); g.connect(filter);
+    o.start();
+    oscillators.push(o);
+  });
+}
+soundEl.addEventListener('click', ()=>{
+  if(!audioCtx) initAudio();
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  audioOn = !audioOn;
+  masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
+  masterGain.gain.linearRampToValueAtTime(audioOn ? 0.18 : 0, audioCtx.currentTime + 1.2);
+  soundTxt.textContent = audioOn ? 'Ambient · On' : 'Ambient · Off';
+  if(audioOn) animateBars();
+});
+function animateBars(){
+  if(!audioOn) { bars.forEach(b=>b.style.height='4px'); return; }
+  bars.forEach(b=>{ b.style.height = (4 + Math.random()*10) + 'px'; });
+  setTimeout(animateBars, 180);
+}
+
+// ---------- Rail click ----------
+railDots.forEach(d=>{
+  d.addEventListener('click', ()=>{
+    const i = parseInt(d.dataset.i);
+    const target = sections[i];
+    if(target) lenis.scrollTo(target, { offset: 0, duration: 1.6 });
+  });
+});
+
+// ---------- Initial reveal ----------
+gsap.from('.hero h1', { y: 60, opacity: 0, duration: 1.8, ease: 'power3.out', delay: 0.3 });
+gsap.from('.hero .sub', { y: 20, opacity: 0, duration: 1.4, ease: 'power3.out', delay: 1.2 });
+gsap.from('.hero .line', { scaleY: 0, opacity: 0, duration: 1.2, ease: 'power3.out', delay: 1.6, transformOrigin: 'top' });
+
+// Set initial stage 0 opacities (will be triggered on first scroll into stage 0)
+stageState.base = 0;
+</script>
+</body>
+</html>
