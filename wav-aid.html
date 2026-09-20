@@ -184,28 +184,36 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:200;op
 .stat-strip small{display:block;font:500 8.5px var(--f-m);letter-spacing:.16em;color:var(--tx3);margin-top:5px}
 
 /* 04 record */
-.rec-top{padding:62px 18px 0;display:flex;align-items:center;justify-content:space-between;min-height:106px}
-.rec-title{font:600 16px var(--f-d)}
-.rec-stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:0}
-.orb-wrap{position:relative;width:280px;height:280px;flex:none}
-.orb-wrap canvas{width:100%;height:100%;display:block}
-.orb-mic{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:66px;height:66px;border-radius:50%;background:rgba(16,14,26,.75);border:1px solid rgba(201,187,255,.3);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;color:#E4DCFF;box-shadow:0 0 34px rgba(148,120,240,.35)}
-.orb-mic svg{width:26px;height:26px}
-#liveWave{width:300px;height:42px;display:block}
-.rec-bottom{padding:0 26px 40px}
-.rec-timer{font:500 38px var(--f-m);letter-spacing:.05em;text-align:center;font-variant-numeric:tabular-nums;color:var(--tx)}
-.rec-timer.dim{color:var(--tx3)}
-.rec-status{text-align:center;font:500 9.5px var(--f-m);letter-spacing:.2em;color:var(--tx3);text-transform:uppercase;margin:8px 0 20px;min-height:14px}
-.rec-status.live{color:#F2706B}
-.rec-controls{display:flex;align-items:center;justify-content:center;gap:26px;min-height:110px}
-.rctl{display:flex;flex-direction:column;align-items:center;gap:8px;transition:opacity .3s}
-.rctl>span,.rctl>svg{width:56px;height:56px}
-.rctl span{border-radius:50%;border:1.5px solid var(--line2);display:flex;align-items:center;justify-content:center;color:var(--tx)}
-.rctl svg{width:21px;height:21px}
-.rctl small{font-size:10.5px;color:var(--tx2)}
-.rec-big{width:76px;height:76px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px rgba(232,69,62,.35),inset 0 0 0 1px rgba(255,255,255,.25);transition:transform .15s}
-.rec-big:active{transform:scale(.93)}
-.rec-big svg{width:30px;height:30px}
+.rec-top{padding:54px 18px 0;display:flex;align-items:center;justify-content:space-between;min-height:90px}
+.rec-top .icon-btn{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:var(--tx);transition:.2s}
+.rec-top .icon-btn:hover{background:rgba(255,255,255,.12);color:#fff}
+.rec-title{font:600 17px var(--f-d);letter-spacing:-.01em;color:#fff}
+.rec-sub{text-align:center;font:400 14px var(--f-ui);color:#8C8A99;margin:-6px 0 6px}
+.rec-stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:0;position:relative}
+.orb-wrap{position:relative;width:260px;height:260px;display:flex;align-items:center;justify-content:center}
+#orbMain{width:260px;height:260px;display:block}
+.rec-bottom{display:flex;flex-direction:column;align-items:center;padding:0 20px 14px}
+.rec-timer{font:700 38px var(--f-d);letter-spacing:-.02em;text-align:center;font-variant-numeric:tabular-nums;color:#FFFFFF;text-shadow:0 4px 16px rgba(0,0,0,.5)}
+.voice-level-pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;font:500 11.5px var(--f-ui);color:#D8D6E5;margin-top:8px;margin-bottom:18px;backdrop-filter:blur(10px)}
+.voice-bars{display:inline-flex;align-items:flex-end;gap:2px;height:11px}
+.voice-bars i{width:2.5px;background:#22C55E;border-radius:1px;animation:vbar 1.2s ease-in-out infinite alternate}
+.voice-bars i:nth-child(1){height:5px;animation-delay:.1s}
+.voice-bars i:nth-child(2){height:11px;animation-delay:.3s}
+.voice-bars i:nth-child(3){height:8px;animation-delay:.2s}
+.voice-bars i:nth-child(4){height:6px;animation-delay:.4s}
+@keyframes vbar{0%{transform:scaleY(.6)}100%{transform:scaleY(1.35)}}
+.rec-controls{display:flex;align-items:center;justify-content:center;gap:32px;width:100%}
+.rctl{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;transition:transform .15s,opacity .2s}
+.rctl:hover{transform:scale(1.05)}
+.rctl-icon{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;color:#FFFFFF;backdrop-filter:blur(10px);box-shadow:0 4px 16px rgba(0,0,0,.4);transition:.2s}
+.rctl-icon:hover{background:rgba(255,255,255,.12)}
+.rctl small{font:500 11.5px var(--f-ui);color:#8E8C9A}
+.rctl-center{display:flex;flex-direction:column;align-items:center;gap:6px}
+.rec-big{width:68px;height:68px;border-radius:50%;background:linear-gradient(135deg,#FF3B30 0%,#D00000 100%);color:#FFFFFF;display:flex;align-items:center;justify-content:center;box-shadow:0 0 35px rgba(255,59,48,.65),0 0 70px rgba(255,59,48,.35);border:2px solid rgba(255,255,255,.3);cursor:pointer;transition:transform .15s,box-shadow .2s}
+.rec-big:hover{transform:scale(1.05);box-shadow:0 0 45px rgba(255,59,48,.8),0 0 85px rgba(255,59,48,.4)}
+.rec-big:active{transform:scale(.95)}
+.rec-stop-sq{width:18px;height:18px;background:#FFFFFF;border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+.rctl-center small{font:600 12px var(--f-ui);color:#FF453A}
 
 /* 05 saved */
 .saved{display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:64px}
@@ -592,23 +600,40 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:200;op
       </section>
 
       <!-- 04 · Active recording -->
-      <section class="screen" id="scr-record">
+      <section class="screen" id="scr-record" style="display:flex;flex-direction:column;justify-content:space-between;padding-bottom:76px;overflow:hidden">
         <header class="rec-top">
-          <button class="icon-btn" id="recClose"><i data-lucide="chevron-down"></i></button>
-          <div class="rec-title">Active recording</div>
-          <span class="mono-chip" id="recTakeChip">TAKE 01</span>
+          <button class="icon-btn" data-back><i data-lucide="chevron-left"></i></button>
+          <div class="rec-title">Recording</div>
+          <button class="icon-btn" id="recMore"><i data-lucide="more-vertical"></i></button>
         </header>
+        <div class="rec-sub">Listen to your voice</div>
         <div class="rec-stage">
-          <div class="orb-wrap"><canvas id="orbMain"></canvas><div class="orb-mic"><i data-lucide="mic"></i></div></div>
-          <canvas id="liveWave"></canvas>
+          <div class="orb-wrap">
+            <canvas id="orbMain"></canvas>
+          </div>
         </div>
         <div class="rec-bottom">
-          <div class="rec-timer dim" id="recTimer">00:00:00</div>
-          <div class="rec-status" id="recStatus">READY TO RECORD</div>
+          <div class="rec-timer" id="recTimer">00:24</div>
+          <div class="voice-level-pill" id="voiceLevelPill">
+            <span class="voice-bars"><i></i><i></i><i></i><i></i></span>
+            <span>Voice level: Good</span>
+          </div>
           <div class="rec-controls">
-            <button class="rctl dim" id="btnPause"><span><i data-lucide="pause"></i></span><small>Pause</small></button>
-            <button class="rec-big" id="btnRec"><i data-lucide="mic"></i></button>
-            <button class="rctl dim" id="btnFlag"><span><i data-lucide="flag"></i></span><small>Add take</small></button>
+            <button class="rctl" id="btnPause">
+              <span class="rctl-icon"><i data-lucide="pause"></i></span>
+              <small>Pause</small>
+            </button>
+            <div class="rctl-center">
+              <button class="rec-big" id="btnRec">
+                <span class="rec-stop-sq" id="recStopIcon"></span>
+                <i data-lucide="mic" id="recMicIcon" class="hidden"></i>
+              </button>
+              <small id="recActionLabel">Stop</small>
+            </div>
+            <button class="rctl" id="btnFlag">
+              <span class="rctl-icon"><i data-lucide="plus"></i></span>
+              <small>Add Take</small>
+            </button>
           </div>
         </div>
       </section>
@@ -789,7 +814,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:200;op
         <button class="dock-item" data-nav="home"><i data-lucide="house"></i><span>Home</span></button>
         <button class="dock-item" data-nav="sessions"><i data-lucide="library"></i><span>Session</span></button>
         <button class="dock-rec" data-nav="record" id="dockRec"><i data-lucide="mic"></i></button>
-        <button class="dock-item" data-nav="coaching"><i data-lucide="graduation-cap"></i><span>AI Coach</span></button>
+        <button class="dock-item" data-nav="coaching"><i data-lucide="graduation-cap"></i><span>AI Coaching</span></button>
         <button class="dock-item" data-nav="profile"><i data-lucide="user"></i><span>Profile</span></button>
       </nav>
 
@@ -844,7 +869,7 @@ const META={
   onb:     {n:'01',nav:false,cap:['Onboarding','Discover Your Voice — cinematic carousel']},
   roles:   {n:'02',nav:false,cap:['Who Are You','Artist profile selection grid']},
   home:    {n:'03',nav:true, dock:'home',   cap:['Home','Welcome Back + sessions, activity feed, stats']},
-  record:  {n:'04',nav:false,cap:['Active Recording','Voice orb + live waveform + timer']},
+  record:  {n:'04',nav:true, dock:'record', cap:['Recording','Cyan-Magenta Voice Sphere + Timer']},
   saved:   {n:'05',nav:false,cap:['Take Saved','Review now / New take']},
   analysis:{n:'06',nav:false,cap:['Analysis Checklist','Progress bar + animated checks']},
   sessions:{n:'07',nav:true, dock:'sessions',cap:['Sessions Library','Filterable library with waveform thumbs']},
@@ -947,49 +972,135 @@ function getAmp(now){
 }
 
 /* ================= VOICE ORB ================= */
-function makeOrb(canvas,{count=150,driver=null}={}){
+function makeOrb(canvas,{count=750,driver=null}={}){
   const cx=canvas.getContext('2d');
   let W=0,H=0;
-  function resize(){ const d=Math.min(2,devicePixelRatio||1),r=canvas.getBoundingClientRect();
+  function resize(){
+    const d=Math.min(2,window.devicePixelRatio||1), r=canvas.getBoundingClientRect();
     if(r.width===0) return false;
-    W=r.width;H=r.height; canvas.width=W*d;canvas.height=H*d; cx.setTransform(d,0,0,d,0,0); return true; }
+    W=r.width; H=r.height; canvas.width=W*d; canvas.height=H*d;
+    cx.setTransform(d,0,0,d,0,0); return true;
+  }
   const pts=Array.from({length:count},()=>({
-    th:Math.random()*Math.PI*2, ph:Math.acos(2*Math.random()-1),
-    sp:.3+Math.random()*.8, p1:Math.random()*Math.PI*2, sz:.7+Math.random()*1.6,
-    c:['#C9BBFF','#9FB4F0','#EDEAF8','#8F7BD8','#B9A8F0'][Math.random()*5|0]
+    th:Math.random()*Math.PI*2,
+    ph:Math.acos(2*Math.random()-1),
+    sp:.35+Math.random()*.85,
+    rOffset:(Math.random()-.5)*18,
+    sz:.7+Math.random()*1.8,
+    isHot:Math.random()<.08
   }));
-  let amp=.1,rot=0,run=false,t=0;
+  let amp=.28, rot=0, run=false, t=0;
+
   function loop(){
     if(!run) return;
     t+=1/60;
-    const target=driver?driver():.13+Math.sin(t*.8)*.04;
-    amp+=(target-amp)*.09;
-    rot+=.0032+amp*.009;
+    const target=driver?driver():(rec.state==='rec'?(.38+Math.sin(t*2.2)*.16):(.12+Math.sin(t*.8)*.04));
+    amp+=(target-amp)*.12;
+    rot+=.0055+amp*.015;
+
     cx.clearRect(0,0,W,H);
-    const cxx=W/2,cy=H/2,R=Math.min(W,H)*.35;
-    const g=cx.createRadialGradient(cxx,cy,0,cxx,cy,R*1.25);
-    g.addColorStop(0,`rgba(150,120,245,${(.07+amp*.16).toFixed(3)})`); g.addColorStop(1,'rgba(150,120,245,0)');
-    cx.fillStyle=g; cx.beginPath(); cx.arc(cxx,cy,R*1.25,0,7); cx.fill();
-    for(const p of pts){
-      const wob=1+amp*.5*Math.sin(t*p.sp*3+p.p1);
-      const rr=R*wob, a=p.th+t*p.sp*.35;
-      let x=Math.sin(p.ph)*Math.cos(a)*rr, z=Math.sin(p.ph)*Math.sin(a)*rr, y=Math.cos(p.ph)*rr;
-      const j=amp*2.2;
-      x+=Math.sin(p.p1*7+t*9)*j; y+=Math.cos(p.p1*6+t*8)*j;
-      const sc=clamp(1/(1-z/(R*3)),.55,1.6);
-      const al=(.22+.6*((1-z/R)/2+.5))*clamp(.35+amp,0,1);
-      cx.globalAlpha=clamp(al,0,1);
-      cx.fillStyle=p.c;
-      cx.beginPath(); cx.arc(cxx+x,cy+y,p.sz*sc,0,7); cx.fill();
+    const cxx=W/2, cy=H/2, baseR=Math.min(W,H)*.34;
+
+    // Ambient radial glow (cyan top-left, magenta bottom-right)
+    const gTop=cx.createRadialGradient(cxx-32,cy-32,5,cxx-32,cy-32,baseR*1.35);
+    gTop.addColorStop(0,`rgba(0,225,255,${Math.min(.36,.14+amp*.22).toFixed(3)})`);
+    gTop.addColorStop(1,'rgba(0,225,255,0)');
+    cx.fillStyle=gTop; cx.fillRect(0,0,W,H);
+
+    const gBot=cx.createRadialGradient(cxx+32,cy+32,5,cxx+32,cy+32,baseR*1.35);
+    gBot.addColorStop(0,`rgba(224,36,195,${Math.min(.36,.14+amp*.22).toFixed(3)})`);
+    gBot.addColorStop(1,'rgba(224,36,195,0)');
+    cx.fillStyle=gBot; cx.fillRect(0,0,W,H);
+
+    // Swirling Wavy Energy Ribbons
+    cx.globalCompositeOperation='lighter';
+    for(let w=0;w<3;w++){
+      cx.beginPath();
+      const waveT=t*(1.2+w*.4)+w*2;
+      for(let a=0;a<=Math.PI*2+.1;a+=.08){
+        const distort=Math.sin(a*4+waveT)*(7+amp*16)+Math.cos(a*2-waveT*.7)*(5+amp*10);
+        const rad=baseR+distort+(w-1)*8;
+        const wx=cxx+Math.cos(a+rot*(w%2===0?1:-1))*rad;
+        const wy=cy+Math.sin(a+rot*(w%2===0?1:-1))*rad;
+        if(a===0) cx.moveTo(wx,wy); else cx.lineTo(wx,wy);
+      }
+      cx.closePath();
+      const strokeGrad=cx.createLinearGradient(cxx-baseR,cy-baseR,cxx+baseR,cy+baseR);
+      strokeGrad.addColorStop(0,`rgba(0,240,255,${(.35+amp*.4).toFixed(2)})`);
+      strokeGrad.addColorStop(.5,`rgba(58,134,255,${(.25+amp*.3).toFixed(2)})`);
+      strokeGrad.addColorStop(1,`rgba(224,36,195,${(.45+amp*.4).toFixed(2)})`);
+      cx.strokeStyle=strokeGrad; cx.lineWidth=1.8+amp*1.5; cx.stroke();
     }
-    cx.globalAlpha=1;
+
+    // 3D Swirling Particle Cloud
+    for(let i=0;i<pts.length;i++){
+      const p=pts[i], ang=p.th+rot*p.sp*1.5;
+      const turbulent=Math.sin(ang*3+t*3+p.rOffset)*(8+amp*18);
+      const rad=baseR+p.rOffset+turbulent;
+
+      let x=Math.sin(p.ph)*Math.cos(ang)*rad;
+      let y=Math.cos(p.ph)*rad;
+      let z=Math.sin(p.ph)*Math.sin(ang)*rad;
+
+      const tilt=.35;
+      const yTilted=y*Math.cos(tilt)-z*Math.sin(tilt);
+      const zTilted=y*Math.sin(tilt)+z*Math.cos(tilt);
+
+      const sc=Math.max(.6,Math.min(1.5,1/(1-zTilted/(baseR*3))));
+      const px=cxx+x, py=cy+yTilted;
+
+      const gradFactor=Math.max(0,Math.min(1,.5+(x-yTilted)/(baseR*2.1)));
+      let col;
+      if(p.isHot&&amp>.15){
+        col='rgba(255,255,255,.92)';
+      } else {
+        const cr=Math.round(255*(1-gradFactor));
+        const cg=Math.round(229*gradFactor);
+        const cb=Math.round(135+120*gradFactor);
+        const alpha=Math.max(.2,Math.min(.95,(.35+(zTilted/baseR)*.4)*(.6+amp*.6)));
+        col=`rgba(${cr},${cg},${cb},${alpha.toFixed(2)})`;
+      }
+      cx.fillStyle=col;
+      cx.beginPath(); cx.arc(px,py,p.sz*sc,0,Math.PI*2); cx.fill();
+    }
+
+    // 9 Center Pure White Audio Waveform Bars
+    cx.globalCompositeOperation='source-over';
+    const numBars=9, barW=4.2, barGap=3.8;
+    const totalBarsW=numBars*barW+(numBars-1)*barGap;
+    const barStartX=cxx-totalBarsW/2;
+
+    for(let b=0;b<numBars;b++){
+      const distFromCenter=Math.abs(b-4);
+      const bell=1-(distFromCenter/4.5)*.65;
+      const waveVar=Math.sin(t*8+b*.9)*4*amp;
+      const baseH=8+amp*38*bell+waveVar;
+      const finalH=Math.max(5,baseH);
+
+      const bx=barStartX+b*(barW+barGap);
+      const by=cy-finalH/2;
+
+      cx.fillStyle='#FFFFFF';
+      cx.shadowColor='rgba(255,255,255,.65)';
+      cx.shadowBlur=7;
+      cx.beginPath();
+      if(cx.roundRect) cx.roundRect(bx,by,barW,finalH,2.5);
+      else cx.rect(bx,by,barW,finalH);
+      cx.fill();
+      cx.shadowBlur=0;
+    }
+
     requestAnimationFrame(loop);
   }
-  return { start(){ if(!resize())return; if(run)return; run=true; requestAnimationFrame(loop); }, stop(){run=false;}, resize };
+  return {
+    start(){ if(!resize())return; if(run)return; run=true; requestAnimationFrame(loop); },
+    stop(){ run=false; },
+    resize
+  };
 }
 let orbMain;
 function startRecLoop(){
-  orbMain.resize&&orbMain.resize(); orbMain.start(); waveLoop();
+  orbMain.resize&&orbMain.resize(); orbMain.start();
 }
 
 /* ================= LIVE WAVEFORM ================= */
@@ -1086,78 +1197,70 @@ function renderHome(){
  $('#actSeeAll').addEventListener('click',()=>toast('Full activity history coming soon','clock'));
 
 /* ================= 04 RECORDING ================= */
-const rec={state:'ready',t0:0,elapsed:0,iv:null,micNote:''};
-orbMain=makeOrb($('#orbMain'),{count:165,driver:()=>{
+const rec={state:'rec',t0:performance.now(),elapsed:24,iv:null,micNote:''};
+orbMain=makeOrb($('#orbMain'),{count:750,driver:()=>{
   if(rec.state==='rec') return getAmp(performance.now());
   if(rec.state==='paused') return .05;
-  return .13+Math.sin(performance.now()/1250)*.04;
+  return .26+Math.sin(performance.now()/1250)*.06;
 }});
-function fmtTimer(s){ return `${pad(Math.floor(s/60))}:${pad(Math.floor(s%60))}:${pad(Math.floor((s%1)*100))}`; }
+
+function fmtTimer(s){
+  return `${pad(Math.floor(s/60))}:${pad(Math.floor(s%60))}`;
+}
 function tickTimer(){
   rec.elapsed=(performance.now()-rec.t0)/1000;
   $('#recTimer').textContent=fmtTimer(rec.elapsed);
 }
 function resetRecUI(){
-  rec.state='ready'; rec.elapsed=0;
-  const s=getSession('midnight');
-  $('#recTakeChip').textContent=`TAKE ${pad(s.takes.length+1)}`;
-  $('#recTimer').textContent='00:00:00'; $('#recTimer').classList.add('dim');
-  const st=$('#recStatus'); st.classList.remove('live'); st.textContent='READY TO RECORD';
-  $('#btnRec').innerHTML='<i data-lucide="mic"></i>';
-  $('#btnPause').classList.add('dim'); $('#btnFlag').classList.add('dim');
-  $('#btnPause').innerHTML='<span><i data-lucide="pause"></i></span><small>Pause</small>';
+  rec.state='rec'; rec.elapsed=24; rec.t0=performance.now()-24000;
+  $('#recTimer').textContent='00:24';
+  $('#recStopIcon').classList.remove('hidden');
+  $('#recMicIcon').classList.add('hidden');
+  $('#recActionLabel').textContent='Stop';
+  $('#btnPause small').textContent='Pause';
   icons(); syncChrome('record');
 }
 async function startRec(){
   ensureAC();
   rec.state='rec'; rec.elapsed=0; rec.t0=performance.now();
-  $('#btnRec').innerHTML='<i data-lucide="square"></i>';
-  $('#btnPause').classList.remove('dim'); $('#btnFlag').classList.remove('dim');
-  $('#recTimer').classList.remove('dim');
-  const st=$('#recStatus'); st.classList.add('live');
+  $('#recTimer').textContent='00:00';
+  $('#recStopIcon').classList.remove('hidden');
+  $('#recMicIcon').classList.add('hidden');
+  $('#recActionLabel').textContent='Stop';
+  $('#btnPause small').textContent='Pause';
   await startMic();
-  rec.micNote=analyser?'RECORDING · LIVE MIC':'RECORDING · SIMULATED INPUT';
-  st.textContent=rec.micNote;
   blip('rec'); syncChrome('record');
-  clearInterval(rec.iv); rec.iv=setInterval(()=>{ if(rec.state==='rec') tickTimer(); },50);
+  clearInterval(rec.iv);
+  rec.iv=setInterval(()=>{ if(rec.state==='rec') tickTimer(); },100);
 }
 function pauseRec(){
-  if(rec.state==='rec'){ rec.state='paused'; clearInterval(rec.iv);
-    $('#btnPause').innerHTML='<span><i data-lucide="play"></i></span><small>Resume</small>';
-    $('#recStatus').textContent='PAUSED'; blip('tap');
-  } else if(rec.state==='paused'){ rec.state='rec'; rec.t0=performance.now()-rec.elapsed*1000;
-    $('#btnPause').innerHTML='<span><i data-lucide="pause"></i></span><small>Pause</small>';
-    $('#recStatus').textContent=rec.micNote; blip('tap');
-    clearInterval(rec.iv); rec.iv=setInterval(()=>{ if(rec.state==='rec') tickTimer(); },50);
+  if(rec.state==='rec'){
+    rec.state='paused'; clearInterval(rec.iv);
+    $('#btnPause small').textContent='Resume';
+    $('#btnPause i').setAttribute('data-lucide','play');
+    blip('tap'); icons();
+  } else if(rec.state==='paused'){
+    rec.state='rec'; rec.t0=performance.now()-rec.elapsed*1000;
+    $('#btnPause small').textContent='Pause';
+    $('#btnPause i').setAttribute('data-lucide','pause');
+    blip('tap'); icons();
+    rec.iv=setInterval(()=>{ if(rec.state==='rec') tickTimer(); },100);
   }
-  icons();
 }
-function rollScore(){ return 74+(Math.random()*20|0); }
-function finalizeTake(){
+function stopRec(){
+  clearInterval(rec.iv);
+  const dur=rec.elapsed||24;
+  blip('success');
   const s=getSession('midnight');
-  const dur=Math.max(1,Math.round(rec.elapsed));
-  s.takes.push({score:rollScore(),dur:fmtDur(dur)});
-  s.dur=fmtDur(s.takes.reduce((a,t)=>a+parseInt(t.dur),0));
-  state.last={sid:'midnight',idx:s.takes.length-1};
-  return s.takes.length;
+  const newIdx=s.takes.length;
+  s.takes.push({score:88,dur:fmtDur(dur)});
+  state.last={sid:'midnight',idx:newIdx};
+  goTo('saved');
 }
-function recStopSilent(){ clearInterval(rec.iv); stopMic(); rec.state='ready'; }
- $('#btnRec').addEventListener('click',()=>{
-  if(rec.state==='ready') startRec();
-  else { const n=finalizeTake(); recStopSilent(); blip('ok'); state.justSaved=n; goTo('saved'); }
-});
- $('#btnPause').addEventListener('click',pauseRec);
- $('#btnFlag').addEventListener('click',()=>{
-  if(rec.state!=='rec'&&rec.state!=='paused'){ toast('Start recording first','mic'); return; }
-  const n=finalizeTake();
-  toast(`Take ${n} saved — new take started`,'flag'); blip('ok');
-  rec.state='rec'; rec.elapsed=0; rec.t0=performance.now();
-  $('#recTakeChip').textContent=`TAKE ${pad(getSession('midnight').takes.length+1)}`;
-});
- $('#recClose').addEventListener('click',()=>{
-  if(rec.state==='rec'||rec.state==='paused'){ const n=finalizeTake(); recStopSilent(); state.justSaved=n; goTo('saved'); }
-  else goTo('home','back');
-});
+function recStopSilent(){
+  clearInterval(rec.iv);
+  if(micStream){ micStream.getTracks().forEach(t=>t.stop()); micStream=null; }
+}
 
 /* ================= 05 TAKE SAVED ================= */
 function renderSaved(){
