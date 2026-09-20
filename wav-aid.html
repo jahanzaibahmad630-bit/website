@@ -1,744 +1,1503 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Wav-Aid iOS App — UI/UX Interactive Prototype & 10-Screen Board</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
-            mono: ['"JetBrains Mono"', 'monospace']
-          },
-          colors: {
-            studio: {
-              black: '#08080A',
-              graphite: '#0F0F14',
-              surface: '#15151E',
-              card: '#1A1A26',
-              border: 'rgba(255, 255, 255, 0.08)',
-              borderActive: 'rgba(168, 85, 247, 0.35)',
-              accent: '#8B5CF6',
-              accentLight: '#A78BFA',
-              accentGlow: 'rgba(139, 92, 246, 0.25)',
-              recordRed: '#EF4444'
-            }
-          },
-          animation: {
-            'spin-slow': 'spin 12s linear infinite',
-            'pulse-glow': 'pulseGlow 3s ease-in-out infinite'
-          },
-          keyframes: {
-            pulseGlow: {
-              '0%, 100%': { opacity: '0.6', transform: 'scale(1)' },
-              '50%': { opacity: '1', transform: 'scale(1.04)' }
-            }
-          }
-        }
-      }
-    }
-  </script>
-  <style>
-    .vinyl-record {
-      background: radial-gradient(circle at center, #2a2a38 0%, #121218 15%, #050508 16%, #1a1a24 22%, #08080d 23%, #171722 35%, #0a0a0f 36%, #1f1f2c 48%, #0d0d14 49%, #15151e 70%, #050508 100%);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.8), inset 0 0 10px rgba(255,255,255,0.08);
-    }
-    .vinyl-grooves {
-      background-image: repeating-radial-gradient(circle at center, transparent 0, transparent 2px, rgba(255,255,255,0.03) 3px, transparent 4px);
-    }
-    .glass-panel {
-      background: rgba(21, 21, 30, 0.7);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-    .glass-nav {
-      background: rgba(15, 15, 20, 0.85);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    ::-webkit-scrollbar { width: 5px; height: 5px; }
-    ::-webkit-scrollbar-thumb { background: #2a2a3e; border-radius: 4px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wav-Aid — iOS Vocal Coaching App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+:root{
+  --bg:#050507; --card:#121217; --card2:#17171E; --line:rgba(255,255,255,.07); --line2:rgba(255,255,255,.15);
+  --tx:#F4F3F8; --tx2:#9C9AA8; --tx3:#5F5D6B;
+  --lav:#B9A8F0; --lav2:#C9BBFF; --teal:#7FD8C0; --gold:#E9C46A; --red:#E8453E;
+  --f-ui:'Inter',sans-serif; --f-d:'Sora',sans-serif; --f-m:'IBM Plex Mono',monospace; --f-q:'Instrument Serif',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+button{font-family:inherit;background:none;border:0;color:inherit;cursor:pointer;touch-action:manipulation}
+html,body{height:100%}
+body{background:#030304;color:var(--tx);font-family:var(--f-ui);overflow:hidden;-webkit-font-smoothing:antialiased}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:200;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E")}
+.hidden{display:none!important}
+.dim{opacity:.35;pointer-events:none}
+.mono{font-family:var(--f-m)}
+.mono-chip{font:500 10px/1 var(--f-m);letter-spacing:.12em;padding:5px 9px;border:1px solid var(--line2);border-radius:7px;color:var(--tx2);white-space:nowrap}
+.mono-chip.lav{color:var(--lav);border-color:rgba(185,168,240,.4)}
+.mono-sub{font:500 10.5px/1.5 var(--f-m);letter-spacing:.14em;color:var(--tx3);margin:6px 0 16px}
+.sec-label{font:500 10.5px/1 var(--f-m);letter-spacing:.16em;text-transform:uppercase;color:var(--tx3);margin:26px 0 12px}
+.sec-row{display:flex;justify-content:space-between;align-items:baseline}
+.link{font:500 13px var(--f-ui);color:var(--lav)}
+
+/* stage / rail */
+.stage{display:flex;height:100dvh;align-items:center;justify-content:center;gap:64px;padding:0 24px}
+.rail{width:264px;flex:none;display:flex;flex-direction:column;gap:4px;max-height:92vh}
+.rail-brand{display:flex;gap:12px;align-items:center;padding-bottom:26px;border-bottom:1px solid var(--line);margin-bottom:18px}
+.rail-name{font:700 17px var(--f-d);letter-spacing:.14em}
+.rail-tag{font:500 9.5px var(--f-m);letter-spacing:.14em;color:var(--tx3);margin-top:3px}
+.rail-label{font:500 10px var(--f-m);letter-spacing:.18em;color:var(--tx3);margin:6px 0 10px}
+.rail-list{list-style:none;display:flex;flex-direction:column}
+.rail-list button{display:flex;gap:14px;align-items:baseline;width:100%;text-align:left;padding:7px 10px;border-radius:10px;color:var(--tx2);font-size:13.5px;transition:.18s}
+.rail-list button:hover{background:rgba(255,255,255,.05);color:var(--tx)}
+.rail-list button.on{background:rgba(185,168,240,.09);color:var(--tx)}
+.rail-list .n{font:500 10.5px var(--f-m);color:var(--tx3);width:18px;flex:none}
+.rail-list button.on .n{color:var(--lav)}
+.rail-foot{margin-top:auto;padding-top:22px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:10px}
+.pal{display:flex;gap:13px;flex-wrap:wrap}
+.pal span{display:flex;align-items:center;gap:6px;font:500 9px var(--f-m);color:var(--tx3)}
+.pal i{width:9px;height:9px;border-radius:50%;display:block;border:1px solid var(--line2)}
+.rail-type{font:500 9px var(--f-m);letter-spacing:.08em;color:var(--tx3)}
+.stage-right{display:flex;flex-direction:column;align-items:center;gap:18px}
+.stage-caption{display:flex;align-items:baseline;gap:12px;min-height:20px}
+.stage-caption .cn{font:500 11px var(--f-m);color:var(--lav)}
+.stage-caption .ct{font:600 13px var(--f-d)}
+.stage-caption .cd{font-size:12px;color:var(--tx3)}
+
+/* device */
+.device{flex:none;padding:10px;border-radius:64px;background:#0C0C10;
+  box-shadow:0 0 0 1px rgba(255,255,255,.14),0 2px 0 0 rgba(255,255,255,.05) inset,0 50px 100px rgba(0,0,0,.75);transform-origin:center}
+.phone{position:relative;width:390px;height:844px;border-radius:54px;background:#000;overflow:hidden}
+.island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:118px;height:32px;border-radius:20px;background:#000;z-index:70;pointer-events:none}
+.statusbar{position:absolute;top:0;left:0;right:0;height:54px;display:flex;align-items:center;justify-content:space-between;padding:6px 30px 0;z-index:60;pointer-events:none}
+.sb-time{font:600 15px var(--f-d)}
+.sb-ic{display:flex;gap:6px}
+.sb-ic svg{width:16px;height:16px}
+
+/* screens */
+.screen{position:absolute;inset:0;background:var(--bg);visibility:hidden;display:flex;flex-direction:column}
+.screen.active{visibility:visible;z-index:10}
+@keyframes inF{from{opacity:0;transform:translateX(52px)}to{opacity:1;transform:none}}
+@keyframes outF{to{opacity:0;transform:translateX(-40px)}}
+@keyframes inB{from{opacity:0;transform:translateX(-52px)}to{opacity:1;transform:none}}
+@keyframes outB{to{opacity:0;transform:translateX(40px)}}
+.screen.enter-fwd{animation:inF .46s cubic-bezier(.22,.9,.32,1) both}
+.screen.exit-fwd{animation:outF .46s cubic-bezier(.5,.1,.7,.4) both;z-index:5}
+.screen.enter-back{animation:inB .46s cubic-bezier(.22,.9,.32,1) both}
+.screen.exit-back{animation:outB .46s cubic-bezier(.5,.1,.7,.4) both;z-index:5}
+.page{flex:1;overflow-y:auto;padding:70px 20px 46px;scrollbar-width:none}
+.page::-webkit-scrollbar{display:none}
+.page.navpad{padding-bottom:132px}
+.page-top{display:flex;align-items:center;justify-content:space-between;margin:-6px 0 16px;min-height:38px}
+.page-top-t{font:600 16px var(--f-d);letter-spacing:.02em}
+.icon-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--tx2);background:var(--card);transition:.18s}
+.icon-btn:active{transform:scale(.92)}
+.icon-btn svg{width:18px;height:18px}
+.h1{font:600 28px/1.2 var(--f-d);letter-spacing:-.01em}
+.h1 .teal{color:var(--teal);font-style:normal}
+.lead{font-size:14.5px;line-height:1.55;color:var(--tx2);margin-top:10px}
+
+/* buttons */
+.btn{width:100%;height:54px;border-radius:16px;display:flex;align-items:center;justify-content:center;gap:8px;font:600 15.5px var(--f-ui);transition:transform .15s,opacity .2s}
+.btn:active{transform:scale(.97)}
+.btn svg{width:17px;height:17px}
+.btn-primary{background:var(--lav);color:#14121F;box-shadow:0 8px 24px rgba(185,168,240,.22)}
+.btn-primary:disabled{opacity:.35;pointer-events:none;box-shadow:none}
+.btn-dark{background:var(--card2);border:1px solid var(--line);color:var(--tx)}
+.btn-col{display:flex;flex-direction:column;gap:11px;margin-top:22px}
+
+/* cards */
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px}
+.ai-card{background:rgba(185,168,240,.055);border:1px solid rgba(185,168,240,.22);border-radius:18px;padding:14px 16px}
+.ai-head{display:flex;align-items:center;gap:7px;font:500 9.5px var(--f-m);letter-spacing:.18em;color:var(--lav);margin-bottom:8px}
+.ai-head svg{width:13px;height:13px}
+.quote{font:italic 400 17px/1.45 var(--f-q);color:#ECE9F6}
+
+/* vinyl */
+.vinyl{position:relative;aspect-ratio:1;border-radius:50%;flex:none}
+.vinyl.v-lg{width:86px}.vinyl.v-md{width:50px}.vinyl.v-sm{width:44px}.vinyl.v-xl{width:120px;margin:18px auto 6px}
+.v-face{position:absolute;inset:0;border-radius:50%;animation:spin 5.5s linear infinite;
+  background:repeating-radial-gradient(circle at 50% 50%,#0F0F12 0 1px,#18181D 1px 2.7px);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.07),0 8px 20px rgba(0,0,0,.55)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.v-label{position:absolute;inset:31%;border-radius:50%;background:var(--label,var(--lav));box-shadow:inset 0 0 0 1px rgba(0,0,0,.3)}
+.v-label::after{content:'';position:absolute;inset:41%;border-radius:50%;background:#000;box-shadow:0 0 0 1.5px rgba(255,255,255,.15)}
+.v-sheen{position:absolute;inset:0;border-radius:50%;pointer-events:none;mix-blend-mode:screen;
+  background:conic-gradient(from 205deg,rgba(255,255,255,0) 0deg,rgba(255,255,255,.11) 16deg,rgba(255,255,255,0) 44deg,rgba(255,255,255,0) 165deg,rgba(255,255,255,.05) 195deg,rgba(255,255,255,0) 225deg)}
+
+/* waveform bars */
+.wbars{display:flex;align-items:center;gap:2.5px}
+.wbars span{width:2.5px;border-radius:2px;background:rgba(255,255,255,.32);flex:none}
+.wbars.gold span{background:rgba(233,196,106,.75)}
+.thumb{width:52px;height:52px;flex:none;border-radius:13px;background:#101015;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;padding:0 9px}
+
+/* splash */
+.splash{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.wordmark{font:700 22px var(--f-d);letter-spacing:.3em;margin:22px 0 0 6px}
+.splash-sub{font-size:13px;color:var(--tx2);margin-top:10px}
+.splash-foot{position:absolute;bottom:52px;font:500 9.5px var(--f-m);letter-spacing:.24em;color:var(--tx3)}
+.splash-foot::after{content:'···';animation:blink 1.2s steps(3) infinite;color:var(--lav)}
+@keyframes blink{50%{opacity:.15}}
+.mark-lg .bar{animation:meter 1.15s ease-in-out infinite;transform-origin:center;transform-box:fill-box}
+@keyframes meter{0%,100%{transform:scaleY(.42)}50%{transform:scaleY(1)}}
+
+/* 01 onboarding */
+#scr-onb{background:#050506}
+.onb-slide{position:absolute;inset:0;opacity:0;transition:opacity .9s ease;pointer-events:none}
+.onb-slide.on{opacity:1;pointer-events:auto}
+.onb-slide img{width:100%;height:100%;object-fit:cover;filter:grayscale(.55) brightness(.5) contrast(1.08)}
+.onb-slide.on img{animation:kb 9s ease-out both}
+@keyframes kb{from{transform:scale(1.09)}to{transform:scale(1)}}
+.onb-scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,3,5,.62),rgba(3,3,5,.1) 38%,rgba(3,3,5,.88) 72%,var(--bg))}
+.onb-logo{position:absolute;top:70px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:9px;z-index:3}
+.onb-logo-name{font:700 15px var(--f-d);letter-spacing:.22em}
+.onb-text{position:absolute;left:26px;right:26px;bottom:186px;z-index:3}
+.onb-kicker{font:500 10px var(--f-m);letter-spacing:.26em;color:var(--lav);margin-bottom:14px}
+.onb-text h2{font:600 32px/1.14 var(--f-d)}
+.onb-text p{font-size:15px;line-height:1.5;color:var(--tx2);margin-top:12px;max-width:290px}
+.onb-foot{position:absolute;left:22px;right:22px;bottom:34px;z-index:3}
+.dots{display:flex;gap:7px;justify-content:center;margin-bottom:20px}
+.dots span{width:6px;height:6px;border-radius:4px;background:rgba(255,255,255,.22);transition:.3s;cursor:pointer}
+.dots span.on{width:20px;background:var(--lav)}
+
+/* 02 roles */
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.role-card{display:flex;flex-direction:column;align-items:center;gap:13px;padding:22px 12px 18px;border-radius:20px;border:1px solid var(--line);background:var(--card);transition:.2s;text-align:center}
+.role-card:active{transform:scale(.97)}
+.role-card .ic{width:54px;height:54px;border-radius:50%;background:#1C1C24;display:flex;align-items:center;justify-content:center;color:var(--tx2);transition:.2s}
+.role-card .ic svg{width:23px;height:23px}
+.role-card b{font:600 14px var(--f-ui)}
+.role-card small{font-size:11px;color:var(--tx3);line-height:1.4;min-height:28px}
+.role-card.on{border-color:rgba(185,168,240,.6);background:rgba(185,168,240,.07);box-shadow:0 0 0 1px rgba(185,168,240,.25),0 10px 30px rgba(185,168,240,.08)}
+.role-card.on .ic{background:rgba(185,168,240,.16);color:var(--lav2)}
+
+/* 03 home */
+.avatar{width:42px;height:42px;flex:none;border-radius:50%;background:var(--card);border:1px solid var(--line2);font:600 16px var(--f-d);display:flex;align-items:center;justify-content:center}
+.feat{padding:18px;margin-top:2px}
+.feat-top{display:flex;align-items:center;gap:16px}
+.feat-tx{flex:1;min-width:0}
+.feat-tx b{display:block;font:600 18px var(--f-d)}
+.feat-tx small{display:block;font:500 9.5px var(--f-m);letter-spacing:.1em;color:var(--tx3);margin-top:6px}
+.feat .btn{margin-top:16px;height:48px}
+.act-row{display:flex;align-items:center;gap:13px;padding:12px 14px;border-radius:16px;border:1px solid var(--line);background:var(--card);margin-bottom:9px}
+.act-ic{width:36px;height:36px;flex:none;border-radius:12px;background:#1B1B23;display:flex;align-items:center;justify-content:center;color:var(--tx2)}
+.act-ic svg{width:16px;height:16px}
+.act-ic.lav{color:var(--lav);background:rgba(185,168,240,.1)}
+.act-tx{flex:1;min-width:0}
+.act-tx b{display:block;font:500 13.5px var(--f-ui);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.act-tx small{display:block;font:500 9.5px var(--f-m);letter-spacing:.08em;color:var(--tx3);margin-top:3px}
+.stat-strip{display:flex;margin-top:4px;border-radius:18px;border:1px solid var(--line);background:var(--card)}
+.stat-strip>div{flex:1;text-align:center;padding:15px 4px;border-left:1px solid var(--line)}
+.stat-strip>div:first-child{border-left:0}
+.stat-strip b{font:600 19px var(--f-d);display:block}
+.stat-strip small{display:block;font:500 8.5px var(--f-m);letter-spacing:.16em;color:var(--tx3);margin-top:5px}
+
+/* 04 record */
+.rec-top{padding:62px 18px 0;display:flex;align-items:center;justify-content:space-between;min-height:106px}
+.rec-title{font:600 16px var(--f-d)}
+.rec-stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:0}
+.orb-wrap{position:relative;width:280px;height:280px;flex:none}
+.orb-wrap canvas{width:100%;height:100%;display:block}
+.orb-mic{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:66px;height:66px;border-radius:50%;background:rgba(16,14,26,.75);border:1px solid rgba(201,187,255,.3);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;color:#E4DCFF;box-shadow:0 0 34px rgba(148,120,240,.35)}
+.orb-mic svg{width:26px;height:26px}
+#liveWave{width:300px;height:42px;display:block}
+.rec-bottom{padding:0 26px 40px}
+.rec-timer{font:500 38px var(--f-m);letter-spacing:.05em;text-align:center;font-variant-numeric:tabular-nums;color:var(--tx)}
+.rec-timer.dim{color:var(--tx3)}
+.rec-status{text-align:center;font:500 9.5px var(--f-m);letter-spacing:.2em;color:var(--tx3);text-transform:uppercase;margin:8px 0 20px;min-height:14px}
+.rec-status.live{color:#F2706B}
+.rec-controls{display:flex;align-items:center;justify-content:center;gap:26px;min-height:110px}
+.rctl{display:flex;flex-direction:column;align-items:center;gap:8px;transition:opacity .3s}
+.rctl>span,.rctl>svg{width:56px;height:56px}
+.rctl span{border-radius:50%;border:1.5px solid var(--line2);display:flex;align-items:center;justify-content:center;color:var(--tx)}
+.rctl svg{width:21px;height:21px}
+.rctl small{font-size:10.5px;color:var(--tx2)}
+.rec-big{width:76px;height:76px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px rgba(232,69,62,.35),inset 0 0 0 1px rgba(255,255,255,.25);transition:transform .15s}
+.rec-big:active{transform:scale(.93)}
+.rec-big svg{width:30px;height:30px}
+
+/* 05 saved */
+.saved{display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:64px}
+.saved-card{width:100%;padding:34px 24px 24px;display:flex;flex-direction:column;align-items:center}
+.saved-check{width:78px;height:78px;border-radius:50%;border:1.5px solid rgba(185,168,240,.55);display:flex;align-items:center;justify-content:center;margin-bottom:22px;background:rgba(185,168,240,.07)}
+.saved-check svg{width:34px;height:34px}
+.ck-p{stroke-dasharray:30;stroke-dashoffset:30;animation:draw .55s .3s ease forwards}
+.saved-check circle{stroke-dasharray:220;stroke-dashoffset:220;animation:draw .8s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.saved-card h2{font:600 25px var(--f-d)}
+.saved-card .sub{font-size:14px;color:var(--tx2);margin:10px 0 4px}
+.saved-card .btn{margin-top:12px}
+.saved-card .btn-primary{margin-top:26px}
+.saved-meta{display:flex;gap:8px;margin-top:18px}
+
+/* 06 analysis */
+.ana-prog{padding:18px;margin-top:2px}
+.ana-prog-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:13px}
+.ana-prog-top b{font:600 16px var(--f-d)}
+.prog{height:6px;border-radius:4px;background:rgba(255,255,255,.08);overflow:hidden}
+.prog span{display:block;height:100%;width:0;background:var(--lav);border-radius:4px;transition:width .5s linear}
+.ana-status{font:500 10px var(--f-m);letter-spacing:.16em;color:var(--lav);margin-top:11px;text-transform:uppercase}
+.ck-row{display:flex;align-items:center;gap:14px;padding:15px 16px;border-bottom:1px solid var(--line)}
+.ck-row:last-child{border-bottom:0}
+.ck-c{width:26px;height:26px;flex:none;border-radius:50%;border:1.5px solid var(--line2);display:flex;align-items:center;justify-content:center;color:transparent;transition:.3s}
+.ck-row.done .ck-c{background:var(--lav);border-color:var(--lav);color:#14121F}
+.ck-c svg{width:14px;height:14px}
+.ck-tx{flex:1}
+.ck-tx b{font:600 14.5px var(--f-ui);color:var(--tx3);transition:color .3s}
+.ck-row.active b,.ck-row.done b{color:var(--tx)}
+.ck-tx small{display:block;font:500 9.5px var(--f-m);letter-spacing:.06em;color:var(--tx3);opacity:0;transform:translateY(-3px);transition:.4s;margin-top:3px}
+.ck-row.done .ck-tx small{opacity:1;transform:none}
+.ana-done{margin-top:22px}
+
+/* 07 sessions */
+.pills{display:flex;gap:8px;margin:2px 0 16px;flex-wrap:wrap}
+.pill{padding:9px 15px;border-radius:999px;border:1px solid var(--line);font:500 13px var(--f-ui);color:var(--tx2);transition:.2s}
+.pill.on{background:var(--lav);color:#14121F;border-color:var(--lav);font-weight:600}
+.sess-row{display:flex;align-items:center;gap:13px;width:100%;text-align:left;padding:12px 14px;border-radius:18px;border:1px solid var(--line);background:var(--card);margin-bottom:10px;transition:.18s}
+.sess-row:hover{border-color:var(--line2)}
+.sess-row:active{transform:scale(.98)}
+.sess-tx{flex:1;min-width:0}
+.sess-tx b{display:block;font:600 14.5px var(--f-ui);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sess-tx small{display:block;font:500 9.5px var(--f-m);letter-spacing:.1em;color:var(--tx3);margin-top:4px}
+.chev{width:16px;height:16px;color:var(--tx3);flex:none}
+
+/* 08 compare */
+.take-row{padding:15px 16px;border-radius:18px;border:1px solid var(--line);background:var(--card);margin-bottom:11px;position:relative;transition:border-color .3s,background .3s}
+.take-row.best{border-color:rgba(233,196,106,.55);background:rgba(233,196,106,.05)}
+.take-head{display:flex;align-items:center;gap:8px}
+.take-head b{font:600 15.5px var(--f-d)}
+.take-row.best .take-head b{color:var(--gold)}
+.take-head .mono-chip{margin-left:auto}
+.crown-chip{display:inline-flex;align-items:center;gap:4px;font:500 8.5px var(--f-m);letter-spacing:.14em;color:var(--gold);margin-top:2px}
+.crown-chip svg{width:11px;height:11px}
+.take-row .wbars{height:30px;margin-top:10px}
+.take-row .wbars span{height:var(--h)}
+
+/* 09 coaching */
+.score-hero{text-align:center;margin-top:6px}
+.score-lb{font:500 11px var(--f-m);letter-spacing:.22em;color:var(--lav);text-transform:uppercase}
+.score-big{font:700 46px var(--f-d);letter-spacing:-.01em;margin-top:10px}
+.score-big em{font-style:normal;color:var(--tx2);font-size:30px}
+.score-sub{font-size:14px;color:var(--tx2);margin-top:8px}
+.metric{display:flex;align-items:center;gap:14px;margin-bottom:15px}
+.metric-lb{width:92px;flex:none;font-size:13.5px;color:var(--tx2)}
+.metric-bar{flex:1;height:6px;border-radius:4px;background:rgba(255,255,255,.08);overflow:hidden}
+.metric-bar span{display:block;height:100%;width:0;border-radius:4px;background:var(--lav);transition:width 1.1s cubic-bezier(.3,.8,.3,1)}
+.metric.vib .metric-bar span{background:var(--lav2)}
+.metric-val{width:30px;text-align:right;font:500 13.5px var(--f-m)}
+.metric.go .metric-bar span{width:var(--w)}
+
+/* 10 practice */
+.prac-head{padding:62px 20px 0}
+.prac-title{font:600 15px var(--f-ui);color:var(--tx2)}
+.prac-title b{display:block;font:600 24px var(--f-d);color:var(--tx);margin-top:4px}
+.prac-body{flex:1;display:flex;flex-direction:column;align-items:center;padding:10px 20px 36px;min-height:0;overflow-y:auto;scrollbar-width:none}
+.prac-body::-webkit-scrollbar{display:none}
+.torso-stage{position:relative;width:250px;height:250px;flex:none;margin-top:8px}
+.torso-stage svg.torso{width:100%;height:100%;display:block}
+.prac-ring{position:absolute;inset:0;pointer-events:none}
+.pring{fill:none;stroke:rgba(185,168,240,.4);opacity:0;transform-box:fill-box;transform-origin:center}
+#dgGlow{transform-box:fill-box;transform-origin:center}
+.phase-lb{font:600 17px var(--f-d);margin-top:14px;min-height:22px}
+.phase-cd{font:500 12px var(--f-m);color:var(--tx3);margin-top:5px}
+.prac-sub{font-size:13px;color:var(--tx3);margin-top:12px;text-align:center}
+.cycle-dots{display:flex;gap:8px;margin-top:14px}
+.cycle-dots span{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.15);transition:.3s}
+.cycle-dots span.on{background:var(--lav)}
+.prac-stats{display:flex;margin-top:16px}
+.prac-stats>div{padding:0 20px;text-align:center;border-left:1px solid var(--line)}
+.prac-stats>div:first-child{border-left:0}
+.prac-stats small{display:block;font:500 8.5px var(--f-m);letter-spacing:.18em;color:var(--tx3)}
+.prac-stats b{display:block;font:500 15px var(--f-m);margin-top:6px;font-variant-numeric:tabular-nums}
+.prac-body .btn{margin-top:18px}
+
+/* profile */
+.prof-card{display:flex;align-items:center;gap:16px;padding:18px}
+.prof-ava{width:58px;height:58px;flex:none;border-radius:50%;background:rgba(185,168,240,.12);border:1px solid rgba(185,168,240,.35);display:flex;align-items:center;justify-content:center;font:600 19px var(--f-d);color:var(--lav)}
+.prof-id b{display:block;font:600 18px var(--f-d);margin-bottom:8px}
+.prof-id small{display:block;margin-top:9px}
+.set-list{border-radius:20px;overflow:hidden}
+.set-row{display:flex;align-items:center;gap:13px;width:100%;text-align:left;padding:15px 16px;border-bottom:1px solid var(--line)}
+.set-row:last-child{border-bottom:0}
+.set-ic{width:34px;height:34px;flex:none;border-radius:11px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;color:var(--tx2)}
+.set-ic svg{width:16px;height:16px}
+.set-row b{flex:1;font:500 14.5px var(--f-ui)}
+.switch{width:46px;height:27px;flex:none;border-radius:14px;background:rgba(255,255,255,.12);position:relative;transition:.25s}
+.switch::after{content:'';position:absolute;top:3px;left:3px;width:21px;height:21px;border-radius:50%;background:#fff;transition:.25s}
+.switch[aria-checked="true"]{background:var(--lav)}
+.switch[aria-checked="true"]::after{transform:translateX(19px)}
+.ver{text-align:center;margin-top:28px}
+
+/* dock */
+.dock{position:absolute;left:16px;right:16px;bottom:18px;height:76px;border-radius:38px;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;z-index:50;
+  background:rgba(15,15,20,.66);backdrop-filter:blur(26px) saturate(1.5);-webkit-backdrop-filter:blur(26px) saturate(1.5);
+  border:1px solid rgba(255,255,255,.1);box-shadow:0 20px 44px rgba(0,0,0,.6);
+  transition:transform .45s cubic-bezier(.3,.8,.3,1),opacity .4s}
+.dock.away{transform:translateY(140px);opacity:0;pointer-events:none}
+.dock-item{display:flex;flex-direction:column;align-items:center;gap:5px;color:#5D5B68;font-size:10px;font-weight:500;transition:color .25s;padding-top:6px}
+.dock-item svg{width:20px;height:20px}
+.dock-item.on{color:var(--tx)}
+.dock-item.on::after{content:'';width:3.5px;height:3.5px;border-radius:50%;background:var(--lav)}
+.dock-item:not(.on)::after{content:'';width:3.5px;height:3.5px;border-radius:50%;background:transparent}
+.dock-rec{width:62px;height:62px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;justify-self:center;transform:translateY(-14px);
+  box-shadow:0 12px 26px rgba(232,69,62,.4),inset 0 0 0 1px rgba(255,255,255,.28);transition:transform .15s;position:relative}
+.dock-rec:active{transform:translateY(-14px) scale(.92)}
+.dock-rec svg{width:24px;height:24px}
+.dock-rec.live::before{content:'';position:absolute;inset:-7px;border-radius:50%;border:1.5px solid rgba(232,69,62,.55);animation:ringp 1.4s ease-out infinite}
+@keyframes ringp{from{transform:scale(.82);opacity:1}to{transform:scale(1.18);opacity:0}}
+
+/* toast */
+.toast{position:absolute;left:50%;bottom:112px;transform:translate(-50%,16px);display:flex;align-items:center;gap:9px;padding:11px 17px;border-radius:16px;z-index:80;
+  background:rgba(22,22,29,.88);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.13);font-size:13.5px;font-weight:500;opacity:0;pointer-events:none;transition:.35s cubic-bezier(.3,.8,.3,1);white-space:nowrap}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast svg{width:15px;height:15px;color:var(--lav)}
+
+@media (max-width:760px){
+  .rail,.stage-caption{display:none}
+  .stage{padding:0}
+  .device{padding:0;border-radius:0;box-shadow:none;width:100%;height:100dvh}
+  .phone{width:100%;height:100%;border-radius:0}
+  .island{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .v-face,.dock-rec.live::before,.mark-lg .bar{animation:none}
+}
+
+/* 10-screen master board modal & button */
+.rail-board-btn{
+  margin-top:12px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:11px 14px;
+  background:rgba(185,168,240,.12);
+  border:1px solid rgba(185,168,240,.35);
+  border-radius:10px;
+  color:var(--lav);
+  font:600 12.5px var(--f-ui);
+  transition:.2s;
+  cursor:pointer;
+  width:100%;
+}
+.rail-board-btn:hover{background:rgba(185,168,240,.22);border-color:var(--lav);color:#fff}
+.mobile-board-btn{
+  display:none;
+}
+@media (max-width:760px){
+  .mobile-board-btn{
+    display:flex;
+    position:fixed;
+    top:12px;
+    right:14px;
+    z-index:900;
+    align-items:center;
+    gap:6px;
+    padding:6px 12px;
+    background:rgba(18,18,23,.88);
+    backdrop-filter:blur(12px);
+    border:1px solid var(--line2);
+    border-radius:20px;
+    color:var(--lav);
+    font:600 11px var(--f-ui);
+    box-shadow:0 4px 16px rgba(0,0,0,.6);
+  }
+}
+.board-modal{
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+.board-modal-backdrop{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.85);
+  backdrop-filter:blur(10px);
+}
+.board-modal-card{
+  position:relative;
+  z-index:1001;
+  background:var(--card);
+  border:1px solid var(--line2);
+  border-radius:18px;
+  width:min(1100px, 95vw);
+  max-height:90vh;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  box-shadow:0 30px 80px rgba(0,0,0,.85);
+}
+.board-modal-bar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 20px;
+  border-bottom:1px solid var(--line);
+  background:var(--card2);
+}
+.board-modal-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font:600 12px var(--f-m);
+  letter-spacing:.12em;
+  color:var(--lav);
+}
+.board-modal-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.board-btn-action{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 12px;
+  background:rgba(255,255,255,.06);
+  border:1px solid var(--line2);
+  border-radius:8px;
+  color:var(--tx);
+  font:500 12px var(--f-ui);
+  text-decoration:none;
+  transition:.2s;
+}
+.board-btn-action:hover{background:rgba(255,255,255,.12);color:#fff}
+.board-btn-close{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:32px;
+  height:32px;
+  border-radius:8px;
+  background:rgba(255,255,255,.06);
+  color:var(--tx2);
+  transition:.2s;
+  cursor:pointer;
+}
+.board-btn-close:hover{background:rgba(255,255,255,.15);color:var(--tx)}
+.board-modal-img-wrap{
+  overflow:auto;
+  padding:20px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#050507;
+}
+.board-img{
+  max-width:100%;
+  height:auto;
+  border-radius:12px;
+  box-shadow:0 10px 40px rgba(0,0,0,.6);
+}
+
+</style>
 </head>
-<body class="bg-[#050507] text-slate-100 font-sans min-h-screen flex flex-col items-center justify-start p-3 md:p-6 antialiased selection:bg-purple-600 selection:text-white">
+<body>
 
-  <!-- TOP BAR / SPEC HEADER -->
-  <header class="w-full max-w-7xl mb-6 px-4 py-3 flex flex-col md:flex-row items-center justify-between gap-4 border-b border-white/10 pb-4">
-    <div class="flex items-center gap-3">
-      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-500 flex items-center justify-center shadow-lg shadow-purple-900/30">
-        <i data-lucide="waveform" class="w-5 h-5 text-white"></i>
-      </div>
-      <div>
-        <div class="flex items-center gap-2">
-          <h1 class="font-bold text-lg tracking-tight text-white">Wav-Aid iOS Prototype &amp; Design Board</h1>
-          <span class="px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">All 10 Screens Complete</span>
-        </div>
-        <p class="text-xs text-slate-400">Spec Compliant &bull; Dark Studio Aesthetic &bull; Prepared for Kadonis</p>
-      </div>
+<div class="stage">
+  <aside class="rail">
+    <div class="rail-brand">
+      <svg width="34" height="26" viewBox="0 0 44 34"><g fill="#EDEAF8"><rect x="0" y="10" width="5" height="14" rx="2.5"/><rect x="9.75" y="5" width="5" height="24" rx="2.5"/><rect x="19.5" y="0" width="5" height="34" rx="2.5" fill="#B9A8F0"/><rect x="29.25" y="5" width="5" height="24" rx="2.5"/><rect x="39" y="10" width="5" height="14" rx="2.5"/></g></svg>
+      <div><div class="rail-name">WAV-AID</div><div class="rail-tag">iOS · INTERACTIVE PROTOTYPE</div></div>
     </div>
-
-    <!-- MAIN VIEW MODE TOGGLE -->
-    <div class="flex items-center gap-2 bg-studio-graphite p-1.5 rounded-2xl border border-white/10">
-      <button onclick="toggleMainView('board')" id="tab-board" class="px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md shadow-purple-900/30 transition-all">
-        <i data-lucide="grid" class="w-4 h-4"></i> Complete 10-Screen UI Board
+    <div class="rail-label">SCREENS</div>
+    <ol class="rail-list" id="railList"></ol>
+      <button class="rail-board-btn" id="btnOpenBoard">
+        <i data-lucide="layout-grid"></i>
+        <span>View 10-Screen Artboard</span>
       </button>
-      <button onclick="toggleMainView('prototype')" id="tab-prototype" class="px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 text-slate-400 hover:text-white hover:bg-white/5 transition-all">
-        <i data-lucide="smartphone" class="w-4 h-4"></i> Interactive Phone Demo
-      </button>
+
+    <div class="rail-foot">
+      <div class="pal">
+        <span><i style="background:#050507"></i>#050507</span>
+        <span><i style="background:#B9A8F0"></i>#B9A8F0</span>
+        <span><i style="background:#7FD8C0"></i>#7FD8C0</span>
+        <span><i style="background:#E9C46A"></i>#E9C46A</span>
+        <span><i style="background:#E8453E"></i>#E8453E</span>
+      </div>
+      <div class="rail-type">SORA · INTER · PLEX MONO · INSTRUMENT SERIF</div>
     </div>
-  </header>
+  </aside>
 
-  <!-- ================= VIEW 1: FULL 10-SCREEN DESIGN BOARD (PRIMARY SHOWCASE) ================= -->
-  <section id="section-board" class="w-full max-w-7xl space-y-6">
-    
-    <!-- Top Highlights Banner -->
-    <div class="p-6 rounded-3xl glass-panel relative overflow-hidden flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 border-purple-500/30">
-      <div class="absolute -right-10 -top-10 w-48 h-48 bg-purple-600/15 rounded-full blur-3xl pointer-events-none"></div>
-      <div>
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/30 text-xs font-mono mb-2.5">
-          <i data-lucide="layers" class="w-3.5 h-3.5"></i> 10-Screen Architecture Overview
+  <div class="stage-right">
+    <div class="device"><div class="phone" id="phone">
+      <div class="island"></div>
+      <div class="statusbar">
+        <span class="sb-time" id="sbTime">9:41</span>
+        <span class="sb-ic"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span>
+      </div>
+
+      <!-- Splash -->
+      <section class="screen active" id="scr-splash">
+        <div class="splash">
+          <svg class="mark-lg" width="58" height="45" viewBox="0 0 44 34">
+            <g fill="#EDEAF8">
+              <rect class="bar" x="0" y="10" width="5" height="14" rx="2.5"/>
+              <rect class="bar" x="9.75" y="5" width="5" height="24" rx="2.5" style="animation-delay:.12s"/>
+              <rect class="bar" x="19.5" y="0" width="5" height="34" rx="2.5" fill="#B9A8F0" style="animation-delay:.24s"/>
+              <rect class="bar" x="29.25" y="5" width="5" height="24" rx="2.5" style="animation-delay:.36s"/>
+              <rect class="bar" x="39" y="10" width="5" height="14" rx="2.5" style="animation-delay:.48s"/>
+            </g>
+          </svg>
+          <div class="wordmark">WAV-AID</div>
+          <div class="splash-sub">Vocal intelligence for artists</div>
+          <div class="splash-foot">LOADING STUDIO</div>
         </div>
-        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Wav-Aid iOS Design System Board</h2>
-        <p class="text-sm text-slate-300 font-light mt-1 max-w-2xl leading-relaxed">
-          Below is the complete 10-screen visual system rendered in dark studio graphite (#08080A) with the curved floating nav bar, vinyl take cards, and AI voice sphere.
-        </p>
-      </div>
+      </section>
 
-      <div class="flex items-center gap-3 flex-none">
-        <a href="wavaid-10-screens.jpg" target="_blank" download class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-semibold flex items-center gap-2 border border-white/10 transition-colors">
-          <i data-lucide="download" class="w-4 h-4"></i> Download Full High-Res Board
-        </a>
-        <button onclick="toggleMainView('prototype')" class="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold flex items-center gap-2 shadow-lg shadow-purple-900/30 transition-all">
-          <i data-lucide="play" class="w-4 h-4 fill-current"></i> Test Interactive Prototype
-        </button>
-      </div>
+      <!-- 01 · Onboarding -->
+      <section class="screen" id="scr-onb">
+        <div id="onbSlides"></div>
+        <div class="onb-logo">
+          <svg width="30" height="23" viewBox="0 0 44 34"><g fill="#EDEAF8"><rect x="0" y="10" width="5" height="14" rx="2.5"/><rect x="9.75" y="5" width="5" height="24" rx="2.5"/><rect x="19.5" y="0" width="5" height="34" rx="2.5" fill="#B9A8F0"/><rect x="29.25" y="5" width="5" height="24" rx="2.5"/><rect x="39" y="10" width="5" height="14" rx="2.5"/></g></svg>
+          <div class="onb-logo-name">Wav-Aid</div>
+        </div>
+        <div class="onb-foot">
+          <div class="dots" id="onbDots"></div>
+          <button class="btn btn-primary" id="btnOnbNext">Next</button>
+        </div>
+      </section>
+
+      <!-- 02 · Who are you -->
+      <section class="screen" id="scr-roles">
+        <div class="page navpad">
+          <header class="page-top">
+            <button class="icon-btn" data-back><i data-lucide="chevron-left"></i></button><span></span><span style="width:38px"></span>
+          </header>
+          <h1 class="h1">Who are you?</h1>
+          <p class="lead">Wav-Aid shapes its coaching around the way you work. You can change this anytime.</p>
+          <div class="sec-label">Your profile</div>
+          <div class="role-grid" id="roleGrid"></div>
+          <div class="btn-col"><button class="btn btn-primary" id="btnRole" disabled>Next</button></div>
+        </div>
+      </section>
+
+      <!-- 03 · Home -->
+      <section class="screen" id="scr-home">
+        <div class="page navpad">
+          <header style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px">
+            <h1 class="h1">Welcome Back,<br><span class="teal">Alex!</span></h1>
+            <button class="avatar" data-nav="profile">A</button>
+          </header>
+          <div class="sec-row" style="margin-top:24px"><div class="sec-label" style="margin:0">Your sessions</div><button class="link" data-nav="sessions">See All</button></div>
+          <div class="card feat">
+            <div class="feat-top">
+              <div class="vinyl v-lg"><div class="v-face"><div class="v-label"></div></div><div class="v-sheen"></div></div>
+              <div class="feat-tx"><b>Midnight Studio</b><small>VOCALS · 3:24 · TODAY · 3 TAKES</small></div>
+            </div>
+            <button class="btn btn-primary" data-nav="record"><i data-lucide="mic"></i>Start a New Take</button>
+          </div>
+          <div class="sec-row"><div class="sec-label" style="margin:0">Record activity</div><button class="link" id="actSeeAll">See All</button></div>
+          <div id="actList"></div>
+          <div class="stat-strip">
+            <div><b>24</b><small>SESSIONS</small></div>
+            <div><b>6.5h</b><small>PRACTICE</small></div>
+            <div><b>91</b><small>BEST SCORE</small></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 04 · Active recording -->
+      <section class="screen" id="scr-record">
+        <header class="rec-top">
+          <button class="icon-btn" id="recClose"><i data-lucide="chevron-down"></i></button>
+          <div class="rec-title">Active recording</div>
+          <span class="mono-chip" id="recTakeChip">TAKE 01</span>
+        </header>
+        <div class="rec-stage">
+          <div class="orb-wrap"><canvas id="orbMain"></canvas><div class="orb-mic"><i data-lucide="mic"></i></div></div>
+          <canvas id="liveWave"></canvas>
+        </div>
+        <div class="rec-bottom">
+          <div class="rec-timer dim" id="recTimer">00:00:00</div>
+          <div class="rec-status" id="recStatus">READY TO RECORD</div>
+          <div class="rec-controls">
+            <button class="rctl dim" id="btnPause"><span><i data-lucide="pause"></i></span><small>Pause</small></button>
+            <button class="rec-big" id="btnRec"><i data-lucide="mic"></i></button>
+            <button class="rctl dim" id="btnFlag"><span><i data-lucide="flag"></i></span><small>Add take</small></button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 05 · Take Saved -->
+      <section class="screen" id="scr-saved">
+        <div class="page saved">
+          <div class="card saved-card">
+            <div class="saved-check" id="savedCheck"></div>
+            <h2 id="savedTitle">Take 3 Saved!</h2>
+            <div class="sub">Nice work, keep it up!</div>
+            <div class="saved-meta"><span class="mono-chip" id="savedDur">DURATION · 1:13</span><span class="mono-chip lav" id="savedScore">SCORE PENDING</span></div>
+            <button class="btn btn-primary" id="btnReview">Review Now</button>
+            <button class="btn btn-dark" id="btnNewTake">New Take</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 06 · AI Analysis Checklist -->
+      <section class="screen" id="scr-analysis">
+        <div class="page" style="padding-top:70px">
+          <header class="page-top">
+            <button class="icon-btn" data-back><i data-lucide="chevron-left"></i></button>
+            <div class="page-top-t">AI Analysis Checklist</div><span style="width:38px"></span>
+          </header>
+          <div class="card ana-prog">
+            <div class="ana-prog-top"><b id="anaTitle">Analyzing Take 3</b><span class="mono-chip" id="anaDur">1:13</span></div>
+            <div class="prog"><span id="anaBar"></span></div>
+            <div class="ana-status" id="anaStatus">PREPARING…</div>
+          </div>
+          <div class="sec-label">Checking</div>
+          <div class="card" id="ckList" style="overflow:hidden"></div>
+          <div class="ana-done hidden" id="anaDone"><button class="btn btn-primary" id="btnViewResults">View Results</button></div>
+        </div>
+      </section>
+
+      <!-- 07 · Sessions Library -->
+      <section class="screen" id="scr-sessions">
+        <div class="page navpad">
+          <header class="page-top">
+            <div class="page-top-t" style="font-size:22px">Sessions Library</div>
+            <button class="icon-btn" id="btnNewSession"><i data-lucide="plus"></i></button>
+          </header>
+          <div class="mono-sub" id="sessCount"></div>
+          <div class="pills" id="catPills"></div>
+          <div id="sessList"></div>
+        </div>
+      </section>
+
+      <!-- 08 · Multi-take Comparison -->
+      <section class="screen" id="scr-compare">
+        <div class="page navpad">
+          <header class="page-top">
+            <button class="icon-btn" data-back><i data-lucide="chevron-left"></i></button>
+            <div class="page-top-t">Multi-take Comparison</div><span style="width:38px"></span>
+          </header>
+          <div class="mono-sub" id="cmpSub"></div>
+          <div id="cmpList"></div>
+          <div class="ai-card">
+            <div class="ai-head"><i data-lucide="sparkles"></i><span>AI RECOMMENDATION</span></div>
+            <p class="quote" id="cmpRec"></p>
+          </div>
+          <div class="btn-col">
+            <button class="btn btn-primary" id="btnCmpCoach">Get AI Coaching</button>
+            <button class="btn btn-dark" id="btnUseTake">Use Take 3</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 09 · AI Vocal Coaching Score -->
+      <section class="screen" id="scr-coaching">
+        <div class="page navpad">
+          <header class="page-top">
+            <button class="icon-btn" data-back><i data-lucide="chevron-left"></i></button>
+            <div class="page-top-t">AI Vocal Coaching Score</div><span style="width:38px"></span>
+          </header>
+          <div class="mono-sub" id="coachSub"></div>
+          <div class="score-hero">
+            <div class="score-lb">Overall Score</div>
+            <div class="score-big"><span id="scoreNum">0</span><em>/100!</em></div>
+            <div class="score-sub">Excellent vocal control and expression.</div>
+          </div>
+          <div class="sec-label">Performance breakdown</div>
+          <div id="metrics"></div>
+          <div class="sec-label">Feedback from AI</div>
+          <div class="ai-card">
+            <p class="quote">Your pitch was stable overall, but some phrase endings drifted slightly. Keep your breath support steady through the last words of each line.</p>
+          </div>
+          <div class="btn-col">
+            <button class="btn btn-primary" id="btnPractice"><i data-lucide="wind"></i>Start Practice Drill</button>
+            <button class="btn btn-dark" data-back>Back to session</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 10 · Practice Drill -->
+      <section class="screen" id="scr-practice">
+        <div class="prac-head">
+          <header class="page-top" style="margin:0 0 14px">
+            <button class="icon-btn" id="pracClose"><i data-lucide="x"></i></button><span></span>
+            <span class="mono-chip lav">DRILL · 3 CYCLES</span>
+          </header>
+          <div class="prac-title">Breathing Exercise:<b>Diaphragm Power</b></div>
+        </div>
+        <div class="prac-body">
+          <div class="torso-stage">
+            <svg class="torso" viewBox="0 0 200 220">
+              <defs>
+                <radialGradient id="lungGlow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#C9BBFF" stop-opacity=".85"/>
+                  <stop offset="55%" stop-color="#8F7BD8" stop-opacity=".32"/>
+                  <stop offset="100%" stop-color="#8F7BD8" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <circle class="pring" id="pr1" cx="100" cy="150" r="34"/>
+              <circle class="pring" id="pr2" cx="100" cy="150" r="34"/>
+              <path d="M45 210 L45 142 Q45 100 80 92 L90 88 Q100 96 110 88 L120 92 Q155 100 155 142 L155 210" fill="#0D0D12" stroke="#2A2A34" stroke-width="2"/>
+              <path d="M89 70 L89 90 L111 90 L111 70" fill="#0D0D12" stroke="#2A2A34" stroke-width="2"/>
+              <circle cx="100" cy="50" r="24" fill="#0D0D12" stroke="#2A2A34" stroke-width="2"/>
+              <path d="M100 80 L100 120" stroke="#2E2E3A" stroke-width="7" stroke-linecap="round"/>
+              <path d="M62 128 Q100 143 138 128" stroke="#26262F" stroke-width="1.5" fill="none"/>
+              <path d="M60 145 Q100 160 140 145" stroke="#22222B" stroke-width="1.5" fill="none"/>
+              <ellipse id="dgGlow" cx="100" cy="150" rx="37" ry="19" fill="url(#lungGlow)"/>
+              <path id="dgArc" d="M64 152 Q100 168 136 152" stroke="#B9A8F0" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            </svg>
+            <svg class="prac-ring" viewBox="0 0 250 250">
+              <circle cx="125" cy="125" r="121" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="2.5"/>
+              <circle id="pracProg" cx="125" cy="125" r="121" fill="none" stroke="#B9A8F0" stroke-width="2.5" stroke-linecap="round"
+                stroke-dasharray="760.1" stroke-dashoffset="760.1" transform="rotate(-90 125 125)"/>
+            </svg>
+          </div>
+          <div class="phase-lb" id="phaseLb">Ready when you are</div>
+          <div class="phase-cd" id="phaseCd">INHALE 4s · HOLD 4s · EXHALE 4s</div>
+          <div class="cycle-dots" id="cycleDots"><span></span><span></span><span></span></div>
+          <div class="prac-sub">Visual guide — synchronize to your breathing</div>
+          <div class="prac-stats">
+            <div><small>TIME</small><b id="pracTime">0:00</b></div>
+            <div><small>STABILITY</small><b id="pracStab">—</b></div>
+            <div><small>BEST</small><b id="pracBest">—</b></div>
+          </div>
+          <button class="btn btn-primary" id="btnDrill" style="width:100%"><i data-lucide="wind"></i><span id="btnDrillTx">Start Drill</span></button>
+          <div class="btn-col hidden" id="pracDoneBtns" style="width:100%;margin-top:2px">
+            <button class="btn btn-dark" id="btnTryAgain">Try Again</button>
+            <button class="btn btn-dark" id="btnFinish">Finish Session</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Profile -->
+      <section class="screen" id="scr-profile">
+        <div class="page navpad">
+          <header class="page-top"><span></span><div class="page-top-t">Profile</div><span style="width:38px"></span></header>
+          <div class="card prof-card">
+            <div class="prof-ava">AR</div>
+            <div class="prof-id">
+              <b>Alex Rivera</b>
+              <span class="mono-chip lav" id="profRole">SINGER</span>
+              <small class="mono-sub" style="margin:9px 0 0">SINCE MARCH 2024 · PRO PLAN</small>
+            </div>
+          </div>
+          <div class="stat-strip" style="margin-top:12px">
+            <div><b>24</b><small>SESSIONS</small></div>
+            <div><b>6.5h</b><small>PRACTICE</small></div>
+            <div><b>81</b><small>AVG SCORE</small></div>
+          </div>
+          <div class="sec-label">Preferences</div>
+          <div class="card set-list" id="setList"></div>
+          <div style="height:12px"></div>
+          <button class="set-row" id="btnRestart" style="border:1px solid var(--line);border-radius:20px;background:var(--card)">
+            <span class="set-ic"><i data-lucide="rotate-ccw"></i></span><b>Restart onboarding</b><i data-lucide="chevron-right" class="chev"></i>
+          </button>
+          <div class="ver mono-sub" style="margin-top:26px">WAV-AID 1.0 · INTERACTIVE PROTOTYPE</div>
+        </div>
+      </section>
+
+      <!-- Dock -->
+      <nav class="dock away" id="dock">
+        <button class="dock-item" data-nav="home"><i data-lucide="house"></i><span>Home</span></button>
+        <button class="dock-item" data-nav="sessions"><i data-lucide="library"></i><span>Session</span></button>
+        <button class="dock-rec" data-nav="record" id="dockRec"><i data-lucide="mic"></i></button>
+        <button class="dock-item" data-nav="coaching"><i data-lucide="graduation-cap"></i><span>AI Coach</span></button>
+        <button class="dock-item" data-nav="profile"><i data-lucide="user"></i><span>Profile</span></button>
+      </nav>
+
+      <div class="toast" id="toast"></div>
+    </div></div>
+
+    <div class="stage-caption">
+      <span class="cn" id="capNum">—</span><span class="ct" id="capTitle">Splash</span><span class="cd" id="capDesc"></span>
     </div>
+  </div>
+</div>
 
-    <!-- THE FULL 10-SCREEN PRESENTATION IMAGE BOARD -->
-    <div class="relative rounded-3xl overflow-hidden glass-panel border border-white/10 p-2 sm:p-4 group shadow-2xl">
-      <div class="relative rounded-2xl overflow-hidden bg-black flex items-center justify-center">
-        <img src="wavaid-10-screens.jpg" alt="Wav-Aid 10 Screen UI Design Board" class="w-full h-auto object-contain rounded-xl hover:scale-[1.01] transition-transform duration-300">
-      </div>
-      
-      <!-- Overlay Prompt / Direct View Link -->
-      <div class="absolute bottom-6 right-6 z-20">
-        <a href="wavaid-10-screens.jpg" target="_blank" class="px-4 py-2 rounded-xl bg-studio-black/90 backdrop-blur-md border border-white/20 text-xs font-semibold text-white flex items-center gap-2 shadow-xl hover:bg-purple-600 transition-colors">
-          <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i> Open Fullscreen Image
-        </a>
-      </div>
-    </div>
+<script>
+/* ================= HELPERS ================= */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const pad=n=>String(n).padStart(2,'0');
+const icons=()=>{ if(window.lucide) lucide.createIcons(); };
+const fmtDur=s=>`${Math.floor(s/60)}:${pad(Math.floor(s%60))}`;
+function mulberry(seed){ return function(){ seed|=0; seed=seed+0x6D2B79F5|0; let t=Math.imul(seed^seed>>>15,1|seed); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function seedNum(str){ let h=0; for(const c of str) h=(h*31+c.charCodeAt(0))|0; return h; }
+function barsHTML(seed,n=26,min=.18,max=1){
+  const r=mulberry(seedNum(seed)); let h='';
+  for(let i=0;i<n;i++){ const v=min+r()*(max-min), env=1-Math.abs(i/n-.5)*1.1;
+    h+=`<span style="height:${clamp(v*env*100,min*100,100).toFixed(0)}%"></span>`; }
+  return `<div class="wbars" style="flex:1;height:100%;align-self:stretch">${h}</div>`;
+}
 
-    <!-- SCREEN-BY-SCREEN INDEX TABLE -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3.5 pt-2">
-      
-      <div class="p-4 rounded-2xl bg-studio-card border border-white/5 space-y-1.5">
-        <span class="text-[10px] font-mono text-purple-400 uppercase tracking-wider block">Screen 01</span>
-        <h4 class="text-sm font-bold text-white">Onboarding Carousel</h4>
-        <p class="text-xs text-slate-400">Studio singer photography, Wav-Aid brand identity, get started flow.</p>
-      </div>
+/* ================= DATA & STATE ================= */
+const SESSIONS=[
+  {id:'midnight',name:'Midnight Studio',cat:'Vocals',date:'Today',dur:'3:24',takes:[{score:76,dur:'1:02'},{score:82,dur:'1:09'},{score:91,dur:'1:13'}]},
+  {id:'pop',name:'Pop Singer Take 1',cat:'Vocals',date:'Today',dur:'1:38',takes:[{score:84,dur:'1:38'}]},
+  {id:'warmup',name:'Warmup 03',cat:'Practice',date:'Yesterday',dur:'12:08',takes:[{score:74,dur:'6:04'}]},
+  {id:'hook',name:'Chorus Idea 02',cat:'Ideas',date:'Yesterday',dur:'0:47',takes:[{score:68,dur:'0:47'}]},
+  {id:'verse',name:'Verse — Second Pass',cat:'Vocals',date:'Mon',dur:'2:11',takes:[{score:71,dur:'1:05'},{score:79,dur:'1:06'}]},
+];
+const ACTIVITY=[
+  {ic:'disc-3',lav:true,t:'Recorded Take 3 · Midnight Studio',s:'TODAY · 1:13'},
+  {ic:'sparkles',lav:true,t:'AI analysis complete — new best score 91',s:'TODAY · 10:24'},
+  {ic:'wind',t:'Practice: Diaphragm Power drill',s:'YESTERDAY · 6 MIN'},
+  {ic:'mic',t:'Recorded Warmup 03',s:'YESTERDAY · 12:08'},
+];
+const state={ role:null, screen:'splash', last:{sid:'midnight',idx:2}, cmpSid:'midnight',
+  settings:{sfx:true,autoplay:true,sync:true}, pracBest:null, micTried:false };
 
-      <div class="p-4 rounded-2xl bg-studio-card border border-white/5 space-y-1.5">
-        <span class="text-[10px] font-mono text-purple-400 uppercase tracking-wider block">Screen 02</span>
-        <h4 class="text-sm font-bold text-white">Role Personalization</h4>
-        <p class="text-xs text-slate-400">Singer, Voice Actor, Speaker, Musician persona selector.</p>
-      </div>
+const getSession=id=>SESSIONS.find(s=>s.id===id);
+const getTake=ref=>ref?getSession(ref.sid).takes[ref.idx]:null;
 
-      <div class="p-4 rounded-2xl bg-studio-card border border-purple-500/30 space-y-1.5 bg-gradient-to-b from-purple-950/20 to-studio-card">
-        <span class="text-[10px] font-mono text-purple-300 uppercase tracking-wider block">Screen 03</span>
-        <h4 class="text-sm font-bold text-white">Home Dashboard</h4>
-        <p class="text-xs text-slate-400">Header greeting, daily AI quote, and <strong>spinning vinyl record cards</strong>.</p>
-      </div>
+/* ================= ROUTER ================= */
+const META={
+  splash:  {n:null,nav:false,cap:['Splash','Studio loading state']},
+  onb:     {n:'01',nav:false,cap:['Onboarding','Discover Your Voice — cinematic carousel']},
+  roles:   {n:'02',nav:false,cap:['Who Are You','Artist profile selection grid']},
+  home:    {n:'03',nav:true, dock:'home',   cap:['Home','Welcome Back + sessions, activity feed, stats']},
+  record:  {n:'04',nav:false,cap:['Active Recording','Voice orb + live waveform + timer']},
+  saved:   {n:'05',nav:false,cap:['Take Saved','Review now / New take']},
+  analysis:{n:'06',nav:false,cap:['Analysis Checklist','Progress bar + animated checks']},
+  sessions:{n:'07',nav:true, dock:'sessions',cap:['Sessions Library','Filterable library with waveform thumbs']},
+  compare: {n:'08',nav:true, dock:'sessions',cap:['Multi-take Comparison','Scores, gold best take + crown']},
+  coaching:{n:'09',nav:true, dock:'coaching',cap:['Coaching Score','91/100 hero + metric bars + AI feedback']},
+  practice:{n:'10',nav:false,cap:['Practice Drill','Breathing guide — diaphragm power']},
+  profile: {n:null,nav:true, dock:'profile',cap:['Profile','Preferences and stats']},
+};
+const RAIL=[['onb','Onboarding'],['roles','Who Are You'],['home','Home'],['record','Active Recording'],['saved','Take Saved'],['analysis','Analysis Checklist'],['sessions','Sessions Library'],['compare','Multi-take Comparison'],['coaching','Coaching Score'],['practice','Practice Drill']];
+let navStack=['splash'];
+ $('#railList').innerHTML=RAIL.map(([k,l],i)=>`<li><button data-rail="${k}"><span class="n">${pad(i+1)}</span>${l}</button></li>`).join('');
 
-      <div class="p-4 rounded-2xl bg-studio-card border border-purple-500/30 space-y-1.5 bg-gradient-to-b from-purple-950/20 to-studio-card">
-        <span class="text-[10px] font-mono text-purple-300 uppercase tracking-wider block">Screen 04</span>
-        <h4 class="text-sm font-bold text-white">Live Recording</h4>
-        <p class="text-xs text-slate-400">Voice-reactive <strong>AI particle sound sphere</strong> + mic &amp; lossless timer.</p>
-      </div>
+function syncChrome(id){
+  const m=META[id];
+  $('#dock').classList.toggle('away',!m.nav);
+  $$('.dock-item').forEach(b=>b.classList.toggle('on',b.dataset.nav===m.dock));
+  $$('#railList button').forEach(b=>b.classList.toggle('on',b.dataset.rail===id));
+  $('#capNum').textContent=m.n||'··';
+  $('#capTitle').textContent=m.cap[0];
+  $('#capDesc').textContent='— '+m.cap[1];
+  $('#dockRec').classList.toggle('live',id==='record'&&rec.state==='rec');
+}
+function goTo(id,dir='fwd',push=true){
+  const cur=$('.screen.active'), next=$('#scr-'+id);
+  if(cur===next) return;
+  leaveScreen(state.screen);
+  if(cur){ cur.classList.remove('active','enter-fwd','enter-back','exit-fwd','exit-back');
+    cur.classList.add(dir==='fwd'?'exit-fwd':'exit-back');
+    setTimeout(()=>cur.classList.remove('exit-fwd','exit-back'),500); }
+  next.classList.remove('exit-fwd','exit-back','enter-fwd','enter-back');
+  void next.offsetWidth;
+  next.classList.add('active',dir==='fwd'?'enter-fwd':'enter-back');
+  state.screen=id;
+  if(push){ if(navStack[navStack.length-2]===id){navStack.pop();} else navStack.push(id); }
+  syncChrome(id); enterScreen(id);
+}
+function goBack(){ if(navStack.length>1){ navStack.pop(); goTo(navStack[navStack.length-1],'back',false); } }
+function enterScreen(id){
+  if(id==='home') renderHome();
+  if(id==='sessions') renderSessions();
+  if(id==='record'){ resetRecUI(); startRecLoop(); }
+  if(id==='analysis') runAnalysis();
+  if(id==='compare') renderCompare(state.cmpSid);
+  if(id==='coaching') renderCoaching();
+  if(id==='practice') resetPractice();
+  if(id==='profile') renderProfile();
+}
+function leaveScreen(id){
+  if(id==='record') recStopSilent();
+  if(id==='analysis'){ anaTimers.forEach(clearTimeout); anaTimers=[]; }
+  if(id==='practice') stopDrill(false);
+}
 
-      <div class="p-4 rounded-2xl bg-studio-card border border-white/5 space-y-1.5">
-        <span class="text-[10px] font-mono text-purple-400 uppercase tracking-wider block">Screen 05</span>
-        <h4 class="text-sm font-bold text-white">Take Saved Review</h4>
-        <p class="text-xs text-slate-400">Take confirmation card, duration stamp, notes field &amp; analysis trigger.</p>
-      </div>
+/* ================= TOAST / SFX ================= */
+let toastT;
+function toast(msg,icon='check'){
+  const t=$('#toast'); t.innerHTML=`<i data-lucide="${icon}"></i>${msg}`; icons();
+  t.classList.add('show'); clearTimeout(toastT);
+  toastT=setTimeout(()=>t.classList.remove('show'),2200);
+}
+let AC=null;
+function ensureAC(){ try{ AC=AC||new (window.AudioContext||window.webkitAudioContext)(); if(AC.state==='suspended')AC.resume(); }catch(e){} }
+document.addEventListener('pointerdown',ensureAC,{once:true});
+function blip(kind){
+  if(!state.settings.sfx||!AC) return;
+  const seq={tap:[[660,.05,.03]],ok:[[523,.07,.04],[784,.09,.04]],rec:[[330,.1,.045]],done:[[523,.08,.05],[659,.08,.05],[880,.16,.05]]}[kind]||[];
+  let t=AC.currentTime;
+  seq.forEach(([f,d,g])=>{
+    const o=AC.createOscillator(),v=AC.createGain();
+    o.type='sine'; o.frequency.value=f;
+    v.gain.setValueAtTime(0,t); v.gain.linearRampToValueAtTime(g,t+.012); v.gain.exponentialRampToValueAtTime(.0001,t+d);
+    o.connect(v).connect(AC.destination); o.start(t); o.stop(t+d+.05); t+=d*.7;
+  });
+}
 
-      <div class="p-4 rounded-2xl bg-studio-card border border-white/5 space-y-1.5">
-        <span class="text-[10px] font-mono text-purple-400 uppercase tracking-wider block">Screen 06</span>
-        <h4 class="text-sm font-bold text-white">AI Analysis Checklist</h4>
-        <p class="text-xs text-slate-400">Multi-stage pipeline: Quality, Noise, Pitch, Timing, Vibrato.</p>
-      </div>
+/* ================= MIC ================= */
+let micStream=null,analyser=null,micBuf=null;
+async function startMic(){
+  if(analyser||state.micTried) return;
+  state.micTried=true;
+  try{
+    micStream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true}});
+    ensureAC();
+    const src=AC.createMediaStreamSource(micStream);
+    analyser=AC.createAnalyser(); analyser.fftSize=512;
+    micBuf=new Uint8Array(analyser.fftSize);
+    src.connect(analyser);
+  }catch(e){ analyser=null; }
+}
+function stopMic(){ if(micStream){micStream.getTracks().forEach(t=>t.stop());micStream=null;} analyser=null; }
+let simNext=0,simTarget=.3;
+function getAmp(now){
+  if(analyser){
+    analyser.getByteTimeDomainData(micBuf);
+    let s=0; for(let i=0;i<micBuf.length;i++){const d=(micBuf[i]-128)/128; s+=d*d;}
+    return clamp(Math.sqrt(s/micBuf.length)*4.2,0,1);
+  }
+  if(now>simNext){ simTarget=.2+Math.random()*.6; simNext=now+900+Math.random()*2100; }
+  return clamp(simTarget+Math.sin(now/1000*32)*.05+(Math.random()-.5)*.05,0,1);
+}
 
-      <div class="p-4 rounded-2xl bg-studio-card border border-white/5 space-y-1.5">
-        <span class="text-[10px] font-mono text-purple-400 uppercase tracking-wider block">Screen 07</span>
-        <h4 class="text-sm font-bold text-white">Sessions Library</h4>
-        <p class="text-xs text-slate-400">Categorized vault for Vocals, Practice, and Song Ideas with vinyl cards.</p>
-      </div>
-
-      <div class="p-4 rounded-2xl bg-studio-card border border-amber-500/40 space-y-1.5 bg-gradient-to-b from-amber-950/20 to-studio-card">
-        <span class="text-[10px] font-mono text-amber-400 uppercase tracking-wider block">Screen 08</span>
-        <h4 class="text-sm font-bold text-white">Take Comparison</h4>
-        <p class="text-xs text-slate-400">Take 1 (76), Take 2 (83), and <strong>Take 3 (91) with Gold Crown 👑</strong>.</p>
-      </div>
-
-      <div class="p-4 rounded-2xl bg-studio-card border border-white/5 space-y-1.5">
-        <span class="text-[10px] font-mono text-purple-400 uppercase tracking-wider block">Screen 09</span>
-        <h4 class="text-sm font-bold text-white">AI Vocal Score</h4>
-        <p class="text-xs text-slate-400">Overall score <strong>91/100</strong> with Pitch (94), Dynamics (89), and coach notes.</p>
-      </div>
-
-      <div class="p-4 rounded-2xl bg-studio-card border border-white/5 space-y-1.5">
-        <span class="text-[10px] font-mono text-purple-400 uppercase tracking-wider block">Screen 10</span>
-        <h4 class="text-sm font-bold text-white">Practice Session</h4>
-        <p class="text-xs text-slate-400">Guided breath support training and real-time diaphragm power drill.</p>
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- ================= VIEW 2: INTERACTIVE PHONE SIMULATOR ================= -->
-  <section id="section-prototype" class="hidden w-full max-w-7xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-    
-    <!-- LEFT: PHONE MOCKUP (IPHONE 16 PRO) -->
-    <div class="lg:col-span-6 flex justify-center">
-      <div class="relative w-[385px] h-[812px] bg-studio-black rounded-[52px] p-3 shadow-2xl shadow-purple-950/40 border-[4px] border-[#2A2A38] ring-1 ring-white/10 overflow-hidden flex flex-col justify-between">
-        
-        <!-- DYNAMIC ISLAND / SPEAKER -->
-        <div class="absolute top-0 left-0 right-0 h-11 flex justify-between items-center px-8 z-50 pointer-events-none">
-          <span class="text-xs font-semibold text-white font-mono">9:41</span>
-          <!-- Dynamic Island Pill -->
-          <div class="w-28 h-7 bg-black rounded-full border border-white/5 flex items-center justify-between px-2.5 shadow-md">
-            <div class="w-2.5 h-2.5 rounded-full bg-purple-500/80 animate-pulse"></div>
-            <div class="w-2.5 h-2.5 rounded-full bg-black border border-white/20"></div>
-          </div>
-          <div class="flex items-center gap-1.5 text-white">
-            <i data-lucide="wifi" class="w-3.5 h-3.5"></i>
-            <i data-lucide="battery" class="w-4 h-4"></i>
-          </div>
-        </div>
-
-        <!-- APP SCREEN CONTENT (SCROLLABLE AREA) -->
-        <div id="screen-container" class="relative w-full h-full pt-12 pb-24 overflow-y-auto overflow-x-hidden">
-          
-          <!-- ================= SCREEN 3: HOME DASHBOARD ================= -->
-          <div id="view-home" class="screen-view transition-opacity duration-300 px-4 space-y-5">
-            
-            <!-- User Header -->
-            <div class="flex items-center justify-between pt-2">
-              <div>
-                <p class="text-[11px] font-mono tracking-wider uppercase text-purple-400">Studio Session #42</p>
-                <h2 class="text-2xl font-bold tracking-tight text-white">Good morning, Alex</h2>
-              </div>
-              <div class="w-10 h-10 rounded-full border border-white/10 p-0.5 bg-studio-surface relative">
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80" alt="Avatar" class="w-full h-full rounded-full object-cover">
-                <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-studio-black rounded-full"></span>
-              </div>
-            </div>
-
-            <!-- AI Daily Quote / Insight Card -->
-            <div class="p-4 rounded-2xl glass-panel relative overflow-hidden group">
-              <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-purple-600/15 rounded-full blur-xl group-hover:bg-purple-600/25 transition-all"></div>
-              <div class="flex items-center gap-2 text-xs text-purple-400 font-semibold mb-1">
-                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-purple-400"></i> AI Vocal Insight
-              </div>
-              <p class="text-sm font-medium text-slate-200 leading-relaxed italic">
-                “Small daily breath-support drills create massive pitch stability over time.”
-              </p>
-              <div class="mt-2 flex items-center justify-between text-[11px] text-slate-400">
-                <span>Today's Goal: 15 min vocal warmup</span>
-                <span class="text-purple-400 font-mono">75% Complete</span>
-              </div>
-            </div>
-
-            <!-- Quick Action 3-Card Grid -->
-            <div>
-              <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2.5 font-mono">Quick Actions</p>
-              <div class="grid grid-cols-3 gap-2.5">
-                <button onclick="switchScreen('record')" class="p-3.5 rounded-xl bg-studio-card border border-white/5 hover:border-red-500/40 transition-all flex flex-col items-center text-center group">
-                  <div class="w-10 h-10 rounded-full bg-red-500/10 text-red-400 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
-                    <i data-lucide="mic" class="w-5 h-5"></i>
-                  </div>
-                  <span class="text-xs font-semibold text-white">Record</span>
-                  <span class="text-[9px] text-slate-400">New Take</span>
-                </button>
-
-                <button onclick="switchScreen('analysis')" class="p-3.5 rounded-xl bg-studio-card border border-white/5 hover:border-purple-500/40 transition-all flex flex-col items-center text-center group">
-                  <div class="w-10 h-10 rounded-full bg-purple-500/10 text-purple-400 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
-                    <i data-lucide="cpu" class="w-5 h-5"></i>
-                  </div>
-                  <span class="text-xs font-semibold text-white">Analyze</span>
-                  <span class="text-[9px] text-slate-400">Pitch &amp; Tone</span>
-                </button>
-
-                <button onclick="switchScreen('coaching')" class="p-3.5 rounded-xl bg-studio-card border border-white/5 hover:border-indigo-500/40 transition-all flex flex-col items-center text-center group">
-                  <div class="w-10 h-10 rounded-full bg-indigo-500/10 text-indigo-400 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
-                    <i data-lucide="graduation-cap" class="w-5 h-5"></i>
-                  </div>
-                  <span class="text-xs font-semibold text-white">Coach</span>
-                  <span class="text-[9px] text-slate-400">Vocal Drills</span>
-                </button>
-              </div>
-            </div>
-
-            <!-- ROTATING VINYL RECORD SECTION -->
-            <div>
-              <div class="flex items-center justify-between mb-3">
-                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider font-mono">Recent Takes (Vinyl Engine)</p>
-                <span class="text-[11px] text-purple-400 font-medium cursor-pointer hover:underline">View All</span>
-              </div>
-
-              <!-- Session Card 1: Rotating Vinyl -->
-              <div class="p-3.5 rounded-2xl glass-panel flex items-center justify-between gap-4 group cursor-pointer hover:border-purple-500/30 transition-all mb-2.5">
-                <div class="flex items-center gap-3.5">
-                  <div class="relative w-14 h-14 rounded-full vinyl-record vinyl-grooves p-1 animate-spin-slow flex items-center justify-center border border-white/10 shadow-lg">
-                    <div class="w-5 h-5 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center border border-white/20">
-                      <div class="w-1.5 h-1.5 rounded-full bg-studio-black"></div>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="flex items-center gap-2">
-                      <h4 class="text-sm font-bold text-white group-hover:text-purple-300 transition-colors">Midnight Acoustic</h4>
-                      <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">Take 03</span>
-                    </div>
-                    <p class="text-xs text-slate-400 mt-0.5">Key of G# Min &bull; 120 BPM</p>
-                    <div class="flex items-center gap-3 text-[10px] text-slate-500 font-mono mt-1">
-                      <span>03:42</span>
-                      <span>&bull;</span>
-                      <span>Score 91/100</span>
-                    </div>
-                  </div>
-                </div>
-                <button onclick="switchScreen('comparison')" class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-300 hover:bg-purple-600 hover:text-white transition-all">
-                  <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
-                </button>
-              </div>
-
-              <!-- Session Card 2 -->
-              <div class="p-3.5 rounded-2xl glass-panel flex items-center justify-between gap-4 group cursor-pointer hover:border-purple-500/30 transition-all">
-                <div class="flex items-center gap-3.5">
-                  <div class="relative w-14 h-14 rounded-full vinyl-record vinyl-grooves p-1 flex items-center justify-center border border-white/10 shadow-lg">
-                    <div class="w-5 h-5 rounded-full bg-gradient-to-tr from-red-600 to-amber-600 flex items-center justify-center border border-white/20">
-                      <div class="w-1.5 h-1.5 rounded-full bg-studio-black"></div>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="flex items-center gap-2">
-                      <h4 class="text-sm font-bold text-white group-hover:text-purple-300 transition-colors">Vocal Warmup Breath</h4>
-                      <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">Practice</span>
-                    </div>
-                    <p class="text-xs text-slate-400 mt-0.5">Scale Arpeggios &bull; 5 Octaves</p>
-                    <div class="flex items-center gap-3 text-[10px] text-slate-500 font-mono mt-1">
-                      <span>01:15</span>
-                      <span>&bull;</span>
-                      <span>Yesterday</span>
-                    </div>
-                  </div>
-                </div>
-                <button class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-300 hover:bg-purple-600 hover:text-white transition-all">
-                  <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
-                </button>
-              </div>
-            </div>
-
-          </div>
-
-          <!-- ================= SCREEN 4: RECORDING SCREEN ================= -->
-          <div id="view-record" class="screen-view hidden transition-opacity duration-300 px-4 flex flex-col items-center justify-between h-full py-4 text-center">
-            <div>
-              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-500/10 text-red-400 border border-red-500/20 text-xs font-mono">
-                <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span> REC &bull; 48kHz Lossless
-              </span>
-              <h3 class="text-xl font-bold text-white mt-2">Take 04 — Chorus Lead</h3>
-              <p class="text-xs text-slate-400">Headphones connected &bull; Studio Condenser Mic</p>
-            </div>
-
-            <!-- PARTICLE SOUND SPHERE -->
-            <div class="relative w-64 h-64 my-auto flex items-center justify-center">
-              <div class="absolute inset-0 rounded-full border border-purple-500/20 animate-ping"></div>
-              <div class="absolute inset-4 rounded-full border border-indigo-500/20 animate-pulse"></div>
-              <div class="absolute inset-10 rounded-full bg-gradient-to-tr from-purple-900/40 via-indigo-900/30 to-transparent blur-xl"></div>
-              
-              <canvas id="voiceSphere" width="240" height="240" class="relative z-10 rounded-full"></canvas>
-
-              <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-20">
-                <div class="w-14 h-14 rounded-full bg-studio-black/80 backdrop-blur-md border border-purple-400/40 flex items-center justify-center shadow-lg shadow-purple-500/30">
-                  <i data-lucide="mic" class="w-6 h-6 text-purple-300"></i>
-                </div>
-                <span class="font-mono text-sm font-bold text-white mt-2 drop-shadow">02:14.8</span>
-                <span class="text-[10px] font-mono text-purple-300 uppercase tracking-widest">Pitch: A4 (440Hz)</span>
-              </div>
-            </div>
-
-            <!-- Controls -->
-            <div class="w-full space-y-4">
-              <div class="flex items-center justify-center gap-6">
-                <button class="w-12 h-12 rounded-full glass-panel flex items-center justify-center text-slate-400 hover:text-white transition-all">
-                  <i data-lucide="pause" class="w-5 h-5"></i>
-                </button>
-                <button onclick="switchScreen('analysis')" class="w-18 h-18 px-5 py-4 rounded-full bg-red-600 hover:bg-red-500 text-white font-bold flex items-center gap-2 shadow-lg shadow-red-600/40 transition-all">
-                  <i data-lucide="square" class="w-5 h-5 fill-current"></i> Stop &amp; Analyze
-                </button>
-                <button class="w-12 h-12 rounded-full glass-panel flex items-center justify-center text-slate-400 hover:text-white transition-all">
-                  <i data-lucide="plus" class="w-5 h-5"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- ================= SCREEN 6: AI ANALYSIS ================= -->
-          <div id="view-analysis" class="screen-view hidden transition-opacity duration-300 px-4 space-y-5 py-3">
-            <div class="text-center pt-2">
-              <div class="w-12 h-12 rounded-2xl bg-purple-600/20 text-purple-400 border border-purple-500/30 flex items-center justify-center mx-auto mb-2.5 animate-bounce">
-                <i data-lucide="cpu" class="w-6 h-6"></i>
-              </div>
-              <h3 class="text-xl font-bold text-white">AI Vocal Engine Analyzing</h3>
-              <p class="text-xs text-slate-400">Processing acoustic frequencies &amp; pitch curves...</p>
-            </div>
-
-            <!-- Progress Checklist -->
-            <div class="space-y-2.5 p-4 rounded-2xl glass-panel">
-              <div class="flex items-center justify-between text-xs py-1.5 border-b border-white/5">
-                <div class="flex items-center gap-2.5">
-                  <div class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
-                    <i data-lucide="check" class="w-3.5 h-3.5"></i>
-                  </div>
-                  <span class="text-slate-200 font-medium">Recording Quality &amp; Room Acoustics</span>
-                </div>
-                <span class="text-emerald-400 font-mono text-[11px]">Lossless</span>
-              </div>
-
-              <div class="flex items-center justify-between text-xs py-1.5 border-b border-white/5">
-                <div class="flex items-center gap-2.5">
-                  <div class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
-                    <i data-lucide="check" class="w-3.5 h-3.5"></i>
-                  </div>
-                  <span class="text-slate-200 font-medium">Noise Floor &amp; Ambient Isolation</span>
-                </div>
-                <span class="text-emerald-400 font-mono text-[11px]">-48dB Clean</span>
-              </div>
-
-              <div class="flex items-center justify-between text-xs py-1.5 border-b border-white/5">
-                <div class="flex items-center gap-2.5">
-                  <div class="w-5 h-5 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center animate-spin">
-                    <i data-lucide="loader-2" class="w-3.5 h-3.5"></i>
-                  </div>
-                  <span class="text-white font-medium">Pitch Accuracy &amp; Cent Deviation</span>
-                </div>
-                <span class="text-purple-400 font-mono text-[11px]">Analyzing...</span>
-              </div>
-
-              <div class="flex items-center justify-between text-xs py-1.5 border-b border-white/5 opacity-60">
-                <div class="flex items-center gap-2.5">
-                  <div class="w-5 h-5 rounded-full bg-white/5 text-slate-400 flex items-center justify-center">
-                    <i data-lucide="clock" class="w-3 h-3"></i>
-                  </div>
-                  <span class="text-slate-400 font-medium">Timing, Rhythm &amp; Phrase Endings</span>
-                </div>
-                <span class="text-slate-500 font-mono text-[11px]">Queued</span>
-              </div>
-            </div>
-
-            <button onclick="switchScreen('comparison')" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold text-sm shadow-lg shadow-purple-900/30 flex items-center justify-center gap-2">
-              <span>View Multi-Take Comparison</span>
-              <i data-lucide="arrow-right" class="w-4 h-4"></i>
-            </button>
-          </div>
-
-          <!-- ================= SCREEN 8: TAKE COMPARISON ================= -->
-          <div id="view-comparison" class="screen-view hidden transition-opacity duration-300 px-4 space-y-4">
-            <div class="pt-2">
-              <span class="text-[11px] font-mono text-purple-400 uppercase tracking-wider">Session Breakdown</span>
-              <h3 class="text-xl font-bold text-white">Take Comparison</h3>
-              <p class="text-xs text-slate-400">AI evaluated 3 takes across pitch, timing &amp; energy.</p>
-            </div>
-
-            <!-- Crown Winner -->
-            <div class="p-3.5 rounded-2xl bg-studio-card border-2 border-amber-500/50 shadow-lg shadow-amber-950/20 relative">
-              <div class="absolute -top-2.5 right-4 px-2 py-0.5 rounded-full bg-amber-500 text-black text-[10px] font-bold uppercase tracking-wider flex items-center gap-1">
-                <i data-lucide="crown" class="w-3 h-3"></i> Best Take
-              </div>
-              <div class="flex items-center justify-between mb-2">
-                <div>
-                  <h4 class="text-sm font-bold text-white">Take 03 — Full Verse</h4>
-                  <p class="text-[11px] text-slate-400">Recorded 12 mins ago &bull; 03:42</p>
-                </div>
-                <div class="text-right">
-                  <span class="text-2xl font-black text-amber-300 font-mono">91</span>
-                  <span class="text-[10px] text-slate-400 block font-mono">/100</span>
-                </div>
-              </div>
-              <div class="space-y-1 pt-2 border-t border-white/5 text-[11px]">
-                <div class="flex justify-between text-slate-400">
-                  <span>Pitch Accuracy</span>
-                  <span class="text-white font-mono">94%</span>
-                </div>
-                <div class="w-full h-1.5 bg-black/40 rounded-full overflow-hidden">
-                  <div class="w-[94%] h-full bg-emerald-400 rounded-full"></div>
-                </div>
-              </div>
-            </div>
-
-            <div class="p-3.5 rounded-2xl glass-panel">
-              <div class="flex items-center justify-between">
-                <div>
-                  <h4 class="text-sm font-bold text-white">Take 02 — Melody Run</h4>
-                  <p class="text-[11px] text-slate-400">02:18 &bull; Score 82/100</p>
-                </div>
-                <span class="text-lg font-bold text-slate-400 font-mono">82</span>
-              </div>
-            </div>
-
-            <div class="p-3.5 rounded-2xl glass-panel">
-              <div class="flex items-center justify-between">
-                <div>
-                  <h4 class="text-sm font-bold text-white">Take 01 — Raw Scratch</h4>
-                  <p class="text-[11px] text-slate-400">01:50 &bull; Score 76/100</p>
-                </div>
-                <span class="text-lg font-bold text-slate-400 font-mono">76</span>
-              </div>
-            </div>
-
-            <button onclick="switchScreen('coaching')" class="w-full py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-semibold text-xs transition-colors flex items-center justify-center gap-2">
-              <span>Open Detailed AI Coaching Breakdown</span>
-              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-            </button>
-          </div>
-
-          <!-- ================= SCREEN 9 & 10: COACHING & PRACTICE ================= -->
-          <div id="view-coaching" class="screen-view hidden transition-opacity duration-300 px-4 space-y-4">
-            <div class="pt-2 flex items-center justify-between">
-              <div>
-                <span class="text-[11px] font-mono text-purple-400 uppercase tracking-wider">Mastery Report</span>
-                <h3 class="text-xl font-bold text-white">AI Vocal Coach</h3>
-              </div>
-              <div class="px-2.5 py-1 rounded-full bg-purple-500/20 border border-purple-500/30 text-xs font-mono text-purple-300">
-                Score: 91/100
-              </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-2.5">
-              <div class="p-3 rounded-xl bg-studio-card border border-white/5">
-                <span class="text-[10px] text-slate-400 uppercase font-mono">Pitch Accuracy</span>
-                <p class="text-lg font-bold text-emerald-400 font-mono mt-0.5">94%</p>
-              </div>
-              <div class="p-3 rounded-xl bg-studio-card border border-white/5">
-                <span class="text-[10px] text-slate-400 uppercase font-mono">Timing &amp; Pocket</span>
-                <p class="text-lg font-bold text-purple-400 font-mono mt-0.5">89%</p>
-              </div>
-              <div class="p-3 rounded-xl bg-studio-card border border-white/5">
-                <span class="text-[10px] text-slate-400 uppercase font-mono">Vocal Projection</span>
-                <p class="text-lg font-bold text-indigo-400 font-mono mt-0.5">92%</p>
-              </div>
-              <div class="p-3 rounded-xl bg-studio-card border border-white/5">
-                <span class="text-[10px] text-slate-400 uppercase font-mono">Noise Control</span>
-                <p class="text-lg font-bold text-emerald-400 font-mono mt-0.5">96%</p>
-              </div>
-            </div>
-
-            <div class="p-4 rounded-2xl glass-panel border border-purple-500/30">
-              <div class="flex items-center gap-2 text-xs font-bold text-purple-300 mb-1">
-                <i data-lucide="message-square" class="w-4 h-4 text-purple-400"></i> Coach Feedback
-              </div>
-              <p class="text-xs text-slate-200 leading-relaxed">
-                “Your pitch was exceptionally stable on the sustained vowels in the chorus. Maintain breath support through final consonants.”
-              </p>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- FLOATING CURVED GLASS BOTTOM NAV -->
-        <div class="absolute bottom-4 left-4 right-4 z-50">
-          <nav class="glass-nav rounded-3xl py-2 px-3 flex items-center justify-between shadow-2xl">
-            <button onclick="switchScreen('home')" id="nav-home" class="nav-item flex flex-col items-center gap-0.5 text-purple-400 p-1">
-              <i data-lucide="home" class="w-5 h-5"></i>
-              <span class="text-[9px] font-medium">Home</span>
-            </button>
-            <button onclick="switchScreen('comparison')" id="nav-sessions" class="nav-item flex flex-col items-center gap-0.5 text-slate-400 p-1">
-              <i data-lucide="folder" class="w-5 h-5"></i>
-              <span class="text-[9px] font-medium">Sessions</span>
-            </button>
-            <button onclick="switchScreen('record')" id="nav-record" class="relative -top-3 w-13 h-13 p-3.5 rounded-full bg-studio-recordRed text-white shadow-lg shadow-red-600/40 hover:scale-105 active:scale-95 transition-all flex items-center justify-center border-2 border-studio-black ring-2 ring-red-500/50">
-              <div class="w-4 h-4 rounded-full bg-white animate-pulse"></div>
-            </button>
-            <button onclick="switchScreen('coaching')" id="nav-coaching" class="nav-item flex flex-col items-center gap-0.5 text-slate-400 p-1">
-              <i data-lucide="graduation-cap" class="w-5 h-5"></i>
-              <span class="text-[9px] font-medium">Coaching</span>
-            </button>
-            <button class="nav-item flex flex-col items-center gap-0.5 text-slate-400 p-1">
-              <i data-lucide="user" class="w-5 h-5"></i>
-              <span class="text-[9px] font-medium">Profile</span>
-            </button>
-          </nav>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- RIGHT: INTERACTIVE SPEC EXPLORER & CONTROLS -->
-    <div class="lg:col-span-6 space-y-6">
-      
-      <!-- Quick Switcher Panel -->
-      <div class="p-6 rounded-3xl glass-panel">
-        <h3 class="text-base font-bold text-white mb-2 flex items-center gap-2">
-          <i data-lucide="sliders" class="w-4 h-4 text-purple-400"></i> Interactive Simulator Navigation
-        </h3>
-        <p class="text-xs text-slate-400 mb-4">Click any screen below to simulate it inside the iPhone:</p>
-
-        <div class="grid grid-cols-2 gap-2 text-xs">
-          <button onclick="switchScreen('home')" class="p-3 rounded-xl bg-studio-card hover:border-purple-500/40 border border-white/5 text-left transition-all">
-            <span class="text-purple-400 font-mono text-[10px] block">Screen 03</span>
-            <span class="font-semibold text-white">Home Dashboard</span>
-          </button>
-          <button onclick="switchScreen('record')" class="p-3 rounded-xl bg-studio-card hover:border-purple-500/40 border border-white/5 text-left transition-all">
-            <span class="text-purple-400 font-mono text-[10px] block">Screen 04</span>
-            <span class="font-semibold text-white">Recording Sphere</span>
-          </button>
-          <button onclick="switchScreen('analysis')" class="p-3 rounded-xl bg-studio-card hover:border-purple-500/40 border border-white/5 text-left transition-all">
-            <span class="text-purple-400 font-mono text-[10px] block">Screen 06</span>
-            <span class="font-semibold text-white">AI Acoustic Pipeline</span>
-          </button>
-          <button onclick="switchScreen('comparison')" class="p-3 rounded-xl bg-studio-card hover:border-purple-500/40 border border-white/5 text-left transition-all">
-            <span class="text-purple-400 font-mono text-[10px] block">Screen 08</span>
-            <span class="font-semibold text-white">Take Comparison &amp; Crown</span>
-          </button>
-          <button onclick="switchScreen('coaching')" class="p-3 rounded-xl bg-studio-card hover:border-purple-500/40 border border-white/5 text-left transition-all col-span-2">
-            <span class="text-purple-400 font-mono text-[10px] block">Screen 09 &amp; 10</span>
-            <span class="font-semibold text-white">AI Coaching Scorecard &amp; Practice Drills</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Preview of the Full 10-Screen Board -->
-      <div class="p-6 rounded-3xl glass-panel">
-        <div class="flex items-center justify-between mb-3">
-          <h3 class="text-sm font-bold text-white flex items-center gap-2">
-            <i data-lucide="image" class="w-4 h-4 text-purple-400"></i> Full 10-Screen Figma Board
-          </h3>
-          <button onclick="toggleMainView('board')" class="text-xs text-purple-400 font-medium hover:underline flex items-center gap-1">
-            View Large <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-          </button>
-        </div>
-        <div onclick="toggleMainView('board')" class="cursor-pointer rounded-xl overflow-hidden border border-white/10 relative group">
-          <img src="wavaid-10-screens.jpg" alt="Preview" class="w-full h-44 object-cover object-top group-hover:scale-105 transition-transform duration-300">
-          <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 flex items-center justify-center transition-colors">
-            <span class="px-3 py-1.5 rounded-lg bg-studio-black/80 backdrop-blur-md border border-white/20 text-xs font-semibold text-white">Click to View Complete Board</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-  </section>
-
-  <script>
-    lucide.createIcons();
-
-    // Toggle between Full 10-Screen Board and Phone Simulator
-    function toggleMainView(view) {
-      const board = document.getElementById('section-board');
-      const proto = document.getElementById('section-prototype');
-      const tabBoard = document.getElementById('tab-board');
-      const tabProto = document.getElementById('tab-prototype');
-
-      if (view === 'board') {
-        board.classList.remove('hidden');
-        proto.classList.add('hidden');
-        tabBoard.className = 'px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md shadow-purple-900/30 transition-all';
-        tabProto.className = 'px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 text-slate-400 hover:text-white hover:bg-white/5 transition-all';
-      } else {
-        board.classList.add('hidden');
-        proto.classList.remove('hidden');
-        tabProto.className = 'px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md shadow-purple-900/30 transition-all';
-        tabBoard.className = 'px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 text-slate-400 hover:text-white hover:bg-white/5 transition-all';
-        initVoiceSphere();
-      }
-      lucide.createIcons();
+/* ================= VOICE ORB ================= */
+function makeOrb(canvas,{count=150,driver=null}={}){
+  const cx=canvas.getContext('2d');
+  let W=0,H=0;
+  function resize(){ const d=Math.min(2,devicePixelRatio||1),r=canvas.getBoundingClientRect();
+    if(r.width===0) return false;
+    W=r.width;H=r.height; canvas.width=W*d;canvas.height=H*d; cx.setTransform(d,0,0,d,0,0); return true; }
+  const pts=Array.from({length:count},()=>({
+    th:Math.random()*Math.PI*2, ph:Math.acos(2*Math.random()-1),
+    sp:.3+Math.random()*.8, p1:Math.random()*Math.PI*2, sz:.7+Math.random()*1.6,
+    c:['#C9BBFF','#9FB4F0','#EDEAF8','#8F7BD8','#B9A8F0'][Math.random()*5|0]
+  }));
+  let amp=.1,rot=0,run=false,t=0;
+  function loop(){
+    if(!run) return;
+    t+=1/60;
+    const target=driver?driver():.13+Math.sin(t*.8)*.04;
+    amp+=(target-amp)*.09;
+    rot+=.0032+amp*.009;
+    cx.clearRect(0,0,W,H);
+    const cxx=W/2,cy=H/2,R=Math.min(W,H)*.35;
+    const g=cx.createRadialGradient(cxx,cy,0,cxx,cy,R*1.25);
+    g.addColorStop(0,`rgba(150,120,245,${(.07+amp*.16).toFixed(3)})`); g.addColorStop(1,'rgba(150,120,245,0)');
+    cx.fillStyle=g; cx.beginPath(); cx.arc(cxx,cy,R*1.25,0,7); cx.fill();
+    for(const p of pts){
+      const wob=1+amp*.5*Math.sin(t*p.sp*3+p.p1);
+      const rr=R*wob, a=p.th+t*p.sp*.35;
+      let x=Math.sin(p.ph)*Math.cos(a)*rr, z=Math.sin(p.ph)*Math.sin(a)*rr, y=Math.cos(p.ph)*rr;
+      const j=amp*2.2;
+      x+=Math.sin(p.p1*7+t*9)*j; y+=Math.cos(p.p1*6+t*8)*j;
+      const sc=clamp(1/(1-z/(R*3)),.55,1.6);
+      const al=(.22+.6*((1-z/R)/2+.5))*clamp(.35+amp,0,1);
+      cx.globalAlpha=clamp(al,0,1);
+      cx.fillStyle=p.c;
+      cx.beginPath(); cx.arc(cxx+x,cy+y,p.sz*sc,0,7); cx.fill();
     }
+    cx.globalAlpha=1;
+    requestAnimationFrame(loop);
+  }
+  return { start(){ if(!resize())return; if(run)return; run=true; requestAnimationFrame(loop); }, stop(){run=false;}, resize };
+}
+let orbMain;
+function startRecLoop(){
+  orbMain.resize&&orbMain.resize(); orbMain.start(); waveLoop();
+}
 
-    // Screen Switching Logic in Prototype
-    function switchScreen(screenName) {
-      document.querySelectorAll('.screen-view').forEach(view => view.classList.add('hidden'));
-      const targetView = document.getElementById('view-' + screenName);
-      if (targetView) targetView.classList.remove('hidden');
-
-      document.querySelectorAll('.nav-item').forEach(nav => {
-        nav.classList.remove('text-purple-400');
-        nav.classList.add('text-slate-400');
-      });
-      const activeNav = document.getElementById('nav-' + screenName);
-      if (activeNav) {
-        activeNav.classList.add('text-purple-400');
-        activeNav.classList.remove('text-slate-400');
-      }
-
-      if (screenName === 'record') {
-        initVoiceSphere();
+/* ================= LIVE WAVEFORM ================= */
+const lwC=$('#liveWave'), lwx=lwC.getContext('2d');
+let ampHist=[],waveRun=false;
+function waveLoop(){
+  if(waveRun) return; waveRun=true;
+  (function frame(){
+    if(state.screen!=='record'){ waveRun=false; return; }
+    const d=Math.min(2,devicePixelRatio||1), r=lwC.getBoundingClientRect();
+    if(r.width){ if(lwC.width!==r.width*d){ lwC.width=r.width*d; lwC.height=r.height*d; lwx.setTransform(d,0,0,d,0,0); }
+      const rec_now=rec.state==='rec';
+      ampHist.push(rec_now?getAmp(performance.now()):(rec.state==='paused'?.04:.08+Math.random()*.03));
+      if(ampHist.length>70) ampHist.shift();
+      const W=r.width,H=r.height,mid=H/2;
+      lwx.clearRect(0,0,W,H);
+      const n=ampHist.length,bw=3,gap=2,x0=W-(n*(bw+gap));
+      for(let i=0;i<n;i++){
+        const a=ampHist[i],h=Math.max(2.5,a*H*.92);
+        lwx.fillStyle=i>n-4?'rgba(201,187,255,.95)':`rgba(255,255,255,${(.16+a*.5).toFixed(2)})`;
+        const x=x0+i*(bw+gap);
+        lwx.beginPath();
+        if(lwx.roundRect) lwx.roundRect(x,mid-h/2,bw,h,2); else lwx.rect(x,mid-h/2,bw,h);
+        lwx.fill();
       }
     }
+    requestAnimationFrame(frame);
+  })();
+}
 
-    // Voice Sphere Canvas
-    let canvas, ctx, animationId;
-    function initVoiceSphere() {
-      canvas = document.getElementById('voiceSphere');
-      if (!canvas) return;
-      ctx = canvas.getContext('2d');
-      const centerX = canvas.width / 2;
-      const centerY = canvas.height / 2;
-      const radius = 65;
-      const particleCount = 72;
-      let angle = 0;
+/* ================= 01 ONBOARDING ================= */
+const SLIDES=[
+  {seed:'wavaid-singer', k:'STUDIO · 01', t:'Discover Your Voice',    p:'Creating a personalized vocal experience for better singing.'},
+  {seed:'wavaid-mic',    k:'RECORD · 02', t:'Record With Confidence', p:'Studio-grade takes with a voice sphere that listens as you sing.'},
+  {seed:'wavaid-coach',  k:'AI · 03',     t:'Grow With Every Take',   p:'AI feedback that turns daily practice into visible progress.'},
+];
+ $('#onbSlides').innerHTML=SLIDES.map((s,i)=>`
+  <div class="onb-slide${i===0?' on':''}">
+    <img src="${s.img || 'https://picsum.photos/seed/' + s.seed + '/780/1500.jpg'}" alt="" onerror="this.src='https://picsum.photos/seed/${s.seed}/780/1500.jpg'">
+    <div class="onb-scrim"></div>
+    <div class="onb-text"><div class="onb-kicker">${s.k}</div><h2>${s.t}</h2><p>${s.p}</p></div>
+  </div>`).join('');
+ $('#onbDots').innerHTML=SLIDES.map((_,i)=>`<span class="${i===0?'on':''}" data-d="${i}"></span>`).join('');
+SLIDES.forEach(s=>{const im=new Image();im.src=`https://picsum.photos/seed/${s.seed}/780/1500.jpg`;});
+let onbIdx=0,onbIv=null;
+function onbShow(i){
+  onbIdx=(i+SLIDES.length)%SLIDES.length;
+  $$('.onb-slide').forEach((el,j)=>el.classList.toggle('on',j===onbIdx));
+  $$('#onbDots span').forEach((el,j)=>el.classList.toggle('on',j===onbIdx));
+  $('#btnOnbNext').textContent=onbIdx===SLIDES.length-1?'Get Started':'Next';
+}
+function onbAuto(){ clearInterval(onbIv); onbIv=setInterval(()=>onbShow(onbIdx+1),4600); }
+onbAuto();
+let onbX=null;
+ $('#scr-onb').addEventListener('pointerdown',e=>onbX=e.clientX);
+ $('#scr-onb').addEventListener('pointerup',e=>{
+  if(onbX===null)return; const d=e.clientX-onbX; onbX=null;
+  if(Math.abs(d)>40){ onbShow(onbIdx+(d<0?1:-1)); onbAuto(); }
+});
+ $('#onbDots').addEventListener('click',e=>{const d=e.target.dataset.d;if(d!==undefined){onbShow(+d);onbAuto();}});
+ $('#btnOnbNext').addEventListener('click',()=>{
+  if(onbIdx<SLIDES.length-1){ onbShow(onbIdx+1); onbAuto(); blip('tap'); }
+  else { clearInterval(onbIv); blip('ok'); goTo('roles'); }
+});
 
-      if (animationId) cancelAnimationFrame(animationId);
+/* ================= 02 ROLES ================= */
+const ROLES=[
+  {i:'mic',t:'Singer',d:'Vocals are my main instrument'},
+  {i:'presentation',t:'Music Teacher',d:'Coaching students day to day'},
+  {i:'speech',t:'Music Speaker',d:'Voice work and live talk'},
+  {i:'guitar',t:'Musician',d:'I write and record my own'},
+];
+ $('#roleGrid').innerHTML=ROLES.map((r,i)=>`
+  <button class="role-card" data-r="${i}">
+    <span class="ic"><i data-lucide="${r.i}"></i></span>
+    <b>${r.t}</b><small>${r.d}</small>
+  </button>`).join('');
+ $('#roleGrid').addEventListener('click',e=>{
+  const b=e.target.closest('.role-card'); if(!b)return;
+  $$('.role-card').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+  state.role=+b.dataset.r; $('#btnRole').disabled=false; blip('tap');
+});
+ $('#btnRole').addEventListener('click',()=>{blip('ok');toast('Profile saved — welcome to Wav-Aid','sparkles');goTo('home');});
 
-      function render() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        angle += 0.025;
+/* ================= 03 HOME ================= */
+function renderHome(){
+  $('#actList').innerHTML=ACTIVITY.map(a=>`
+    <div class="act-row">
+      <span class="act-ic${a.lav?' lav':''}"><i data-lucide="${a.ic}"></i></span>
+      <span class="act-tx"><b>${a.t}</b><small>${a.s}</small></span>
+    </div>`).join('');
+  icons();
+}
+ $('#actSeeAll').addEventListener('click',()=>toast('Full activity history coming soon','clock'));
 
-        ctx.beginPath();
-        for (let i = 0; i <= particleCount; i++) {
-          const theta = (i / particleCount) * Math.PI * 2;
-          const wave = Math.sin(theta * 6 + angle * 2) * 10 + Math.cos(theta * 3 - angle) * 6;
-          const r = radius + wave;
-          const x = centerX + Math.cos(theta) * r;
-          const y = centerY + Math.sin(theta) * r;
+/* ================= 04 RECORDING ================= */
+const rec={state:'ready',t0:0,elapsed:0,iv:null,micNote:''};
+orbMain=makeOrb($('#orbMain'),{count:165,driver:()=>{
+  if(rec.state==='rec') return getAmp(performance.now());
+  if(rec.state==='paused') return .05;
+  return .13+Math.sin(performance.now()/1250)*.04;
+}});
+function fmtTimer(s){ return `${pad(Math.floor(s/60))}:${pad(Math.floor(s%60))}:${pad(Math.floor((s%1)*100))}`; }
+function tickTimer(){
+  rec.elapsed=(performance.now()-rec.t0)/1000;
+  $('#recTimer').textContent=fmtTimer(rec.elapsed);
+}
+function resetRecUI(){
+  rec.state='ready'; rec.elapsed=0;
+  const s=getSession('midnight');
+  $('#recTakeChip').textContent=`TAKE ${pad(s.takes.length+1)}`;
+  $('#recTimer').textContent='00:00:00'; $('#recTimer').classList.add('dim');
+  const st=$('#recStatus'); st.classList.remove('live'); st.textContent='READY TO RECORD';
+  $('#btnRec').innerHTML='<i data-lucide="mic"></i>';
+  $('#btnPause').classList.add('dim'); $('#btnFlag').classList.add('dim');
+  $('#btnPause').innerHTML='<span><i data-lucide="pause"></i></span><small>Pause</small>';
+  icons(); syncChrome('record');
+}
+async function startRec(){
+  ensureAC();
+  rec.state='rec'; rec.elapsed=0; rec.t0=performance.now();
+  $('#btnRec').innerHTML='<i data-lucide="square"></i>';
+  $('#btnPause').classList.remove('dim'); $('#btnFlag').classList.remove('dim');
+  $('#recTimer').classList.remove('dim');
+  const st=$('#recStatus'); st.classList.add('live');
+  await startMic();
+  rec.micNote=analyser?'RECORDING · LIVE MIC':'RECORDING · SIMULATED INPUT';
+  st.textContent=rec.micNote;
+  blip('rec'); syncChrome('record');
+  clearInterval(rec.iv); rec.iv=setInterval(()=>{ if(rec.state==='rec') tickTimer(); },50);
+}
+function pauseRec(){
+  if(rec.state==='rec'){ rec.state='paused'; clearInterval(rec.iv);
+    $('#btnPause').innerHTML='<span><i data-lucide="play"></i></span><small>Resume</small>';
+    $('#recStatus').textContent='PAUSED'; blip('tap');
+  } else if(rec.state==='paused'){ rec.state='rec'; rec.t0=performance.now()-rec.elapsed*1000;
+    $('#btnPause').innerHTML='<span><i data-lucide="pause"></i></span><small>Pause</small>';
+    $('#recStatus').textContent=rec.micNote; blip('tap');
+    clearInterval(rec.iv); rec.iv=setInterval(()=>{ if(rec.state==='rec') tickTimer(); },50);
+  }
+  icons();
+}
+function rollScore(){ return 74+(Math.random()*20|0); }
+function finalizeTake(){
+  const s=getSession('midnight');
+  const dur=Math.max(1,Math.round(rec.elapsed));
+  s.takes.push({score:rollScore(),dur:fmtDur(dur)});
+  s.dur=fmtDur(s.takes.reduce((a,t)=>a+parseInt(t.dur),0));
+  state.last={sid:'midnight',idx:s.takes.length-1};
+  return s.takes.length;
+}
+function recStopSilent(){ clearInterval(rec.iv); stopMic(); rec.state='ready'; }
+ $('#btnRec').addEventListener('click',()=>{
+  if(rec.state==='ready') startRec();
+  else { const n=finalizeTake(); recStopSilent(); blip('ok'); state.justSaved=n; goTo('saved'); }
+});
+ $('#btnPause').addEventListener('click',pauseRec);
+ $('#btnFlag').addEventListener('click',()=>{
+  if(rec.state!=='rec'&&rec.state!=='paused'){ toast('Start recording first','mic'); return; }
+  const n=finalizeTake();
+  toast(`Take ${n} saved — new take started`,'flag'); blip('ok');
+  rec.state='rec'; rec.elapsed=0; rec.t0=performance.now();
+  $('#recTakeChip').textContent=`TAKE ${pad(getSession('midnight').takes.length+1)}`;
+});
+ $('#recClose').addEventListener('click',()=>{
+  if(rec.state==='rec'||rec.state==='paused'){ const n=finalizeTake(); recStopSilent(); state.justSaved=n; goTo('saved'); }
+  else goTo('home','back');
+});
 
-          if (i === 0) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
-        }
-        ctx.closePath();
-        ctx.strokeStyle = 'rgba(168, 85, 247, 0.45)';
-        ctx.lineWidth = 1.5;
-        ctx.stroke();
+/* ================= 05 TAKE SAVED ================= */
+function renderSaved(){
+  const ref=state.last,t=getTake(ref);
+  $('#savedCheck').innerHTML=`<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10.5" stroke="#B9A8F0" stroke-width="1.5"/><path class="ck-p" d="M7 12.5l3.4 3.4L17 8.5" stroke="#B9A8F0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  $('#savedTitle').textContent=`Take ${ref.idx+1} Saved!`;
+  $('#savedDur').textContent=`DURATION · ${t.dur}`;
+  $('#savedScore').textContent='SCORE PENDING';
+  icons();
+}
+ $('#btnReview').addEventListener('click',()=>{blip('tap');goTo('analysis');});
+ $('#btnNewTake').addEventListener('click',()=>{blip('tap');goTo('record');});
 
-        for (let i = 0; i < particleCount; i += 2) {
-          const theta = (i / particleCount) * Math.PI * 2;
-          const wave = Math.sin(theta * 6 + angle * 2) * 10 + Math.cos(theta * 3 - angle) * 6;
-          const r = radius + wave;
-          const x = centerX + Math.cos(theta) * r;
-          const y = centerY + Math.sin(theta) * r;
+/* ================= 06 ANALYSIS CHECKLIST ================= */
+const CK=[
+  ['Recording Quality','48 kHz · clean signal'],
+  ['Pitch Accuracy','±12 cents average'],
+  ['Dynamics','12 dB expressive range'],
+  ['Vibrato','5.2 Hz · steady'],
+];
+const CK_STATUS=['CHECKING TONE','CHECKING NOISE FLOOR','CHECKING PITCH','CHECKING TIMING'];
+let anaTimers=[];
+function runAnalysis(){
+  anaTimers.forEach(clearTimeout); anaTimers=[];
+  const ref=state.last,t=getTake(ref);
+  $('#anaTitle').textContent=`Analyzing Take ${ref.idx+1}`;
+  $('#anaDur').textContent=t.dur;
+  $('#anaBar').style.width='0'; $('#anaDone').classList.add('hidden');
+  $('#anaStatus').textContent='PREPARING…';
+  $('#ckList').innerHTML=CK.map(([l,d],i)=>`
+    <div class="ck-row" id="ck${i}">
+      <span class="ck-c"><i data-lucide="check"></i></span>
+      <div class="ck-tx"><b>${l}</b><small>${d}</small></div>
+    </div>`).join('');
+  icons();
+  const total=CK.length*1050+400;
+  CK.forEach((_,i)=>{
+    const dur=900;
+    anaTimers.push(setTimeout(()=>{
+      $('#ck'+i).classList.add('active');
+      $('#anaStatus').textContent=CK_STATUS[i]||'CHECKING';
+      $('#anaBar').style.width=`${((i)/CK.length*100).toFixed(0)}%`;
+      $('#anaBar').style.transition=`width ${dur}ms linear`;
+      requestAnimationFrame(()=>$('#anaBar').style.width=`${((i+1)/CK.length*100).toFixed(0)}%`);
+    },i*1050));
+    anaTimers.push(setTimeout(()=>{
+      $('#ck'+i).classList.remove('active'); $('#ck'+i).classList.add('done');
+      $('#anaBar').style.transition='none'; $('#anaBar').style.width=`${((i+1)/CK.length*100).toFixed(0)}%`;
+      blip('tap');
+    },i*1050+dur));
+  });
+  anaTimers.push(setTimeout(()=>{
+    $('#anaStatus').textContent='ANALYSIS COMPLETE';
+    $('#anaDone').classList.remove('hidden'); blip('done');
+    getTake(ref).analyzed=true;
+    if(state.settings.autoplay) anaTimers.push(setTimeout(()=>goTo('coaching'),900));
+  },total));
+}
+ $('#btnViewResults').addEventListener('click',()=>goTo('coaching'));
 
-          ctx.beginPath();
-          ctx.arc(x, y, 2, 0, Math.PI * 2);
-          ctx.fillStyle = i % 4 === 0 ? '#C084FC' : '#818CF8';
-          ctx.shadowColor = '#A855F7';
-          ctx.shadowBlur = 6;
-          ctx.fill();
-        }
+/* ================= 07 SESSIONS ================= */
+const CATS=['All','Vocals','Practice','Ideas'];
+let curCat='All';
+function sessRow(s){
+  const many=s.takes.length>1;
+  return `<button class="sess-row" data-sid="${s.id}">
+    <span class="thumb">${barsHTML(s.id,14,.3,.95)}</span>
+    <span class="sess-tx"><b>${s.name}</b><small>${s.cat.toUpperCase()} · ${s.dur} · ${s.date.toUpperCase()}${many?` · ${s.takes.length} TAKES`:''}</small></span>
+    <i data-lucide="chevron-right" class="chev"></i>
+  </button>`;
+}
+function renderSessions(){
+  $('#catPills').innerHTML=CATS.map(c=>`<button class="pill${c===curCat?' on':''}" data-c="${c}">${c}</button>`).join('');
+  const list=SESSIONS.filter(s=>curCat==='All'||s.cat===curCat);
+  const tot=list.reduce((a,s)=>a+s.dur.split(':').reduce((m,v)=>m*60+ +v,0),0);
+  $('#sessCount').textContent=`${list.length} SESSION${list.length!==1?'S':''} · ${Math.floor(tot/60)} MIN TOTAL`;
+  $('#sessList').innerHTML=list.map(sessRow).join('');
+  icons();
+}
+ $('#catPills').addEventListener('click',e=>{
+  const b=e.target.closest('.pill'); if(!b)return;
+  curCat=b.dataset.c; blip('tap'); renderSessions();
+});
+ $('#sessList').addEventListener('click',e=>{
+  const b=e.target.closest('.sess-row'); if(!b)return;
+  state.cmpSid=b.dataset.sid; blip('tap'); goTo('compare');
+});
+ $('#btnNewSession').addEventListener('click',()=>{blip('tap');toast('New session started','mic');goTo('record');});
 
-        animationId = requestAnimationFrame(render);
+/* ================= 08 COMPARE ================= */
+function renderCompare(sid){
+  const s=getSession(sid);
+  $('#cmpSub').textContent=`SESSION: ${s.name.toUpperCase()} · ${s.takes.length} TAKE${s.takes.length!==1?'S':''}`;
+  const best=Math.max(...s.takes.map(t=>t.score));
+  $('#cmpList').innerHTML=s.takes.map((t,i)=>{
+    const isBest=t.score===best;
+    return `<div class="take-row${isBest?' best':''}" data-i="${i}" style="cursor:pointer">
+      <div class="take-head"><b>Take ${i+1} (${t.score})</b>
+        ${isBest?'<span class="crown-chip"><i data-lucide="crown"></i>BEST TAKE</span>':''}
+        <span class="mono-chip${isBest?' lav':''}">${t.dur}</span>
+      </div>
+      ${barsHTML(s.id+'-t'+i,30,.15,1)}
+    </div>`;
+  }).join('');
+  const bi=s.takes.findIndex(t=>t.score===best);
+  $('#cmpRec').textContent=`Take ${bi+1} has the strongest pitch consistency and overall performance.`;
+  $('#btnUseTake').textContent=`Use Take ${bi+1}`;
+  icons();
+}
+ $('#cmpList').addEventListener('click',e=>{
+  const row=e.target.closest('.take-row'); if(!row)return;
+  const i=+row.dataset.i;
+  state.last={sid:state.cmpSid,idx:i}; blip('tap');
+  toast(`Take ${i+1} selected for coaching`,'crown');
+});
+ $('#btnUseTake').addEventListener('click',()=>{
+  const s=getSession(state.cmpSid);
+  const i=s.takes.findIndex(t=>t.score===Math.max(...s.takes.map(x=>x.score)));
+  state.last={sid:s.id,idx:i}; blip('ok'); toast(`Take ${i+1} marked as master`,'crown');
+});
+ $('#btnCmpCoach').addEventListener('click',()=>{blip('tap');goTo('coaching');});
+
+/* ================= 09 COACHING ================= */
+function renderCoaching(){
+  const ref=state.last,t=getTake(ref),s=getSession(ref.sid);
+  $('#coachSub').textContent=`TAKE ${ref.idx+1} · ${s.name.toUpperCase()}`;
+  const sc=t.score;
+  const mets=[
+    ['Pitch',clamp(sc+3,55,99),'pitch'],
+    ['Dynamics',clamp(sc-2,55,99)],
+    ['Resonance',clamp(sc-1,55,99)],
+    ['Vibrato',clamp(sc+1,55,99),'vib'],
+  ];
+  $('#metrics').innerHTML=mets.map(([l,v,cls])=>`
+    <div class="metric${cls?' '+cls:''}">
+      <span class="metric-lb">${l}</span>
+      <div class="metric-bar"><span style="--w:${v}%"></span></div>
+      <b class="metric-val">${v}</b>
+    </div>`).join('');
+  icons();
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    $$('#metrics .metric').forEach((m,i)=>setTimeout(()=>m.classList.add('go'),180+i*120));
+  }));
+  const num=$('#scoreNum'); const t0=performance.now();
+  (function cu(n){ const p=clamp((n-t0)/1300,0,1),e=1-Math.pow(1-p,3);
+    num.textContent=Math.round(e*sc); if(p<1)requestAnimationFrame(cu); })(t0);
+}
+ $('#btnPractice').addEventListener('click',()=>{blip('tap');goTo('practice');});
+
+/* ================= 10 PRACTICE DRILL ================= */
+const P_C=760.1, PHASES=[['Inhale',4000],['Hold',4000],['Exhale',4000]], CYCLES=3;
+let drill={run:false,t0:0,raf:null,cycle:0,phI:0,phT0:0,sum:0,n:0,ringFired:false};
+const dg=$('#dgGlow'),dgArc=$('#dgArc');
+const easeIO=p=>p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
+function breathScale(){
+  if(!drill.run) return .55+Math.sin(performance.now()/1400)*.03;
+  const [,dur]=PHASES[drill.phI], p=clamp((performance.now()-drill.phT0)/dur,0,1);
+  if(drill.phI===0) return .55+.45*easeIO(p);
+  if(drill.phI===1) return 1+Math.sin(performance.now()/300)*.015;
+  return 1-.45*easeIO(p);
+}
+function fireRing(){
+  [$('#pr1'),$('#pr2')].forEach((el,i)=>setTimeout(()=>{
+    el.animate([{transform:'scale(.6)',opacity:.5},{transform:'scale(2)',opacity:0}],{duration:2000,easing:'ease-out'});
+  },i*350));
+}
+function drillFrame(){
+  if(!drill.run){ /* idle shimmer */ }
+  const now=performance.now();
+  const s=breathScale();
+  dg.style.transform=`scale(${s.toFixed(3)},${(s*.85).toFixed(3)})`;
+  dg.style.opacity=(.55+.45*((s-.55)/.45)).toFixed(2);
+  dgArc.style.transform=`translateY(${((1-s)*7).toFixed(1)}px)`;
+  if(drill.run){
+    const held=(now-drill.t0)/1000, total=PHASES.reduce((a,p)=>a+p[1],0)*CYCLES;
+    const [,dur]=PHASES[drill.phI];
+    const remain=Math.max(0,(dur-(now-drill.phT0))/1000);
+    $('#phaseLb').textContent=PHASES[drill.phI][0]+(drill.phI===1?' — steady':'');
+    $('#phaseCd').textContent=`CYCLE ${drill.cycle+1} / ${CYCLES} · ${PHASES[drill.phI][0].toUpperCase()} ${remain.toFixed(1)}s`;
+    $('#pracTime').textContent=`${Math.floor(held/60)}:${pad(Math.floor(held%60))}`;
+    $('#pracProg').style.strokeDashoffset=P_C*(1-clamp(held/total,0,1));
+    if(drill.phI===1){ drill.sum+=clamp(88+6*Math.sin(held*1.7)+(Math.random()-.5)*4,84,97); drill.n++; 
+      const st=Math.round(drill.sum/drill.n); $('#pracStab').textContent=st+'%'; }
+    if(now-drill.phT0>=dur){
+      drill.phI++;
+      if(drill.phI>=PHASES.length){ drill.phI=0; drill.cycle++;
+        $$('#cycleDots span').forEach((d,i)=>d.classList.toggle('on',i<=Math.min(drill.cycle,CYCLES-1)&&drill.cycle>i?true:i<drill.cycle));
+        if(drill.cycle>=CYCLES){ completeDrill(); return; }
       }
-      render();
+      drill.phT0=now;
+      if(drill.phI===0) fireRing();
+      blip(drill.phI===0?'tap':drill.phI===2?'tap':'ok');
     }
-  </script>
+  }
+  drill.raf=requestAnimationFrame(drillFrame);
+}
+function resetPractice(){
+  stopDrill(false); drill.cycle=0;
+  $('#phaseLb').textContent='Ready when you are';
+  $('#phaseCd').textContent='INHALE 4s · HOLD 4s · EXHALE 4s';
+  $('#pracTime').textContent='0:00'; $('#pracStab').textContent='—';
+  $('#pracBest').textContent=state.pracBest?Math.round(state.pracBest)+'%':'—';
+  $('#btnDrill').classList.remove('hidden'); $('#btnDrillTx').textContent='Start Drill';
+  $('#pracDoneBtns').classList.add('hidden');
+  $('#pracProg').style.strokeDashoffset=P_C;
+  $$('#cycleDots span').forEach(d=>d.classList.remove('on'));
+}
+function startDrill(){
+  ensureAC(); startMic();
+  drill.run=true; drill.t0=performance.now(); drill.phI=0; drill.phT0=performance.now();
+  drill.sum=0; drill.n=0;
+  $('#btnDrillTx').textContent='End Drill';
+  fireRing(); blip('ok');
+}
+function completeDrill(){
+  const st=Math.round(drill.sum/Math.max(1,drill.n));
+  stopDrill(false); state.pracBest=Math.max(state.pracBest||0,st);
+  $('#phaseLb').textContent='Drill complete';
+  $('#phaseCd').textContent=`${CYCLES} CYCLES · ${Math.round(PHASES.reduce((a,p)=>a+p[1],0)*CYCLES/1000)}s TOTAL`;
+  $('#pracStab').textContent=st+'%';
+  $('#pracBest').textContent=st+'%';
+  $('#btnDrill').classList.add('hidden');
+  $('#pracDoneBtns').classList.remove('hidden');
+  blip('done'); icons();
+  toast(`Breath stability ${st}%`,'wind');
+}
+function stopDrill(showDone=true){
+  const wasRun=drill.run;
+  drill.run=false;
+  if(drill.raf) cancelAnimationFrame(drill.raf), drill.raf=null;
+  if(wasRun&&showDone){
+    const held=(performance.now()-drill.t0)/1000, st=Math.round(drill.sum/Math.max(1,drill.n));
+    $('#phaseLb').textContent='Drill ended';
+    $('#phaseCd').textContent=`${held.toFixed(1)}s · STABILITY ${st}%`;
+    $('#btnDrillTx').textContent='Start Drill';
+    if(drill.n>0){ state.pracBest=Math.max(state.pracBest||0,st); $('#pracBest').textContent=st+'%'; }
+    $('#pracDoneBtns').classList.remove('hidden'); $('#btnDrill').classList.add('hidden');
+  } else if(!wasRun&&!showDone){
+    // full reset path
+  }
+}
+ $('#btnDrill').addEventListener('click',()=>{ drill.run?stopDrill(true):startDrill(); });
+ $('#btnTryAgain').addEventListener('click',()=>{blip('tap');resetPractice();});
+ $('#btnFinish').addEventListener('click',()=>{blip('ok');toast('Practice logged · +2 min');goTo('home');});
+ $('#pracClose').addEventListener('click',()=>goTo('home','back'));
+drill.raf=requestAnimationFrame(drillFrame);
+
+/* ================= PROFILE ================= */
+const SETS=[
+  ['audio-waveform','Interface sound effects','sfx'],
+  ['play','Auto-open results after analysis','autoplay'],
+  ['cloud','Cloud sync for sessions','sync'],
+];
+function renderProfile(){
+  $('#profRole').textContent=(ROLES[state.role||0]?.t||'SINGER').toUpperCase();
+  $('#setList').innerHTML=SETS.map(([i,l,k])=>`
+    <div class="set-row">
+      <span class="set-ic"><i data-lucide="${i}"></i></span><b>${l}</b>
+      <button class="switch" role="switch" aria-checked="${state.settings[k]}" data-k="${k}"></button>
+    </div>`).join('');
+  icons();
+}
+ $('#setList').addEventListener('click',e=>{
+  const sw=e.target.closest('.switch'); if(!sw)return;
+  const k=sw.dataset.k; state.settings[k]=!state.settings[k];
+  sw.setAttribute('aria-checked',state.settings[k]); blip('tap');
+});
+ $('#btnRestart').addEventListener('click',()=>{blip('tap');toast('Prototype reset');goTo('roles','back');});
+
+/* ================= GLOBAL NAV ================= */
+document.addEventListener('click',e=>{
+  const n=e.target.closest('[data-nav]');
+  if(n){ const id=n.dataset.nav;
+    if(id!==state.screen){ blip('tap');
+      if(navStack[navStack.length-1]!==id) navStack.push(id);
+      goTo(id,'fwd',false); }
+    return; }
+  const b=e.target.closest('[data-back]');
+  if(b){ blip('tap'); goBack(); return; }
+  const r=e.target.closest('[data-rail]');
+  if(r){ const id=r.dataset.rail;
+    if(id!==state.screen){ leaveScreen(state.screen); navStack=[id]; goTo(id,'fwd',false); }
+    return; }
+});
+
+/* ================= CLOCK & FIT ================= */
+function tickClock(){ const d=new Date; $('#sbTime').textContent=`${d.getHours()%12||12}:${pad(d.getMinutes())}`; }
+tickClock(); setInterval(tickClock,15000);
+function fit(){
+  const dev=$('.device');
+  if(innerWidth<=760){ dev.style.transform=''; return; }
+  const s=Math.min(1,(innerHeight-130)/880,(innerWidth-420)/420);
+  dev.style.transform=`scale(${Math.max(.55,s)})`;
+}
+fit(); addEventListener('resize',fit);
+
+/* ================= BOOT ================= */
+
+/* ================= 10-SCREEN MASTER BOARD MODAL ================= */
+const boardModal = $('#boardModal');
+const openModal = () => { boardModal.classList.remove('hidden'); icons(); };
+const closeModal = () => { boardModal.classList.add('hidden'); };
+
+$('#btnOpenBoard')?.addEventListener('click', openModal);
+$('#btnMobileBoard')?.addEventListener('click', openModal);
+$('#btnCloseBoard')?.addEventListener('click', closeModal);
+$('#boardBackdrop')?.addEventListener('click', closeModal);
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+
+icons();
+setTimeout(()=>goTo('onb'),1600);
+</script>
+
+  <!-- Mobile 10-Screen Artboard Trigger -->
+  <button class="mobile-board-btn" id="btnMobileBoard">
+    <i data-lucide="layout-grid"></i>
+    <span>10 Screens</span>
+  </button>
+
+  <!-- 10-Screen Master Board Modal -->
+  <div class="board-modal hidden" id="boardModal">
+    <div class="board-modal-backdrop" id="boardBackdrop"></div>
+    <div class="board-modal-card">
+      <div class="board-modal-bar">
+        <div class="board-modal-title">
+          <i data-lucide="layout-grid"></i>
+          <span>WAV-AID · 10-SCREEN MASTER DESIGN BOARD</span>
+        </div>
+        <div class="board-modal-actions">
+          <a href="wavaid-mockup.png" target="_blank" class="board-btn-action" download="wavaid-10-screens-board.png">
+            <i data-lucide="download"></i> Download Artboard
+          </a>
+          <button class="board-btn-close" id="btnCloseBoard"><i data-lucide="x"></i></button>
+        </div>
+      </div>
+      <div class="board-modal-img-wrap">
+        <img src="wavaid-mockup.png" alt="Wav-Aid 10-Screen Design Board" class="board-img">
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>

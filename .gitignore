@@ -1,2 +1,4 @@
-﻿figma_*.json
+figma_*.json
 *.py
+.env
+*.env
