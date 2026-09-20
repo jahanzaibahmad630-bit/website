@@ -29,11 +29,12 @@ body {
   background: #EFE8F3;
   color: var(--text-dark);
   font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
-  padding: 60px 40px;
+  padding: 40px;
+  min-height: 100vh;
 }
 .header-hero {
   max-width: 1300px;
-  margin-bottom: 40px;
+  margin-bottom: 28px;
 }
 .badge {
   display: inline-flex;
@@ -50,17 +51,129 @@ body {
   margin-bottom: 12px;
 }
 .header-hero h1 {
-  font-size: 36px;
+  font-size: 34px;
   font-weight: 800;
   color: var(--plum-dark);
   letter-spacing: -0.02em;
 }
 .header-hero p {
-  font-size: 15px;
+  font-size: 14.5px;
   color: var(--text-muted);
   margin-top: 8px;
   max-width: 800px;
   line-height: 1.5;
+}
+
+/* View Switcher */
+.view-switch-bar {
+  display: inline-flex;
+  background: #FFFFFF;
+  padding: 4px;
+  border-radius: 30px;
+  border: 1.5px solid var(--lavender-border);
+  box-shadow: 0 4px 12px rgba(56, 30, 72, 0.06);
+  margin-top: 18px;
+  gap: 4px;
+}
+.view-btn {
+  padding: 9px 20px;
+  border-radius: 24px;
+  border: none;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--text-muted);
+  background: transparent;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.view-btn.active {
+  background: var(--plum);
+  color: #FFFFFF;
+  box-shadow: 0 2px 10px rgba(56, 30, 72, 0.22);
+}
+
+/* Prototype Simulator Mode */
+body.mode-prototype {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+body.mode-prototype .header-hero {
+  text-align: center;
+}
+body.mode-prototype .view-switch-bar {
+  margin: 18px auto 0;
+}
+body.mode-prototype .artboard-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  width: 100%;
+}
+body.mode-prototype .screen-column {
+  display: none;
+}
+body.mode-prototype .screen-column.active {
+  display: flex;
+  animation: popIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.97) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.prototype-floating-nav {
+  display: none;
+}
+body.mode-prototype .prototype-floating-nav {
+  display: flex;
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(44, 24, 58, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  padding: 8px 18px;
+  border-radius: 40px;
+  color: white;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 12px 32px rgba(44, 24, 58, 0.4);
+  z-index: 1000;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+.proto-nav-btn {
+  background: rgba(255, 255, 255, 0.16);
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.proto-nav-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.28);
+}
+.proto-nav-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.proto-step-info {
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
 }
 
 .artboard-grid {
@@ -549,6 +662,14 @@ body {
   <div class="badge">AMY'S OFFICIAL HINA USER FLOW · ELEVATED WITH NATIVE FIGMA AUTO-LAYOUT</div>
   <h1>HINA — 10 High-Fidelity App Screens</h1>
   <p>Reconstructed directly from Amy’s wireframe flow with her authentic soft lavender palette, deep plum contrast buttons, and warm comforting micro-copy — now formatted in responsive 8pt Auto-Layout frames ready for Figma.</p>
+  <div class="view-switch-bar">
+    <button id="btnCanvasView" class="view-btn active" onclick="setViewMode('canvas')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg> All 10 Artboards (Canvas)
+    </button>
+    <button id="btnPrototypeView" class="view-btn" onclick="setViewMode('prototype')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><line x1="12" x2="12.01" y1="18" y2="18"/></svg> Interactive Prototype
+    </button>
+  </div>
 </div>
 
 <div class="artboard-grid">
@@ -1032,5 +1153,90 @@ body {
 
 </div>
 
+<!-- Floating Navigation for Prototype Simulator -->
+<div class="prototype-floating-nav" id="protoNav">
+  <button class="proto-nav-btn" id="btnPrev" onclick="prevScreen()">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg> Prev
+  </button>
+  <span class="proto-step-info" id="protoStepInfo">Screen 1 of 10</span>
+  <button class="proto-nav-btn" id="btnNext" onclick="nextScreen()">
+    Next <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+  </button>
+</div>
+
+<script>
+  let currentScreen = 0;
+  const columns = document.querySelectorAll('.screen-column');
+
+  function setViewMode(mode) {
+    const isProto = mode === 'prototype';
+    document.body.classList.toggle('mode-prototype', isProto);
+    document.getElementById('btnPrototypeView').classList.toggle('active', isProto);
+    document.getElementById('btnCanvasView').classList.toggle('active', !isProto);
+
+    if (isProto) {
+      showScreen(currentScreen);
+    } else {
+      columns.forEach(col => col.classList.remove('active'));
+    }
+  }
+
+  function showScreen(idx) {
+    currentScreen = Math.max(0, Math.min(columns.length - 1, idx));
+    columns.forEach((col, i) => {
+      col.classList.toggle('active', i === currentScreen);
+    });
+    
+    const labelSpan = columns[currentScreen].querySelector('.col-label span:first-child');
+    const title = labelSpan ? labelSpan.textContent : 'Screen ' + (currentScreen + 1);
+    document.getElementById('protoStepInfo').textContent = title + ' (' + (currentScreen + 1) + '/10)';
+
+    document.getElementById('btnPrev').disabled = (currentScreen === 0);
+    document.getElementById('btnNext').disabled = (currentScreen === columns.length - 1);
+  }
+
+  function nextScreen() {
+    if (currentScreen < columns.length - 1) {
+      showScreen(currentScreen + 1);
+    }
+  }
+
+  function prevScreen() {
+    if (currentScreen > 0) {
+      showScreen(currentScreen - 1);
+    }
+  }
+
+  // Interactive step advancement on in-app action buttons
+  columns.forEach((col, idx) => {
+    // Next triggers
+    const forwardTargets = col.querySelectorAll('.btn-plum, .btn-continue, .match-card, .btn-scan, .ech-cta');
+    forwardTargets.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        if (document.body.classList.contains('mode-prototype')) {
+          e.preventDefault();
+          nextScreen();
+        }
+      });
+    });
+
+    // Back triggers
+    const backTargets = col.querySelectorAll('.btn-back, .nav-btn:first-child');
+    backTargets.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        if (document.body.classList.contains('mode-prototype')) {
+          e.preventDefault();
+          prevScreen();
+        }
+      });
+    });
+  });
+
+  // Check URL query param for default prototype mode
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('mode') === 'prototype' || window.innerWidth < 800) {
+    setViewMode('prototype');
+  }
+</script>
 </body>
 </html>
