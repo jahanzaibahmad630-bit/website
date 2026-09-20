@@ -1157,37 +1157,70 @@ $('#recMenu').addEventListener('click', () => {
   toast('Soulful Riffs · 48kHz Lossless', 'music-2');
 });
 
-/* ============ 3D VOICE SPHERE ENGINE (FRAMES 1-5) ============ */
+/* ============ 3D VOICE SPHERE ENGINE (GLM-5.2 CIRCULAR SYNTHESIS) ============ */
 const orbCv = $('#orbCv'), octx = orbCv.getContext('2d');
 let orbRun = false, orbT = 0, orbAmp = 0.25, orbTargetAmp = 0.25;
+let rotY = 0, rotX = 0, targetRotY = 0, targetRotX = 0, autoSpin = 0;
+let isDragging = false, lastDragX = 0, lastDragY = 0;
+
 const N_PARTICLES = 1400;
-const R0 = 104; // base sphere radius
+const pts = new Float32Array(N_PARTICLES * 6); // [ux, uy, uz, phase, mix, size]
+const golden = Math.PI * (3 - Math.sqrt(5));
 
-// Pre-generate Fibonacci spherical lattice
-const orbPoints = [];
+// 1. Fibonacci Sphere Lattice (Guarantees 100% spherical symmetry, zero flat poles)
 for (let i = 0; i < N_PARTICLES; i++) {
-  const phi = Math.acos(1 - 2 * (i + 0.5) / N_PARTICLES);
-  const theta = Math.PI * (1 + Math.sqrt(5)) * i;
-  orbPoints.push({
-    phi,
-    theta,
-    seed: Math.random(),
-    speed: 0.8 + Math.random() * 0.4
+  const y = 1 - (i / (N_PARTICLES - 1)) * 2; // -1 to 1
+  const r = Math.sqrt(Math.max(0, 1 - y * y));
+  const theta = golden * i;
+  const x = Math.cos(theta) * r;
+  const z = Math.sin(theta) * r;
+  const o = i * 6;
+  pts[o]     = x; // unit vector ux
+  pts[o + 1] = y; // unit vector uy
+  pts[o + 2] = z; // unit vector uz
+  pts[o + 3] = Math.random() * Math.PI * 2; // harmonic phase
+  pts[o + 4] = Math.random();               // color mix (cyan vs electric white)
+  pts[o + 5] = 0.8 + Math.random() * 0.9;   // delicate size 0.8px to 1.7px
+}
+
+// 2. Dedicated Equatorial Waveform Ribbon (Frames 4 & 5)
+const N_RIBBON = 220;
+const ribbon = new Float32Array(N_RIBBON * 3); // [ang, phase, size]
+for (let i = 0; i < N_RIBBON; i++) {
+  const o = i * 3;
+  ribbon[o]     = (i / N_RIBBON) * Math.PI * 2;
+  ribbon[o + 1] = Math.random() * Math.PI * 2;
+  ribbon[o + 2] = 0.9 + Math.random() * 0.9;
+}
+
+// Pointer drag to interactively rotate in 3D
+const orbContainer = $('#orbContainer');
+if (orbContainer) {
+  orbContainer.addEventListener('pointerdown', (e) => {
+    isDragging = true;
+    lastDragX = e.clientX;
+    lastDragY = e.clientY;
+    orbContainer.setPointerCapture?.(e.pointerId);
   });
+  orbContainer.addEventListener('pointermove', (e) => {
+    if (!isDragging) return;
+    const dx = e.clientX - lastDragX;
+    const dy = e.clientY - lastDragY;
+    targetRotY += dx * 0.006;
+    targetRotX += dy * 0.006;
+    targetRotX = Math.max(-1.1, Math.min(1.1, targetRotX));
+    lastDragX = e.clientX;
+    lastDragY = e.clientY;
+  });
+  const stopDrag = () => { isDragging = false; };
+  orbContainer.addEventListener('pointerup', stopDrag);
+  orbContainer.addEventListener('pointercancel', stopDrag);
 }
 
-function orbSize() {
-  const d = Math.min(2, window.devicePixelRatio || 1);
-  const r = orbCv.getBoundingClientRect();
-  if (!r.width) return;
-  orbCv.width = r.width * d;
-  orbCv.height = r.height * d;
-  octx.setTransform(d, 0, 0, d, 0, 0);
-}
-
-// Click orbContainer to manually cycle / inspect all 5 vocal reaction frames
+// Cycle vocal reaction frames on click
 let manualMode = 0;
-$('#orbContainer')?.addEventListener('click', () => {
+orbContainer?.addEventListener('click', (e) => {
+  if (e && e.clientX !== undefined && (Math.abs(e.clientX - lastDragX) > 6 || Math.abs(e.clientY - lastDragY) > 6)) return;
   manualMode = (manualMode + 1) % 5;
   const modes = [
     { amp: 0.12, name: 'Frame 1: Rest / Idle Sphere' },
@@ -1200,37 +1233,45 @@ $('#orbContainer')?.addEventListener('click', () => {
   toast(modes[manualMode].name, 'sparkles');
 });
 
+function orbSize() {
+  const d = Math.min(2, window.devicePixelRatio || 1);
+  const r = orbCv.getBoundingClientRect();
+  const w = r.width || 300;
+  const h = r.height || 300;
+  orbCv.width = w * d;
+  orbCv.height = h * d;
+  octx.setTransform(d, 0, 0, d, 0, 0);
+}
+
 function orbLoop() {
   if (!orbRun) return;
   orbT += 1 / 60;
 
   const live = rec.on && !rec.paused;
 
-  // Natural musical phrasing simulation (or live mic)
+  // Real Web Audio input or smooth simulated phrasing
   if (analyser) {
     orbTargetAmp = getAmp(performance.now());
   } else if (live) {
-    // 11-second vocal cycle dynamically exhibiting Frames 1 to 5
     const phase = (orbT % 11);
     if (phase < 2.0) {
       orbTargetAmp = 0.15 + Math.sin(orbT * 3) * 0.05; // Frame 1 & 2
     } else if (phase < 4.5) {
-      orbTargetAmp = 0.38 + Math.sin(orbT * 4) * 0.10; // Frame 2 & 3 (Ripples)
+      orbTargetAmp = 0.38 + Math.sin(orbT * 4) * 0.10; // Frame 2 & 3
     } else if (phase < 7.5) {
-      orbTargetAmp = 0.65 + Math.sin(orbT * 6) * 0.12; // Frame 4 (Equatorial Waveform)
+      orbTargetAmp = 0.65 + Math.sin(orbT * 6) * 0.12; // Frame 4
     } else if (phase < 9.8) {
-      orbTargetAmp = 0.94 + Math.sin(orbT * 8) * 0.05; // Frame 5 (Peak Spikes Crown!)
+      orbTargetAmp = 0.94 + Math.sin(orbT * 8) * 0.05; // Frame 5
     } else {
-      orbTargetAmp = 0.22; // Release
+      orbTargetAmp = 0.22;
     }
   } else {
-    orbTargetAmp = 0.08; // Idle standby
+    orbTargetAmp = 0.08;
   }
 
-  // Smooth amplitude interpolation
   orbAmp += (orbTargetAmp - orbAmp) * 0.14;
 
-  // Update header red wave indicator bars
+  // Header red wave indicator bars
   const redBars = $('#recTimerWave i');
   if (redBars.length) {
     redBars.forEach((bar, idx) => {
@@ -1240,115 +1281,143 @@ function orbLoop() {
   }
 
   const r = orbCv.getBoundingClientRect();
-  if (r.width) {
-    const W = r.width, H = r.height;
-    const cx = W / 2, cy = H / 2;
-    octx.clearRect(0, 0, W, H);
+  const W = r.width || 300;
+  const H = r.height || 300;
+  const CX = W * 0.5, CY = H * 0.5;
+  const BASE_R = Math.min(W, H) * 0.355; // ~106.5px, strictly circular radius
 
-    // 3D rotation angles
-    const rotX = orbT * 0.22;
-    const rotY = orbT * 0.38;
-    const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
-    const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
+  // Clear canvas
+  octx.clearRect(0, 0, W, H);
 
-    // Additive blending for ethereal glowing particle mesh
-    octx.globalCompositeOperation = 'lighter';
+  // Rotation physics
+  rotY += (targetRotY - rotY) * 0.08;
+  rotX += (targetRotX - rotX) * 0.08;
+  if (!isDragging) autoSpin += 0.0035;
+  const ry = rotY + autoSpin;
+  const rx = rotX;
+  const cy = Math.cos(ry), sy = Math.sin(ry);
+  const cx = Math.cos(rx), sx = Math.sin(rx);
 
-    // 1. Central equatorial oscilloscope waveform ribbon (Frame 4 & 5)
-    if (orbAmp > 0.3) {
-      octx.beginPath();
-      const wavePts = 52;
-      const wSpan = R0 * 1.95;
-      for (let j = 0; j <= wavePts; j++) {
-        const tNorm = j / wavePts; // 0 to 1
-        const wx = cx - wSpan / 2 + tNorm * wSpan;
-        const windowEnv = Math.sin(tNorm * Math.PI);
-        const wy = cy + Math.sin(tNorm * 18 - orbT * 11) * (windowEnv * orbAmp * 34);
-        if (j === 0) octx.moveTo(wx, wy); else octx.lineTo(wx, wy);
-      }
-      octx.strokeStyle = `rgba(0, 240, 255, ${Math.min(1, (orbAmp - 0.25) * 1.8)})`;
-      octx.lineWidth = 2.2;
-      octx.stroke();
+  // Additive blending for luminous glow
+  octx.globalCompositeOperation = 'lighter';
 
-      // Inner white core of the ribbon
-      octx.strokeStyle = `rgba(255, 255, 255, ${Math.min(0.9, (orbAmp - 0.25) * 1.5)})`;
-      octx.lineWidth = 1.1;
-      octx.stroke();
+  // 1. Render 3D Spherical Particle Mesh (Strictly Circular from all angles)
+  for (let i = 0; i < N_PARTICLES; i++) {
+    const o = i * 6;
+    const ux = pts[o], uy = pts[o + 1], uz = pts[o + 2];
+    const phase = pts[o + 3];
+    const mix = pts[o + 4];
+    const bsize = pts[o + 5];
+
+    // Radial wave undulation along unit normal (CANNOT flatten or become a box)
+    const wave = Math.sin(orbT * 3.2 + phase) * 0.5 + Math.sin(orbT * 1.8 + phase * 1.6 + uy * 2.2) * 0.5;
+    
+    // Outward frequency spikes during vocal crescendo (Frame 5)
+    // Radiates outward strictly radially from center
+    const spike = orbAmp > 0.45 
+      ? Math.pow(Math.abs(Math.sin(phase * 4 + orbT * 6)), 6) * (orbAmp - 0.45) * 0.5
+      : 0;
+
+    const r_mod = BASE_R * (1.0 + wave * 0.04 + orbAmp * 0.06 + spike);
+
+    const x = ux * r_mod;
+    const y = uy * r_mod;
+    const z = uz * r_mod;
+
+    // 3D rotation
+    const x1 = x * cy + z * sy;
+    const z1 = -x * sy + z * cy;
+    const y1 = y * cx - z1 * sx;
+    const z2 = y * sx + z1 * cx;
+
+    // Perspective projection
+    const persp = 1.0 / (1.0 + z2 / (BASE_R * 3.2));
+    const px = CX + x1 * persp;
+    const py = CY + y1 * persp;
+
+    // Depth-based lighting
+    const depthN = (z2 / BASE_R + 1) * 0.5; // 0 (back) to 1 (front)
+    const bright = 0.28 + depthN * 0.72;
+    const size = bsize * persp * (0.8 + (spike > 0.05 ? 0.4 : 0));
+    const alpha = clamp(bright * (0.55 + orbAmp * 0.45), 0.15, 1);
+
+    // Color: ice-cyan (#00F0FF) to electric-white (#FFFFFF)
+    if (spike > 0.08) {
+      octx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+    } else if (mix > 0.45) {
+      octx.fillStyle = `rgba(225, 245, 255, ${alpha})`;
+    } else {
+      octx.fillStyle = `rgba(0, 240, 255, ${alpha * 0.92})`;
     }
 
-    // 2. 3D particle mesh with 5-stage harmonic equations
-    for (let i = 0; i < N_PARTICLES; i++) {
-      const p = orbPoints[i];
-      const phi = p.phi;
-      const theta = p.theta;
+    octx.beginPath();
+    octx.arc(px, py, Math.min(1.8, Math.max(0.4, size)), 0, 6.2831853);
+    octx.fill();
 
-      // 1. Base harmonic breathing (Frame 1)
-      const w_base = Math.sin(3 * theta + orbT * 2.2) * Math.cos(2 * phi - orbT * 1.6) * (3 + orbAmp * 4);
-
-      // 2. Traveling harmonic ripples (Frame 2)
-      const w_res = Math.sin(6 * theta + phi * 3 + orbT * 3.6) * (orbAmp * 11);
-
-      // 3. Equatorial waveform modulation (Frame 4)
-      const eqDist = Math.abs(phi - Math.PI / 2);
-      const w_eq = Math.sin(14 * theta + orbT * 8) * Math.exp(-eqDist * eqDist / 0.09) * (orbAmp * 26);
-
-      // 4. Outward vertical frequency spikes (Frame 5)
-      const spikePower = Math.pow(orbAmp, 1.45);
-      const spikePattern = Math.pow(Math.abs(Math.sin(9 * theta + Math.floor(phi * 4))), 4);
-      const w_spike = spikePower * spikePattern * Math.sin(phi) * 44;
-
-      const R = R0 + w_base + w_res + w_eq + w_spike;
-
-      // 3D Cartesian coords
-      const x = R * Math.sin(phi) * Math.cos(theta);
-      const y = R * Math.cos(phi);
-      const z = R * Math.sin(phi) * Math.sin(theta);
-
-      // 3D Rotation (Yaw then Pitch)
-      const x1 = x * cosY + z * sinY;
-      const z1 = -x * sinY + z * cosY;
-      const y2 = y * cosX - z1 * sinX;
-      const z2 = y * sinX + z1 * cosX;
-
-      // Perspective Projection
-      const fov = 380;
-      const scale = fov / (fov + z2);
-      const px = cx + x1 * scale;
-      const py = cy + y2 * scale;
-
-      // Depth-based size and opacity
-      const depthNorm = (z2 + R0) / (2 * R0); // 0 (far) to 1 (near)
-      const alpha = clamp(0.18 + depthNorm * 0.72 + (w_spike > 12 ? 0.3 : 0), 0.1, 1);
-      const pSize = (0.7 + depthNorm * 1.2 + (w_spike > 12 ? 0.6 : 0)) * scale;
-
-      // Draw particle
-      octx.fillStyle = w_spike > 16
-        ? `rgba(255, 255, 255, ${alpha})`
-        : p.seed < 0.55
-          ? `rgba(0, 240, 255, ${alpha * 0.9})`
-          : `rgba(230, 245, 255, ${alpha})`;
-
+    // Needle ray for peak spikes
+    if (spike > 0.06 && depthN > 0.35) {
+      const bx = CX + (ux * BASE_R) * cy * persp;
+      const by = CY + (uy * BASE_R) * cx * persp;
+      octx.strokeStyle = `rgba(0, 240, 255, ${alpha * 0.4})`;
+      octx.lineWidth = 0.8;
       octx.beginPath();
-      octx.arc(px, py, pSize, 0, 6.283);
-      octx.fill();
-
-      // In Frame 5: Draw needle ray line connecting inward if it's a prominent spike
-      if (w_spike > 18 && depthNorm > 0.4) {
-        const baseR = R0 * scale;
-        const bx = cx + (x1 / R) * baseR;
-        const by = cy + (y2 / R) * baseR;
-        octx.strokeStyle = `rgba(0, 240, 255, ${alpha * 0.45})`;
-        octx.lineWidth = 0.8;
-        octx.beginPath();
-        octx.moveTo(bx, by);
-        octx.lineTo(px, py);
-        octx.stroke();
-      }
+      octx.moveTo(bx, by);
+      octx.lineTo(px, py);
+      octx.stroke();
     }
-
-    octx.globalCompositeOperation = 'source-over';
   }
 
+  // 2. Render Equatorial Oscilloscope Waveform Ribbon (Frame 4 & 5)
+  if (orbAmp > 0.25) {
+    const ribbonR = BASE_R * 1.02;
+    for (let i = 0; i < N_RIBBON; i++) {
+      const o = i * 3;
+      const ang = ribbon[o] + autoSpin * 0.4;
+      const phase = ribbon[o + 1];
+      const bsize = ribbon[o + 2];
+
+      const wave = Math.sin(orbT * 7.0 + phase + ang * 4) * 0.5 + 0.5;
+      const rr = ribbonR * (1.0 + wave * 0.03 + orbAmp * 0.12);
+
+      // Oscilloscope vertical wave along the equator
+      const yWave = Math.sin(ang * 7 - orbT * 9) * (orbAmp * 18);
+
+      const x = Math.cos(ang) * rr;
+      const y = yWave;
+      const z = Math.sin(ang) * rr;
+
+      const x1 = x * cy + z * sy;
+      const z1 = -x * sy + z * cy;
+      const y1 = y * cx - z1 * sx;
+      const z2 = y * sx + z1 * cx;
+
+      const persp = 1.0 / (1.0 + z2 / (BASE_R * 3.2));
+      const px = CX + x1 * persp;
+      const py = CY + y1 * persp;
+
+      const depthN = (z2 / BASE_R + 1) * 0.5;
+      const alpha = clamp((0.35 + depthN * 0.65) * (orbAmp * 1.2), 0.1, 1);
+      const size = bsize * persp * (0.8 + orbAmp * 0.5);
+
+      octx.fillStyle = `rgba(140, 245, 255, ${alpha})`;
+      octx.beginPath();
+      octx.arc(px, py, Math.min(2.0, Math.max(0.4, size)), 0, 6.2831853);
+      octx.fill();
+    }
+  }
+
+  // 3. Center Radial Falloff Mask (ensures "AI Voice Visualization" text is 100% legible)
+  octx.globalCompositeOperation = 'destination-out';
+  const grad = octx.createRadialGradient(CX, CY, 0, CX, CY, BASE_R * 0.52);
+  grad.addColorStop(0, 'rgba(0,0,0,0.85)');
+  grad.addColorStop(0.5, 'rgba(0,0,0,0.45)');
+  grad.addColorStop(1, 'rgba(0,0,0,0)');
+  octx.fillStyle = grad;
+  octx.beginPath();
+  octx.arc(CX, CY, BASE_R * 0.52, 0, 6.2831853);
+  octx.fill();
+
+  octx.globalCompositeOperation = 'source-over';
   requestAnimationFrame(orbLoop);
 }
 
