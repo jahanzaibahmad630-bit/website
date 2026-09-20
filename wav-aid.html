@@ -1103,34 +1103,6 @@ function startRecLoop(){
   orbMain.resize&&orbMain.resize(); orbMain.start();
 }
 
-/* ================= LIVE WAVEFORM ================= */
-const lwC=$('#liveWave'), lwx=lwC.getContext('2d');
-let ampHist=[],waveRun=false;
-function waveLoop(){
-  if(waveRun) return; waveRun=true;
-  (function frame(){
-    if(state.screen!=='record'){ waveRun=false; return; }
-    const d=Math.min(2,devicePixelRatio||1), r=lwC.getBoundingClientRect();
-    if(r.width){ if(lwC.width!==r.width*d){ lwC.width=r.width*d; lwC.height=r.height*d; lwx.setTransform(d,0,0,d,0,0); }
-      const rec_now=rec.state==='rec';
-      ampHist.push(rec_now?getAmp(performance.now()):(rec.state==='paused'?.04:.08+Math.random()*.03));
-      if(ampHist.length>70) ampHist.shift();
-      const W=r.width,H=r.height,mid=H/2;
-      lwx.clearRect(0,0,W,H);
-      const n=ampHist.length,bw=3,gap=2,x0=W-(n*(bw+gap));
-      for(let i=0;i<n;i++){
-        const a=ampHist[i],h=Math.max(2.5,a*H*.92);
-        lwx.fillStyle=i>n-4?'rgba(201,187,255,.95)':`rgba(255,255,255,${(.16+a*.5).toFixed(2)})`;
-        const x=x0+i*(bw+gap);
-        lwx.beginPath();
-        if(lwx.roundRect) lwx.roundRect(x,mid-h/2,bw,h,2); else lwx.rect(x,mid-h/2,bw,h);
-        lwx.fill();
-      }
-    }
-    requestAnimationFrame(frame);
-  })();
-}
-
 /* ================= 01 ONBOARDING ================= */
 const SLIDES=[
   {seed:'wavaid-singer', k:'STUDIO · 01', t:'Discover Your Voice',    p:'Creating a personalized vocal experience for better singing.'},
@@ -1261,6 +1233,22 @@ function recStopSilent(){
   clearInterval(rec.iv);
   if(micStream){ micStream.getTracks().forEach(t=>t.stop()); micStream=null; }
 }
+
+
+// Wire recording controls
+$('#btnRec')?.addEventListener('click', () => {
+  if (rec.state === 'rec') stopRec();
+  else startRec();
+});
+$('#btnPause')?.addEventListener('click', pauseRec);
+$('#btnFlag')?.addEventListener('click', () => {
+  blip('tap');
+  toast('Take marked & saved to bookmarks', 'bookmark');
+});
+$('#recMore')?.addEventListener('click', () => {
+  toast('Studio Input: 48kHz Stereo 24-bit', 'sliders');
+});
+
 
 /* ================= 05 TAKE SAVED ================= */
 function renderSaved(){
