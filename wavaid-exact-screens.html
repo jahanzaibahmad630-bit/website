@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wav-Aid — 10 Concept Screens (Exact 1:1 Match)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0B0C10;
+    --card: #151720;
+    --border: rgba(255, 255, 255, 0.08);
+    --purple: #A855F7;
+    --text: #F3F4F6;
+    --text-dim: #9CA3AF;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #08080C;
+    color: var(--text);
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    padding: 60px 40px;
+  }
+  .header {
+    max-width: 1400px;
+    margin: 0 auto 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 24px;
+  }
+  .header h1 {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .header h1 span {
+    font-size: 14px;
+    font-weight: 600;
+    background: rgba(168, 85, 247, 0.15);
+    color: var(--purple);
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+  }
+  .header p {
+    color: var(--text-dim);
+    font-size: 15px;
+    margin-top: 6px;
+  }
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 36px;
+    max-width: 1900px;
+    margin: 0 auto;
+  }
+  .screen-col {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .screen-badge {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+    padding: 0 4px;
+  }
+  .screen-badge strong {
+    color: #fff;
+    font-weight: 700;
+  }
+  .screen-badge .tag {
+    color: var(--purple);
+    font-weight: 600;
+  }
+  .phone-card {
+    background: #000;
+    border-radius: 46px;
+    padding: 8px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.12);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+  }
+  .phone-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 40px;
+    object-fit: cover;
+  }
+  .screen-desc {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.4;
+    padding: 4px;
+  }
+  @media (max-width: 1600px) {
+    .grid-container {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  @media (max-width: 1000px) {
+    .grid-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>Wav-Aid <span>iOS Design System · 10 Screens</span></h1>
+    <p>Exact 1:1 fidelity alignment with concept art & technical breakdown</p>
+  </div>
+  <div style="font-family:'JetBrains Mono'; font-size:13px; color:var(--text-dim);">
+    Platform: iOS 17 / 18 · 390 × 844
+  </div>
+</div>
+
+<div class="grid-container">
+
+  <!-- Screen 1 -->
+  <div class="screen-col">
+    <div class="screen-badge">
+      <strong>SCREEN 01</strong>
+      <span class="tag">ONBOARDING</span>
+    </div>
+    <div class="phone-card">
+      <img src="assets/wavaid/screen_1.png" alt="Discover Your Voice - Onboarding">
+    </div>
+    <div class="screen-desc">
+      <strong>Discover Your Voice</strong><br>
+      High-impact 3D studio hero with professional condenser mic & audio waveform branding.
+    </div>
+  </div>
+
+  <!-- Screen 2 -->
+  <div class="screen-col">
+    <div class="screen-badge">
+      <strong>SCREEN 02</strong>
+      <span class="tag">ROLE SELECT</span>
+    </div>
+    <div class="phone-card">
+      <img src="assets/wavaid/screen_2.png" alt="Who are you? - Role Selector">
+    </div>
+    <div class="screen-desc">
+      <strong>Who Are You?</strong><br>
+      Interactive 4-quadrant profile selection: Singer, Voice Actor, Public Speaker, Musician.
+    </div>
+  </div>
+
+  <!-- Screen 3 -->
+  <div class="screen-col">
+    <div class="screen-badge">
+      <strong>SCREEN 03</strong>
+      <span class="tag">DASHBOARD</span>
+    </div>
+    <div class="phone-card">
+      <img src="assets/wavaid/screen_3.png" alt="Welcome Back Alex - Dashboard">
+    </div>
+    <div class="screen-desc">
+      <strong>Welcome Back, Alex!</strong><br>
+      Rotating 3D vinyl record card, quick session launch, recent activity feed & docked mic.
+    </div>
+  </div>
+
+  <!-- Screen 4 -->
+  <div class="screen-col">
+    <div class="screen-badge">
+      <strong>SCREEN 04</strong>
+      <span class="tag">RECORDING</span>
+    </div>
+    <div class="phone-card">
+      <img src="assets/wavaid/screen_4.png" alt="Active Recording - Particle Orb">
+    </div>
+    <div class="screen-desc">
+      <strong>Active Recording</strong><br>
+      Bioluminescent particle orb with real-time waveform, precision timer & audio gain meters.
+    </div>
+  </div>
+
+  <!-- Screen 5 -->
+  <div class="screen-col">
+    <div class="screen-badge">
+      <strong>SCREEN 05</strong>
+      <span class="tag">SAVE / REVIEW</span>
+    </div>
+    <div class="phone-card">
+      <img src="assets/wavaid/screen_5.png" alt="Take Saved - Review">
+    </div>
+    <div class="screen-desc">
+      <strong>Take Saved!</strong><br>
+      Instant confirmation state with dual action: Review Take analytics or Start New Take.
+    </div>
+  </div>
+
+  <!-- Screen 6 -->
+  <div class="screen-col">
+    <div class="screen-badge">
+      <strong>SCREEN 06</strong>
+      <span class="tag">AI ANALYSIS</span>
+    </div>
+    <div class="phone-card">
+      <img src="assets/wavaid/screen_6.png" alt="AI Analysis Checklist">
+    </div>
+    <div class="screen-desc">
+      <strong>AI Analysis Checklist</strong><br>
+      Real-time progress tracker verifying Pitch Accuracy, Dynamic Range, and Vibrato consistency.
+    </div>
+  </div>
+
+  <!-- Screen 7 -->
+  <div class="screen-col">
+    <div class="screen-badge">
+      <strong>SCREEN 07</strong>
+      <span class="tag">LIBRARY</span>
+    </div>
+    <div class="phone-card">
+      <img src="assets/wavaid/screen_7.png" alt="Sessions Library">
+    </div>
+    <div class="screen-desc">
+      <strong>Sessions Library</strong><br>
+      Structured audio take catalog with project artwork thumbnails, timestamps, and take tags.
+    </div>
+  </div>
+
+  <!-- Screen 8 -->
+  <div class="screen-col">
+    <div class="screen-badge">
+      <strong>SCREEN 08</strong>
+      <span class="tag">COMPARISON</span>
+    </div>
+    <div class="phone-card">
+      <img src="assets/wavaid/screen_8.png" alt="Multi-Take Comparison">
+    </div>
+    <div class="screen-desc">
+      <strong>Multi-Take Comparison</strong><br>
+      Side-by-side waveform analysis with golden crown badge highlighting best performing take.
+    </div>
+  </div>
+
+  <!-- Screen 9 -->
+  <div class="screen-col">
+    <div class="screen-badge">
+      <strong>SCREEN 09</strong>
+      <span class="tag">COACHING</span>
+    </div>
+    <div class="phone-card">
+      <img src="assets/wavaid/screen_9.png" alt="AI Vocal Coaching Score">
+    </div>
+    <div class="screen-desc">
+      <strong>Vocal Coaching Score</strong><br>
+      91/100 composite scorecard with granular bars for Pitch (94), Dynamics (89), Resonance (90), Vibrato (92).
+    </div>
+  </div>
+
+  <!-- Screen 10 -->
+  <div class="screen-col">
+    <div class="screen-badge">
+      <strong>SCREEN 10</strong>
+      <span class="tag">DRILL TRAINER</span>
+    </div>
+    <div class="phone-card">
+      <img src="assets/wavaid/screen_10.png" alt="Practice Drill - Diaphragm Power">
+    </div>
+    <div class="screen-desc">
+      <strong>Practice Drill Trainer</strong><br>
+      Interactive anatomical breath guidance diagram with dynamic diaphragm expansion coaching.
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

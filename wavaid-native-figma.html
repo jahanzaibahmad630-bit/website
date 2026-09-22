@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wav-Aid — 10 Native iOS Screens (Figma Auto-Layout System)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #090A0E;
+    --card: #14161F;
+    --card-hover: #1A1D29;
+    --card-border: rgba(255, 255, 255, 0.08);
+    --card-border-subtle: #202330;
+    --purple: #B49FF7;
+    --purple-dark: #8B5CF6;
+    --purple-glow: rgba(180, 159, 247, 0.25);
+    --gold: #F59E0B;
+    --gold-glow: rgba(245, 158, 11, 0.3);
+    --red: #EF4444;
+    --green: #10B981;
+    --text: #F3F4F6;
+    --text-dim: #9CA3AF;
+    --text-muted: #6B7280;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #050508;
+    color: var(--text);
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    padding: 60px 40px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Header */
+  .page-header {
+    max-width: 2100px;
+    margin: 0 auto 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 1px solid var(--card-border);
+    padding-bottom: 24px;
+  }
+  .page-header h1 {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .page-header h1 span {
+    font-size: 13px;
+    font-weight: 700;
+    background: rgba(180, 159, 247, 0.15);
+    color: var(--purple);
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(180, 159, 247, 0.3);
+    letter-spacing: 0.05em;
+  }
+  .page-header p {
+    color: var(--text-dim);
+    font-size: 15px;
+    margin-top: 6px;
+  }
+
+  /* Canvas Grid */
+  .screens-canvas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    max-width: 2200px;
+    margin: 0 auto;
+    justify-content: flex-start;
+  }
+
+  .screen-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .screen-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    padding: 0 4px;
+    color: var(--text-muted);
+  }
+  .screen-meta strong {
+    color: #fff;
+    font-weight: 700;
+  }
+  .screen-meta .badge {
+    color: var(--purple);
+    font-weight: 600;
+  }
+
+  /* Phone Device Frame */
+  .phone-frame {
+    width: 390px;
+    height: 844px;
+    background: var(--bg);
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    flex: none;
+  }
+
+  /* Status Bar */
+  .status-bar {
+    height: 48px;
+    padding: 0 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: none;
+    z-index: 50;
+  }
+  .sb-time {
+    font-size: 14.5px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: -0.01em;
+  }
+  .sb-island {
+    width: 110px;
+    height: 28px;
+    background: #000;
+    border-radius: 14px;
+  }
+  .sb-icons {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #fff;
+  }
+
+  /* Screen Body */
+  .screen-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 24px 20px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Top Navigation Row */
+  .top-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex: none;
+  }
+  .back-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    cursor: pointer;
+  }
+  .top-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+  }
+  .top-action {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dim);
+  }
+
+  /* Universal Buttons */
+  .btn-pill-primary {
+    width: 100%;
+    height: 52px;
+    background: var(--purple);
+    color: #0A0A0E;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 999px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 18px var(--purple-glow);
+    transition: transform 0.15s ease;
+    margin-top: auto;
+    flex: none;
+  }
+  .btn-pill-secondary {
+    width: 100%;
+    height: 52px;
+    background: var(--card);
+    border: 1px solid var(--card-border-subtle);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    cursor: pointer;
+    flex: none;
+  }
+
+  /* iOS Dock / Tab Bar */
+  .dock-bar {
+    height: 78px;
+    background: rgba(14, 15, 22, 0.95);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(20px);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 16px 14px;
+    flex: none;
+    position: relative;
+    z-index: 40;
+  }
+  .dock-tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: var(--text-muted);
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .dock-tab.active {
+    color: #fff;
+  }
+  .dock-tab.active svg {
+    stroke: var(--purple);
+  }
+  .dock-mic-btn {
+    position: relative;
+    top: -14px;
+    width: 52px;
+    height: 52px;
+    background: #E53E3E;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    box-shadow: 0 0 24px rgba(229, 62, 62, 0.55), 0 4px 12px rgba(0, 0, 0, 0.6);
+    border: 3px solid #090A0E;
+    cursor: pointer;
+  }
+
+  /* Home Indicator */
+  .home-indicator {
+    width: 138px;
+    height: 4.5px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 3px;
+    margin: 8px auto 6px;
+    flex: none;
+  }
+
+  /* ========================================================
+     SCREEN 01: ONBOARDING
+     ======================================================== */
+  .s1-logo-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 8px;
+    margin-bottom: 14px;
+  }
+  .s1-logo-row span {
+    font-size: 21px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.02em;
+  }
+  .s1-hero-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .s1-hero-img {
+    width: 100%;
+    max-height: 440px;
+    object-fit: contain;
+    border-radius: 24px;
+  }
+  .s1-copy {
+    text-align: center;
+    padding: 10px 0 16px;
+  }
+  .s1-copy h2 {
+    font-size: 26px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .s1-copy p {
+    font-size: 13.5px;
+    color: var(--text-dim);
+    line-height: 1.45;
+    max-width: 290px;
+    margin: 0 auto;
+  }
+  .dots-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 14px;
+  }
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.2);
+  }
+  .dot.active {
+    width: 22px;
+    background: #fff;
+  }
+
+  /* ========================================================
+     SCREEN 02: ROLE SELECT
+     ======================================================== */
+  .s2-header {
+    margin-bottom: 24px;
+  }
+  .s2-header h2 {
+    font-size: 26px;
+    font-weight: 800;
+    color: #fff;
+  }
+  .s2-header p {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+  .role-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .role-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+    cursor: pointer;
+  }
+  .role-card.selected {
+    border: 1.5px solid var(--purple);
+    background: rgba(180, 159, 247, 0.12);
+    box-shadow: 0 0 20px rgba(180, 159, 247, 0.2);
+  }
+  .role-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+  }
+  .role-card.selected .role-icon {
+    background: var(--purple);
+    color: #0A0A0E;
+  }
+  .role-card span {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  /* ========================================================
+     SCREEN 03: DASHBOARD
+     ======================================================== */
+  .s3-user-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .s3-user-row h2 {
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+  }
+  .s3-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--purple);
+    object-fit: cover;
+  }
+  .section-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .section-label-row span {
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .section-label-row a {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--purple);
+    text-decoration: none;
+  }
+  .vinyl-card-wrap {
+    width: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 16px;
+    border: 1px solid var(--card-border);
+  }
+  .vinyl-card-wrap img {
+    width: 100%;
+    display: block;
+  }
+  .activity-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .activity-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .activity-info {
+    flex: 1;
+  }
+  .activity-info h4 {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .activity-info p {
+    font-size: 11.5px;
+    color: var(--text-dim);
+  }
+
+  /* ========================================================
+     SCREEN 04: RECORDING
+     ======================================================== */
+  .orb-hero-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .orb-img {
+    width: 230px;
+    height: 230px;
+    object-fit: contain;
+  }
+  .waveform-img {
+    width: 100%;
+    height: 48px;
+    object-fit: contain;
+    margin: 10px 0;
+  }
+  .rec-metrics {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 10px;
+    margin-bottom: 24px;
+  }
+  .rec-timer {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .vol-bar {
+    width: 50px;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+  }
+  .vol-fill-green {
+    width: 65%;
+    height: 100%;
+    background: var(--green);
+  }
+  .vol-fill-amber {
+    width: 45%;
+    height: 100%;
+    background: var(--gold);
+  }
+  .rec-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 36px;
+    margin-bottom: 20px;
+  }
+  .ctrl-icon-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+  }
+  .stop-record-btn {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: #E53E3E;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 28px rgba(229, 62, 62, 0.6);
+  }
+  .stop-square {
+    width: 22px;
+    height: 22px;
+    background: #fff;
+    border-radius: 5px;
+  }
+
+  /* ========================================================
+     SCREEN 05: TAKE SAVED
+     ======================================================== */
+  .save-center-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .check-circle {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: rgba(180, 159, 247, 0.15);
+    border: 2px solid var(--purple);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--purple);
+    margin-bottom: 24px;
+    box-shadow: 0 0 30px rgba(180, 159, 247, 0.3);
+  }
+  .save-center-wrap h2 {
+    font-size: 26px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .save-center-wrap p {
+    font-size: 14px;
+    color: var(--text-dim);
+  }
+
+  /* ========================================================
+     SCREEN 06: AI ANALYSIS CHECKLIST
+     ======================================================== */
+  .analysis-hero-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 24px;
+  }
+  .analysis-hero-card h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 12px;
+  }
+  .progress-track {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    width: 68%;
+    height: 100%;
+    background: linear-gradient(90deg, var(--purple-dark), var(--purple));
+    border-radius: 4px;
+  }
+  .checklist-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .check-item {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .check-item span {
+    font-size: 14.5px;
+    font-weight: 600;
+    color: #fff;
+  }
+  .check-badge {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--purple);
+    color: #0A0A0E;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ========================================================
+     SCREEN 07: SESSIONS LIBRARY
+     ======================================================== */
+  .session-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .session-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .session-thumb {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    object-fit: cover;
+  }
+  .session-meta {
+    flex: 1;
+  }
+  .session-meta h4 {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .session-meta p {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 2px;
+  }
+
+  /* ========================================================
+     SCREEN 08: MULTI-TAKE COMPARISON
+     ======================================================== */
+  .take-dropdown {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13.5px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .take-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .take-card-img {
+    width: 100%;
+    border-radius: 18px;
+    display: block;
+    border: 1px solid var(--card-border);
+  }
+  .take-card-gold {
+    border: 1.5px solid var(--gold) !important;
+    box-shadow: 0 0 24px var(--gold-glow);
+  }
+
+  /* ========================================================
+     SCREEN 09: COACHING SCORE
+     ======================================================== */
+  .score-hero-box {
+    text-align: center;
+    padding: 14px 0 20px;
+  }
+  .score-hero-box span {
+    font-size: 13px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .score-hero-box h2 {
+    font-size: 44px;
+    font-weight: 800;
+    color: #fff;
+    margin-top: 4px;
+    letter-spacing: -0.02em;
+  }
+  .score-hero-box p {
+    font-size: 12.5px;
+    color: var(--text-dim);
+    max-width: 260px;
+    margin: 6px auto 0;
+  }
+  .score-breakdown {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+  .score-bar-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .score-bar-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+  }
+  .score-bar-track {
+    height: 7px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .score-bar-fill {
+    height: 100%;
+    background: var(--purple);
+    border-radius: 4px;
+  }
+
+  /* ========================================================
+     SCREEN 10: PRACTICE DRILL
+     ======================================================== */
+  .drill-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 24px;
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+    margin-bottom: 16px;
+  }
+  .drill-card h3 {
+    font-size: 17px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 12px;
+  }
+  .diaphragm-img {
+    width: 160px;
+    height: 170px;
+    object-fit: contain;
+    margin: 8px 0;
+  }
+  .drill-card p {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.45;
+    max-width: 260px;
+    margin: 0 auto;
+  }
+
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div>
+    <h1>Wav-Aid <span>Figma Design System · 10 Native Screens</span></h1>
+    <p>100% exact 1:1 match to concept mockup with editable components, typography, and vectors</p>
+  </div>
+  <div style="font-family:'JetBrains Mono'; font-size:13px; color:var(--text-dim);">
+    Platform: iOS 17 / 18 · 390 × 844 · Native Auto-Layout Ready
+  </div>
+</div>
+
+<div class="screens-canvas">
+
+  <!-- ==================== SCREEN 01: ONBOARDING ==================== -->
+  <div class="screen-wrapper">
+    <div class="screen-meta">
+      <strong>SCREEN 01</strong>
+      <span class="badge">ONBOARDING HERO</span>
+    </div>
+    <div class="phone-frame">
+      <div class="status-bar">
+        <span class="sb-time">9:41</span>
+        <div class="sb-island"></div>
+        <div class="sb-icons">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h.01"/><path d="M2 8.82a15 15 0 0 1 20 0"/><path d="M5 12.859a10 10 0 0 1 14 0"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="10" x="2" y="7" rx="2" ry="2"/><line x1="22" x2="22" y1="11" y2="13"/></svg>
+        </div>
+      </div>
+      <div class="screen-body">
+        <div class="s1-logo-row">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B49FF7" stroke-width="2.5" stroke-linecap="round"><path d="M2 10v4M6 6v12M10 3v18M14 8v8M18 5v14M22 10v4"/></svg>
+          <span>Wav-Aid</span>
+        </div>
+        <div class="s1-hero-wrap">
+          <img class="s1-hero-img" src="assets/wavaid/components/singer_hero.png" alt="Studio Singer">
+        </div>
+        <div class="s1-copy">
+          <h2>Discover Your Voice</h2>
+          <p>Creating a sophisticated vocal coaching application.</p>
+          <div class="dots-row">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+          </div>
+        </div>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+  <!-- ==================== SCREEN 02: ROLE SELECT ==================== -->
+  <div class="screen-wrapper">
+    <div class="screen-meta">
+      <strong>SCREEN 02</strong>
+      <span class="badge">ROLE SELECTOR</span>
+    </div>
+    <div class="phone-frame">
+      <div class="status-bar">
+        <span class="sb-time">9:41</span>
+        <div class="sb-island"></div>
+        <div class="sb-icons">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h.01"/><path d="M2 8.82a15 15 0 0 1 20 0"/><path d="M5 12.859a10 10 0 0 1 14 0"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="10" x="2" y="7" rx="2" ry="2"/><line x1="22" x2="22" y1="11" y2="13"/></svg>
+        </div>
+      </div>
+      <div class="screen-body">
+        <div class="top-nav">
+          <div class="back-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+          <div></div>
+          <div style="width:38px;"></div>
+        </div>
+        <div class="s2-header">
+          <h2>Who are you?</h2>
+          <p>Who are you selector?</p>
+        </div>
+        <div class="role-grid">
+          <div class="role-card selected">
+            <div class="role-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+            </div>
+            <span>Singer</span>
+          </div>
+          <div class="role-card">
+            <div class="role-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12c0 5.5 4.5 10 10 10s10-4.5 10-10S17.5 2 12 2 2 6.5 2 12Z"/><path d="M8 9h.01"/><path d="M16 9h.01"/><path d="M16 16s-1.5-2-4-2-4 2-4 2"/></svg>
+            </div>
+            <span>Voice Actor</span>
+          </div>
+          <div class="role-card">
+            <div class="role-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>
+            </div>
+            <span>Public Speaker</span>
+          </div>
+          <div class="role-card">
+            <div class="role-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m19 5-7 7-7-7"/><circle cx="12" cy="16" r="4"/></svg>
+            </div>
+            <span>Musician</span>
+          </div>
+        </div>
+        <button class="btn-pill-primary">Next</button>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+  <!-- ==================== SCREEN 03: DASHBOARD ==================== -->
+  <div class="screen-wrapper">
+    <div class="screen-meta">
+      <strong>SCREEN 03</strong>
+      <span class="badge">HOME & SESSIONS</span>
+    </div>
+    <div class="phone-frame">
+      <div class="status-bar">
+        <span class="sb-time">9:41</span>
+        <div class="sb-island"></div>
+        <div class="sb-icons">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h.01"/><path d="M2 8.82a15 15 0 0 1 20 0"/><path d="M5 12.859a10 10 0 0 1 14 0"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="10" x="2" y="7" rx="2" ry="2"/><line x1="22" x2="22" y1="11" y2="13"/></svg>
+        </div>
+      </div>
+      <div class="screen-body" style="padding-bottom: 10px;">
+        <div class="s3-user-row">
+          <h2>Welcome Back,<br>Alex!</h2>
+          <img class="s3-avatar" src="assets/wavaid/components/avatar_alex.png" alt="Alex">
+        </div>
+        <div class="section-label-row">
+          <span>Your Sessions</span>
+          <a href="#">See All</a>
+        </div>
+        <div class="vinyl-card-wrap">
+          <img src="assets/wavaid/components/vinyl_card.png" alt="Vinyl Session Card">
+        </div>
+        <button class="btn-pill-primary" style="margin-bottom: 18px;">Start a New Take</button>
+        <div class="section-label-row">
+          <span>Recent Activity</span>
+          <a href="#">See All</a>
+        </div>
+        <div class="activity-card">
+          <img class="activity-avatar" src="assets/wavaid/components/avatar_alex.png" alt="Alex">
+          <div class="activity-info">
+            <h4>Welcome Back, Alex!</h4>
+            <p>3 hours ago</p>
+          </div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+      </div>
+      <div class="dock-bar">
+        <div class="dock-tab active"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>Home</span></div>
+        <div class="dock-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 8 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg><span>Library</span></div>
+        <div class="dock-mic-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></div>
+        <div class="dock-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m10 15 5-3-5-3v6Z"/></svg><span>Drills</span></div>
+        <div class="dock-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg><span>Profile</span></div>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+  <!-- ==================== SCREEN 04: RECORDING ==================== -->
+  <div class="screen-wrapper">
+    <div class="screen-meta">
+      <strong>SCREEN 04</strong>
+      <span class="badge">ACTIVE RECORDING</span>
+    </div>
+    <div class="phone-frame">
+      <div class="status-bar">
+        <span class="sb-time">9:41</span>
+        <div class="sb-island"></div>
+        <div class="sb-icons">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h.01"/><path d="M2 8.82a15 15 0 0 1 20 0"/><path d="M5 12.859a10 10 0 0 1 14 0"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="10" x="2" y="7" rx="2" ry="2"/><line x1="22" x2="22" y1="11" y2="13"/></svg>
+        </div>
+      </div>
+      <div class="screen-body">
+        <div class="top-nav">
+          <div class="back-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+          <div class="top-title">Active recording</div>
+          <div style="width:38px;"></div>
+        </div>
+        <div class="orb-hero-wrap">
+          <img class="orb-img" src="assets/wavaid/components/orb_hero.png" alt="Purple Particle Orb">
+          <img class="waveform-img" src="assets/wavaid/components/waveform_recording.png" alt="Waveform">
+          <div class="rec-metrics">
+            <div class="vol-bar"><div class="vol-fill-green"></div></div>
+            <div class="rec-timer">00:09:56</div>
+            <div class="vol-bar"><div class="vol-fill-amber"></div></div>
+          </div>
+        </div>
+        <div class="rec-controls">
+          <div class="ctrl-icon-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg></div>
+          <div class="stop-record-btn"><div class="stop-square"></div></div>
+          <div class="ctrl-icon-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" x2="19" y1="5" y2="19"/></svg></div>
+        </div>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+  <!-- ==================== SCREEN 05: TAKE SAVED ==================== -->
+  <div class="screen-wrapper">
+    <div class="screen-meta">
+      <strong>SCREEN 05</strong>
+      <span class="badge">TAKE SAVED</span>
+    </div>
+    <div class="phone-frame">
+      <div class="status-bar">
+        <span class="sb-time">9:41</span>
+        <div class="sb-island"></div>
+        <div class="sb-icons">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h.01"/><path d="M2 8.82a15 15 0 0 1 20 0"/><path d="M5 12.859a10 10 0 0 1 14 0"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="10" x="2" y="7" rx="2" ry="2"/><line x1="22" x2="22" y1="11" y2="13"/></svg>
+        </div>
+      </div>
+      <div class="screen-body">
+        <div class="top-nav">
+          <div class="back-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+          <div class="top-title">Take Saved</div>
+          <div style="width:38px;"></div>
+        </div>
+        <div class="save-center-wrap">
+          <div class="check-circle">
+            <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          </div>
+          <h2>Take 3 Saved!</h2>
+          <p>Nice work, Alex!</p>
+        </div>
+        <button class="btn-pill-primary">Review Now</button>
+        <button class="btn-pill-secondary">New Take</button>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+  <!-- ==================== SCREEN 06: AI ANALYSIS ==================== -->
+  <div class="screen-wrapper">
+    <div class="screen-meta">
+      <strong>SCREEN 06</strong>
+      <span class="badge">AI ANALYSIS</span>
+    </div>
+    <div class="phone-frame">
+      <div class="status-bar">
+        <span class="sb-time">9:41</span>
+        <div class="sb-island"></div>
+        <div class="sb-icons">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h.01"/><path d="M2 8.82a15 15 0 0 1 20 0"/><path d="M5 12.859a10 10 0 0 1 14 0"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="10" x="2" y="7" rx="2" ry="2"/><line x1="22" x2="22" y1="11" y2="13"/></svg>
+        </div>
+      </div>
+      <div class="screen-body">
+        <div class="top-nav">
+          <div class="back-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+          <div class="top-title">AI Analysis Checklist</div>
+          <div style="width:38px;"></div>
+        </div>
+        <div class="analysis-hero-card">
+          <h3>Analyzing Take 3</h3>
+          <div class="progress-track">
+            <div class="progress-fill"></div>
+          </div>
+        </div>
+        <div style="font-size:14px; font-weight:700; color:#fff; margin-bottom:12px;">Checking Tone</div>
+        <div class="checklist-wrap">
+          <div class="check-item">
+            <span>Pitch Accuracy</span>
+            <div class="check-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+          </div>
+          <div class="check-item">
+            <span>Dynamics</span>
+            <div class="check-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+          </div>
+          <div class="check-item">
+            <span>Vibrato</span>
+            <div class="check-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+          </div>
+        </div>
+      </div>
+      <div class="dock-bar">
+        <div class="dock-tab active"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>Home</span></div>
+        <div class="dock-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 8 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg><span>Library</span></div>
+        <div class="dock-mic-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></div>
+        <div class="dock-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m10 15 5-3-5-3v6Z"/></svg><span>Drills</span></div>
+        <div class="dock-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg><span>Profile</span></div>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+  <!-- ==================== SCREEN 07: SESSIONS LIBRARY ==================== -->
+  <div class="screen-wrapper">
+    <div class="screen-meta">
+      <strong>SCREEN 07</strong>
+      <span class="badge">SESSIONS LIBRARY</span>
+    </div>
+    <div class="phone-frame">
+      <div class="status-bar">
+        <span class="sb-time">9:41</span>
+        <div class="sb-island"></div>
+        <div class="sb-icons">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h.01"/><path d="M2 8.82a15 15 0 0 1 20 0"/><path d="M5 12.859a10 10 0 0 1 14 0"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="10" x="2" y="7" rx="2" ry="2"/><line x1="22" x2="22" y1="11" y2="13"/></svg>
+        </div>
+      </div>
+      <div class="screen-body">
+        <div class="top-nav">
+          <div style="font-size:22px; font-weight:800; color:#fff;">Sessions Library</div>
+          <div class="top-action"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 13V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h9"/><path d="M22 7l-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/><path d="M19 16v6"/><path d="M16 19h6"/></svg></div>
+        </div>
+        <div class="session-list">
+          <div class="session-card">
+            <img class="session-thumb" src="assets/wavaid/components/album_1.png" alt="Pop Ballad">
+            <div class="session-meta">
+              <h4>Pop Ballad Take 3</h4>
+              <p>Pop (Ballad) • Jan 11, 2026 • 6:58 PM</p>
+            </div>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+          <div class="session-card">
+            <img class="session-thumb" src="assets/wavaid/components/album_2.png" alt="Warm-up 05">
+            <div class="session-meta">
+              <h4>Warm-up 05</h4>
+              <p>Warm-up 05 • Jan 11, 2026 • 6:55 PM</p>
+            </div>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+          <div class="session-card">
+            <img class="session-thumb" src="assets/wavaid/components/album_3.png" alt="R&B Riff">
+            <div class="session-meta">
+              <h4>R&B Riff</h4>
+              <p>R&B Riff • Jan 11, 2026 • 6:50 PM</p>
+            </div>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="dock-bar">
+        <div class="dock-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>Home</span></div>
+        <div class="dock-tab active"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 8 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg><span>Library</span></div>
+        <div class="dock-mic-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></div>
+        <div class="dock-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m10 15 5-3-5-3v6Z"/></svg><span>Drills</span></div>
+        <div class="dock-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg><span>Profile</span></div>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+  <!-- ==================== SCREEN 08: MULTI-TAKE COMPARISON ==================== -->
+  <div class="screen-wrapper">
+    <div class="screen-meta">
+      <strong>SCREEN 08</strong>
+      <span class="badge">TAKE COMPARISON</span>
+    </div>
+    <div class="phone-frame">
+      <div class="status-bar">
+        <span class="sb-time">9:41</span>
+        <div class="sb-island"></div>
+        <div class="sb-icons">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h.01"/><path d="M2 8.82a15 15 0 0 1 20 0"/><path d="M5 12.859a10 10 0 0 1 14 0"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="10" x="2" y="7" rx="2" ry="2"/><line x1="22" x2="22" y1="11" y2="13"/></svg>
+        </div>
+      </div>
+      <div class="screen-body">
+        <div class="top-nav">
+          <div class="back-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+          <div class="top-title">Multi-take Comparison</div>
+          <div style="width:38px;"></div>
+        </div>
+        <div class="take-dropdown">
+          <span>Session: Pop Ballad</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+        <div class="take-stack">
+          <img class="take-card-img" src="assets/wavaid/components/take_1_card.png" alt="Take 1 (76)">
+          <img class="take-card-img" src="assets/wavaid/components/take_2_card.png" alt="Take 2 (83)">
+          <img class="take-card-img take-card-gold" src="assets/wavaid/components/golden_take_card.png" alt="Take 3 (91) Best Take">
+        </div>
+      </div>
+      <div class="dock-bar">
+        <div class="dock-tab active"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>Home</span></div>
+        <div class="dock-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 8 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg><span>Library</span></div>
+        <div class="dock-mic-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></div>
+        <div class="dock-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m10 15 5-3-5-3v6Z"/></svg><span>Drills</span></div>
+        <div class="dock-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg><span>Profile</span></div>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+  <!-- ==================== SCREEN 09: COACHING SCORE ==================== -->
+  <div class="screen-wrapper">
+    <div class="screen-meta">
+      <strong>SCREEN 09</strong>
+      <span class="badge">COACHING SCORE</span>
+    </div>
+    <div class="phone-frame">
+      <div class="status-bar">
+        <span class="sb-time">9:41</span>
+        <div class="sb-island"></div>
+        <div class="sb-icons">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h.01"/><path d="M2 8.82a15 15 0 0 1 20 0"/><path d="M5 12.859a10 10 0 0 1 14 0"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="10" x="2" y="7" rx="2" ry="2"/><line x1="22" x2="22" y1="11" y2="13"/></svg>
+        </div>
+      </div>
+      <div class="screen-body">
+        <div class="top-nav">
+          <div class="back-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+          <div class="top-title">AI Vocal Coaching Score</div>
+          <div style="width:38px;"></div>
+        </div>
+        <div class="score-hero-box">
+          <span>Overall Score:</span>
+          <h2>91/100!</h2>
+          <p>Feedback to click and restart your method sessions.</p>
+        </div>
+        <div class="score-breakdown">
+          <div class="score-bar-row">
+            <div class="score-bar-labels"><span>Pitch</span><span>94</span></div>
+            <div class="score-bar-track"><div class="score-bar-fill" style="width:94%;"></div></div>
+          </div>
+          <div class="score-bar-row">
+            <div class="score-bar-labels"><span>Dynamics</span><span>89</span></div>
+            <div class="score-bar-track"><div class="score-bar-fill" style="width:89%;"></div></div>
+          </div>
+          <div class="score-bar-row">
+            <div class="score-bar-labels"><span>Resonance</span><span>90</span></div>
+            <div class="score-bar-track"><div class="score-bar-fill" style="width:90%;"></div></div>
+          </div>
+          <div class="score-bar-row">
+            <div class="score-bar-labels"><span>Vibrato</span><span>92</span></div>
+            <div class="score-bar-track"><div class="score-bar-fill" style="width:92%;"></div></div>
+          </div>
+        </div>
+        <div class="check-item" style="cursor:pointer;">
+          <span>Feedback feedback</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+      </div>
+      <div class="dock-bar">
+        <div class="dock-tab active"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>Home</span></div>
+        <div class="dock-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 8 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg><span>Library</span></div>
+        <div class="dock-mic-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></div>
+        <div class="dock-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m10 15 5-3-5-3v6Z"/></svg><span>Drills</span></div>
+        <div class="dock-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg><span>Profile</span></div>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+  <!-- ==================== SCREEN 10: PRACTICE DRILL ==================== -->
+  <div class="screen-wrapper">
+    <div class="screen-meta">
+      <strong>SCREEN 10</strong>
+      <span class="badge">DRILL TRAINER</span>
+    </div>
+    <div class="phone-frame">
+      <div class="status-bar">
+        <span class="sb-time">9:41</span>
+        <div class="sb-island"></div>
+        <div class="sb-icons">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h.01"/><path d="M2 8.82a15 15 0 0 1 20 0"/><path d="M5 12.859a10 10 0 0 1 14 0"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="10" x="2" y="7" rx="2" ry="2"/><line x1="22" x2="22" y1="11" y2="13"/></svg>
+        </div>
+      </div>
+      <div class="screen-body">
+        <div class="top-nav">
+          <div class="back-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+          <div class="top-title">Practice Drill</div>
+          <div style="width:38px;"></div>
+        </div>
+        <div class="drill-card">
+          <h3>Breathing Exercises:<br>Diaphragm Power</h3>
+          <img class="diaphragm-img" src="assets/wavaid/components/diaphragm_illustration.png" alt="Diaphragm Anatomy">
+          <p>Visual guide, animation to train your breathing coordination.</p>
+          <div class="dots-row" style="margin-top:16px;">
+            <div class="dot"></div>
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+          </div>
+          <button class="btn-pill-primary" style="margin-top:20px;">Start Drill</button>
+        </div>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

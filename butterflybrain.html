@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>ButterflyBrain — Specimen Lab &amp; DexScreener AI Terminal</title>
+  <meta name="description" content="ButterflyBrain dissects a wireframe stipple butterfly as you scroll, then tracks DexScreener tokens, Pons Launchpad bonding curves, and tokenized RWA stocks like TSLA and GOOGL — all with live AI insight."/>
+  
+  <link rel="stylesheet" href="bfly_style.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <style>
+    :root {
+      --background: #080a0f;
+      --card: #0d111a;
+      --foreground: #e6edf3;
+      --primary: #37f5a3;
+      --primary-foreground: #080a0f;
+      --muted-foreground: #708090;
+      --border: rgba(255, 255, 255, 0.08);
+      --secondary: rgba(255, 255, 255, 0.04);
+      --accent: #00e5ff;
+      --gradient-rainbow: linear-gradient(90deg, #ff4e50, #f9d423, #00e599, #00b8ff, #ab9ff2);
+      --grid: rgba(255, 255, 255, 0.035);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--background);
+    }
+
+    body {
+      background: var(--background);
+      color: var(--foreground);
+      font-family: 'JetBrains Mono', monospace;
+      overflow-x: hidden;
+    }
+
+    .rainbow-text {
+      background: var(--gradient-rainbow);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .rainbow-rule {
+      height: 1px;
+      background: var(--gradient-rainbow);
+      opacity: 0.6;
+    }
+
+    .grid-bg {
+      background-size: 32px 32px;
+      background-image: 
+        linear-gradient(to right, var(--grid) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+    }
+
+    .scanlines {
+      pointer-events: none;
+      background: repeating-linear-gradient(rgba(255, 255, 255, 0.018) 0 1px, transparent 1px 3px);
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+    }
+
+    .grain-overlay {
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      opacity: 0.12;
+      background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.4) 1px, transparent 0);
+      background-size: 4px 4px;
+      z-index: 4;
+    }
+
+    .panel {
+      background: rgba(13, 17, 26, 0.95);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+    }
+
+    .label-xs {
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted-foreground);
+      font-size: 9px;
+      line-height: 1.2;
+    }
+
+    /* 3D Callout Badges */
+    .callout-box {
+      position: absolute;
+      pointer-events: none;
+      border: 1px solid var(--primary);
+      background: rgba(8, 10, 15, 0.9);
+      padding: 3px 8px;
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      color: var(--primary);
+      text-transform: uppercase;
+      transform: translateY(-50%);
+      white-space: nowrap;
+      box-shadow: 0 0 12px rgba(55, 245, 163, 0.25);
+      z-index: 20;
+    }
+    .callout-box::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: 100%;
+      margin-top: -3px;
+      border-width: 3px;
+      border-style: solid;
+      border-color: transparent var(--primary) transparent transparent;
+    }
+    .callout-box.right::after {
+      right: auto;
+      left: 100%;
+      border-color: transparent transparent transparent var(--primary);
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+      animation: marquee 36s linear infinite;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+      box-shadow: 0 0 8px var(--primary);
+    }
+    input[type=range]::-moz-range-thumb {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+      box-shadow: 0 0 8px var(--primary);
+      border: none;
+    }
+  </style>
+</head>
+<body class="bg-background text-foreground antialiased selection:bg-[#ab9ff2] selection:text-black">
+
+  <!-- TOP STICKY NAVIGATION BAR (Exact butterflybrain.pro Layout) -->
+  <header class="sticky top-0 z-30 grid grid-cols-1 items-center gap-x-4 gap-y-2 border-b border-border bg-background/85 px-4 py-2 backdrop-blur-sm sm:grid-cols-[1fr_auto_1fr]">
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+      <span class="text-[13px] font-semibold tracking-[0.28em] rainbow-text cursor-pointer" onclick="scrollToChapter(0)">BUTTERFLYBRAIN</span>
+      <span class="label-xs hidden sm:inline">SPECIMEN 01 / MARKET RESEARCH</span>
+    </div>
+
+    <!-- Contract + Socials -->
+    <div class="flex items-center justify-center gap-3">
+      <div class="label-xs text-muted-foreground flex items-center gap-1.5">
+        <span class="text-primary font-semibold">CONTRACT</span>
+        <span class="font-mono text-white/90 normal-case tracking-normal">0x82c91400c9c26c97ff0f8d72d544427c7c1311fc</span>
+      </div>
+      <span class="flex items-center gap-2">
+        <button onclick="navigator.clipboard.writeText('0x82c91400c9c26c97ff0f8d72d544427c7c1311fc'); alert('Contract copied: 0x82c9...11fc');" class="text-muted-foreground hover:text-primary transition-colors cursor-pointer" title="Copy Contract">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+        </button>
+        <a href="https://t.me/bflybrains" target="_blank" rel="noreferrer" class="text-muted-foreground hover:text-primary transition-colors cursor-pointer" title="Telegram">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </a>
+      </span>
+    </div>
+
+    <!-- Nav buttons + Wallet -->
+    <div class="flex flex-wrap items-center gap-1 sm:justify-self-end">
+      <nav class="flex flex-wrap gap-1">
+        <button onclick="scrollToChapter(0)" class="border border-border px-2 py-[3px] text-[9px] tracking-[0.2em] text-muted-foreground transition-colors hover:border-primary hover:text-primary" style="background:transparent;">LAB</button>
+        <button onclick="scrollToTerminal()" class="border border-border px-2 py-[3px] text-[9px] tracking-[0.2em] text-muted-foreground transition-colors hover:border-primary hover:text-primary" style="background:transparent;">MARKETS</button>
+        <button onclick="scrollToTerminal()" class="border border-border px-2 py-[3px] text-[9px] tracking-[0.2em] text-muted-foreground transition-colors hover:border-primary hover:text-primary" style="background:transparent;">INSIGHT</button>
+        <button onclick="scrollToTerminal()" class="border border-border px-2 py-[3px] text-[9px] tracking-[0.2em] text-muted-foreground transition-colors hover:border-primary hover:text-primary" style="background:transparent;">TERMINAL</button>
+      </nav>
+      <button type="button" id="connect-wallet-btn" class="border px-2.5 py-[3px] text-[9px] tracking-[0.2em] uppercase transition-colors hover:bg-primary hover:text-black cursor-pointer" style="border-color: var(--primary); color: var(--primary);">CONNECT WALLET</button>
+    </div>
+  </header>
+
+  <!-- 700VH SCROLL TRACK FOR 3D SPECIMEN DISSECTION -->
+  <div id="scroll-track" style="height: 700vh; position: relative;">
+
+    <!-- STICKY 3D SPECIMEN LAB VIEWPORT -->
+    <div id="sticky-viewport" class="sticky top-0 h-screen w-full overflow-hidden" style="position: sticky; top: 0; z-index: 10;">
+      
+      <!-- Background Grid & Retro Shaders -->
+      <div class="grid-bg pointer-events-none absolute inset-0 opacity-30"></div>
+      <div class="grain-overlay"></div>
+      <div class="scanlines"></div>
+
+      <!-- 3D WebGL Canvas -->
+      <canvas id="butterfly-canvas" class="absolute inset-0 size-full cursor-grab active:cursor-grabbing" style="z-index: 1;"></canvas>
+
+      <!-- SVG Dynamic Leader Lines -->
+      <svg id="leader-lines" class="absolute inset-0 size-full pointer-events-none" style="z-index: 9;"></svg>
+
+      <!-- Dynamic Anatomical Callouts -->
+      <div id="callout-container" class="absolute inset-0 pointer-events-none" style="z-index: 10;">
+        <div id="badge-thorax" class="callout-box" style="display:none;">THORAX</div>
+        <div id="badge-forewing" class="callout-box" style="display:none;">FOREWING</div>
+        <div id="badge-hindwing" class="callout-box" style="display:none;">HINDWING</div>
+        <div id="badge-head" class="callout-box" style="display:none;">HEAD + COMPOUND EYES</div>
+        <div id="badge-eye-r" class="callout-box" style="display:none;">COMPOUND EYE</div>
+        <div id="badge-eye-l" class="callout-box right" style="display:none;">COMPOUND EYE</div>
+      </div>
+
+      <!-- Top Coordinate Bar -->
+      <div class="pointer-events-none absolute inset-x-0 top-12 flex items-center justify-between px-4 py-3 text-[10px] tracking-[0.2em] text-muted-foreground" style="z-index: 10;">
+        <span class="flex items-center gap-2">
+          <span class="h-1.5 w-1.5 rounded-full animate-blink" style="background: var(--primary);"></span>
+          SPECIMEN LAB
+        </span>
+        <span class="hidden sm:block">BFLY.01 / ALL NETWORKS</span>
+        <span class="tabular-nums text-foreground" id="chapter-counter">01 : 07</span>
+      </div>
+
+      <!-- Left Subtitle Card (Updates dynamically on scroll) -->
+      <div class="pointer-events-none absolute left-4 top-24 max-w-xs border-l-2 py-2 pl-3 pr-2 backdrop-blur-sm sm:left-8" style="border-left-color: var(--primary); background: rgba(8, 10, 15, 0.7); z-index: 10;">
+        <p class="label-xs" id="chapter-kicker">EXTERNAL STRUCTURE</p>
+        <h2 class="mt-1 text-2xl sm:text-3xl font-semibold tracking-tight text-white" id="chapter-title">Complete specimen</h2>
+        <p class="mt-1 text-[11px] leading-relaxed text-muted-foreground" id="chapter-blurb">Line and stipple reconstruction of the ButterflyBrain morpho.</p>
+      </div>
+
+      <!-- 01 OBJECT TREE (Floating Left HUD) -->
+      <div class="absolute bottom-24 left-4 hidden w-56 border p-2 backdrop-blur-sm md:block lg:left-8 panel" style="z-index: 10; border-color: rgba(255,255,255,0.08);">
+        <p class="label-xs mb-1">01 OBJECT TREE</p>
+        <div class="rainbow-rule mb-2 w-full"></div>
+        <div class="flex flex-col gap-0.5" id="object-tree-list">
+          <!-- Injected dynamically via JS -->
+        </div>
+      </div>
+
+      <!-- 02 INSPECTION (Floating Right HUD) -->
+      <div class="absolute right-4 top-24 hidden w-64 border p-3 backdrop-blur-sm lg:block lg:right-8 panel" style="z-index: 10; border-color: rgba(255,255,255,0.08);">
+        <p class="label-xs mb-1">02 INSPECTION</p>
+        <div class="rainbow-rule mb-2 w-full"></div>
+        <p class="label-xs">SURFACE STUDY</p>
+        <p class="mt-1 text-base font-medium text-white" id="inspect-title">Complete specimen</p>
+        <dl class="mt-3 space-y-1.5 text-[11px]">
+          <div class="flex justify-between border-b border-border/50 pb-1" style="border-color: rgba(255,255,255,0.06);">
+            <dt style="color: #64748b;">Material</dt>
+            <dd style="color: var(--accent);">Wire / points</dd>
+          </div>
+          <div class="flex justify-between border-b border-border/50 pb-1" style="border-color: rgba(255,255,255,0.06);">
+            <dt style="color: #64748b;">Separation</dt>
+            <dd style="color: var(--accent);" id="inspect-sep">0%</dd>
+          </div>
+          <div class="flex justify-between border-b border-border/50 pb-1" style="border-color: rgba(255,255,255,0.06);">
+            <dt style="color: #64748b;">Assembly</dt>
+            <dd style="color: var(--primary);">Procedural</dd>
+          </div>
+          <div class="flex justify-between border-b border-border/50 pb-1" style="border-color: rgba(255,255,255,0.06);">
+            <dt style="color: #64748b;">Render</dt>
+            <dd style="color: var(--accent);" id="inspect-render">composite</dd>
+          </div>
+        </dl>
+      </div>
+
+      <!-- BOTTOM FLOATING CONTROL BAR (Docked neatly at bottom of 3D specimen lab) -->
+      <div class="absolute inset-x-4 bottom-4 flex flex-wrap items-center gap-3 border px-4 py-2.5 backdrop-blur-md sm:inset-x-8 panel" style="z-index: 10; border-color: rgba(255,255,255,0.1);">
+        <div class="flex gap-1" id="render-mode-toggles">
+          <button data-mode="composite" class="px-2.5 py-1 text-[10px] tracking-[0.18em] uppercase transition-all" style="background: rgba(55, 245, 163, 0.15); color: var(--primary); border: 1px solid var(--primary);">COMPOSITE</button>
+          <button data-mode="wireframe" class="px-2.5 py-1 text-[10px] tracking-[0.18em] uppercase transition-all text-muted-foreground hover:text-white" style="background: rgba(255,255,255,0.02); border: 1px solid transparent;">WIREFRAME</button>
+          <button data-mode="points" class="px-2.5 py-1 text-[10px] tracking-[0.18em] uppercase transition-all text-muted-foreground hover:text-white" style="background: rgba(255,255,255,0.02); border: 1px solid transparent;">POINTS</button>
+        </div>
+
+        <div class="flex flex-1 items-center gap-3">
+          <span class="label-xs hidden sm:inline" style="color: #94a3b8;">SEPARATION</span>
+          <input type="range" id="separation-slider" min="0" max="100" value="0" class="h-1.5 w-full max-w-64 flex-1 cursor-pointer appearance-none rounded-full bg-secondary accent-primary" aria-label="Separation" style="accent-color: var(--primary);"/>
+          <span class="w-12 text-right text-[11px] tabular-nums" style="color: var(--accent);" id="slider-val">0%</span>
+        </div>
+
+        <div class="ml-auto flex items-center gap-2 text-[10px] tracking-[0.2em] text-muted-foreground cursor-pointer hover:text-primary transition-colors" onclick="scrollNext()">
+          <span id="next-chapter-text">Wing assembly</span>
+          <span class="text-primary">↓</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- DEXSCREENER AI TERMINAL & RWA ASSETS SECTION (Exact Pixel-Perfect Match to butterflybrain.pro Images 1 & 2) -->
+  <section id="terminal" class="relative z-30 mx-auto max-w-[1500px] px-3 py-6 min-h-screen" style="background: var(--background); margin-top: 0;">
+    
+    <!-- TOP ROW: 2 COLUMNS [1fr 300px] -->
+    <div class="grid gap-3 lg:grid-cols-[1fr_300px]">
+      
+      <!-- LEFT WIDE: DEX QUERY PANEL -->
+      <div class="grid gap-3">
+        <section class="panel relative overflow-hidden flex flex-col h-full">
+          <header class="flex items-center justify-between gap-2 border-b border-border px-3 py-1.5">
+            <span class="label-xs text-primary font-semibold">DEX QUERY · ALL NETWORKS</span>
+            <span class="label-xs" style="color:#708090;">IDLE</span>
+          </header>
+          <div class="p-0 flex-1 flex flex-col">
+            <form id="dex-form" class="relative flex items-center gap-2 border-b border-border px-3 py-2">
+              <span class="text-primary font-bold">&gt;</span>
+              <input id="dex-input" placeholder="symbol, name or contract address.." class="w-full bg-transparent text-[12px] text-foreground outline-none placeholder:text-muted-foreground font-mono" aria-label="Search DexScreener tokens" value=""/>
+              <button type="submit" class="border border-primary/60 px-2.5 py-0.5 text-[10px] uppercase tracking-[0.2em] text-primary transition-colors hover:bg-primary hover:text-black cursor-pointer font-mono">scan</button>
+            </form>
+            <div id="terminal-output" class="p-3 text-[11px] font-mono flex-1 overflow-y-auto min-h-[380px] space-y-1">
+              <div class="text-muted-foreground">[ready] indexing every DexScreener network</div>
+              <div class="text-muted-foreground">try: <span class="text-accent cursor-pointer hover:underline" onclick="simulateToken('PEPE')">PEPE</span> · <span class="text-accent cursor-pointer hover:underline" onclick="simulateToken('WIF')">WIF</span> · <span class="text-accent cursor-pointer hover:underline" onclick="simulateToken('0x..')">0x..</span> · <span class="text-accent cursor-pointer hover:underline" onclick="simulateToken('So111..')">So111..</span></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- RIGHT NARROW: 4 STACKED PANELS -->
+      <aside class="space-y-3">
+        <div class="space-y-3">
+          
+          <!-- 1. Wing Activity -->
+          <section class="panel relative overflow-hidden">
+            <header class="flex items-center justify-between gap-2 border-b border-border px-3 py-1.5">
+              <span class="label-xs text-primary font-semibold">WING ACTIVITY</span>
+              <span class="label-xs" style="color:#37f5a3;">LIVE</span>
+            </header>
+            <div class="p-3">
+              <p class="text-3xl font-semibold rainbow-text tabular-nums" id="live-stipple-counter">44,199</p>
+              <p class="label-xs mt-1">stipple points firing</p>
+              <svg viewBox="0 0 100 28" preserveAspectRatio="none" class="h-8 w-full mt-1">
+                <polyline points="0,20.6 6.6,18 13.3,19.3 20,14.3 26.6,16.3 33.3,12 40,15 46.6,10.6 53.3,13.3 60,8 66.6,11 73.3,6 80,8.6 86.6,4.3 93.3,7 100,2" fill="none" stroke="var(--primary)" stroke-width="1.2" vector-effect="non-scaling-stroke"></polyline>
+              </svg>
+              <div class="mt-2 grid grid-cols-2 gap-x-4">
+                <div class="flex items-baseline justify-between gap-3 py-[3px] text-[11px]"><span class="text-muted-foreground">scales</span><span class="tabular-nums text-foreground">887,065</span></div>
+                <div class="flex items-baseline justify-between gap-3 py-[3px] text-[11px]"><span class="text-muted-foreground">drift</span><span class="tabular-nums text-accent font-semibold">74.8 µm</span></div>
+                <div class="flex items-baseline justify-between gap-3 py-[3px] text-[11px]"><span class="text-muted-foreground">flap</span><span class="tabular-nums text-foreground">2.50 Hz</span></div>
+                <div class="flex items-baseline justify-between gap-3 py-[3px] text-[11px]"><span class="text-muted-foreground">thermals</span><span class="tabular-nums text-foreground">1.23 K</span></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 2. Spectral Channels -->
+          <section class="panel relative overflow-hidden">
+            <header class="flex items-center justify-between gap-2 border-b border-border px-3 py-1.5">
+              <span class="label-xs text-primary font-semibold">SPECTRAL CHANNELS</span>
+            </header>
+            <div class="p-3">
+              <div class="flex items-center gap-2 py-[3px]"><span class="w-16 shrink-0 text-[10px] text-muted-foreground font-mono">magenta</span><div class="h-[6px] flex-1 bg-secondary"><div class="h-full" style="width:60%;background:var(--gradient-rainbow)"></div></div><span class="w-8 text-right text-[10px] tabular-nums text-muted-foreground font-mono">60</span></div>
+              <div class="flex items-center gap-2 py-[3px]"><span class="w-16 shrink-0 text-[10px] text-muted-foreground font-mono">violet</span><div class="h-[6px] flex-1 bg-secondary"><div class="h-full" style="width:73%;background:var(--gradient-rainbow)"></div></div><span class="w-8 text-right text-[10px] tabular-nums text-muted-foreground font-mono">73</span></div>
+              <div class="flex items-center gap-2 py-[3px]"><span class="w-16 shrink-0 text-[10px] text-muted-foreground font-mono">cyan</span><div class="h-[6px] flex-1 bg-secondary"><div class="h-full" style="width:87%;background:var(--gradient-rainbow)"></div></div><span class="w-8 text-right text-[10px] tabular-nums text-muted-foreground font-mono">87</span></div>
+              <div class="flex items-center gap-2 py-[3px]"><span class="w-16 shrink-0 text-[10px] text-muted-foreground font-mono">lime</span><div class="h-[6px] flex-1 bg-secondary"><div class="h-full" style="width:44%;background:var(--gradient-rainbow)"></div></div><span class="w-8 text-right text-[10px] tabular-nums text-muted-foreground font-mono">44</span></div>
+              <div class="flex items-center gap-2 py-[3px]"><span class="w-16 shrink-0 text-[10px] text-muted-foreground font-mono">amber</span><div class="h-[6px] flex-1 bg-secondary"><div class="h-full" style="width:80%;background:var(--gradient-rainbow)"></div></div><span class="w-8 text-right text-[10px] tabular-nums text-muted-foreground font-mono">80</span></div>
+            </div>
+          </section>
+
+          <!-- 3. Chain Coverage -->
+          <section class="panel relative overflow-hidden">
+            <header class="flex items-center justify-between gap-2 border-b border-border px-3 py-1.5">
+              <span class="label-xs text-primary font-semibold">CHAIN COVERAGE</span>
+            </header>
+            <div class="p-3">
+              <div class="grid grid-cols-3 gap-1 text-[10px] text-muted-foreground font-mono">
+                <span class="border border-border px-1 py-[3px] text-center hover:border-primary/50 transition-colors">ethereum</span>
+                <span class="border border-border px-1 py-[3px] text-center hover:border-primary/50 transition-colors">solana</span>
+                <span class="border border-border px-1 py-[3px] text-center hover:border-primary/50 transition-colors">base</span>
+                <span class="border border-border px-1 py-[3px] text-center hover:border-primary/50 transition-colors">bsc</span>
+                <span class="border border-border px-1 py-[3px] text-center hover:border-primary/50 transition-colors">arbitrum</span>
+                <span class="border border-border px-1 py-[3px] text-center hover:border-primary/50 transition-colors">polygon</span>
+                <span class="border border-border px-1 py-[3px] text-center hover:border-primary/50 transition-colors">avalanche</span>
+                <span class="border border-border px-1 py-[3px] text-center hover:border-primary/50 transition-colors">sui</span>
+                <span class="border border-border px-1 py-[3px] text-center hover:border-primary/50 transition-colors">ton</span>
+                <span class="border border-border px-1 py-[3px] text-center hover:border-primary/50 transition-colors">tron</span>
+                <span class="border border-border px-1 py-[3px] text-center hover:border-primary/50 transition-colors">optimism</span>
+                <span class="border border-border px-1 py-[3px] text-center hover:border-primary/50 transition-colors">+ more</span>
+              </div>
+              <p class="label-xs mt-2 text-muted-foreground">dexscreener index · realtime</p>
+            </div>
+          </section>
+
+          <!-- 4. Engine -->
+          <section class="panel relative overflow-hidden">
+            <header class="flex items-center justify-between gap-2 border-b border-border px-3 py-1.5">
+              <span class="label-xs text-primary font-semibold">ENGINE</span>
+            </header>
+            <div class="p-3 font-mono">
+              <div class="flex items-baseline justify-between gap-3 py-[3px] text-[11px]"><span class="text-muted-foreground">data</span><span class="tabular-nums text-foreground">DexScreener v1 + GMGN</span></div>
+              <div class="flex items-baseline justify-between gap-3 py-[3px] text-[11px]"><span class="text-muted-foreground">coverage</span><span class="tabular-nums text-accent font-semibold">all networks</span></div>
+              <div class="flex items-baseline justify-between gap-3 py-[3px] text-[11px]"><span class="text-muted-foreground">ai</span><span class="tabular-nums text-foreground">gemini flash</span></div>
+              <div class="flex items-baseline justify-between gap-3 py-[3px] text-[11px]"><span class="text-muted-foreground">latency</span><span class="tabular-nums text-foreground">~1.2 s</span></div>
+            </div>
+          </section>
+
+        </div>
+      </aside>
+
+    </div>
+
+    <!-- BOTTOM ROW: 2 COLUMNS -->
+    <div class="mt-3 grid gap-3 lg:grid-cols-2">
+      
+      <!-- Left Column: Exact 12 Robinhood RWA Stocks from butterflybrain.pro -->
+      <section class="panel relative overflow-hidden flex flex-col">
+        <header class="flex items-center justify-between gap-2 border-b border-border px-3 py-1.5">
+          <span class="label-xs text-primary font-semibold">ROBINHOOD CHAIN · STOCKS &amp; TOKENS · DEXSCREENER</span>
+          <div class="flex items-center gap-1 font-mono">
+            <button type="button" class="border px-2 py-[2px] text-[9px] tracking-[0.2em] uppercase transition-colors border-primary text-primary cursor-pointer">rwa assets</button>
+            <button type="button" class="border px-2 py-[2px] text-[9px] tracking-[0.2em] uppercase transition-colors border-border text-muted-foreground hover:text-foreground cursor-pointer">trending</button>
+            <button type="button" class="border px-2 py-[2px] text-[9px] tracking-[0.2em] uppercase transition-colors border-border text-muted-foreground hover:text-foreground cursor-pointer">trenches</button>
+          </div>
+        </header>
+        
+        <div class="p-0 overflow-x-auto">
+          <table class="w-full text-left text-[11px] font-mono">
+            <thead>
+              <tr class="border-b text-[10px] text-muted-foreground" style="border-color: rgba(255,255,255,0.06);">
+                <th class="py-2 pl-3 font-normal">ASSET</th>
+                <th class="py-2 px-2 text-right font-normal">PRICE</th>
+                <th class="py-2 px-2 text-right font-normal">24H</th>
+                <th class="py-2 px-2 text-right font-normal">MCAP</th>
+                <th class="py-2 pr-3 text-right font-normal">VOL</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/5">
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-1.5 pl-3 font-semibold text-white whitespace-nowrap">NVDA <span class="text-muted-foreground font-normal ml-1">NVIDIA · Robinhood Token</span> <span class="ml-1.5 inline-block text-[8px] tracking-wider uppercase px-1 py-[0.5px] rounded-[2px]" style="background:rgba(171,159,242,0.12);color:#ab9ff2;border:1px solid rgba(171,159,242,0.3);">RWA</span></td>
+                <td class="py-1.5 px-2 text-right text-foreground font-mono">$227.11</td>
+                <td class="py-1.5 px-2 text-right text-primary font-mono">+1.23%</td>
+                <td class="py-1.5 px-2 text-right text-muted-foreground font-mono">$19.98M</td>
+                <td class="py-1.5 pr-3 text-right text-foreground font-mono">$21.68M</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-1.5 pl-3 font-semibold text-white whitespace-nowrap">META <span class="text-muted-foreground font-normal ml-1">Meta Platforms · Robinhood Token</span> <span class="ml-1.5 inline-block text-[8px] tracking-wider uppercase px-1 py-[0.5px] rounded-[2px]" style="background:rgba(171,159,242,0.12);color:#ab9ff2;border:1px solid rgba(171,159,242,0.3);">RWA</span></td>
+                <td class="py-1.5 px-2 text-right text-foreground font-mono">$738.76</td>
+                <td class="py-1.5 px-2 text-right text-primary font-mono">+8.26%</td>
+                <td class="py-1.5 px-2 text-right text-muted-foreground font-mono">$5.43M</td>
+                <td class="py-1.5 pr-3 text-right text-foreground font-mono">$7.17M</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-1.5 pl-3 font-semibold text-white whitespace-nowrap">GLD <span class="text-muted-foreground font-normal ml-1">SPDR Gold Trust · Robinhood Token</span> <span class="ml-1.5 inline-block text-[8px] tracking-wider uppercase px-1 py-[0.5px] rounded-[2px]" style="background:rgba(171,159,242,0.12);color:#ab9ff2;border:1px solid rgba(171,159,242,0.3);">RWA</span></td>
+                <td class="py-1.5 px-2 text-right text-foreground font-mono">$396.03</td>
+                <td class="py-1.5 px-2 text-right text-red-400 font-mono">-1.01%</td>
+                <td class="py-1.5 px-2 text-right text-muted-foreground font-mono">$9.15M</td>
+                <td class="py-1.5 pr-3 text-right text-foreground font-mono">$6.40M</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-1.5 pl-3 font-semibold text-white whitespace-nowrap">SPY <span class="text-muted-foreground font-normal ml-1">SPDR S&amp;P 500 ETF Trust · Robinhood Token</span> <span class="ml-1.5 inline-block text-[8px] tracking-wider uppercase px-1 py-[0.5px] rounded-[2px]" style="background:rgba(171,159,242,0.12);color:#ab9ff2;border:1px solid rgba(171,159,242,0.3);">RWA</span></td>
+                <td class="py-1.5 px-2 text-right text-foreground font-mono">$775.82</td>
+                <td class="py-1.5 px-2 text-right text-primary font-mono">+0.79%</td>
+                <td class="py-1.5 px-2 text-right text-muted-foreground font-mono">$25.48M</td>
+                <td class="py-1.5 pr-3 text-right text-foreground font-mono">$6.75M</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-1.5 pl-3 font-semibold text-white whitespace-nowrap">GME <span class="text-muted-foreground font-normal ml-1">GameStop · Robinhood Token</span> <span class="ml-1.5 inline-block text-[8px] tracking-wider uppercase px-1 py-[0.5px] rounded-[2px]" style="background:rgba(171,159,242,0.12);color:#ab9ff2;border:1px solid rgba(171,159,242,0.3);">RWA</span></td>
+                <td class="py-1.5 px-2 text-right text-foreground font-mono">$23.62</td>
+                <td class="py-1.5 px-2 text-right text-primary font-mono">+3.58%</td>
+                <td class="py-1.5 px-2 text-right text-muted-foreground font-mono">$3.34M</td>
+                <td class="py-1.5 pr-3 text-right text-foreground font-mono">$5.36M</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-1.5 pl-3 font-semibold text-white whitespace-nowrap">GOOGL <span class="text-muted-foreground font-normal ml-1">Alphabet Class A · Robinhood Token</span> <span class="ml-1.5 inline-block text-[8px] tracking-wider uppercase px-1 py-[0.5px] rounded-[2px]" style="background:rgba(171,159,242,0.12);color:#ab9ff2;border:1px solid rgba(171,159,242,0.3);">RWA</span></td>
+                <td class="py-1.5 px-2 text-right text-foreground font-mono">$357.25</td>
+                <td class="py-1.5 px-2 text-right text-primary font-mono">+1.86%</td>
+                <td class="py-1.5 px-2 text-right text-muted-foreground font-mono">$5.33M</td>
+                <td class="py-1.5 pr-3 text-right text-foreground font-mono">$3.67M</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-1.5 pl-3 font-semibold text-white whitespace-nowrap">AAPL <span class="text-muted-foreground font-normal ml-1">Apple · Robinhood Token</span> <span class="ml-1.5 inline-block text-[8px] tracking-wider uppercase px-1 py-[0.5px] rounded-[2px]" style="background:rgba(171,159,242,0.12);color:#ab9ff2;border:1px solid rgba(171,159,242,0.3);">RWA</span></td>
+                <td class="py-1.5 px-2 text-right text-foreground font-mono">$339.65</td>
+                <td class="py-1.5 px-2 text-right text-primary font-mono">+0.85%</td>
+                <td class="py-1.5 px-2 text-right text-muted-foreground font-mono">$5.21M</td>
+                <td class="py-1.5 pr-3 text-right text-foreground font-mono">$1.74M</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-1.5 pl-3 font-semibold text-white whitespace-nowrap">INTC <span class="text-muted-foreground font-normal ml-1">Intel · Robinhood Token</span> <span class="ml-1.5 inline-block text-[8px] tracking-wider uppercase px-1 py-[0.5px] rounded-[2px]" style="background:rgba(171,159,242,0.12);color:#ab9ff2;border:1px solid rgba(171,159,242,0.3);">RWA</span></td>
+                <td class="py-1.5 px-2 text-right text-foreground font-mono">$120.42</td>
+                <td class="py-1.5 px-2 text-right text-primary font-mono">+5.87%</td>
+                <td class="py-1.5 px-2 text-right text-muted-foreground font-mono">$2.01M</td>
+                <td class="py-1.5 pr-3 text-right text-foreground font-mono">$1.58M</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-1.5 pl-3 font-semibold text-white whitespace-nowrap">QQQ <span class="text-muted-foreground font-normal ml-1">Invesco QQQ · Robinhood Token</span> <span class="ml-1.5 inline-block text-[8px] tracking-wider uppercase px-1 py-[0.5px] rounded-[2px]" style="background:rgba(171,159,242,0.12);color:#ab9ff2;border:1px solid rgba(171,159,242,0.3);">RWA</span></td>
+                <td class="py-1.5 px-2 text-right text-foreground font-mono">$741.89</td>
+                <td class="py-1.5 px-2 text-right text-primary font-mono">+1.89%</td>
+                <td class="py-1.5 px-2 text-right text-muted-foreground font-mono">$4.84M</td>
+                <td class="py-1.5 pr-3 text-right text-foreground font-mono">$1.02M</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-1.5 pl-3 font-semibold text-white whitespace-nowrap">PLTR <span class="text-muted-foreground font-normal ml-1">Palantir Technologies · Robinhood Token</span> <span class="ml-1.5 inline-block text-[8px] tracking-wider uppercase px-1 py-[0.5px] rounded-[2px]" style="background:rgba(171,159,242,0.12);color:#ab9ff2;border:1px solid rgba(171,159,242,0.3);">RWA</span></td>
+                <td class="py-1.5 px-2 text-right text-foreground font-mono">$183.26</td>
+                <td class="py-1.5 px-2 text-right text-primary font-mono">+2.47%</td>
+                <td class="py-1.5 px-2 text-right text-muted-foreground font-mono">$2.50M</td>
+                <td class="py-1.5 pr-3 text-right text-foreground font-mono">$828.7K</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-1.5 pl-3 font-semibold text-white whitespace-nowrap">COIN <span class="text-muted-foreground font-normal ml-1">Coinbase · Robinhood Token</span> <span class="ml-1.5 inline-block text-[8px] tracking-wider uppercase px-1 py-[0.5px] rounded-[2px]" style="background:rgba(171,159,242,0.12);color:#ab9ff2;border:1px solid rgba(171,159,242,0.3);">RWA</span></td>
+                <td class="py-1.5 px-2 text-right text-foreground font-mono">$198.91</td>
+                <td class="py-1.5 px-2 text-right text-red-400 font-mono">-2.82%</td>
+                <td class="py-1.5 px-2 text-right text-muted-foreground font-mono">$2.24M</td>
+                <td class="py-1.5 pr-3 text-right text-foreground font-mono">$810.8K</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-1.5 pl-3 font-semibold text-white whitespace-nowrap">SGOV <span class="text-muted-foreground font-normal ml-1">iShares 0-3 Month Treasury Bond · Robinhood Token</span> <span class="ml-1.5 inline-block text-[8px] tracking-wider uppercase px-1 py-[0.5px] rounded-[2px]" style="background:rgba(171,159,242,0.12);color:#ab9ff2;border:1px solid rgba(171,159,242,0.3);">RWA</span></td>
+                <td class="py-1.5 px-2 text-right text-foreground font-mono">$100.93</td>
+                <td class="py-1.5 px-2 text-right text-primary font-mono">+0.02%</td>
+                <td class="py-1.5 px-2 text-right text-muted-foreground font-mono">$3.49M</td>
+                <td class="py-1.5 pr-3 text-right text-foreground font-mono">$732.1K</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Right Column: Pons Launchpad Bonding Curve -->
+      <section class="panel relative overflow-hidden flex flex-col min-h-[480px]">
+        <header class="flex items-center justify-between gap-2 border-b border-border px-3 py-1.5">
+          <span class="label-xs text-primary font-semibold">PONS LAUNCHPAD · BONDING CURVE · ROBINHOOD CHAIN</span>
+          <div class="flex items-center gap-1 font-mono">
+            <button type="button" class="border px-2 py-[2px] text-[9px] tracking-[0.2em] uppercase transition-colors border-primary text-primary cursor-pointer">trending</button>
+            <button type="button" class="border px-2 py-[2px] text-[9px] tracking-[0.2em] uppercase transition-colors border-border text-muted-foreground hover:text-foreground cursor-pointer">new</button>
+            <button type="button" class="border px-2 py-[2px] text-[9px] tracking-[0.2em] uppercase transition-colors border-border text-muted-foreground hover:text-foreground cursor-pointer">graduated</button>
+          </div>
+        </header>
+        <div class="flex-1 flex items-center justify-center p-6">
+          <p class="text-[11px] text-muted-foreground font-mono">no tokens returned</p>
+        </div>
+      </section>
+    </div>
+
+    <!-- LIVE BOOST STREAM MARQUEE (Exact Match to butterflybrain.pro) -->
+    <div class="panel mt-3 overflow-hidden">
+      <div class="flex items-center justify-between border-b border-border px-3 py-1.5 font-mono">
+        <span class="label-xs text-primary font-semibold">LIVE BOOST STREAM · DEXSCREENER</span>
+        <span class="label-xs text-muted-foreground">74 tokens</span>
+      </div>
+      <div class="relative overflow-hidden py-2">
+        <div class="animate-marquee flex w-max gap-8 whitespace-nowrap text-[10px] text-muted-foreground font-mono">
+          <span><span class="text-white">500</span> <span class="text-primary font-bold">›</span> solana · 8cRE7A...AdKP boost 500</span>
+          <span><span class="text-primary font-bold">›</span> solana · 3dihkg_b9QX boost 500</span>
+          <span><span class="text-accent font-bold">›</span> solana · HUcEu3_pump boost 200</span>
+          <span><span class="text-primary font-bold">›</span> robinhood · 0x8884_9733 boost 200</span>
+          <span><span class="text-accent font-bold">›</span> robinhood · 0x75e0_255c boost 100</span>
+          <span><span class="text-primary font-bold">›</span> robinhood · 0x42ac_991f boost 100</span>
+          <span><span class="text-accent font-bold">›</span> robinhood · 0x7EFE_BA26 boost 100</span>
+          <span><span class="text-primary font-bold">›</span> robinhood · 0x0E0B_E210 boost 100</span>
+          <span><span class="text-accent font-bold">›</span> robinhood · 0x3C6D_E764 boost 100</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER (Exact butterflybrain.pro Layout) -->
+    <footer class="panel mt-3 flex flex-wrap items-center justify-between gap-3 px-3 py-2 text-[10px] text-muted-foreground font-mono">
+      <span><span class="text-primary">06</span> chapters</span>
+      <span><span class="text-accent">wire</span> + points</span>
+      <span><span style="color:#ff4e50;">–</span> networks</span>
+      <span><span style="color:#f9d423;">AI</span> insight engine</span>
+      <span>ButterflyBrain © 2026</span>
+    </footer>
+
+  </section>
+
+  <!-- THREE.JS 3D STIPPLE BUTTERFLY SIMULATION & SCROLL ENGINE -->
+  <script>
+    // Chapter Architecture (7 Chapters matching specimen dissection flow)
+    const CHAPTERS = [
+      {
+        kicker: "EXTERNAL STRUCTURE",
+        title: "Complete specimen",
+        blurb: "Line and stipple reconstruction of the ButterflyBrain morpho.",
+        next: "Wing assembly",
+        sep: 0,
+        focus: { rotY: 0.55, rotX: 0.12, zoom: 1, panY: 0 },
+        callouts: []
+      },
+      {
+        kicker: "MEMBRANE / VEINS",
+        title: "Wing assembly",
+        blurb: "Paired membranes and their vein structure, held in a fixed display pose.",
+        next: "Compound eyes",
+        sep: 0.11,
+        focus: { rotY: 0.08, rotX: 0.25, zoom: 1.15, panY: -0.05 },
+        callouts: ['forewing', 'hindwing']
+      },
+      {
+        kicker: "SURFACE / FACETS",
+        title: "Compound eyes",
+        blurb: "Facet geometry, antennae and the head capsule.",
+        next: "Inside the thorax",
+        sep: 0.33,
+        focus: { rotY: -0.15, rotX: -0.08, zoom: 1.45, panY: -0.32 },
+        callouts: ['head', 'eye-r', 'eye-l']
+      },
+      {
+        kicker: "CORE / ENGINE",
+        title: "Inside the thorax",
+        blurb: "The flight motor where every signal is processed.",
+        next: "Spectral abdomen",
+        sep: 0.63,
+        focus: { rotY: 0.85, rotX: 0.14, zoom: 1.15, panY: 0.02 },
+        callouts: ['thorax']
+      },
+      {
+        kicker: "PIGMENT / SPECTRUM",
+        title: "Spectral abdomen",
+        blurb: "Rainbow pigment mapping across the fully separated anatomy.",
+        next: "Reassembly",
+        sep: 0.90,
+        focus: { rotY: 1.8, rotX: 0.28, zoom: 1.0, panY: 0.02 },
+        callouts: ['abdomen']
+      },
+      {
+        kicker: "RECOMPOSITION",
+        title: "Reassembly",
+        blurb: "Parts drawn back along their joints toward the whole specimen.",
+        next: "Complete specimen",
+        sep: 0.34,
+        focus: { rotY: -1.0, rotX: 0.35, zoom: 1.1, panY: 0 },
+        callouts: ['forewing', 'thorax']
+      },
+      {
+        kicker: "COMPLETE / WHOLE",
+        title: "Complete specimen",
+        blurb: "The specimen is one again — the full anatomy of a decision.",
+        next: "Inspect the market",
+        sep: 0,
+        focus: { rotY: 0.55, rotX: 0.12, zoom: 1, panY: 0 },
+        callouts: []
+      }
+    ];
+
+    let currentChapterIdx = 0;
+    let renderMode = 'composite';
+    let separation = 0;
+
+    // Build Object Tree UI
+    const treeList = document.getElementById('object-tree-list');
+    CHAPTERS.forEach((ch, idx) => {
+      const item = document.createElement('div');
+      item.className = 'flex items-center justify-between px-2 py-1 text-[11px] cursor-pointer transition-all ' + 
+        (idx === 0 ? 'bg-secondary text-primary font-semibold' : 'text-muted-foreground hover:text-white');
+      item.style.borderLeft = idx === 0 ? '2px solid var(--primary)' : '2px solid transparent';
+      item.innerHTML = `<span>${ch.title}</span><span class="tabular-nums text-[10px]">0${idx + 1}</span>`;
+      item.onclick = () => scrollToChapter(idx);
+      treeList.appendChild(item);
+    });
+
+    function updateTreeHighlight(idx) {
+      const items = treeList.children;
+      for (let i = 0; i < items.length; i++) {
+        const isActive = i === idx;
+        items[i].className = 'flex items-center justify-between px-2 py-1 text-[11px] cursor-pointer transition-all ' + 
+          (isActive ? 'text-primary font-semibold' : 'text-muted-foreground hover:text-white');
+        items[i].style.background = isActive ? 'rgba(55, 245, 163, 0.1)' : 'transparent';
+        items[i].style.borderLeft = isActive ? '2px solid var(--primary)' : '2px solid transparent';
+      }
+    }
+
+    function updateUI(idx, sepVal) {
+      currentChapterIdx = idx;
+      const ch = CHAPTERS[idx];
+      const sepPercent = Math.round(sepVal * 100);
+
+      document.getElementById('separation-slider').value = sepPercent;
+      document.getElementById('slider-val').innerText = sepPercent + '%';
+      document.getElementById('inspect-sep').innerText = sepPercent + '%';
+
+      document.getElementById('chapter-counter').innerText = `0${idx + 1} : 07`;
+      document.getElementById('chapter-kicker').innerText = ch.kicker;
+      document.getElementById('chapter-title').innerText = ch.title;
+      document.getElementById('chapter-blurb').innerText = ch.blurb;
+      document.getElementById('inspect-title').innerText = ch.title;
+      document.getElementById('next-chapter-text').innerText = ch.next;
+
+      updateTreeHighlight(idx);
+    }
+
+    function scrollToChapter(idx) {
+      const track = document.getElementById('scroll-track');
+      const maxScroll = track.offsetHeight - window.innerHeight;
+      const targetScroll = (idx / (CHAPTERS.length - 1)) * maxScroll;
+      window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+    }
+
+    function scrollNext() {
+      if (currentChapterIdx === CHAPTERS.length - 1) {
+        scrollToTerminal();
+      } else {
+        scrollToChapter((currentChapterIdx + 1) % CHAPTERS.length);
+      }
+    }
+
+    function scrollToTerminal() {
+      document.getElementById('terminal').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Three.js Canvas & Renderer Initialization
+    const canvas = document.getElementById('butterfly-canvas');
+    const container = document.getElementById('sticky-viewport');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
+    camera.position.set(0, 0, 3.8);
+
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    window.addEventListener('resize', () => {
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
+    });
+
+    // Procedural Mathematics for Wing Curves and Point Stipples
+    function qv(e, t) {
+      let n = Math.cos(e.rot), r = Math.sin(e.rot);
+      let i = e.rx * Math.cos(t), a = e.ry * Math.sin(t);
+      return [e.cx + i * n - a * r, e.cy + i * r + a * n];
+    }
+
+    function Jv(e, t, n) {
+      let r = Math.cos(-n.rot), i = Math.sin(-n.rot);
+      let a = e - n.cx, o = t - n.cy;
+      return Math.sqrt(((a * r - o * i) / n.rx) ** 2 + ((a * i + o * r) / n.ry) ** 2);
+    }
+
+    function Yv(e, t, n, r) {
+      let col = new THREE.Color();
+      col.setHSL(((e * 0.42 + t * 0.18 + 0.55) % 1 + 1) % 1, n, r);
+      return col;
+    }
+
+    function generateWing(cfg) {
+      let { e: t, root: n, veins: r, stipple: count, bow: a } = cfg;
+      let lineCoords = [], perimeter = [];
+      for (let i = 0; i < 160; i++) perimeter.push(qv(t, i / 160 * Math.PI * 2));
+      let c = (x, y) => a * (x * x * 0.35 + y * y * 0.1);
+
+      for (let i = 0; i < 160; i++) {
+        let p1 = perimeter[i], p2 = perimeter[(i + 1) % 160];
+        lineCoords.push(p1[0] - n[0], p1[1] - n[1], c(p1[0], p1[1]), p2[0] - n[0], p2[1] - n[1], c(p2[0], p2[1]));
+      }
+
+      let veinChains = [];
+      for (let i = 0; i < r; i++) {
+        let tip = qv(t, i / (r - 1) * Math.PI * 1.35 - Math.PI * 0.62);
+        let chain = [];
+        for (let step = 0; step <= 14; step++) {
+          let s = step / 14;
+          let wave = Math.sin(s * Math.PI) * 0.05 * (i % 2 === 0 ? 1 : -1);
+          chain.push([(tip[0] - n[0]) * s, (tip[1] - n[1]) * s + wave]);
+        }
+        veinChains.push(chain);
+        for (let s = 0; s < 14; s++) {
+          let pt1 = chain[s], pt2 = chain[s + 1];
+          lineCoords.push(pt1[0], pt1[1], c(pt1[0] + n[0], pt1[1] + n[1]), pt2[0], pt2[1], c(pt2[0] + n[0], pt2[1] + n[1]));
+        }
+      }
+
+      for (let i = 0; i < veinChains.length - 1; i++) {
+        for (let s = 6; s <= 13; s += 2) {
+          let pt1 = veinChains[i][s], pt2 = veinChains[i + 1][s];
+          lineCoords.push(pt1[0], pt1[1], c(pt1[0] + n[0], pt1[1] + n[1]), pt2[0], pt2[1], c(pt2[0] + n[0], pt2[1] + n[1]));
+        }
+      }
+
+      let ptCoords = [], colCoords = [];
+      let attempts = 0;
+      while (ptCoords.length / 3 < count && attempts < count * 60) {
+        attempts++;
+        let x = t.cx + (Math.random() - 0.5) * t.rx * 2.6;
+        let y = t.cy + (Math.random() - 0.5) * t.ry * 2.6;
+        let dist = Jv(x, y, t);
+        if (dist > 1 || Math.random() > 0.08 + 0.92 * (dist ** 3)) continue;
+        ptCoords.push(x - n[0], y - n[1], c(x, y) + (Math.random() - 0.5) * 0.015);
+        let col = Yv(x, y, 0.85, 0.6 + 0.25 * dist);
+        colCoords.push(col.r, col.g, col.b);
+      }
+
+      return {
+        id: cfg.id,
+        lines: new Float32Array(lineCoords),
+        points: new Float32Array(ptCoords),
+        colors: new Float32Array(colCoords),
+        offset: cfg.offset,
+        tilt: cfg.tilt || 0,
+        spin: cfg.spin || 0,
+        mirror: cfg.mirror
+      };
+    }
+
+    function generateBodyPart(cfg) {
+      let { center: t, radii: n, rings: r, stipple: count, spikes = 0 } = cfg;
+      let lineCoords = [];
+      let sample = (u, v) => [
+        t[0] + n[0] * Math.sin(v) * Math.cos(u),
+        t[1] + n[1] * Math.cos(v),
+        t[2] + n[2] * Math.sin(v) * Math.sin(u)
+      ];
+
+      for (let i = 0; i < r; i++) {
+        let u = i / r * Math.PI * 2;
+        for (let j = 0; j < 24; j++) {
+          let p1 = sample(u, j / 24 * Math.PI), p2 = sample(u, (j + 1) / 24 * Math.PI);
+          lineCoords.push(p1[0], p1[1], p1[2], p2[0], p2[1], p2[2]);
+        }
+      }
+      for (let i = 1; i < Math.max(4, Math.round(r * 0.7)); i++) {
+        let v = i / Math.round(r * 0.7) * Math.PI;
+        for (let j = 0; j < 32; j++) {
+          let p1 = sample(j / 32 * Math.PI * 2, v), p2 = sample((j + 1) / 32 * Math.PI * 2, v);
+          lineCoords.push(p1[0], p1[1], p1[2], p2[0], p2[1], p2[2]);
+        }
+      }
+
+      for (let s = 0; s < spikes; s++) {
+        let p = sample(Math.random() * Math.PI * 2, Math.random() * Math.PI);
+        let dir = [(p[0] - t[0]) / n[0], (p[1] - t[1]) / n[1], (p[2] - t[2]) / n[2]];
+        let len = 0.055;
+        lineCoords.push(p[0], p[1], p[2], p[0] + dir[0] * len, p[1] + dir[1] * len, p[2] + dir[2] * len);
+      }
+
+      let ptCoords = [], colCoords = [];
+      for (let i = 0; i < count; i++) {
+        let p = sample(Math.random() * Math.PI * 2, Math.acos(2 * Math.random() - 1));
+        ptCoords.push(p[0], p[1], p[2]);
+        let col = Yv(p[0], p[1], 0.45, 0.85);
+        colCoords.push(col.r, col.g, col.b);
+      }
+
+      return {
+        id: cfg.id,
+        lines: new Float32Array(lineCoords),
+        points: new Float32Array(ptCoords),
+        colors: new Float32Array(colCoords),
+        offset: cfg.offset
+      };
+    }
+
+    function generateAntenna(offset, mirror) {
+      let lineCoords = [], ptCoords = [], colCoords = [];
+      let curve = (s) => [
+        (mirror ? -1 : 1) * (0.06 + Math.sin(s * 1.25) * 0.42),
+        0.5 + s * 0.62,
+        0.02 + s * 0.05
+      ];
+
+      for (let i = 0; i < 40; i++) {
+        let p1 = curve(i / 40), p2 = curve((i + 1) / 40);
+        lineCoords.push(p1[0], p1[1], p1[2], p2[0], p2[1], p2[2]);
+      }
+
+      let tip = curve(1);
+      for (let i = 0; i < 240; i++) {
+        let u = Math.random() * Math.PI * 2, v = Math.acos(2 * Math.random() - 1);
+        ptCoords.push(
+          tip[0] + 0.055 * Math.sin(v) * Math.cos(u),
+          tip[1] + 0.075 * Math.cos(v),
+          tip[2] + 0.055 * Math.sin(v) * Math.sin(u)
+        );
+        let col = Yv(tip[0], tip[1], 0.8, 0.65);
+        colCoords.push(col.r, col.g, col.b);
+      }
+
+      return {
+        id: mirror ? 'antenna-l' : 'antenna',
+        lines: new Float32Array(lineCoords),
+        points: new Float32Array(ptCoords),
+        colors: new Float32Array(colCoords),
+        offset: offset
+      };
+    }
+
+    // Build parts
+    const butterflyGroup = new THREE.Group();
+    scene.add(butterflyGroup);
+
+    const partsData = [];
+    const foreParam = { cx: 0.72, cy: 0.34, rx: 0.72, ry: 0.44, rot: 0.34 };
+    const hindParam = { cx: 0.52, cy: -0.46, rx: 0.5, ry: 0.4, rot: -0.24 };
+
+    [false, true].forEach(isLeft => {
+      const sign = isLeft ? -1 : 1;
+      const fw = generateWing({
+        id: isLeft ? 'forewing-l' : 'forewing',
+        e: foreParam,
+        root: [0.06 * sign, 0.12],
+        veins: 11,
+        stipple: 4800,
+        offset: [0.82 * sign, 0.52, 0],
+        mirror: isLeft,
+        bow: -0.18,
+        tilt: 0.55 * sign,
+        spin: 0.18 * sign
+      });
+      const hw = generateWing({
+        id: isLeft ? 'hindwing-l' : 'hindwing',
+        e: hindParam,
+        root: [0.05 * sign, -0.08],
+        veins: 8,
+        stipple: 3000,
+        offset: [0.72 * sign, -0.62, 0],
+        mirror: isLeft,
+        bow: -0.14,
+        tilt: 0.55 * sign,
+        spin: -0.16 * sign
+      });
+      partsData.push(fw, hw);
+    });
+
+    // Body parts
+    partsData.push(
+      generateBodyPart({ id: 'thorax', center: [0, 0.08, 0], radii: [0.095, 0.26, 0.095], rings: 14, stipple: 2200, spikes: 45, offset: [0, 0.28, 0] }),
+      generateBodyPart({ id: 'abdomen', center: [0, -0.56, 0], radii: [0.075, 0.38, 0.075], rings: 16, stipple: 2600, spikes: 25, offset: [0, -0.55, 0] }),
+      generateBodyPart({ id: 'head', center: [0, 0.44, 0], radii: [0.08, 0.08, 0.08], rings: 10, stipple: 1000, spikes: 15, offset: [0, 0.5, 0] }),
+      generateBodyPart({ id: 'eye-r', center: [0.07, 0.46, 0.05], radii: [0.045, 0.045, 0.045], rings: 7, stipple: 400, offset: [0.18, 0.6, 0.12] }),
+      generateBodyPart({ id: 'eye-l', center: [-0.07, 0.46, 0.05], radii: [0.045, 0.045, 0.045], rings: 7, stipple: 400, offset: [-0.18, 0.6, 0.12] }),
+      generateAntenna([0.15, 0.72, 0], false),
+      generateAntenna([-0.15, 0.72, 0], true)
+    );
+
+    // Three.js Meshes
+    const threeParts = partsData.map(data => {
+      const partGroup = new THREE.Group();
+      butterflyGroup.add(partGroup);
+
+      if (data.mirror) {
+        partGroup.scale.x = -1;
+      }
+
+      // Wireframe lines
+      const lineGeo = new THREE.BufferGeometry();
+      lineGeo.setAttribute('position', new THREE.BufferAttribute(data.lines, 3));
+      const lineMat = new THREE.LineBasicMaterial({
+        color: 0x37f5a3,
+        transparent: true,
+        opacity: 0.38,
+        blending: THREE.AdditiveBlending
+      });
+      const linesMesh = new THREE.LineSegments(lineGeo, lineMat);
+      partGroup.add(linesMesh);
+
+      // Stipple Points
+      const ptGeo = new THREE.BufferGeometry();
+      ptGeo.setAttribute('position', new THREE.BufferAttribute(data.points, 3));
+      ptGeo.setAttribute('color', new THREE.BufferAttribute(data.colors, 3));
+      const ptMat = new THREE.PointsMaterial({
+        size: 0.024,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.88,
+        blending: THREE.AdditiveBlending
+      });
+      const pointsMesh = new THREE.Points(ptGeo, ptMat);
+      partGroup.add(pointsMesh);
+
+      return {
+        id: data.id,
+        group: partGroup,
+        linesMesh,
+        pointsMesh,
+        originOffset: data.offset
+      };
+    });
+
+    // SCROLL-DRIVEN DISSECTION ENGINE
+    let targetRotationY = 0.55;
+    let targetRotationX = 0.12;
+    let targetZoom = 1.0;
+    let targetPanY = 0;
+
+    function handleScroll() {
+      const track = document.getElementById('scroll-track');
+      const rect = track.getBoundingClientRect();
+      const totalScrollable = rect.height - window.innerHeight;
+
+      if (totalScrollable <= 0) return;
+
+      const progress = Math.min(1, Math.max(0, -rect.top / totalScrollable));
+      
+      const numChapters = CHAPTERS.length;
+      const exactIndex = progress * (numChapters - 1);
+      const curIdx = Math.min(numChapters - 1, Math.floor(exactIndex));
+      const nextIdx = Math.min(numChapters - 1, curIdx + 1);
+      const blend = exactIndex - curIdx;
+
+      const curCh = CHAPTERS[curIdx];
+      const nextCh = CHAPTERS[nextIdx];
+
+      separation = curCh.sep + (nextCh.sep - curCh.sep) * blend;
+      targetRotationY = curCh.focus.rotY + (nextCh.focus.rotY - curCh.focus.rotY) * blend;
+      targetRotationX = curCh.focus.rotX + (nextCh.focus.rotX - curCh.focus.rotX) * blend;
+      targetZoom = curCh.focus.zoom + (nextCh.focus.zoom - curCh.focus.zoom) * blend;
+      targetPanY = curCh.focus.panY + (nextCh.focus.panY - curCh.focus.panY) * blend;
+
+      const activeIdx = blend >= 0.5 ? nextIdx : curIdx;
+      updateUI(activeIdx, separation);
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    // Drag Interaction
+    let isDragging = false;
+    let prevMouseX = 0, prevMouseY = 0;
+
+    canvas.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      prevMouseX = e.clientX;
+      prevMouseY = e.clientY;
+    });
+
+    window.addEventListener('mouseup', () => isDragging = false);
+
+    window.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+        const deltaX = e.clientX - prevMouseX;
+        const deltaY = e.clientY - prevMouseY;
+        targetRotationY += deltaX * 0.006;
+        targetRotationX += deltaY * 0.006;
+        prevMouseX = e.clientX;
+        prevMouseY = e.clientY;
+      }
+    });
+
+    const slider = document.getElementById('separation-slider');
+    slider.addEventListener('input', (e) => {
+      separation = e.target.value / 100;
+      document.getElementById('slider-val').innerText = e.target.value + '%';
+      document.getElementById('inspect-sep').innerText = e.target.value + '%';
+    });
+
+    document.querySelectorAll('#render-mode-toggles button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#render-mode-toggles button').forEach(b => {
+          b.style.background = 'rgba(255,255,255,0.02)';
+          b.style.borderColor = 'transparent';
+          b.style.color = '#708090';
+        });
+        btn.style.background = 'rgba(55, 245, 163, 0.15)';
+        btn.style.borderColor = 'var(--primary)';
+        btn.style.color = 'var(--primary)';
+        renderMode = btn.dataset.mode;
+        document.getElementById('inspect-render').innerText = renderMode;
+      });
+    });
+
+    const calloutElements = {
+      thorax: document.getElementById('badge-thorax'),
+      forewing: document.getElementById('badge-forewing'),
+      hindwing: document.getElementById('badge-hindwing'),
+      head: document.getElementById('badge-head'),
+      'eye-r': document.getElementById('badge-eye-r'),
+      'eye-l': document.getElementById('badge-eye-l')
+    };
+
+    const svgLines = document.getElementById('leader-lines');
+
+    function updateCallouts() {
+      const activeCallouts = CHAPTERS[currentChapterIdx].callouts || [];
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+
+      let svgPath = '';
+
+      Object.keys(calloutElements).forEach(key => {
+        const el = calloutElements[key];
+        if (!activeCallouts.includes(key)) {
+          el.style.display = 'none';
+          return;
+        }
+
+        const part = threeParts.find(p => p.id === key || (key === 'forewing' && p.id === 'forewing') || (key === 'hindwing' && p.id === 'hindwing'));
+        if (part) {
+          const worldPos = new THREE.Vector3();
+          part.group.getWorldPosition(worldPos);
+
+          const screenPos = worldPos.clone().project(camera);
+          const x = (screenPos.x * 0.5 + 0.5) * width;
+          const y = (-(screenPos.y * 0.5) + 0.5) * height;
+
+          if (screenPos.z < 1) {
+            el.style.display = 'block';
+            const offsetX = (key === 'forewing' || key === 'thorax') ? 95 : (key === 'eye-l' ? -95 : 85);
+            const boxX = x + offsetX;
+            const boxY = y - 10;
+
+            el.style.left = boxX + 'px';
+            el.style.top = boxY + 'px';
+
+            svgPath += `<line x1="${x}" y1="${y}" x2="${boxX + (offsetX > 0 ? -45 : 45)}" y2="${boxY}" stroke="#37f5a3" stroke-width="1" stroke-dasharray="2 2" opacity="0.6"/>`;
+            svgPath += `<circle cx="${x}" cy="${y}" r="2" fill="#37f5a3"/>`;
+          } else {
+            el.style.display = 'none';
+          }
+        }
+      });
+
+      svgLines.innerHTML = svgPath;
+    }
+
+    let clock = new THREE.Clock();
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      const delta = clock.getDelta();
+      const time = clock.getElapsedTime();
+
+      butterflyGroup.rotation.y += (targetRotationY - butterflyGroup.rotation.y) * 0.08;
+      butterflyGroup.rotation.x += (targetRotationX - butterflyGroup.rotation.x) * 0.08;
+      butterflyGroup.position.y += (targetPanY - butterflyGroup.position.y) * 0.08;
+      camera.position.z += (3.8 / targetZoom - camera.position.z) * 0.08;
+
+      const flap = Math.sin(time * 2.6) * 0.025;
+
+      threeParts.forEach(part => {
+        part.linesMesh.visible = (renderMode === 'composite' || renderMode === 'wireframe');
+        part.pointsMesh.visible = (renderMode === 'composite' || renderMode === 'points');
+
+        const targetX = part.originOffset[0] * separation;
+        const targetY = part.originOffset[1] * separation;
+        const targetZ = part.originOffset[2] * separation;
+
+        part.group.position.x += (targetX - part.group.position.x) * 0.1;
+        part.group.position.y += (targetY - part.group.position.y) * 0.1;
+        part.group.position.z += (targetZ - part.group.position.z) * 0.1;
+
+        if (part.id.includes('forewing')) {
+          part.group.rotation.z = flap;
+        }
+      });
+
+      renderer.render(scene, camera);
+      updateCallouts();
+    }
+
+    handleScroll();
+    animate();
+
+    window.simulateToken = function(symbol) {
+      document.getElementById('dex-input').value = symbol;
+      document.getElementById('dex-form').dispatchEvent(new Event('submit'));
+    };
+
+    document.getElementById('dex-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const query = document.getElementById('dex-input').value.trim() || 'NVDA';
+      const output = document.getElementById('terminal-output');
+      output.innerHTML += `
+        <div style="color: var(--primary); margin-top: 6px;">&gt; scanning ${query.toUpperCase()}...</div>
+        <div style="color: #fff;">[found] Robinhood RWA Pair ${query.toUpperCase()}/USDC · DexScreener Pool #0x71a2...</div>
+        <div>price: <span style="color: var(--primary);">$227.11</span> | 24h vol: <span style="color: var(--accent);">$21.68M</span> | liq: <span style="color: #fff;">$19.98M</span></div>
+        <div style="color: #ab9ff2;">[ai insight] gemini-flash: high RWA liquidity index, +1.23% momentum.</div>
+      `;
+      output.scrollTop = output.scrollHeight;
+    });
+
+    document.getElementById('connect-wallet-btn').addEventListener('click', () => {
+      const modal = document.createElement('div');
+      modal.id = 'wallet-modal';
+      modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px;';
+      modal.innerHTML = `
+        <div style="background:#0D111A;border:1px solid rgba(255,255,255,0.1);border-radius:16px;width:100%;max-width:380px;padding:20px;font-family:'JetBrains Mono',monospace;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+            <span style="color:var(--primary);font-size:12px;letter-spacing:0.18em;text-transform:uppercase;">Connect Wallet</span>
+            <button onclick="document.getElementById('wallet-modal').remove()" style="background:none;border:none;color:#888;font-size:20px;cursor:pointer;">&times;</button>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <button onclick="connect('Phantom')" style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);color:#fff;border-radius:8px;cursor:pointer;font-family:'JetBrains Mono';">
+              <span>Phantom</span><span style="color:var(--primary);font-size:10px;">Detected</span>
+            </button>
+            <button onclick="connect('Solflare')" style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);color:#fff;border-radius:8px;cursor:pointer;font-family:'JetBrains Mono';">
+              <span>Solflare</span><span style="color:#64748b;font-size:10px;">Ready</span>
+            </button>
+            <button onclick="connect('Backpack')" style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);color:#fff;border-radius:8px;cursor:pointer;font-family:'JetBrains Mono';">
+              <span>Backpack</span><span style="color:#64748b;font-size:10px;">Ready</span>
+            </button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(modal);
+    });
+
+    window.connect = (name) => {
+      document.getElementById('wallet-modal')?.remove();
+      const btn = document.getElementById('connect-wallet-btn');
+      btn.innerText = '0x02E9...311FC';
+      btn.style.color = '#37f5a3';
+      btn.style.borderColor = '#37f5a3';
+    };
+  </script>
+</body>
+</html>

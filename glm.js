@@ -16,7 +16,22 @@ const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
 
-const API_KEY = process.env.OPENROUTER_API_KEY || '';
+// Auto-load .env
+try {
+  const envPaths = [path.resolve(__dirname, '../.env'), path.resolve(__dirname, '.env')];
+  for (const ep of envPaths) {
+    if (fs.existsSync(ep)) {
+      fs.readFileSync(ep, 'utf8').split('\n').forEach(line => {
+        const match = line.match(/^\s*([\w.-]+)\s*=\s*(.*)?\s*$/);
+        if (match && !process.env[match[1]]) {
+          process.env[match[1]] = match[2].trim().replace(/^['"]|['"]$/g, '');
+        }
+      });
+    }
+  }
+} catch (e) {}
+
+const API_KEY = process.env.OPENROUTER_API_KEY || process.env.GLM_API_KEY || '';
 const DEFAULT_MODEL = 'z-ai/glm-5.2';
 
 const SYSTEM_PROMPT = `You are an elite Creative Technologist, Principal WebGL Engineer, and Master Digital Artisan.
