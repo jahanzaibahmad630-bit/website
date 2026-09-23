@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OPTIONS FUNDING [OF] — Institutional Options Prop Firm & Live Trader Terminal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-base: #07090E;
+      --bg-surface: #0D111A;
+      --bg-elevated: #131926;
+      --bg-glass: rgba(16, 22, 34, 0.78);
+      --border-subtle: rgba(255, 255, 255, 0.07);
+      --border-highlight: rgba(16, 185, 129, 0.35);
+      --emerald: #10B981;
+      --emerald-glow: rgba(16, 185, 129, 0.18);
+      --cyan: #06B6D4;
+      --crimson: #EF4444;
+      --amber: #F59E0B;
+      --text-primary: #F8FAFC;
+      --text-secondary: #94A3B8;
+      --text-muted: #64748B;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg-base);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      color-scheme: dark;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      background-image:
+        radial-gradient(circle at 15% 10%, rgba(16, 185, 129, 0.09), transparent 38%),
+        radial-gradient(circle at 85% 18%, rgba(6, 182, 212, 0.08), transparent 35%),
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* TOP LIVE CBOE TICKER TAPE */
+    .ticker-bar {
+      height: 36px;
+      background: rgba(7, 9, 14, 0.95);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+
+    .ticker-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 16px;
+      background: #0B101B;
+      height: 100%;
+      border-right: 1px solid var(--border-subtle);
+      color: var(--emerald);
+      font-weight: 600;
+      white-space: nowrap;
+      z-index: 2;
+    }
+
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--emerald);
+      box-shadow: 0 0 10px var(--emerald);
+      animation: pulse 1.6s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.45; transform: scale(0.85); }
+    }
+
+    .ticker-track {
+      display: flex;
+      gap: 32px;
+      animation: scrollTicker 32s linear infinite;
+      white-space: nowrap;
+      padding-left: 24px;
+    }
+
+    @keyframes scrollTicker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-secondary);
+    }
+
+    .ticker-item strong {
+      color: var(--text-primary);
+    }
+
+    .up { color: var(--emerald); }
+    .down { color: var(--crimson); }
+
+    /* NAVBAR */
+    .navbar {
+      max-width: 1360px;
+      margin: 18px auto 0;
+      padding: 14px 24px;
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      backdrop-filter: blur(20px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 48px;
+      z-index: 90;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .brand-logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #10B981 0%, #059669 50%, #06B6D4 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-weight: 800;
+      font-size: 15px;
+      color: #04130D;
+      box-shadow: 0 0 24px rgba(16, 185, 129, 0.35);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title {
+      font-weight: 800;
+      font-size: 16px;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-badge {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 99px;
+      background: rgba(16, 185, 129, 0.14);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: var(--emerald);
+      font-weight: 600;
+    }
+
+    .brand-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--emerald);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      padding: 9px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: var(--font-sans);
+    }
+
+    .btn-ghost:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+      border: 1px solid rgba(52, 211, 153, 0.5);
+      color: #03120C;
+      padding: 9px 18px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 0 24px rgba(16, 185, 129, 0.28);
+      transition: all 0.2s;
+      font-family: var(--font-sans);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 32px rgba(16, 185, 129, 0.5);
+    }
+
+    /* CONTAINER */
+    .container {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* HERO SECTION */
+    .hero {
+      padding: 64px 0 42px;
+      text-align: center;
+      position: relative;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 14px;
+      border-radius: 99px;
+      background: rgba(16, 185, 129, 0.09);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--emerald);
+      margin-bottom: 22px;
+    }
+
+    .hero h1 {
+      font-size: clamp(36px, 5.2vw, 66px);
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      line-height: 1.06;
+      max-width: 960px;
+      margin: 0 auto 20px;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(95deg, #10B981 0%, #34D399 45%, #06B6D4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      color: var(--text-secondary);
+      font-size: 17.5px;
+      line-height: 1.6;
+      max-width: 680px;
+      margin: 0 auto 32px;
+    }
+
+    .hero-ctas {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 44px;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      max-width: 1020px;
+      margin: 0 auto;
+    }
+
+    .stat-card {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 18px 20px;
+      text-align: left;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--emerald), transparent);
+      opacity: 0.6;
+    }
+
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+    }
+
+    .stat-value {
+      font-family: var(--font-mono);
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .stat-delta {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      color: var(--emerald);
+      margin-top: 4px;
+    }
+
+    /* LIVE TRADER TERMINAL (THE 0.5-SECOND RULE) */
+    .terminal-wrapper {
+      margin: 28px 0 72px;
+      background: var(--bg-surface);
+      border: 1px solid rgba(16, 185, 129, 0.28);
+      border-radius: 20px;
+      box-shadow: 0 28px 90px rgba(0, 0, 0, 0.75), 0 0 55px rgba(16, 185, 129, 0.1);
+      overflow: hidden;
+    }
+
+    .terminal-topbar {
+      background: #090C13;
+      padding: 14px 22px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .window-dots {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+    }
+    .dot.red { background: #EF4444; }
+    .dot.yellow { background: #F59E0B; }
+    .dot.green { background: #10B981; }
+
+    .terminal-title {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      margin-left: 10px;
+    }
+
+    .account-pills {
+      display: flex;
+      gap: 8px;
+      background: #0D121D;
+      padding: 4px;
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .tier-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 7px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tier-btn.active {
+      background: var(--emerald);
+      color: #04130D;
+      box-shadow: 0 0 16px rgba(16, 185, 129, 0.35);
+    }
+
+    /* 3 CRITICAL GUARDRAILS BAR (0.5-SECOND RULE) */
+    .guardrails-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      padding: 20px 22px;
+      background: rgba(13, 17, 26, 0.9);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .guardrail-box {
+      background: #101622;
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 16px 18px;
+    }
+
+    .guardrail-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .guardrail-title {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .guardrail-status {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    .status-safe {
+      background: rgba(16, 185, 129, 0.12);
+      color: var(--emerald);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .status-warn {
+      background: rgba(245, 158, 11, 0.12);
+      color: var(--amber);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .guardrail-numbers {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-family: var(--font-mono);
+    }
+
+    .guardrail-main {
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .guardrail-limit {
+      font-size: 12.5px;
+      color: var(--text-muted);
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 99px;
+      transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .fill-emerald {
+      background: linear-gradient(90deg, #059669, #10B981, #34D399);
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.5);
+    }
+
+    .fill-amber {
+      background: linear-gradient(90deg, #D97706, #F59E0B);
+    }
+
+    /* MAIN TERMINAL BODY: CHART + GREEKS */
+    .terminal-body {
+      display: grid;
+      grid-template-columns: 2.15fr 1fr;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .chart-panel {
+      padding: 22px;
+      border-right: 1px solid var(--border-subtle);
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .equity-readout {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+
+    .equity-readout h3 {
+      font-family: var(--font-mono);
+      font-size: 28px;
+      font-weight: 800;
+    }
+
+    .pnl-pill {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--emerald);
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 4px 10px;
+      border-radius: 8px;
+    }
+
+    .tf-group {
+      display: flex;
+      gap: 6px;
+    }
+
+    .tf-btn {
+      background: #121826;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .tf-btn.active {
+      border-color: var(--emerald);
+      color: var(--emerald);
+      background: rgba(16, 185, 129, 0.1);
+    }
+
+    .chart-canvas-box {
+      position: relative;
+      height: 270px;
+      width: 100%;
+      background: linear-gradient(180deg, rgba(16, 185, 129, 0.04) 0%, transparent 100%);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 12px;
+      padding: 12px;
+    }
+
+    canvas#equityCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* GREEKS & RISK TELEMETRY PANEL */
+    .greeks-panel {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .greeks-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .greek-card {
+      background: #101622;
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .greek-symbol {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .greek-val {
+      font-family: var(--font-mono);
+      font-size: 20px;
+      font-weight: 700;
+      margin-top: 6px;
+      color: var(--text-primary);
+    }
+
+    .greek-sub {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 3px;
+    }
+
+    .quick-order-box {
+      background: linear-gradient(180deg, #121A2A 0%, #0D131F 100%);
+      border: 1px solid rgba(6, 182, 212, 0.28);
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .quick-order-title {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      color: var(--cyan);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .order-controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .btn-buy-call {
+      background: rgba(16, 185, 129, 0.16);
+      border: 1px solid var(--emerald);
+      color: var(--emerald);
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 12px;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-buy-call:hover {
+      background: var(--emerald);
+      color: #03130C;
+    }
+
+    .btn-buy-put {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid var(--crimson);
+      color: var(--crimson);
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 12px;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-buy-put:hover {
+      background: var(--crimson);
+      color: #fff;
+    }
+
+    /* LIVE OPTIONS POSITIONS TABLE */
+    .positions-section {
+      padding: 20px 22px;
+    }
+
+    .positions-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .positions-title {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .positions-table-wrap {
+      overflow-x: auto;
+    }
+
+    table.positions-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+    }
+
+    .positions-table th {
+      text-align: left;
+      padding: 11px 12px;
+      color: var(--text-muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .positions-table td {
+      padding: 13px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text-secondary);
+    }
+
+    .positions-table tr:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .contract-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .type-badge {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    .type-call {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--emerald);
+    }
+
+    .type-put {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--crimson);
+    }
+
+    .close-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .close-btn:hover {
+      border-color: var(--crimson);
+      color: var(--crimson);
+    }
+
+    /* PROFIT SPLIT CALCULATOR & FUNDING TIERS */
+    .section-block {
+      padding: 48px 0 72px;
+    }
+
+    .section-head {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .section-head h2 {
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 10px;
+    }
+
+    .section-head p {
+      color: var(--text-secondary);
+      font-size: 16px;
+    }
+
+    .payout-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 24px;
+    }
+
+    .calc-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      padding: 28px;
+    }
+
+    .slider-group {
+      margin-bottom: 24px;
+    }
+
+    .slider-label {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--emerald);
+      cursor: pointer;
+    }
+
+    .payout-summary {
+      background: #101724;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 14px;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .payout-amount {
+      font-family: var(--font-mono);
+      font-size: 34px;
+      font-weight: 800;
+      color: var(--emerald);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #0F172A;
+      border: 1px solid var(--emerald);
+      color: var(--text-primary);
+      padding: 14px 20px;
+      border-radius: 12px;
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75);
+      transform: translateY(120%);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 200;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    @media (max-width: 980px) {
+      .hero-stats, .guardrails-grid, .terminal-body, .payout-grid {
+        grid-template-columns: 1fr;
+      }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LIVE CBOE OPTIONS TAPE -->
+  <div class="ticker-bar">
+    <div class="ticker-status">
+      <span class="pulse-dot"></span>
+      <span>OPRA / CBOE LIVE FEED · 11ms</span>
+    </div>
+    <div class="ticker-track">
+      <span class="ticker-item"><strong>SPY 575C 0DTE</strong> $4.85 <span class="up">+38.4%</span> (IV 16.2%)</span>
+      <span class="ticker-item"><strong>NVDA 142C WEEKLY</strong> $6.40 <span class="up">+64.1%</span> (IV 54.8%)</span>
+      <span class="ticker-item"><strong>QQQ 488P 0DTE</strong> $2.15 <span class="down">-18.2%</span> (IV 19.4%)</span>
+      <span class="ticker-item"><strong>TSLA 265C WEEKLY</strong> $8.90 <span class="up">+42.0%</span> (IV 62.1%)</span>
+      <span class="ticker-item"><strong>AAPL 230C WEEKLY</strong> $3.45 <span class="up">+19.8%</span> (IV 24.5%)</span>
+      <span class="ticker-item"><strong>META 595C WEEKLY</strong> $11.20 <span class="up">+51.3%</span> (IV 36.7%)</span>
+      <span class="ticker-item"><strong>SPY 575C 0DTE</strong> $4.85 <span class="up">+38.4%</span> (IV 16.2%)</span>
+      <span class="ticker-item"><strong>NVDA 142C WEEKLY</strong> $6.40 <span class="up">+64.1%</span> (IV 54.8%)</span>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <a href="#" class="brand">
+      <div class="brand-logo">OF</div>
+      <div class="brand-text">
+        <div class="brand-title">
+          OPTIONS FUNDING
+          <span class="brand-badge">PROTOTYPE FOR TIMTHETRADER</span>
+        </div>
+        <div class="brand-sub">INSTITUTIONAL OPTIONS PROP TERMINAL // v2.4</div>
+      </div>
+    </a>
+    <nav class="nav-links">
+      <a href="#terminal">Live Terminal</a>
+      <a href="#positions">Options Chain & Greeks</a>
+      <a href="#payouts">90% Profit Split</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="btn-ghost" onclick="triggerToast('Switched to Low-Eye-Strain Obsidian Mode (#07090E)')">● 0.5s Hierarchy UI</button>
+      <button class="btn-primary" onclick="simulateOrder('CALL')">+ Simulate Instant Fill</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="eyebrow">
+        <span class="pulse-dot"></span>
+        <span>DIRECT OPRA LEVEL-2 OPTIONS EXECUTION · UP TO $200,000 FUNDED CAPITAL</span>
+      </div>
+      <h1>Trade Institutional Options.<br><span>Keep 90% of the Alpha.</span></h1>
+      <p>
+        Engineered for high-velocity options traders. Zero-lag Greeks telemetry, automated daily drawdown guardrails, and same-day USDC / Wire payouts.
+      </p>
+      <div class="hero-ctas">
+        <button class="btn-primary" onclick="document.getElementById('terminal').scrollIntoView({behavior:'smooth'})">Launch Live Funded Terminal ↓</button>
+        <button class="btn-ghost" onclick="flattenAll()">Test Risk Guardrail Reset</button>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-card">
+          <div class="stat-label">Funded Buying Power</div>
+          <div class="stat-value" id="statBuyingPower">$100,000</div>
+          <div class="stat-delta">▲ Instant Level-2 Options Access</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Execution Speed</div>
+          <div class="stat-value">11.4 ms</div>
+          <div class="stat-delta">▲ Direct CBOE / NASDAQ Routing</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Profit Split</div>
+          <div class="stat-value">90 / 10</div>
+          <div class="stat-delta">▲ Bi-Weekly & On-Demand Payouts</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Total Trader Payouts</div>
+          <div class="stat-value">$14.8M+</div>
+          <div class="stat-delta">▲ Verified On-Chain & Rise</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE FUNDED TRADER TERMINAL -->
+    <section id="terminal" class="terminal-wrapper">
+      <div class="terminal-topbar">
+        <div class="window-dots">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+          <span class="terminal-title">ACCOUNT #OF-88492 // FUNDED MASTER EVALUATION — LIVE TELEMETRY</span>
+        </div>
+        <div class="account-pills">
+          <button class="tier-btn" onclick="selectTier(25000, this)">$25K Tier</button>
+          <button class="tier-btn" onclick="selectTier(50000, this)">$50K Tier</button>
+          <button class="tier-btn active" onclick="selectTier(100000, this)">$100K Tier</button>
+          <button class="tier-btn" onclick="selectTier(200000, this)">$200K Tier</button>
+        </div>
+      </div>
+
+      <!-- THE 0.5-SECOND RULE: 3 CORE METRICS IMMEDIATELY VISIBLE -->
+      <div class="guardrails-grid">
+        <div class="guardrail-box">
+          <div class="guardrail-header">
+            <span class="guardrail-title">01 // Profit Target (8% Goal)</span>
+            <span class="guardrail-status status-safe" id="profitPercentBadge">80.2% ACHIEVED</span>
+          </div>
+          <div class="guardrail-numbers">
+            <span class="guardrail-main up" id="currentProfitDisplay">+$6,420.00</span>
+            <span class="guardrail-limit" id="targetProfitDisplay">Target: $8,000.00</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill fill-emerald" id="profitBar" style="width: 80.2%;"></div>
+          </div>
+        </div>
+
+        <div class="guardrail-box">
+          <div class="guardrail-header">
+            <span class="guardrail-title">02 // Daily Drawdown Limit (5% Max)</span>
+            <span class="guardrail-status status-safe">SAFE BUFFER: 3.8% LEFT</span>
+          </div>
+          <div class="guardrail-numbers">
+            <span class="guardrail-main" id="dailyLossDisplay">$1,180.00 Used</span>
+            <span class="guardrail-limit" id="maxDailyLimitDisplay">Max Limit: $5,000.00</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill fill-amber" style="width: 23.6%;"></div>
+          </div>
+        </div>
+
+        <div class="guardrail-box">
+          <div class="guardrail-header">
+            <span class="guardrail-title">03 // Active Options Exposure</span>
+            <span class="guardrail-status status-safe" id="activeCountBadge">4 OPEN CONTRACTS</span>
+          </div>
+          <div class="guardrail-numbers">
+            <span class="guardrail-main up" id="openUnrealizedDisplay">+$2,185.50</span>
+            <span class="guardrail-limit">Net Portfolio Δ: +148.4</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill fill-emerald" style="width: 64%;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHART + PORTFOLIO GREEKS -->
+      <div class="terminal-body">
+        <div class="chart-panel">
+          <div class="panel-header">
+            <div class="equity-readout">
+              <h3 id="accountEquityTitle">$106,420.00</h3>
+              <span class="pnl-pill" id="equityDeltaPill">+$6,420.00 (+6.42%)</span>
+            </div>
+            <div class="tf-group">
+              <button class="tf-btn active" onclick="setTimeframe('1D', this)">1D</button>
+              <button class="tf-btn" onclick="setTimeframe('1W', this)">1W</button>
+              <button class="tf-btn" onclick="setTimeframe('1M', this)">1M</button>
+              <button class="tf-btn" onclick="setTimeframe('ALL', this)">ALL</button>
+            </div>
+          </div>
+          <div class="chart-canvas-box">
+            <canvas id="equityCanvas"></canvas>
+          </div>
+        </div>
+
+        <div class="greeks-panel">
+          <div>
+            <div class="guardrail-title" style="margin-bottom: 10px;">Aggregate Portfolio Greeks (Real-Time)</div>
+            <div class="greeks-grid">
+              <div class="greek-card">
+                <div class="greek-symbol"><span>NET DELTA</span><span>Δ</span></div>
+                <div class="greek-val up" id="greekDelta">+148.42</div>
+                <div class="greek-sub">Directional Equity Eqv.</div>
+              </div>
+              <div class="greek-card">
+                <div class="greek-symbol"><span>NET GAMMA</span><span>Γ</span></div>
+                <div class="greek-val" id="greekGamma">+24.18</div>
+                <div class="greek-sub">Convexity Acceleration</div>
+              </div>
+              <div class="greek-card">
+                <div class="greek-symbol"><span>NET THETA</span><span>Θ</span></div>
+                <div class="greek-val down" id="greekTheta">-$194.20</div>
+                <div class="greek-sub">Daily Time Decay</div>
+              </div>
+              <div class="greek-card">
+                <div class="greek-symbol"><span>IMPLIED VOL</span><span>IV%</span></div>
+                <div class="greek-val" style="color: var(--cyan);">34.8%</div>
+                <div class="greek-sub">IV Percentile: 72nd</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="quick-order-box">
+            <div class="quick-order-title">
+              <span>⚡ 1-Click Options Execution Desk</span>
+              <span>SPY $574.80</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-secondary);">
+              Test interactive state updates: click below to inject a live options position into the table & equity curve.
+            </div>
+            <div class="order-controls">
+              <button class="btn-buy-call" onclick="simulateOrder('CALL')">BUY +5 SPY 575C</button>
+              <button class="btn-buy-put" onclick="simulateOrder('PUT')">BUY +5 SPY 572P</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTIVE OPTIONS CONTRACTS TABLE -->
+      <div id="positions" class="positions-section">
+        <div class="positions-header">
+          <div class="positions-title">
+            <span>ACTIVE OPTIONS CHAIN POSITIONS</span>
+            <span class="brand-badge" id="tableCountTag">4 LIVE LEGS</span>
+          </div>
+          <button class="btn-ghost" onclick="flattenAll()" style="font-size: 11.5px; padding: 6px 12px;">
+            ✕ Flatten All Positions
+          </button>
+        </div>
+
+        <div class="positions-table-wrap">
+          <table class="positions-table">
+            <thead>
+              <tr>
+                <th>Contract</th>
+                <th>Type</th>
+                <th>Qty</th>
+                <th>Avg Fill</th>
+                <th>Mark Price</th>
+                <th>Delta (Δ)</th>
+                <th>Theta (Θ)</th>
+                <th>IV %</th>
+                <th>Unrealized PnL</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="positionsBody">
+              <!-- Populated dynamically by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE PAYOUT CALCULATOR -->
+    <section id="payouts" class="section-block">
+      <div class="section-head">
+        <h2>Interactive Funded Trader Payout Engine</h2>
+        <p>Drag the sliders to calculate trader take-home payouts at Options Funding's 90% split.</p>
+      </div>
+
+      <div class="payout-grid">
+        <div class="calc-card">
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Funded Account Capital</span>
+              <strong id="calcCapLabel" style="color: var(--emerald);">$100,000</strong>
+            </div>
+            <input type="range" id="capSlider" min="25000" max="200000" step="25000" value="100000" oninput="updateCalc()" />
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Monthly Return %</span>
+              <strong id="calcRetLabel" style="color: var(--emerald);">12% / month</strong>
+            </div>
+            <input type="range" id="retSlider" min="2" max="35" step="1" value="12" oninput="updateCalc()" />
+          </div>
+
+          <div class="payout-summary">
+            <div>
+              <div class="stat-label">Your Monthly Take-Home (90% Split)</div>
+              <div class="payout-amount" id="calcTakeHome">$10,800</div>
+            </div>
+            <button class="btn-primary" onclick="triggerToast('Instant USDC / Rise Payout Request Dispatched!')">
+              Request Instant Payout →
+            </button>
+          </div>
+        </div>
+
+        <div class="calc-card" style="display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <div class="stat-label" style="color: var(--emerald);">WHY THIS UI CONVERTS TRADERS</div>
+            <h3 style="font-size: 22px; margin: 8px 0 12px;">Built on the 0.5-Second Hierarchy Rule</h3>
+            <p style="color: var(--text-secondary); font-size: 14.5px; line-height: 1.65;">
+              1. <strong>Zero Eye Strain:</strong> Deep Slate Obsidian (<code>#07090E</code>) replaces harsh pure black so options traders can monitor 0DTE gamma exposure for 8+ hours.<br><br>
+              2. <strong>Strict Semantic Color Discipline:</strong> Emerald (<code>#10B981</code>) and Crimson (<code>#EF4444</code>) are reserved exclusively for real PnL, Delta, and Risk boundaries.<br><br>
+              3. <strong>Production-Ready Code Handoff:</strong> Modular CSS tokens and clean JS data hooks ready for WebSocket / OPRA feeds.
+            </p>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--border-subtle); padding-top: 14px;">
+            CUSTOM LIVE CONCEPT PREPARED BY JAHANZAIB FOR TIMTHETRADER [OF]
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast">Order Filled!</div>
+
+  <script>
+    let currentCapital = 100000;
+    let currentProfit = 6420;
+    let positions = [
+      { id: 1, symbol: "NVDA 26SEP26 142C", type: "CALL", qty: 10, avg: 4.90, mark: 6.40, delta: "+0.64", theta: "-$0.18", iv: "54.8%" },
+      { id: 2, symbol: "SPY 23SEP26 575C", type: "CALL", qty: 15, avg: 3.80, mark: 4.85, delta: "+0.58", theta: "-$0.24", iv: "16.2%" },
+      { id: 3, symbol: "TSLA 26SEP26 265C", type: "CALL", qty: 6, avg: 7.20, mark: 8.90, delta: "+0.52", theta: "-$0.29", iv: "62.1%" },
+      { id: 4, symbol: "QQQ 23SEP26 488P", type: "PUT", qty: 8, avg: 2.55, mark: 2.15, delta: "-0.39", theta: "-$0.16", iv: "19.4%" }
+    ];
+
+    function renderPositions() {
+      const tbody = document.getElementById("positionsBody");
+      tbody.innerHTML = "";
+      let totalUnrealized = 0;
+
+      positions.forEach((p) => {
+        const pnl = (p.mark - p.avg) * p.qty * 100;
+        totalUnrealized += pnl;
+        const pct = (((p.mark - p.avg) / p.avg) * 100).toFixed(1);
+        const isUp = pnl >= 0;
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td><span class="contract-tag">${p.symbol}</span></td>
+          <td><span class="type-badge ${p.type === 'CALL' ? 'type-call' : 'type-put'}">${p.type}</span></td>
+          <td>${p.qty}x</td>
+          <td>$${p.avg.toFixed(2)}</td>
+          <td style="color:#F8FAFC;font-weight:700;">$${p.mark.toFixed(2)}</td>
+          <td class="${p.delta.startsWith('+') ? 'up' : 'down'}">${p.delta}</td>
+          <td class="down">${p.theta}</td>
+          <td>${p.iv}</td>
+          <td class="${isUp ? 'up' : 'down'}" style="font-weight:700;">
+            ${isUp ? '+' : '-'}$${Math.abs(pnl).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} (${isUp ? '+' : ''}${pct}%)
+          </td>
+          <td><button class="close-btn" onclick="closePosition(${p.id})">Close</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById("activeCountBadge").textContent = `${positions.length} OPEN CONTRACTS`;
+      document.getElementById("tableCountTag").textContent = `${positions.length} LIVE LEGS`;
+      const openEl = document.getElementById("openUnrealizedDisplay");
+      openEl.textContent = `${totalUnrealized >= 0 ? '+' : '-'}$${Math.abs(totalUnrealized).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+      openEl.className = "guardrail-main " + (totalUnrealized >= 0 ? "up" : "down");
+    }
+
+    function closePosition(id) {
+      const target = positions.find(p => p.id === id);
+      if (!target) return;
+      const realized = (target.mark - target.avg) * target.qty * 100;
+      currentProfit += realized;
+      positions = positions.filter(p => p.id !== id);
+      renderPositions();
+      updateAccountMetrics();
+      drawChart();
+      triggerToast(`Closed ${target.symbol} · Locked ${realized >= 0 ? '+' : '-'}$${Math.abs(realized).toFixed(2)}`);
+    }
+
+    function simulateOrder(type) {
+      const id = Date.now();
+      const newContract = type === "CALL"
+        ? { id, symbol: "SPY 0DTE 576C", type: "CALL", qty: 5, avg: 3.10, mark: 3.85, delta: "+0.54", theta: "-$0.22", iv: "16.8%" }
+        : { id, symbol: "SPY 0DTE 572P", type: "PUT", qty: 5, avg: 2.40, mark: 2.95, delta: "-0.46", theta: "-$0.20", iv: "17.4%" };
+      positions.unshift(newContract);
+      currentProfit += 375;
+      renderPositions();
+      updateAccountMetrics();
+      drawChart();
+      triggerToast(`FILLED: +5 ${newContract.symbol} @ $${newContract.avg.toFixed(2)} (CBOE Direct)`);
+    }
+
+    function flattenAll() {
+      positions = [];
+      renderPositions();
+      triggerToast("All Open Options Legs Flattened to Cash.");
+    }
+
+    function selectTier(cap, btn) {
+      currentCapital = cap;
+      currentProfit = Math.round(cap * 0.0642);
+      document.querySelectorAll(".tier-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      document.getElementById("statBuyingPower").textContent = `$${cap.toLocaleString()}`;
+      updateAccountMetrics();
+      drawChart();
+      triggerToast(`Switched Evaluation Tier to $${cap.toLocaleString()} Funded Account`);
+    }
+
+    function updateAccountMetrics() {
+      const target = currentCapital * 0.08;
+      const maxDaily = currentCapital * 0.05;
+      const pct = Math.min(100, ((currentProfit / target) * 100)).toFixed(1);
+      const equity = currentCapital + currentProfit;
+      const eqPct = ((currentProfit / currentCapital) * 100).toFixed(2);
+
+      document.getElementById("currentProfitDisplay").textContent = `+$${currentProfit.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+      document.getElementById("targetProfitDisplay").textContent = `Target: $${target.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+      document.getElementById("profitPercentBadge").textContent = `${pct}% ACHIEVED`;
+      document.getElementById("profitBar").style.width = `${pct}%`;
+      document.getElementById("maxDailyLimitDisplay").textContent = `Max Limit: $${maxDaily.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+      document.getElementById("accountEquityTitle").textContent = `$${equity.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+      document.getElementById("equityDeltaPill").textContent = `+$${currentProfit.toLocaleString('en-US', {minimumFractionDigits: 2})} (+${eqPct}%)`;
+    }
+
+    function setTimeframe(tf, btn) {
+      document.querySelectorAll(".tf-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      drawChart();
+    }
+
+    function drawChart() {
+      const canvas = document.getElementById("equityCanvas");
+      const ctx = canvas.getContext("2d");
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+
+      const w = rect.width;
+      const h = rect.height;
+      ctx.clearRect(0, 0, w, h);
+
+      // Grid lines
+      ctx.strokeStyle = "rgba(255,255,255,0.04)";
+      ctx.lineWidth = 1;
+      for (let i = 1; i < 5; i++) {
+        const y = (h / 5) * i;
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+        ctx.stroke();
+      }
+
+      // Generate equity curve points
+      const pts = [0.78, 0.75, 0.68, 0.71, 0.61, 0.54, 0.58, 0.46, 0.39, 0.42, 0.31, 0.25, 0.18];
+      const stepX = w / (pts.length - 1);
+
+      const grad = ctx.createLinearGradient(0, 0, 0, h);
+      grad.addColorStop(0, "rgba(16, 185, 129, 0.34)");
+      grad.addColorStop(1, "rgba(16, 185, 129, 0.0)");
+
+      ctx.beginPath();
+      pts.forEach((p, idx) => {
+        const x = idx * stepX;
+        const y = p * (h - 30) + 15 + (Math.random() * 6 - 3);
+        if (idx === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.strokeStyle = "#10B981";
+      ctx.lineWidth = 2.8;
+      ctx.stroke();
+
+      ctx.lineTo(w, h);
+      ctx.lineTo(0, h);
+      ctx.closePath();
+      ctx.fillStyle = grad;
+      ctx.fill();
+    }
+
+    function updateCalc() {
+      const cap = parseInt(document.getElementById("capSlider").value, 10);
+      const ret = parseInt(document.getElementById("retSlider").value, 10);
+      document.getElementById("calcCapLabel").textContent = `$${cap.toLocaleString()}`;
+      document.getElementById("calcRetLabel").textContent = `${ret}% / month`;
+      const gross = cap * (ret / 100);
+      const net = Math.round(gross * 0.9);
+      document.getElementById("calcTakeHome").textContent = `$${net.toLocaleString()}`;
+    }
+
+    function triggerToast(msg) {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.classList.add("show");
+      setTimeout(() => t.classList.remove("show"), 3200);
+    }
+
+    // Live subtle price ticks every 2.2s
+    setInterval(() => {
+      if (positions.length > 0) {
+        const idx = Math.floor(Math.random() * positions.length);
+        const delta = (Math.random() - 0.44) * 0.08;
+        positions[idx].mark = Math.max(0.25, +(positions[idx].mark + delta).toFixed(2));
+        renderPositions();
+      }
+    }, 2200);
+
+    window.addEventListener("resize", drawChart);
+    renderPositions();
+    updateAccountMetrics();
+    setTimeout(drawChart, 80);
+  </script>
+</body>
+</html>
