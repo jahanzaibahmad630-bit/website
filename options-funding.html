@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Options Funding | Funded Trader Terminal & Interactive Evaluation Concept</title>
+  <title>Options Funding | Complete Multi-Page Interactive Platform & Live Trader Terminal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -12,28 +12,23 @@
       --bg-base: #0A0A0F;
       --bg-surface: #101319;
       --bg-elevated: #151922;
-      --bg-card: linear-gradient(180deg, rgba(25, 25, 30, 0.96) 0%, rgba(16, 18, 24, 0.99) 100%);
-      --gold-primary: #D4A843;
+      --bg-card: linear-gradient(180deg, rgba(25, 25, 30, 0.95) 0%, rgba(18, 18, 22, 0.98) 100%);
+      --gold: #D4A843;
       --gold-light: #F5D076;
       --gold-bright: #FFF3C3;
       --gold-deep: #C9921A;
-      --gold-gradient: linear-gradient(90deg, #C9921A 0%, #F5D076 48%, #E8B84B 100%);
       --emerald: #10B981;
       --crimson: #EF4444;
       --border-subtle: rgba(255, 255, 255, 0.08);
-      --border-gold: rgba(212, 168, 67, 0.32);
+      --border-gold: rgba(212, 168, 67, 0.28);
       --text-primary: #FFFFFF;
-      --text-secondary: rgba(255, 255, 255, 0.72);
-      --text-muted: rgba(255, 255, 255, 0.48);
+      --text-secondary: rgba(255, 255, 255, 0.75);
+      --text-muted: rgba(255, 255, 255, 0.5);
       --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     html {
       scroll-behavior: smooth;
@@ -46,13 +41,12 @@
     body {
       background-color: var(--bg-base);
       background-image:
-        radial-gradient(ellipse at 50% 0%, rgba(212, 168, 67, 0.14) 0%, rgba(245, 208, 118, 0.04) 35%, transparent 70%),
-        radial-gradient(circle at 85% 25%, rgba(212, 168, 67, 0.07), transparent 40%),
-        linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
-      background-size: 100% 100%, 100% 100%, 52px 52px, 52px 52px;
-      overflow-x: hidden;
+        radial-gradient(ellipse at 50% 0%, rgba(212, 168, 67, 0.14) 0%, rgba(245, 208, 118, 0.04) 38%, transparent 70%),
+        linear-gradient(rgba(255, 255, 255, 0.016) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.016) 1px, transparent 1px);
+      background-size: 100% 100%, 54px 54px, 54px 54px;
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
     .text-gold-gradient {
@@ -62,40 +56,52 @@
       background-clip: text;
     }
 
-    /* TOP PROMO BANNER (EXACT OPTIONSFUNDING.CO 60% OFF CODE OF) */
-    .promo-banner {
-      height: 40px;
-      background: linear-gradient(90deg, #0E1016 0%, #171410 50%, #0E1016 100%);
+    /* TOP MARQUEE SALE BANNER */
+    .sale-bar {
+      height: 38px;
+      background: #0D0F14;
       border-bottom: 1px solid rgba(212, 168, 67, 0.25);
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 14px;
-      font-size: 12.5px;
-      font-weight: 600;
+      overflow: hidden;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
       position: sticky;
       top: 0;
       z-index: 100;
     }
 
-    .promo-code {
-      font-family: var(--font-mono);
-      background: rgba(212, 168, 67, 0.16);
-      border: 1px solid var(--gold-primary);
-      color: var(--gold-light);
-      padding: 2px 9px;
-      border-radius: 6px;
-      font-weight: 700;
-      letter-spacing: 0.06em;
+    .sale-track {
+      display: flex;
+      gap: 44px;
+      white-space: nowrap;
+      animation: marquee 28s linear infinite;
+      padding-left: 20px;
     }
 
-    /* EXACT OPTIONSFUNDING.CO HEADER */
-    .navbar-wrap {
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .code-pill {
+      background: rgba(212, 168, 67, 0.2);
+      border: 1px solid var(--gold);
+      color: var(--gold-light);
+      padding: 2px 8px;
+      border-radius: 5px;
+      font-family: var(--font-mono);
+      margin-left: 6px;
+    }
+
+    /* EXACT OPTIONSFUNDING.CO HEADER WITH SECTION SWITCHER */
+    .nav-shell {
       max-width: 1360px;
       margin: 14px auto 0;
       padding: 0 20px;
       position: sticky;
-      top: 52px;
+      top: 50px;
       z-index: 95;
     }
 
@@ -103,973 +109,1158 @@
       background: linear-gradient(180deg, #101319, #0e1016);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 16px;
-      padding: 12px 22px;
+      padding: 11px 22px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       position: relative;
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.6);
+      flex-wrap: wrap;
+      gap: 12px;
     }
 
     .navbar::before {
       content: "";
       position: absolute;
       top: -1px;
-      left: 15%;
-      right: 15%;
+      left: 12%;
+      right: 12%;
       height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(212, 168, 67, 0.6) 30%, rgba(245, 208, 118, 0.85) 50%, rgba(212, 168, 67, 0.6) 70%, transparent);
+      background: linear-gradient(90deg, transparent, rgba(212, 168, 67, 0.65) 30%, rgba(245, 208, 118, 0.9) 50%, rgba(212, 168, 67, 0.65) 70%, transparent);
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 11px;
+      gap: 10px;
       text-decoration: none;
+      cursor: pointer;
     }
 
-    .brand-logo-img {
+    .logo-box {
       width: 38px;
       height: 38px;
       border-radius: 12px;
       background: rgba(212, 168, 67, 0.1);
-      border: 1px solid rgba(212, 168, 67, 0.32);
+      border: 1px solid var(--border-gold);
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
     }
 
-    .brand-logo-img img {
+    .logo-box img {
       width: 76%;
       height: 76%;
       object-fit: contain;
     }
 
-    .brand-wordmark {
-      font-size: 18px;
+    .brand-title {
       font-weight: 900;
-      letter-spacing: -0.055em;
+      font-size: 18px;
+      letter-spacing: -0.05em;
       color: #fff;
     }
 
-    .brand-wordmark span {
-      color: var(--gold-light);
-    }
+    .brand-title span { color: var(--gold-light); }
 
-    .nav-links {
+    .nav-tabs {
       display: flex;
       align-items: center;
-      gap: 32px;
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
-    .nav-links a {
-      color: rgba(255, 255, 255, 0.85);
-      text-decoration: none;
-      font-size: 15px;
-      font-weight: 500;
-      transition: color 0.2s;
+    .nav-tab {
+      background: transparent;
+      border: 1px solid transparent;
+      color: rgba(255, 255, 255, 0.82);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 8px 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
     }
 
-    .nav-links a:hover {
+    .nav-tab:hover {
+      color: var(--gold-light);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .nav-tab.active {
+      background: rgba(212, 168, 67, 0.14);
+      border-color: rgba(212, 168, 67, 0.45);
+      color: var(--gold-light);
+      box-shadow: 0 0 18px rgba(212, 168, 67, 0.2);
+    }
+
+    .nav-tab.founding-tab {
+      font-weight: 800;
       color: var(--gold-light);
     }
 
-    .nav-links a.founding-50 {
-      font-weight: 700;
-      background: linear-gradient(90deg, #C9921A, #F5D076, #E8B84B);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .btn-gold-glow {
+    .btn-gold {
       background: rgba(16, 19, 25, 1);
-      border: 1.5px solid var(--gold-primary);
+      border: 1.5px solid var(--gold);
       color: var(--gold-light);
-      padding: 10px 20px;
+      padding: 9px 18px;
       border-radius: 10px;
       font-size: 13.5px;
       font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      box-shadow: 0 0 22px rgba(212, 168, 67, 0.25);
+      gap: 7px;
+      box-shadow: 0 0 20px rgba(212, 168, 67, 0.25);
       transition: all 0.2s;
     }
 
-    .btn-gold-glow:hover {
+    .btn-gold:hover {
       background: linear-gradient(135deg, #C9921A, #F5D076);
       color: #0A0A0F;
-      box-shadow: 0 0 32px rgba(245, 208, 118, 0.55);
-    }
-
-    .btn-white-cta {
-      background: #F8F5EF;
-      color: #0F1724;
-      border: 1.5px solid rgba(212, 168, 67, 0.45);
-      padding: 13px 30px;
-      border-radius: 14px;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
-      transition: all 0.2s;
-    }
-
-    .btn-white-cta:hover {
-      transform: translateY(-1px);
-      background: #FFFFFF;
     }
 
     .container {
-      max-width: 1360px;
+      max-width: 1320px;
       margin: 0 auto;
       padding: 0 20px;
     }
 
-    /* HERO */
-    .hero {
-      padding: 54px 0 36px;
-      text-align: center;
+    /* PAGE VIEW SECTIONS */
+    .page-section {
+      display: none;
+      padding: 42px 0 80px;
+      animation: fadeIn 0.28s ease;
     }
 
-    .hero-eyebrow {
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.32em;
-      color: rgba(255, 255, 255, 0.58);
-      margin-bottom: 16px;
-    }
-
-    .hero h1 {
-      font-size: clamp(40px, 6vw, 82px);
-      font-weight: 900;
-      line-height: 0.96;
-      letter-spacing: -0.045em;
-      margin-bottom: 20px;
-    }
-
-    .hero p {
-      max-width: 650px;
-      margin: 0 auto 28px;
-      font-size: 18px;
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-
-    /* VERIFIED PAYOUTS PILL BAR */
-    .verified-strip {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-      margin: 34px auto 44px;
-      max-width: 1180px;
-    }
-
-    .pillar-card {
-      background: var(--bg-card);
-      border: 1px solid rgba(212, 168, 67, 0.18);
-      border-radius: 16px;
-      padding: 18px 20px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .pillar-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      background: rgba(212, 168, 67, 0.12);
-      border: 1px solid rgba(212, 168, 67, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--gold-light);
-      font-size: 18px;
-      flex-shrink: 0;
-    }
-
-    .pillar-title {
-      font-weight: 800;
-      font-size: 15px;
-      color: #fff;
-    }
-
-    .pillar-sub {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
-    /* INTERACTIVE PLAN & TERMINAL SWITCHER (EXPRESS VS GROWTH PLAN) */
-    .terminal-shell {
-      background: var(--bg-surface);
-      border: 1px solid rgba(212, 168, 67, 0.32);
-      border-radius: 22px;
-      box-shadow: 0 32px 90px rgba(0, 0, 0, 0.8), 0 0 60px rgba(212, 168, 67, 0.08);
-      overflow: hidden;
-      margin-bottom: 64px;
-    }
-
-    .terminal-header {
-      background: #0C0E14;
-      padding: 16px 24px;
-      border-bottom: 1px solid var(--border-subtle);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 14px;
-    }
-
-    .plan-mode-toggle {
-      display: flex;
-      background: #131722;
-      padding: 4px;
-      border-radius: 12px;
-      border: 1px solid rgba(212, 168, 67, 0.25);
-      gap: 6px;
-    }
-
-    .mode-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-secondary);
-      font-family: var(--font-sans);
-      font-size: 12.5px;
-      font-weight: 700;
-      padding: 8px 14px;
-      border-radius: 9px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .mode-btn.active {
-      background: linear-gradient(135deg, #C9921A, #F5D076);
-      color: #0A0A0F;
-      box-shadow: 0 4px 14px rgba(212, 168, 67, 0.35);
-    }
-
-    .tier-selector {
-      display: flex;
-      gap: 8px;
-    }
-
-    .acct-btn {
-      background: #141821;
-      border: 1px solid var(--border-subtle);
-      color: var(--text-secondary);
-      font-family: var(--font-mono);
-      font-size: 12.5px;
-      font-weight: 700;
-      padding: 8px 16px;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .acct-btn.active {
-      border-color: var(--gold-light);
-      color: var(--gold-light);
-      background: rgba(212, 168, 67, 0.14);
-      box-shadow: 0 0 18px rgba(212, 168, 67, 0.22);
-    }
-
-    /* 0.5-SECOND HIERARCHY BAR: TRAILING DRAWDOWN LOCK, SAME-DAY TARGET, MULTI-LEG GREEKS */
-    .guardrails-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-      padding: 20px 24px;
-      background: rgba(14, 16, 22, 0.95);
-      border-bottom: 1px solid var(--border-subtle);
-    }
-
-    .guard-card {
-      background: #121620;
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      border-radius: 14px;
-      padding: 16px;
-    }
-
-    .guard-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-    }
-
-    .badge-gold {
-      background: rgba(212, 168, 67, 0.15);
-      color: var(--gold-light);
-      border: 1px solid rgba(212, 168, 67, 0.35);
-      padding: 2px 7px;
-      border-radius: 5px;
-      font-size: 10px;
-      font-weight: 700;
-    }
-
-    .badge-green {
-      background: rgba(16, 185, 129, 0.14);
-      color: var(--emerald);
-      border: 1px solid rgba(16, 185, 129, 0.35);
-      padding: 2px 7px;
-      border-radius: 5px;
-      font-size: 10px;
-      font-weight: 700;
-    }
-
-    .guard-val {
-      font-family: var(--font-mono);
-      font-size: 23px;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 4px;
-    }
-
-    .guard-sub {
-      font-family: var(--font-mono);
-      font-size: 11.5px;
-      color: var(--text-secondary);
-      margin-bottom: 10px;
-    }
-
-    .bar-track {
-      height: 7px;
-      background: rgba(255, 255, 255, 0.06);
-      border-radius: 99px;
-      overflow: hidden;
-    }
-
-    .bar-fill-gold {
-      height: 100%;
-      background: linear-gradient(90deg, #C9921A, #F5D076);
-      border-radius: 99px;
-      transition: width 0.4s ease;
-    }
-
-    .bar-fill-emerald {
-      height: 100%;
-      background: linear-gradient(90deg, #059669, #10B981);
-      border-radius: 99px;
-      transition: width 0.4s ease;
-    }
-
-    /* CHART + MULTI-LEG STRATEGY DESK */
-    .workspace-grid {
-      display: grid;
-      grid-template-columns: 2.1fr 1fr;
-      border-bottom: 1px solid var(--border-subtle);
-    }
-
-    .chart-col {
-      padding: 22px 24px;
-      border-right: 1px solid var(--border-subtle);
-    }
-
-    .chart-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .canvas-container {
-      height: 265px;
-      width: 100%;
-      background: linear-gradient(180deg, rgba(212, 168, 67, 0.05) 0%, transparent 100%);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 14px;
-      padding: 12px;
-    }
-
-    canvas#ofChart {
-      width: 100%;
-      height: 100%;
+    .page-section.active {
       display: block;
     }
 
-    .strategy-col {
-      padding: 22px 24px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 14px;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .greeks-mini-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
+    /* SHARED TYPOGRAPHY & CARDS */
+    .section-hero {
+      text-align: center;
+      margin-bottom: 42px;
     }
 
-    .greek-item {
-      background: #121620;
-      border: 1px solid var(--border-subtle);
-      border-radius: 10px;
-      padding: 12px;
-      font-family: var(--font-mono);
-    }
-
-    .strategy-box {
-      background: linear-gradient(180deg, rgba(212, 168, 67, 0.09) 0%, rgba(18, 22, 32, 0.95) 100%);
-      border: 1px solid rgba(212, 168, 67, 0.35);
-      border-radius: 14px;
-      padding: 16px;
-    }
-
-    .strategy-btns {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+    .eyebrow-tag {
+      display: inline-flex;
+      align-items: center;
       gap: 8px;
-      margin-top: 12px;
+      padding: 5px 14px;
+      border-radius: 99px;
+      border: 1px solid var(--border-gold);
+      background: rgba(212, 168, 67, 0.08);
+      color: var(--gold-light);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      margin-bottom: 16px;
     }
 
-    .strat-btn {
-      background: #161B26;
-      border: 1px solid rgba(212, 168, 67, 0.3);
+    .section-hero h1 {
+      font-size: clamp(36px, 5.4vw, 72px);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1.0;
+      margin-bottom: 16px;
+    }
+
+    .section-hero p {
+      color: var(--text-secondary);
+      font-size: 17.5px;
+      max-width: 680px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .of-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      padding: 26px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 16px 36px rgba(0, 0, 0, 0.25);
+    }
+
+    .of-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 20%;
+      right: 20%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(212, 168, 67, 0.45), transparent);
+    }
+
+    /* TABLES MATCHING OPTIONSFUNDING.CO/RULES */
+    .table-wrap {
+      overflow-x: auto;
+      margin-top: 18px;
+    }
+
+    table.rules-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .rules-table th {
+      text-align: left;
+      padding: 12px 14px;
       color: var(--gold-light);
       font-family: var(--font-mono);
-      font-size: 11.5px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid rgba(212, 168, 67, 0.25);
+    }
+
+    .rules-table td {
+      padding: 13px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+    }
+
+    .rules-table td strong {
+      color: #fff;
+      font-family: var(--font-sans);
+    }
+
+    .rules-table tr:hover {
+      background: rgba(212, 168, 67, 0.04);
+    }
+
+    /* PHASE BADGE */
+    .phase-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 40px 0 18px;
+    }
+
+    .phase-num {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #7d5912, #f5d076);
+      color: #0A0A0F;
+      font-weight: 900;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(212, 168, 67, 0.3);
+    }
+
+    /* TERMINAL SPECIFIC */
+    .terminal-box {
+      background: #101319;
+      border: 1px solid rgba(212, 168, 67, 0.35);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-top: 28px;
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.75);
+    }
+
+    .term-bar {
+      background: #0B0D12;
+      padding: 14px 22px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .pill-switch {
+      display: flex;
+      gap: 6px;
+      background: #141821;
+      padding: 4px;
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .sw-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
       font-weight: 700;
-      padding: 9px 10px;
-      border-radius: 8px;
+      font-size: 12px;
+      padding: 7px 14px;
+      border-radius: 7px;
+      cursor: pointer;
+    }
+
+    .sw-btn.active {
+      background: linear-gradient(135deg, #C9921A, #F5D076);
+      color: #0A0A0F;
+    }
+
+    .metrics-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .m-card {
+      background: #141822;
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 15px;
+    }
+
+    .m-label {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .m-val {
+      font-family: var(--font-mono);
+      font-size: 22px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .m-sub {
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    .chart-and-desk {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    /* AFFILIATE & FOUNDING 50 GRIDS */
+    .tier-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin: 24px 0 36px;
+    }
+
+    .tier-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(212, 168, 67, 0.22);
+      border-radius: 16px;
+      padding: 22px;
+      transition: transform 0.2s;
+    }
+
+    .tier-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--gold-light);
+    }
+
+    .tier-pct {
+      font-size: 38px;
+      font-weight: 900;
+      margin: 8px 0;
+    }
+
+    /* FAQ 11 TOPICS GRID */
+    .faq-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .faq-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 22px;
       cursor: pointer;
       transition: all 0.2s;
     }
 
-    .strat-btn:hover {
-      background: var(--gold-primary);
-      color: #0A0A0F;
-    }
-
-    /* MULTI-LEG OPTIONS TABLE */
-    .table-section {
-      padding: 20px 24px;
-    }
-
-    table.of-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-family: var(--font-mono);
-      font-size: 12.5px;
-    }
-
-    .of-table th {
-      text-align: left;
-      padding: 10px 12px;
-      color: var(--text-muted);
-      font-size: 11px;
-      text-transform: uppercase;
-      border-bottom: 1px solid var(--border-subtle);
-    }
-
-    .of-table td {
-      padding: 13px 12px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    .faq-card:hover {
+      border-color: rgba(212, 168, 67, 0.4);
+      background: rgba(255, 255, 255, 0.04);
     }
 
     .up { color: var(--emerald); }
     .down { color: var(--crimson); }
+
+    /* GIANT WATERMARK FOOTER MATCHING SCREENSHOT 2 */
+    .of-footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 48px 20px 24px;
+      margin-top: 60px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .giant-watermark {
+      font-size: clamp(44px, 11vw, 155px);
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      color: rgba(255, 255, 255, 0.035);
+      line-height: 0.9;
+      user-select: none;
+      margin-top: 24px;
+    }
 
     .toast {
       position: fixed;
       bottom: 24px;
       right: 24px;
       background: #101319;
-      border: 1.5px solid var(--gold-primary);
+      border: 1.5px solid var(--gold);
       color: #fff;
-      padding: 14px 20px;
+      padding: 13px 18px;
       border-radius: 12px;
       font-family: var(--font-mono);
-      font-size: 12.5px;
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.85);
+      font-size: 12px;
       transform: translateY(130%);
       opacity: 0;
       transition: all 0.3s ease;
       z-index: 300;
     }
-
-    .toast.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
+    .toast.show { transform: translateY(0); opacity: 1; }
 
     @media (max-width: 1024px) {
-      .verified-strip, .guardrails-row, .workspace-grid {
+      .metrics-4, .chart-and-desk, .tier-grid-4, .faq-grid {
         grid-template-columns: 1fr;
       }
-      .nav-links { display: none; }
     }
   </style>
 </head>
 <body>
 
-  <!-- EXACT OPTIONSFUNDING.CO 60% OFF PROMO BAR -->
-  <div class="promo-banner">
-    <span>🔥 <strong>60% OFF ALL FUNDED OPTIONS EVALUATIONS</strong> — KEEP 80% OF PROFITS + SAME DAY FUNDING</span>
-    <span class="promo-code">CODE: OF</span>
+  <!-- TOP MARQUEE BAR FROM SCREENSHOT 1 -->
+  <div class="sale-bar">
+    <div class="sale-track">
+      <span>🔥 60% OFF ALL ACCOUNTS <span class="code-pill">USE CODE: OF</span></span>
+      <span>⚡ SAME DAY FUNDING · TRADE 1 DAY, GET FUNDED TODAY</span>
+      <span>🌙 HOLD TRADES OVERNIGHT · 80% PROFIT SPLIT ($1,100,000+ VERIFIED PAYOUTS)</span>
+      <span>🔥 60% OFF ALL ACCOUNTS <span class="code-pill">USE CODE: OF</span></span>
+      <span>⚡ SAME DAY FUNDING · TRADE 1 DAY, GET FUNDED TODAY</span>
+    </div>
   </div>
 
-  <!-- EXACT OPTIONSFUNDING.CO HEADER -->
-  <div class="navbar-wrap">
+  <!-- EXACT OPTIONSFUNDING.CO HEADER WITH ALL 5 INTERACTIVE SECTIONS -->
+  <div class="nav-shell">
     <header class="navbar">
-      <a href="#" class="brand">
-        <div class="brand-logo-img">
-          <img src="https://optionsfunding.co/logo.svg" alt="Options Funding Logo" onerror="this.style.display='none'" />
+      <div class="brand" onclick="switchSection('home', document.querySelector('[data-sec=home]'))">
+        <div class="logo-box">
+          <img src="https://optionsfunding.co/logo.svg" alt="Options Funding" onerror="this.style.display='none'" />
         </div>
-        <div class="brand-wordmark">
-          Options<span>Funding</span>
-        </div>
-        <span class="badge-gold" style="margin-left: 6px;">LIVE UI CONCEPT FOR TIM [OF]</span>
-      </a>
+        <div class="brand-title">Options<span>Funding</span></div>
+      </div>
 
-      <nav class="nav-links">
-        <a href="#terminal" class="founding-50">Founding 50</a>
-        <a href="#terminal">Rules & Drawdown</a>
-        <a href="#positions">Multi-Leg Terminal</a>
-        <a href="https://optionsfunding.co/faq" target="_blank">FAQ Knowledgebase</a>
+      <nav class="nav-tabs">
+        <button class="nav-tab active" data-sec="home" onclick="switchSection('home', this)">Home & Live Terminal</button>
+        <button class="nav-tab founding-tab" data-sec="founding50" onclick="switchSection('founding50', this)">Founding 50</button>
+        <button class="nav-tab" data-sec="rules" onclick="switchSection('rules', this)">Rules (Phase 1–3)</button>
+        <button class="nav-tab" data-sec="faq" onclick="switchSection('faq', this)">FAQ (11 Topics)</button>
+        <button class="nav-tab" data-sec="affiliates" onclick="switchSection('affiliates', this)">Affiliates (20%–35%)</button>
       </nav>
 
-      <div style="display:flex; gap:10px; align-items:center;">
-        <button class="btn-gold-glow" onclick="deployStrategy('0DTE_CONDOR')">
-          <span>⚡ Get Funded</span>
-        </button>
-      </div>
+      <button class="btn-gold" onclick="switchSection('rules', document.querySelector('[data-sec=rules]'))">
+        <span>Get Funded</span>
+        <span>⚡</span>
+      </button>
     </header>
   </div>
 
   <main class="container">
-    <!-- HERO MATCHING OPTIONSFUNDING.CO -->
-    <section class="hero">
-      <p class="hero-eyebrow">LEARN. TRADE. EARN. · $1,100,000+ IN VERIFIED PAYOUTS</p>
-      <h1>Get Funded to Trade <span class="text-gold-gradient">Options</span></h1>
-      <p>
-        Pick your $25K, $50K, or $100K evaluation on the <strong>Growth Plan (End-of-Day Drawdown)</strong> or <strong>Express Plan (Intraday)</strong>. Trade 1 day, hit your target, and get funded the same day.
-      </p>
-      <div style="display:flex; justify-content:center; gap:14px; flex-wrap:wrap;">
-        <button class="btn-white-cta" onclick="document.getElementById('terminal').scrollIntoView({behavior:'smooth'})">
-          Explore Live Trader Terminal ↓
-        </button>
-        <button class="btn-gold-glow" onclick="deployStrategy('VERTICAL_SPREAD')">
-          + Simulate Multi-Leg Spread Fill
-        </button>
+
+    <!-- ===================================================================== -->
+    <!-- SECTION 1: HOME + INTERACTIVE FUNDED TRADER TERMINAL                  -->
+    <!-- ===================================================================== -->
+    <section id="sec-home" class="page-section active">
+      <div class="section-hero">
+        <div class="eyebrow-tag">✓ VERIFIED $1,100,000+ IN PAYOUTS · LEARN. TRADE. EARN.</div>
+        <h1>Get Funded to Trade <span class="text-gold-gradient">Options</span></h1>
+        <p>
+          Interactive evaluation & funded trader terminal built around Options Funding's exact <strong>Growth Plan (12% Target / 6% EOD Drawdown / Buy + Write)</strong> and <strong>Express Plan (10% Target / 5% Intraday Drawdown / Buy Only)</strong>.
+        </p>
       </div>
 
-      <!-- 4 CORE PILLARS FROM OPTIONSFUNDING.CO -->
-      <div class="verified-strip">
-        <div class="pillar-card">
-          <div class="pillar-icon">⚡</div>
-          <div>
-            <div class="pillar-title">Same Day Funding</div>
-            <div class="pillar-sub">Trade 1 day · Pass & get funded today</div>
+      <!-- INTERACTIVE TRADER TERMINAL -->
+      <div class="terminal-box">
+        <div class="term-bar">
+          <div class="pill-switch">
+            <button class="sw-btn active" id="modeGrowthBtn" onclick="setPlan('GROWTH')">Growth Plan (EOD 6% DD · All Strategies Buy + Write)</button>
+            <button class="sw-btn" id="modeExpressBtn" onclick="setPlan('EXPRESS')">Express Plan (Intraday 5% DD · Buy Only)</button>
+          </div>
+
+          <div class="pill-switch">
+            <button class="sw-btn" onclick="setSize(25000, this)">$25K Account</button>
+            <button class="sw-btn active" onclick="setSize(50000, this)">$50K Account</button>
+            <button class="sw-btn" onclick="setSize(100000, this)">$100K Account</button>
           </div>
         </div>
-        <div class="pillar-card">
-          <div class="pillar-icon">🌙</div>
-          <div>
-            <div class="pillar-title">Hold Trades Overnight</div>
-            <div class="pillar-sub">Swing & multi-day spreads supported</div>
+
+        <!-- 4 CORE GUARDRAILS -->
+        <div class="metrics-4">
+          <div class="m-card">
+            <div class="m-label"><span>01 // PLAN PRICE (CODE: OF)</span><span style="color:var(--gold-light);">60% OFF</span></div>
+            <div class="m-val text-gold-gradient" id="mPrice">$159.60/mo</div>
+            <div class="m-sub" id="mPriceSub">List: $399/mo · $129 Refundable Activation</div>
+          </div>
+
+          <div class="m-card">
+            <div class="m-label"><span id="mTargetLabel">02 // PROFIT TARGET (12%)</span><span class="up">NO TIME LIMIT</span></div>
+            <div class="m-val up" id="mTargetVal">+$4,850 / $6,000</div>
+            <div class="m-sub">Min Trading Days: None · Same-Day Eligible</div>
+          </div>
+
+          <div class="m-card">
+            <div class="m-label"><span id="mDDLabel">03 // EOD TRAILING DD (6%)</span><span style="color:var(--gold-light);">LOCK AT $50,000</span></div>
+            <div class="m-val" id="mDDVal">$3,000 Max DD</div>
+            <div class="m-sub" id="mDDSub">Floor updates at market close · 10% Off Reset</div>
+          </div>
+
+          <div class="m-card">
+            <div class="m-label"><span>04 // QUALIFYING DAYS & PAYOUT</span><span class="up">80 / 20 SPLIT</span></div>
+            <div class="m-val" id="mQualVal">6 / 8 Days Met</div>
+            <div class="m-sub" id="mQualSub">Min Day Profit: $150 · 1st Cap: $1,000</div>
           </div>
         </div>
-        <div class="pillar-card">
-          <div class="pillar-icon">✨</div>
-          <div>
-            <div class="pillar-title">Refundable Activation Fee</div>
-            <div class="pillar-sub">60% off with Code OF (<span id="heroPriceTag">$159.60/mo</span>)</div>
+
+        <!-- EQUITY CHART + STRATEGY SIMULATOR -->
+        <div class="chart-and-desk">
+          <div style="padding:22px;border-right:1px solid var(--border-subtle);">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+              <div>
+                <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);">ACCOUNT EQUITY VS. TRAILING DRAWDOWN LOCK FLOOR</div>
+                <div style="font-family:var(--font-mono);font-size:26px;font-weight:900;margin-top:2px;" id="chartEquityTitle">$54,850.00 <span class="up" style="font-size:14px;">(+9.7%)</span></div>
+              </div>
+              <div style="font-family:var(--font-mono);font-size:11.5px;color:var(--gold-light);" id="strategyRuleBanner">
+                Allowed: Level-3 Multi-Leg (Buy + Write, Condors, Verticals, Butterflies)
+              </div>
+            </div>
+            <div style="height:240px;width:100%;background:rgba(0,0,0,0.25);border-radius:12px;padding:10px;border:1px solid rgba(255,255,255,0.04);">
+              <canvas id="mainCanvas" style="width:100%;height:100%;display:block;"></canvas>
+            </div>
+          </div>
+
+          <div style="padding:22px;display:flex;flex-direction:column;justify-content:space-between;gap:14px;">
+            <div>
+              <div style="font-family:var(--font-mono);font-size:11px;color:var(--gold-light);margin-bottom:8px;">⚡ SIMULATE OPTIONS EXECUTION</div>
+              <p style="font-size:12.5px;color:var(--text-secondary);line-height:1.5;" id="deskDescription">
+                Growth Plan unlocks Level-3 defined-risk writing (Iron Condors, Verticals, Butterflies, Calendars). Express Plan restricts to Buy-Only Long Calls/Puts.
+              </p>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;">
+                <button class="btn-gold" style="justify-content:center;font-size:11.5px;" onclick="addSimulatedTrade('CONDOR')">+ SPY Iron Condor</button>
+                <button class="btn-gold" style="justify-content:center;font-size:11.5px;" onclick="addSimulatedTrade('VERTICAL')">+ NVDA Call Spread</button>
+                <button class="btn-gold" style="justify-content:center;font-size:11.5px;" onclick="addSimulatedTrade('LONG_CALL')">+ QQQ Long Call</button>
+                <button class="btn-gold" style="justify-content:center;font-size:11.5px;" onclick="addSimulatedTrade('BUTTERFLY')">+ SPX Butterfly</button>
+              </div>
+            </div>
+
+            <div style="background:#141822;border:1px solid var(--border-gold);border-radius:12px;padding:14px;">
+              <div style="font-family:var(--font-mono);font-size:11px;color:var(--gold-light);">PHASE 3 LIVE IBKR SCALING PREVIEW</div>
+              <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;" id="ibkrLiveText">
+                Enters Live at $25,000 buying power (0.5x) → Scales to $62,500 (1.25x) after 30 closed trades. Uncapped 80% withdrawals.
+              </div>
+            </div>
           </div>
         </div>
-        <div class="pillar-card">
-          <div class="pillar-icon">🛡️</div>
-          <div>
-            <div class="pillar-title">80% Profit Split</div>
-            <div class="pillar-sub">$1,100,000+ paid to funded traders</div>
+
+        <!-- LIVE POSITIONS TABLE -->
+        <div style="padding:18px 22px;">
+          <div class="table-wrap" style="margin-top:0;">
+            <table class="rules-table">
+              <thead>
+                <tr>
+                  <th>Ticker (Whitelisted)</th>
+                  <th>Strategy Type</th>
+                  <th>Plan Compliance</th>
+                  <th>Hold Status</th>
+                  <th>Qty</th>
+                  <th>Realized / Open PnL</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="liveTradesBody"></tbody>
+            </table>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- INTERACTIVE TRADER TERMINAL (BUILT AROUND OPTIONSFUNDING.CO PLANS & RULES) -->
-    <section id="terminal" class="terminal-shell">
-      <div class="terminal-header">
-        <div class="plan-mode-toggle">
-          <button class="mode-btn active" id="btnGrowth" onclick="setPlanMode('GROWTH')">
-            Growth Plan (End-of-Day Drawdown)
-          </button>
-          <button class="mode-btn" id="btnExpress" onclick="setPlanMode('EXPRESS')">
-            Express Plan (Intraday Drawdown)
-          </button>
-        </div>
+    <!-- ===================================================================== -->
+    <!-- SECTION 2: TRADING RULES (PHASE 1, PHASE 2, PHASE 3 & GENERAL RULES)  -->
+    <!-- ===================================================================== -->
+    <section id="sec-rules" class="page-section">
+      <div class="section-hero">
+        <div class="eyebrow-tag">OPTIONSFUNDING.CO/RULES · INTERACTIVE SPECIFICATION</div>
+        <h1>Trading <span class="text-gold-gradient">Rules</span></h1>
+        <p>Everything you need to trade, stay compliant, and get paid across Phase 1 (Evaluation), Phase 2 (Funded), and Phase 3 (Live Interactive Brokers Capital).</p>
+      </div>
 
-        <div class="tier-selector">
-          <button class="acct-btn" onclick="setAccountSize(25000, this)">$25K Account</button>
-          <button class="acct-btn active" onclick="setAccountSize(50000, this)">$50K Account</button>
-          <button class="acct-btn" onclick="setAccountSize(100000, this)">$100K Account</button>
+      <!-- PHASE 1: EVALUATION -->
+      <div class="phase-header">
+        <div class="phase-num">1</div>
+        <div>
+          <div style="font-size:11px;font-family:var(--font-mono);color:var(--gold-light);text-transform:uppercase;">Phase 1</div>
+          <h2 style="font-size:28px;font-weight:900;">Evaluation — Hit your target. No time limit.</h2>
         </div>
       </div>
 
-      <!-- 0.5-SECOND RULE: 4 KEY METRICS FOR OPTIONS FUNDING TRADERS -->
-      <div class="guardrails-row">
-        <div class="guard-card">
-          <div class="guard-top">
-            <span>01 // EVALUATION PLAN & PRICE</span>
-            <span class="badge-gold">CODE: OF (60% OFF)</span>
-          </div>
-          <div class="guard-val text-gold-gradient" id="planPriceDisplay">$159.60/mo</div>
-          <div class="guard-sub" id="planRegPriceDisplay">Regular: $399/mo · 80% Profit Split</div>
-          <div class="bar-track">
-            <div class="bar-fill-gold" style="width: 100%;"></div>
-          </div>
-        </div>
-
-        <div class="guard-card">
-          <div class="guard-top">
-            <span id="drawdownTypeTitle">02 // EOD TRAILING DRAWDOWN</span>
-            <span class="badge-green" id="drawdownLockBadge">DRAWDOWN LOCK READY</span>
-          </div>
-          <div class="guard-val" id="drawdownBufferVal">$2,140 Buffer Left</div>
-          <div class="guard-sub" id="drawdownFloorSub">Liquidation Floor: $48,500 (EOD Locked)</div>
-          <div class="bar-track">
-            <div class="bar-fill-gold" style="width: 28%;"></div>
-          </div>
-        </div>
-
-        <div class="guard-card">
-          <div class="guard-top">
-            <span>03 // SAME-DAY FUNDING TARGET</span>
-            <span class="badge-green" id="profitPctBadge">84.5% COMPLETE</span>
-          </div>
-          <div class="guard-val up" id="currentProfitVal">+$3,380.00</div>
-          <div class="guard-sub" id="profitTargetSub">Target: $4,000.00 · 1 Qualifying Day Met</div>
-          <div class="bar-track">
-            <div class="bar-fill-emerald" id="profitProgressFill" style="width: 84.5%;"></div>
-          </div>
-        </div>
-
-        <div class="guard-card">
-          <div class="guard-top">
-            <span>04 // OVERNIGHT & MULTI-LEG RISK</span>
-            <span class="badge-gold" id="legCountBadge">4 ACTIVE STRATEGIES</span>
-          </div>
-          <div class="guard-val up" id="unrealizedVal">+$1,425.00</div>
-          <div class="guard-sub">Assignment Guard: ON · Overnight: ALLOWED</div>
-          <div class="bar-track">
-            <div class="bar-fill-emerald" style="width: 72%;"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- EQUITY CHART + MULTI-LEG STRATEGY BUILDER -->
-      <div class="workspace-grid">
-        <div class="chart-col">
-          <div class="chart-top">
-            <div>
-              <span style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);text-transform:uppercase;">Simulated Funded Account Equity + Trailing Drawdown Floor</span>
-              <div style="display:flex;align-items:baseline;gap:12px;margin-top:4px;">
-                <h3 id="equityHeadline" style="font-family:var(--font-mono);font-size:28px;font-weight:900;">$53,380.00</h3>
-                <span class="badge-green" id="payoutPreviewTag">Your 80% Payout Share: $2,704.00</span>
-              </div>
-            </div>
-            <div style="font-family:var(--font-mono);font-size:11.5px;color:var(--gold-light);">
-              ● Golden Line = Account Equity &nbsp;|&nbsp; <span style="color:#EF4444;">--- Trailing Drawdown Floor</span>
-            </div>
-          </div>
-          <div class="canvas-container">
-            <canvas id="ofChart"></canvas>
-          </div>
-        </div>
-
-        <div class="strategy-col">
-          <div>
-            <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);text-transform:uppercase;margin-bottom:10px;">
-              Real-Time Options Greeks & Theta Decay
-            </div>
-            <div class="greeks-mini-grid">
-              <div class="greek-item">
-                <div style="font-size:10.5px;color:var(--text-muted);">NET DELTA (Δ)</div>
-                <div style="font-size:19px;font-weight:800;margin-top:4px;" class="up">+84.20</div>
-              </div>
-              <div class="greek-item">
-                <div style="font-size:10.5px;color:var(--text-muted);">NET THETA (Θ)</div>
-                <div style="font-size:19px;font-weight:800;margin-top:4px;" class="up">+$215.40/d</div>
-              </div>
-              <div class="greek-item">
-                <div style="font-size:10.5px;color:var(--text-muted);">NET GAMMA (Γ)</div>
-                <div style="font-size:19px;font-weight:800;margin-top:4px;">+14.80</div>
-              </div>
-              <div class="greek-item">
-                <div style="font-size:10.5px;color:var(--text-muted);">IMPLIED VOL (IV)</div>
-                <div style="font-size:19px;font-weight:800;margin-top:4px;color:var(--gold-light);">28.4%</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="strategy-box">
-            <div style="font-family:var(--font-mono);font-size:11.5px;font-weight:700;color:var(--gold-light);display:flex;justify-content:space-between;">
-              <span>⚡ MULTI-LEG STRATEGY DESK</span>
-              <span>OPRA LIVE</span>
-            </div>
-            <p style="font-size:12px;color:var(--text-secondary);margin-top:6px;line-height:1.45;">
-              Options Funding supports 0DTE, Iron Condors, Vertical Spreads, Calendars & Butterflies. Click to simulate fill:
-            </p>
-            <div class="strategy-btns">
-              <button class="strat-btn" onclick="deployStrategy('0DTE_CONDOR')">+ 0DTE Iron Condor</button>
-              <button class="strat-btn" onclick="deployStrategy('VERTICAL_SPREAD')">+ NVDA Call Spread</button>
-              <button class="strat-btn" onclick="deployStrategy('BUTTERFLY')">+ SPX Butterfly</button>
-              <button class="strat-btn" onclick="deployStrategy('CALENDAR')">+ QQQ Calendar</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- MULTI-LEG OPTIONS CHAIN POSITIONS TABLE -->
-      <div id="positions" class="table-section">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-          <div style="font-family:var(--font-mono);font-size:13px;font-weight:700;">
-            ACTIVE MULTI-LEG & SINGLE-LEG OPTIONS POSITIONS
-          </div>
-          <button class="acct-btn" onclick="closeAllPositions()" style="padding:5px 12px;font-size:11.5px;">
-            Flatten All Legs
-          </button>
-        </div>
-        <div style="overflow-x:auto;">
-          <table class="of-table">
+      <div class="of-card">
+        <h3 style="font-size:19px;font-weight:800;margin-bottom:6px;">Profit Target, Trailing Drawdown & Allowed Strategies</h3>
+        <p style="color:var(--text-secondary);font-size:14px;">
+          There is no time limit and no minimum number of trading days on either plan. Growth Plan updates trailing drawdown at <strong>End of Day</strong> and allows <strong>All Strategies (Buy + Write: Verticals, Iron Condors, Butterflies, Calendars, Diagonals)</strong>. Express Plan updates trailing drawdown <strong>Intraday</strong> and allows <strong>Buy Only (Single-Leg Long Calls & Long Puts)</strong>.
+        </p>
+        <div class="table-wrap">
+          <table class="rules-table">
             <thead>
               <tr>
-                <th>Strategy / Contract</th>
-                <th>Structure</th>
-                <th>Hold Rule</th>
-                <th>Qty</th>
-                <th>Entry / Credit</th>
-                <th>Mark</th>
-                <th>Net Δ / Θ</th>
-                <th>Unrealized PnL</th>
-                <th>Action</th>
+                <th>Metric</th>
+                <th>Growth 100K</th>
+                <th>Growth 50K</th>
+                <th>Growth 25K</th>
+                <th>Express 100K</th>
+                <th>Express 50K</th>
+                <th>Express 25K</th>
               </tr>
             </thead>
-            <tbody id="ofPositionsBody"></tbody>
+            <tbody>
+              <tr>
+                <td><strong>60% Off Price (Code OF)</strong></td>
+                <td class="text-gold-gradient" style="font-weight:800;">$199.60/mo</td>
+                <td class="text-gold-gradient" style="font-weight:800;">$159.60/mo</td>
+                <td class="text-gold-gradient" style="font-weight:800;">$123.60/mo</td>
+                <td class="text-gold-gradient" style="font-weight:800;">$155.60/mo</td>
+                <td class="text-gold-gradient" style="font-weight:800;">$111.60/mo</td>
+                <td class="text-gold-gradient" style="font-weight:800;">$95.60/mo</td>
+              </tr>
+              <tr>
+                <td><strong>Profit Target</strong></td>
+                <td>12% ($12,000)</td>
+                <td>12% ($6,000)</td>
+                <td>12% ($3,000)</td>
+                <td>10% ($10,000)</td>
+                <td>10% ($5,000)</td>
+                <td>10% ($2,500)</td>
+              </tr>
+              <tr>
+                <td><strong>Trailing Drawdown</strong></td>
+                <td>6% ($6,000)</td>
+                <td>6% ($3,000)</td>
+                <td>6% ($1,500)</td>
+                <td>5% ($5,000)</td>
+                <td>5% ($2,500)</td>
+                <td>5% ($1,250)</td>
+              </tr>
+              <tr>
+                <td><strong>Drawdown Mode</strong></td>
+                <td>End of Day</td>
+                <td>End of Day</td>
+                <td>End of Day</td>
+                <td>Intraday</td>
+                <td>Intraday</td>
+                <td>Intraday</td>
+              </tr>
+              <tr>
+                <td><strong>Allowed Strategies</strong></td>
+                <td>All (Buy + Write)</td>
+                <td>All (Buy + Write)</td>
+                <td>All (Buy + Write)</td>
+                <td>Buy Only</td>
+                <td>Buy Only</td>
+                <td>Buy Only</td>
+              </tr>
+              <tr>
+                <td><strong>Discounted Reset</strong></td>
+                <td>10% off own price</td>
+                <td>10% off own price</td>
+                <td>10% off own price</td>
+                <td>10% off own price</td>
+                <td>10% off own price</td>
+                <td>10% off own price</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PHASE 2: FUNDED -->
+      <div class="phase-header">
+        <div class="phase-num">2</div>
+        <div>
+          <div style="font-size:11px;font-family:var(--font-mono);color:var(--gold-light);text-transform:uppercase;">Phase 2</div>
+          <h2 style="font-size:28px;font-weight:900;">Funded — Stay compliant. Earn 80% payouts.</h2>
+        </div>
+      </div>
+
+      <div class="of-card">
+        <h3 style="font-size:19px;font-weight:800;margin-bottom:6px;">Payout Caps, 8 Qualifying Winning Days & $129 Refundable Activation</h3>
+        <p style="color:var(--text-secondary);font-size:14px;">
+          You keep <strong>80% of profits (80/20 split)</strong> and can withdraw up to 50% of profits per payout cycle after <strong>8 non-consecutive Qualifying Winning Days</strong> (`$100+` realized on 25K, `$150+` on 50K, `$200+` on 100K). The flat <strong>$129 activation fee is 100% refunded on your first payout</strong>.
+        </p>
+        <div class="table-wrap">
+          <table class="rules-table">
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>Growth 100K</th>
+                <th>Growth 50K</th>
+                <th>Growth 25K</th>
+                <th>Express 100K</th>
+                <th>Express 50K</th>
+                <th>Express 25K</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Profit Split & Rate</strong></td>
+                <td>80/20 (50% w/d)</td>
+                <td>80/20 (50% w/d)</td>
+                <td>80/20 (50% w/d)</td>
+                <td>80/20 (50% w/d)</td>
+                <td>80/20 (50% w/d)</td>
+                <td>80/20 (50% w/d)</td>
+              </tr>
+              <tr>
+                <td><strong>Drawdown Lock Balance</strong></td>
+                <td>$100,000</td>
+                <td>$50,000</td>
+                <td>$25,000</td>
+                <td>$100,000</td>
+                <td>$50,000</td>
+                <td>$25,000</td>
+              </tr>
+              <tr>
+                <td><strong>Min Qualifying Day Profit</strong></td>
+                <td>$200 (8 days)</td>
+                <td>$150 (8 days)</td>
+                <td>$100 (8 days)</td>
+                <td>$200 (8 days)</td>
+                <td>$150 (8 days)</td>
+                <td>$100 (8 days)</td>
+              </tr>
+              <tr>
+                <td><strong>1st → 4th Payout Cap</strong></td>
+                <td>$2K → $3K → $4K → $6K</td>
+                <td>$1K → $1.5K → $2K → $3K</td>
+                <td>$1K → $1.5K → $2K → $3K</td>
+                <td>$2K → $3K → $4K → $10K</td>
+                <td>$1K → $1.5K → $2K → $5K</td>
+                <td>$1K → $1K → $1.5K → $2.5K</td>
+              </tr>
+              <tr>
+                <td><strong>Refundable Activation Fee</strong></td>
+                <td class="up">$129 (Refunded)</td>
+                <td class="up">$129 (Refunded)</td>
+                <td class="up">$129 (Refunded)</td>
+                <td class="up">$129 (Refunded)</td>
+                <td class="up">$129 (Refunded)</td>
+                <td class="up">$129 (Refunded)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PHASE 3: LIVE IBKR CAPITAL -->
+      <div class="phase-header">
+        <div class="phase-num">3</div>
+        <div>
+          <div style="font-size:11px;font-family:var(--font-mono);color:var(--gold-light);text-transform:uppercase;">Phase 3</div>
+          <h2 style="font-size:28px;font-weight:900;">Live — Real firm capital at Interactive Brokers. Uncapped withdrawals.</h2>
+        </div>
+      </div>
+
+      <div class="of-card">
+        <div class="table-wrap" style="margin-top:0;">
+          <table class="rules-table">
+            <thead>
+              <tr>
+                <th>Live Account Metric</th>
+                <th>Growth 100K</th>
+                <th>Growth 50K</th>
+                <th>Growth 25K</th>
+                <th>Express 100K</th>
+                <th>Express 50K</th>
+                <th>Express 25K</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Entry Buying Power (0.5x)</strong></td>
+                <td>$50,000</td>
+                <td>$25,000</td>
+                <td>$12,500</td>
+                <td>$50,000</td>
+                <td>$25,000</td>
+                <td>$12,500</td>
+              </tr>
+              <tr>
+                <td><strong>Scaled Buying Power (1.25x)</strong></td>
+                <td class="text-gold-gradient" style="font-weight:800;">$125,000</td>
+                <td class="text-gold-gradient" style="font-weight:800;">$62,500</td>
+                <td class="text-gold-gradient" style="font-weight:800;">$31,250</td>
+                <td class="text-gold-gradient" style="font-weight:800;">$125,000</td>
+                <td class="text-gold-gradient" style="font-weight:800;">$62,500</td>
+                <td class="text-gold-gradient" style="font-weight:800;">$31,250</td>
+              </tr>
+              <tr>
+                <td><strong>Trailing DD & Daily Loss Halt</strong></td>
+                <td>$6,000 / -$3,000</td>
+                <td>$3,000 / -$1,500</td>
+                <td>$1,500 / -$750</td>
+                <td>$5,000 / -$2,500</td>
+                <td>$2,500 / -$1,250</td>
+                <td>$1,250 / -$625</td>
+              </tr>
+              <tr>
+                <td><strong>Withdrawals</strong></td>
+                <td class="up">80% Split · No Cap</td>
+                <td class="up">80% Split · No Cap</td>
+                <td class="up">80% Split · No Cap</td>
+                <td class="up">80% Split · No Cap</td>
+                <td class="up">80% Split · No Cap</td>
+                <td class="up">80% Split · No Cap</td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </div>
     </section>
+
+    <!-- ===================================================================== -->
+    <!-- SECTION 3: FOUNDING 50 (/OUTREACH)                                    -->
+    <!-- ===================================================================== -->
+    <section id="sec-founding50" class="page-section">
+      <div class="section-hero">
+        <div class="eyebrow-tag">FIFTY SEATS · THEN IT CLOSES FOR GOOD</div>
+        <h1>Paid from day one. <span class="text-gold-gradient">Up to 8% RevShare.</span></h1>
+        <p>Every credited first contact on X, Instagram, and TikTok pays the day you send it ($0.15 to $0.38/msg = $27.00 to $68.40/hr), plus 2% to 8% lifetime revenue share on everything your partners generate.</p>
+      </div>
+
+      <div class="of-card">
+        <h3 style="font-size:20px;font-weight:800;margin-bottom:8px;">Interactive Founding 50 Earnings Ladder Calculator</h3>
+        <div class="table-wrap">
+          <table class="rules-table">
+            <thead>
+              <tr>
+                <th>Tier</th>
+                <th>Book Requirement</th>
+                <th>Monthly Run Rate</th>
+                <th>Pay Per Contact</th>
+                <th>Hourly Rate (180 msgs/hr)</th>
+                <th>Monthly Outreach Pay</th>
+                <th>Partner Revenue Share</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Starter</strong></td>
+                <td>Day One</td>
+                <td>Day One</td>
+                <td>$0.15 / msg</td>
+                <td>$27.00 / hr</td>
+                <td>$480 / mo</td>
+                <td class="text-gold-gradient" style="font-weight:800;">2.0% RevShare</td>
+              </tr>
+              <tr>
+                <td><strong>Bronze</strong></td>
+                <td>$25,000+</td>
+                <td>$4,000 / mo</td>
+                <td>$0.19 / msg</td>
+                <td>$34.20 / hr</td>
+                <td>$608 / mo</td>
+                <td class="text-gold-gradient" style="font-weight:800;">3.0% RevShare</td>
+              </tr>
+              <tr>
+                <td><strong>Silver</strong></td>
+                <td>$75,000+</td>
+                <td>$12,000 / mo</td>
+                <td>$0.24 / msg</td>
+                <td>$43.20 / hr</td>
+                <td>$768 / mo</td>
+                <td class="text-gold-gradient" style="font-weight:800;">4.5% RevShare</td>
+              </tr>
+              <tr>
+                <td><strong>Gold</strong></td>
+                <td>$200,000+</td>
+                <td>$40,000 / mo</td>
+                <td>$0.30 / msg</td>
+                <td>$54.00 / hr</td>
+                <td>$960 / mo</td>
+                <td class="text-gold-gradient" style="font-weight:800;">6.0% RevShare</td>
+              </tr>
+              <tr>
+                <td><strong>Partner</strong></td>
+                <td>$450,000+</td>
+                <td>$120,000 / mo</td>
+                <td>$0.38 / msg</td>
+                <td>$68.40 / hr</td>
+                <td>$1,216 / mo</td>
+                <td class="text-gold-gradient" style="font-weight:800;">8.0% RevShare</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SECTION 4: AFFILIATES (/AFFILIATES — 20% TO 35% RECURRING)            -->
+    <!-- ===================================================================== -->
+    <section id="sec-affiliates" class="page-section">
+      <div class="section-hero">
+        <div class="eyebrow-tag">OPTIONSFUNDING.CO/AFFILIATES · EXTRA 10% BUYER STACKING DISCOUNT</div>
+        <h1>Refer traders. <span class="text-gold-gradient">Earn 20%–35% recurring.</span></h1>
+        <p>Share Options Funding with your audience and earn cash on every sale, month after month. Plus your link gives buyers an <strong>extra 10% off stacked on top of any site sale</strong>!</p>
+      </div>
+
+      <div class="tier-grid-4">
+        <div class="tier-card">
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--gold-light);">BRONZE TIER</div>
+          <div class="tier-pct text-gold-gradient">20%</div>
+          <div style="font-size:13px;color:var(--text-secondary);">$0 – $10k lifetime referred revenue · Rate never drops</div>
+        </div>
+        <div class="tier-card">
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--gold-light);">SILVER TIER</div>
+          <div class="tier-pct text-gold-gradient">25%</div>
+          <div style="font-size:13px;color:var(--text-secondary);">$10k – $25k lifetime referred revenue · Paid monthly</div>
+        </div>
+        <div class="tier-card">
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--gold-light);">GOLD TIER</div>
+          <div class="tier-pct text-gold-gradient">30%</div>
+          <div style="font-size:13px;color:var(--text-secondary);">$25k – $50k revenue + <strong>1 Free $25K Account/mo</strong></div>
+        </div>
+        <div class="tier-card">
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--gold-light);">DIAMOND TIER</div>
+          <div class="tier-pct text-gold-gradient">35%</div>
+          <div style="font-size:13px;color:var(--text-secondary);">$50k+ revenue + <strong>1 Free $50K Account/mo + Free Reset</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SECTION 5: FAQ KNOWLEDGEBASE (/FAQ — 11 TOPIC AREAS)                  -->
+    <!-- ===================================================================== -->
+    <section id="sec-faq" class="page-section">
+      <div class="section-hero">
+        <div class="eyebrow-tag">200+ ANSWERED QUESTIONS ACROSS 11 CATEGORIES</div>
+        <h1>Options Funding <span class="text-gold-gradient">Knowledgebase</span></h1>
+        <p>Instant interactive filter across all 11 official FAQ topics from optionsfunding.co/faq.</p>
+      </div>
+
+      <div class="faq-grid">
+        <div class="faq-card" onclick="switchSection('rules', document.querySelector('[data-sec=rules]'))">
+          <h3 style="font-size:17px;font-weight:800;color:var(--gold-light);">01. Getting Started (10 Q&As)</h3>
+          <p style="font-size:13.5px;color:var(--text-secondary);margin-top:6px;">What Options Funding is, simulated evaluation accounts, and how to pass in 1 day.</p>
+        </div>
+        <div class="faq-card" onclick="switchSection('rules', document.querySelector('[data-sec=rules]'))">
+          <h3 style="font-size:17px;font-weight:800;color:var(--gold-light);">02. Accounts & Billing (12 Q&As)</h3>
+          <p style="font-size:13.5px;color:var(--text-secondary);margin-top:6px;">Growth ($123.60–$199.60) vs Express ($95.60–$155.60) plans & 10% off Discounted Resets.</p>
+        </div>
+        <div class="faq-card" onclick="switchSection('rules', document.querySelector('[data-sec=rules]'))">
+          <h3 style="font-size:17px;font-weight:800;color:var(--gold-light);">03. Drawdown & Evaluation Rules (18 Q&As)</h3>
+          <p style="font-size:13.5px;color:var(--text-secondary);margin-top:6px;">How End-of-Day (6%) vs Intraday (5%) trailing drawdown moves and locks at starting balance.</p>
+        </div>
+        <div class="faq-card" onclick="switchSection('rules', document.querySelector('[data-sec=rules]'))">
+          <h3 style="font-size:17px;font-weight:800;color:var(--gold-light);">04. Strategies & Multi-Leg (17 Q&As)</h3>
+          <p style="font-size:13.5px;color:var(--text-secondary);margin-top:6px;">Growth Plan Level-3 Multi-Leg (Iron Condors, Verticals, Butterflies, Calendars) vs Express Buy-Only.</p>
+        </div>
+        <div class="faq-card" onclick="switchSection('rules', document.querySelector('[data-sec=rules]'))">
+          <h3 style="font-size:17px;font-weight:800;color:var(--gold-light);">05. Payouts & Payments (22 Q&As)</h3>
+          <p style="font-size:13.5px;color:var(--text-secondary);margin-top:6px;">80/20 split, 8 non-consecutive Qualifying Winning Days ($100/$150/$200), and $129 fee refund.</p>
+        </div>
+        <div class="faq-card" onclick="switchSection('rules', document.querySelector('[data-sec=rules]'))">
+          <h3 style="font-size:17px;font-weight:800;color:var(--gold-light);">06. Going Live at Interactive Brokers (24 Q&As)</h3>
+          <p style="font-size:13.5px;color:var(--text-secondary);margin-top:6px;">Transitioning to Phase 3 real capital at IBKR, 0.5x to 1.25x scaling after 30 trades, and uncapped payouts.</p>
+        </div>
+      </div>
+    </section>
+
   </main>
 
-  <div id="toast" class="toast">Strategy Executed</div>
+  <!-- EXACT WATERMARK FOOTER FROM SCREENSHOT 2 -->
+  <footer class="of-footer">
+    <div style="max-width:960px;margin:0 auto;font-size:12px;color:var(--text-muted);line-height:1.6;">
+      Options Funding LLC · 30 N Gould St Ste R, Sheridan, WY 82801 · Interactive Multi-Section Prototype Engineered for TimtheTrader [OF]
+    </div>
+    <div class="giant-watermark">Options Funding</div>
+  </footer>
+
+  <div id="toast" class="toast">Updated</div>
 
   <script>
-    // Exact pricing catalog from https://optionsfunding.co JSON-LD schema
-    const PRICING = {
+    const CATALOG = {
       GROWTH: {
-        name: "Growth Plan (End-of-Day Drawdown)",
-        drawdownLabel: "02 // EOD TRAILING DRAWDOWN",
-        tiers: {
-          25000: { sale: 123.60, list: 309, target: 2000, maxDrawdown: 1500 },
-          50000: { sale: 159.60, list: 399, target: 4000, maxDrawdown: 2500 },
-          100000: { sale: 199.60, list: 499, target: 8000, maxDrawdown: 4000 }
-        }
+        label: "Growth Plan",
+        targetPct: 12,
+        ddPct: 6,
+        ddMode: "EOD TRAILING DD (6%)",
+        ddSub: "Floor updates at market close · Locks at starting balance",
+        allowed: "Allowed: All Level-3 Strategies (Buy + Write: Verticals, Iron Condors, Butterflies, Calendars)",
+        prices: { 25000: [123.60, 309, 100], 50000: [159.60, 399, 150], 100000: [199.60, 499, 200] }
       },
       EXPRESS: {
-        name: "Express Plan (Intraday Drawdown)",
-        drawdownLabel: "02 // INTRADAY TRAILING DRAWDOWN",
-        tiers: {
-          25000: { sale: 95.60, list: 239, target: 2000, maxDrawdown: 1500 },
-          50000: { sale: 111.60, list: 279, target: 4000, maxDrawdown: 2500 },
-          100000: { sale: 155.60, list: 389, target: 8000, maxDrawdown: 4000 }
-        }
+        label: "Express Plan",
+        targetPct: 10,
+        ddPct: 5,
+        ddMode: "INTRADAY TRAILING DD (5%)",
+        ddSub: "Floor moves in real time with peak equity · Locks at starting balance",
+        allowed: "Allowed: Buy Only (Single-Leg Long Calls & Long Puts Only — No Short Legs)",
+        prices: { 25000: [95.60, 239, 100], 50000: [111.60, 279, 150], 100000: [155.60, 389, 200] }
       }
     };
 
-    let activePlan = "GROWTH";
-    let activeSize = 50000;
-    let currentGain = 3380;
-
-    let legs = [
-      { id: 1, symbol: "SPY 23SEP 570P/565P - 580C/585C", structure: "0DTE Iron Condor", hold: "Intraday / 0DTE", qty: 10, entry: 1.45, mark: 0.65, greeks: "Δ +2.1 / Θ +$98", pnl: 800 },
-      { id: 2, symbol: "NVDA 26SEP 140C / 145C", structure: "Vertical Debit Spread", hold: "Overnight Allowed", qty: 8, entry: 1.85, mark: 2.55, greeks: "Δ +48.4 / Θ -$14", pnl: 560 },
-      { id: 3, symbol: "QQQ 26SEP 485C / 490C / 495C", structure: "Call Butterfly", hold: "Overnight Allowed", qty: 5, entry: 0.92, mark: 1.38, greeks: "Δ +12.0 / Θ +$44", pnl: 230 },
-      { id: 4, symbol: "TSLA 26SEP 260C", structure: "Single-Leg Call", hold: "Overnight Allowed", qty: 4, entry: 6.40, mark: 5.98, greeks: "Δ +21.7 / Θ -$32", pnl: -165 }
+    let currentPlan = "GROWTH";
+    let currentSize = 50000;
+    let trades = [
+      { id: 1, ticker: "SPY 575P/570P - 582C/587C", type: "Iron Condor (Multi-Leg)", plan: "Growth (Buy + Write)", hold: "Overnight Allowed", qty: "10x", pnl: "+$1,140.00" },
+      { id: 2, ticker: "NVDA 140C / 145C", type: "Vertical Call Spread", plan: "Growth (Buy + Write)", hold: "Overnight Allowed", qty: "8x", pnl: "+$860.00" },
+      { id: 3, ticker: "QQQ 488C", type: "Single-Leg Long Call", plan: "Growth & Express Eligible", hold: "Overnight Allowed", qty: "6x", pnl: "+$640.00" }
     ];
 
-    function renderTerminal() {
-      const planObj = PRICING[activePlan];
-      const tier = planObj.tiers[activeSize];
-
-      document.getElementById("planPriceDisplay").textContent = `$${tier.sale.toFixed(2)}/mo`;
-      document.getElementById("heroPriceTag").textContent = `$${tier.sale.toFixed(2)}/mo`;
-      document.getElementById("planRegPriceDisplay").textContent = `List: $${tier.list}/mo · Keep 80% Profit Split`;
-      document.getElementById("drawdownTypeTitle").textContent = planObj.drawdownLabel;
-
-      const buffer = Math.round(tier.maxDrawdown * 0.85);
-      const floor = activeSize + currentGain - tier.maxDrawdown;
-      document.getElementById("drawdownBufferVal").textContent = `$${buffer.toLocaleString()} Buffer Left`;
-      document.getElementById("drawdownFloorSub").textContent = `Trailing Floor: $${floor.toLocaleString()} (${activePlan === 'GROWTH' ? 'EOD Locked' : 'Intraday Live'})`;
-
-      const pct = Math.min(100, ((currentGain / tier.target) * 100)).toFixed(1);
-      document.getElementById("profitPctBadge").textContent = `${pct}% COMPLETE`;
-      document.getElementById("currentProfitVal").textContent = `+$${currentGain.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
-      document.getElementById("profitTargetSub").textContent = `Target: $${tier.target.toLocaleString()} · Same-Day Eligible`;
-      document.getElementById("profitProgressFill").style.width = `${pct}%`;
-
-      const equity = activeSize + currentGain;
-      const split80 = Math.round(currentGain * 0.8);
-      document.getElementById("equityHeadline").textContent = `$${equity.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
-      document.getElementById("payoutPreviewTag").textContent = `Your 80% Payout Share: $${split80.toLocaleString()}.00`;
-
-      renderTable();
-      drawEquityChart();
+    function switchSection(secId, btn) {
+      document.querySelectorAll(".page-section").forEach(s => s.classList.remove("active"));
+      document.getElementById("sec-" + secId).classList.add("active");
+      document.querySelectorAll(".nav-tab").forEach(b => b.classList.remove("active"));
+      if (btn) btn.classList.add("active");
+      if (secId === "home") setTimeout(drawMainCanvas, 60);
     }
 
-    function renderTable() {
-      const tbody = document.getElementById("ofPositionsBody");
-      tbody.innerHTML = "";
-      let totalUnreal = 0;
+    function setPlan(plan) {
+      currentPlan = plan;
+      document.getElementById("modeGrowthBtn").classList.toggle("active", plan === "GROWTH");
+      document.getElementById("modeExpressBtn").classList.toggle("active", plan === "EXPRESS");
+      updateDashboard();
+      notify(`Switched to ${CATALOG[plan].label}`);
+    }
 
-      legs.forEach(l => {
-        totalUnreal += l.pnl;
-        const isUp = l.pnl >= 0;
+    function setSize(size, btn) {
+      currentSize = size;
+      btn.parentElement.querySelectorAll(".sw-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      updateDashboard();
+      notify(`Switched Account Size to $${size.toLocaleString()}`);
+    }
+
+    function updateDashboard() {
+      const p = CATALOG[currentPlan];
+      const [sale, list, minDay] = p.prices[currentSize];
+      const targetDollar = currentSize * (p.targetPct / 100);
+      const ddDollar = currentSize * (p.ddPct / 100);
+      const currentProfit = Math.round(targetDollar * 0.81);
+
+      document.getElementById("mPrice").textContent = `$${sale.toFixed(2)}/mo`;
+      document.getElementById("mPriceSub").textContent = `List: $${list}/mo · $129 Refundable Activation`;
+      document.getElementById("mTargetLabel").textContent = `02 // PROFIT TARGET (${p.targetPct}%)`;
+      document.getElementById("mTargetVal").textContent = `+$${currentProfit.toLocaleString()} / $${targetDollar.toLocaleString()}`;
+      document.getElementById("mDDLabel").textContent = `03 // ${p.ddMode}`;
+      document.getElementById("mDDVal").textContent = `$${ddDollar.toLocaleString()} Max DD`;
+      document.getElementById("mDDSub").textContent = p.ddSub;
+      document.getElementById("mQualSub").textContent = `Min Qualifying Day: $${minDay}/day · 80/20 Split`;
+      document.getElementById("strategyRuleBanner").textContent = p.allowed;
+      document.getElementById("chartEquityTitle").innerHTML = `$${(currentSize + currentProfit).toLocaleString()}.00 <span class="up" style="font-size:14px;">(+${((currentProfit/currentSize)*100).toFixed(1)}%)</span>`;
+      document.getElementById("ibkrLiveText").textContent = `Enters Phase 3 Live IBKR at $${(currentSize*0.5).toLocaleString()} buying power (0.5x) → Scales to $${(currentSize*1.25).toLocaleString()} (1.25x) after 30 closed live trades.`;
+
+      renderTradesTable();
+      drawMainCanvas();
+    }
+
+    function renderTradesTable() {
+      const tbody = document.getElementById("liveTradesBody");
+      tbody.innerHTML = "";
+      trades.forEach(t => {
         const tr = document.createElement("tr");
         tr.innerHTML = `
-          <td style="font-weight:700;color:#fff;">${l.symbol}</td>
-          <td><span class="badge-gold">${l.structure}</span></td>
-          <td style="color:var(--text-secondary);">${l.hold}</td>
-          <td>${l.qty}x</td>
-          <td>$${l.entry.toFixed(2)}</td>
-          <td style="font-weight:700;color:#fff;">$${l.mark.toFixed(2)}</td>
-          <td style="color:var(--gold-light);">${l.greeks}</td>
-          <td class="${isUp ? 'up' : 'down'}" style="font-weight:800;">
-            ${isUp ? '+' : '-'}$${Math.abs(l.pnl).toLocaleString('en-US', {minimumFractionDigits: 2})}
-          </td>
-          <td><button class="acct-btn" style="padding:4px 10px;font-size:11px;" onclick="closeLeg(${l.id})">Close Leg</button></td>
+          <td><strong>${t.ticker}</strong></td>
+          <td style="color:var(--gold-light);">${t.type}</td>
+          <td>${t.plan}</td>
+          <td>${t.hold}</td>
+          <td>${t.qty}</td>
+          <td class="up" style="font-weight:800;">${t.pnl}</td>
+          <td><button class="sw-btn" style="border:1px solid var(--border-subtle);" onclick="removeTrade(${t.id})">Close</button></td>
         `;
         tbody.appendChild(tr);
       });
-
-      document.getElementById("legCountBadge").textContent = `${legs.length} ACTIVE STRATEGIES`;
-      document.getElementById("unrealizedVal").textContent = `${totalUnreal >= 0 ? '+' : '-'}$${Math.abs(totalUnreal).toLocaleString()}.00`;
     }
 
-    function setPlanMode(mode) {
-      activePlan = mode;
-      document.getElementById("btnGrowth").classList.toggle("active", mode === "GROWTH");
-      document.getElementById("btnExpress").classList.toggle("active", mode === "EXPRESS");
-      renderTerminal();
-      showToast(`Switched to ${PRICING[mode].name} — 60% Off with Code OF`);
-    }
-
-    function setAccountSize(size, btn) {
-      activeSize = size;
-      currentGain = Math.round(size * 0.0676);
-      document.querySelectorAll(".tier-selector .acct-btn").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      renderTerminal();
-      showToast(`Selected $${size.toLocaleString()} Options Funding Account`);
-    }
-
-    function deployStrategy(type) {
-      const map = {
-        "0DTE_CONDOR": { symbol: "SPX 0DTE 5740P/5735P - 5765C/5770C", structure: "0DTE Iron Condor", hold: "Intraday / 0DTE", qty: 5, entry: 1.65, mark: 0.90, greeks: "Δ -1.4 / Θ +$115", pnl: 375 },
-        "VERTICAL_SPREAD": { symbol: "NVDA WEEKLY 142C / 147C", structure: "Vertical Call Spread", hold: "Overnight Allowed", qty: 10, entry: 1.95, mark: 2.42, greeks: "Δ +54.0 / Θ -$18", pnl: 470 },
-        "BUTTERFLY": { symbol: "SPY WEEKLY 572C / 576C / 580C", structure: "Pinned Butterfly", hold: "Overnight Allowed", qty: 8, entry: 0.75, mark: 1.15, greeks: "Δ +4.2 / Θ +$64", pnl: 320 },
-        "CALENDAR": { symbol: "QQQ OCT/SEP 488C CALENDAR", structure: "Calendar Spread", hold: "Overnight Allowed", qty: 6, entry: 2.10, mark: 2.58, greeks: "Δ +9.5 / Θ +$52", pnl: 288 }
+    function addSimulatedTrade(kind) {
+      if (currentPlan === "EXPRESS" && kind !== "LONG_CALL") {
+        notify("⚠️ Express Plan Rule Guard: Express Plan is Buy-Only (Long Calls/Puts). Switch to Growth Plan for Multi-Leg Spreads!");
+        return;
+      }
+      const items = {
+        CONDOR: { ticker: "SPX 5740P/5735P - 5770C/5775C", type: "0DTE Iron Condor", plan: "Growth (Buy + Write)", hold: "Overnight Allowed", qty: "5x", pnl: "+$485.00" },
+        VERTICAL: { ticker: "AAPL 228C / 232C", type: "Vertical Debit Spread", plan: "Growth (Buy + Write)", hold: "Overnight Allowed", qty: "10x", pnl: "+$620.00" },
+        LONG_CALL: { ticker: "TSLA 262C WEEKLY", type: "Single-Leg Long Call", plan: "Growth & Express Eligible", hold: "Overnight Allowed", qty: "4x", pnl: "+$540.00" },
+        BUTTERFLY: { ticker: "SPY 572C / 576C / 580C", type: "Call Butterfly", plan: "Growth (Buy + Write)", hold: "Overnight Allowed", qty: "8x", pnl: "+$390.00" }
       };
-      const item = map[type];
-      legs.unshift({ id: Date.now(), ...item });
-      currentGain += item.pnl;
-      renderTerminal();
-      showToast(`FILLED: ${item.qty}x ${item.structure} (${item.symbol})`);
+      trades.unshift({ id: Date.now(), ...items[kind] });
+      renderTradesTable();
+      notify(`Executed ${items[kind].type} (${items[kind].ticker})`);
     }
 
-    function closeLeg(id) {
-      legs = legs.filter(l => l.id !== id);
-      renderTable();
-      showToast("Multi-Leg Options Strategy Closed · Profit Locked.");
+    function removeTrade(id) {
+      trades = trades.filter(t => t.id !== id);
+      renderTradesTable();
     }
 
-    function closeAllPositions() {
-      legs = [];
-      renderTable();
-      showToast("All Options Positions Flattened to Cash.");
-    }
-
-    function drawEquityChart() {
-      const canvas = document.getElementById("ofChart");
-      const ctx = canvas.getContext("2d");
+    function drawMainCanvas() {
+      const c = document.getElementById("mainCanvas");
+      if (!c) return;
+      const ctx = c.getContext("2d");
       const dpr = window.devicePixelRatio || 1;
-      const rect = canvas.getBoundingClientRect();
-      canvas.width = rect.width * dpr;
-      canvas.height = rect.height * dpr;
+      const r = c.getBoundingClientRect();
+      c.width = r.width * dpr;
+      c.height = r.height * dpr;
       ctx.scale(dpr, dpr);
-
-      const w = rect.width;
-      const h = rect.height;
+      const w = r.width, h = r.height;
       ctx.clearRect(0, 0, w, h);
 
-      // Subtle grid
-      ctx.strokeStyle = "rgba(255,255,255,0.04)";
-      for (let i = 1; i < 5; i++) {
-        const y = (h / 5) * i;
-        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
-      }
-
-      // Trailing Drawdown Floor Line (Dashed Crimson)
-      const ddPoints = [0.85, 0.84, 0.80, 0.80, 0.74, 0.70, 0.70, 0.64, 0.60, 0.60, 0.55, 0.52];
-      const stepX = w / (ddPoints.length - 1);
-      ctx.save();
-      ctx.setLineDash([6, 6]);
-      ctx.beginPath();
-      ddPoints.forEach((p, i) => {
-        const x = i * stepX;
-        const y = p * (h - 28) + 14;
-        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-      });
-      ctx.strokeStyle = "rgba(239, 68, 68, 0.7)";
-      ctx.lineWidth = 2;
-      ctx.stroke();
-      ctx.restore();
-
-      // Golden Equity Curve
-      const eqPoints = [0.74, 0.71, 0.64, 0.66, 0.56, 0.49, 0.52, 0.41, 0.34, 0.36, 0.25, 0.17];
+      const pts = [0.78, 0.72, 0.68, 0.62, 0.56, 0.51, 0.44, 0.39, 0.31, 0.22, 0.16];
+      const step = w / (pts.length - 1);
       const grad = ctx.createLinearGradient(0, 0, 0, h);
       grad.addColorStop(0, "rgba(245, 208, 118, 0.35)");
       grad.addColorStop(1, "rgba(212, 168, 67, 0.0)");
 
       ctx.beginPath();
-      eqPoints.forEach((p, i) => {
-        const x = i * stepX;
-        const y = p * (h - 28) + 14;
+      pts.forEach((p, i) => {
+        const x = i * step, y = p * (h - 24) + 12;
         if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
       });
       ctx.strokeStyle = "#F5D076";
       ctx.lineWidth = 3;
       ctx.stroke();
-
-      ctx.lineTo(w, h);
-      ctx.lineTo(0, h);
-      ctx.closePath();
-      ctx.fillStyle = grad;
-      ctx.fill();
+      ctx.lineTo(w, h); ctx.lineTo(0, h); ctx.closePath();
+      ctx.fillStyle = grad; ctx.fill();
     }
 
-    function showToast(msg) {
+    function notify(msg) {
       const t = document.getElementById("toast");
       t.textContent = msg;
       t.classList.add("show");
-      setTimeout(() => t.classList.remove("show"), 3200);
+      setTimeout(() => t.classList.remove("show"), 3600);
     }
 
-    window.addEventListener("resize", drawEquityChart);
-    renderTerminal();
-    setTimeout(drawEquityChart, 80);
+    window.addEventListener("resize", drawMainCanvas);
+    updateDashboard();
+    setTimeout(drawMainCanvas, 80);
   </script>
 </body>
 </html>
