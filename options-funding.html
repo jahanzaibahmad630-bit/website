@@ -50,55 +50,61 @@
     }
 </script>
 <style>
-  /* ==========================================================================
-     FULL HD 1080P ZERO-SHAKE, ZERO-ZOOM BACKGROUND VIDEO STYLING
-     ========================================================================== */
+  /* Clean Full-Bleed Background Video Styling */
   .bg-video-element {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100%;
     height: 100%;
-    /* 100% 100% prevents browser cover-zooming into the center of the video */
-    object-fit: fill;
+    object-fit: cover;
     pointer-events: none;
     z-index: 0;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    image-rendering: -webkit-optimize-contrast;
+    transition: opacity 0.4s ease;
   }
 
-  /* Light Mode: Crisp HD video visible across the hero without blur */
+  /* Light Mode (Default): Softly blends the video into the white Stitch background */
   body:not(.video-dark-mode) .bg-video-element {
-    opacity: 0.34;
+    opacity: 0.24;
+    filter: contrast(1.1) saturate(1.25);
   }
   body:not(.video-dark-mode) .hero-video-veil {
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.90) 0%, rgba(255, 255, 255, 0.68) 48%, rgba(255, 255, 255, 0.38) 100%);
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.86) 0%, rgba(255, 255, 255, 0.72) 50%, rgba(255, 255, 255, 0.60) 100%);
   }
 
-  /* Dark HD Cinema Mode: 100% Unfiltered 1080p HD Background Video */
+  /* Dark Video Mode: Shows the raw glowing dark video in the background at full clarity */
   body.video-dark-mode #founding-50 {
-    background-color: #020710 !important;
+    background-color: #030812 !important;
   }
   body.video-dark-mode .bg-video-element {
-    opacity: 0.88;
+    opacity: 0.65;
+    filter: contrast(1.15) saturate(1.3);
   }
   body.video-dark-mode .hero-video-veil {
-    background: linear-gradient(90deg, rgba(2, 7, 16, 0.80) 0%, rgba(2, 7, 16, 0.35) 50%, rgba(2, 7, 16, 0.25) 100%);
+    background: linear-gradient(90deg, rgba(3, 8, 18, 0.78) 0%, rgba(3, 8, 18, 0.45) 55%, rgba(3, 8, 18, 0.65) 100%);
   }
   body.video-dark-mode #founding-50 h1 {
     color: #FFFFFF !important;
   }
   body.video-dark-mode #founding-50 p {
-    color: #E2E8F0 !important;
+    color: #CBD5E1 !important;
   }
 
-  /* Rock-solid stationary Gold Monitor Frame (no shaking, subtle perspective) */
+  @keyframes monitorFloat {
+    0%, 100% {
+      transform: perspective(1250px) rotateY(-6deg) rotateX(2deg) translateY(0px);
+      box-shadow: -20px 28px 60px -12px rgba(15, 23, 42, 0.32), 0 0 0 3px #F59E0B;
+    }
+    50% {
+      transform: perspective(1250px) rotateY(-2deg) rotateX(1deg) translateY(-8px);
+      box-shadow: -12px 36px 72px -10px rgba(5, 150, 105, 0.25), 0 0 0 3px #FBBF24;
+    }
+  }
+
   .gold-monitor-frame {
+    animation: monitorFloat 7.5s ease-in-out infinite;
     border-radius: 18px;
     background: #0B101B;
     overflow: hidden;
-    box-shadow: -16px 24px 55px -10px rgba(15, 23, 42, 0.32), 0 0 0 3px #F59E0B;
   }
 </style>
 </head>
@@ -145,13 +151,13 @@
 </nav>
 <!-- Header Actions -->
 <div class="flex items-center gap-2.5">
-<button onclick="switchBgVideoSource()" class="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-emerald-900 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-3 py-2 rounded-xl transition-colors" title="Switch Background Video Source (Both 1080p HD Zero-Zoom)">
-<span class="material-symbols-outlined text-[16px] text-emerald-600">hd</span>
-<span id="videoSourceLabel">🎬 HD Video 1 (Hologram)</span>
+<button onclick="switchBgVideoSource()" class="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-emerald-900 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-3 py-2 rounded-xl transition-colors" title="Switch Background Video Source">
+<span class="material-symbols-outlined text-[16px] text-emerald-600">videocam</span>
+<span id="videoSourceLabel">🎬 Video 1 (Hologram)</span>
 </button>
-<button onclick="toggleVideoTheme()" class="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-sky-900 bg-sky-50 hover:bg-sky-100 border border-sky-200 px-3 py-2 rounded-xl transition-colors" title="Toggle Dark HD Video vs Light Stitch Mode">
+<button onclick="toggleVideoTheme()" class="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-sky-900 bg-sky-50 hover:bg-sky-100 border border-sky-200 px-3 py-2 rounded-xl transition-colors" title="Toggle Dark Cinema Video vs Light Stitch Mode">
 <span class="material-symbols-outlined text-[16px] text-sky-600">contrast</span>
-<span id="videoThemeLabel">🌌 Dark HD Video</span>
+<span id="videoThemeLabel">🌌 Dark Video Mode</span>
 </button>
 <button onclick="toggleFullScreen()" class="hidden md:inline-flex items-center gap-1.5 text-xs font-mono font-bold text-slate-700 hover:text-amber-700 bg-slate-100 hover:bg-amber-50 border border-slate-200 px-3 py-2 rounded-xl transition-colors" title="Toggle Full Screen (F11)">
 <span class="material-symbols-outlined text-[16px]">fullscreen</span>
@@ -166,16 +172,16 @@
 </header>
 <main class="flex-grow">
 <!-- ========================================================================= -->
-<!-- HERO SECTION WITH 1080P FULL HD ZERO-SHAKE, ZERO-ZOOM <VIDEO> BACKGROUND  -->
+<!-- HERO SECTION WITH PURE FULL-BLEED HTML5 <VIDEO> IN THE BACKGROUND         -->
 <!-- ========================================================================= -->
 <section id="founding-50" class="relative pt-14 pb-20 md:pt-20 md:pb-28 overflow-hidden bg-white border-b border-slate-200 transition-colors duration-300">
 
-  <!-- 1080P FULL HD STATIONARY <VIDEO> IN THE BACKGROUND (NO SHAKE, NO ZOOM) -->
+  <!-- PURE HTML5 <VIDEO> PLAYING CONTINUOUSLY IN THE BACKGROUND -->
   <video id="heroBgVideo" autoplay loop muted playsinline poster="assets/motion-2.png" class="bg-video-element">
     <source id="heroBgVideoSrc" src="assets/bg-hologram-video.mp4" type="video/mp4" />
   </video>
 
-  <!-- Subtle Left-to-Right Veil so Left Headline is Crisp & Right Video is HD Clear -->
+  <!-- Soft Glass Veil so Typography Stays Razor-Sharp Over the Background Video -->
   <div class="hero-video-veil absolute inset-0 pointer-events-none z-[1] transition-all duration-300"></div>
 
 <div class="max-w-[1440px] mx-auto px-6 lg:px-12 relative z-10">
@@ -220,14 +226,14 @@
 </div>
 </div>
 
-<!-- Right Column: Gold-Bordered Monitor Card Playing 1080p Zero-Zoom Equity Curve Video -->
+<!-- Right Column: Gold-Bordered 3D Monitor Card Playing Live Video -->
 <div class="lg:col-span-6 relative">
 <div class="gold-monitor-frame relative">
 <div class="bg-slate-950 relative">
-<!-- 1080p HD Zero-Zoom Video Inside the Monitor -->
+<!-- Live Video Inside the Monitor -->
 <div class="relative bg-[#080D1A] p-2.5">
-<video autoplay loop muted playsinline poster="assets/equity-curve-3d.jpg" class="w-full h-[315px] sm:h-[355px] rounded-lg object-fill border border-slate-800">
-  <source src="assets/equity-curve-hd-nozoom.mp4" type="video/mp4" />
+<video autoplay loop muted playsinline poster="assets/equity-curve-3d.jpg" class="w-full h-[315px] sm:h-[355px] rounded-lg object-cover border border-slate-800">
+  <source src="assets/equity-curve-3d.mp4" type="video/mp4" />
 </video>
 <!-- Interactive Floating HUD Widget Overlay -->
 <div class="absolute bottom-4 left-4 right-4 bg-[#0D1322]/95 backdrop-blur-md border border-amber-400/50 rounded-xl p-3.5 shadow-2xl flex flex-wrap items-center justify-between gap-2">
@@ -726,8 +732,8 @@
 <script>
   let currentVideoIdx = 0;
   const videoSources = [
-    { src: 'assets/bg-hologram-video.mp4', label: '🎬 HD Video 1 (Hologram)' },
-    { src: 'assets/equity-curve-hd-nozoom.mp4', label: '🎬 HD Video 2 (Equity No-Zoom)' }
+    { src: 'assets/bg-hologram-video.mp4', label: '🎬 Video 1 (Hologram)' },
+    { src: 'assets/equity-curve-3d.mp4', label: '🎬 Video 2 (3D Equity)' }
   ];
 
   function switchBgVideoSource() {
@@ -738,7 +744,7 @@
     v.load();
     v.play().catch(() => {});
     document.getElementById('videoSourceLabel').textContent = videoSources[currentVideoIdx].label;
-    showStitchToast('Switched to 1080p HD Zero-Zoom Video: ' + videoSources[currentVideoIdx].label);
+    showStitchToast('Switched Background Video: ' + videoSources[currentVideoIdx].label);
   }
 
   function toggleVideoTheme() {
@@ -746,8 +752,8 @@
     const isDark = document.body.classList.contains('video-dark-mode');
     document.getElementById('videoThemeLabel').textContent = isDark
       ? '☀️ Light Video Mode'
-      : '🌌 Dark HD Video';
-    showStitchToast(isDark ? '🌌 1080p Dark HD Video Mode Active' : '☀️ Crisp Light HD Video Mode Active');
+      : '🌌 Dark Video Mode';
+    showStitchToast(isDark ? '🌌 Dark Cinema Video Background Active' : '☀️ Light Stitch Video Background Active');
   }
 
   function toggleFullScreen() {
