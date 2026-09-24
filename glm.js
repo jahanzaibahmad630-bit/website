@@ -32,7 +32,7 @@ try {
 } catch (e) {}
 
 const API_KEY = process.env.OPENROUTER_API_KEY || process.env.GLM_API_KEY || '';
-const DEFAULT_MODEL = 'z-ai/glm-5.2';
+const DEFAULT_MODEL = 'z-ai/glm-5.2:free';
 
 const SYSTEM_PROMPT = `You are an elite Creative Technologist, Principal WebGL Engineer, and Master Digital Artisan.
 You synthesize breathtaking, award-winning, production-ready, standalone single-file HTML5 websites that push the limits of modern browser design.

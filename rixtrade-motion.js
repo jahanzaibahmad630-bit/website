@@ -254,8 +254,8 @@
       color: #2DD4BF !important;
     }
 
-    html.rix-dark-mode .bg-gradient-to-r,
-    html.rix-dark-mode .bg-gradient-to-b {
+    html.rix-dark-mode .bg-gradient-to-r:not(#rules-hd-hero *):not(#metrics-hd-hero *):not(#faq-hd-hero *):not(#affiliates-hd-hero *):not(#founding-50-hero *):not(#rixtrade-server-hero *),
+    html.rix-dark-mode .bg-gradient-to-b:not(#rules-hd-hero *):not(#metrics-hd-hero *):not(#faq-hd-hero *):not(#affiliates-hd-hero *):not(#founding-50-hero *):not(#rixtrade-server-hero *) {
       background-image: linear-gradient(135deg, #131722 0%, #0D1F1D 50%, #131722 100%) !important;
       border-color: rgba(8, 153, 129, 0.35) !important;
     }
@@ -558,7 +558,14 @@
     );
 
     revealTargets.forEach((el, idx) => {
-      if (el.closest('#founding-50-hero') || el.closest('#rixtrade-server-hero')) return;
+      if (
+        el.closest('#founding-50-hero') ||
+        el.closest('#rixtrade-server-hero') ||
+        el.closest('#rules-hd-hero') ||
+        el.closest('#metrics-hd-hero') ||
+        el.closest('#faq-hd-hero') ||
+        el.closest('#affiliates-hd-hero')
+      ) return;
       el.classList.add('rix-reveal', 'rix-spotlight-card');
       el.style.transitionDelay = `${(idx % 4) * 55}ms`;
       el.addEventListener('mousemove', (e) => {

@@ -184,59 +184,89 @@
 </header>
 <!-- Main Content Canvas -->
 <main class="flex-1 w-full max-w-[1440px] mx-auto px-margin md:px-margin-desktop py-space-xl flex flex-col gap-space-2xl">
-<!-- Hero Section -->
-<section class="relative rounded-xl border border-surface-border bg-white p-space-lg md:p-space-2xl overflow-hidden shadow-sm">
-<!-- Ambient Precision Glow -->
-<div class="absolute -right-20 -top-20 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
-<div class="absolute left-1/3 -bottom-32 w-80 h-80 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
-<div class="relative z-10 max-w-4xl flex flex-col gap-space-md">
-<!-- Partner Badge -->
-<div class="inline-flex items-center gap-2 self-start px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-primary text-label-caps font-label-caps font-semibold">
-<span class="w-1.5 h-1.5 rounded-full bg-market-up animate-pulse"></span>
-          OPTIONS FUNDING // PARTNER &amp; CREATOR NETWORK
+<!-- Hero Section (4K HD 3D Global Partner & Liquidity Network) -->
+<section id="affiliates-hd-hero" class="relative rounded-2xl border border-emerald-500/30 bg-[#050B14] p-6 md:p-10 overflow-hidden shadow-[0_24px_60px_rgba(5,11,20,0.4)]">
+  <!-- 4K HD Background Visual (Crystal Clear Native Contrast - No White Washout) -->
+  <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+    <img src="assets/hero-affiliates-hd.jpg" alt="Options Funding 3D Global Affiliate Liquidity Network" class="w-full h-full object-cover object-right opacity-90 scale-[1.02]" style="filter: contrast(1.14) saturate(1.20);"/>
+    <div class="absolute inset-0" style="background: linear-gradient(90deg, rgba(5,11,20,0.93) 0%, rgba(5,11,20,0.75) 50%, rgba(5,11,20,0.22) 100%);"></div>
+  </div>
+
+  <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+    <!-- Left Column: Partner Value Proposition (7 Cols) -->
+    <div class="lg:col-span-7 flex flex-col gap-space-md">
+      <!-- Partner Badge -->
+      <div class="inline-flex items-center gap-2 self-start px-3.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-400/35 text-emerald-300 text-label-caps font-label-caps font-semibold backdrop-blur-md">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        OPTIONS FUNDING // PARTNER &amp; CREATOR NETWORK
+      </div>
+      <!-- Headline -->
+      <h1 class="text-white text-headline-lg-mobile md:text-display-lg font-display-lg tracking-tight font-bold drop-shadow-[0_2px_16px_rgba(0,0,0,0.85)]">
+        Earn Up to <span class="text-emerald-400">25% Recurring Commission</span> Partnering With the Leading Options Prop Firm
+      </h1>
+      <!-- Subhead -->
+      <p class="text-slate-200 text-body-md md:text-body-lg font-body-lg max-w-2xl leading-relaxed drop-shadow-[0_1px_10px_rgba(0,0,0,0.8)]">
+        Empower your trading community with institutional OPRA options liquidity, fair 5:00 PM EST EOD drawdown rules, and industry-leading conversion rates. Get paid weekly with real-time telemetry.
+      </p>
+      <!-- CTA Buttons Group -->
+      <div class="flex flex-wrap items-center gap-space-md pt-2">
+        <a class="h-11 px-6 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-label-lg font-label-lg font-bold flex items-center justify-center gap-2 shadow-[0_4px_20px_rgba(16,185,129,0.4)] transition-all" href="#partner-matrix">
+          <span class="material-symbols-outlined text-[18px]" data-icon="handshake">handshake</span>
+          Become an Affiliate
+        </a>
+        <button class="h-11 px-6 rounded-lg bg-slate-900/85 border border-slate-700 hover:border-emerald-400 hover:text-emerald-300 text-white text-label-lg font-label-lg font-medium flex items-center justify-center gap-2 transition-all backdrop-blur-md">
+          <span class="material-symbols-outlined text-[18px]" data-icon="login">login</span>
+          Affiliate Portal Login
+        </button>
+      </div>
+      <!-- Metric Micro-Strip -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-slate-800/90 mt-2">
+        <div>
+          <div class="text-slate-400 text-label-caps font-label-caps uppercase">Payout Reliability</div>
+          <div class="text-white font-data-tabular text-data-tabular font-bold mt-0.5 flex items-center gap-1">
+            <span class="material-symbols-outlined text-emerald-400 text-[16px]" data-icon="verified">verified</span>
+            100% On-Time Weekly
+          </div>
         </div>
-<!-- Headline -->
-<h1 class="text-text-primary text-headline-lg-mobile md:text-display-lg font-display-lg tracking-tight font-bold">
-          Earn Up to <span class="text-primary">25% Recurring Commission</span> Partnering With the Leading Options Prop Firm
-        </h1>
-<!-- Subhead -->
-<p class="text-text-secondary text-body-md md:text-body-lg font-body-lg max-w-2xl leading-relaxed">
-          Empower your community with institutional options liquidity, fair EOD drawdown rules, and high conversion rates. Get paid weekly with real-time tracking.
-        </p>
-<!-- CTA Buttons Group -->
-<div class="flex flex-wrap items-center gap-space-md pt-2">
-<a class="h-10 px-6 rounded-lg bg-primary hover:bg-[#047857] active:bg-[#065f46] text-white text-label-lg font-label-lg font-semibold flex items-center justify-center gap-2 shadow-[0_4px_14px_rgba(5,150,105,0.25)] transition-all" href="#partner-matrix">
-<span class="material-symbols-outlined text-[18px]" data-icon="handshake">handshake</span>
-            Become an Affiliate
-          </a>
-<button class="h-10 px-6 rounded-lg bg-surface-panel border border-surface-border hover:border-primary hover:text-primary text-text-primary text-label-lg font-label-lg font-medium flex items-center justify-center gap-2 transition-all">
-<span class="material-symbols-outlined text-[18px]" data-icon="login">login</span>
-            Affiliate Portal Login
-          </button>
-</div>
-<!-- Metric Micro-Strip -->
-<div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-surface-border mt-2">
-<div>
-<div class="text-text-muted text-label-caps font-label-caps uppercase">Payout Reliability</div>
-<div class="text-text-primary font-data-tabular text-data-tabular font-bold mt-0.5 flex items-center gap-1">
-<span class="material-symbols-outlined text-market-up text-[16px]" data-icon="verified">verified</span>
-              100% On-Time Weekly
+        <div>
+          <div class="text-slate-400 text-label-caps font-label-caps uppercase">Global Options Traders</div>
+          <div class="text-white font-data-tabular text-data-tabular font-bold mt-0.5">38,400+ Funded</div>
+        </div>
+        <div>
+          <div class="text-slate-400 text-label-caps font-label-caps uppercase">Attribution Logic</div>
+          <div class="text-white font-data-tabular text-data-tabular font-bold mt-0.5">60-Day Sticky Cookie</div>
+        </div>
+        <div>
+          <div class="text-slate-400 text-label-caps font-label-caps uppercase">Proprietary Tech</div>
+          <div class="text-emerald-400 font-data-tabular text-data-tabular font-bold mt-0.5">RixTrade WebTrader</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: 4K HD Global Partner Network Showcase Card (5 Cols) -->
+    <div class="lg:col-span-5">
+      <div class="relative rounded-xl overflow-hidden border border-emerald-400/40 bg-[#07101E]/90 shadow-[0_16px_40px_rgba(0,0,0,0.65)] group">
+        <div class="relative aspect-[16/10] overflow-hidden">
+          <img src="assets/hero-affiliates-hd.jpg" alt="Global Affiliate Liquidity & Commission Nodes" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" style="filter: contrast(1.16) saturate(1.22);"/>
+          <div class="absolute inset-0 bg-gradient-to-t from-[#050B14] via-transparent to-transparent opacity-85"></div>
+          <div class="absolute top-3 left-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-950/85 border border-emerald-500/40 text-[10px] font-mono text-emerald-400 uppercase tracking-wider backdrop-blur-md">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+            GLOBAL CREATOR NODES • NY • LDN • TYO • SIN
+          </div>
+          <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between bg-slate-950/85 border border-slate-800/90 rounded-lg px-3.5 py-2.5 backdrop-blur-md">
+            <div>
+              <div class="text-[10px] font-mono uppercase tracking-wider text-slate-400">Top Tier Partner Split</div>
+              <div class="text-sm font-mono font-bold text-white">25% Lifetime <span class="text-emerald-400 text-xs">($37.25 / $100K Eval)</span></div>
             </div>
-</div>
-<div>
-<div class="text-text-muted text-label-caps font-label-caps uppercase">Global Options Traders</div>
-<div class="text-text-primary font-data-tabular text-data-tabular font-bold mt-0.5">38,400+ Funded</div>
-</div>
-<div>
-<div class="text-text-muted text-label-caps font-label-caps uppercase">Attribution Logic</div>
-<div class="text-text-primary font-data-tabular text-data-tabular font-bold mt-0.5">60-Day Sticky Cookie</div>
-</div>
-<div>
-<div class="text-text-muted text-label-caps font-label-caps uppercase">Proprietary Tech</div>
-<div class="text-primary font-data-tabular text-data-tabular font-bold mt-0.5">RixTrade WebTrader</div>
-</div>
-</div>
-</div>
+            <div class="text-right">
+              <div class="text-[10px] font-mono uppercase tracking-wider text-slate-400">Settlement Rail</div>
+              <div class="text-xs font-mono font-semibold text-amber-400">USDC • USDT • WIRE</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 <!-- Value & Telemetry Bento Section -->
 <section class="flex flex-col gap-space-lg">

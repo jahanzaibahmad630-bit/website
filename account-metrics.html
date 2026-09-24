@@ -185,52 +185,76 @@
 </header>
 <!-- MAIN CANVAS -->
 <main class="flex-grow w-full max-w-[1440px] mx-auto px-margin md:px-margin-desktop py-space-xl flex flex-col gap-space-xl">
-<!-- Top Hero & Identity Band -->
-<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-lg pb-space-lg border-b border-surface-border">
-<div class="flex flex-col gap-space-xs max-w-3xl">
-<div class="flex items-center gap-2">
-<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg bg-emerald-50 border border-emerald-200 text-primary text-label-caps font-label-caps tracking-wider uppercase font-semibold">
-<span class="w-1.5 h-1.5 rounded-full bg-market-up"></span>
-            REAL-TIME RISK &amp; PERFORMANCE ENGINE
-          </span>
-<span class="text-text-muted text-label-caps font-label-caps">LATENCY 4.1MS • SYNCED EOD</span>
-</div>
-<h1 class="text-headline-lg font-headline-lg text-text-primary tracking-tight">
-          $100,000 Account Metrics &amp; Live Telemetry
-        </h1>
-<p class="text-text-secondary text-body-md font-body-md leading-relaxed">
-          Monitor equity curve, drawdown buffer from $94,000 floor, Greeks exposure, and profit target progression in real time.
-        </p>
-</div>
-<!-- Interactive Cohort Selector / Switcher -->
-<div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-space-sm bg-white border border-surface-border rounded-xl p-space-sm shadow-sm">
-<div class="flex items-center gap-space-sm px-2">
-<div class="w-9 h-9 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-primary">
-<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
-</div>
-<div class="flex flex-col">
-<span class="text-label-caps font-label-caps text-text-muted">ACTIVE ACCOUNT COHORT</span>
-<div class="flex items-center gap-2">
-<span class="text-label-lg font-label-lg text-text-primary font-data-tabular font-semibold">Account #OF-104928</span>
-<span class="px-2 py-0.2 rounded-lg bg-emerald-50 text-primary text-label-caps font-label-caps uppercase border border-emerald-200 font-semibold">
+<!-- Top Hero & Identity Band (4K HD 3D Greeks & Implied Volatility Surface) -->
+<section id="metrics-hd-hero" class="relative rounded-2xl border border-emerald-500/30 bg-[#050B14] p-6 md:p-9 overflow-hidden shadow-[0_24px_60px_rgba(5,11,20,0.4)]">
+  <!-- 4K HD Background Visual (Crystal Clear Native Contrast - No White Washout) -->
+  <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+    <img src="assets/hero-metrics-hd.jpg" alt="3D Options Greeks and Implied Volatility Surface Telemetry" class="w-full h-full object-cover object-center opacity-90 scale-[1.02]" style="filter: contrast(1.14) saturate(1.20);"/>
+    <div class="absolute inset-0" style="background: linear-gradient(90deg, rgba(5,11,20,0.92) 0%, rgba(5,11,20,0.74) 52%, rgba(5,11,20,0.35) 100%);"></div>
+  </div>
+
+  <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+    <div class="flex flex-col gap-space-xs max-w-2xl">
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-400/35 text-emerald-300 text-label-caps font-label-caps tracking-wider uppercase font-semibold backdrop-blur-md">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          REAL-TIME RISK &amp; PERFORMANCE ENGINE
+        </span>
+        <span class="text-slate-300 text-label-caps font-label-caps bg-slate-900/80 border border-slate-700/80 px-2.5 py-1 rounded-md font-mono">LATENCY 4.1MS • SYNCED EOD</span>
+      </div>
+      <h1 class="text-headline-lg-mobile md:text-display-lg font-headline-lg text-white tracking-tight font-bold drop-shadow-[0_2px_16px_rgba(0,0,0,0.85)] mt-1">
+        $100,000 Account Metrics &amp; <span class="text-emerald-400">Live Telemetry</span>
+      </h1>
+      <p class="text-slate-200 text-body-md md:text-body-lg font-body-md leading-relaxed drop-shadow-[0_1px_10px_rgba(0,0,0,0.8)]">
+        Monitor equity curve, drawdown buffer from $94,000 floor, 3D Greeks exposure (Δ, Γ, Θ, ν), and profit target progression in real time.
+      </p>
+    </div>
+
+    <!-- Interactive Cohort Selector + 3D Surface Preview Card -->
+    <div class="flex flex-col gap-3 bg-slate-950/85 border border-emerald-500/35 rounded-xl p-4 shadow-2xl backdrop-blur-xl min-w-[320px] lg:min-w-[420px]">
+      <!-- Mini HD Surface Preview Strip -->
+      <div class="relative h-24 rounded-lg overflow-hidden border border-slate-800">
+        <img src="assets/hero-metrics-hd.jpg" alt="3D Volatility Surface Mesh" class="w-full h-full object-cover object-right" style="filter: contrast(1.18) saturate(1.25);"/>
+        <div class="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/30 to-transparent"></div>
+        <div class="absolute inset-0 p-3 flex items-center justify-between">
+          <div>
+            <div class="text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-semibold">OPRA 3D VOLATILITY SURFACE</div>
+            <div class="text-sm font-mono font-bold text-white mt-0.5">Net Δ +42.8 • Γ +18.4 • Θ -$64.20</div>
+          </div>
+          <span class="px-2 py-1 rounded bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-[10px] font-mono font-bold">LIVE FEED</span>
+        </div>
+      </div>
+
+      <!-- Cohort Selector Controls -->
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-1">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-lg bg-emerald-500/15 border border-emerald-400/30 flex items-center justify-center text-emerald-400">
+            <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-[10px] font-mono uppercase tracking-wider text-slate-400">ACTIVE ACCOUNT COHORT</span>
+            <div class="flex items-center gap-2">
+              <span class="text-sm text-white font-data-tabular font-semibold">Account #OF-104928</span>
+              <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-[10px] font-mono uppercase border border-emerald-400/30 font-semibold">
                 ACTIVE / PASSING
               </span>
-</div>
-</div>
-</div>
-<div class="h-6 w-px bg-surface-border hidden sm:block"></div>
-<div class="flex items-center gap-2 pl-2">
-<select class="bg-surface-panel border border-surface-border text-text-primary text-label-md font-label-md rounded-lg py-1.5 px-3 focus:border-primary focus:ring-0 focus:outline-none cursor-pointer">
-<option selected="">$100K Founding 50 Evaluation</option>
-<option>$200K Institutional Sprint (Live Funded)</option>
-<option>$50K Evaluation Program (Archived)</option>
-</select>
-<button class="bg-surface-panel hover:bg-slate-100 text-text-secondary hover:text-text-primary p-1.5 rounded-lg border border-surface-border transition-colors" title="Reload Live Telemetry">
-<span class="material-symbols-outlined text-[18px]">sync</span>
-</button>
-</div>
-</div>
-</div>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <select class="bg-slate-900 border border-slate-700 text-white text-xs font-mono rounded-lg py-2 px-2.5 focus:border-emerald-400 focus:ring-0 focus:outline-none cursor-pointer">
+            <option selected="">$100K Founding 50</option>
+            <option>$200K Institutional</option>
+            <option>$50K Evaluation</option>
+          </select>
+          <button class="bg-slate-900 hover:bg-slate-800 text-emerald-400 p-2 rounded-lg border border-slate-700 transition-colors" title="Reload Live Telemetry">
+            <span class="material-symbols-outlined text-[18px]">sync</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 <!-- METRICS SHOWCASE GRID: Top KPI Cards -->
 <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
 <!-- KPI 1: Current Equity -->
