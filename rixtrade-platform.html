@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" style="width: 100%; min-height: 100%; overflow-x: hidden; overflow-y: auto;"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Options Funding WebTrader - RixTrade Pro Direct Router</title>
+<!-- Material Symbols Outlined font -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Inter Google Font -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS Play CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Theme Configuration -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-base": "#FFFFFF",
+            "surface-raised": "#F8FAFC",
+            "surface-panel": "#FFFFFF",
+            "surface-border": "#E2E8F0",
+            "surface-border-subtle": "#EDF2F7",
+            "text-primary": "#0F172A",
+            "text-secondary": "#475569",
+            "text-muted": "#64748B",
+            "gold": "#D97706",
+            "gold-light": "#F59E0B",
+            "gold-dark": "#B45309",
+            "market-up": "#059669",
+            "market-down": "#DC2626",
+            "market-warn": "#D97706",
+            "regulatory-bg": "#F8FAFC"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "fontFamily": {
+            "sans": ["Inter", "sans-serif"],
+            "mono": ["'JetBrains Mono'", "monospace"]
+          }
+        },
+      },
+    }
+</script>
+</head>
+<body class="bg-white text-slate-900 min-h-screen w-full selection:bg-amber-500/20 selection:text-amber-800 antialiased flex flex-col font-sans relative overflow-x-hidden">
+<!-- 1. Top Notification Bar (Clean light gold banner) -->
+<div class="bg-amber-50 border-b border-amber-200/80 py-2.5 px-4 text-center relative z-50">
+<div class="max-w-[1440px] mx-auto flex items-center justify-center gap-2 text-xs md:text-sm text-amber-950">
+<span class="inline-flex items-center gap-1.5 font-bold tracking-wide">
+<span class="text-amber-600 text-base">⚡</span>
+<span class="text-amber-900 font-extrabold">60% OFF ALL ACCOUNTS</span>
+<span class="text-amber-300 hidden sm:inline">|</span>
+<span class="text-amber-800 font-medium hidden sm:inline">Use code:</span>
+<span class="px-2 py-0.5 rounded bg-white text-amber-800 font-mono font-bold border border-amber-300 shadow-xs">OF</span>
+<span class="text-amber-300 hidden md:inline">|</span>
+<span class="text-amber-700 font-semibold tracking-wide">SALE ENDS SUNDAY 11:59PM ET</span>
+</span>
+</div>
+</div>
+<!-- 2. Main Navigation Bar -->
+<header class="sticky top-0 z-40 backdrop-blur-xl bg-white/95 border-b border-slate-200 shadow-xs">
+<div class="flex justify-between items-center w-full px-6 lg:px-12 max-w-[1440px] mx-auto h-20">
+<!-- Brand Logo -->
+<a class="flex items-center gap-3 group cursor-pointer focus:outline-none" href="options-funding.html">
+<div class="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 to-emerald-600 p-0.5 flex items-center justify-center shadow-sm">
+<div class="w-full h-full bg-white rounded-[10px] flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px] text-amber-600">query_stats</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="text-lg md:text-xl font-extrabold tracking-tight text-slate-900 flex items-center gap-1.5">
+          Options <span class="text-amber-600">Funding</span>
+</span>
+<span class="text-[10px] font-mono text-slate-500 -mt-1 tracking-widest uppercase">WebTrader • RixTrade</span>
+</div>
+</a>
+<!-- Navigation Links (Each Links to Its Separate HTML Page) -->
+<nav class="hidden lg:flex items-center gap-7 h-full whitespace-nowrap">
+<a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full whitespace-nowrap" href="options-funding.html">Founding 50</a>
+<a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full whitespace-nowrap" href="rules.html">Rules</a>
+<a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full whitespace-nowrap" href="account-metrics.html">Account Metrics</a>
+<a class="text-amber-700 font-bold text-sm border-b-2 border-amber-500 py-1 flex items-center h-full transition-colors whitespace-nowrap" href="rixtrade-platform.html">RixTrade Platform</a>
+<a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full whitespace-nowrap" href="faq.html">FAQ</a>
+<a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full whitespace-nowrap" href="affiliates.html">Affiliates</a>
+</nav>
+<!-- Header Actions -->
+<div class="flex items-center gap-4 whitespace-nowrap">
+<a class="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-slate-700 hover:text-slate-900 px-3 py-2 transition-colors" href="#signin">
+<span class="material-symbols-outlined text-[18px] text-slate-500">lock_open</span>
+<span class="">Sign In</span>
+</a>
+<a class="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl font-bold text-sm bg-amber-500 hover:bg-amber-400 text-slate-950 transition-all duration-150 shadow-sm hover:shadow-md hover:scale-[1.02] active:scale-95" href="#get-funded">
+<span class="">Get Funded</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</header>
+<main class="flex-grow">
+<!-- Active Trading State Showcase (RixTrade Pro Direct Router) -->
+<section class="py-16 bg-white border-b border-slate-200 relative overflow-hidden" id="terminal">
+<div class="max-w-[1440px] mx-auto px-6 lg:px-12 relative z-10">
+<div class="max-w-3xl mb-12">
+<span class="text-amber-800 font-mono text-xs uppercase tracking-widest block mb-2 font-bold">// RIXTRADE OPTIONS HUD SHOWCASE</span>
+<h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          Active One-Click Options Execution Terminal
+        </h2>
+<p class="text-slate-600 text-base mt-3 leading-relaxed">
+          Monitor Greek exposures, execute multi-contract orders in 0.08ms, and track your distance to the $94,000 floor with automated risk guardrails.
+        </p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<div class="lg:col-span-7 bg-slate-50 rounded-2xl border border-slate-200 p-6 shadow-sm">
+<div class="flex flex-wrap items-center justify-between pb-4 mb-5 border-b border-slate-200 gap-3">
+<div class="flex items-center gap-3">
+<span class="text-sm font-bold font-mono px-3 py-1 rounded bg-amber-100 text-amber-900 border border-amber-300">SPY 0DTE</span>
+<span class="text-sm font-mono font-bold text-slate-900">$586.42</span>
+<span class="text-xs font-mono text-emerald-700 font-bold">+1.14%</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-2.5 py-1 rounded bg-white border border-amber-400 text-xs font-mono text-amber-800 font-bold shadow-xs">SPY</button>
+<button class="px-2.5 py-1 rounded bg-white border border-slate-200 text-xs font-mono text-slate-600 hover:text-slate-900 shadow-xs">QQQ</button>
+<button class="px-2.5 py-1 rounded bg-white border border-slate-200 text-xs font-mono text-slate-600 hover:text-slate-900 shadow-xs">NVDA</button>
+<button class="px-2.5 py-1 rounded bg-white border border-slate-200 text-xs font-mono text-slate-600 hover:text-slate-900 shadow-xs">TSLA</button>
+</div>
+</div>
+<!-- RixTrade Pro Direct Router Expanded Panel -->
+<div class="p-5 rounded-2xl bg-white border-2 border-emerald-500 shadow-xl relative overflow-hidden">
+<div class="flex flex-wrap items-center justify-between pb-3 mb-4 border-b border-slate-200 gap-2">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-emerald-100 border border-emerald-300 flex items-center justify-center text-emerald-700 shadow-xs">
+<span class="material-symbols-outlined text-[18px]">send</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h4 class="text-sm font-extrabold text-slate-900">RixTrade Pro Direct Router</h4>
+<span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold border border-emerald-300">READY</span>
+</div>
+<span class="text-xs font-mono font-bold text-amber-700">SPY $585.00 CALL (0DTE)</span>
+</div>
+</div>
+<div class="flex items-center gap-2 text-[11px] font-mono text-slate-500 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200 shadow-xs">
+<span class="w-2 h-2 rounded-full bg-emerald-600 animate-ping"></span>
+<span class="text-slate-700 font-semibold">Latency: 0.08ms direct via Equinix NY4</span>
+</div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4 p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-center font-mono text-xs">
+<div>
+<span class="text-[10px] text-slate-500 block">BID / ASK</span>
+<span class="font-bold text-slate-900">$2.43 × $2.45</span>
+</div>
+<div>
+<span class="text-[10px] text-slate-500 block">MARKET SIZE</span>
+<span class="font-bold text-slate-700">450 × 620</span>
+</div>
+<div>
+<span class="text-[10px] text-slate-500 block">ORDER TYPE</span>
+<span class="font-bold text-amber-800">Limit ($2.45 Mid)</span>
+</div>
+<div>
+<span class="text-[10px] text-slate-500 block">DMA ROUTE</span>
+<span class="font-bold text-emerald-700">Direct DMA Bridge</span>
+</div>
+</div>
+<div class="space-y-4 mb-4">
+<div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 shadow-xs">
+<div class="flex items-center justify-between mb-2 text-xs font-mono">
+<span class="font-bold text-slate-800">Contract Quantity Selector</span>
+<span class="text-amber-800 font-bold bg-amber-100 px-2 py-0.5 rounded border border-amber-300">Max Allowed: 20 Contracts</span>
+</div>
+<div class="flex items-center gap-3">
+<button class="w-9 h-9 rounded-lg bg-white border border-slate-300 hover:border-slate-400 font-mono font-bold text-slate-800 flex items-center justify-center shadow-xs active:scale-95 transition-all" type="button">-</button>
+<div class="flex-1">
+<div class="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden border border-slate-300 relative cursor-pointer">
+<div class="h-full bg-emerald-600 rounded-full" style="width: 50%;"></div>
+</div>
+</div>
+<button class="w-9 h-9 rounded-lg bg-white border border-slate-300 hover:border-slate-400 font-mono font-bold text-slate-800 flex items-center justify-center shadow-xs active:scale-95 transition-all" type="button">+</button>
+<span class="px-3 py-1.5 rounded-lg bg-white border-2 border-emerald-500 text-slate-900 font-mono font-black text-sm shadow-xs">10 Contracts</span>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
+<div class="p-3 rounded-xl bg-red-50/70 border border-red-200">
+<div class="flex justify-between items-center">
+<span class="text-red-700 font-bold">Total Capital Outlay / Max Risk:</span>
+<span class="font-black text-red-700 text-sm">$2,450.00</span>
+</div>
+<span class="text-[10px] text-slate-500 block mt-0.5">10 contracts × $2.45 premium × 100</span>
+</div>
+<div class="p-3 rounded-xl bg-emerald-50 border border-emerald-200">
+<div class="flex justify-between items-center">
+<span class="text-emerald-800 font-bold">Projected Target / Max Gain:</span>
+<span class="font-black text-emerald-700 text-sm">+$5,800.00</span>
+</div>
+<span class="text-[10px] text-slate-500 block mt-0.5">Trailing Profit Target @ +236% move</span>
+</div>
+</div>
+<div class="p-3 rounded-xl bg-emerald-50 border border-emerald-300 flex items-start gap-2.5 text-xs">
+<span class="material-symbols-outlined text-emerald-600 text-[18px] shrink-0 mt-0.5">verified_user</span>
+<div class="font-mono leading-relaxed">
+<span class="font-bold text-emerald-800">Automated Guardrail Active: </span>
+<span class="text-slate-700">Order will not exceed $94,000 Trailing Floor buffer. (Safe buffer remaining: <strong class="text-emerald-700 font-bold">$8,370.00</strong>).</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+<button class="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-black text-sm bg-emerald-600 hover:bg-emerald-500 text-white font-mono shadow-md hover:shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-center" type="button">
+<span>Confirm 1-Click Buy Call (10 Lots • $2,450)</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+<button class="inline-flex items-center justify-center gap-1.5 px-4 py-3.5 rounded-xl font-bold text-sm bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 font-mono shadow-xs active:scale-95 transition-all text-center" type="button">
+<span class="material-symbols-outlined text-[16px] text-slate-500">close</span>
+<span>Cancel / Modify Strike</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Right: Risk & Drawdown Floor Monitor (5 cols) -->
+<div class="lg:col-span-5 flex flex-col gap-6">
+<div class="bg-slate-50 rounded-2xl border border-slate-200 p-6 shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-emerald-100 border border-emerald-300 flex items-center justify-center text-emerald-700">
+<span class="material-symbols-outlined text-[18px]">security</span>
+</div>
+<div>
+<h4 class="text-sm font-bold text-slate-900">Risk &amp; Drawdown Monitor</h4>
+<span class="text-[11px] font-mono text-slate-500">Real-Time Evaluation Safeguard</span>
+</div>
+</div>
+<span class="text-xs font-mono font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded border border-emerald-300">PASSING (HEALTHY)</span>
+</div>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between text-xs font-mono mb-1">
+<span class="text-slate-600">Current Balance</span>
+<span class="text-emerald-700 font-bold">$104,820.00 (+4.82%)</span>
+</div>
+<div class="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden border border-slate-300">
+<div class="h-full bg-gradient-to-r from-amber-500 to-emerald-600 rounded-full" style="width: 40%;"></div>
+</div>
+<div class="flex justify-between text-[10px] font-mono text-slate-500 mt-1">
+<span class="">Start: $100,000</span>
+<span class="text-emerald-700 font-bold">Goal: $112,000 (12%)</span>
+</div>
+</div>
+<div class="p-3.5 rounded-xl bg-white border border-slate-200 space-y-2 shadow-xs">
+<div class="flex items-center justify-between text-xs font-mono">
+<span class="text-slate-500">EOD Drawdown Floor:</span>
+<span class="text-red-600 font-bold">$94,000.00 (6%)</span>
+</div>
+<div class="flex items-center justify-between text-xs font-mono">
+<span class="text-slate-500">Safe Drawdown Buffer:</span>
+<span class="text-emerald-700 font-bold">+$10,820.00 from floor</span>
+</div>
+<div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-emerald-600 rounded-full" style="width: 82%;"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+</body></html>
