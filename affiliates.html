@@ -1,71 +1,590 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth" style="width: 100%; min-height: 100%; overflow-x: hidden; overflow-y: auto;"><head>
+
+<html class="light scroll-smooth" lang="en" style="width: 100%; min-height: 100%; overflow-x: hidden; overflow-y: auto;"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Options Funding WebTrader - Partner &amp; Creator Affiliate Network</title>
+<title>Options Funding // Partner &amp; Creator Network</title>
+<!-- Inter Font -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-bright": "#ffffff",
+            "text-secondary": "#475569",
+            "on-surface-variant": "#334155",
+            "surface-dim": "#f1f5f9",
+            "on-error-container": "#7f1d1d",
+            "surface-container-highest": "#e2e8f0",
+            "inverse-primary": "#059669",
+            "on-primary-container": "#ffffff",
+            "on-primary-fixed": "#064e3b",
+            "primary": "#059669",
+            "primary-fixed-dim": "#10b981",
+            "on-tertiary-fixed": "#0f172a",
+            "text-primary": "#0f172a",
+            "surface-variant": "#f1f5f9",
+            "primary-container": "#059669",
+            "on-secondary": "#ffffff",
+            "surface-base": "#f8fafc",
+            "surface-tint": "#059669",
+            "tertiary-fixed": "#e2e8f0",
+            "surface-panel": "#f8fafc",
+            "secondary": "#0d9488",
+            "surface-container-low": "#f8fafc",
+            "inverse-surface": "#0f172a",
+            "surface-container-high": "#e2e8f0",
+            "on-error": "#ffffff",
+            "primary-fixed": "#d1fae5",
+            "outline-variant": "#cbd5e1",
+            "surface-border": "#e2e8f0",
+            "surface-container": "#ffffff",
+            "on-surface": "#0f172a",
+            "market-down": "#dc2626",
+            "tertiary": "#64748b",
+            "market-warn": "#d97706",
+            "text-muted": "#64748b",
+            "secondary-fixed": "#ccfbf1",
+            "error": "#ef4444",
+            "on-secondary-container": "#134e4a",
+            "surface-container-lowest": "#ffffff",
+            "on-primary-fixed-variant": "#047857",
+            "background": "#f8fafc",
+            "error-container": "#fee2e2",
+            "market-up": "#059669",
+            "on-primary": "#ffffff",
+            "tertiary-fixed-dim": "#94a3b8",
+            "on-tertiary-fixed-variant": "#334155",
+            "on-background": "#0f172a",
+            "on-tertiary-container": "#1e293b",
+            "surface-raised": "#ffffff",
+            "on-tertiary": "#ffffff",
+            "outline": "#94a3b8",
+            "secondary-fixed-dim": "#5eead4",
+            "on-secondary-fixed-variant": "#115e59",
+            "surface-border-subtle": "#f1f5f9",
+            "tertiary-container": "#f1f5f9",
+            "surface": "#ffffff",
+            "on-secondary-fixed": "#042f2e",
+            "secondary-container": "#14b8a6",
+            "inverse-on-surface": "#f8fafc",
+            "regulatory-bg": "#f8fafc"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.375rem",
+            "xl": "0.625rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "gutter": "1rem",
+            "margin-desktop": "2.5rem",
+            "space-md": "1rem",
+            "space-lg": "1.5rem",
+            "gutter-desktop": "1.5rem",
+            "space-2xl": "4rem",
+            "margin": "1rem",
+            "space-xl": "2.5rem",
+            "space-sm": "0.5rem",
+            "space-xs": "0.25rem"
+          },
+          "fontFamily": {
+            "data-tabular": ["Inter"],
+            "label-caps": ["Inter"],
+            "body-md": ["Inter"],
+            "label-lg": ["Inter"],
+            "headline-sm": ["Inter"],
+            "headline-lg-mobile": ["Inter"],
+            "display-lg": ["Inter"],
+            "body-sm": ["Inter"],
+            "legal-disclaimer": ["Inter"],
+            "headline-md": ["Inter"],
+            "headline-lg": ["Inter"],
+            "body-lg": ["Inter"],
+            "label-md": ["Inter"]
+          },
+          "fontSize": {
+            "data-tabular": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+            "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+            "headline-sm": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "600" }],
+            "headline-lg-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+            "legal-disclaimer": ["11px", { "lineHeight": "16px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+  </style>
 </head>
-<body class="bg-white text-slate-900 min-h-screen w-full antialiased flex flex-col font-sans relative overflow-x-hidden">
-<div class="bg-amber-50 border-b border-amber-200/80 py-2.5 px-4 text-center relative z-50">
-<div class="max-w-[1440px] mx-auto flex items-center justify-center gap-2 text-xs md:text-sm text-amber-950">
-<span class="inline-flex items-center gap-1.5 font-bold tracking-wide">
-<span class="text-amber-600 text-base">⚡</span>
-<span class="text-amber-900 font-extrabold">60% OFF ALL ACCOUNTS</span>
-<span class="text-amber-300 hidden sm:inline">|</span>
-<span class="text-amber-800 font-medium hidden sm:inline">Use code:</span>
-<span class="px-2 py-0.5 rounded bg-white text-amber-800 font-mono font-bold border border-amber-300 shadow-xs">OF</span>
-<span class="text-amber-300 hidden md:inline">|</span>
-<span class="text-amber-700 font-semibold tracking-wide">SALE ENDS SUNDAY 11:59PM ET</span>
-</span>
+<body class="bg-surface-base text-text-primary min-h-screen flex flex-col font-body-md antialiased selection:bg-primary-container selection:text-white">
+<!-- TopNavBar (Shared Component Anchor) -->
+<header class="docked full-width top-0 sticky z-50 bg-white/90 backdrop-blur-md border-b border-surface-border shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+<div class="w-full max-w-[1440px] mx-auto px-margin md:px-margin-desktop flex items-center justify-between h-16">
+<!-- Brand Logo & Identity -->
+<div class="flex items-center gap-space-lg">
+<a class="flex items-center gap-2 group" href="#">
+<div class="w-8 h-8 rounded-lg bg-surface-panel border border-surface-border flex items-center justify-center text-primary group-hover:border-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="candlestick_chart">candlestick_chart</span>
 </div>
-</div>
-<header class="sticky top-0 z-40 backdrop-blur-xl bg-white/95 border-b border-slate-200 shadow-xs">
-<div class="flex justify-between items-center w-full px-6 lg:px-12 max-w-[1440px] mx-auto h-20">
-<a class="flex items-center gap-3 group cursor-pointer focus:outline-none" href="options-funding.html">
-<div class="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 to-emerald-600 p-0.5 flex items-center justify-center shadow-sm">
-<div class="w-full h-full bg-white rounded-[10px] flex items-center justify-center">
-<span class="material-symbols-outlined text-[20px] text-amber-600">query_stats</span>
-</div>
-</div>
-<div class="flex flex-col">
-<span class="text-lg md:text-xl font-extrabold tracking-tight text-slate-900 flex items-center gap-1.5">Options <span class="text-amber-600">Funding</span></span>
-<span class="text-[10px] font-mono text-slate-500 -mt-1 tracking-widest uppercase">WebTrader • RixTrade</span>
-</div>
+<span class="text-label-lg font-label-lg uppercase tracking-wider text-text-primary font-bold">
+            Options Funding // WebTrader • RixTrade
+          </span>
 </a>
-<nav class="hidden lg:flex items-center gap-7 h-full whitespace-nowrap">
-<a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full whitespace-nowrap" href="options-funding.html">Founding 50</a>
-<a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full whitespace-nowrap" href="rules.html">Rules</a>
-<a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full whitespace-nowrap" href="account-metrics.html">Account Metrics</a>
-<a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full whitespace-nowrap" href="rixtrade-platform.html">RixTrade Platform</a>
-<a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full whitespace-nowrap" href="faq.html">FAQ</a>
-<a class="text-amber-700 font-bold text-sm border-b-2 border-amber-500 py-1 flex items-center h-full transition-colors whitespace-nowrap" href="affiliates.html">Affiliates</a>
+</div>
+<!-- Navigation Links (Active: Affiliates - Separate Pages) -->
+<nav class="hidden lg:flex items-center gap-6 whitespace-nowrap">
+<a class="text-text-secondary hover:text-text-primary transition-colors text-label-lg font-label-lg font-medium whitespace-nowrap" href="options-funding.html">Founding 50</a>
+<a class="text-text-secondary hover:text-text-primary transition-colors text-label-lg font-label-lg font-medium whitespace-nowrap" href="rules.html">Rules</a>
+<a class="text-text-secondary hover:text-text-primary transition-colors text-label-lg font-label-lg font-medium whitespace-nowrap" href="account-metrics.html">Account Metrics</a>
+<a class="text-text-secondary hover:text-text-primary transition-colors text-label-lg font-label-lg font-medium whitespace-nowrap" href="rixtrade-platform.html">RixTrade Platform</a>
+<a class="text-text-secondary hover:text-text-primary transition-colors text-label-lg font-label-lg font-medium whitespace-nowrap" href="faq.html">FAQ</a>
+<a class="text-primary border-b-2 border-primary pb-1 font-semibold text-label-lg font-label-lg whitespace-nowrap" href="affiliates.html">Affiliates</a>
 </nav>
-<div class="flex items-center gap-4 whitespace-nowrap">
-<a class="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-slate-700 hover:text-slate-900 px-3 py-2 transition-colors" href="#signin">
-<span class="material-symbols-outlined text-[18px] text-slate-500">lock_open</span>
-<span>Sign In</span>
-</a>
-<a class="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl font-bold text-sm bg-amber-500 hover:bg-amber-400 text-slate-950 transition-all shadow-sm" href="options-funding.html#get-funded">
-<span>Get Funded</span>
-<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-</a>
+<!-- Trailing Action Cluster -->
+<div class="flex items-center gap-space-sm md:gap-space-md">
+<div class="hidden sm:flex items-center gap-1 text-text-muted mr-1">
+<button class="w-8 h-8 flex items-center justify-center hover:text-primary transition-colors text-text-secondary" title="Notifications">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center hover:text-primary transition-colors text-text-secondary" title="Help &amp; Support">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+</div>
+<button class="text-label-lg font-label-lg text-text-primary font-medium px-3.5 py-1.5 rounded-lg border border-surface-border bg-white hover:border-primary hover:text-primary transition-colors active:scale-[0.98]">
+          Sign In
+        </button>
+<button class="text-label-lg font-label-lg bg-primary hover:bg-[#047857] active:bg-[#065f46] text-white font-semibold px-4 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 shadow-[0_2px_8px_rgba(5,150,105,0.25)] active:scale-[0.98]">
+          Get Funded →
+        </button>
 </div>
 </div>
 </header>
-<main class="flex-grow">
-<section class="py-16 max-w-[1440px] mx-auto px-6 lg:px-12 space-y-12">
-<div class="p-8 sm:p-12 rounded-2xl bg-slate-50 border border-slate-200">
-<span class="px-3 py-1 rounded-full text-xs font-mono font-bold uppercase bg-emerald-100 text-emerald-800 border border-emerald-300">● OPTIONS FUNDING // PARTNER &amp; CREATOR NETWORK</span>
-<h1 class="text-3xl sm:text-5xl font-black tracking-tight mt-4 max-w-3xl leading-[1.08] text-slate-900">Earn Up to <span class="text-emerald-600">25% Recurring Commission</span> Partnering With the Leading Options Prop Firm</h1>
-<p class="mt-4 max-w-2xl text-base text-slate-600">Empower your community with institutional options liquidity, fair EOD drawdown rules, and 90-day sticky attribution cookies.</p>
-<div class="grid lg:grid-cols-3 gap-6 mt-8">
-<div class="p-6 bg-white rounded-2xl border border-slate-200"><div class="font-extrabold text-lg">Tier 1 (Bronze · 1–20 Referred)</div><div class="text-3xl font-black text-emerald-600 font-mono mt-2">15% Recurring</div></div>
-<div class="p-6 bg-white rounded-2xl border-2 border-emerald-500"><div class="font-extrabold text-lg">Tier 2 (Silver · 21–75 Referred)</div><div class="text-3xl font-black text-emerald-600 font-mono mt-2">20% Recurring</div></div>
-<div class="p-6 bg-white rounded-2xl border border-slate-200"><div class="font-extrabold text-lg">Tier 3 (Institutional · 75+ Referred)</div><div class="text-3xl font-black text-amber-600 font-mono mt-2">25% Recurring</div></div>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full max-w-[1440px] mx-auto px-margin md:px-margin-desktop py-space-xl flex flex-col gap-space-2xl">
+<!-- Hero Section -->
+<section class="relative rounded-xl border border-surface-border bg-white p-space-lg md:p-space-2xl overflow-hidden shadow-sm">
+<!-- Ambient Precision Glow -->
+<div class="absolute -right-20 -top-20 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute left-1/3 -bottom-32 w-80 h-80 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
+<div class="relative z-10 max-w-4xl flex flex-col gap-space-md">
+<!-- Partner Badge -->
+<div class="inline-flex items-center gap-2 self-start px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-primary text-label-caps font-label-caps font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-market-up animate-pulse"></span>
+          OPTIONS FUNDING // PARTNER &amp; CREATOR NETWORK
+        </div>
+<!-- Headline -->
+<h1 class="text-text-primary text-headline-lg-mobile md:text-display-lg font-display-lg tracking-tight font-bold">
+          Earn Up to <span class="text-primary">25% Recurring Commission</span> Partnering With the Leading Options Prop Firm
+        </h1>
+<!-- Subhead -->
+<p class="text-text-secondary text-body-md md:text-body-lg font-body-lg max-w-2xl leading-relaxed">
+          Empower your community with institutional options liquidity, fair EOD drawdown rules, and high conversion rates. Get paid weekly with real-time tracking.
+        </p>
+<!-- CTA Buttons Group -->
+<div class="flex flex-wrap items-center gap-space-md pt-2">
+<a class="h-10 px-6 rounded-lg bg-primary hover:bg-[#047857] active:bg-[#065f46] text-white text-label-lg font-label-lg font-semibold flex items-center justify-center gap-2 shadow-[0_4px_14px_rgba(5,150,105,0.25)] transition-all" href="#partner-matrix">
+<span class="material-symbols-outlined text-[18px]" data-icon="handshake">handshake</span>
+            Become an Affiliate
+          </a>
+<button class="h-10 px-6 rounded-lg bg-surface-panel border border-surface-border hover:border-primary hover:text-primary text-text-primary text-label-lg font-label-lg font-medium flex items-center justify-center gap-2 transition-all">
+<span class="material-symbols-outlined text-[18px]" data-icon="login">login</span>
+            Affiliate Portal Login
+          </button>
+</div>
+<!-- Metric Micro-Strip -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-surface-border mt-2">
+<div>
+<div class="text-text-muted text-label-caps font-label-caps uppercase">Payout Reliability</div>
+<div class="text-text-primary font-data-tabular text-data-tabular font-bold mt-0.5 flex items-center gap-1">
+<span class="material-symbols-outlined text-market-up text-[16px]" data-icon="verified">verified</span>
+              100% On-Time Weekly
+            </div>
+</div>
+<div>
+<div class="text-text-muted text-label-caps font-label-caps uppercase">Global Options Traders</div>
+<div class="text-text-primary font-data-tabular text-data-tabular font-bold mt-0.5">38,400+ Funded</div>
+</div>
+<div>
+<div class="text-text-muted text-label-caps font-label-caps uppercase">Attribution Logic</div>
+<div class="text-text-primary font-data-tabular text-data-tabular font-bold mt-0.5">60-Day Sticky Cookie</div>
+</div>
+<div>
+<div class="text-text-muted text-label-caps font-label-caps uppercase">Proprietary Tech</div>
+<div class="text-primary font-data-tabular text-data-tabular font-bold mt-0.5">RixTrade WebTrader</div>
+</div>
 </div>
 </div>
 </section>
+<!-- Value & Telemetry Bento Section -->
+<section class="flex flex-col gap-space-lg">
+<div class="flex flex-col gap-1">
+<span class="text-primary text-label-caps font-label-caps uppercase tracking-wider font-semibold">Operational Infrastructure</span>
+<h2 class="text-text-primary text-headline-md md:text-headline-lg font-headline-lg font-bold">Commission Matrix &amp; Live Telemetry</h2>
+</div>
+<!-- Grid Matrix -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6" id="partner-matrix">
+<!-- Left: Tier 1, 2, 3 Cards (7 Cols) -->
+<div class="lg:col-span-7 flex flex-col gap-4">
+<div class="text-label-caps font-label-caps text-text-muted uppercase tracking-wider flex items-center justify-between font-semibold">
+<span>Tiered Partnership Program</span>
+<span>Continuous Recurring Revenue</span>
+</div>
+<!-- Tier 1 Card -->
+<div class="p-space-lg rounded-xl bg-white border border-surface-border hover:border-slate-300 hover:shadow-sm transition-all group shadow-sm">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-panel border border-surface-border flex items-center justify-center text-text-secondary group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="shield">shield</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="text-text-primary text-headline-sm font-headline-sm font-semibold">Tier 1 (Bronze)</h3>
+<span class="px-2 py-0.5 rounded bg-slate-100 text-text-secondary text-label-caps font-label-caps border border-slate-200">Starter</span>
+</div>
+<p class="text-text-muted text-body-sm font-body-sm">1 – 20 Active Referred Traders</p>
+</div>
+</div>
+<div class="text-right">
+<span class="text-primary font-data-tabular text-headline-md font-bold">15%</span>
+<span class="block text-text-muted text-label-caps font-label-caps">Recurring</span>
+</div>
+</div>
+<p class="text-text-secondary text-body-md font-body-md mt-4 pl-1 border-l-2 border-slate-300">
+              15% Lifetime Recurring Commission on all initial evaluation account sales, resets, and monthly subscription renewals.
+            </p>
+</div>
+<!-- Tier 2 Card (Highlighted) -->
+<div class="p-space-lg rounded-xl bg-white border-2 border-emerald-500 shadow-sm relative transition-all group">
+<div class="absolute -top-3 right-6 px-2.5 py-0.5 rounded bg-primary text-white text-label-caps font-label-caps font-bold shadow-sm">
+              MOST POPULAR
+            </div>
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="text-text-primary text-headline-sm font-headline-sm font-semibold">Tier 2 (Silver)</h3>
+<span class="px-2 py-0.5 rounded bg-emerald-50 text-primary text-label-caps font-label-caps border border-emerald-200 font-semibold">Growth</span>
+</div>
+<p class="text-text-muted text-body-sm font-body-sm">21 – 75 Active Referred Traders</p>
+</div>
+</div>
+<div class="text-right">
+<span class="text-primary font-data-tabular text-headline-md font-bold">20%</span>
+<span class="block text-text-muted text-label-caps font-label-caps">Recurring</span>
+</div>
+</div>
+<p class="text-text-secondary text-body-md font-body-md mt-4 pl-1 border-l-2 border-primary">
+              20% Lifetime Recurring Commission + custom branded community discount codes (up to 20% off for your followers).
+            </p>
+</div>
+<!-- Tier 3 Card -->
+<div class="p-space-lg rounded-xl bg-white border border-surface-border hover:border-slate-300 hover:shadow-sm transition-all group shadow-sm">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-amber-50 border border-amber-200 flex items-center justify-center text-market-warn">
+<span class="material-symbols-outlined" data-icon="diamond">diamond</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="text-text-primary text-headline-sm font-headline-sm font-semibold">Tier 3 (Institutional Partner)</h3>
+<span class="px-2 py-0.5 rounded bg-amber-50 text-market-warn text-label-caps font-label-caps border border-amber-200 font-semibold">Enterprise</span>
+</div>
+<p class="text-text-muted text-body-sm font-body-sm">75+ Active Referred Traders</p>
+</div>
+</div>
+<div class="text-right">
+<span class="text-primary font-data-tabular text-headline-md font-bold">25%</span>
+<span class="block text-text-muted text-label-caps font-label-caps">Recurring</span>
+</div>
+</div>
+<p class="text-text-secondary text-body-md font-body-md mt-4 pl-1 border-l-2 border-market-warn">
+              25% Lifetime Recurring Commission + dedicated institutional account manager, co-branded landing pages, and sponsored challenge giveaways for your events.
+            </p>
+</div>
+</div>
+<!-- Right: Telemetry Card (5 Cols) -->
+<div class="lg:col-span-5 flex flex-col gap-4">
+<div class="text-label-caps font-label-caps text-text-muted uppercase tracking-wider flex items-center justify-between font-semibold">
+<span>Network Real-Time Telemetry</span>
+<span class="text-market-up flex items-center gap-1 font-semibold">
+<span class="w-2 h-2 rounded-full bg-market-up"></span>
+              Live Feed
+            </span>
+</div>
+<div class="p-space-lg rounded-xl bg-white border border-surface-border flex flex-col justify-between flex-1 gap-6 shadow-sm">
+<div class="flex flex-col gap-5">
+<!-- Metric 1: EPC -->
+<div class="p-4 rounded-lg bg-surface-panel border border-surface-border flex items-center justify-between">
+<div>
+<div class="text-text-muted text-label-caps font-label-caps uppercase font-semibold">Average EPC (Earnings Per Click)</div>
+<div class="text-headline-md font-data-tabular text-text-primary font-bold mt-1">$4.85</div>
+<span class="text-market-up text-body-sm font-body-sm flex items-center gap-1 mt-0.5 font-medium">
+<span class="material-symbols-outlined text-[14px]" data-icon="trending_up">trending_up</span>
+                    Top creators exceed $9.20 EPC
+                  </span>
+</div>
+<div class="w-12 h-12 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+</div>
+</div>
+<!-- Metric 2: Conversion Rate -->
+<div class="p-4 rounded-lg bg-surface-panel border border-surface-border flex items-center justify-between">
+<div>
+<div class="text-text-muted text-label-caps font-label-caps uppercase font-semibold">Aggregate Conversion Rate</div>
+<div class="text-headline-md font-data-tabular text-primary font-bold mt-1">11.2%</div>
+<span class="text-text-secondary text-body-sm font-body-sm mt-0.5">
+                    Industry leading due to proprietary 60% code OF seasonal events
+                  </span>
+</div>
+<div class="w-12 h-12 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="conversion_path">conversion_path</span>
+</div>
+</div>
+<!-- Metric 3: Payout Engine -->
+<div class="p-4 rounded-lg bg-surface-panel border border-surface-border">
+<div class="flex items-center justify-between">
+<span class="text-text-muted text-label-caps font-label-caps uppercase font-semibold">Settlement Protocols</span>
+<span class="px-2 py-0.5 rounded bg-white text-text-primary text-data-tabular text-[11px] font-semibold border border-surface-border">Min. $100</span>
+</div>
+<div class="text-text-primary text-body-md font-label-lg font-semibold mt-2">
+                  Weekly payouts via ACH, Wire, PayPal, or Crypto (USDC/USDT)
+                </div>
+<p class="text-text-muted text-body-sm font-body-sm mt-1">
+                  Disbursed automatically every Tuesday with 0% platform settlement deductions.
+                </p>
+</div>
+<!-- Metric 4: Tracking Window -->
+<div class="p-4 rounded-lg bg-surface-panel border border-surface-border">
+<div class="flex items-center justify-between">
+<span class="text-text-muted text-label-caps font-label-caps uppercase font-semibold">Attribution Engine</span>
+<span class="text-primary font-data-tabular text-label-caps font-label-caps font-bold">Multi-Touch</span>
+</div>
+<div class="text-text-primary text-body-md font-label-lg font-semibold mt-2">
+                  60-day tracking window
+                </div>
+<p class="text-text-muted text-body-sm font-body-sm mt-1">
+                  Configurable first-touch or last-touch attribution options to fit content creators and paid media buyers alike.
+                </p>
+</div>
+</div>
+<!-- Telemetry Footer Note -->
+<div class="flex items-center gap-2 pt-2 text-text-muted text-legal-disclaimer font-legal-disclaimer border-t border-surface-border">
+<span class="material-symbols-outlined text-[16px] text-primary" data-icon="sync">sync</span>
+              Real-time telemetry updated every 60 seconds across all liquidity pools.
+            </div>
+</div>
+</div>
+</div>
+</section>
+<!-- Partner Resources & Asset Library -->
+<section class="flex flex-col gap-space-lg">
+<div class="flex flex-col gap-1">
+<span class="text-primary text-label-caps font-label-caps uppercase tracking-wider font-semibold">Turnkey Growth Kit</span>
+<h2 class="text-text-primary text-headline-md md:text-headline-lg font-headline-lg font-bold">Partner Resources &amp; Asset Library</h2>
+<p class="text-text-secondary text-body-md font-body-md max-w-2xl">
+          We provide ready-to-deploy collateral, dedicated Discord syndicates, and deep analytical tooling so you can focus on educating your traders.
+        </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Asset Card 1 -->
+<div class="rounded-xl bg-white border border-surface-border p-space-lg flex flex-col justify-between hover:border-primary transition-all shadow-sm">
+<div class="flex flex-col gap-4">
+<div class="w-12 h-12 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="photo_library">photo_library</span>
+</div>
+<div>
+<h3 class="text-text-primary text-headline-sm font-headline-sm font-semibold">High-Converting Banners &amp; Videos</h3>
+<p class="text-text-secondary text-body-md font-body-md mt-2">
+                Figma templates, dynamic HTML5 banners, vertical Reels/TikTok format videos highlighting our EOD Drawdown rules and WebTrader capabilities.
+              </p>
+</div>
+</div>
+<div class="pt-6 mt-6 border-t border-surface-border flex items-center justify-between">
+<span class="text-text-muted text-label-caps font-label-caps uppercase font-semibold">140+ Creatives</span>
+<a class="text-primary hover:text-emerald-700 text-label-lg font-label-lg font-semibold flex items-center gap-1 transition-colors" href="#">
+              Browse Kit →
+            </a>
+</div>
+</div>
+<!-- Asset Card 2 -->
+<div class="rounded-xl bg-white border border-surface-border p-space-lg flex flex-col justify-between hover:border-primary transition-all shadow-sm">
+<div class="flex flex-col gap-4">
+<div class="w-12 h-12 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="forum">forum</span>
+</div>
+<div>
+<h3 class="text-text-primary text-headline-sm font-headline-sm font-semibold">Private Partner Discord Channel</h3>
+<p class="text-text-secondary text-body-md font-body-md mt-2">
+                Direct access to Options Funding trading leadership, product engineers, and risk managers. Get advance notice of flash sales and product roadmap releases.
+              </p>
+</div>
+</div>
+<div class="pt-6 mt-6 border-t border-surface-border flex items-center justify-between">
+<span class="text-text-muted text-label-caps font-label-caps uppercase font-semibold">VIP Desk</span>
+<a class="text-primary hover:text-emerald-700 text-label-lg font-label-lg font-semibold flex items-center gap-1 transition-colors" href="#">
+              Join Discord →
+            </a>
+</div>
+</div>
+<!-- Asset Card 3 -->
+<div class="rounded-xl bg-white border border-surface-border p-space-lg flex flex-col justify-between hover:border-primary transition-all shadow-sm">
+<div class="flex flex-col gap-4">
+<div class="w-12 h-12 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="query_stats">query_stats</span>
+</div>
+<div>
+<h3 class="text-text-primary text-headline-sm font-headline-sm font-semibold">Partner Telemetry Dashboard</h3>
+<p class="text-text-secondary text-body-md font-body-md mt-2">
+                Real-time tracking of unique clicks, initial evaluation checkouts, recurring renewal commissions, rebill retention, and scheduled weekly payouts.
+              </p>
+</div>
+</div>
+<div class="pt-6 mt-6 border-t border-surface-border flex items-center justify-between">
+<span class="text-text-muted text-label-caps font-label-caps uppercase font-semibold">Sub-ID Tagging</span>
+<a class="text-primary hover:text-emerald-700 text-label-lg font-label-lg font-semibold flex items-center gap-1 transition-colors" href="#">
+              View Demo UI →
+            </a>
+</div>
+</div>
+</div>
+</section>
+<!-- Affiliate FAQ Section -->
+<section class="flex flex-col gap-space-lg">
+<div class="flex flex-col gap-1">
+<span class="text-primary text-label-caps font-label-caps uppercase tracking-wider font-semibold">Transparency</span>
+<h2 class="text-text-primary text-headline-md md:text-headline-lg font-headline-lg font-bold">Frequently Asked Questions</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Question 1 -->
+<div class="p-space-lg rounded-xl bg-white border border-surface-border flex flex-col gap-3 shadow-sm">
+<div class="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]" data-icon="account_balance_wallet">account_balance_wallet</span>
+</div>
+<h3 class="text-text-primary text-headline-sm font-headline-sm font-semibold">How do payouts work?</h3>
+<p class="text-text-secondary text-body-md font-body-md leading-relaxed">
+            Payouts are calculated every Monday and automatically distributed on Tuesday. We support direct domestic/international Wire, ACH transfers, PayPal, and USDC/USDT on Ethereum or Arbitrum. A minimum threshold of $100 is required for release.
+          </p>
+</div>
+<!-- Question 2 -->
+<div class="p-space-lg rounded-xl bg-white border border-surface-border flex flex-col gap-3 shadow-sm">
+<div class="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]" data-icon="percent">percent</span>
+</div>
+<h3 class="text-text-primary text-headline-sm font-headline-sm font-semibold">Can I offer custom discounts to my community?</h3>
+<p class="text-text-secondary text-body-md font-body-md leading-relaxed">
+            Yes. Once you reach Tier 2 (Silver) or demonstrate an established trading audience, you can configure vanity discount coupons (e.g. YOURNAME20) inside the affiliate console giving your audience 15% to 25% off all evaluations.
+          </p>
+</div>
+<!-- Question 3 -->
+<div class="p-space-lg rounded-xl bg-white border border-surface-border flex flex-col gap-3 shadow-sm">
+<div class="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]" data-icon="campaign">campaign</span>
+</div>
+<h3 class="text-text-primary text-headline-sm font-headline-sm font-semibold">Are paid ads allowed?</h3>
+<p class="text-text-secondary text-body-md font-body-md leading-relaxed">
+            Affiliates are permitted to run paid advertising across Meta, YouTube, X, and native networks. However, bidding on branded keywords (e.g., "Options Funding", "OptionsFunding.com", or trademarked platform variations) is strictly prohibited.
+          </p>
+</div>
+</div>
+</section>
+<!-- Bottom Call to Action Banner -->
+<section class="rounded-xl border border-emerald-200 bg-gradient-to-r from-emerald-50/60 via-white to-emerald-50/40 p-space-lg md:p-space-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
+<div class="relative z-10 max-w-xl">
+<span class="text-primary text-label-caps font-label-caps uppercase tracking-wider font-semibold">Fast Setup • Instant Approval</span>
+<h2 class="text-text-primary text-headline-md md:text-headline-lg font-headline-lg mt-1 font-bold">
+          Ready to partner with Options Funding? Join the Partner Network today.
+        </h2>
+<p class="text-text-secondary text-body-md font-body-md mt-2">
+          Takes under 2 minutes to generate your unique referral tracking link and begin earning lifetime recurring commissions.
+        </p>
+</div>
+<div class="relative z-10 flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
+<button class="w-full sm:w-auto h-11 px-8 rounded-lg bg-primary hover:bg-[#047857] active:bg-[#065f46] text-white text-label-lg font-label-lg font-semibold flex items-center justify-center gap-2 shadow-[0_4px_16px_rgba(5,150,105,0.25)] transition-all">
+<span class="material-symbols-outlined text-[18px]" data-icon="rocket_launch">rocket_launch</span>
+          Join the Partner Network
+        </button>
+<button class="w-full sm:w-auto h-11 px-6 rounded-lg bg-white border border-surface-border hover:border-primary text-text-primary text-label-lg font-label-lg font-medium flex items-center justify-center transition-colors shadow-sm">
+          Contact Partnerships
+        </button>
+</div>
+</section>
 </main>
+<!-- Footer (Shared Component Anchor) -->
+<footer class="docked full-width bottom-0 bg-white border-t border-surface-border">
+<div class="w-full max-w-[1440px] mx-auto px-margin md:px-margin-desktop py-space-xl flex flex-col gap-space-lg">
+<!-- Top Row: Identity & Navigation Links -->
+<div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-6 border-b border-surface-border">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded bg-surface-panel border border-surface-border flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]" data-icon="query_stats">query_stats</span>
+</div>
+<span class="text-label-lg font-label-lg text-text-primary font-bold">
+            Options Funding // WebTrader • RixTrade
+          </span>
+</div>
+<div class="flex flex-wrap items-center gap-x-6 gap-y-2">
+<a class="text-text-muted hover:text-text-primary text-body-sm font-body-sm transition-colors duration-150" href="options-funding.html">Founding 50 Program</a>
+<a class="text-text-muted hover:text-text-primary text-body-sm font-body-sm transition-colors duration-150" href="rules.html">Evaluation Rules</a>
+<a class="text-text-muted hover:text-text-primary text-body-sm font-body-sm transition-colors duration-150" href="account-metrics.html">Account Metrics</a>
+<a class="text-text-muted hover:text-text-primary text-body-sm font-body-sm transition-colors duration-150" href="rixtrade-platform.html">RixTrade Platform</a>
+<a class="text-text-muted hover:text-text-primary text-body-sm font-body-sm transition-colors duration-150" href="#">Terms of Service</a>
+<a class="text-text-muted hover:text-text-primary text-body-sm font-body-sm transition-colors duration-150" href="#">Privacy Policy</a>
+<a class="text-text-muted hover:text-text-primary text-body-sm font-body-sm transition-colors duration-150" href="#">Risk Disclosure</a>
+<a class="text-text-muted hover:text-text-primary text-body-sm font-body-sm transition-colors duration-150" href="#">MiFID II Notice</a>
+</div>
+</div>
+<!-- Regulatory Disclosures (Institutional Compliance Box) -->
+<div class="p-4 rounded-lg bg-surface-panel border border-surface-border text-legal-disclaimer font-legal-disclaimer text-text-muted leading-relaxed flex flex-col gap-2">
+<div class="flex items-center gap-1.5 text-market-warn font-semibold uppercase text-label-caps font-label-caps">
+<span class="material-symbols-outlined text-[15px]" data-icon="warning">warning</span>
+          Institutional Risk &amp; Regulatory Disclosure
+        </div>
+<p>
+          Hypothetical or simulated performance results have certain limitations. Unlike an actual performance record, simulated results do not represent actual trading. Also, since the trades have not actually been executed, the results may have under-or-over compensated for the impact, if any, of certain market factors, such as lack of liquidity. Simulated trading programs in general are also subject to the fact that they are designed with the benefit of hindsight. No representation is being made that any account will or is likely to achieve profits or losses similar to those shown.
+        </p>
+<p>
+          Options Funding and RixTrade provide simulated evaluation accounts to test trader competency. All funded stages utilize proprietary institutional liquidity bridges under European MiFID II risk guidelines. Affiliates do not provide financial advice, broker solicitation, or investment management services.
+        </p>
+</div>
+<!-- Bottom Copyright & Health Line -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-text-muted text-legal-disclaimer font-legal-disclaimer pt-2">
+<div>
+          © 2026 Options Funding. All rights reserved. System Operational 99.98% Uptime.
+        </div>
+<div class="flex items-center gap-4">
+<span class="inline-flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-market-up"></span>
+            Execution Venue: Latency &lt; 1.2ms
+          </span>
+<span>Tier-1 Settlement Protocol</span>
+</div>
+</div>
+</div>
+</footer>
 </body></html>
