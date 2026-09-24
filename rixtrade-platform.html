@@ -151,52 +151,57 @@
 </div>
 </div>
 <main class="w-full">
-<!-- Hero Section -->
-<section class="relative pt-space-xl pb-space-2xl border-b border-surface-border bg-white overflow-hidden">
-<!-- Subtle high-tech light grid lines -->
-<div class="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-60 pointer-events-none"></div>
+<!-- Hero Section with 60fps 1080p HD 3D Equinix Server & Fiber-Optic Background Video -->
+<section id="rixtrade-server-hero" class="relative pt-space-xl pb-space-2xl border-b border-slate-800 bg-[#03090C] overflow-hidden">
+<!-- Pure HTML5 60fps 1080p HD Server & Fiber-Optic Background Video (Zero Whitish Washout, Zero Camera Shake/Zoom) -->
+<video autoplay loop muted playsinline poster="assets/rixtrade-server-poster.jpg" class="absolute inset-0 w-full h-full object-cover pointer-events-none z-0 opacity-95" style="filter: contrast(1.12) saturate(1.2) brightness(1.02);">
+  <source src="assets/rixtrade-server-bg.mp4" type="video/mp4" />
+</video>
+<!-- Subtle Center Vignette so Headline Pops Over the 3D Server Tower While Cables & Mesh Stay 100% HD Clear -->
+<div class="absolute inset-0 pointer-events-none z-[1]" style="background: radial-gradient(ellipse 68% 60% at 50% 42%, rgba(3, 9, 12, 0.58) 0%, rgba(3, 9, 12, 0.22) 65%, rgba(3, 9, 12, 0.10) 100%);"></div>
+
 <div class="max-w-[1440px] mx-auto px-margin md:px-margin-desktop relative z-10 flex flex-col items-center text-center">
 <!-- Hero Badge -->
-<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 font-label-caps uppercase tracking-wider mb-6 shadow-xs">
-<span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-ping"></span>
-        RIXTADE PRO v4.2 // INSTITUTIONAL OPTIONS ENGINE
+<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-950/80 backdrop-blur-md border border-emerald-400/40 text-emerald-300 font-label-caps uppercase tracking-wider mb-6 shadow-lg">
+<span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+        RIXTRADE PRO v4.2 // INSTITUTIONAL OPTIONS ENGINE
       </div>
 <!-- Headline -->
-<h1 class="text-text-primary text-headline-lg-mobile md:text-display-lg font-bold max-w-4xl tracking-tight mb-6">
+<h1 class="text-white text-headline-lg-mobile md:text-display-lg font-extrabold max-w-4xl tracking-tight mb-6" style="text-shadow: 0 4px 28px rgba(0, 0, 0, 0.85);">
         Ultra-Low Latency Options Execution Built For Serious Traders
       </h1>
 <!-- Subhead -->
-<p class="text-text-secondary text-body-lg max-w-3xl mb-8 leading-relaxed">
+<p class="text-slate-200 text-body-lg max-w-3xl mb-8 leading-relaxed" style="text-shadow: 0 2px 14px rgba(0, 0, 0, 0.85);">
         Direct market routing, sub-millisecond execution (0.08ms), real-time Greeks calculation, and automated drawdown safeguards built right into the browser.
       </p>
 <!-- CTA Action Row -->
 <div class="flex flex-wrap items-center justify-center gap-4 mb-12">
-<a class="px-6 py-3 rounded-lg bg-primary hover:bg-primary-hover active:scale-[0.98] transition-all text-white font-semibold text-label-lg flex items-center gap-2 shadow-sm" href="#terminal-launch">
+<a class="px-6 py-3.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 active:scale-[0.98] transition-all text-slate-950 font-bold text-label-lg flex items-center gap-2 shadow-[0_0_24px_rgba(16,185,129,0.4)]" href="#terminal-launch">
 <span class="material-symbols-outlined text-[18px]">launch</span>
           Launch WebTrader
         </a>
-<a class="px-6 py-3 rounded-lg bg-white border border-surface-border text-text-primary hover:bg-slate-50 hover:border-slate-300 active:scale-[0.98] transition-all font-semibold text-label-lg flex items-center gap-2 shadow-xs" href="#benchmarks">
-<span class="material-symbols-outlined text-[18px] text-slate-500">speed</span>
+<a class="px-6 py-3.5 rounded-lg bg-slate-900/80 backdrop-blur-md border border-slate-700 text-white hover:bg-slate-800 hover:border-emerald-400/50 active:scale-[0.98] transition-all font-semibold text-label-lg flex items-center gap-2 shadow-lg" href="#benchmarks">
+<span class="material-symbols-outlined text-[18px] text-emerald-400">speed</span>
           View Latency Audit
         </a>
 </div>
-<!-- Latency Micro Ticker Cluster -->
+<!-- Latency Micro Ticker Cluster (Dark Frosted Glass Over Fiber-Optic Cables) -->
 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-4xl">
-<div class="bg-surface-subtle border border-surface-border p-3.5 rounded-lg text-left shadow-xs">
-<div class="text-text-muted text-label-caps uppercase mb-1">CME GLOBEX ROUTING</div>
-<div class="text-emerald-700 font-data-tabular font-semibold">0.078 ms Direct</div>
+<div class="bg-slate-950/75 backdrop-blur-md border border-emerald-500/30 p-3.5 rounded-lg text-left shadow-xl">
+<div class="text-slate-400 text-label-caps uppercase mb-1">CME GLOBEX ROUTING</div>
+<div class="text-emerald-400 font-data-tabular font-bold">0.078 ms Direct</div>
 </div>
-<div class="bg-surface-subtle border border-surface-border p-3.5 rounded-lg text-left shadow-xs">
-<div class="text-text-muted text-label-caps uppercase mb-1">CBOE BZX / EDGX</div>
-<div class="text-emerald-700 font-data-tabular font-semibold">0.082 ms NY4 Cross</div>
+<div class="bg-slate-950/75 backdrop-blur-md border border-emerald-500/30 p-3.5 rounded-lg text-left shadow-xl">
+<div class="text-slate-400 text-label-caps uppercase mb-1">CBOE BZX / EDGX</div>
+<div class="text-emerald-400 font-data-tabular font-bold">0.082 ms NY4 Cross</div>
 </div>
-<div class="bg-surface-subtle border border-surface-border p-3.5 rounded-lg text-left shadow-xs">
-<div class="text-text-muted text-label-caps uppercase mb-1">TICK-TO-TRADE BUFFER</div>
-<div class="text-emerald-700 font-data-tabular font-semibold">&lt; 12 Microseconds</div>
+<div class="bg-slate-950/75 backdrop-blur-md border border-emerald-500/30 p-3.5 rounded-lg text-left shadow-xl">
+<div class="text-slate-400 text-label-caps uppercase mb-1">TICK-TO-TRADE BUFFER</div>
+<div class="text-emerald-400 font-data-tabular font-bold">&lt; 12 Microseconds</div>
 </div>
-<div class="bg-surface-subtle border border-surface-border p-3.5 rounded-lg text-left shadow-xs">
-<div class="text-text-muted text-label-caps uppercase mb-1">GREEKS RECALC FREQ</div>
-<div class="text-emerald-700 font-data-tabular font-semibold">Sub-tick / 120Hz</div>
+<div class="bg-slate-950/75 backdrop-blur-md border border-emerald-500/30 p-3.5 rounded-lg text-left shadow-xl">
+<div class="text-slate-400 text-label-caps uppercase mb-1">GREEKS RECALC FREQ</div>
+<div class="text-emerald-400 font-data-tabular font-bold">Sub-tick / 120Hz</div>
 </div>
 </div>
 </div>

@@ -242,7 +242,7 @@
     );
 
     revealTargets.forEach((el, idx) => {
-      if (el.closest('#founding-50-hero')) return;
+      if (el.closest('#founding-50-hero') || el.closest('#rixtrade-server-hero')) return;
       el.classList.add('rix-reveal', 'rix-card-lift');
       el.style.transitionDelay = `${(idx % 4) * 65}ms`;
       observer.observe(el);
