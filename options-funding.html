@@ -50,43 +50,136 @@
     }
 </script>
 <style>
-  /* 3D ANIMATION MOTION STYLE FOR THE HERO BACKGROUND & TERMINAL */
-  @keyframes heroBg3DFloat {
+  /* ==========================================================================
+     3D HOLOGRAPHIC MOTION GRAPHICS ENGINE (WORLD MAP + CANDLESTICKS + CALLOUTS)
+     ========================================================================== */
+  @keyframes bgPerspectiveDrift {
     0%, 100% {
-      transform: perspective(1400px) rotateX(14deg) rotateY(-10deg) scale(1.08) translate3d(0, 0px, 0);
+      transform: perspective(1350px) rotateX(10deg) rotateY(-8deg) scale(1.07) translate3d(0px, 0px, 0px);
     }
     50% {
-      transform: perspective(1400px) rotateX(7deg) rotateY(-3deg) scale(1.13) translate3d(0, -16px, 20px);
+      transform: perspective(1350px) rotateX(4deg) rotateY(-2deg) scale(1.12) translate3d(-12px, -14px, 24px);
     }
   }
 
-  @keyframes terminal3DTilt {
+  @keyframes crossfadeFrame1 {
+    0%, 22% { opacity: 1; }
+    28%, 92% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  @keyframes crossfadeFrame2 {
+    0%, 20% { opacity: 0; }
+    26%, 47% { opacity: 1; }
+    53%, 100% { opacity: 0; }
+  }
+  @keyframes crossfadeFrame3 {
+    0%, 45% { opacity: 0; }
+    51%, 72% { opacity: 1; }
+    78%, 100% { opacity: 0; }
+  }
+  @keyframes crossfadeFrame4 {
+    0%, 70% { opacity: 0; }
+    76%, 95% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  @keyframes calloutFloat {
+    0%, 100% { transform: translate3d(0, 0px, 0) scale(1); }
+    50% { transform: translate3d(6px, -10px, 18px) scale(1.03); }
+  }
+
+  @keyframes monitor3DTilt {
     0%, 100% {
-      transform: perspective(1200px) rotateY(-6deg) rotateX(3deg) translateY(0px);
-      box-shadow: -20px 28px 60px -12px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(245, 158, 11, 0.4);
+      transform: perspective(1250px) rotateY(-7deg) rotateX(2.5deg) translateY(0px);
+      box-shadow: -22px 30px 65px -12px rgba(15, 23, 42, 0.28), 0 0 0 3px #F59E0B;
     }
     50% {
-      transform: perspective(1200px) rotateY(-1.5deg) rotateX(1deg) translateY(-10px);
-      box-shadow: -12px 36px 75px -10px rgba(5, 150, 105, 0.22), 0 0 0 1.5px rgba(245, 158, 11, 0.65);
+      transform: perspective(1250px) rotateY(-2.5deg) rotateX(1deg) translateY(-9px);
+      box-shadow: -14px 38px 78px -10px rgba(5, 150, 105, 0.25), 0 0 0 3px #FBBF24;
     }
   }
 
-  .hero-3d-motion-bg {
+  .motion-stage-3d {
     position: absolute;
-    inset: -8%;
-    width: 116%;
-    height: 116%;
-    object-fit: cover;
-    opacity: 0.18;
-    filter: saturate(1.35) contrast(1.12);
-    animation: heroBg3DFloat 10s ease-in-out infinite;
+    inset: -6%;
+    width: 112%;
+    height: 112%;
     pointer-events: none;
+    animation: bgPerspectiveDrift 12s ease-in-out infinite;
+    transform-style: preserve-3d;
     z-index: 0;
   }
 
-  .terminal-3d-card {
-    animation: terminal3DTilt 7s ease-in-out infinite;
-    transform-style: preserve-3d;
+  .motion-keyframe-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    mix-blend-mode: multiply;
+    filter: contrast(1.12) saturate(1.25);
+  }
+  .frame-1 { animation: crossfadeFrame1 14s ease-in-out infinite; }
+  .frame-2 { animation: crossfadeFrame2 14s ease-in-out infinite; }
+  .frame-3 { animation: crossfadeFrame3 14s ease-in-out infinite; }
+  .frame-4 { animation: crossfadeFrame4 14s ease-in-out infinite; }
+
+  /* Dark Hologram Mode overrides */
+  body.hologram-dark #founding-50 {
+    background-color: #030914 !important;
+    color: #F8FAFC !important;
+  }
+  body.hologram-dark #founding-50 h1,
+  body.hologram-dark #founding-50 p {
+    color: #F8FAFC !important;
+  }
+  body.hologram-dark .hero-light-veil {
+    background: linear-gradient(90deg, rgba(3, 9, 20, 0.82) 0%, rgba(3, 9, 20, 0.58) 50%, rgba(3, 9, 20, 0.72) 100%) !important;
+  }
+  body.hologram-dark .motion-keyframe-img {
+    mix-blend-mode: screen !important;
+    opacity: 0.48 !important;
+  }
+  body.hologram-dark .equity-bg-watermark {
+    opacity: 0.22 !important;
+    mix-blend-mode: screen !important;
+  }
+
+  .hologram-callout {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 10px;
+    background: rgba(15, 23, 42, 0.82);
+    border: 1px solid rgba(56, 189, 248, 0.45);
+    color: #F8FAFC;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: 0 12px 30px rgba(2, 132, 199, 0.22);
+    backdrop-filter: blur(8px);
+    animation: calloutFloat 6s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .hologram-callout::after {
+    content: attr(data-echo);
+    position: absolute;
+    left: 12px;
+    bottom: -14px;
+    font-size: 11px;
+    color: rgba(56, 189, 248, 0.28);
+    letter-spacing: 0.02em;
+    pointer-events: none;
+  }
+
+  .gold-monitor-frame {
+    animation: monitor3DTilt 7.5s ease-in-out infinite;
+    border-radius: 18px;
+    background: #0B101B;
+    overflow: hidden;
   }
 </style>
 </head>
@@ -129,19 +222,23 @@
 <a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full" href="#metrics">Account Metrics</a>
 <a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full" href="#terminal">RixTrade Platform</a>
 <a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full" href="#faq">FAQ</a>
-<a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full" href="#affiliates">Affiliates</a>
+<a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full" href="#get-funded">Affiliates</a>
 </nav>
 <!-- Header Actions -->
-<div class="flex items-center gap-3">
+<div class="flex items-center gap-2.5">
+<button onclick="toggleHologramMode()" id="holoBtn" class="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-sky-900 bg-sky-50 hover:bg-sky-100 border border-sky-200 px-3 py-2 rounded-xl transition-colors" title="Switch Light Composite vs Dark 3D Hologram Motion Graphics">
+<span class="material-symbols-outlined text-[16px] text-sky-600">3d_rotation</span>
+<span id="holoBtnLabel">🌌 Dark 3D Hologram</span>
+</button>
 <button onclick="toggleFullScreen()" class="hidden md:inline-flex items-center gap-1.5 text-xs font-mono font-bold text-slate-700 hover:text-amber-700 bg-slate-100 hover:bg-amber-50 border border-slate-200 px-3 py-2 rounded-xl transition-colors" title="Toggle Full Screen (F11)">
 <span class="material-symbols-outlined text-[16px]">fullscreen</span>
 <span>Full Screen</span>
 </button>
-<a class="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-slate-700 hover:text-slate-900 px-3 py-2 transition-colors" href="#signin" onclick="showStitchToast('RixTrade SSO Login Ready')">
+<a class="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-slate-700 hover:text-slate-900 px-2.5 py-2 transition-colors" href="#signin" onclick="showStitchToast('RixTrade SSO Login Ready')">
 <span class="material-symbols-outlined text-[18px] text-slate-500">lock_open</span>
 <span class="">Sign In</span>
 </a>
-<a class="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl font-bold text-sm bg-amber-500 hover:bg-amber-400 text-slate-950 transition-all duration-150 shadow-sm hover:shadow-md hover:scale-[1.02] active:scale-95" href="#metrics">
+<a class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm bg-amber-500 hover:bg-amber-400 text-slate-950 transition-all duration-150 shadow-sm hover:shadow-md hover:scale-[1.02] active:scale-95" href="#metrics">
 <span class="">Get Funded</span>
 <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
 </a>
@@ -149,26 +246,62 @@
 </div>
 </header>
 <main class="flex-grow">
-<!-- Hero Section (With 3D Animated Candlestick & Equity Curve Background Motion) -->
-<section id="founding-50" class="relative pt-14 pb-20 md:pt-20 md:pb-28 overflow-hidden bg-white border-b border-slate-200">
-<!-- 3D Motion Candlestick & Equity Curve Background Video + Image Fallback -->
-<video autoplay loop muted playsinline poster="assets/equity-curve-3d.jpg" class="hero-3d-motion-bg">
-  <source src="assets/equity-curve-3d.mp4" type="video/mp4" />
-</video>
-<!-- Soft Light-Mode Glass Gradient Veil so Typography stays 100% Crisp -->
-<div class="absolute inset-0 bg-gradient-to-r from-white/95 via-white/85 to-white/70 pointer-events-none z-[1]"></div>
-<!-- Ambient Background Subtle Warm Glow -->
-<div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-amber-100/60 via-emerald-50/40 to-transparent blur-3xl pointer-events-none z-[1]"></div>
+<!-- ========================================================================= -->
+<!-- HERO SECTION WITH MULTI-LAYER 3D MOTION GRAPHICS BACKGROUND               -->
+<!-- (Combines Uploaded Frames 1-4 + 60FPS 3D World Map/Candlestick Canvas     -->
+<!--  + Floating Holographic Callouts + Image 5 Equity Curve Watermark)        -->
+<!-- ========================================================================= -->
+<section id="founding-50" class="relative pt-14 pb-20 md:pt-20 md:pb-28 overflow-hidden bg-white border-b border-slate-200 transition-colors duration-300">
+
+  <!-- LAYER 1: 3D Perspective Motion Stage (Uploaded Motion Frames 1-4 + Equity Curve Watermark) -->
+  <div class="motion-stage-3d">
+    <img src="assets/equity-curve-3d.jpg" alt="" class="equity-bg-watermark absolute inset-0 w-full h-full object-cover opacity-[0.16] mix-blend-multiply" />
+    <img src="assets/motion-1.png" alt="" class="motion-keyframe-img frame-1 opacity-[0.20]" />
+    <img src="assets/motion-2.png" alt="" class="motion-keyframe-img frame-2 opacity-[0.20]" />
+    <img src="assets/motion-3.png" alt="" class="motion-keyframe-img frame-3 opacity-[0.20]" />
+    <img src="assets/motion-4.png" alt="" class="motion-keyframe-img frame-4 opacity-[0.20]" />
+  </div>
+
+  <!-- LAYER 2: Live 60FPS HTML5 Canvas (Dotted World Map + Glowing Blue/Gold 3D Candlesticks + Trend Curve + Volume Bars) -->
+  <canvas id="hologramMotionCanvas" class="absolute inset-0 w-full h-full pointer-events-none z-[1]"></canvas>
+
+  <!-- LAYER 3: Soft Light-Mode Glass Veil (Matches Image 5 media_1790218662841.png so text is 100% crisp) -->
+  <div class="hero-light-veil absolute inset-0 bg-gradient-to-r from-white/90 via-white/78 to-white/62 pointer-events-none z-[1] transition-all duration-300"></div>
+
+  <!-- LAYER 4: Floating 3D Holographic Callout Badges (From Uploaded Screenshots 1-4) -->
+  <div class="hidden xl:block pointer-events-none">
+    <div class="hologram-callout" data-echo="Real-Time Alerts" style="top: 13%; left: 39%; animation-delay: 0s;">
+      <span class="text-sky-400">🔔</span>
+      <span>Real-Time Alerts</span>
+      <span class="text-[10px] font-mono text-emerald-400 ml-1">▼ 21.45</span>
+    </div>
+    <div class="hologram-callout" data-echo="Personalized Charts" style="top: 9%; right: 26%; animation-delay: 1.4s;">
+      <span class="text-sky-400">📊</span>
+      <span>Personalized Charts</span>
+      <span class="text-[10px] font-mono text-amber-300 ml-1">▼ 19.34</span>
+    </div>
+    <div class="hologram-callout" data-echo="Advanced Portfolio" style="bottom: 15%; left: 42%; animation-delay: 2.6s;">
+      <span class="text-emerald-400">💼</span>
+      <span>Advanced Portfolio</span>
+      <span class="text-[10px] font-mono text-emerald-400 ml-1">▲ 26.42</span>
+    </div>
+    <div class="hologram-callout" data-echo="Fully-Synced App" style="bottom: 8%; right: 12%; animation-delay: 3.8s;">
+      <span class="text-sky-400">📱</span>
+      <span>Fully-Synced App</span>
+      <span class="text-[10px] font-mono text-emerald-400 ml-1">▲ 25.71</span>
+    </div>
+  </div>
+
 <div class="max-w-[1440px] mx-auto px-6 lg:px-12 relative z-10">
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
 <!-- Hero Copy -->
 <div class="lg:col-span-6 flex flex-col gap-6">
-<div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-50 border border-amber-300 text-amber-800 font-mono text-xs font-bold w-fit tracking-wider shadow-xs">
+<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-50/95 border border-amber-300 text-amber-800 font-mono text-xs font-bold w-fit tracking-wider shadow-xs">
 <span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
             OPTIONS FUNDING // RIXTRADE ENGINE
           </div>
-<h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.1]">
-            $100,000 Funded <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 via-amber-500 to-emerald-600">Options Account</span>
+<h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.08]">
+            $100,000 Funded <br class="hidden sm:inline" /><span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 via-amber-500 to-emerald-600">Options Account</span>
 </h1>
 <p class="text-slate-600 text-base sm:text-lg leading-relaxed max-w-xl font-normal">
             Trade SPY, QQQ, and single-stock options with institutional execution speed. Hit your profit target and receive real cash payouts.
@@ -185,58 +318,59 @@
 </a>
 </div>
 <!-- Execution Stats Badges -->
-<div class="pt-6 border-t border-slate-200 flex flex-wrap items-center gap-3 sm:gap-6">
-<div class="flex items-center gap-2 bg-white/90 border border-slate-200 px-3.5 py-2 rounded-lg shadow-xs">
+<div class="pt-6 border-t border-slate-200/80 flex flex-wrap items-center gap-3 sm:gap-4">
+<div class="flex items-center gap-2 bg-white/95 border border-slate-200 px-3.5 py-2 rounded-lg shadow-xs">
 <span class="material-symbols-outlined text-emerald-600 text-[18px]">verified</span>
 <span class="text-xs font-semibold text-slate-800">Zero Setup Fee Today</span>
 </div>
-<div class="flex items-center gap-2 bg-white/90 border border-slate-200 px-3.5 py-2 rounded-lg shadow-xs">
+<div class="flex items-center gap-2 bg-white/95 border border-slate-200 px-3.5 py-2 rounded-lg shadow-xs">
 <span class="material-symbols-outlined text-amber-700 text-[18px]">speed</span>
 <span class="text-xs font-semibold text-slate-800">Direct RixTrade Bridge</span>
 </div>
-<div class="flex items-center gap-2 bg-white/90 border border-slate-200 px-3.5 py-2 rounded-lg shadow-xs">
+<div class="flex items-center gap-2 bg-white/95 border border-slate-200 px-3.5 py-2 rounded-lg shadow-xs">
 <span class="material-symbols-outlined text-emerald-600 text-[18px]">currency_exchange</span>
 <span class="text-xs font-semibold text-slate-800">Fast ACH &amp; Crypto Payouts</span>
 </div>
 </div>
 </div>
-<!-- Hero Terminal Graphic / Preview (With 3D Animated Candlestick & Equity Curve Video + Original HUD) -->
+
+<!-- Right Column: Exact Gold-Bordered 3D Monitor Card from Image 5 (media_1790218662841.png) -->
 <div class="lg:col-span-6 relative">
-<div class="terminal-3d-card relative rounded-2xl p-1 bg-gradient-to-b from-amber-400 via-amber-200 to-slate-200 shadow-2xl border border-amber-300/80">
-<div class="bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 relative">
-<!-- Terminal 3D Video + Image Showcase -->
-<div class="relative bg-slate-950 p-2">
-<video autoplay loop muted playsinline poster="assets/equity-curve-3d.jpg" class="w-full h-[310px] sm:h-[350px] rounded-lg object-cover border border-slate-800">
+<div class="gold-monitor-frame relative">
+<div class="bg-slate-950 relative">
+<!-- Live 3D Video + Active Trading Equity Curve (2022-2023) Display -->
+<div class="relative bg-[#080D1A] p-2.5">
+<video autoplay loop muted playsinline poster="assets/equity-curve-3d.jpg" class="w-full h-[315px] sm:h-[355px] rounded-lg object-cover border border-slate-800">
   <source src="assets/equity-curve-3d.mp4" type="video/mp4" />
-  <img alt="Options Funding $100,000 account options analytics trading terminal" class="w-full h-auto rounded-lg object-cover border border-slate-800" src="assets/equity-curve-3d.jpg"/>
+  <img alt="Active Trading Equity Curve (2022-2023)" class="w-full h-auto rounded-lg object-cover" src="assets/equity-curve-3d.jpg"/>
 </video>
-<!-- Interactive Floating HUD Widget Overlay -->
-<div class="absolute bottom-4 left-4 right-4 bg-slate-900/95 backdrop-blur-md border border-amber-400/50 rounded-xl p-3 shadow-2xl flex items-center justify-between gap-2">
+<!-- Interactive Floating HUD Widget Overlay (Exact Match to Image 5) -->
+<div class="absolute bottom-4 left-4 right-4 bg-[#0D1322]/95 backdrop-blur-md border border-amber-400/50 rounded-xl p-3.5 shadow-2xl flex flex-wrap items-center justify-between gap-2">
 <div class="flex items-center gap-3">
 <div class="w-10 h-10 rounded-lg bg-amber-500/15 border border-amber-400/40 flex items-center justify-center text-amber-400">
 <span class="material-symbols-outlined text-[22px]">payments</span>
 </div>
 <div>
-<div class="text-xs font-bold text-white flex items-center gap-1.5">
-<span class="">SPY 585 CALL</span>
-<span class="text-[10px] px-1.5 rounded bg-emerald-500/20 text-emerald-400 font-mono font-bold">DELTA 0.54</span>
+<div class="text-xs font-bold text-white flex items-center gap-2">
+<span class="font-mono tracking-wide">SPY 585 CALL</span>
+<span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono font-bold border border-emerald-500/30">DELTA 0.54</span>
 </div>
 <span class="text-[11px] font-mono text-slate-300">Ask: $2.45 | Bid: $2.43 | IV: 14.8%</span>
 </div>
 </div>
 <div class="flex items-center gap-2">
-<button onclick="showStitchToast('⚡ 1-CLICK BUY EXECUTED: 10x SPY 585 CALL @ $2.45')" class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-mono font-bold text-xs shadow-md transition active:scale-95">
+<button onclick="showStitchToast('⚡ 1-CLICK BUY EXECUTED: 10x SPY 585 CALL @ $2.45')" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-mono font-bold text-xs shadow-md transition active:scale-95">
                       1-CLICK BUY
                     </button>
-<a href="#terminal" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-mono border border-slate-700">
+<a href="#terminal" class="px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-mono border border-slate-700">
                       DETAILS
                     </a>
 </div>
 </div>
 </div>
 <!-- Terminal Footnote -->
-<div class="px-4 py-2 bg-slate-900 border-t border-slate-800 flex items-center justify-between text-[11px] font-mono text-slate-400">
-<span class="flex items-center gap-1.5 text-emerald-400">
+<div class="px-5 py-3 bg-[#090E1A] border-t border-slate-800/90 flex items-center justify-between text-[11px] font-mono text-slate-400">
+<span class="flex items-center gap-2 text-emerald-400 font-semibold">
 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                   RixTrade Engine Connected
                 </span>
@@ -699,7 +833,7 @@
 </div>
 </footer>
 
-<!-- Interactive Toast Notification for Demo Clicks -->
+<!-- Interactive Toast Notification -->
 <div id="stitchToast" class="fixed bottom-6 right-6 z-50 bg-slate-900 text-white border border-amber-400/60 px-4 py-3 rounded-xl shadow-2xl font-mono text-xs transition-all duration-300 translate-y-24 opacity-0 pointer-events-none">
   Action Executed
 </div>
@@ -714,6 +848,15 @@
     }
   }
 
+  function toggleHologramMode() {
+    document.body.classList.toggle('hologram-dark');
+    const isDark = document.body.classList.contains('hologram-dark');
+    document.getElementById('holoBtnLabel').textContent = isDark
+      ? '☀️ Light Hero Mode'
+      : '🌌 Dark 3D Hologram';
+    showStitchToast(isDark ? '🌌 Dark 3D Hologram Motion Background Active' : '☀️ Crisp Light Composite Background Active');
+  }
+
   function showStitchToast(msg) {
     const t = document.getElementById('stitchToast');
     if (!t) return;
@@ -724,6 +867,130 @@
       t.classList.add('translate-y-24', 'opacity-0');
     }, 3200);
   }
+
+  // ============================================================================
+  // 60FPS 3D HOLOGRAPHIC WORLD MAP + CANDLESTICKS + VOLUME BARS + TREND CURVE
+  // (Replicates the exact motion graphics from uploaded screenshots 1-4)
+  // ============================================================================
+  (function initHologramMotionCanvas() {
+    const canvas = document.getElementById('hologramMotionCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let w = 0, h = 0, tick = 0;
+
+    function resize() {
+      const rect = canvas.parentElement.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = rect.width;
+      h = rect.height;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    // Pre-generate 3D candlestick series matching the rising trajectory in screenshots 1-4
+    const numCandles = 38;
+    const baseSeries = [];
+    let curY = 0.72;
+    for (let i = 0; i < numCandles; i++) {
+      const drift = (i > 12 ? -0.018 : 0.006) + Math.sin(i * 0.55) * 0.032;
+      const open = curY;
+      const close = Math.max(0.14, Math.min(0.84, open + drift));
+      const high = Math.min(open, close) - (0.025 + (i % 3) * 0.012);
+      const low = Math.max(open, close) + (0.025 + ((i + 1) % 3) * 0.012);
+      const vol = 0.12 + ((Math.sin(i * 0.8) + 1) * 0.11);
+      baseSeries.push({ open, close, high, low, vol });
+      curY = close;
+    }
+
+    function renderFrame() {
+      tick += 0.022;
+      ctx.clearRect(0, 0, w, h);
+      const isDark = document.body.classList.contains('hologram-dark');
+
+      // 1. Dotted World Map Matrix Grid (3D Holographic Continent Dots)
+      const dotSpacingX = 24;
+      const dotSpacingY = 18;
+      ctx.fillStyle = isDark ? 'rgba(14, 165, 233, 0.22)' : 'rgba(2, 132, 199, 0.09)';
+      for (let gx = 0; gx < w; gx += dotSpacingX) {
+        for (let gy = 0; gy < h; gy += dotSpacingY) {
+          const nx = gx / w, ny = gy / h;
+          // Continent silhouette clusters
+          const inCluster =
+            (nx > 0.08 && nx < 0.32 && ny > 0.18 && ny < 0.68) ||
+            (nx > 0.42 && nx < 0.88 && ny > 0.14 && ny < 0.72);
+          if (inCluster && ((gx + gy) % 3 !== 0)) {
+            ctx.beginPath();
+            ctx.arc(gx + Math.sin(tick + ny * 4) * 2, gy, 1.6, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+      }
+
+      // 2. Bottom 3D Silver/White Volume Histogram Bars (From Screenshots 1-4)
+      const step = w / (numCandles + 2);
+      for (let i = 0; i < numCandles; i++) {
+        const x = (i + 1) * step;
+        const pulse = Math.sin(tick * 1.8 + i * 0.35) * 0.035;
+        const barH = (baseSeries[i].vol + pulse) * h * 0.55;
+        const grad = ctx.createLinearGradient(0, h - barH, 0, h);
+        if (isDark) {
+          grad.addColorStop(0, 'rgba(226, 232, 240, 0.48)');
+          grad.addColorStop(1, 'rgba(148, 163, 184, 0.06)');
+        } else {
+          grad.addColorStop(0, 'rgba(100, 116, 139, 0.16)');
+          grad.addColorStop(1, 'rgba(148, 163, 184, 0.02)');
+        }
+        ctx.fillStyle = grad;
+        ctx.fillRect(x - 6, h - barH, 12, barH);
+      }
+
+      // 3. Sweeping Glowing Cyan/Blue Trendline Curve
+      ctx.save();
+      ctx.beginPath();
+      for (let i = 0; i < numCandles; i++) {
+        const x = (i + 1) * step;
+        const wave = Math.sin(tick * 1.5 + i * 0.25) * 8;
+        const y = ((baseSeries[i].open + baseSeries[i].close) * 0.5) * h + wave + 22;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.strokeStyle = isDark ? 'rgba(56, 189, 248, 0.85)' : 'rgba(2, 132, 199, 0.32)';
+      ctx.lineWidth = isDark ? 5.5 : 4;
+      ctx.shadowColor = '#0EA5E9';
+      ctx.shadowBlur = isDark ? 22 : 10;
+      ctx.stroke();
+      ctx.restore();
+
+      // 4. Glowing 3D Blue/Cyan Candlesticks & Wicks
+      for (let i = 0; i < numCandles; i++) {
+        const x = (i + 1) * step;
+        const wave = Math.sin(tick * 1.5 + i * 0.25) * 8;
+        const openY = baseSeries[i].open * h + wave;
+        const closeY = baseSeries[i].close * h + wave;
+        const highY = baseSeries[i].high * h + wave;
+        const lowY = baseSeries[i].low * h + wave;
+
+        ctx.strokeStyle = isDark ? 'rgba(56, 189, 248, 0.75)' : 'rgba(2, 132, 199, 0.28)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(x, highY);
+        ctx.lineTo(x, lowY);
+        ctx.stroke();
+
+        const top = Math.min(openY, closeY);
+        const bodyH = Math.max(6, Math.abs(closeY - openY));
+        ctx.fillStyle = isDark ? 'rgba(14, 165, 233, 0.88)' : 'rgba(2, 132, 199, 0.26)';
+        ctx.fillRect(x - 4.5, top, 9, bodyH);
+      }
+
+      requestAnimationFrame(renderFrame);
+    }
+
+    requestAnimationFrame(renderFrame);
+  })();
 </script>
 </body>
 </html>
