@@ -193,45 +193,129 @@
 </div>
 <!-- Hero Terminal Graphic / Preview -->
 <div class="lg:col-span-6 relative">
-<div class="relative rounded-2xl p-1 bg-gradient-to-b from-amber-300 via-slate-200 to-slate-200 shadow-xl border border-slate-200/80">
-<div class="bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 relative">
-<!-- Terminal Screenshot Showcase -->
-<div class="relative bg-slate-950 p-2">
-<img alt="Options Funding $100,000 account options analytics trading terminal" class="w-full h-auto rounded-lg object-cover border border-slate-800" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-jaGKr9yhLX32X1azQ65LX_OhoHTBEb7JBFZDaopf0g0y-qKtSx4OXBM18ogdQ05KCL5fv1yDBTaMIChVP4ytEHk6Lrvb7IXubK9GmuNj8WHwoi5uyNoDGMsQicyoDvhGF-WfbFyJQ6Hw3aoHJvhwVqbKyYaVtTLnkr7-CdLddIyUZtsoRgrcI4sqQhuvhjaj4QJAfTObTKdESVkNBX1ggW9x1sBAEKzXZmxFvPA6qtZ-MECYBbLf5w"/>
-<!-- Interactive Floating HUD Widget Overlay -->
-<div class="absolute bottom-4 left-4 right-4 bg-slate-900/95 backdrop-blur-md border border-amber-400/50 rounded-xl p-3 shadow-2xl flex items-center justify-between gap-2">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-lg bg-amber-500/15 border border-amber-400/40 flex items-center justify-center text-amber-400">
-<span class="material-symbols-outlined text-[22px]">payments</span>
-</div>
-<div>
-<div class="text-xs font-bold text-white flex items-center gap-1.5">
-<span class="">SPY 585 CALL</span>
-<span class="text-[10px] px-1.5 rounded bg-emerald-500/20 text-emerald-400 font-mono font-bold">DELTA 0.54</span>
-</div>
-<span class="text-[11px] font-mono text-slate-300">Ask: $2.45 | Bid: $2.43 | IV: 14.8%</span>
-</div>
-</div>
-<div class="flex items-center gap-2">
-<button class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-mono font-bold text-xs shadow-md">
-                      1-CLICK BUY
-                    </button>
-<button class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-mono border border-slate-700">
-                      DETAILS
-                    </button>
-</div>
-</div>
-</div>
-<!-- Terminal Footnote -->
-<div class="px-4 py-2 bg-slate-900 border-t border-slate-800 flex items-center justify-between text-[11px] font-mono text-slate-400">
-<span class="flex items-center gap-1.5 text-emerald-400">
-<span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                  RixTrade Engine Connected
-                </span>
-<span class="text-slate-400">Max Position: 20 SPY / 15 QQQ Contracts</span>
-</div>
-</div>
-</div>
+  <!-- TradingView / Linear Style Frameless Obsidian Workstation Window (No Fake Stock-Photo Laptop) -->
+  <div class="relative rounded-xl p-[1px] bg-gradient-to-b from-white/25 via-emerald-500/30 to-slate-800/80 shadow-[0_32px_80px_-16px_rgba(0,0,0,0.85)]">
+    <div class="bg-[#0B0E14] rounded-xl overflow-hidden border border-white/10 relative">
+      <!-- Workstation Top Bar -->
+      <div class="px-3.5 py-2.5 bg-[#131722] border-b border-[#2A2E39] flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="flex items-center gap-1.5">
+            <span class="w-2.5 h-2.5 rounded-full bg-[#F23645]"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-[#F59E0B]"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-[#089981]"></span>
+          </div>
+          <span class="text-[11px] font-mono font-bold text-slate-200 tracking-tight flex items-center gap-1.5 ml-1">
+            <span class="px-1.5 py-0.5 rounded bg-[#089981]/20 text-[#089981] border border-[#089981]/40">OPRA L2</span>
+            AMEX:SPY • 1m • RixTrade Superchart
+          </span>
+        </div>
+        <div class="flex items-center gap-2 text-[11px] font-mono">
+          <span class="text-[#089981] font-bold">585.42 +1.24%</span>
+          <span class="text-slate-600">|</span>
+          <span class="text-amber-400 font-bold">Acct: $104,820.00</span>
+        </div>
+      </div>
+
+      <!-- Live Interactive TradingView Superchart + Mini Option Chain Split -->
+      <div class="grid grid-cols-12 bg-[#0B0E14] h-[310px] divide-x divide-[#2A2E39]">
+        <!-- Left 8 Cols: Real Live Interactive TradingView SPY Candlestick Chart -->
+        <div class="col-span-12 sm:col-span-8 h-full relative bg-[#0B0E14]" id="heroTradingViewContainer">
+          <iframe
+            title="SPY Live Interactive TradingView Chart"
+            src="https://s.tradingview.com/widgetembed/?frameElementId=tv_hero_spy&symbol=AMEX%3ASPY&interval=1&hidesidetoolbar=1&symboledit=0&saveimage=0&toolbarbg=131722&studies=%5B%22VWAP%40tv-basicstudies%22%5D&theme=dark&style=1&timezone=America%2FNew_York&withdateranges=0&hide_top_toolbar=1&hide_legend=0&locale=en"
+            style="width: 100%; height: 100%; border: 0;"
+            allowtransparency="true"
+            scrolling="no"
+          ></iframe>
+        </div>
+
+        <!-- Right 4 Cols: Live 0DTE Options Strike Ladder (TradingView Dark Style) -->
+        <div class="hidden sm:flex sm:col-span-4 flex-col justify-between p-2.5 bg-[#131722] font-mono text-[11px]">
+          <div>
+            <div class="flex items-center justify-between text-[10px] text-slate-400 pb-1.5 mb-1.5 border-b border-[#2A2E39]">
+              <span class="font-bold text-slate-200">0DTE CHAIN</span>
+              <span class="text-[#089981]">IV 14.8%</span>
+            </div>
+            <div class="grid grid-cols-3 text-[9px] text-slate-500 pb-1 border-b border-[#2A2E39]/60">
+              <span>STRIKE</span>
+              <span class="text-center">BID/ASK</span>
+              <span class="text-right">DELTA</span>
+            </div>
+            <div class="space-y-1 mt-1.5">
+              <div class="grid grid-cols-3 items-center py-1 px-1 rounded hover:bg-white/5 cursor-pointer text-slate-300">
+                <span class="font-bold">583 C</span>
+                <span class="text-center text-[#089981]">3.90 / 3.94</span>
+                <span class="text-right text-slate-400">0.72</span>
+              </div>
+              <div class="grid grid-cols-3 items-center py-1 px-1 rounded hover:bg-white/5 cursor-pointer text-slate-300">
+                <span class="font-bold">584 C</span>
+                <span class="text-center text-[#089981]">3.12 / 3.15</span>
+                <span class="text-right text-slate-400">0.63</span>
+              </div>
+              <div class="grid grid-cols-3 items-center py-1.5 px-1.5 rounded bg-[#089981]/15 border border-[#089981]/50 cursor-pointer text-white">
+                <span class="font-bold text-[#089981]">585 C</span>
+                <span class="text-center font-bold text-[#089981]">2.43 / 2.45</span>
+                <span class="text-right font-bold text-amber-400">0.54</span>
+              </div>
+              <div class="grid grid-cols-3 items-center py-1 px-1 rounded hover:bg-white/5 cursor-pointer text-slate-300">
+                <span class="font-bold">586 C</span>
+                <span class="text-center text-[#089981]">1.82 / 1.85</span>
+                <span class="text-right text-slate-400">0.44</span>
+              </div>
+              <div class="grid grid-cols-3 items-center py-1 px-1 rounded hover:bg-white/5 cursor-pointer text-slate-300">
+                <span class="font-bold">587 C</span>
+                <span class="text-center text-[#089981]">1.28 / 1.31</span>
+                <span class="text-right text-slate-400">0.33</span>
+              </div>
+            </div>
+          </div>
+          <div class="p-2 rounded bg-[#0B0E14] border border-[#2A2E39] space-y-1 text-[10px]">
+            <div class="flex justify-between text-slate-400">
+              <span>EOD Floor:</span>
+              <span class="text-[#F23645] font-bold">$94,000.00</span>
+            </div>
+            <div class="flex justify-between text-slate-400">
+              <span>Net P&amp;L Today:</span>
+              <span class="text-[#089981] font-bold">+$1,840.00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Bottom Execution Dock -->
+      <div class="p-3 bg-[#131722] border-t border-[#2A2E39] flex items-center justify-between gap-2">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg bg-[#089981]/15 border border-[#089981]/40 flex items-center justify-center text-[#089981]">
+            <span class="material-symbols-outlined text-[20px]">bolt</span>
+          </div>
+          <div>
+            <div class="text-xs font-bold text-white flex items-center gap-1.5">
+              <span>SPY 585 CALL</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-[#089981]/20 text-[#089981] font-mono font-bold">DELTA 0.54</span>
+            </div>
+            <span class="text-[11px] font-mono text-slate-300">Ask: $2.45 | Bid: $2.43 | IV: 14.8%</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button class="px-3.5 py-2 rounded-lg bg-[#089981] hover:bg-[#06806b] text-white font-mono font-bold text-xs shadow-md transition-all active:scale-95 cursor-pointer">
+            1-CLICK BUY
+          </button>
+          <a href="rixtrade-platform.html" class="px-3 py-2 rounded-lg bg-[#1E222D] hover:bg-[#2A2E39] text-slate-200 text-xs font-mono border border-[#2A2E39] transition-colors">
+            FULL TERMINAL
+          </a>
+        </div>
+      </div>
+
+      <!-- Terminal Footnote -->
+      <div class="px-3.5 py-2 bg-[#0B0E14] border-t border-[#2A2E39] flex items-center justify-between text-[11px] font-mono text-slate-400">
+        <span class="flex items-center gap-1.5 text-[#089981]">
+          <span class="w-2 h-2 rounded-full bg-[#089981] animate-pulse"></span>
+          Equinix NY4 Direct DMA • 0.08ms
+        </span>
+        <span class="text-slate-400">Max Position: 20 SPY / 15 QQQ Lots</span>
+      </div>
+    </div>
+  </div>
 </div>
 </div>
 </div>
