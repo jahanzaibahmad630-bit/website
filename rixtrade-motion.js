@@ -184,9 +184,23 @@
       color: #F1F5F9 !important;
     }
 
-    html.rix-dark-mode header {
-      background-color: rgba(11, 14, 20, 0.94) !important;
-      border-bottom-color: #1E222D !important;
+    /* trading.com Pure Black (#000000) Header Across All 6 Pages */
+    header {
+      background-color: #000000 !important;
+      border-bottom: none !important;
+      box-shadow: none !important;
+    }
+    header span,
+    header a:not(.bg-\\[\\#00A876\\]):not(.bg-emerald-600):not(.bg-primary) {
+      color: #FFFFFF !important;
+    }
+    header nav a {
+      color: #D1D5DB !important;
+    }
+    header nav a:hover,
+    header nav a.border-b-2 {
+      color: #FFFFFF !important;
+      border-bottom-color: #00A876 !important;
     }
 
     html.rix-dark-mode section.bg-white,
@@ -397,32 +411,7 @@
       document.body.classList.add('font-mode-quant');
     }
 
-    // 1. Inject Bloomberg / TradingView Live OPRA Options Flow Ticker Tape right below <header>
-    const headerEl = document.querySelector('header');
-    if (headerEl && !document.getElementById('rixLiveTickerBar')) {
-      const tickerBar = document.createElement('div');
-      tickerBar.id = 'rixLiveTickerBar';
-      tickerBar.className = 'rix-ticker-wrap';
-      const tapeItems = `
-        <div class="rix-ticker-item"><span class="rix-ticker-sym">SPY 585C 0DTE</span> <span>$2.45</span> <span class="rix-ticker-up">+18.4%</span></div>
-        <div class="rix-ticker-item"><span class="rix-ticker-sym">QQQ 480P 0DTE</span> <span>$1.92</span> <span class="rix-ticker-down">-6.2%</span></div>
-        <div class="rix-ticker-item"><span class="rix-ticker-sym">NVDA 125C</span> <span>$4.85</span> <span class="rix-ticker-up">+31.0%</span></div>
-        <div class="rix-ticker-item"><span class="rix-ticker-sym">SPX 5850C</span> <span>$14.20</span> <span class="rix-ticker-up">+42.5%</span></div>
-        <div class="rix-ticker-item"><span class="rix-ticker-sym">TSLA 255C</span> <span>$3.60</span> <span class="rix-ticker-up">+14.2%</span></div>
-        <div class="rix-ticker-item"><span class="rix-ticker-sym">AAPL 230C</span> <span>$1.74</span> <span class="rix-ticker-up">+11.5%</span></div>
-        <div class="rix-ticker-item"><span class="rix-ticker-sym">IWM 220P</span> <span>$1.18</span> <span class="rix-ticker-down">-4.8%</span></div>
-        <div class="rix-ticker-item"><span class="rix-ticker-sym">META 590C</span> <span>$6.40</span> <span class="rix-ticker-up">+22.1%</span></div>
-        <div class="rix-ticker-item"><span class="rix-ticker-sym">EQUINIX NY4</span> <span class="rix-ticker-up">0.08ms DMA</span></div>
-      `;
-      tickerBar.innerHTML = `
-        <div class="rix-ticker-badge">
-          <span style="width:6px;height:6px;border-radius:50%;background:#089981;display:inline-block;"></span>
-          LIVE OPRA FLOW
-        </div>
-        <div class="rix-ticker-track">${tapeItems}${tapeItems}</div>
-      `;
-      headerEl.insertAdjacentElement('afterend', tickerBar);
-    }
+    // 1. Keep top header transition 100% pure and borderless like trading.com (no ticker bar under header)
 
     // 2. Toast Container
     const toastContainer = document.createElement('div');
@@ -460,8 +449,8 @@
       const isDark = document.documentElement.classList.contains('rix-dark-mode');
       document.querySelectorAll('.rix-global-theme-btn').forEach((btn) => {
         btn.innerHTML = isDark
-          ? `<span class="material-symbols-outlined text-[16px] text-amber-400">light_mode</span><span>Light</span>`
-          : `<span class="material-symbols-outlined text-[16px] text-[#089981]">dark_mode</span><span>Dark</span>`;
+          ? `<span class="material-symbols-outlined text-[15px] text-amber-400">light_mode</span><span>Light</span>`
+          : `<span class="material-symbols-outlined text-[15px] text-[#00A876]">dark_mode</span><span>Dark</span>`;
       });
       const legacyLabel = document.getElementById('videoThemeLabel');
       if (legacyLabel) {
@@ -492,10 +481,10 @@
       const navThemeBtn = document.createElement('button');
       navThemeBtn.type = 'button';
       navThemeBtn.className =
-        'rix-global-theme-btn inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-800 text-xs font-mono font-bold transition-all cursor-pointer whitespace-nowrap shadow-xs';
+        'rix-global-theme-btn inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-[4px] border border-white/15 bg-white/5 hover:bg-white/10 text-white text-xs font-semibold transition-all cursor-pointer whitespace-nowrap';
       navThemeBtn.title = 'Switch Whole Website Between Light & Dark Mode';
       navThemeBtn.addEventListener('click', window.toggleGlobalTheme);
-      headerActionCluster.insertBefore(navThemeBtn, headerActionCluster.firstChild);
+      headerActionCluster.appendChild(navThemeBtn);
     }
 
     let bottomBar = document.querySelector('.fixed.bottom-4.right-4');

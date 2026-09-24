@@ -76,249 +76,87 @@
       rgba(5, 11, 20, 0.08) 100%
     ) !important;
   }
-  #founding-50-hero h1 {
+  /* Exact trading.com Two-Tone Headline Colors */
+  #founding-50-hero .hero-line-white {
     color: #FFFFFF !important;
-    text-shadow: 0 4px 24px rgba(0, 0, 0, 0.65);
   }
-  #founding-50-hero p {
-    color: #E2E8F0 !important;
-    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+  #founding-50-hero .hero-line-grey {
+    color: #8A94A6 !important;
   }
 </style>
 </head>
 <body class="bg-white text-slate-900 min-h-screen w-full selection:bg-amber-500/20 selection:text-amber-800 antialiased flex flex-col font-sans relative overflow-x-hidden">
-<!-- 1. Top Notification Bar (Clean light gold banner) -->
-<div class="bg-amber-50 border-b border-amber-200/80 py-2.5 px-4 text-center relative z-50">
-<div class="max-w-[1440px] mx-auto flex items-center justify-center gap-2 text-xs md:text-sm text-amber-950">
-<span class="inline-flex items-center gap-1.5 font-bold tracking-wide">
-<span class="text-amber-600 text-base">⚡</span>
-<span class="text-amber-900 font-extrabold">60% OFF ALL ACCOUNTS</span>
-<span class="text-amber-300 hidden sm:inline">|</span>
-<span class="text-amber-800 font-medium hidden sm:inline">Use code:</span>
-<span class="px-2 py-0.5 rounded bg-white text-amber-800 font-mono font-bold border border-amber-300 shadow-xs">OF</span>
-<span class="text-amber-300 hidden md:inline">|</span>
-<span class="text-amber-700 font-semibold tracking-wide">SALE ENDS SUNDAY 11:59PM ET</span>
-</span>
-</div>
-</div>
-<!-- 2. Main Navigation Bar -->
-<header class="sticky top-0 z-40 backdrop-blur-xl bg-white/95 border-b border-slate-200 shadow-xs">
-<div class="flex justify-between items-center w-full px-6 lg:px-12 max-w-[1440px] mx-auto h-20">
-<!-- Brand Logo -->
-<a class="flex items-center gap-3 group cursor-pointer focus:outline-none" href="#">
-<div class="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 to-emerald-600 p-0.5 flex items-center justify-center shadow-sm">
-<div class="w-full h-full bg-white rounded-[10px] flex items-center justify-center">
-<span class="material-symbols-outlined text-[20px] text-amber-600">query_stats</span>
-</div>
-</div>
-<div class="flex flex-col">
-<span class="text-lg md:text-xl font-extrabold tracking-tight text-slate-900 flex items-center gap-1.5">
-          Options <span class="text-amber-600">Funding</span>
-</span>
-<span class="text-[10px] font-mono text-slate-500 -mt-1 tracking-widest uppercase">WebTrader • RixTrade</span>
-</div>
-</a>
-<!-- Navigation Links (Each tab is a separate page) -->
-<nav class="hidden lg:flex items-center gap-7 h-full whitespace-nowrap">
-<a class="text-amber-700 font-bold text-sm border-b-2 border-amber-500 py-1 flex items-center h-full transition-colors whitespace-nowrap" href="options-funding.html">Founding 50</a>
-<a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full whitespace-nowrap" href="rules.html">Rules</a>
-<a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full whitespace-nowrap" href="account-metrics.html">Account Metrics</a>
-<a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full whitespace-nowrap" href="rixtrade-platform.html">RixTrade Platform</a>
-<a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full whitespace-nowrap" href="faq.html">FAQ</a>
-<a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full whitespace-nowrap" href="affiliates.html">Affiliates</a>
-</nav>
-<!-- Header Actions -->
-<div class="flex items-center gap-4">
-<a class="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-slate-700 hover:text-slate-900 px-3 py-2 transition-colors" href="#signin">
-<span class="material-symbols-outlined text-[18px] text-slate-500">lock_open</span>
-<span class="">Sign In</span>
-</a>
-<a class="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl font-bold text-sm bg-amber-500 hover:bg-amber-400 text-slate-950 transition-all duration-150 shadow-sm hover:shadow-md hover:scale-[1.02] active:scale-95" href="#get-funded">
-<span class="">Get Funded</span>
-<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-</a>
-</div>
-</div>
-</header>
-<main class="flex-grow">
-<!-- Hero Section -->
-<section id="founding-50-hero" class="relative pt-14 pb-20 md:pt-20 md:pb-28 overflow-hidden bg-white border-b border-slate-200 transition-colors duration-300">
-<!-- Pure HTML5 Background Video (No Zoom / Shake) -->
-<video id="heroBgVideo" autoplay loop muted playsinline poster="assets/equity-curve-3d.jpg" class="bg-video-element">
-  <source id="heroBgVideoSrc" src="assets/equity-curve-3d.mp4" type="video/mp4" />
-</video>
-<div class="hero-video-veil absolute inset-0 pointer-events-none z-[1] transition-all duration-300"></div>
-<!-- Ambient Background Subtle Warm Glow -->
+<!-- trading.com Style Pure Black (#000000) Minimalist Navigation Bar (Zero Promo Ribbon, Zero Borders) -->
+<header class="sticky top-0 z-50 bg-[#000000] border-none">
+  <div class="w-full max-w-[1320px] mx-auto px-6 lg:px-10 h-20 flex items-center justify-between">
+    <!-- Left: Clean Geometric White Brand Wordmark -->
+    <a href="options-funding.html" class="flex items-center gap-1 text-white text-[22px] font-extrabold tracking-[-0.03em] focus:outline-none">
+      <span>optionsfunding</span><span class="text-[#00A876]">.co</span>
+    </a>
 
-<div class="max-w-[1440px] mx-auto px-6 lg:px-12 relative z-10">
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-<!-- Hero Copy -->
-<div class="lg:col-span-6 flex flex-col gap-6">
-<div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-50 border border-amber-300 text-amber-800 font-mono text-xs font-bold w-fit tracking-wider shadow-xs">
-<span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
-            OPTIONS FUNDING // RIXTRADE ENGINE
-          </div>
-<h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.1]">
-            $100,000 Funded <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-300 to-emerald-400">Options Account</span>
-</h1>
-<p class="text-slate-600 text-base sm:text-lg leading-relaxed max-w-xl font-normal">
-            Trade SPY, QQQ, and single-stock options with institutional execution speed. Hit your profit target and receive real cash payouts.
-          </p>
-<!-- CTAs -->
-<div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
-<a class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-extrabold text-base bg-amber-500 hover:bg-amber-400 text-slate-950 transition-all shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-95 text-center" href="#get-funded">
-<span class="">Get Funded Now</span>
-<span class="material-symbols-outlined text-[20px]">bolt</span>
-</a>
-<a class="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-semibold text-base bg-white hover:bg-slate-50 border-2 border-slate-900 text-slate-900 transition-all hover:border-amber-500 text-center shadow-xs" href="rules.html">
-<span class="material-symbols-outlined text-[20px] text-amber-700">rule</span>
-<span class="">View Trading Rules</span>
-</a>
-</div>
-<!-- Execution Stats Badges -->
-<div class="pt-6 border-t border-slate-200 flex flex-wrap items-center gap-3 sm:gap-6">
-<div class="flex items-center gap-2 bg-slate-50 border border-slate-200 px-3.5 py-2 rounded-lg shadow-xs">
-<span class="material-symbols-outlined text-emerald-600 text-[18px]">verified</span>
-<span class="text-xs font-semibold text-slate-800">Zero Setup Fee Today</span>
-</div>
-<div class="flex items-center gap-2 bg-slate-50 border border-slate-200 px-3.5 py-2 rounded-lg shadow-xs">
-<span class="material-symbols-outlined text-amber-700 text-[18px]">speed</span>
-<span class="text-xs font-semibold text-slate-800">Direct RixTrade Bridge</span>
-</div>
-<div class="flex items-center gap-2 bg-slate-50 border border-slate-200 px-3.5 py-2 rounded-lg shadow-xs">
-<span class="material-symbols-outlined text-emerald-600 text-[18px]">currency_exchange</span>
-<span class="text-xs font-semibold text-slate-800">Fast ACH &amp; Crypto Payouts</span>
-</div>
-</div>
-</div>
-<!-- Hero Terminal Graphic / Preview -->
-<div class="lg:col-span-6 relative">
-  <!-- TradingView / Linear Style Frameless Obsidian Workstation Window (No Fake Stock-Photo Laptop) -->
-  <div class="relative rounded-xl p-[1px] bg-gradient-to-b from-white/25 via-emerald-500/30 to-slate-800/80 shadow-[0_32px_80px_-16px_rgba(0,0,0,0.85)]">
-    <div class="bg-[#0B0E14] rounded-xl overflow-hidden border border-white/10 relative">
-      <!-- Workstation Top Bar -->
-      <div class="px-3.5 py-2.5 bg-[#131722] border-b border-[#2A2E39] flex items-center justify-between">
-        <div class="flex items-center gap-2.5">
-          <div class="flex items-center gap-1.5">
-            <span class="w-2.5 h-2.5 rounded-full bg-[#F23645]"></span>
-            <span class="w-2.5 h-2.5 rounded-full bg-[#F59E0B]"></span>
-            <span class="w-2.5 h-2.5 rounded-full bg-[#089981]"></span>
-          </div>
-          <span class="text-[11px] font-mono font-bold text-slate-200 tracking-tight flex items-center gap-1.5 ml-1">
-            <span class="px-1.5 py-0.5 rounded bg-[#089981]/20 text-[#089981] border border-[#089981]/40">OPRA L2</span>
-            AMEX:SPY • 1m • RixTrade Superchart
-          </span>
-        </div>
-        <div class="flex items-center gap-2 text-[11px] font-mono">
-          <span class="text-[#089981] font-bold">585.42 +1.24%</span>
-          <span class="text-slate-600">|</span>
-          <span class="text-amber-400 font-bold">Acct: $104,820.00</span>
-        </div>
-      </div>
+    <!-- Right-Aligned Navigation + Emerald CTA + Log In (Exact trading.com Structure) -->
+    <div class="flex items-center gap-7">
+      <nav class="hidden lg:flex items-center gap-7 text-[13.5px] font-semibold">
+        <a href="options-funding.html" class="text-white hover:text-[#00A876] transition-colors">Founding 50</a>
+        <a href="rules.html" class="text-[#D1D5DB] hover:text-white transition-colors">Rules</a>
+        <a href="account-metrics.html" class="text-[#D1D5DB] hover:text-white transition-colors">Account Metrics</a>
+        <a href="rixtrade-platform.html" class="text-[#D1D5DB] hover:text-white transition-colors">RixTrade Platform</a>
+        <a href="faq.html" class="text-[#D1D5DB] hover:text-white transition-colors">FAQ</a>
+        <a href="affiliates.html" class="text-[#D1D5DB] hover:text-white transition-colors">Affiliates</a>
+      </nav>
 
-      <!-- Live Interactive TradingView Superchart + Mini Option Chain Split -->
-      <div class="grid grid-cols-12 bg-[#0B0E14] h-[310px] divide-x divide-[#2A2E39]">
-        <!-- Left 8 Cols: Real Live Interactive TradingView SPY Candlestick Chart -->
-        <div class="col-span-12 sm:col-span-8 h-full relative bg-[#0B0E14]" id="heroTradingViewContainer">
-          <iframe
-            title="SPY Live Interactive TradingView Chart"
-            src="https://s.tradingview.com/widgetembed/?frameElementId=tv_hero_spy&symbol=AMEX%3ASPY&interval=1&hidesidetoolbar=1&symboledit=0&saveimage=0&toolbarbg=131722&studies=%5B%22VWAP%40tv-basicstudies%22%5D&theme=dark&style=1&timezone=America%2FNew_York&withdateranges=0&hide_top_toolbar=1&hide_legend=0&locale=en"
-            style="width: 100%; height: 100%; border: 0;"
-            allowtransparency="true"
-            scrolling="no"
-          ></iframe>
-        </div>
-
-        <!-- Right 4 Cols: Live 0DTE Options Strike Ladder (TradingView Dark Style) -->
-        <div class="hidden sm:flex sm:col-span-4 flex-col justify-between p-2.5 bg-[#131722] font-mono text-[11px]">
-          <div>
-            <div class="flex items-center justify-between text-[10px] text-slate-400 pb-1.5 mb-1.5 border-b border-[#2A2E39]">
-              <span class="font-bold text-slate-200">0DTE CHAIN</span>
-              <span class="text-[#089981]">IV 14.8%</span>
-            </div>
-            <div class="grid grid-cols-3 text-[9px] text-slate-500 pb-1 border-b border-[#2A2E39]/60">
-              <span>STRIKE</span>
-              <span class="text-center">BID/ASK</span>
-              <span class="text-right">DELTA</span>
-            </div>
-            <div class="space-y-1 mt-1.5">
-              <div class="grid grid-cols-3 items-center py-1 px-1 rounded hover:bg-white/5 cursor-pointer text-slate-300">
-                <span class="font-bold">583 C</span>
-                <span class="text-center text-[#089981]">3.90 / 3.94</span>
-                <span class="text-right text-slate-400">0.72</span>
-              </div>
-              <div class="grid grid-cols-3 items-center py-1 px-1 rounded hover:bg-white/5 cursor-pointer text-slate-300">
-                <span class="font-bold">584 C</span>
-                <span class="text-center text-[#089981]">3.12 / 3.15</span>
-                <span class="text-right text-slate-400">0.63</span>
-              </div>
-              <div class="grid grid-cols-3 items-center py-1.5 px-1.5 rounded bg-[#089981]/15 border border-[#089981]/50 cursor-pointer text-white">
-                <span class="font-bold text-[#089981]">585 C</span>
-                <span class="text-center font-bold text-[#089981]">2.43 / 2.45</span>
-                <span class="text-right font-bold text-amber-400">0.54</span>
-              </div>
-              <div class="grid grid-cols-3 items-center py-1 px-1 rounded hover:bg-white/5 cursor-pointer text-slate-300">
-                <span class="font-bold">586 C</span>
-                <span class="text-center text-[#089981]">1.82 / 1.85</span>
-                <span class="text-right text-slate-400">0.44</span>
-              </div>
-              <div class="grid grid-cols-3 items-center py-1 px-1 rounded hover:bg-white/5 cursor-pointer text-slate-300">
-                <span class="font-bold">587 C</span>
-                <span class="text-center text-[#089981]">1.28 / 1.31</span>
-                <span class="text-right text-slate-400">0.33</span>
-              </div>
-            </div>
-          </div>
-          <div class="p-2 rounded bg-[#0B0E14] border border-[#2A2E39] space-y-1 text-[10px]">
-            <div class="flex justify-between text-slate-400">
-              <span>EOD Floor:</span>
-              <span class="text-[#F23645] font-bold">$94,000.00</span>
-            </div>
-            <div class="flex justify-between text-slate-400">
-              <span>Net P&amp;L Today:</span>
-              <span class="text-[#089981] font-bold">+$1,840.00</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Interactive Bottom Execution Dock -->
-      <div class="p-3 bg-[#131722] border-t border-[#2A2E39] flex items-center justify-between gap-2">
-        <div class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded-lg bg-[#089981]/15 border border-[#089981]/40 flex items-center justify-center text-[#089981]">
-            <span class="material-symbols-outlined text-[20px]">bolt</span>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-white flex items-center gap-1.5">
-              <span>SPY 585 CALL</span>
-              <span class="text-[10px] px-1.5 py-0.5 rounded bg-[#089981]/20 text-[#089981] font-mono font-bold">DELTA 0.54</span>
-            </div>
-            <span class="text-[11px] font-mono text-slate-300">Ask: $2.45 | Bid: $2.43 | IV: 14.8%</span>
-          </div>
-        </div>
-        <div class="flex items-center gap-2">
-          <button class="px-3.5 py-2 rounded-lg bg-[#089981] hover:bg-[#06806b] text-white font-mono font-bold text-xs shadow-md transition-all active:scale-95 cursor-pointer">
-            1-CLICK BUY
-          </button>
-          <a href="rixtrade-platform.html" class="px-3 py-2 rounded-lg bg-[#1E222D] hover:bg-[#2A2E39] text-slate-200 text-xs font-mono border border-[#2A2E39] transition-colors">
-            FULL TERMINAL
-          </a>
-        </div>
-      </div>
-
-      <!-- Terminal Footnote -->
-      <div class="px-3.5 py-2 bg-[#0B0E14] border-t border-[#2A2E39] flex items-center justify-between text-[11px] font-mono text-slate-400">
-        <span class="flex items-center gap-1.5 text-[#089981]">
-          <span class="w-2 h-2 rounded-full bg-[#089981] animate-pulse"></span>
-          Equinix NY4 Direct DMA • 0.08ms
-        </span>
-        <span class="text-slate-400">Max Position: 20 SPY / 15 QQQ Lots</span>
+      <div class="flex items-center gap-5">
+        <a href="#get-funded" class="px-5 py-2.5 rounded-[4px] bg-[#00A876] hover:bg-[#009266] text-white font-bold text-[12px] uppercase tracking-[0.04em] transition-colors">
+          GET FUNDED
+        </a>
+        <a href="#signin" class="hidden sm:inline-block text-white hover:text-[#00A876] font-semibold text-[13.5px] transition-colors">
+          Log In
+        </a>
       </div>
     </div>
   </div>
-</div>
-</div>
-</div>
+</header>
+
+<main class="flex-grow">
+<!-- trading.com Style Ultra-Clean Dark Matte Hero Section (#0B0E12) -->
+<section id="founding-50-hero" class="relative bg-[#0B0E12] text-white overflow-hidden min-h-[640px] flex items-center py-14 lg:py-20 border-none" style="background: radial-gradient(circle at 72% 52%, #132226 0%, #0B0E12 58%, #07090C 100%) !important;">
+  <div class="w-full max-w-[1320px] mx-auto px-6 lg:px-10 relative z-10">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center">
+      
+      <!-- Left Column: Strictly 3 Clean Elements (Two-Tone Headline + 2-Line Copy + Single Solid Emerald Button + Footnote) -->
+      <div class="lg:col-span-5 flex flex-col items-start text-left">
+        <h1 class="text-[46px] sm:text-[58px] lg:text-[64px] font-bold tracking-[-0.035em] leading-[1.06] mb-6" style="text-shadow: none !important;">
+          <span class="block hero-line-white text-white">Make Every</span>
+          <span class="block hero-line-grey text-[#8A94A6] mt-1">Trade Count</span>
+        </h1>
+
+        <p class="text-[#B0B8C4] text-[15.5px] sm:text-[16.5px] leading-[1.65] max-w-[440px] font-normal mb-9" style="text-shadow: none !important;">
+          Access a $100,000 live options account with low OPRA spreads, static 5:00 PM EST drawdown, and zero commissions. Strive for optimal prices with each trade.
+        </p>
+
+        <a href="#get-funded" class="inline-flex items-center justify-center min-w-[220px] px-9 py-4 rounded-[4px] bg-[#00A876] hover:bg-[#009266] text-white font-bold text-[12.5px] uppercase tracking-[0.06em] transition-all shadow-[0_8px_24px_rgba(0,168,118,0.25)] mb-7">
+          GET FUNDED
+        </a>
+
+        <p class="text-[12px] text-[#8A94A6] font-normal">
+          Options prop evaluation involves market risk. <a href="rules.html" class="text-white underline underline-offset-2 hover:text-[#00A876]">*Evaluation Rules Apply</a>
+        </p>
+      </div>
+
+      <!-- Right Column: Clean Floating MacBook Pro + iPhone Watchlist + 3D Emerald Icons (Zero Cluttered Boxes) -->
+      <div class="lg:col-span-7 flex items-center justify-center lg:justify-end">
+        <div class="relative w-full max-w-[820px]">
+          <img
+            src="assets/hero-trading-devices.jpg"
+            alt="RixTrade Options WebTrader on MacBook Pro and iPhone with 3D Market Icons"
+            class="w-full h-auto object-contain select-none pointer-events-none"
+            style="mix-blend-mode: lighten; filter: contrast(1.06) saturate(1.08);"
+          />
+        </div>
+      </div>
+
+    </div>
+  </div>
 </section>
 <!-- 3. Key Evaluation Metrics Bar & Capability Cards -->
 <section class="py-20 bg-slate-50 border-b border-slate-200" id="metrics">
