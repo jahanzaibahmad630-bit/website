@@ -536,13 +536,65 @@
       }, 4200);
     }
 
-    // 3. Global Light / Dark Mode Switcher
+    // Universal Material-Symbols-to-Inline-SVG Vector Engine (100% Immune to Font-Load or CSS Issues)
+    const SVG_ICON_MAP = {
+      shield: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+      verified_user: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>',
+      gpp_good: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>',
+      security: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+      diamond: '<path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20"/>',
+      account_balance_wallet: '<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M16 12h.01"/>',
+      account_balance: '<path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3"/>',
+      trending_up: '<polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>',
+      paid: '<circle cx="12" cy="12" r="10"/><path d="M15 9.354a4 4 0 1 0 0 5.292M12 6v12"/>',
+      payments: '<rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/>',
+      currency_exchange: '<circle cx="12" cy="12" r="10"/><path d="M15 9.354a4 4 0 1 0 0 5.292M12 6v12"/>',
+      conversion_path: '<polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/>',
+      check_circle: '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>',
+      check: '<polyline points="20 6 9 17 4 12"/>',
+      verified: '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>',
+      military_tech: '<circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>',
+      lock: '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+      lock_open: '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/>',
+      bolt: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+      speed: '<path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/>',
+      search: '<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',
+      sync: '<path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/>',
+      arrow_forward: '<line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>',
+      expand_more: '<polyline points="6 9 12 15 18 9"/>',
+      keyboard_arrow_down: '<polyline points="6 9 12 15 18 9"/>',
+      add: '<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>',
+      remove: '<line x1="5" y1="12" x2="19" y2="12"/>',
+      candlestick_chart: '<path d="M9 5v4"/><rect width="4" height="6" x="7" y="9" rx="1"/><path d="M9 15v2"/><path d="M17 3v2"/><rect width="4" height="8" x="15" y="5" rx="1"/><path d="M17 13v3"/>',
+      query_stats: '<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',
+      analytics: '<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>',
+      schedule: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+      water_loss: '<path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>',
+      contract: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>',
+      handshake: '<path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/>',
+      default: '<circle cx="12" cy="12" r="8"/><path d="m9 12 2 2 4-4"/>'
+    };
+
+    function convertAllMaterialIconsToSvg() {
+      document.querySelectorAll('.material-symbols-outlined').forEach((el) => {
+        if (el.querySelector('svg')) return;
+        const rawName = (el.getAttribute('data-icon') || el.textContent || '').trim().toLowerCase();
+        const svgPath = SVG_ICON_MAP[rawName] || SVG_ICON_MAP.default;
+        el.setAttribute('data-icon', rawName);
+        el.innerHTML = `<svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0;">${svgPath}</svg>`;
+      });
+    }
+    convertAllMaterialIconsToSvg();
+
+    // 3. Global Light / Dark Mode Switcher (Using Pure Inline SVG Icons)
     function syncAllThemeButtons() {
       const isDark = document.documentElement.classList.contains('rix-dark-mode');
+      const sunSvg = `<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>`;
+      const moonSvg = `<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#00A876" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
       document.querySelectorAll('.rix-global-theme-btn').forEach((btn) => {
         btn.innerHTML = isDark
-          ? `<span class="material-symbols-outlined text-[15px] text-amber-400">light_mode</span><span>Light</span>`
-          : `<span class="material-symbols-outlined text-[15px] text-[#00A876]">dark_mode</span><span>Dark</span>`;
+          ? `${sunSvg}<span>Light</span>`
+          : `${moonSvg}<span>Dark</span>`;
       });
       const legacyLabel = document.getElementById('videoThemeLabel');
       if (legacyLabel) {
