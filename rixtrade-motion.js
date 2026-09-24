@@ -1,8 +1,14 @@
 /**
- * RixTrade Pro v4.2 — Institutional Motion Graphics, Trading Typography & Telemetry Engine
- * Enhances all 6 pages (Founding 50, Rules, Account Metrics, RixTrade Platform, FAQ, Affiliates)
+ * RixTrade Pro v4.2 — Institutional Motion Graphics, Global Light/Dark Theme Switcher,
+ * 3-Tier Trading Typography & Live Telemetry Engine across all 6 pages
  */
 (function () {
+  // Apply saved theme immediately before DOM paint to prevent flash
+  const savedTheme = localStorage.getItem('rixGlobalTheme') || 'light';
+  if (savedTheme === 'dark') {
+    document.documentElement.classList.add('rix-dark-mode');
+  }
+
   // 0. Load Top Trading Website Google Fonts (Plus Jakarta Sans, Space Grotesk, JetBrains Mono, IBM Plex Mono)
   const fontLink = document.createElement('link');
   fontLink.rel = 'stylesheet';
@@ -10,15 +16,9 @@
     'https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap';
   document.head.appendChild(fontLink);
 
-  // 1. Inject High-Performance GPU CSS Animations & Institutional 3-Tier Trading Typography
+  // 1. Inject High-Performance GPU CSS Animations, 3-Tier Typography & Global Dark Mode Palette
   const style = document.createElement('style');
   style.textContent = `
-    /* ==========================================================================
-       3-TIER INSTITUTIONAL TRADING TYPOGRAPHY SYSTEM
-       - Display / Headlines: Plus Jakarta Sans (or Space Grotesk in Quant mode)
-       - UI / Body: Inter with OpenType Financial Alternates (cv02, cv03, cv04, cv11)
-       - Option Chains / Prices / Greeks / Metrics: JetBrains Mono (tabular-nums + slashed-zero)
-       ========================================================================== */
     :root {
       --font-display: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
       --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -36,10 +36,10 @@
       font-feature-settings: "cv02" 1, "cv03" 1, "cv04" 1, "cv11" 1, "ss01" 1;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      animation: rixPageFadeIn 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
+      transition: background-color 0.28s ease, color 0.28s ease;
+      animation: rixPageFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
 
-    /* Tier 1: Executive Geometric Display Font for Headlines & Titles */
     h1, h2, h3, h4,
     .font-display-lg, .text-display-lg,
     .font-headline-lg, .text-headline-lg,
@@ -49,7 +49,6 @@
       letter-spacing: -0.025em !important;
     }
 
-    /* Tier 3: True Quantitative Monospace for Option Strikes, Greeks, Prices & Telemetry */
     .font-mono,
     .font-data-tabular,
     .text-data-tabular,
@@ -67,12 +66,162 @@
       font-feature-settings: "tnum" 1, "zero" 1 !important;
     }
 
+    /* ==========================================================================
+       GLOBAL INSTITUTIONAL DARK MODE ENGINE (html.rix-dark-mode)
+       Transforms all 6 pages into a TradingView / Bloomberg Deep Obsidian Theme
+       ========================================================================== */
+    html.rix-dark-mode body,
+    html.rix-dark-mode main,
+    html.rix-dark-mode .bg-surface-base,
+    html.rix-dark-mode .bg-\\[\\#ffffff\\],
+    html.rix-dark-mode .bg-\\[\\#f8fafc\\] {
+      background-color: #060B14 !important;
+      color: #F1F5F9 !important;
+    }
+
+    /* Sticky Navbar in Dark Mode */
+    html.rix-dark-mode header {
+      background-color: rgba(8, 15, 28, 0.92) !important;
+      border-bottom-color: #1E293B !important;
+    }
+
+    /* Section & Sub-surface backgrounds */
+    html.rix-dark-mode section.bg-white,
+    html.rix-dark-mode section.bg-slate-50,
+    html.rix-dark-mode section.bg-surface-subtle,
+    html.rix-dark-mode .bg-surface-subtle,
+    html.rix-dark-mode footer,
+    html.rix-dark-mode footer.bg-white,
+    html.rix-dark-mode footer.bg-\\[\\#f8fafc\\] {
+      background-color: #080E1A !important;
+      border-color: #1E293B !important;
+    }
+
+    /* Elevated Cards, Panels, Tables, Accordions & Modals */
+    html.rix-dark-mode main .bg-white,
+    html.rix-dark-mode footer .bg-white,
+    html.rix-dark-mode .faq-item,
+    html.rix-dark-mode .bg-surface-card,
+    html.rix-dark-mode .bg-surface-container,
+    html.rix-dark-mode .bg-surface-container-low {
+      background-color: #0F172A !important;
+      border-color: #1E293B !important;
+      color: #F1F5F9 !important;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.45) !important;
+    }
+
+    /* Inner subtle boxes, table headers, input fields, code blocks */
+    html.rix-dark-mode .bg-slate-50,
+    html.rix-dark-mode .bg-slate-50\\/50,
+    html.rix-dark-mode .bg-slate-50\\/70,
+    html.rix-dark-mode .bg-slate-50\\/75,
+    html.rix-dark-mode .bg-slate-100,
+    html.rix-dark-mode .bg-slate-100\\/90,
+    html.rix-dark-mode .bg-surface-panel,
+    html.rix-dark-mode select,
+    html.rix-dark-mode input[type="text"],
+    html.rix-dark-mode input[type="number"] {
+      background-color: #152036 !important;
+      border-color: #263552 !important;
+      color: #F8FAFC !important;
+    }
+
+    /* Emerald / Amber / Rose Tinted Badges & Highlights in Dark Mode */
+    html.rix-dark-mode .bg-emerald-50,
+    html.rix-dark-mode .bg-emerald-50\\/40,
+    html.rix-dark-mode .bg-emerald-50\\/60,
+    html.rix-dark-mode .bg-emerald-100 {
+      background-color: rgba(16, 185, 129, 0.14) !important;
+      border-color: rgba(16, 185, 129, 0.35) !important;
+      color: #34D399 !important;
+    }
+    html.rix-dark-mode .bg-amber-50,
+    html.rix-dark-mode .bg-amber-100\\/70 {
+      background-color: rgba(245, 158, 11, 0.14) !important;
+      border-color: rgba(245, 158, 11, 0.35) !important;
+      color: #FBBF24 !important;
+    }
+    html.rix-dark-mode .bg-rose-50,
+    html.rix-dark-mode .bg-red-50,
+    html.rix-dark-mode .bg-rose-100 {
+      background-color: rgba(244, 63, 94, 0.14) !important;
+      border-color: rgba(244, 63, 94, 0.35) !important;
+      color: #FB7185 !important;
+    }
+    html.rix-dark-mode .bg-teal-50 {
+      background-color: rgba(20, 184, 166, 0.14) !important;
+      border-color: rgba(20, 184, 166, 0.35) !important;
+      color: #2DD4BF !important;
+    }
+
+    /* Gradient Call-to-Action Banners in Dark Mode */
+    html.rix-dark-mode .bg-gradient-to-r,
+    html.rix-dark-mode .bg-gradient-to-b {
+      background-image: linear-gradient(135deg, #0D192B 0%, #091E1C 50%, #0D1524 100%) !important;
+      border-color: rgba(16, 185, 129, 0.35) !important;
+    }
+    /* Keep gradient text intact */
+    html.rix-dark-mode .bg-clip-text {
+      background-image: linear-gradient(90deg, #FBBF24 0%, #F59E0B 45%, #34D399 100%) !important;
+      -webkit-background-clip: text !important;
+      background-clip: text !important;
+      color: transparent !important;
+    }
+
+    /* Typography Hierarchy in Dark Mode */
+    html.rix-dark-mode .text-slate-900,
+    html.rix-dark-mode .text-slate-800,
+    html.rix-dark-mode .text-text-primary,
+    html.rix-dark-mode h1,
+    html.rix-dark-mode h2,
+    html.rix-dark-mode h3,
+    html.rix-dark-mode h4 {
+      color: #F8FAFC !important;
+    }
+    html.rix-dark-mode .text-slate-700,
+    html.rix-dark-mode .text-slate-600,
+    html.rix-dark-mode .text-text-secondary {
+      color: #94A3B8 !important;
+    }
+    html.rix-dark-mode .text-slate-500,
+    html.rix-dark-mode .text-slate-400,
+    html.rix-dark-mode .text-text-muted {
+      color: #64748B !important;
+    }
+    html.rix-dark-mode .text-emerald-700,
+    html.rix-dark-mode .text-emerald-800,
+    html.rix-dark-mode .text-emerald-900,
+    html.rix-dark-mode .text-primary {
+      color: #34D399 !important;
+    }
+    html.rix-dark-mode .text-amber-700,
+    html.rix-dark-mode .text-amber-800,
+    html.rix-dark-mode .text-amber-900,
+    html.rix-dark-mode .text-amber-950 {
+      color: #FBBF24 !important;
+    }
+
+    /* Borders & Dividers in Dark Mode */
+    html.rix-dark-mode .border-slate-200,
+    html.rix-dark-mode .border-slate-300,
+    html.rix-dark-mode .border-slate-100,
+    html.rix-dark-mode .border-surface-border,
+    html.rix-dark-mode .border-surface-border-subtle,
+    html.rix-dark-mode tr,
+    html.rix-dark-mode td,
+    html.rix-dark-mode th {
+      border-color: #1E293B !important;
+    }
+    html.rix-dark-mode tbody tr:hover {
+      background-color: rgba(30, 41, 59, 0.55) !important;
+    }
+
     @keyframes rixPageFadeIn {
       from { opacity: 0.4; transform: translateY(4px); }
       to   { opacity: 1;   transform: translateY(0); }
     }
 
-    /* Scroll-Reveal Stagger Animation (60fps GPU composited) */
+    /* Scroll-Reveal Stagger Animation */
     .rix-reveal {
       opacity: 0;
       transform: translateY(22px) scale(0.99);
@@ -95,10 +244,10 @@
     }
     .rix-card-lift:hover {
       transform: translateY(-4px) !important;
-      box-shadow: 0 16px 32px -10px rgba(5, 150, 105, 0.14), 0 4px 12px -2px rgba(15, 23, 42, 0.06) !important;
+      box-shadow: 0 16px 32px -10px rgba(5, 150, 105, 0.16), 0 4px 12px -2px rgba(15, 23, 42, 0.08) !important;
     }
 
-    /* Live Tick Flash (Green / Amber) with Tabular Numbers */
+    /* Live Tick Flash */
     .rix-tick-up {
       animation: rixFlashGreen 0.7s ease-out;
       font-variant-numeric: tabular-nums;
@@ -154,7 +303,7 @@
   document.head.appendChild(style);
 
   document.addEventListener('DOMContentLoaded', () => {
-    // Restore saved font mode across pages if user toggled it
+    // Restore saved font mode
     const savedFontMode = localStorage.getItem('rixFontMode') || 'jakarta';
     if (savedFontMode === 'quant') {
       document.body.classList.add('font-mode-quant');
@@ -191,17 +340,72 @@
       }, 4200);
     }
 
-    // Add Font Switcher button to bottom-right control bar (or create bar if on subpages)
+    // =========================================================================
+    // GLOBAL LIGHT / DARK THEME TOGGLE SWITCH (IN TOP NAVBAR + BOTTOM PILL)
+    // =========================================================================
+    function syncAllThemeButtons() {
+      const isDark = document.documentElement.classList.contains('rix-dark-mode');
+      document.querySelectorAll('.rix-global-theme-btn').forEach((btn) => {
+        btn.innerHTML = isDark
+          ? `<span class="material-symbols-outlined text-[16px] text-amber-400">light_mode</span><span>Light Mode</span>`
+          : `<span class="material-symbols-outlined text-[16px] text-emerald-600">dark_mode</span><span>Dark Mode</span>`;
+      });
+      const legacyLabel = document.getElementById('videoThemeLabel');
+      if (legacyLabel) {
+        legacyLabel.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+      }
+    }
+
+    window.toggleGlobalTheme = function () {
+      const htmlEl = document.documentElement;
+      htmlEl.classList.toggle('rix-dark-mode');
+      const isDark = htmlEl.classList.contains('rix-dark-mode');
+      localStorage.setItem('rixGlobalTheme', isDark ? 'dark' : 'light');
+      syncAllThemeButtons();
+      showRixToast(
+        isDark ? '🌙 INSTITUTIONAL DARK MODE ACTIVE' : '☀️ CRISP LIGHT MODE ACTIVE',
+        isDark
+          ? 'Switched entire 6-page web application to Deep Obsidian (#060B14) trading terminal palette.'
+          : 'Switched entire 6-page web application to Crisp Light Stitch institutional palette.',
+        isDark ? 'DARK THEME' : 'LIGHT THEME',
+        false
+      );
+    };
+
+    // Override legacy toggleVideoTheme() on Founding 50 so it toggles the whole website too
+    window.toggleVideoTheme = window.toggleGlobalTheme;
+
+    // Inject compact Light/Dark Switch Button directly into Top <header> Action Cluster on all 6 pages
+    const headerActionCluster = document.querySelector('header > div > div:last-child');
+    if (headerActionCluster) {
+      const navThemeBtn = document.createElement('button');
+      navThemeBtn.type = 'button';
+      navThemeBtn.className =
+        'rix-global-theme-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-800 text-xs font-mono font-bold transition-all cursor-pointer whitespace-nowrap shadow-xs';
+      navThemeBtn.title = 'Switch Whole Website Between Light & Dark Mode';
+      navThemeBtn.addEventListener('click', window.toggleGlobalTheme);
+      headerActionCluster.insertBefore(navThemeBtn, headerActionCluster.firstChild);
+    }
+
+    // Bottom-right floating bar (Theme + Font switcher on all 6 pages)
     let bottomBar = document.querySelector('.fixed.bottom-4.right-4');
     if (!bottomBar) {
       bottomBar = document.createElement('div');
       bottomBar.className =
         'fixed bottom-4 right-4 z-50 flex items-center gap-2 bg-white/95 backdrop-blur-md border border-slate-200 shadow-lg rounded-xl p-1.5';
       document.body.appendChild(bottomBar);
+
+      const bottomThemeBtn = document.createElement('button');
+      bottomThemeBtn.type = 'button';
+      bottomThemeBtn.className =
+        'rix-global-theme-btn inline-flex items-center gap-1.5 text-[11px] font-mono font-bold text-sky-900 bg-sky-50 hover:bg-sky-100 border border-sky-200 px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer';
+      bottomThemeBtn.addEventListener('click', window.toggleGlobalTheme);
+      bottomBar.appendChild(bottomThemeBtn);
     }
+
     const fontBtn = document.createElement('button');
     fontBtn.className =
-      'inline-flex items-center gap-1.5 text-[11px] font-mono font-bold text-amber-900 bg-amber-50 hover:bg-amber-100 border border-amber-200 px-2.5 py-1.5 rounded-lg transition-colors';
+      'inline-flex items-center gap-1.5 text-[11px] font-mono font-bold text-amber-900 bg-amber-50 hover:bg-amber-100 border border-amber-200 px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer';
     const updateFontLabel = () => {
       const isQuant = document.body.classList.contains('font-mode-quant');
       fontBtn.innerHTML = `<span class="material-symbols-outlined text-[15px] text-amber-600">font_download</span><span>${
@@ -224,6 +428,8 @@
       );
     });
     bottomBar.appendChild(fontBtn);
+
+    syncAllThemeButtons();
 
     // 2. Scroll-Triggered Stagger Reveal via IntersectionObserver
     const revealTargets = document.querySelectorAll(
@@ -254,7 +460,7 @@
       poly.classList.add('rix-draw-path');
     });
 
-    // 4. Live Simulated OPRA Telemetry Micro-Ticks (Every 2.4 seconds)
+    // 4. Live Simulated OPRA Telemetry Micro-Ticks
     const spyPrices = [
       { ask: '2.45', bid: '2.43', iv: '14.8%', delta: '0.54', latency: '0.08ms' },
       { ask: '2.47', bid: '2.45', iv: '14.9%', delta: '0.55', latency: '0.07ms' },
