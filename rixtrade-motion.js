@@ -388,6 +388,125 @@
       from { opacity: 0; transform: translateX(30px) scale(0.95); }
       to   { opacity: 1; transform: translateX(0) scale(1); }
     }
+
+    /* ==========================================================================
+       INSTITUTIONAL MOTION GRAPHICS ENGINE (ALL 6 PAGES)
+       ========================================================================== */
+    /* 1. Top Viewport Laser Scroll Progress Bar */
+    #rixScrollLaserBar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      z-index: 100000;
+      background: linear-gradient(90deg, #089981 0%, #10b981 55%, #f59e0b 100%);
+      box-shadow: 0 0 14px rgba(16, 185, 129, 0.85), 0 0 28px rgba(245, 158, 11, 0.55);
+      transition: width 0.08s linear;
+      pointer-events: none;
+    }
+    #rixScrollLaserBar::after {
+      content: '';
+      position: absolute;
+      right: -4px;
+      top: -2.5px;
+      width: 8px;
+      height: 8px;
+      border-radius: 9999px;
+      background: #fbbf24;
+      box-shadow: 0 0 12px 3px rgba(251, 191, 36, 0.95);
+    }
+
+    /* 2. Animated Conic-Gradient Laser Border Beam on Featured Cards */
+    @keyframes rixBorderSpin {
+      0%   { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .rix-laser-card {
+      position: relative;
+      overflow: hidden;
+    }
+    .rix-laser-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1.5px;
+      background: linear-gradient(120deg, rgba(16,185,129,0.75), rgba(245,158,11,0.65), transparent 60%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+      opacity: 0.65;
+      animation: rixPulseGlow 3.2s ease-in-out infinite alternate;
+    }
+    @keyframes rixPulseGlow {
+      0%   { opacity: 0.32; filter: hue-rotate(0deg); }
+      100% { opacity: 0.88; filter: hue-rotate(18deg); }
+    }
+
+    /* 3. 3D Magnetic Tilt & Specular Glare */
+    .rix-tilt-card {
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    /* 4. Live Ticking Green / Red Flash Animations */
+    .rix-tick-down {
+      animation: rixFlashRed 0.7s ease-out;
+      font-variant-numeric: tabular-nums;
+    }
+    @keyframes rixFlashRed {
+      0%   { background-color: rgba(242, 54, 69, 0.28); border-radius: 4px; }
+      100% { background-color: transparent; }
+    }
+
+    /* 5. Live Equalizer Bars for Telemetry HUD */
+    @keyframes rixEqBar {
+      0%, 100% { transform: scaleY(0.35); }
+      50%      { transform: scaleY(1); }
+    }
+    .rix-eq-bar {
+      width: 2.5px;
+      height: 12px;
+      background: #10b981;
+      border-radius: 2px;
+      transform-origin: bottom;
+      animation: rixEqBar 0.85s ease-in-out infinite;
+    }
+    .rix-eq-bar:nth-child(2) { animation-delay: 0.18s; background: #34d399; }
+    .rix-eq-bar:nth-child(3) { animation-delay: 0.36s; background: #fbbf24; }
+    .rix-eq-bar:nth-child(4) { animation-delay: 0.52s; background: #10b981; }
+
+    /* 6. Bottom-Left Live Institutional Order-Flow HUD Pill */
+    #rixLiveExecutionHud {
+      position: fixed;
+      bottom: 16px;
+      left: 16px;
+      z-index: 9990;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(7, 13, 25, 0.92);
+      border: 1px solid rgba(16, 185, 129, 0.42);
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.55), 0 0 20px rgba(16, 185, 129, 0.14);
+      backdrop-filter: blur(14px);
+      padding: 8px 14px;
+      border-radius: 9999px;
+      color: #f8fafc;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      cursor: pointer;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
+      max-width: calc(100vw - 32px);
+    }
+    #rixLiveExecutionHud:hover {
+      transform: translateY(-2px) scale(1.015);
+      border-color: #fbbf24;
+    }
+    @media (max-width: 768px) {
+      #rixLiveExecutionHud { display: none; }
+    }
   `;
   document.head.appendChild(style);
 
@@ -687,5 +806,332 @@
         });
       }
     });
+
+    // =========================================================================
+    // 8. LAYER 1: TOP VIEWPORT LASER SCROLL PROGRESS BAR
+    // =========================================================================
+    const scrollLaser = document.createElement('div');
+    scrollLaser.id = 'rixScrollLaserBar';
+    document.body.appendChild(scrollLaser);
+
+    const updateScrollLaser = () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const docHeight = Math.max(
+        1,
+        document.documentElement.scrollHeight - document.documentElement.clientHeight
+      );
+      const pct = Math.min(100, Math.max(0, (scrollTop / docHeight) * 100));
+      scrollLaser.style.width = `${pct}%`;
+    };
+    window.addEventListener('scroll', updateScrollLaser, { passive: true });
+    updateScrollLaser();
+
+    // =========================================================================
+    // 9. LAYER 2: 60FPS HTML5 CANVAS FIBER-OPTIC PARTICLE NETWORK IN ALL 6 HEROS
+    // =========================================================================
+    const heroSelectors = [
+      '#founding-50-hero',
+      '#rules-hd-hero',
+      '#metrics-hd-hero',
+      '#rixtrade-server-hero',
+      '#faq-hd-hero',
+      '#affiliates-hd-hero'
+    ];
+    const heroLabels = [
+      'SPY 585C ↑ $2.46',
+      'FIX 4.4 • 0.08ms',
+      'EOD FLOOR $94,000',
+      'NVDA 135C • IV 38.4%',
+      'Δ +0.54 • Γ +0.08',
+      'OPRA L2 DIRECT',
+      'QQQ 500C ↑ $3.15',
+      'NY4 EQUINIX SYNC'
+    ];
+
+    heroSelectors.forEach((sel) => {
+      const heroEl = document.querySelector(sel);
+      if (!heroEl) return;
+
+      const canvas = document.createElement('canvas');
+      canvas.className = 'pointer-events-none';
+      canvas.style.cssText =
+        'position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;opacity:0.88;';
+      heroEl.insertBefore(canvas, heroEl.firstChild.nextSibling);
+
+      const ctx = canvas.getContext('2d');
+      let width = 0;
+      let height = 0;
+      let mouseX = -9999;
+      let mouseY = -9999;
+
+      const resizeCanvas = () => {
+        const rect = heroEl.getBoundingClientRect();
+        width = Math.max(300, Math.floor(rect.width));
+        height = Math.max(220, Math.floor(rect.height));
+        canvas.width = width;
+        canvas.height = height;
+      };
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+
+      heroEl.addEventListener('mousemove', (e) => {
+        const rect = heroEl.getBoundingClientRect();
+        mouseX = e.clientX - rect.left;
+        mouseY = e.clientY - rect.top;
+      });
+      heroEl.addEventListener('mouseleave', () => {
+        mouseX = -9999;
+        mouseY = -9999;
+      });
+
+      const nodeCount = 26;
+      const nodes = Array.from({ length: nodeCount }, (_, i) => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.65,
+        vy: (Math.random() - 0.5) * 0.55 - 0.15,
+        r: i % 5 === 0 ? 2.6 : 1.6,
+        gold: i % 4 === 0,
+        label: i % 5 === 0 ? heroLabels[i % heroLabels.length] : null
+      }));
+
+      const renderHeroMotion = () => {
+        ctx.clearRect(0, 0, width, height);
+
+        for (let i = 0; i < nodes.length; i++) {
+          const n = nodes[i];
+          n.x += n.vx;
+          n.y += n.vy;
+
+          if (n.x < 0) n.x = width;
+          if (n.x > width) n.x = 0;
+          if (n.y < 0) n.y = height;
+          if (n.y > height) n.y = 0;
+
+          // Connect nearby nodes with fiber-optic lines
+          for (let j = i + 1; j < nodes.length; j++) {
+            const m = nodes[j];
+            const dx = n.x - m.x;
+            const dy = n.y - m.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 145) {
+              const alpha = (1 - dist / 145) * 0.28;
+              ctx.strokeStyle = n.gold
+                ? `rgba(245, 158, 11, ${alpha})`
+                : `rgba(16, 185, 129, ${alpha})`;
+              ctx.lineWidth = 0.9;
+              ctx.beginPath();
+              ctx.moveTo(n.x, n.y);
+              ctx.lineTo(m.x, m.y);
+              ctx.stroke();
+            }
+          }
+
+          // Interactive cursor gravity & laser tether
+          const mdx = n.x - mouseX;
+          const mdy = n.y - mouseY;
+          const mDist = Math.sqrt(mdx * mdx + mdy * mdy);
+          if (mDist < 190) {
+            const mAlpha = (1 - mDist / 190) * 0.55;
+            ctx.strokeStyle = `rgba(251, 191, 36, ${mAlpha})`;
+            ctx.lineWidth = 1.15;
+            ctx.beginPath();
+            ctx.moveTo(n.x, n.y);
+            ctx.lineTo(mouseX, mouseY);
+            ctx.stroke();
+          }
+
+          // Draw glowing node core
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+          ctx.fillStyle = n.gold ? '#fbbf24' : '#10b981';
+          ctx.shadowBlur = 10;
+          ctx.shadowColor = n.gold ? '#f59e0b' : '#10b981';
+          ctx.fill();
+          ctx.shadowBlur = 0;
+
+          // Draw floating micro-telemetry tag on selected nodes
+          if (n.label) {
+            ctx.font = '600 9.5px "JetBrains Mono", monospace';
+            ctx.fillStyle = n.gold
+              ? 'rgba(251, 191, 36, 0.78)'
+              : 'rgba(52, 211, 153, 0.76)';
+            ctx.fillText(n.label, n.x + 6, n.y - 4);
+          }
+        }
+        requestAnimationFrame(renderHeroMotion);
+      };
+      requestAnimationFrame(renderHeroMotion);
+
+      // Add Animated SVG Fiber-Optic Data Stream Ribbon at Bottom of Hero
+      const svgDivider = document.createElement('div');
+      svgDivider.className = 'pointer-events-none';
+      svgDivider.style.cssText =
+        'position:absolute;bottom:0;left:0;right:0;height:28px;z-index:5;overflow:hidden;pointer-events:none;';
+      svgDivider.innerHTML = `
+        <svg viewBox="0 0 1440 28" fill="none" preserveAspectRatio="none" style="width:100%;height:100%;">
+          <path id="rixWavePath_${sel.replace('#', '')}" d="M0 18 Q 360 4, 720 18 T 1440 16" stroke="rgba(16,185,129,0.42)" stroke-width="1.5" fill="none"/>
+          <path d="M0 22 Q 360 28, 720 14 T 1440 22" stroke="rgba(245,158,11,0.28)" stroke-width="1" stroke-dasharray="6 6" fill="none"/>
+          <circle r="3.5" fill="#10b981">
+            <animateMotion dur="5.5s" repeatCount="indefinite" path="M0 18 Q 360 4, 720 18 T 1440 16" />
+          </circle>
+          <circle r="3" fill="#fbbf24">
+            <animateMotion dur="7.2s" begin="1.5s" repeatCount="indefinite" path="M0 18 Q 360 4, 720 18 T 1440 16" />
+          </circle>
+        </svg>
+      `;
+      heroEl.appendChild(svgDivider);
+    });
+
+    // =========================================================================
+    // 10. LAYER 3: 3D MAGNETIC CARD TILT + LASER BORDER BEAMS ACROSS ALL PAGES
+    // =========================================================================
+    const interactiveCards = document.querySelectorAll(
+      'main section .rounded-xl, main section .rounded-2xl:not([id$="-hero"]), article.faq-item'
+    );
+    interactiveCards.forEach((card, idx) => {
+      if (card.closest('table')) return;
+      if (idx % 3 === 0) {
+        card.classList.add('rix-laser-card');
+      }
+      card.classList.add('rix-tilt-card');
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        if (rect.width > 950) return; // Skip full-width containers so they stay rock-steady
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const rotY = ((x / rect.width - 0.5) * 4.2).toFixed(2);
+        const rotX = ((0.5 - y / rect.height) * 4.2).toFixed(2);
+        card.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-3px)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
+    });
+
+    // =========================================================================
+    // 11. LAYER 4: SCROLL-TRIGGERED NUMBER ODOMETER + LIVE TABLE MICRO-TICKS
+    // =========================================================================
+    const odometerCandidates = document.querySelectorAll(
+      '.font-data-tabular, .font-mono, h2, h3, .text-headline-md, .text-headline-lg'
+    );
+    const odoObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target;
+          odoObserver.unobserve(el);
+          if (el.children.length > 0 || el.dataset.rixAnimated) return;
+
+          const raw = el.textContent.trim();
+          // Match clean currency/percent/metric tokens like "$100,000", "$94,000.00", "80%", "38,400+"
+          const match = raw.match(/^(\$?)(\d{1,3}(?:,\d{3})+|\d+(?:\.\d+)?)(%|ms|\+|K)?$/);
+          if (!match) return;
+
+          el.dataset.rixAnimated = '1';
+          const prefix = match[1] || '';
+          const numStr = match[2].replace(/,/g, '');
+          const suffix = match[3] || '';
+          const targetVal = parseFloat(numStr);
+          if (isNaN(targetVal) || targetVal === 0) return;
+
+          const hasDecimals = numStr.includes('.');
+          const decimals = hasDecimals ? numStr.split('.')[1].length : 0;
+          const hasCommas = match[2].includes(',');
+          const duration = 1150;
+          const startTime = performance.now();
+
+          const stepOdo = (now) => {
+            const progress = Math.min(1, (now - startTime) / duration);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = targetVal * eased;
+            let formatted = current.toFixed(decimals);
+            if (hasCommas) {
+              const parts = formatted.split('.');
+              parts[0] = parseInt(parts[0], 10).toLocaleString('en-US');
+              formatted = parts.join('.');
+            }
+            el.textContent = `${prefix}${formatted}${suffix}`;
+            if (progress < 1) {
+              requestAnimationFrame(stepOdo);
+            } else {
+              el.textContent = raw;
+            }
+          };
+          requestAnimationFrame(stepOdo);
+        });
+      },
+      { threshold: 0.25 }
+    );
+    odometerCandidates.forEach((el) => odoObserver.observe(el));
+
+    // Periodic Live Option Chain & Table Cell Micro-Ticks (Every 1.8s)
+    setInterval(() => {
+      const cells = document.querySelectorAll('td.font-mono, td.font-data-tabular, .font-data-tabular');
+      if (!cells.length) return;
+      const pick = cells[Math.floor(Math.random() * cells.length)];
+      if (!pick || pick.children.length > 0) return;
+      const txt = pick.textContent.trim();
+      const priceMatch = txt.match(/^\$(\d+\.\d{2})$/);
+      if (priceMatch) {
+        const oldPrice = parseFloat(priceMatch[1]);
+        const delta = (Math.random() > 0.45 ? 0.02 : -0.02);
+        const newPrice = Math.max(0.05, oldPrice + delta).toFixed(2);
+        pick.textContent = `$${newPrice}`;
+        pick.classList.remove('rix-tick-up', 'rix-tick-down');
+        void pick.offsetWidth;
+        pick.classList.add(delta > 0 ? 'rix-tick-up' : 'rix-tick-down');
+      }
+    }, 1850);
+
+    // =========================================================================
+    // 12. LAYER 5: LIVE OPRA ORDER-FLOW & PAYOUT PULSE HUD (BOTTOM-LEFT)
+    // =========================================================================
+    const liveFeedEvents = [
+      { tag: 'DMA FILL • 0.08ms', text: 'BUY +10 SPY 585C @ $2.45 via Equinix NY4', color: '#10b981' },
+      { tag: 'PAYOUT SETTLED', text: '$4,820.00 USDC → Trader #OF-104891 (80% Split)', color: '#fbbf24' },
+      { tag: 'EOD SHIELD VERIFIED', text: 'Account #OF-104928 Floor Locked at $94,000.00', color: '#34d399' },
+      { tag: 'OPRA SWEEP • 1.9ms', text: 'BUY +15 NVDA 135C @ $3.40 • IV 38.4%', color: '#10b981' },
+      { tag: 'PARTNER COMMISSION', text: '+$372.50 Recurring Credit → Tier 3 Affiliate', color: '#fbbf24' }
+    ];
+    let feedIndex = 0;
+
+    const hudEl = document.createElement('div');
+    hudEl.id = 'rixLiveExecutionHud';
+    hudEl.title = 'Click to simulate an instant Direct-Market-Access (DMA) Option Fill';
+    const renderHudEvent = (evt) => {
+      hudEl.innerHTML = `
+        <div style="display:flex;align-items:flex-end;gap:2px;height:13px;">
+          <span class="rix-eq-bar"></span>
+          <span class="rix-eq-bar"></span>
+          <span class="rix-eq-bar"></span>
+          <span class="rix-eq-bar"></span>
+        </div>
+        <span style="padding:2px 6px;border-radius:4px;background:rgba(16,185,129,0.16);border:1px solid rgba(16,185,129,0.35);color:${evt.color};font-weight:700;font-size:10px;letter-spacing:0.04em;">
+          ${evt.tag}
+        </span>
+        <span style="color:#e2e8f0;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:290px;">
+          ${evt.text}
+        </span>
+      `;
+    };
+    renderHudEvent(liveFeedEvents[0]);
+    hudEl.addEventListener('click', () => {
+      feedIndex = (feedIndex + 1) % liveFeedEvents.length;
+      const evt = liveFeedEvents[feedIndex];
+      renderHudEvent(evt);
+      showRixToast(
+        `⚡ ${evt.tag}`,
+        `${evt.text} — Synchronized across RixTrade WebTrader & OPRA L2 Telemetry Engine.`,
+        'LIVE STREAM',
+        false
+      );
+    });
+    document.body.appendChild(hudEl);
+
+    setInterval(() => {
+      feedIndex = (feedIndex + 1) % liveFeedEvents.length;
+      renderHudEvent(liveFeedEvents[feedIndex]);
+    }, 5200);
   });
 })();
