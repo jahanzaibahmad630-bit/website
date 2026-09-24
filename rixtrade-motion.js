@@ -28,27 +28,55 @@
       --font-quant: 'JetBrains Mono', monospace;
     }
 
-    body {
-      font-family: var(--font-ui) !important;
-      font-feature-settings: "cv02" 1, "cv03" 1, "cv04" 1, "cv11" 1, "ss01" 1;
+    /* Strictly protect Material Symbols Outlined icons so ligatures NEVER turn into raw text overlapping headings */
+    .material-symbols-outlined,
+    span.material-symbols-outlined {
+      font-family: 'Material Symbols Outlined' !important;
+      font-weight: normal !important;
+      font-style: normal !important;
+      line-height: 1 !important;
+      letter-spacing: normal !important;
+      text-transform: none !important;
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap !important;
+      word-wrap: normal !important;
+      direction: ltr !important;
+      -webkit-font-feature-settings: 'liga' !important;
+      font-feature-settings: 'liga' !important;
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      transition: background-color 0.25s ease, color 0.25s ease;
-      animation: rixPageFadeIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+      overflow: hidden;
+      max-width: 1.4em;
+      user-select: none;
     }
 
-    /* TradingView Euclid Circular B Proportions: Tight -0.035em tracking & 1.06 line-height */
+    body,
+    p:not(.material-symbols-outlined),
+    a:not(.material-symbols-outlined),
+    button:not(.material-symbols-outlined),
+    input,
+    select,
+    li,
+    label,
+    div:not(.material-symbols-outlined),
+    span:not(.material-symbols-outlined) {
+      font-family: var(--font-ui) !important;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
     h1, .font-display-lg, .text-display-lg {
       font-family: var(--font-display) !important;
-      letter-spacing: -0.036em !important;
-      line-height: 1.06 !important;
+      letter-spacing: -0.03em !important;
+      line-height: 1.08 !important;
     }
     h2, h3, h4,
     .font-headline-lg, .text-headline-lg,
     .font-headline-md, .text-headline-md,
     .font-headline-sm, .text-headline-sm {
       font-family: var(--font-display) !important;
-      letter-spacing: -0.026em !important;
+      letter-spacing: -0.024em !important;
     }
 
     .font-mono,
