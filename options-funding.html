@@ -87,57 +87,127 @@
 </style>
 </head>
 <body class="bg-white text-slate-900 min-h-screen w-full selection:bg-amber-500/20 selection:text-amber-800 antialiased flex flex-col font-sans relative overflow-x-hidden">
-<!-- 1. Top Notification Bar (Clean light gold banner) -->
-<div class="bg-amber-50 border-b border-amber-200/80 py-2.5 px-4 text-center relative z-50">
-<div class="max-w-[1440px] mx-auto flex items-center justify-center gap-2 text-xs md:text-sm text-amber-950">
-<span class="inline-flex items-center gap-1.5 font-bold tracking-wide">
-<span class="text-amber-600 text-base">⚡</span>
-<span class="text-amber-900 font-extrabold">60% OFF ALL ACCOUNTS</span>
-<span class="text-amber-300 hidden sm:inline">|</span>
-<span class="text-amber-800 font-medium hidden sm:inline">Use code:</span>
-<span class="px-2 py-0.5 rounded bg-white text-amber-800 font-mono font-bold border border-amber-300 shadow-xs">OF</span>
-<span class="text-amber-300 hidden md:inline">|</span>
-<span class="text-amber-700 font-semibold tracking-wide">SALE ENDS SUNDAY 11:59PM ET</span>
-</span>
+<!-- 1. Top Institutional Command & Promo Ribbon (Matches 4K HD Hero Obsidian/Gold/Emerald Palette & Fills Left/Right Zones) -->
+<div id="rixTopPromoRibbon" class="bg-[#050B14] border-b border-emerald-500/25 py-2 px-4 lg:px-10 relative z-50 overflow-hidden">
+  <!-- Ambient Gold/Emerald Shimmer Glow Matching Hero -->
+  <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(circle at 50% 50%, rgba(245,158,11,0.12) 0%, rgba(16,185,129,0.08) 45%, transparent 100%);"></div>
+  <div class="max-w-[1440px] mx-auto relative z-10 flex flex-wrap items-center justify-between gap-3 text-xs">
+    
+    <!-- LEFT ZONE: Live Exchange Session & Founding 50 Slot Progress (Fills Empty Left Space) -->
+    <div class="hidden xl:flex items-center gap-3">
+      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-900/90 border border-emerald-500/35 text-emerald-400 font-mono text-[11px] font-semibold">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+        OPRA L2 DIRECT • NY4 0.08ms
+      </span>
+      <div class="flex items-center gap-2 bg-slate-900/80 border border-amber-500/30 px-2.5 py-1 rounded-md">
+        <span class="text-[11px] font-mono text-slate-300">FOUNDING 50 SLOTS:</span>
+        <span class="text-[11px] font-mono font-bold text-amber-400">7 / 50 LEFT</span>
+        <div class="w-16 h-1.5 rounded-full bg-slate-800 overflow-hidden">
+          <div class="h-full w-[86%] bg-gradient-to-r from-emerald-400 to-amber-400 rounded-full"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CENTER ZONE: 60% Off Offer + Click-to-Copy Code "OF" + Live Ticking Countdown -->
+    <div class="flex items-center justify-center gap-2.5 mx-auto xl:mx-0 flex-wrap">
+      <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/15 border border-amber-400/40 text-amber-300 font-extrabold tracking-wide text-[11px] uppercase">
+        <span>⚡</span>
+        <span>60% OFF ALL ACCOUNTS</span>
+      </span>
+      <span class="text-slate-400 hidden sm:inline">•</span>
+      <button onclick="navigator.clipboard?.writeText('OF'); if(window.showRixPromoToast) window.showRixPromoToast();" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-slate-900 hover:bg-slate-800 border border-amber-400/50 text-white font-mono text-[11px] cursor-pointer transition-all group" title="Click to copy promo code OF">
+        <span class="text-slate-300">Use code:</span>
+        <span class="font-extrabold text-amber-400 group-hover:text-amber-300">OF</span>
+        <span class="material-symbols-outlined text-[13px] text-amber-400">content_copy</span>
+      </button>
+      <span class="text-slate-400 hidden md:inline">•</span>
+      <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-slate-900/90 border border-slate-700/80 text-slate-200 font-mono text-[11px]">
+        <span class="text-amber-400 font-semibold">ENDS IN:</span>
+        <span id="rixPromoCountdown" class="text-white font-bold tracking-wider">02D : 09H : 36M : 18S</span>
+      </div>
+    </div>
+
+    <!-- RIGHT ZONE: Live 24H Verified Payouts & EOD Shield Telemetry (Fills Empty Right Space) -->
+    <div class="hidden xl:flex items-center gap-3">
+      <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-900/80 border border-slate-700/80 text-[11px] font-mono text-slate-300">
+        <span class="material-symbols-outlined text-[14px] text-emerald-400">payments</span>
+        <span>24H PAYOUTS:</span>
+        <span class="text-emerald-400 font-bold">$48,920 USDC</span>
+      </div>
+      <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-emerald-500/15 border border-emerald-500/35 text-emerald-300 font-mono text-[11px] font-bold">
+        <span class="material-symbols-outlined text-[13px]">shield</span>
+        80% SPLIT
+      </span>
+    </div>
+
+  </div>
 </div>
-</div>
-<!-- 2. Main Navigation Bar -->
-<header class="sticky top-0 z-40 backdrop-blur-xl bg-white/95 border-b border-slate-200 shadow-xs">
-<div class="flex justify-between items-center w-full px-6 lg:px-12 max-w-[1440px] mx-auto h-20">
-<!-- Brand Logo -->
-<a class="flex items-center gap-3 group cursor-pointer focus:outline-none" href="#">
-<div class="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 to-emerald-600 p-0.5 flex items-center justify-center shadow-sm">
-<div class="w-full h-full bg-white rounded-[10px] flex items-center justify-center">
-<span class="material-symbols-outlined text-[20px] text-amber-600">query_stats</span>
-</div>
-</div>
-<div class="flex flex-col">
-<span class="text-lg md:text-xl font-extrabold tracking-tight text-slate-900 flex items-center gap-1.5">
-          Options <span class="text-amber-600">Funding</span>
-</span>
-<span class="text-[10px] font-mono text-slate-500 -mt-1 tracking-widest uppercase">WebTrader • RixTrade</span>
-</div>
-</a>
-<!-- Navigation Links (Each tab is a separate page) -->
-<nav class="hidden lg:flex items-center gap-7 h-full whitespace-nowrap">
-<a class="text-amber-700 font-bold text-sm border-b-2 border-amber-500 py-1 flex items-center h-full transition-colors whitespace-nowrap" href="options-funding.html">Founding 50</a>
-<a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full whitespace-nowrap" href="rules.html">Rules</a>
-<a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full whitespace-nowrap" href="account-metrics.html">Account Metrics</a>
-<a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full whitespace-nowrap" href="rixtrade-platform.html">RixTrade Platform</a>
-<a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full whitespace-nowrap" href="faq.html">FAQ</a>
-<a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full whitespace-nowrap" href="affiliates.html">Affiliates</a>
-</nav>
-<!-- Header Actions -->
-<div class="flex items-center gap-4">
-<a class="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-slate-700 hover:text-slate-900 px-3 py-2 transition-colors" href="#signin">
-<span class="material-symbols-outlined text-[18px] text-slate-500">lock_open</span>
-<span class="">Sign In</span>
-</a>
-<a class="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl font-bold text-sm bg-amber-500 hover:bg-amber-400 text-slate-950 transition-all duration-150 shadow-sm hover:shadow-md hover:scale-[1.02] active:scale-95" href="#get-funded">
-<span class="">Get Funded</span>
-<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-</a>
-</div>
+
+<!-- 2. Main Navigation Bar (Hero-Matched Obsidian Glass Command Header) -->
+<header id="rixMainHeader" class="sticky top-0 z-40 backdrop-blur-xl bg-[#070D19]/95 border-b border-emerald-500/25 shadow-[0_10px_30px_rgba(0,0,0,0.45)]">
+<div class="flex justify-between items-center w-full px-5 lg:px-10 max-w-[1440px] mx-auto h-20 gap-4">
+  <!-- Brand Logo + Live SPY Mini Sparkline Widget (Fills Empty Space Beside Logo) -->
+  <div class="flex items-center gap-4">
+    <a class="flex items-center gap-3 group cursor-pointer focus:outline-none" href="options-funding.html">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-emerald-600 p-0.5 flex items-center justify-center shadow-[0_0_18px_rgba(16,185,129,0.35)]">
+        <div class="w-full h-full bg-[#050B14] rounded-[10px] flex items-center justify-center">
+          <span class="material-symbols-outlined text-[21px] text-amber-400">query_stats</span>
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-lg md:text-xl font-extrabold tracking-tight text-white flex items-center gap-1.5">
+          Options <span class="text-amber-400">Funding</span>
+        </span>
+        <span class="text-[10px] font-mono text-emerald-400 -mt-1 tracking-widest uppercase">WebTrader • RixTrade</span>
+      </div>
+    </a>
+
+    <!-- Live SPY & VIX Mini Sparkline Telemetry Pill (Bridges Logo & Nav Links) -->
+    <div class="hidden 2xl:flex items-center gap-2.5 pl-4 border-l border-slate-800">
+      <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/90 border border-slate-800">
+        <div class="flex flex-col">
+          <div class="flex items-center gap-1.5">
+            <span class="text-[11px] font-mono font-bold text-white">SPY</span>
+            <span class="text-[11px] font-mono font-bold text-emerald-400">$585.42</span>
+            <span class="text-[10px] font-mono text-emerald-400 bg-emerald-500/15 px-1 rounded">+1.18%</span>
+          </div>
+          <span class="text-[9px] font-mono text-slate-400">0DTE VOL: 1.42M • VIX 14.8</span>
+        </div>
+        <svg width="48" height="22" viewBox="0 0 48 22" fill="none" class="overflow-visible">
+          <path d="M2 18 L10 14 L18 16 L26 9 L34 11 L46 3" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="46" cy="3" r="2.5" fill="#fbbf24"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation Links (Sleek Obsidian Pill Tabs Matching Hero) -->
+  <nav class="hidden lg:flex items-center gap-1.5 bg-slate-900/80 border border-slate-800/90 p-1.5 rounded-xl whitespace-nowrap">
+    <a class="px-3.5 py-2 rounded-lg bg-gradient-to-r from-emerald-500/20 to-amber-500/20 border border-amber-400/40 text-amber-300 font-bold text-xs md:text-sm flex items-center gap-1.5 transition-all whitespace-nowrap shadow-xs" href="options-funding.html">
+      <span>Founding 50</span>
+      <span class="px-1.5 py-0.2 rounded bg-amber-400 text-slate-950 font-mono text-[10px] font-extrabold">50</span>
+    </a>
+    <a class="px-3.5 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/70 font-medium text-xs md:text-sm transition-all whitespace-nowrap" href="rules.html">Rules</a>
+    <a class="px-3.5 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/70 font-medium text-xs md:text-sm transition-all whitespace-nowrap" href="account-metrics.html">Account Metrics</a>
+    <a class="px-3.5 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/70 font-medium text-xs md:text-sm transition-all flex items-center gap-1.5 whitespace-nowrap" href="rixtrade-platform.html">
+      <span>RixTrade Platform</span>
+      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+    </a>
+    <a class="px-3.5 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/70 font-medium text-xs md:text-sm transition-all whitespace-nowrap" href="faq.html">FAQ</a>
+    <a class="px-3.5 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/70 font-medium text-xs md:text-sm transition-all whitespace-nowrap" href="affiliates.html">Affiliates</a>
+  </nav>
+
+  <!-- Header Actions -->
+  <div class="flex items-center gap-3">
+    <a class="hidden sm:inline-flex items-center gap-1.5 text-xs md:text-sm font-semibold text-slate-200 hover:text-white bg-slate-900/85 hover:bg-slate-800 border border-slate-700/80 px-3.5 py-2 rounded-xl transition-all" href="#signin">
+      <span class="material-symbols-outlined text-[17px] text-emerald-400">lock_open</span>
+      <span>Sign In</span>
+    </a>
+    <a class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs md:text-sm bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 transition-all duration-150 shadow-[0_0_20px_rgba(245,158,11,0.35)] hover:scale-[1.02] active:scale-95" href="#get-funded">
+      <span>Get Funded</span>
+      <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+    </a>
+  </div>
 </div>
 </header>
 <main class="flex-grow">

@@ -184,9 +184,22 @@
       color: #F1F5F9 !important;
     }
 
-    html.rix-dark-mode header {
-      background-color: rgba(11, 14, 20, 0.94) !important;
-      border-bottom-color: #1E222D !important;
+    /* Universal Hero-Matched Obsidian Glass Command Header (All 6 Pages) */
+    header {
+      background-color: rgba(7, 13, 25, 0.96) !important;
+      border-bottom: 1px solid rgba(16, 185, 129, 0.28) !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.38) !important;
+    }
+    header span,
+    header a:not(.bg-amber-500):not(.bg-emerald-600):not(.bg-primary) {
+      color: #E2E8F0 !important;
+    }
+    header a:hover:not(.bg-amber-500):not(.bg-emerald-600):not(.bg-primary) {
+      color: #FBBF24 !important;
+    }
+    header a.border-b-2 {
+      color: #34D399 !important;
+      border-bottom-color: #10B981 !important;
     }
 
     html.rix-dark-mode section.bg-white,
@@ -606,12 +619,89 @@
 
     window.toggleVideoTheme = window.toggleGlobalTheme;
 
+    window.showRixPromoToast = function () {
+      showRixToast(
+        '⚡ PROMO CODE "OF" COPIED!',
+        '60% Instant Discount ($59/mo vs $149/mo) copied to clipboard for your $100K Founding 50 Evaluation.',
+        '60% OFF ACTIVE',
+        false
+      );
+    };
+
+    // Inject 3-Zone Hero-Matched Top Command Promo Ribbon on pages that don't have it yet
+    const mainHeader = document.querySelector('header');
+    if (mainHeader && !document.getElementById('rixTopPromoRibbon')) {
+      const promoRibbon = document.createElement('div');
+      promoRibbon.id = 'rixTopPromoRibbon';
+      promoRibbon.className =
+        'bg-[#050B14] border-b border-emerald-500/25 py-2 px-4 lg:px-10 relative z-50 overflow-hidden';
+      promoRibbon.innerHTML = `
+        <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(circle at 50% 50%, rgba(245,158,11,0.12) 0%, rgba(16,185,129,0.08) 45%, transparent 100%);"></div>
+        <div class="max-w-[1440px] mx-auto relative z-10 flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div class="hidden xl:flex items-center gap-3">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-900/90 border border-emerald-500/35 text-emerald-400 font-mono text-[11px] font-semibold">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+              OPRA L2 DIRECT • NY4 0.08ms
+            </span>
+            <div class="flex items-center gap-2 bg-slate-900/80 border border-amber-500/30 px-2.5 py-1 rounded-md">
+              <span class="text-[11px] font-mono text-slate-300">FOUNDING 50 SLOTS:</span>
+              <span class="text-[11px] font-mono font-bold text-amber-400">7 / 50 LEFT</span>
+              <div class="w-16 h-1.5 rounded-full bg-slate-800 overflow-hidden">
+                <div class="h-full w-[86%] bg-gradient-to-r from-emerald-400 to-amber-400 rounded-full"></div>
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center justify-center gap-2.5 mx-auto xl:mx-0 flex-wrap">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/15 border border-amber-400/40 text-amber-300 font-extrabold tracking-wide text-[11px] uppercase">
+              <span>⚡</span>
+              <span>60% OFF ALL ACCOUNTS</span>
+            </span>
+            <span class="text-slate-400 hidden sm:inline">•</span>
+            <button onclick="navigator.clipboard?.writeText('OF'); if(window.showRixPromoToast) window.showRixPromoToast();" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-slate-900 hover:bg-slate-800 border border-amber-400/50 text-white font-mono text-[11px] cursor-pointer transition-all group" title="Click to copy promo code OF">
+              <span class="text-slate-300">Use code:</span>
+              <span class="font-extrabold text-amber-400 group-hover:text-amber-300">OF</span>
+              <span class="material-symbols-outlined text-[13px] text-amber-400">content_copy</span>
+            </button>
+            <span class="text-slate-400 hidden md:inline">•</span>
+            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-slate-900/90 border border-slate-700/80 text-slate-200 font-mono text-[11px]">
+              <span class="text-amber-400 font-semibold">ENDS IN:</span>
+              <span id="rixPromoCountdown" class="text-white font-bold tracking-wider">02D : 09H : 36M : 18S</span>
+            </div>
+          </div>
+          <div class="hidden xl:flex items-center gap-3">
+            <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-900/80 border border-slate-700/80 text-[11px] font-mono text-slate-300">
+              <span class="material-symbols-outlined text-[14px] text-emerald-400">payments</span>
+              <span>24H PAYOUTS:</span>
+              <span class="text-emerald-400 font-bold">$48,920 USDC</span>
+            </div>
+            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-emerald-500/15 border border-emerald-500/35 text-emerald-300 font-mono text-[11px] font-bold">
+              <span class="material-symbols-outlined text-[13px]">shield</span>
+              80% SPLIT
+            </span>
+          </div>
+        </div>
+      `;
+      mainHeader.parentNode.insertBefore(promoRibbon, mainHeader);
+    }
+
+    // Live 1-Second Countdown Timer for #rixPromoCountdown across all 6 pages
+    let remainingSecs = 2 * 86400 + 9 * 3600 + 36 * 60 + 18;
+    setInterval(() => {
+      remainingSecs = Math.max(0, remainingSecs - 1);
+      const d = String(Math.floor(remainingSecs / 86400)).padStart(2, '0');
+      const h = String(Math.floor((remainingSecs % 86400) / 3600)).padStart(2, '0');
+      const m = String(Math.floor((remainingSecs % 3600) / 60)).padStart(2, '0');
+      const s = String(remainingSecs % 60).padStart(2, '0');
+      const el = document.getElementById('rixPromoCountdown');
+      if (el) el.textContent = `${d}D : ${h}H : ${m}M : ${s}S`;
+    }, 1000);
+
     const headerActionCluster = document.querySelector('header > div > div:last-child');
     if (headerActionCluster) {
       const navThemeBtn = document.createElement('button');
       navThemeBtn.type = 'button';
       navThemeBtn.className =
-        'rix-global-theme-btn inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-800 text-xs font-mono font-bold transition-all cursor-pointer whitespace-nowrap shadow-xs';
+        'rix-global-theme-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-emerald-500/35 bg-slate-900/90 hover:bg-slate-800 text-emerald-300 text-xs font-mono font-bold transition-all cursor-pointer whitespace-nowrap shadow-xs';
       navThemeBtn.title = 'Switch Whole Website Between Light & Dark Mode';
       navThemeBtn.addEventListener('click', window.toggleGlobalTheme);
       headerActionCluster.insertBefore(navThemeBtn, headerActionCluster.firstChild);
