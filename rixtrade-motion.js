@@ -411,7 +411,71 @@
       document.body.classList.add('font-mode-quant');
     }
 
-    // 1. Keep top header transition 100% pure and borderless like trading.com (no ticker bar under header)
+    // 1. Universal trading.com Pure Black (#000000) Navbar + Strip All Monospace Badge Clutter Across All 6 Pages
+    const currentFile = (window.location.pathname.split('/').pop() || 'options-funding.html').toLowerCase();
+    const headerEl = document.querySelector('header');
+    if (headerEl) {
+      // Remove any sub-header ticker strip right after header (e.g., on rixtrade-platform.html)
+      const nextEl = headerEl.nextElementSibling;
+      if (nextEl && nextEl.tagName === 'DIV' && nextEl.textContent.includes('EQUINIX')) {
+        nextEl.remove();
+      }
+      const navLinks = [
+        { href: 'options-funding.html', label: 'Founding 50' },
+        { href: 'rules.html', label: 'Rules' },
+        { href: 'account-metrics.html', label: 'Account Metrics' },
+        { href: 'rixtrade-platform.html', label: 'RixTrade Platform' },
+        { href: 'faq.html', label: 'FAQ' },
+        { href: 'affiliates.html', label: 'Affiliates' }
+      ];
+      headerEl.className = 'sticky top-0 z-50 bg-[#000000] border-none';
+      headerEl.innerHTML = `
+        <div class="w-full max-w-[1320px] mx-auto px-6 lg:px-10 h-20 flex items-center justify-between">
+          <a href="options-funding.html" class="flex items-center gap-0.5 text-white text-[22px] font-extrabold tracking-[-0.03em] focus:outline-none">
+            <span>optionsfunding</span><span class="text-[#00A876]">.co</span>
+          </a>
+          <div class="flex items-center gap-7">
+            <nav class="hidden lg:flex items-center gap-7 text-[13.5px] font-semibold">
+              ${navLinks
+                .map(
+                  (l) =>
+                    `<a href="${l.href}" class="${
+                      currentFile === l.href
+                        ? 'text-white font-bold'
+                        : 'text-[#D1D5DB] hover:text-white'
+                    } transition-colors whitespace-nowrap">${l.label}</a>`
+                )
+                .join('')}
+            </nav>
+            <div class="flex items-center gap-5">
+              <a href="options-funding.html#get-funded" class="px-5 py-2.5 rounded-[4px] bg-[#00A876] hover:bg-[#009266] text-white font-bold text-[12px] uppercase tracking-[0.04em] transition-colors whitespace-nowrap">
+                GET FUNDED
+              </a>
+              <a href="#signin" class="hidden sm:inline-block text-white hover:text-[#00A876] font-semibold text-[13.5px] transition-colors whitespace-nowrap">
+                Log In
+              </a>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Remove all boxy monospace pill badges (e.g. "FOUNDING 50 EVALUATION MATRIX", "EOD SHIELD...", "//", etc.)
+    document.querySelectorAll('main div.inline-flex, main span.inline-flex').forEach((badge) => {
+      const txt = badge.textContent.trim();
+      if (
+        txt.includes('//') ||
+        txt.includes('MATRIX') ||
+        txt.includes('SNAPSHOT') ||
+        txt.includes('ENGINE') ||
+        txt.includes('PROTOCOL') ||
+        txt.includes('TELEMETRY') ||
+        badge.classList.contains('font-mono') ||
+        badge.querySelector('.animate-ping, .animate-pulse')
+      ) {
+        badge.remove();
+      }
+    });
 
     // 2. Toast Container
     const toastContainer = document.createElement('div');
@@ -476,7 +540,7 @@
 
     window.toggleVideoTheme = window.toggleGlobalTheme;
 
-    const headerActionCluster = document.querySelector('header > div > div:last-child');
+    const headerActionCluster = document.querySelector('header > div > div:last-child > div:last-child');
     if (headerActionCluster) {
       const navThemeBtn = document.createElement('button');
       navThemeBtn.type = 'button';
