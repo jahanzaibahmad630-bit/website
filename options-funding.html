@@ -61,11 +61,11 @@
     transition: opacity 0.4s ease;
   }
   body:not(.video-dark-mode) .bg-video-element {
-    opacity: 0.24;
-    filter: contrast(1.1) saturate(1.25);
+    opacity: 0.36;
+    filter: contrast(1.14) saturate(1.32);
   }
   body:not(.video-dark-mode) .hero-video-veil {
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.86) 0%, rgba(255, 255, 255, 0.72) 50%, rgba(255, 255, 255, 0.60) 100%);
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.80) 0%, rgba(255, 255, 255, 0.62) 50%, rgba(255, 255, 255, 0.48) 100%);
   }
   body.video-dark-mode #founding-50-hero {
     background-color: #030812 !important;
@@ -143,8 +143,8 @@
 <!-- Hero Section -->
 <section id="founding-50-hero" class="relative pt-14 pb-20 md:pt-20 md:pb-28 overflow-hidden bg-white border-b border-slate-200 transition-colors duration-300">
 <!-- Pure HTML5 Background Video (No Zoom / Shake) -->
-<video id="heroBgVideo" autoplay loop muted playsinline poster="assets/motion-2.png" class="bg-video-element">
-  <source id="heroBgVideoSrc" src="assets/bg-hologram-video.mp4" type="video/mp4" />
+<video id="heroBgVideo" autoplay loop muted playsinline poster="assets/equity-curve-3d.jpg" class="bg-video-element">
+  <source id="heroBgVideoSrc" src="assets/equity-curve-3d.mp4" type="video/mp4" />
 </video>
 <div class="hero-video-veil absolute inset-0 pointer-events-none z-[1] transition-all duration-300"></div>
 <!-- Ambient Background Subtle Warm Glow -->
@@ -806,7 +806,7 @@
 <div class="fixed bottom-4 right-4 z-50 flex items-center gap-2 bg-white/95 backdrop-blur-md border border-slate-200 shadow-lg rounded-xl p-1.5">
   <button onclick="switchBgVideoSource()" class="inline-flex items-center gap-1.5 text-[11px] font-mono font-bold text-emerald-900 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-2.5 py-1.5 rounded-lg transition-colors">
     <span class="material-symbols-outlined text-[15px] text-emerald-600">videocam</span>
-    <span id="videoSourceLabel">Video 1 (Hologram)</span>
+    <span id="videoSourceLabel">Video 2 (3D Equity)</span>
   </button>
   <button onclick="toggleVideoTheme()" class="inline-flex items-center gap-1.5 text-[11px] font-mono font-bold text-sky-900 bg-sky-50 hover:bg-sky-100 border border-sky-200 px-2.5 py-1.5 rounded-lg transition-colors">
     <span class="material-symbols-outlined text-[15px] text-sky-600">contrast</span>
@@ -816,8 +816,8 @@
 <script>
   let currentVideoIdx = 0;
   const videoSources = [
-    { src: 'assets/bg-hologram-video.mp4', label: 'Video 1 (Hologram)' },
-    { src: 'assets/equity-curve-3d.mp4', label: 'Video 2 (3D Candlesticks)' }
+    { src: 'assets/equity-curve-3d.mp4', label: 'Video 2 (3D Equity)' },
+    { src: 'assets/bg-hologram-video.mp4', label: 'Video 1 (Hologram)' }
   ];
   function switchBgVideoSource() {
     currentVideoIdx = (currentVideoIdx + 1) % videoSources.length;
