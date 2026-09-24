@@ -11,61 +11,84 @@
   const fontLink = document.createElement('link');
   fontLink.rel = 'stylesheet';
   fontLink.href =
-    'https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap';
+    'https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap';
   document.head.appendChild(fontLink);
 
   const style = document.createElement('style');
   style.textContent = `
     :root {
-      --font-display: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
-      --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      --font-quant: 'JetBrains Mono', 'IBM Plex Mono', monospace;
+      --font-display: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-ui: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-quant: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    body.font-mode-quant {
-      --font-display: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
-      --font-ui: 'Inter', sans-serif;
-      --font-quant: 'IBM Plex Mono', 'JetBrains Mono', monospace;
+    /* Unified trading.com Geometric Sans (Poppins) Across Every Element (No Robotic Monospace) */
+    body, p, span, a, button, input, select, li, label, div,
+    h1, h2, h3, h4,
+    .font-display-lg, .text-display-lg,
+    .font-headline-lg, .text-headline-lg,
+    .font-headline-md, .text-headline-md,
+    .font-headline-sm, .text-headline-sm,
+    .font-mono, .font-data-tabular, .text-data-tabular,
+    .text-mono-metric, .font-label-caps, .text-label-caps,
+    code, table, td, th {
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif !important;
+      font-variant-numeric: tabular-nums !important;
     }
 
     body {
-      font-family: var(--font-ui) !important;
-      font-feature-settings: "cv02" 1, "cv03" 1, "cv04" 1, "cv11" 1, "ss01" 1;
+      background-color: #FFFFFF !important;
+      color: #0B0E12 !important;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       transition: background-color 0.25s ease, color 0.25s ease;
       animation: rixPageFadeIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
 
-    /* TradingView Euclid Circular B Proportions: Tight -0.035em tracking & 1.06 line-height */
+    /* trading.com Heading Proportions: Pure #000000 Black, 700 Bold, Tight -0.025em Tracking */
     h1, .font-display-lg, .text-display-lg {
-      font-family: var(--font-display) !important;
-      letter-spacing: -0.036em !important;
-      line-height: 1.06 !important;
+      letter-spacing: -0.03em !important;
+      line-height: 1.08 !important;
     }
-    h2, h3, h4,
-    .font-headline-lg, .text-headline-lg,
-    .font-headline-md, .text-headline-md,
-    .font-headline-sm, .text-headline-sm {
-      font-family: var(--font-display) !important;
-      letter-spacing: -0.026em !important;
+    main section:not([id$="-hero"]) h1,
+    main section:not([id$="-hero"]) h2,
+    main section:not([id$="-hero"]) h3 {
+      color: #000000 !important;
+      font-weight: 700 !important;
+      letter-spacing: -0.025em !important;
     }
 
-    .font-mono,
-    .font-data-tabular,
-    .text-data-tabular,
-    .text-mono-metric,
-    .font-label-caps,
-    .text-label-caps,
-    code,
-    table tbody td:nth-child(1),
-    table tbody td:nth-child(4),
-    table tbody td:nth-child(5),
-    table tbody td:nth-child(6),
-    table tbody td:nth-child(8) {
-      font-family: var(--font-quant) !important;
-      font-variant-numeric: tabular-nums slashed-zero !important;
-      font-feature-settings: "tnum" 1, "zero" 1 !important;
+    /* trading.com Clean Body Copy: #3B424A Regular 400 */
+    main section:not([id$="-hero"]) p {
+      color: #3B424A !important;
+      font-weight: 400 !important;
+      line-height: 1.65 !important;
+    }
+
+    /* trading.com Pure #FFFFFF Section Backgrounds (Eliminates Grey Dividers & Clutter) */
+    main,
+    main > section:not([id$="-hero"]) {
+      background-color: #FFFFFF !important;
+      border-color: transparent !important;
+    }
+
+    /* trading.com Soft Warm-Grey Borderless Cards (#F4F5F6, 20px Radius, Zero Harsh Borders) */
+    main section:not([id$="-hero"]) .bg-white,
+    main section:not([id$="-hero"]) .bg-slate-50,
+    main section:not([id$="-hero"]) .bg-surface-card,
+    main section:not([id$="-hero"]) .bg-surface-panel,
+    main section:not([id$="-hero"]) article.faq-item {
+      background-color: #F4F5F6 !important;
+      border: none !important;
+      border-radius: 20px !important;
+      box-shadow: none !important;
+    }
+
+    main section:not([id$="-hero"]) .bg-white .bg-slate-50,
+    main section:not([id$="-hero"]) .bg-white .bg-white,
+    main section:not([id$="-hero"]) table {
+      background-color: #FFFFFF !important;
+      border-radius: 14px !important;
     }
 
     /* ==========================================================================
