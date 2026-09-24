@@ -1,274 +1,786 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth" style="width: 100%; min-height: 100%; overflow-x: hidden; overflow-y: auto;"><head>
+
+<html class="light scroll-smooth" lang="en" style="width: 100%; min-height: 100%; overflow-x: hidden; overflow-y: auto;"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Options Funding WebTrader - RixTrade Pro Direct Router</title>
-<!-- Material Symbols Outlined font -->
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<!-- Inter Google Font -->
+<title>Options Funding // WebTrader • RixTrade Platform</title>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<!-- Tailwind CSS Play CDN -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<!-- Tailwind Theme Configuration -->
 <script id="tailwind-config">
     tailwind.config = {
       darkMode: "class",
       theme: {
         extend: {
           "colors": {
-            "surface-base": "#FFFFFF",
-            "surface-raised": "#F8FAFC",
-            "surface-panel": "#FFFFFF",
-            "surface-border": "#E2E8F0",
-            "surface-border-subtle": "#EDF2F7",
-            "text-primary": "#0F172A",
+            "surface-base": "#ffffff",
+            "surface-subtle": "#f8fafc",
+            "surface-card": "#ffffff",
+            "surface-border": "#e2e8f0",
+            "surface-border-subtle": "#f1f5f9",
+            "text-primary": "#0f172a",
             "text-secondary": "#475569",
-            "text-muted": "#64748B",
-            "gold": "#D97706",
-            "gold-light": "#F59E0B",
-            "gold-dark": "#B45309",
+            "text-muted": "#64748b",
+            "primary": "#059669",
+            "primary-container": "#059669",
+            "primary-hover": "#047857",
+            "primary-subtle": "#ecfdf5",
             "market-up": "#059669",
-            "market-down": "#DC2626",
-            "market-warn": "#D97706",
-            "regulatory-bg": "#F8FAFC"
+            "market-down": "#dc2626",
+            "market-warn": "#d97706"
           },
           "borderRadius": {
             "DEFAULT": "0.125rem",
-            "lg": "0.25rem",
-            "xl": "0.5rem",
+            "lg": "0.375rem",
+            "xl": "0.75rem",
             "full": "0.75rem"
           },
+          "spacing": {
+            "gutter": "1rem",
+            "margin-desktop": "2.5rem",
+            "space-md": "1rem",
+            "space-lg": "1.5rem",
+            "gutter-desktop": "1.5rem",
+            "space-2xl": "4rem",
+            "margin": "1rem",
+            "space-xl": "2.5rem",
+            "space-sm": "0.5rem",
+            "space-xs": "0.25rem"
+          },
           "fontFamily": {
-            "sans": ["Inter", "sans-serif"],
-            "mono": ["'JetBrains Mono'", "monospace"]
+            "data-tabular": ["Inter", "monospace"],
+            "label-caps": ["Inter", "sans-serif"],
+            "body-md": ["Inter", "sans-serif"],
+            "label-lg": ["Inter", "sans-serif"],
+            "headline-sm": ["Inter", "sans-serif"],
+            "headline-lg-mobile": ["Inter", "sans-serif"],
+            "display-lg": ["Inter", "sans-serif"],
+            "body-sm": ["Inter", "sans-serif"],
+            "legal-disclaimer": ["Inter", "sans-serif"],
+            "headline-md": ["Inter", "sans-serif"],
+            "headline-lg": ["Inter", "sans-serif"],
+            "body-lg": ["Inter", "sans-serif"],
+            "label-md": ["Inter", "sans-serif"]
+          },
+          "fontSize": {
+            "data-tabular": ["13px", {"lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+            "label-caps": ["11px", {"lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "600"}],
+            "body-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400"}],
+            "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+            "headline-sm": ["18px", {"lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "600"}],
+            "headline-lg-mobile": ["26px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+            "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+            "body-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+            "legal-disclaimer": ["11px", {"lineHeight": "16px", "letterSpacing": "0em", "fontWeight": "400"}],
+            "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+            "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.015em", "fontWeight": "600"}],
+            "body-lg": ["16px", {"lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400"}],
+            "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}]
           }
         },
       },
     }
 </script>
 </head>
-<body class="bg-white text-slate-900 min-h-screen w-full selection:bg-amber-500/20 selection:text-amber-800 antialiased flex flex-col font-sans relative overflow-x-hidden">
-<!-- 1. Top Notification Bar (Clean light gold banner) -->
-<div class="bg-amber-50 border-b border-amber-200/80 py-2.5 px-4 text-center relative z-50">
-<div class="max-w-[1440px] mx-auto flex items-center justify-center gap-2 text-xs md:text-sm text-amber-950">
-<span class="inline-flex items-center gap-1.5 font-bold tracking-wide">
-<span class="text-amber-600 text-base">⚡</span>
-<span class="text-amber-900 font-extrabold">60% OFF ALL ACCOUNTS</span>
-<span class="text-amber-300 hidden sm:inline">|</span>
-<span class="text-amber-800 font-medium hidden sm:inline">Use code:</span>
-<span class="px-2 py-0.5 rounded bg-white text-amber-800 font-mono font-bold border border-amber-300 shadow-xs">OF</span>
-<span class="text-amber-300 hidden md:inline">|</span>
-<span class="text-amber-700 font-semibold tracking-wide">SALE ENDS SUNDAY 11:59PM ET</span>
-</span>
+<body class="bg-surface-base text-text-primary antialiased selection:bg-emerald-100 selection:text-emerald-900">
+<!-- TopNavBar -->
+<header class="bg-white/95 backdrop-blur-md docked full-width top-0 sticky z-50 border-b border-surface-border shadow-sm">
+<div class="w-full max-w-[1440px] mx-auto px-margin md:px-margin-desktop flex items-center justify-between h-16">
+<!-- Brand Anchor -->
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded bg-primary flex items-center justify-center text-white font-bold text-label-md shadow-sm">
+<span class="material-symbols-outlined text-[18px]">terminal</span>
+</div>
+<span class="text-label-lg font-label-lg uppercase tracking-wider text-text-primary font-bold">
+          Options Funding // WebTrader • RixTrade
+        </span>
 </div>
 </div>
-<!-- 2. Main Navigation Bar -->
-<header class="sticky top-0 z-40 backdrop-blur-xl bg-white/95 border-b border-slate-200 shadow-xs">
-<div class="flex justify-between items-center w-full px-6 lg:px-12 max-w-[1440px] mx-auto h-20">
-<!-- Brand Logo -->
-<a class="flex items-center gap-3 group cursor-pointer focus:outline-none" href="options-funding.html">
-<div class="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 to-emerald-600 p-0.5 flex items-center justify-center shadow-sm">
-<div class="w-full h-full bg-white rounded-[10px] flex items-center justify-center">
-<span class="material-symbols-outlined text-[20px] text-amber-600">query_stats</span>
-</div>
-</div>
-<div class="flex flex-col">
-<span class="text-lg md:text-xl font-extrabold tracking-tight text-slate-900 flex items-center gap-1.5">
-          Options <span class="text-amber-600">Funding</span>
-</span>
-<span class="text-[10px] font-mono text-slate-500 -mt-1 tracking-widest uppercase">WebTrader • RixTrade</span>
-</div>
-</a>
-<!-- Navigation Links (Each Links to Its Separate HTML Page) -->
-<nav class="hidden lg:flex items-center gap-7 h-full whitespace-nowrap">
-<a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full whitespace-nowrap" href="options-funding.html">Founding 50</a>
-<a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full whitespace-nowrap" href="rules.html">Rules</a>
-<a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full whitespace-nowrap" href="account-metrics.html">Account Metrics</a>
-<a class="text-amber-700 font-bold text-sm border-b-2 border-amber-500 py-1 flex items-center h-full transition-colors whitespace-nowrap" href="rixtrade-platform.html">RixTrade Platform</a>
-<a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full whitespace-nowrap" href="faq.html">FAQ</a>
-<a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full whitespace-nowrap" href="affiliates.html">Affiliates</a>
+<!-- Navigation Links (Separate Pages) -->
+<nav class="hidden lg:flex items-center gap-6 whitespace-nowrap">
+<a class="text-text-secondary hover:text-text-primary transition-colors text-body-md font-medium whitespace-nowrap" href="options-funding.html">Founding 50</a>
+<a class="text-text-secondary hover:text-text-primary transition-colors text-body-md font-medium whitespace-nowrap" href="rules.html">Rules</a>
+<a class="text-text-secondary hover:text-text-primary transition-colors text-body-md font-medium whitespace-nowrap" href="account-metrics.html">Account Metrics</a>
+<a class="text-primary border-b-2 border-primary pb-1 font-semibold text-body-md whitespace-nowrap" href="rixtrade-platform.html">RixTrade Platform</a>
+<a class="text-text-secondary hover:text-text-primary transition-colors text-body-md font-medium whitespace-nowrap" href="faq.html">FAQ</a>
+<a class="text-text-secondary hover:text-text-primary transition-colors text-body-md font-medium whitespace-nowrap" href="affiliates.html">Affiliates</a>
 </nav>
-<!-- Header Actions -->
-<div class="flex items-center gap-4 whitespace-nowrap">
-<a class="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-slate-700 hover:text-slate-900 px-3 py-2 transition-colors" href="#signin">
-<span class="material-symbols-outlined text-[18px] text-slate-500">lock_open</span>
-<span class="">Sign In</span>
-</a>
-<a class="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl font-bold text-sm bg-amber-500 hover:bg-amber-400 text-slate-950 transition-all duration-150 shadow-sm hover:shadow-md hover:scale-[1.02] active:scale-95" href="#get-funded">
-<span class="">Get Funded</span>
-<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-</a>
+<!-- Trailing Action Cluster -->
+<div class="flex items-center gap-3">
+<button class="p-2 text-text-secondary hover:text-primary hover:bg-slate-100 rounded-lg transition-colors" title="Notifications">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<button class="p-2 text-text-secondary hover:text-primary hover:bg-slate-100 rounded-lg transition-colors" title="Help">
+<span class="material-symbols-outlined text-[20px]">help</span>
+</button>
+<button class="hidden sm:inline-flex items-center justify-center px-3 py-1.5 rounded-lg bg-white border border-surface-border text-text-primary hover:border-slate-400 hover:bg-slate-50 active:scale-[0.98] transition-all text-label-md font-medium">
+        Sign In
+      </button>
+<button class="inline-flex items-center justify-center px-4 py-1.5 rounded-lg bg-primary hover:bg-primary-hover active:scale-[0.98] transition-all text-white font-semibold text-label-md shadow-sm">
+        Get Funded →
+      </button>
 </div>
 </div>
 </header>
-<main class="flex-grow">
-<!-- Active Trading State Showcase (RixTrade Pro Direct Router) -->
-<section class="py-16 bg-white border-b border-slate-200 relative overflow-hidden" id="terminal">
-<div class="max-w-[1440px] mx-auto px-6 lg:px-12 relative z-10">
-<div class="max-w-3xl mb-12">
-<span class="text-amber-800 font-mono text-xs uppercase tracking-widest block mb-2 font-bold">// RIXTRADE OPTIONS HUD SHOWCASE</span>
-<h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-          Active One-Click Options Execution Terminal
-        </h2>
-<p class="text-slate-600 text-base mt-3 leading-relaxed">
-          Monitor Greek exposures, execute multi-contract orders in 0.08ms, and track your distance to the $94,000 floor with automated risk guardrails.
-        </p>
+<!-- Live Market Execution Status Bar -->
+<div class="bg-surface-subtle border-b border-surface-border py-2 px-margin md:px-margin-desktop text-body-sm">
+<div class="max-w-[1440px] mx-auto flex flex-wrap items-center justify-between gap-3 text-text-secondary">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-market-up animate-pulse"></span>
+<span class="text-text-primary font-label-caps uppercase font-semibold">OPRA FEED CONNECTED</span>
 </div>
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-<div class="lg:col-span-7 bg-slate-50 rounded-2xl border border-slate-200 p-6 shadow-sm">
-<div class="flex flex-wrap items-center justify-between pb-4 mb-5 border-b border-slate-200 gap-3">
+<span class="hidden sm:inline text-slate-300">|</span>
+<div class="hidden sm:flex items-center gap-2 font-data-tabular">
+<span class="text-slate-600">SPX 240419C5150:</span>
+<span class="text-market-up font-semibold">34.80 +2.40 (+7.4%)</span>
+</div>
+<div class="hidden md:flex items-center gap-2 font-data-tabular">
+<span class="text-slate-600">NDX 240419P18200:</span>
+<span class="text-market-down font-semibold">88.20 -4.10 (-4.4%)</span>
+</div>
+</div>
+<div class="flex items-center gap-4 font-data-tabular">
+<span class="text-text-secondary">CHICAGO EQUINIX NY4: <span class="text-primary font-semibold">0.08ms</span></span>
+<span class="text-slate-300">|</span>
+<span class="text-text-secondary">SYSTEM: <span class="text-market-up font-semibold">ONLINE 99.98%</span></span>
+</div>
+</div>
+</div>
+<main class="w-full">
+<!-- Hero Section -->
+<section class="relative pt-space-xl pb-space-2xl border-b border-surface-border bg-white overflow-hidden">
+<!-- Subtle high-tech light grid lines -->
+<div class="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-60 pointer-events-none"></div>
+<div class="max-w-[1440px] mx-auto px-margin md:px-margin-desktop relative z-10 flex flex-col items-center text-center">
+<!-- Hero Badge -->
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 font-label-caps uppercase tracking-wider mb-6 shadow-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-ping"></span>
+        RIXTADE PRO v4.2 // INSTITUTIONAL OPTIONS ENGINE
+      </div>
+<!-- Headline -->
+<h1 class="text-text-primary text-headline-lg-mobile md:text-display-lg font-bold max-w-4xl tracking-tight mb-6">
+        Ultra-Low Latency Options Execution Built For Serious Traders
+      </h1>
+<!-- Subhead -->
+<p class="text-text-secondary text-body-lg max-w-3xl mb-8 leading-relaxed">
+        Direct market routing, sub-millisecond execution (0.08ms), real-time Greeks calculation, and automated drawdown safeguards built right into the browser.
+      </p>
+<!-- CTA Action Row -->
+<div class="flex flex-wrap items-center justify-center gap-4 mb-12">
+<a class="px-6 py-3 rounded-lg bg-primary hover:bg-primary-hover active:scale-[0.98] transition-all text-white font-semibold text-label-lg flex items-center gap-2 shadow-sm" href="#terminal-launch">
+<span class="material-symbols-outlined text-[18px]">launch</span>
+          Launch WebTrader
+        </a>
+<a class="px-6 py-3 rounded-lg bg-white border border-surface-border text-text-primary hover:bg-slate-50 hover:border-slate-300 active:scale-[0.98] transition-all font-semibold text-label-lg flex items-center gap-2 shadow-xs" href="#benchmarks">
+<span class="material-symbols-outlined text-[18px] text-slate-500">speed</span>
+          View Latency Audit
+        </a>
+</div>
+<!-- Latency Micro Ticker Cluster -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-4xl">
+<div class="bg-surface-subtle border border-surface-border p-3.5 rounded-lg text-left shadow-xs">
+<div class="text-text-muted text-label-caps uppercase mb-1">CME GLOBEX ROUTING</div>
+<div class="text-emerald-700 font-data-tabular font-semibold">0.078 ms Direct</div>
+</div>
+<div class="bg-surface-subtle border border-surface-border p-3.5 rounded-lg text-left shadow-xs">
+<div class="text-text-muted text-label-caps uppercase mb-1">CBOE BZX / EDGX</div>
+<div class="text-emerald-700 font-data-tabular font-semibold">0.082 ms NY4 Cross</div>
+</div>
+<div class="bg-surface-subtle border border-surface-border p-3.5 rounded-lg text-left shadow-xs">
+<div class="text-text-muted text-label-caps uppercase mb-1">TICK-TO-TRADE BUFFER</div>
+<div class="text-emerald-700 font-data-tabular font-semibold">&lt; 12 Microseconds</div>
+</div>
+<div class="bg-surface-subtle border border-surface-border p-3.5 rounded-lg text-left shadow-xs">
+<div class="text-text-muted text-label-caps uppercase mb-1">GREEKS RECALC FREQ</div>
+<div class="text-emerald-700 font-data-tabular font-semibold">Sub-tick / 120Hz</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 1: Interactive Platform Showcase (Polished Light Workstation Chassis) -->
+<section class="py-space-2xl border-b border-surface-border bg-surface-subtle">
+<div class="max-w-[1440px] mx-auto px-margin md:px-margin-desktop">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+<div>
+<div class="text-primary font-label-caps uppercase tracking-wider mb-2 font-bold">INTEGRATED COCKPIT</div>
+<h2 class="text-headline-md font-bold text-text-primary">Institutional Terminal Architecture</h2>
+</div>
+<div class="flex items-center gap-2 bg-white p-1 rounded-lg border border-surface-border text-label-md shadow-xs">
+<button class="px-3 py-1 bg-emerald-600 text-white rounded font-semibold flex items-center gap-1.5 shadow-xs">
+<span class="w-2 h-2 rounded-full bg-white"></span>
+            Live Multi-Asset
+          </button>
+<button class="px-3 py-1 text-text-secondary hover:text-text-primary transition-colors font-medium">
+            Options Chain Matrix
+          </button>
+<button class="px-3 py-1 text-text-secondary hover:text-text-primary transition-colors font-medium">
+            Risk HUD
+          </button>
+</div>
+</div>
+<!-- Terminal Window Frame (Light Workstation) -->
+<div class="bg-white border border-surface-border rounded-xl shadow-md overflow-hidden">
+<!-- Terminal Titlebar -->
+<div class="bg-slate-100 px-4 py-2.5 border-b border-surface-border flex items-center justify-between">
 <div class="flex items-center gap-3">
-<span class="text-sm font-bold font-mono px-3 py-1 rounded bg-amber-100 text-amber-900 border border-amber-300">SPY 0DTE</span>
-<span class="text-sm font-mono font-bold text-slate-900">$586.42</span>
-<span class="text-xs font-mono text-emerald-700 font-bold">+1.14%</span>
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-full bg-rose-400"></span>
+<span class="w-3 h-3 rounded-full bg-amber-400"></span>
+<span class="w-3 h-3 rounded-full bg-emerald-400"></span>
 </div>
+<span class="text-slate-600 text-body-sm font-data-tabular font-medium">RIXTADE PRO // WS_CONN: ESTABLISHED_10.14.88.2 [OPRA_L2_FEED]</span>
+</div>
+<div class="flex items-center gap-3 text-body-sm">
+<span class="px-2 py-0.5 rounded bg-white text-slate-700 border border-slate-200 font-data-tabular shadow-xs">LATENCY: 0.08ms</span>
+<span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-200 font-data-tabular font-medium">SIM_ACC #OF-84920</span>
+</div>
+</div>
+<!-- Terminal Workspace Multi-Panel Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-surface-border bg-white">
+<!-- Left Panel: Live Options Chain (5 Cols) -->
+<div class="lg:col-span-5 p-4 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-3 mb-3 border-b border-surface-border">
 <div class="flex items-center gap-2">
-<button class="px-2.5 py-1 rounded bg-white border border-amber-400 text-xs font-mono text-amber-800 font-bold shadow-xs">SPY</button>
-<button class="px-2.5 py-1 rounded bg-white border border-slate-200 text-xs font-mono text-slate-600 hover:text-slate-900 shadow-xs">QQQ</button>
-<button class="px-2.5 py-1 rounded bg-white border border-slate-200 text-xs font-mono text-slate-600 hover:text-slate-900 shadow-xs">NVDA</button>
-<button class="px-2.5 py-1 rounded bg-white border border-slate-200 text-xs font-mono text-slate-600 hover:text-slate-900 shadow-xs">TSLA</button>
+<span class="text-text-primary font-bold text-headline-sm">SPY</span>
+<span class="text-text-muted text-label-md font-data-tabular font-medium">EXP 19 APR (0DTE)</span>
+</div>
+<div class="text-right">
+<span class="text-market-up font-data-tabular text-body-md font-bold">512.45 +3.12</span>
+<span class="text-text-muted text-body-sm block">IV 14.8% (IVR 38)</span>
 </div>
 </div>
-<!-- RixTrade Pro Direct Router Expanded Panel -->
-<div class="p-5 rounded-2xl bg-white border-2 border-emerald-500 shadow-xl relative overflow-hidden">
-<div class="flex flex-wrap items-center justify-between pb-3 mb-4 border-b border-slate-200 gap-2">
-<div class="flex items-center gap-2.5">
-<div class="w-8 h-8 rounded-lg bg-emerald-100 border border-emerald-300 flex items-center justify-center text-emerald-700 shadow-xs">
-<span class="material-symbols-outlined text-[18px]">send</span>
+<!-- Strips Header -->
+<div class="grid grid-cols-7 text-text-muted text-label-caps pb-2 text-center border-b border-surface-border bg-slate-50 py-1.5 rounded">
+<span class="col-span-1 text-left pl-1">DELTA</span>
+<span class="col-span-1">CALL BID</span>
+<span class="col-span-1">CALL ASK</span>
+<span class="col-span-1 text-emerald-700 font-bold">STRIKE</span>
+<span class="col-span-1">PUT BID</span>
+<span class="col-span-1">PUT ASK</span>
+<span class="col-span-1 text-right pr-1">GAMMA</span>
 </div>
-<div>
+<!-- Chain Rows -->
+<div class="space-y-1 py-2 font-data-tabular text-body-sm">
+<div class="grid grid-cols-7 text-center py-1 hover:bg-slate-50 rounded cursor-pointer transition-colors items-center">
+<span class="col-span-1 text-left pl-1 text-slate-600">0.78</span>
+<span class="col-span-1 text-market-up font-semibold">4.82</span>
+<span class="col-span-1 text-market-up">4.86</span>
+<span class="col-span-1 bg-slate-100 text-slate-900 font-semibold py-0.5 rounded border border-slate-200">510.0</span>
+<span class="col-span-1 text-market-down">1.41</span>
+<span class="col-span-1 text-market-down font-semibold">1.44</span>
+<span class="col-span-1 text-right pr-1 text-slate-600">0.038</span>
+</div>
+<div class="grid grid-cols-7 text-center py-1 hover:bg-slate-50 rounded cursor-pointer transition-colors items-center">
+<span class="col-span-1 text-left pl-1 text-slate-600">0.62</span>
+<span class="col-span-1 text-market-up font-semibold">3.40</span>
+<span class="col-span-1 text-market-up">3.44</span>
+<span class="col-span-1 bg-slate-100 text-slate-900 font-semibold py-0.5 rounded border border-slate-200">511.0</span>
+<span class="col-span-1 text-market-down">1.95</span>
+<span class="col-span-1 text-market-down font-semibold">1.98</span>
+<span class="col-span-1 text-right pr-1 text-slate-600">0.045</span>
+</div>
+<!-- ATM row highlighted -->
+<div class="grid grid-cols-7 text-center py-1.5 bg-emerald-50 border border-emerald-300 rounded cursor-pointer items-center">
+<span class="col-span-1 text-left pl-1 text-emerald-800 font-bold">0.50</span>
+<span class="col-span-1 text-market-up font-bold">2.14</span>
+<span class="col-span-1 text-market-up font-bold">2.18</span>
+<span class="col-span-1 bg-emerald-600 text-white font-bold py-0.5 rounded shadow-xs">512.0 ATM</span>
+<span class="col-span-1 text-market-down font-bold">2.68</span>
+<span class="col-span-1 text-market-down font-bold">2.72</span>
+<span class="col-span-1 text-right pr-1 text-emerald-800 font-bold">0.052</span>
+</div>
+<div class="grid grid-cols-7 text-center py-1 hover:bg-slate-50 rounded cursor-pointer transition-colors items-center">
+<span class="col-span-1 text-left pl-1 text-slate-600">0.38</span>
+<span class="col-span-1 text-market-up font-semibold">1.22</span>
+<span class="col-span-1 text-market-up">1.25</span>
+<span class="col-span-1 bg-slate-100 text-slate-900 font-semibold py-0.5 rounded border border-slate-200">513.0</span>
+<span class="col-span-1 text-market-down">3.75</span>
+<span class="col-span-1 text-market-down font-semibold">3.80</span>
+<span class="col-span-1 text-right pr-1 text-slate-600">0.042</span>
+</div>
+<div class="grid grid-cols-7 text-center py-1 hover:bg-slate-50 rounded cursor-pointer transition-colors items-center">
+<span class="col-span-1 text-left pl-1 text-slate-600">0.24</span>
+<span class="col-span-1 text-market-up font-semibold">0.55</span>
+<span class="col-span-1 text-market-up">0.58</span>
+<span class="col-span-1 bg-slate-100 text-slate-900 font-semibold py-0.5 rounded border border-slate-200">514.0</span>
+<span class="col-span-1 text-market-down">5.10</span>
+<span class="col-span-1 text-market-down font-semibold">5.15</span>
+<span class="col-span-1 text-right pr-1 text-slate-600">0.031</span>
+</div>
+</div>
+</div>
+<!-- Automated Drawdown Guardrail Badge Indicator -->
+<div class="mt-4 p-3 bg-slate-50 border border-surface-border rounded-lg flex items-center justify-between text-body-sm">
 <div class="flex items-center gap-2">
-<h4 class="text-sm font-extrabold text-slate-900">RixTrade Pro Direct Router</h4>
-<span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold border border-emerald-300">READY</span>
+<span class="material-symbols-outlined text-market-up text-[18px]">verified_user</span>
+<span class="text-text-secondary font-medium">Automated Safeguard:</span>
+<span class="text-emerald-700 font-semibold">CONTRACT LIMIT OK (4/20 MAX)</span>
 </div>
-<span class="text-xs font-mono font-bold text-amber-700">SPY $585.00 CALL (0DTE)</span>
-</div>
-</div>
-<div class="flex items-center gap-2 text-[11px] font-mono text-slate-500 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200 shadow-xs">
-<span class="w-2 h-2 rounded-full bg-emerald-600 animate-ping"></span>
-<span class="text-slate-700 font-semibold">Latency: 0.08ms direct via Equinix NY4</span>
+<span class="text-text-muted font-data-tabular">MAX DRAWDOWN: $2,500</span>
 </div>
 </div>
-<div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4 p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-center font-mono text-xs">
+<!-- Middle Panel: TradingView High-Res Charting HUD (4 Cols) -->
+<div class="lg:col-span-4 p-4 flex flex-col justify-between border-t lg:border-t-0 border-surface-border bg-slate-50/50">
 <div>
-<span class="text-[10px] text-slate-500 block">BID / ASK</span>
-<span class="font-bold text-slate-900">$2.43 × $2.45</span>
-</div>
-<div>
-<span class="text-[10px] text-slate-500 block">MARKET SIZE</span>
-<span class="font-bold text-slate-700">450 × 620</span>
-</div>
-<div>
-<span class="text-[10px] text-slate-500 block">ORDER TYPE</span>
-<span class="font-bold text-amber-800">Limit ($2.45 Mid)</span>
-</div>
-<div>
-<span class="text-[10px] text-slate-500 block">DMA ROUTE</span>
-<span class="font-bold text-emerald-700">Direct DMA Bridge</span>
-</div>
-</div>
-<div class="space-y-4 mb-4">
-<div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 shadow-xs">
-<div class="flex items-center justify-between mb-2 text-xs font-mono">
-<span class="font-bold text-slate-800">Contract Quantity Selector</span>
-<span class="text-amber-800 font-bold bg-amber-100 px-2 py-0.5 rounded border border-amber-300">Max Allowed: 20 Contracts</span>
-</div>
-<div class="flex items-center gap-3">
-<button class="w-9 h-9 rounded-lg bg-white border border-slate-300 hover:border-slate-400 font-mono font-bold text-slate-800 flex items-center justify-center shadow-xs active:scale-95 transition-all" type="button">-</button>
-<div class="flex-1">
-<div class="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden border border-slate-300 relative cursor-pointer">
-<div class="h-full bg-emerald-600 rounded-full" style="width: 50%;"></div>
-</div>
-</div>
-<button class="w-9 h-9 rounded-lg bg-white border border-slate-300 hover:border-slate-400 font-mono font-bold text-slate-800 flex items-center justify-center shadow-xs active:scale-95 transition-all" type="button">+</button>
-<span class="px-3 py-1.5 rounded-lg bg-white border-2 border-emerald-500 text-slate-900 font-mono font-black text-sm shadow-xs">10 Contracts</span>
-</div>
-</div>
-<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
-<div class="p-3 rounded-xl bg-red-50/70 border border-red-200">
-<div class="flex justify-between items-center">
-<span class="text-red-700 font-bold">Total Capital Outlay / Max Risk:</span>
-<span class="font-black text-red-700 text-sm">$2,450.00</span>
-</div>
-<span class="text-[10px] text-slate-500 block mt-0.5">10 contracts × $2.45 premium × 100</span>
-</div>
-<div class="p-3 rounded-xl bg-emerald-50 border border-emerald-200">
-<div class="flex justify-between items-center">
-<span class="text-emerald-800 font-bold">Projected Target / Max Gain:</span>
-<span class="font-black text-emerald-700 text-sm">+$5,800.00</span>
-</div>
-<span class="text-[10px] text-slate-500 block mt-0.5">Trailing Profit Target @ +236% move</span>
-</div>
-</div>
-<div class="p-3 rounded-xl bg-emerald-50 border border-emerald-300 flex items-start gap-2.5 text-xs">
-<span class="material-symbols-outlined text-emerald-600 text-[18px] shrink-0 mt-0.5">verified_user</span>
-<div class="font-mono leading-relaxed">
-<span class="font-bold text-emerald-800">Automated Guardrail Active: </span>
-<span class="text-slate-700">Order will not exceed $94,000 Trailing Floor buffer. (Safe buffer remaining: <strong class="text-emerald-700 font-bold">$8,370.00</strong>).</span>
-</div>
-</div>
-</div>
-<div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
-<button class="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-black text-sm bg-emerald-600 hover:bg-emerald-500 text-white font-mono shadow-md hover:shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-center" type="button">
-<span>Confirm 1-Click Buy Call (10 Lots • $2,450)</span>
-<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-</button>
-<button class="inline-flex items-center justify-center gap-1.5 px-4 py-3.5 rounded-xl font-bold text-sm bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 font-mono shadow-xs active:scale-95 transition-all text-center" type="button">
-<span class="material-symbols-outlined text-[16px] text-slate-500">close</span>
-<span>Cancel / Modify Strike</span>
-</button>
-</div>
-</div>
-</div>
-<!-- Right: Risk & Drawdown Floor Monitor (5 cols) -->
-<div class="lg:col-span-5 flex flex-col gap-6">
-<div class="bg-slate-50 rounded-2xl border border-slate-200 p-6 shadow-sm">
-<div class="flex items-center justify-between mb-4">
+<div class="flex items-center justify-between pb-3 mb-3 border-b border-surface-border">
 <div class="flex items-center gap-2">
-<div class="w-8 h-8 rounded-lg bg-emerald-100 border border-emerald-300 flex items-center justify-center text-emerald-700">
-<span class="material-symbols-outlined text-[18px]">security</span>
+<span class="px-2 py-0.5 rounded bg-white border border-surface-border text-label-caps text-text-primary font-bold shadow-xs">SPY 1M</span>
+<span class="text-text-muted text-body-sm font-data-tabular">O: 511.90 H: 512.60 L: 511.82 C: 512.45</span>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-1 hover:text-primary text-slate-400 hover:bg-white rounded transition-colors"><span class="material-symbols-outlined text-[16px]">show_chart</span></button>
+<button class="p-1 hover:text-primary text-slate-400 hover:bg-white rounded transition-colors"><span class="material-symbols-outlined text-[16px]">candlestick_chart</span></button>
+<button class="p-1 hover:text-primary text-slate-400 hover:bg-white rounded transition-colors"><span class="material-symbols-outlined text-[16px]">fullscreen</span></button>
+</div>
+</div>
+<!-- Simulated Candlestick / HUD Graphic -->
+<div class="h-48 w-full bg-white rounded-lg border border-surface-border p-3 relative flex flex-col justify-between overflow-hidden shadow-xs">
+<div class="flex justify-between text-label-caps text-text-muted z-10">
+<span class="font-medium text-slate-500">EMA 9 / 21 CROSSOVER</span>
+<span class="text-emerald-700 font-data-tabular font-semibold">RSI 61.4 // VWAP 511.94</span>
+</div>
+<!-- Synthetic Candle SVG Visualization -->
+<div class="absolute inset-0 flex items-center justify-around px-4 opacity-85">
+<div class="h-20 w-2.5 bg-emerald-500 rounded-[1px] relative flex justify-center items-center"><div class="h-28 w-[1px] bg-emerald-600 absolute"></div></div>
+<div class="h-14 w-2.5 bg-rose-500 rounded-[1px] relative flex justify-center items-center"><div class="h-20 w-[1px] bg-rose-600 absolute"></div></div>
+<div class="h-24 w-2.5 bg-emerald-500 rounded-[1px] relative flex justify-center items-center"><div class="h-32 w-[1px] bg-emerald-600 absolute"></div></div>
+<div class="h-16 w-2.5 bg-emerald-500 rounded-[1px] relative flex justify-center items-center"><div class="h-24 w-[1px] bg-emerald-600 absolute"></div></div>
+<div class="h-10 w-2.5 bg-rose-500 rounded-[1px] relative flex justify-center items-center"><div class="h-18 w-[1px] bg-rose-600 absolute"></div></div>
+<div class="h-28 w-2.5 bg-emerald-600 rounded-[1px] relative flex justify-center items-center ring-2 ring-emerald-300"><div class="h-36 w-[1px] bg-emerald-700 absolute"></div></div>
+</div>
+<div class="flex justify-between items-center z-10 pt-2 border-t border-slate-100 text-body-sm font-data-tabular">
+<span class="text-slate-500">14:28:00</span>
+<span class="text-market-up font-bold">BUY TRIGGER @ 512.20</span>
+<span class="text-slate-500">14:32:00</span>
+</div>
+</div>
+<!-- Level 2 Depth Preview -->
+<div class="mt-4">
+<div class="text-text-muted text-label-caps mb-2 font-semibold">OPRA LEVEL 2 BOOK CONSOLIDATED</div>
+<div class="grid grid-cols-2 gap-2 text-data-tabular text-body-sm">
+<div class="space-y-1">
+<div class="flex justify-between bg-emerald-50 px-2 py-0.5 rounded text-emerald-800 border-l-2 border-market-up font-medium">
+<span>480 x 2.14</span>
+<span class="text-slate-500 text-xs">ARCA</span>
+</div>
+<div class="flex justify-between bg-emerald-50/60 px-2 py-0.5 rounded text-emerald-800 font-medium">
+<span>1,200 x 2.13</span>
+<span class="text-slate-500 text-xs">CBOE</span>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between bg-rose-50 px-2 py-0.5 rounded text-rose-800 border-r-2 border-market-down font-medium">
+<span class="text-slate-500 text-xs">BATS</span>
+<span>2.18 x 350</span>
+</div>
+<div class="flex justify-between bg-rose-50/60 px-2 py-0.5 rounded text-rose-800 font-medium">
+<span class="text-slate-500 text-xs">PHLX</span>
+<span>2.19 x 890</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Greeks Quick Display -->
+<div class="grid grid-cols-4 gap-2 pt-3 border-t border-surface-border text-center text-body-sm font-data-tabular">
+<div class="bg-white p-1.5 rounded border border-surface-border"><span class="text-text-muted block text-label-caps">THETA</span><span class="text-market-down font-semibold">-0.34</span></div>
+<div class="bg-white p-1.5 rounded border border-surface-border"><span class="text-text-muted block text-label-caps">VEGA</span><span class="text-text-primary font-semibold">+0.18</span></div>
+<div class="bg-white p-1.5 rounded border border-surface-border"><span class="text-text-muted block text-label-caps">RHO</span><span class="text-text-primary font-semibold">+0.04</span></div>
+<div class="bg-white p-1.5 rounded border border-surface-border"><span class="text-text-muted block text-label-caps">IV RANK</span><span class="text-emerald-700 font-bold">38.2</span></div>
+</div>
+</div>
+<!-- Right Panel: 1-Click Execution HUD (3 Cols) -->
+<div class="lg:col-span-3 p-4 bg-white flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-3 mb-3 border-b border-surface-border">
+<span class="text-headline-sm font-bold text-text-primary">Order Entry</span>
+<span class="px-2 py-0.5 rounded text-label-caps bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold">0.08ms ROUTE</span>
+</div>
+<!-- Quick Order Toggle -->
+<div class="grid grid-cols-2 gap-2 mb-4">
+<button class="py-2 rounded-lg bg-primary text-white font-semibold text-label-md hover:bg-primary-hover transition-colors shadow-xs">
+                  BUY TO OPEN
+                </button>
+<button class="py-2 rounded-lg bg-slate-100 border border-surface-border text-text-secondary font-semibold text-label-md hover:text-text-primary hover:bg-slate-200 transition-colors">
+                  SELL TO CLOSE
+                </button>
+</div>
+<!-- Input Fields -->
+<div class="space-y-3">
+<div>
+<label class="block text-text-muted text-label-caps mb-1 font-semibold">CONTRACTS (MAX 20)</label>
+<div class="flex rounded-lg border border-surface-border bg-slate-50 overflow-hidden focus-within:ring-1 focus-within:ring-primary focus-within:border-primary">
+<input class="w-full bg-transparent px-3 py-2 text-text-primary font-data-tabular font-semibold focus:outline-none" type="number" value="4"/>
+<div class="flex border-l border-surface-border">
+<button class="px-2.5 py-1 text-text-secondary hover:text-text-primary hover:bg-slate-200 transition-colors font-bold">-</button>
+<button class="px-2.5 py-1 text-text-secondary hover:text-text-primary hover:bg-slate-200 border-l border-surface-border transition-colors font-bold">+</button>
+</div>
+</div>
 </div>
 <div>
-<h4 class="text-sm font-bold text-slate-900">Risk &amp; Drawdown Monitor</h4>
-<span class="text-[11px] font-mono text-slate-500">Real-Time Evaluation Safeguard</span>
+<label class="block text-text-muted text-label-caps mb-1 font-semibold">ORDER TYPE</label>
+<select class="w-full rounded-lg border border-surface-border bg-slate-50 px-3 py-2 text-text-primary text-body-sm font-medium focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+<option>Limit ($2.16 Mid)</option>
+<option>Market Direct</option>
+<option>Stop-Market Guard</option>
+</select>
 </div>
-</div>
-<span class="text-xs font-mono font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded border border-emerald-300">PASSING (HEALTHY)</span>
-</div>
-<div class="space-y-4">
 <div>
-<div class="flex justify-between text-xs font-mono mb-1">
-<span class="text-slate-600">Current Balance</span>
-<span class="text-emerald-700 font-bold">$104,820.00 (+4.82%)</span>
-</div>
-<div class="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden border border-slate-300">
-<div class="h-full bg-gradient-to-r from-amber-500 to-emerald-600 rounded-full" style="width: 40%;"></div>
-</div>
-<div class="flex justify-between text-[10px] font-mono text-slate-500 mt-1">
-<span class="">Start: $100,000</span>
-<span class="text-emerald-700 font-bold">Goal: $112,000 (12%)</span>
+<label class="block text-text-muted text-label-caps mb-1 font-semibold">TIME IN FORCE</label>
+<div class="grid grid-cols-3 gap-1 text-center font-data-tabular text-body-sm">
+<button class="py-1 rounded bg-primary text-white font-semibold shadow-xs">DAY</button>
+<button class="py-1 rounded bg-slate-50 border border-surface-border text-text-secondary hover:text-text-primary hover:bg-slate-100">GTC</button>
+<button class="py-1 rounded bg-slate-50 border border-surface-border text-text-secondary hover:text-text-primary hover:bg-slate-100">IOC</button>
 </div>
 </div>
-<div class="p-3.5 rounded-xl bg-white border border-slate-200 space-y-2 shadow-xs">
-<div class="flex items-center justify-between text-xs font-mono">
-<span class="text-slate-500">EOD Drawdown Floor:</span>
-<span class="text-red-600 font-bold">$94,000.00 (6%)</span>
+<!-- Drawdown Rule Evaluation Box -->
+<div class="p-3 bg-slate-50 border border-surface-border rounded-lg space-y-1.5 text-body-sm">
+<div class="flex justify-between text-text-muted">
+<span>Margin Impact:</span>
+<span class="text-text-primary font-data-tabular font-semibold">$864.00</span>
 </div>
-<div class="flex items-center justify-between text-xs font-mono">
-<span class="text-slate-500">Safe Drawdown Buffer:</span>
-<span class="text-emerald-700 font-bold">+$10,820.00 from floor</span>
+<div class="flex justify-between text-text-muted">
+<span>Daily Loss Buffer:</span>
+<span class="text-market-up font-data-tabular font-semibold">94.8% Safe</span>
 </div>
-<div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
-<div class="h-full bg-emerald-600 rounded-full" style="width: 82%;"></div>
+<div class="flex justify-between text-text-muted">
+<span>Breach Risk:</span>
+<span class="text-market-up font-data-tabular font-semibold">Zero / Shield Active</span>
 </div>
 </div>
+</div>
+</div>
+<!-- Main Submission Button -->
+<div class="pt-4">
+<button class="w-full py-3 rounded-lg bg-primary hover:bg-primary-hover active:scale-[0.98] transition-all text-white font-semibold text-label-lg flex items-center justify-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[18px]">bolt</span>
+                Submit Order • 0.08ms
+              </button>
+<div class="text-center mt-2 text-text-muted text-label-caps">
+                DIRECT DMA ROUTE // ZERO SYNTHETIC DELAY
+              </div>
 </div>
 </div>
 </div>
 </div>
 </div>
 </section>
+<!-- SECTION 2: Core Engine Pillars (Bento Grid in Light Mode) -->
+<section class="py-space-2xl border-b border-surface-border bg-white">
+<div class="max-w-[1440px] mx-auto px-margin md:px-margin-desktop">
+<div class="max-w-2xl mb-12">
+<div class="text-primary font-label-caps uppercase tracking-wider mb-2 font-bold">TECHNOLOGY MATRIX</div>
+<h2 class="text-headline-lg font-bold text-text-primary mb-4">Core Engine Pillars</h2>
+<p class="text-text-secondary text-body-lg">
+          Engineering designed without compromises. Every component in RixTrade is optimized for physical execution velocity, microsecond risk mitigation, and mathematical clarity.
+        </p>
+</div>
+<!-- Bento Grid Structure -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Pillar 1: Sub-Millisecond Direct Bridge (Span 7) -->
+<div class="md:col-span-7 bg-white border border-surface-border hover:border-emerald-500 hover:shadow-md p-space-lg rounded-xl transition-all flex flex-col justify-between shadow-xs">
+<div>
+<div class="flex items-center justify-between mb-4">
+<div class="w-10 h-10 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[24px]">network_ping</span>
+</div>
+<span class="px-2.5 py-1 rounded bg-emerald-50 border border-emerald-200 font-data-tabular text-body-sm text-emerald-800 font-bold">
+                0.08ms Latency
+              </span>
+</div>
+<h3 class="text-headline-md font-bold text-text-primary mb-3">Sub-Millisecond Direct Bridge</h3>
+<p class="text-text-secondary text-body-md leading-relaxed mb-6">
+              Direct market routing directly to Chicago (CME/CBOE) and New York (Equinix NY4) matching engines. Zero intermediate brokers, zero PFOF internalization, and zero synthetic markups. Raw execution engineered for fast-moving derivatives.
+            </p>
+</div>
+<div class="grid grid-cols-3 gap-3 pt-4 border-t border-surface-border font-data-tabular text-body-sm">
+<div class="bg-surface-subtle p-2.5 rounded-lg border border-surface-border">
+<span class="text-text-muted text-label-caps block mb-1">ROUTING</span>
+<span class="text-text-primary font-bold">Direct DMA Cross</span>
+</div>
+<div class="bg-surface-subtle p-2.5 rounded-lg border border-surface-border">
+<span class="text-text-muted text-label-caps block mb-1">CO-LOCATION</span>
+<span class="text-text-primary font-bold">NY4 &amp; CH1 Hubs</span>
+</div>
+<div class="bg-surface-subtle p-2.5 rounded-lg border border-surface-border">
+<span class="text-text-muted text-label-caps block mb-1">RE-QUOTES</span>
+<span class="text-market-up font-bold">0.00% Guaranteed</span>
+</div>
+</div>
+</div>
+<!-- Pillar 2: Live Greeks Engine (Span 5) -->
+<div class="md:col-span-5 bg-white border border-surface-border hover:border-emerald-500 hover:shadow-md p-space-lg rounded-xl transition-all flex flex-col justify-between shadow-xs">
+<div>
+<div class="flex items-center justify-between mb-4">
+<div class="w-10 h-10 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[24px]">functions</span>
+</div>
+<span class="text-text-muted text-label-caps font-semibold">BLACK-SCHOLES C++ CORE</span>
+</div>
+<h3 class="text-headline-md font-bold text-text-primary mb-3">Live Greeks &amp; IV Engine</h3>
+<p class="text-text-secondary text-body-md leading-relaxed mb-6">
+              Instant continuous Black-Scholes calculation per tick for Delta, Gamma, Theta, Vega, and IV Rank. Know exact statistical probabilities before you commit capital.
+            </p>
+</div>
+<div class="bg-surface-subtle p-3 rounded-lg border border-surface-border font-data-tabular text-body-sm space-y-2">
+<div class="flex justify-between items-center">
+<span class="text-text-secondary font-medium">Delta / Gamma Curvature</span>
+<span class="text-emerald-700 font-bold">99.999% Precision</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-text-secondary font-medium">Implied Volatility Rank</span>
+<span class="text-text-primary font-semibold">Tick-by-Tick Feed</span>
+</div>
+</div>
+</div>
+<!-- Pillar 3: Automated Guardrail Integration (Span 5) -->
+<div class="md:col-span-5 bg-white border border-surface-border hover:border-emerald-500 hover:shadow-md p-space-lg rounded-xl transition-all flex flex-col justify-between shadow-xs">
+<div>
+<div class="flex items-center justify-between mb-4">
+<div class="w-10 h-10 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[24px]">shield</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-200 font-label-caps font-bold">
+                RULE SHIELD ACTIVE
+              </span>
+</div>
+<h3 class="text-headline-md font-bold text-text-primary mb-3">Automated Guardrails</h3>
+<p class="text-text-secondary text-body-md leading-relaxed mb-6">
+              Never fail an evaluation account through technical slips. The terminal automatically prevents orders that exceed contract limits (20 max) or would trigger maximum daily drawdown rules.
+            </p>
+</div>
+<div class="space-y-2">
+<div class="flex items-center gap-2 text-body-sm text-text-secondary">
+<span class="material-symbols-outlined text-market-up text-[18px]">check_circle</span>
+<span class="font-medium">Hard Cap: Enforced Max 20 Contracts</span>
+</div>
+<div class="flex items-center gap-2 text-body-sm text-text-secondary">
+<span class="material-symbols-outlined text-market-up text-[18px]">check_circle</span>
+<span class="font-medium">Drawdown Alert: Pre-order risk interception</span>
+</div>
+</div>
+</div>
+<!-- Pillar 4: TradingView Pro Integration (Span 7) -->
+<div class="md:col-span-7 bg-white border border-surface-border hover:border-emerald-500 hover:shadow-md p-space-lg rounded-xl transition-all flex flex-col justify-between shadow-xs">
+<div>
+<div class="flex items-center justify-between mb-4">
+<div class="w-10 h-10 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[24px]">query_stats</span>
+</div>
+<span class="text-text-muted text-label-caps font-semibold">CHART ENGINE PARTNER</span>
+</div>
+<h3 class="text-headline-md font-bold text-text-primary mb-3">TradingView Pro Integration</h3>
+<p class="text-text-secondary text-body-md leading-relaxed mb-6">
+              Over 100+ technical indicators, customizable multi-chart layouts, Pine Script support, and order entry directly from candlestick bars. Drag-and-drop Stop-Loss and Take-Profit brackets straight onto chart prints.
+            </p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-4 border-t border-surface-border text-center text-body-sm font-data-tabular">
+<div class="bg-surface-subtle border border-surface-border p-2 rounded-lg"><span class="text-emerald-700 font-bold">100+</span><span class="text-text-muted block text-label-caps">INDICATORS</span></div>
+<div class="bg-surface-subtle border border-surface-border p-2 rounded-lg"><span class="text-emerald-700 font-bold">8 Split</span><span class="text-text-muted block text-label-caps">LAYOUTS</span></div>
+<div class="bg-surface-subtle border border-surface-border p-2 rounded-lg"><span class="text-emerald-700 font-bold">1-Click</span><span class="text-text-muted block text-label-caps">ENTRY HUD</span></div>
+<div class="bg-surface-subtle border border-surface-border p-2 rounded-lg"><span class="text-emerald-700 font-bold">Cloud</span><span class="text-text-muted block text-label-caps">TEMPLATE SYNC</span></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 3: Performance Benchmarks -->
+<section class="py-space-2xl border-b border-surface-border bg-surface-subtle" id="benchmarks">
+<div class="max-w-[1440px] mx-auto px-margin md:px-margin-desktop">
+<div class="text-center max-w-3xl mx-auto mb-16">
+<div class="text-primary font-label-caps uppercase tracking-wider mb-2 font-bold">INDEPENDENT TELEMETRY AUDIT</div>
+<h2 class="text-headline-lg font-bold text-text-primary mb-4">Validated Institutional Benchmarks</h2>
+<p class="text-text-secondary text-body-lg">
+          Continuous automated telemetry tested over 100,000,000 executed contracts under peak Chicago and New York market opens.
+        </p>
+</div>
+<!-- Metric Stat Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+<div class="bg-white border border-surface-border p-6 rounded-xl relative overflow-hidden shadow-xs hover:shadow-md transition-shadow">
+<div class="text-text-muted text-label-caps uppercase mb-2 font-semibold">SYSTEM UPTIME</div>
+<div class="text-headline-lg font-data-tabular font-bold text-text-primary mb-2">99.98%</div>
+<p class="text-text-secondary text-body-sm">Redundant cloud failovers with active replication in New York &amp; London.</p>
+<div class="mt-4 pt-3 border-t border-surface-border flex items-center justify-between text-body-sm">
+<span class="text-text-muted font-data-tabular">Trailing 365 Days</span>
+<span class="text-market-up flex items-center gap-1 font-semibold">
+<span class="w-2 h-2 rounded-full bg-market-up"></span> Zero Downtime
+            </span>
+</div>
+</div>
+<div class="bg-white border border-surface-border p-6 rounded-xl relative overflow-hidden shadow-xs hover:shadow-md transition-shadow">
+<div class="text-text-muted text-label-caps uppercase mb-2 font-semibold">ORDER FILL RATE</div>
+<div class="text-headline-lg font-data-tabular font-bold text-primary mb-2">99.94%</div>
+<p class="text-text-secondary text-body-sm">Execution certainty even through Tier-1 macroeconomic volatility and CPI prints.</p>
+<div class="mt-4 pt-3 border-t border-surface-border flex items-center justify-between text-body-sm">
+<span class="text-text-muted font-data-tabular">Slippage Profile</span>
+<span class="text-primary font-semibold">&lt; 0.01 Cent Avg</span>
+</div>
+</div>
+<div class="bg-white border border-surface-border p-6 rounded-xl relative overflow-hidden shadow-xs hover:shadow-md transition-shadow">
+<div class="text-text-muted text-label-caps uppercase mb-2 font-semibold">AVERAGE LATENCY</div>
+<div class="text-headline-lg font-data-tabular font-bold text-text-primary mb-2">0.08ms</div>
+<p class="text-text-secondary text-body-sm">Tick-to-trade response measured physically at the Equinix NY4 cage edge.</p>
+<div class="mt-4 pt-3 border-t border-surface-border flex items-center justify-between text-body-sm">
+<span class="text-text-muted font-data-tabular">99th Percentile</span>
+<span class="text-market-up font-semibold">0.12ms Peak</span>
+</div>
+</div>
+<div class="bg-white border border-surface-border p-6 rounded-xl relative overflow-hidden shadow-xs hover:shadow-md transition-shadow">
+<div class="text-text-muted text-label-caps uppercase mb-2 font-semibold">MARKET DEPTH FEEDS</div>
+<div class="text-headline-lg font-data-tabular font-bold text-primary mb-2">OPRA L2</div>
+<p class="text-text-secondary text-body-sm">Consolidated Level 2 options book including all 16 US options exchanges.</p>
+<div class="mt-4 pt-3 border-t border-surface-border flex items-center justify-between text-body-sm">
+<span class="text-text-muted font-data-tabular">Update Frequency</span>
+<span class="text-primary font-semibold">Unfiltered Raw</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 4: Download & Browser Access Section -->
+<section class="py-space-2xl border-b border-surface-border bg-white" id="terminal-launch">
+<div class="max-w-[1440px] mx-auto px-margin md:px-margin-desktop">
+<div class="text-center max-w-3xl mx-auto mb-16">
+<div class="text-primary font-label-caps uppercase tracking-wider mb-2 font-bold">MULTI-SURFACE COMPATIBILITY</div>
+<h2 class="text-headline-lg font-bold text-text-primary mb-4">Trade Anywhere, Without Compromise</h2>
+<p class="text-text-secondary text-body-lg">
+          Deploy RixTrade in zero-install WebAssembly within Chrome/Brave or install native desktop binaries with direct hardware-accelerated rendering.
+        </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Access Option 1: WebTrader Browser -->
+<div class="bg-white border-2 border-primary p-space-lg rounded-xl flex flex-col justify-between relative shadow-md">
+<div class="absolute -top-3 right-6 bg-primary text-white text-label-caps px-2.5 py-0.5 rounded-full font-bold uppercase shadow-xs">
+            Instant Access
+          </div>
+<div>
+<div class="w-12 h-12 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-primary mb-4">
+<span class="material-symbols-outlined text-[28px]">language</span>
+</div>
+<h3 class="text-headline-md font-bold text-text-primary mb-2">WebTrader (Browser)</h3>
+<p class="text-text-secondary text-body-md mb-6">
+              Pure WebGL and WebAssembly implementation. Runs instantly in Chrome, Brave, Safari, or Edge without any client plugins.
+            </p>
+<ul class="space-y-2 mb-8 text-body-sm text-text-secondary">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-market-up text-[16px]">check</span> Zero installation footprint</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-market-up text-[16px]">check</span> Direct WebSocket streaming</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-market-up text-[16px]">check</span> Multi-monitor workspace sync</li>
+</ul>
+</div>
+<a class="w-full py-3 rounded-lg bg-primary hover:bg-primary-hover active:scale-[0.98] transition-all text-white font-semibold text-label-md text-center block shadow-xs" href="#">
+            Launch Browser Terminal →
+          </a>
+</div>
+<!-- Access Option 2: Desktop App -->
+<div class="bg-white border border-surface-border p-space-lg rounded-xl flex flex-col justify-between shadow-xs hover:shadow-md transition-shadow">
+<div>
+<div class="w-12 h-12 rounded-lg bg-slate-50 border border-surface-border flex items-center justify-center text-slate-700 mb-4">
+<span class="material-symbols-outlined text-[28px]">desktop_windows</span>
+</div>
+<h3 class="text-headline-md font-bold text-text-primary mb-2">Desktop Application</h3>
+<p class="text-text-secondary text-body-md mb-6">
+              Native builds for macOS (Apple Silicon / Intel) and Windows 10/11. Includes raw GPU rasterization for ultra-dense 6-monitor setups.
+            </p>
+<ul class="space-y-2 mb-8 text-body-sm text-text-secondary">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-market-up text-[16px]">check</span> Hardware Metal / DirectX acceleration</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-market-up text-[16px]">check</span> Global Hotkey bindings</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-market-up text-[16px]">check</span> Background order alarms</li>
+</ul>
+</div>
+<div class="flex gap-2">
+<a class="flex-1 py-3 rounded-lg bg-slate-50 border border-surface-border hover:bg-slate-100 hover:border-slate-300 transition-all text-text-primary font-semibold text-label-md text-center" href="#">
+              macOS (.dmg)
+            </a>
+<a class="flex-1 py-3 rounded-lg bg-slate-50 border border-surface-border hover:bg-slate-100 hover:border-slate-300 transition-all text-text-primary font-semibold text-label-md text-center" href="#">
+              Windows (.exe)
+            </a>
+</div>
+</div>
+<!-- Access Option 3: Mobile Companion -->
+<div class="bg-white border border-surface-border p-space-lg rounded-xl flex flex-col justify-between shadow-xs hover:shadow-md transition-shadow">
+<div>
+<div class="w-12 h-12 rounded-lg bg-slate-50 border border-surface-border flex items-center justify-center text-slate-700 mb-4">
+<span class="material-symbols-outlined text-[28px]">stay_current_portrait</span>
+</div>
+<h3 class="text-headline-md font-bold text-text-primary mb-2">Mobile Companion</h3>
+<p class="text-text-secondary text-body-md mb-6">
+              Stay connected to active contracts. Monitor Greeks shifts, receive automated drawdown warnings, and liquidate positions on the move.
+            </p>
+<ul class="space-y-2 mb-8 text-body-sm text-text-secondary">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-market-up text-[16px]">check</span> Biometric authentication (FaceID)</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-market-up text-[16px]">check</span> Push notification triggers</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-market-up text-[16px]">check</span> Panic Liquidate All button</li>
+</ul>
+</div>
+<div class="flex gap-2">
+<a class="flex-1 py-3 rounded-lg bg-slate-50 border border-surface-border hover:bg-slate-100 hover:border-slate-300 transition-all text-text-primary font-semibold text-label-md text-center" href="#">
+              iOS App Store
+            </a>
+<a class="flex-1 py-3 rounded-lg bg-slate-50 border border-surface-border hover:bg-slate-100 hover:border-slate-300 transition-all text-text-primary font-semibold text-label-md text-center" href="#">
+              Google Play
+            </a>
+</div>
+</div>
+</div>
+</div>
+</section>
 </main>
+<!-- Footer (Crisp Light Institutional Theme) -->
+<footer class="bg-surface-subtle full-width bottom-0 border-t border-surface-border">
+<div class="w-full max-w-[1440px] mx-auto px-margin md:px-margin-desktop py-space-xl flex flex-col gap-space-lg">
+<!-- Top Row: Brand & Navigation Array -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-surface-border">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded bg-primary flex items-center justify-center text-white font-bold text-[12px] shadow-xs">
+<span class="material-symbols-outlined text-[16px]">terminal</span>
+</div>
+<span class="text-label-lg font-bold text-text-primary">
+          Options Funding // WebTrader • RixTrade
+        </span>
+</div>
+<nav class="flex flex-wrap gap-x-6 gap-y-2 text-label-caps">
+<a class="text-text-muted hover:text-text-primary transition-colors duration-150" href="options-funding.html">Founding 50 Program</a>
+<a class="text-text-muted hover:text-text-primary transition-colors duration-150" href="rules.html">Evaluation Rules</a>
+<a class="text-text-muted hover:text-text-primary transition-colors duration-150" href="account-metrics.html">Account Metrics</a>
+<a class="text-primary font-bold transition-colors duration-150" href="rixtrade-platform.html">RixTrade Platform</a>
+<a class="text-text-muted hover:text-text-primary transition-colors duration-150" href="#">Terms of Service</a>
+<a class="text-text-muted hover:text-text-primary transition-colors duration-150" href="#">Privacy Policy</a>
+<a class="text-text-muted hover:text-text-primary transition-colors duration-150" href="#">Risk Disclosure</a>
+<a class="text-text-muted hover:text-text-primary transition-colors duration-150" href="#">MiFID II Notice</a>
+</nav>
+</div>
+<!-- Institutional Risk Disclosure & Regulatory Box -->
+<div class="p-4 rounded-xl border border-surface-border bg-white text-legal-disclaimer text-text-secondary space-y-2 shadow-xs">
+<div class="flex items-center gap-2 text-amber-700 font-semibold text-label-caps uppercase">
+<span class="material-symbols-outlined text-[16px]">warning</span>
+        Institutional Risk Warning &amp; Regulatory Compliance Notice
+      </div>
+<p class="leading-relaxed">
+        Trading exchange-traded options, futures, and leveraged financial derivatives carries substantial risk of loss and is not suitable for all investors. A financial instrument could decline to zero or result in losses beyond the initial margin deposit. Prior to executing orders on the RixTrade platform, users must carefully evaluate their financial situation, investment objectives, and tolerance for extreme market volatility.
+      </p>
+<p class="leading-relaxed">
+        Options Funding and RixTrade provide simulated and live-routing access compliant with European MiFID II investor protection directives and applicable regulatory jurisdictions. Historical execution performance, simulated latency audits (0.08ms), or backtested Greeks modeling are not indicative of future performance. Market conditions, network connectivity, and order type configurations may impact fill execution times.
+      </p>
+</div>
+<!-- Bottom Row: Copyright & Operational Status -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-body-sm text-text-muted">
+<div>
+        © 2026 Options Funding. All rights reserved. System Operational 99.98% Uptime.
+      </div>
+<div class="flex items-center gap-4 font-data-tabular">
+<span class="flex items-center gap-1.5 text-market-up font-medium">
+<span class="w-2 h-2 rounded-full bg-market-up"></span>
+          All Matching Gateways Active
+        </span>
+<span class="text-slate-300">|</span>
+<span class="font-medium text-slate-500">BUILD: v4.2.14-PROD</span>
+</div>
+</div>
+</div>
+</footer>
 </body></html>
