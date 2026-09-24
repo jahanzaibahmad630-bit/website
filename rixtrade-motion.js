@@ -354,30 +354,107 @@
       background-color: rgba(42, 46, 57, 0.5) !important;
     }
 
-    /* Sleek translucent bottom-right studio control dock (fades discreetly until hovered) */
-    .fixed.bottom-4.right-4 {
-      opacity: 0.42;
-      transition: opacity 0.25s ease, transform 0.25s ease;
+    /* ==========================================================================
+       CLEAN INSTITUTIONAL MOTION GRAPHICS ENGINE v5.0 (Apple / Linear / trading.com)
+       ========================================================================== */
+    @keyframes rxHeroFloat {
+      0%, 100% { transform: translate3d(0, 0px, 0); }
+      50%      { transform: translate3d(0, -10px, 0); }
     }
-    .fixed.bottom-4.right-4:hover {
-      opacity: 1;
+    @keyframes rxAuraPulse {
+      0%, 100% { opacity: 0.45; transform: scale(1); }
+      50%      { opacity: 0.82; transform: scale(1.08); }
+    }
+    @keyframes rxBarShimmer {
+      0%   { transform: translateX(-100%); }
+      100% { transform: translateX(220%); }
+    }
+    @keyframes rxBtnSweep {
+      0%   { left: -75%; }
+      35%  { left: 125%; }
+      100% { left: 125%; }
     }
 
-    @keyframes rixPageFadeIn {
-      from { opacity: 0.4; transform: translateY(4px); }
-      to   { opacity: 1;   transform: translateY(0); }
+    .rx-hero-levitate {
+      animation: rxHeroFloat 6.5s ease-in-out infinite;
+      will-change: transform;
+      transition: filter 0.4s ease;
+    }
+    .rx-hero-levitate:hover {
+      filter: drop-shadow(0 30px 60px rgba(0, 168, 118, 0.24));
     }
 
+    /* Primary CTA Shimmer Sweep */
+    a.bg-\\[\\#00A876\\],
+    button.bg-emerald-600,
+    a.bg-emerald-600 {
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                  background-color 0.2s ease !important;
+    }
+    a.bg-\\[\\#00A876\\]::after,
+    button.bg-emerald-600::after,
+    a.bg-emerald-600::after {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -75%;
+      width: 45%;
+      height: 200%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.28),
+        transparent
+      );
+      transform: rotate(24deg);
+      animation: rxBtnSweep 4.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+      pointer-events: none;
+    }
+    a.bg-\\[\\#00A876\\]:hover,
+    button.bg-emerald-600:hover,
+    a.bg-emerald-600:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px -6px rgba(0, 168, 118, 0.48) !important;
+    }
+
+    /* Progress Bar Shimmer Overlay */
+    .rx-bar-animated {
+      position: relative;
+      overflow: hidden;
+      transition: width 1.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    .rx-bar-animated::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      width: 50%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.38),
+        transparent
+      );
+      animation: rxBarShimmer 2.8s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    /* Staggered Scroll-Reveal (Blur-to-Crisp Spring Physics) */
     .rix-reveal {
       opacity: 0;
-      transform: translateY(20px) scale(0.99);
-      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-                  transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-      will-change: opacity, transform;
+      transform: translate3d(0, 24px, 0) scale(0.985);
+      filter: blur(3px);
+      transition: opacity 0.72s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.72s cubic-bezier(0.16, 1, 0.3, 1),
+                  filter 0.72s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform, filter;
     }
     .rix-reveal.rix-visible {
       opacity: 1;
-      transform: translateY(0) scale(1);
+      transform: translate3d(0, 0, 0) scale(1);
+      filter: blur(0px);
     }
 
     .rix-tick-up {
@@ -434,16 +511,10 @@
   document.head.appendChild(style);
 
   document.addEventListener('DOMContentLoaded', () => {
-    const savedFontMode = localStorage.getItem('rixFontMode') || 'jakarta';
-    if (savedFontMode === 'quant') {
-      document.body.classList.add('font-mode-quant');
-    }
-
     // 1. Universal trading.com Pure Black (#000000) Navbar + Strip All Monospace Badge Clutter Across All 6 Pages
     const currentFile = (window.location.pathname.split('/').pop() || 'options-funding.html').toLowerCase();
     const headerEl = document.querySelector('header');
     if (headerEl) {
-      // Remove any sub-header ticker strip right after header (e.g., on rixtrade-platform.html)
       const nextEl = headerEl.nextElementSibling;
       if (nextEl && nextEl.tagName === 'DIV' && nextEl.textContent.includes('EQUINIX')) {
         nextEl.remove();
@@ -488,7 +559,7 @@
       `;
     }
 
-    // Remove all boxy monospace pill badges (e.g. "FOUNDING 50 EVALUATION MATRIX", "EOD SHIELD...", "//", etc.)
+    // Remove all boxy monospace pill badges
     document.querySelectorAll('main div.inline-flex, main span.inline-flex').forEach((badge) => {
       const txt = badge.textContent.trim();
       if (
@@ -504,6 +575,9 @@
         badge.remove();
       }
     });
+
+    // Remove any leftover floating bottom-right control dock
+    document.querySelectorAll('.fixed.bottom-4.right-4').forEach((el) => el.remove());
 
     // 2. Toast Container
     const toastContainer = document.createElement('div');
@@ -536,7 +610,7 @@
       }, 4200);
     }
 
-    // Universal Material-Symbols-to-Inline-SVG Vector Engine (100% Immune to Font-Load or CSS Issues)
+    // 3. Universal Material-Symbols-to-Inline-SVG Vector Engine
     const SVG_ICON_MAP = {
       shield: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
       verified_user: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>',
@@ -586,7 +660,7 @@
     }
     convertAllMaterialIconsToSvg();
 
-    // 3. Global Light / Dark Mode Switcher (Using Pure Inline SVG Icons)
+    // 4. Global Light / Dark Mode Switcher in Header
     function syncAllThemeButtons() {
       const isDark = document.documentElement.classList.contains('rix-dark-mode');
       const sunSvg = `<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>`;
@@ -596,10 +670,6 @@
           ? `${sunSvg}<span>Light</span>`
           : `${moonSvg}<span>Dark</span>`;
       });
-      const legacyLabel = document.getElementById('videoThemeLabel');
-      if (legacyLabel) {
-        legacyLabel.textContent = isDark ? 'Light Mode' : 'Dark Mode';
-      }
     }
 
     window.toggleGlobalTheme = function () {
@@ -608,14 +678,6 @@
       const isDark = htmlEl.classList.contains('rix-dark-mode');
       localStorage.setItem('rixGlobalTheme', isDark ? 'dark' : 'light');
       syncAllThemeButtons();
-      showRixToast(
-        isDark ? '🌙 TRADINGVIEW OBSIDIAN DARK MODE' : '☀️ CRISP LIGHT INSTITUTIONAL MODE',
-        isDark
-          ? 'Switched entire 6-page suite to TradingView Obsidian (#0B0E14 / #131722) terminal palette.'
-          : 'Switched entire 6-page suite to Crisp Light institutional palette.',
-        isDark ? 'DARK THEME' : 'LIGHT THEME',
-        false
-      );
     };
 
     window.toggleVideoTheme = window.toggleGlobalTheme;
@@ -626,57 +688,83 @@
       navThemeBtn.type = 'button';
       navThemeBtn.className =
         'rix-global-theme-btn inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-[4px] border border-white/15 bg-white/5 hover:bg-white/10 text-white text-xs font-semibold transition-all cursor-pointer whitespace-nowrap';
-      navThemeBtn.title = 'Switch Whole Website Between Light & Dark Mode';
+      navThemeBtn.title = 'Switch Between Light & Dark Mode';
       navThemeBtn.addEventListener('click', window.toggleGlobalTheme);
       headerActionCluster.appendChild(navThemeBtn);
     }
-
-    let bottomBar = document.querySelector('.fixed.bottom-4.right-4');
-    if (!bottomBar) {
-      bottomBar = document.createElement('div');
-      bottomBar.className =
-        'fixed bottom-4 right-4 z-50 flex items-center gap-2 bg-white/95 backdrop-blur-md border border-slate-200 shadow-lg rounded-xl p-1.5';
-      document.body.appendChild(bottomBar);
-
-      const bottomThemeBtn = document.createElement('button');
-      bottomThemeBtn.type = 'button';
-      bottomThemeBtn.className =
-        'rix-global-theme-btn inline-flex items-center gap-1.5 text-[11px] font-mono font-bold text-sky-900 bg-sky-50 hover:bg-sky-100 border border-sky-200 px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer';
-      bottomThemeBtn.addEventListener('click', window.toggleGlobalTheme);
-      bottomBar.appendChild(bottomThemeBtn);
-    }
-
-    const fontBtn = document.createElement('button');
-    fontBtn.className =
-      'inline-flex items-center gap-1.5 text-[11px] font-mono font-bold text-amber-900 bg-amber-50 hover:bg-amber-100 border border-amber-200 px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer';
-    const updateFontLabel = () => {
-      const isQuant = document.body.classList.contains('font-mode-quant');
-      fontBtn.innerHTML = `<span class="material-symbols-outlined text-[15px] text-amber-600">font_download</span><span>${
-        isQuant ? 'Font: Space Grotesk + Plex' : 'Font: Euclid/Jakarta + JetBrains'
-      }</span>`;
-    };
-    updateFontLabel();
-    fontBtn.addEventListener('click', () => {
-      document.body.classList.toggle('font-mode-quant');
-      const isQuant = document.body.classList.contains('font-mode-quant');
-      localStorage.setItem('rixFontMode', isQuant ? 'quant' : 'jakarta');
-      updateFontLabel();
-      showRixToast(
-        'TYPOGRAPHY ENGINE SWITCHED',
-        isQuant
-          ? 'Active Stack: Space Grotesk (Headlines) + Inter (UI) + IBM Plex Mono (Option Chains & Greeks)'
-          : 'Active Stack: Plus Jakarta Sans (Headlines) + Inter (UI) + JetBrains Mono (Option Chains & Greeks)',
-        '3-TIER FONT',
-        false
-      );
-    });
-    bottomBar.appendChild(fontBtn);
-
     syncAllThemeButtons();
 
-    // 4. Linear / Stripe Radial Cursor Spotlight + Scroll Reveal
+    // 5. HERO CLEAN AMBIENT SVG VECTOR MOTION GRAPHICS + LEVITATING DEVICE SHOWCASE
+    const heroSection = document.querySelector('main > section:first-of-type');
+    if (heroSection) {
+      heroSection.style.position = 'relative';
+      heroSection.style.overflow = 'hidden';
+
+      // Inject clean animated SVG liquidity waves & traveling light particles behind the hero
+      const motionBg = document.createElement('div');
+      motionBg.setAttribute('aria-hidden', 'true');
+      motionBg.style.cssText = 'position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden;';
+      motionBg.innerHTML = `
+        <div style="position:absolute;right:8%;top:15%;width:520px;height:520px;border-radius:9999px;background:radial-gradient(circle, rgba(0,168,118,0.16) 0%, rgba(0,168,118,0.03) 50%, transparent 72%);filter:blur(36px);animation:rxAuraPulse 7s ease-in-out infinite;"></div>
+        <svg viewBox="0 0 1440 560" fill="none" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%;opacity:0.42;">
+          <defs>
+            <linearGradient id="rxWaveGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#00A876" stop-opacity="0"/>
+              <stop offset="45%" stop-color="#00A876" stop-opacity="0.48"/>
+              <stop offset="85%" stop-color="#38BDF8" stop-opacity="0.32"/>
+              <stop offset="100%" stop-color="#00A876" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="rxWaveGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#38BDF8" stop-opacity="0"/>
+              <stop offset="50%" stop-color="#00A876" stop-opacity="0.24"/>
+              <stop offset="100%" stop-color="#00A876" stop-opacity="0"/>
+            </linearGradient>
+            <filter id="rxGlow" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur stdDeviation="3.5" result="blur"/>
+              <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <path id="rxCurveA" d="M-80,430 C280,340 520,490 880,310 C1150,175 1310,230 1520,130" stroke="url(#rxWaveGrad1)" stroke-width="1.6" stroke-dasharray="6 6"/>
+          <path id="rxCurveB" d="M-80,490 C340,420 640,260 980,360 C1220,430 1360,250 1520,210" stroke="url(#rxWaveGrad2)" stroke-width="1.2"/>
+          <circle r="3.5" fill="#00E699" filter="url(#rxGlow)">
+            <animateMotion dur="9s" repeatCount="indefinite" path="M-80,430 C280,340 520,490 880,310 C1150,175 1310,230 1520,130"/>
+          </circle>
+          <circle r="2.5" fill="#38BDF8" filter="url(#rxGlow)">
+            <animateMotion dur="12.5s" begin="2s" repeatCount="indefinite" path="M-80,490 C340,420 640,260 980,360 C1220,430 1360,250 1520,210"/>
+          </circle>
+        </svg>
+      `;
+      heroSection.insertBefore(motionBg, heroSection.firstChild);
+
+      // Ensure hero inner grid sits above the motion graphic canvas
+      const heroContainer = heroSection.querySelector('.max-w-\\[1320px\\], .max-w-\\[1440px\\]');
+      if (heroContainer) {
+        heroContainer.style.position = 'relative';
+        heroContainer.style.zIndex = '2';
+      }
+
+      // Apply smooth floating levitation + subtle mouse parallax to the Hero Device image
+      const heroImg = heroSection.querySelector('img');
+      if (heroImg) {
+        heroImg.classList.add('rx-hero-levitate');
+        heroSection.addEventListener('mousemove', (e) => {
+          const rect = heroSection.getBoundingClientRect();
+          const relX = (e.clientX - rect.left) / rect.width - 0.5;
+          const relY = (e.clientY - rect.top) / rect.height - 0.5;
+          heroImg.style.transform = `translate3d(${(relX * -14).toFixed(1)}px, ${(relY * -10).toFixed(1)}px, 0)`;
+        });
+        heroSection.addEventListener('mouseleave', () => {
+          heroImg.style.transform = '';
+        });
+      }
+    }
+
+    // 6. Staggered Scroll-Reveal + 3D Perspective Tilt + Radial Cursor Spotlight
     const revealTargets = document.querySelectorAll(
-      'main section > div > div.bg-white, main section .rounded-xl, main section table, article.faq-item'
+      'main section:not(:first-of-type) h2, main section > div > div.bg-white, main section .rounded-2xl, main section .rounded-xl, main section table, article.faq-item'
     );
     const observer = new IntersectionObserver(
       (entries) => {
@@ -687,138 +775,123 @@
           }
         });
       },
-      { threshold: 0.08, rootMargin: '0px 0px -30px 0px' }
+      { threshold: 0.08, rootMargin: '0px 0px -28px 0px' }
     );
 
     revealTargets.forEach((el, idx) => {
-      if (
-        el.closest('#founding-50-hero') ||
-        el.closest('#rixtrade-server-hero') ||
-        el.closest('#rules-hd-hero') ||
-        el.closest('#metrics-hd-hero') ||
-        el.closest('#faq-hd-hero') ||
-        el.closest('#affiliates-hd-hero')
-      ) return;
-      el.classList.add('rix-reveal', 'rix-spotlight-card');
+      if (el.closest('main > section:first-of-type')) return;
+      el.classList.add('rix-reveal');
       el.style.transitionDelay = `${(idx % 4) * 55}ms`;
-      el.addEventListener('mousemove', (e) => {
-        const rect = el.getBoundingClientRect();
-        el.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-        el.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
-      });
+
+      if (el.tagName !== 'H2' && el.tagName !== 'TABLE') {
+        el.classList.add('rix-spotlight-card');
+        el.addEventListener('mousemove', (e) => {
+          const rect = el.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          el.style.setProperty('--mouse-x', `${x}px`);
+          el.style.setProperty('--mouse-y', `${y}px`);
+
+          // Gentle 3D tilt (max 2.2 degrees for ultra-clean institutional feel)
+          const rotY = (((x / rect.width) - 0.5) * 3.5).toFixed(2);
+          const rotX = (((0.5 - (y / rect.height)) * 3.5)).toFixed(2);
+          el.style.transform = `perspective(1000px) translateY(-4px) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+        });
+        el.addEventListener('mouseleave', () => {
+          el.style.transform = '';
+        });
+      }
       observer.observe(el);
     });
 
-    // 5. Animate SVG Equity Curve Path on Account Metrics Page
-    document.querySelectorAll('svg polyline').forEach((poly) => {
-      poly.classList.add('rix-draw-path');
+    // 7. Animated Progress Bar Fill & Shimmer on Scroll
+    const progressBars = document.querySelectorAll('main div[style*="width:"], main div[style*="width :"]');
+    const barObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const bar = entry.target;
+            const targetWidth = bar.getAttribute('data-target-width');
+            if (targetWidth) {
+              requestAnimationFrame(() => {
+                bar.style.width = targetWidth;
+              });
+            }
+            barObserver.unobserve(bar);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    progressBars.forEach((bar) => {
+      const match = (bar.getAttribute('style') || '').match(/width:\s*(\d+(?:\.\d+)?%)/i);
+      if (match && match[1]) {
+        bar.setAttribute('data-target-width', match[1]);
+        bar.style.width = '0%';
+        bar.classList.add('rx-bar-animated');
+        barObserver.observe(bar);
+      }
     });
 
-    // 6. Live Simulated OPRA Telemetry Micro-Ticks
-    const spyPrices = [
-      { ask: '2.45', bid: '2.43', iv: '14.8%', delta: '0.54', latency: '0.08ms' },
-      { ask: '2.47', bid: '2.45', iv: '14.9%', delta: '0.55', latency: '0.07ms' },
-      { ask: '2.44', bid: '2.42', iv: '14.7%', delta: '0.53', latency: '0.08ms' },
-      { ask: '2.48', bid: '2.46', iv: '15.0%', delta: '0.56', latency: '0.06ms' }
-    ];
-    let tickIdx = 0;
+    // 8. Smooth Odometer Number Counter on Scroll for Key Metrics
+    const metricCandidates = document.querySelectorAll(
+      'main h3, main .text-3xl, main .text-4xl, main .text-2xl, main .font-black, main .font-extrabold'
+    );
+    const counterObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target;
+          counterObserver.unobserve(el);
+          if (el.children.length > 0) return;
 
-    setInterval(() => {
-      tickIdx = (tickIdx + 1) % spyPrices.length;
-      const t = spyPrices[tickIdx];
-      document.querySelectorAll('span').forEach((sp) => {
-        if (sp.textContent.includes('Ask: $2.4') && sp.textContent.includes('IV: 14.')) {
-          sp.textContent = `Ask: $${t.ask} | Bid: $${t.bid} | IV: ${t.iv}`;
-          sp.classList.remove('rix-tick-up');
-          void sp.offsetWidth;
-          sp.classList.add('rix-tick-up');
-        }
-        if (sp.textContent.includes('Latency: 0.0')) {
-          sp.textContent = `Latency: ${t.latency} direct via Equinix NY4`;
-        }
-      });
-    }, 2400);
+          const raw = el.textContent.trim();
+          const m = raw.match(/^(\$?)(\d{1,3}(?:,\d{3})+|\d+(?:\.\d+)?)(%|ms|k|x)?$/i);
+          if (!m) return;
 
-    // 7. Interactive 1-Click Buy & Contract Lot Selector
-    let activeLots = 10;
-    const optionPrice = 2.45;
+          const prefix = m[1] || '';
+          const numStr = m[2].replace(/,/g, '');
+          const suffix = m[3] || '';
+          const targetVal = parseFloat(numStr);
+          if (isNaN(targetVal) || targetVal === 0) return;
 
-    document.querySelectorAll('button').forEach((btn) => {
-      const txt = btn.textContent.trim();
+          const hasCommas = m[2].includes(',');
+          const decimals = (numStr.split('.')[1] || '').length;
+          const duration = 1050;
+          const startTime = performance.now();
 
-      if (['1', '5', '10', '20'].includes(txt) && btn.closest('section')) {
-        btn.addEventListener('click', () => {
-          activeLots = parseInt(txt, 10);
-          const totalCost = (activeLots * optionPrice * 100).toLocaleString('en-US');
-          const parent = btn.parentElement;
-          if (parent) {
-            parent.querySelectorAll('button').forEach((b) => {
-              b.className =
-                'py-2 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-800 font-mono text-xs font-bold border border-slate-200 transition-colors';
-            });
-            btn.className =
-              'py-2 rounded-lg bg-amber-500 text-slate-950 font-mono text-xs font-extrabold shadow-xs transition-colors';
-          }
-          document.querySelectorAll('button').forEach((cta) => {
-            if (cta.textContent.includes('Confirm 1-Click Buy Call')) {
-              cta.innerHTML = `<span class="material-symbols-outlined text-[20px]">bolt</span> Confirm 1-Click Buy Call (${activeLots} Lots • $${totalCost})`;
+          function step(now) {
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = targetVal * eased;
+            let formatted = decimals > 0 ? current.toFixed(decimals) : Math.round(current).toString();
+            if (hasCommas) {
+              formatted = Number(formatted).toLocaleString('en-US');
             }
-          });
-          showRixToast(
-            'LOT SIZING UPDATED',
-            `Selected ${activeLots} SPY 585 Call Contracts ($${totalCost} Margin Impact — ${Math.round(
-              (activeLots / 20) * 100
-            )}% of 20 Max Limit)`,
-            'GUARDRAIL OK',
-            false
-          );
-        });
-      }
-
-      if (
-        txt.includes('1-CLICK BUY') ||
-        txt.includes('Confirm 1-Click Buy Call') ||
-        txt.includes('Submit Order')
-      ) {
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          const totalCost = (activeLots * optionPrice * 100).toLocaleString('en-US');
-          showRixToast(
-            '⚡ DMA ORDER FILLED • 0.08ms',
-            `Executed BUY +${activeLots} SPY 585 CALL @ $${optionPrice.toFixed(
-              2
-            )} ($${totalCost}) via Equinix NY4 Direct Bridge.`,
-            'OPRA L2 FILL',
-            false
-          );
-        });
-      }
-
-      if (txt === '+' || txt === '-') {
-        btn.addEventListener('click', () => {
-          const container = btn.closest('div')?.parentElement;
-          const input = container ? container.querySelector('input[type="number"]') : null;
-          if (input) {
-            let val = parseInt(input.value || '4', 10);
-            if (txt === '+') {
-              if (val >= 20) {
-                showRixToast(
-                  '🛡️ SOFT SAFEGUARD TRIGGERED',
-                  'Order capped at 20 SPY contracts (Max Contract Limit). Excess quantity rejected automatically — Zero account breach!',
-                  'RULE SHIELD',
-                  true
-                );
-                return;
-              }
-              val += 1;
+            el.textContent = `${prefix}${formatted}${suffix}`;
+            if (progress < 1) {
+              requestAnimationFrame(step);
             } else {
-              val = Math.max(1, val - 1);
+              el.textContent = raw;
             }
-            input.value = val;
-            activeLots = val;
           }
+          requestAnimationFrame(step);
         });
+      },
+      { threshold: 0.35 }
+    );
+
+    metricCandidates.forEach((el) => {
+      if (!el.closest('header') && !el.closest('main > section:first-of-type')) {
+        counterObserver.observe(el);
       }
+    });
+
+    // 9. Animate SVG Equity Curve Path on Account Metrics Page
+    document.querySelectorAll('svg polyline').forEach((poly) => {
+      poly.classList.add('rix-draw-path');
     });
   });
 })();
