@@ -1,725 +1,729 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" class="scroll-smooth" style="width: 100%; min-height: 100%; overflow-x: hidden; overflow-y: auto;">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Options Funding — $100k Evaluation WebTrader Platform (Full Screen Stitch + 3D Motion)</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      /* EXACT STITCH NODE f4e0a6d24c9a4e778d99a15845e5fc0c (LIGHT MODE DEFAULT) */
-      --bg-page: #FFFFFF;
-      --bg-hero: #EEF0FA;
-      --bg-hero-overlay: rgba(238, 240, 250, 0.84);
-      --bg-card: #FFFFFF;
-      --bg-elevated: #F8FAFC;
-      --text-main: #0F172A;
-      --text-sub: #475569;
-      --text-muted: #64748B;
-      --border-col: #E2E8F0;
-      --promo-bg: #FFFBEB;
-      --promo-text: #92400E;
-      --promo-border: #FDE68A;
-      --header-bg: rgba(255, 255, 255, 0.95);
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Options Funding WebTrader - Institutional $100k Options Prop Trading</title>
+<!-- Material Symbols Outlined font -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Inter Google Font -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS Play CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Theme Configuration -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-base": "#FFFFFF",
+            "surface-raised": "#F8FAFC",
+            "surface-panel": "#FFFFFF",
+            "surface-border": "#E2E8F0",
+            "surface-border-subtle": "#EDF2F7",
+            "text-primary": "#0F172A",
+            "text-secondary": "#475569",
+            "text-muted": "#64748B",
+            "gold": "#D97706",
+            "gold-light": "#F59E0B",
+            "gold-dark": "#B45309",
+            "market-up": "#059669",
+            "market-down": "#DC2626",
+            "market-warn": "#D97706",
+            "regulatory-bg": "#F8FAFC"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "fontFamily": {
+            "sans": ["Inter", "sans-serif"],
+            "mono": ["'JetBrains Mono'", "monospace"]
+          }
+        },
+      },
     }
+</script>
+<style>
+  /* 3D ANIMATION MOTION STYLE FOR THE HERO BACKGROUND & TERMINAL */
+  @keyframes heroBg3DFloat {
+    0%, 100% {
+      transform: perspective(1400px) rotateX(14deg) rotateY(-10deg) scale(1.08) translate3d(0, 0px, 0);
+    }
+    50% {
+      transform: perspective(1400px) rotateX(7deg) rotateY(-3deg) scale(1.13) translate3d(0, -16px, 20px);
+    }
+  }
 
-    html[data-theme="dark"] {
-      --bg-page: #070A10;
-      --bg-hero: #0B0F19;
-      --bg-hero-overlay: rgba(11, 15, 25, 0.80);
-      --bg-card: #0F1523;
-      --bg-elevated: #161F33;
-      --text-main: #F8FAFC;
-      --text-sub: #94A3B8;
-      --text-muted: #64748B;
-      --border-col: rgba(255, 255, 255, 0.09);
-      --promo-bg: #17130A;
-      --promo-text: #FDE68A;
-      --promo-border: rgba(212, 168, 67, 0.25);
-      --header-bg: rgba(10, 14, 22, 0.92);
+  @keyframes terminal3DTilt {
+    0%, 100% {
+      transform: perspective(1200px) rotateY(-6deg) rotateX(3deg) translateY(0px);
+      box-shadow: -20px 28px 60px -12px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(245, 158, 11, 0.4);
     }
+    50% {
+      transform: perspective(1200px) rotateY(-1.5deg) rotateX(1deg) translateY(-10px);
+      box-shadow: -12px 36px 75px -10px rgba(5, 150, 105, 0.22), 0 0 0 1.5px rgba(245, 158, 11, 0.65);
+    }
+  }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      background-color: var(--bg-page);
-      color: var(--text-main);
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      transition: background-color 0.25s ease, color 0.25s ease;
-      overflow-x: hidden;
-    }
-    .mono { font-family: 'JetBrains Mono', monospace; }
+  .hero-3d-motion-bg {
+    position: absolute;
+    inset: -8%;
+    width: 116%;
+    height: 116%;
+    object-fit: cover;
+    opacity: 0.18;
+    filter: saturate(1.35) contrast(1.12);
+    animation: heroBg3DFloat 10s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+  }
 
-    /* EXACT GRADIENT FROM STITCH SCREEN 1: "Options Account" GOLD TO EMERALD */
-    .stitch-title-gradient {
-      background: linear-gradient(90deg, #D97706 0%, #B45309 32%, #059669 75%, #10B981 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    /* 3D ANIMATED BACKGROUND MOTION LAYER (FOR HERO SECTION) */
-    @keyframes bg3DMotion {
-      0%, 100% {
-        transform: perspective(1300px) rotateX(14deg) rotateY(-10deg) scale(1.08) translateY(0px);
-      }
-      50% {
-        transform: perspective(1300px) rotateX(8deg) rotateY(-4deg) scale(1.12) translateY(-14px);
-      }
-    }
-
-    .hero-3d-bg-video {
-      position: absolute;
-      inset: -6%;
-      width: 112%;
-      height: 112%;
-      object-fit: cover;
-      opacity: 0.23;
-      filter: saturate(1.35) contrast(1.1);
-      animation: bg3DMotion 11s ease-in-out infinite;
-      pointer-events: none;
-      z-index: 0;
-    }
-    html[data-theme="dark"] .hero-3d-bg-video {
-      opacity: 0.34;
-    }
-
-    /* 3D FLOATING RIXTRADE MONITOR CARD ON RIGHT OF HERO */
-    @keyframes monitor3DFloat {
-      0%, 100% {
-        transform: perspective(1200px) rotateY(-7deg) rotateX(3deg) translateY(0px);
-        box-shadow: 0 28px 65px -12px rgba(15, 23, 42, 0.38), 0 0 0 2px #D4A843;
-      }
-      50% {
-        transform: perspective(1200px) rotateY(-2deg) rotateX(1deg) translateY(-10px);
-        box-shadow: 0 36px 80px -12px rgba(16, 185, 129, 0.28), 0 0 0 2px #F59E0B;
-      }
-    }
-
-    .rixtrade-monitor-frame {
-      animation: monitor3DFloat 7s ease-in-out infinite;
-      border-radius: 16px;
-      background: #0A0E1A;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .stitch-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-col);
-      border-radius: 14px;
-      transition: all 0.2s ease;
-    }
-    .stitch-card:hover {
-      box-shadow: 0 12px 32px -8px rgba(15, 23, 42, 0.08);
-    }
-
-    .nav-link {
-      font-size: 13.5px;
-      font-weight: 600;
-      color: var(--text-sub);
-      padding: 20px 12px;
-      border-bottom: 2.5px solid transparent;
-      transition: all 0.2s ease;
-    }
-    .nav-link:hover { color: var(--text-main); }
-    .nav-link.active {
-      color: #D97706;
-      border-bottom-color: #D97706;
-    }
-
-    .toast-notification {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: #0F172A;
-      color: #F8FAFC;
-      border: 1.5px solid #10B981;
-      padding: 12px 18px;
-      border-radius: 12px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-      z-index: 9999;
-      transform: translateY(150%);
-      opacity: 0;
-      transition: all 0.3s ease;
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
-    }
-    .toast-notification.show { transform: translateY(0); opacity: 1; }
-  </style>
+  .terminal-3d-card {
+    animation: terminal3DTilt 7s ease-in-out infinite;
+    transform-style: preserve-3d;
+  }
+</style>
 </head>
-<body>
-
-  <!-- ===================================================================== -->
-  <!-- TOP PROMO BANNER (EXACT MATCH TO STITCH NODE f4e0a6d24c9a4e778d99a15845e5fc0c) -->
-  <!-- ===================================================================== -->
-  <div class="w-full py-2 px-4 text-center text-xs font-bold tracking-wide border-b" style="background: var(--promo-bg); color: var(--promo-text); border-color: var(--promo-border);">
-    <span>⚡ 60% OFF ALL ACCOUNTS</span>
-    <span class="mx-2 opacity-40">|</span>
-    <span>Use code: <code class="px-1.5 py-0.5 rounded bg-amber-500/20 border border-amber-500/40 font-extrabold mono">OF</code></span>
-    <span class="mx-2 opacity-40">|</span>
-    <span>SALE ENDS SUNDAY 11:59PM ET</span>
-  </div>
-
-  <!-- ===================================================================== -->
-  <!-- STICKY NAVBAR (EXACT MATCH TO STITCH SCREEN 1 + FULLSCREEN BUTTON)    -->
-  <!-- ===================================================================== -->
-  <header class="sticky top-0 z-50 backdrop-blur-md border-b" style="background: var(--header-bg); border-color: var(--border-col);">
-    <div class="max-w-7xl mx-auto px-4 sm:px-8 h-16 flex items-center justify-between gap-4">
-      <!-- Brand Logo -->
-      <a href="#founding50" class="flex items-center gap-2.5">
-        <div class="w-9 h-9 rounded-lg border-2 border-amber-500/60 bg-emerald-500/10 flex items-center justify-center font-black text-xs text-emerald-600">
-          ↗
-        </div>
-        <div>
-          <div class="font-extrabold text-[15px] tracking-tight leading-none" style="color: var(--text-main);">
-            Options <span class="text-amber-600">Funding</span>
+<body class="bg-white text-slate-900 min-h-screen w-full selection:bg-amber-500/20 selection:text-amber-800 antialiased flex flex-col font-sans relative overflow-x-hidden">
+<!-- 1. Top Notification Bar (Clean light gold banner) -->
+<div class="bg-amber-50 border-b border-amber-200/80 py-2.5 px-4 text-center relative z-50">
+<div class="max-w-[1440px] mx-auto flex items-center justify-center gap-2 text-xs md:text-sm text-amber-950">
+<span class="inline-flex items-center gap-1.5 font-bold tracking-wide">
+<span class="text-amber-600 text-base">⚡</span>
+<span class="text-amber-900 font-extrabold">60% OFF ALL ACCOUNTS</span>
+<span class="text-amber-300 hidden sm:inline">|</span>
+<span class="text-amber-800 font-medium hidden sm:inline">Use code:</span>
+<span class="px-2 py-0.5 rounded bg-white text-amber-800 font-mono font-bold border border-amber-300 shadow-xs">OF</span>
+<span class="text-amber-300 hidden md:inline">|</span>
+<span class="text-amber-700 font-semibold tracking-wide">SALE ENDS SUNDAY 11:59PM ET</span>
+</span>
+</div>
+</div>
+<!-- 2. Main Navigation Bar -->
+<header class="sticky top-0 z-40 backdrop-blur-xl bg-white/95 border-b border-slate-200 shadow-xs">
+<div class="flex justify-between items-center w-full px-6 lg:px-12 max-w-[1440px] mx-auto h-20">
+<!-- Brand Logo -->
+<a class="flex items-center gap-3 group cursor-pointer focus:outline-none" href="#">
+<div class="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 to-emerald-600 p-0.5 flex items-center justify-center shadow-sm">
+<div class="w-full h-full bg-white rounded-[10px] flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px] text-amber-600">query_stats</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="text-lg md:text-xl font-extrabold tracking-tight text-slate-900 flex items-center gap-1.5">
+          Options <span class="text-amber-600">Funding</span>
+</span>
+<span class="text-[10px] font-mono text-slate-500 -mt-1 tracking-widest uppercase">WebTrader • RixTrade</span>
+</div>
+</a>
+<!-- Navigation Links -->
+<nav class="hidden lg:flex items-center gap-8 h-full">
+<a class="text-amber-700 font-bold text-sm border-b-2 border-amber-500 py-1 flex items-center h-full transition-colors" href="#founding-50">Founding 50</a>
+<a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full" href="#metrics">Rules</a>
+<a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full" href="#metrics">Account Metrics</a>
+<a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full" href="#terminal">RixTrade Platform</a>
+<a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full" href="#faq">FAQ</a>
+<a class="text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors flex items-center h-full" href="#affiliates">Affiliates</a>
+</nav>
+<!-- Header Actions -->
+<div class="flex items-center gap-3">
+<button onclick="toggleFullScreen()" class="hidden md:inline-flex items-center gap-1.5 text-xs font-mono font-bold text-slate-700 hover:text-amber-700 bg-slate-100 hover:bg-amber-50 border border-slate-200 px-3 py-2 rounded-xl transition-colors" title="Toggle Full Screen (F11)">
+<span class="material-symbols-outlined text-[16px]">fullscreen</span>
+<span>Full Screen</span>
+</button>
+<a class="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-slate-700 hover:text-slate-900 px-3 py-2 transition-colors" href="#signin" onclick="showStitchToast('RixTrade SSO Login Ready')">
+<span class="material-symbols-outlined text-[18px] text-slate-500">lock_open</span>
+<span class="">Sign In</span>
+</a>
+<a class="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl font-bold text-sm bg-amber-500 hover:bg-amber-400 text-slate-950 transition-all duration-150 shadow-sm hover:shadow-md hover:scale-[1.02] active:scale-95" href="#metrics">
+<span class="">Get Funded</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</header>
+<main class="flex-grow">
+<!-- Hero Section (With 3D Animated Candlestick & Equity Curve Background Motion) -->
+<section id="founding-50" class="relative pt-14 pb-20 md:pt-20 md:pb-28 overflow-hidden bg-white border-b border-slate-200">
+<!-- 3D Motion Candlestick & Equity Curve Background Video + Image Fallback -->
+<video autoplay loop muted playsinline poster="assets/equity-curve-3d.jpg" class="hero-3d-motion-bg">
+  <source src="assets/equity-curve-3d.mp4" type="video/mp4" />
+</video>
+<!-- Soft Light-Mode Glass Gradient Veil so Typography stays 100% Crisp -->
+<div class="absolute inset-0 bg-gradient-to-r from-white/95 via-white/85 to-white/70 pointer-events-none z-[1]"></div>
+<!-- Ambient Background Subtle Warm Glow -->
+<div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-amber-100/60 via-emerald-50/40 to-transparent blur-3xl pointer-events-none z-[1]"></div>
+<div class="max-w-[1440px] mx-auto px-6 lg:px-12 relative z-10">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+<!-- Hero Copy -->
+<div class="lg:col-span-6 flex flex-col gap-6">
+<div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-50 border border-amber-300 text-amber-800 font-mono text-xs font-bold w-fit tracking-wider shadow-xs">
+<span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
+            OPTIONS FUNDING // RIXTRADE ENGINE
           </div>
-          <div class="text-[9.5px] mono font-semibold tracking-wider text-slate-400 mt-0.5">
-            WEBTRADER + RIXTRADE
+<h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.1]">
+            $100,000 Funded <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 via-amber-500 to-emerald-600">Options Account</span>
+</h1>
+<p class="text-slate-600 text-base sm:text-lg leading-relaxed max-w-xl font-normal">
+            Trade SPY, QQQ, and single-stock options with institutional execution speed. Hit your profit target and receive real cash payouts.
+          </p>
+<!-- CTAs -->
+<div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
+<a class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-extrabold text-base bg-amber-500 hover:bg-amber-400 text-slate-950 transition-all shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-95 text-center" href="#metrics">
+<span class="">Get Funded Now</span>
+<span class="material-symbols-outlined text-[20px]">bolt</span>
+</a>
+<a class="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-semibold text-base bg-white hover:bg-slate-50 border-2 border-slate-900 text-slate-900 transition-all hover:border-amber-500 text-center shadow-xs" href="#metrics">
+<span class="material-symbols-outlined text-[20px] text-amber-700">rule</span>
+<span class="">View Trading Rules</span>
+</a>
+</div>
+<!-- Execution Stats Badges -->
+<div class="pt-6 border-t border-slate-200 flex flex-wrap items-center gap-3 sm:gap-6">
+<div class="flex items-center gap-2 bg-white/90 border border-slate-200 px-3.5 py-2 rounded-lg shadow-xs">
+<span class="material-symbols-outlined text-emerald-600 text-[18px]">verified</span>
+<span class="text-xs font-semibold text-slate-800">Zero Setup Fee Today</span>
+</div>
+<div class="flex items-center gap-2 bg-white/90 border border-slate-200 px-3.5 py-2 rounded-lg shadow-xs">
+<span class="material-symbols-outlined text-amber-700 text-[18px]">speed</span>
+<span class="text-xs font-semibold text-slate-800">Direct RixTrade Bridge</span>
+</div>
+<div class="flex items-center gap-2 bg-white/90 border border-slate-200 px-3.5 py-2 rounded-lg shadow-xs">
+<span class="material-symbols-outlined text-emerald-600 text-[18px]">currency_exchange</span>
+<span class="text-xs font-semibold text-slate-800">Fast ACH &amp; Crypto Payouts</span>
+</div>
+</div>
+</div>
+<!-- Hero Terminal Graphic / Preview (With 3D Animated Candlestick & Equity Curve Video + Original HUD) -->
+<div class="lg:col-span-6 relative">
+<div class="terminal-3d-card relative rounded-2xl p-1 bg-gradient-to-b from-amber-400 via-amber-200 to-slate-200 shadow-2xl border border-amber-300/80">
+<div class="bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 relative">
+<!-- Terminal 3D Video + Image Showcase -->
+<div class="relative bg-slate-950 p-2">
+<video autoplay loop muted playsinline poster="assets/equity-curve-3d.jpg" class="w-full h-[310px] sm:h-[350px] rounded-lg object-cover border border-slate-800">
+  <source src="assets/equity-curve-3d.mp4" type="video/mp4" />
+  <img alt="Options Funding $100,000 account options analytics trading terminal" class="w-full h-auto rounded-lg object-cover border border-slate-800" src="assets/equity-curve-3d.jpg"/>
+</video>
+<!-- Interactive Floating HUD Widget Overlay -->
+<div class="absolute bottom-4 left-4 right-4 bg-slate-900/95 backdrop-blur-md border border-amber-400/50 rounded-xl p-3 shadow-2xl flex items-center justify-between gap-2">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-amber-500/15 border border-amber-400/40 flex items-center justify-center text-amber-400">
+<span class="material-symbols-outlined text-[22px]">payments</span>
+</div>
+<div>
+<div class="text-xs font-bold text-white flex items-center gap-1.5">
+<span class="">SPY 585 CALL</span>
+<span class="text-[10px] px-1.5 rounded bg-emerald-500/20 text-emerald-400 font-mono font-bold">DELTA 0.54</span>
+</div>
+<span class="text-[11px] font-mono text-slate-300">Ask: $2.45 | Bid: $2.43 | IV: 14.8%</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button onclick="showStitchToast('⚡ 1-CLICK BUY EXECUTED: 10x SPY 585 CALL @ $2.45')" class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-mono font-bold text-xs shadow-md transition active:scale-95">
+                      1-CLICK BUY
+                    </button>
+<a href="#terminal" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-mono border border-slate-700">
+                      DETAILS
+                    </a>
+</div>
+</div>
+</div>
+<!-- Terminal Footnote -->
+<div class="px-4 py-2 bg-slate-900 border-t border-slate-800 flex items-center justify-between text-[11px] font-mono text-slate-400">
+<span class="flex items-center gap-1.5 text-emerald-400">
+<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  RixTrade Engine Connected
+                </span>
+<span class="text-slate-400">Max Position: 20 SPY / 15 QQQ Contracts</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. Key Evaluation Metrics Bar & Capability Cards -->
+<section class="py-20 bg-slate-50 border-b border-slate-200" id="metrics">
+<div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+<!-- Section Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+<div class="max-w-2xl">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-amber-100 border border-amber-300 text-amber-900 text-xs font-mono uppercase mb-3 font-bold">
+            FOUNDING 50 EVALUATION MATRIX
           </div>
-        </div>
-      </a>
-
-      <!-- Center Nav Links (All Scroll Smoothly on the Same Full-Screen Page) -->
-      <nav class="hidden lg:flex items-center gap-1">
-        <a href="#founding50" class="nav-link active">Founding 50</a>
-        <a href="#rules" class="nav-link">Rules</a>
-        <a href="#evaluation-matrix" class="nav-link">Account Metrics</a>
-        <a href="#rixtrade-platform" class="nav-link">RixTrade Platform</a>
-        <a href="#faq" class="nav-link">FAQ</a>
-        <a href="#affiliates" class="nav-link">Affiliates</a>
-      </nav>
-
-      <!-- Right Action Buttons -->
-      <div class="flex items-center gap-2.5">
-        <button onclick="toggleFullScreen()" class="px-3 py-1.5 rounded-lg text-xs font-bold border transition hover:bg-amber-500/10" style="border-color: var(--border-col); color: var(--text-sub);" title="View Full Screen (F11)">
-          ⛶ Full Screen
-        </button>
-        <button onclick="toggleTheme()" class="px-3 py-1.5 rounded-lg text-xs font-semibold border transition" style="border-color: var(--border-col); color: var(--text-sub);">
-          ☀️ Light / 🌙 Dark
-        </button>
-        <button onclick="notifyUser('Sign In Portal', 'Authenticated via RixTrade SSO')" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold" style="color: var(--text-sub);">
-          🔒 Sign In
-        </button>
-        <a href="#evaluation-matrix" class="px-4 py-2 rounded-lg text-xs font-bold text-white shadow-md transition hover:brightness-110" style="background: linear-gradient(135deg, #D97706, #F59E0B);">
-          Get Funded →
-        </a>
-      </div>
-    </div>
-  </header>
-
-  <!-- ===================================================================== -->
-  <!-- SECTION 1: HERO (EXACT STITCH NODE f4e0a6d2 + 3D ANIMATED BACKGROUND) -->
-  <!-- ===================================================================== -->
-  <section id="founding50" class="relative py-16 lg:py-24 overflow-hidden border-b" style="background-color: var(--bg-hero); border-color: var(--border-col);">
-    <!-- 3D Motion Candlestick & Equity Curve Background Layer -->
-    <video src="assets/equity-curve-3d.mp4" poster="assets/equity-curve-3d.jpg" autoplay loop muted playsinline class="hero-3d-bg-video"></video>
-    <div class="absolute inset-0 pointer-events-none" style="background: var(--bg-hero-overlay);"></div>
-
-    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 grid lg:grid-cols-12 gap-12 items-center">
-      
-      <!-- Left Column: Exact Stitch Screen 1 Typography, Buttons & 3 Badges -->
-      <div class="lg:col-span-6 space-y-6">
-        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-[11px] font-bold tracking-wider uppercase border bg-amber-500/10 border-amber-500/30 text-amber-700 dark:text-amber-400 mono">
-          <span>OPTIONS FUNDING // RIXTRADE ENGINE</span>
-        </div>
-
-        <h1 class="text-5xl sm:text-[62px] font-black tracking-tight leading-[1.03]" style="color: var(--text-main);">
-          $100,000 Funded<br />
-          <span class="stitch-title-gradient">Options Account</span>
-        </h1>
-
-        <p class="text-base sm:text-[17px] leading-relaxed max-w-xl" style="color: var(--text-sub);">
-          Trade SPY, QQQ, and single-stock options with institutional execution speed. Hit your profit target and receive real cash payouts.
+<h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            $100,000 Evaluation Parameters
+          </h2>
+<p class="text-slate-600 text-base mt-2">
+            No convoluted ladders or confusing hidden drawdowns. Simple, transparent rules engineered for options profitability.
+          </p>
+</div>
+<div class="flex items-center gap-2 bg-white border border-slate-300 shadow-xs px-4 py-2 rounded-xl text-xs font-mono">
+<span class="text-slate-700 font-bold">Cohort Spots Remaining:</span>
+<span class="text-amber-900 font-extrabold bg-amber-100 px-2 py-0.5 rounded border border-amber-300">14 / 50</span>
+</div>
+</div>
+<!-- 4 Core Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Card 1: $100,000 Starting Capital -->
+<div class="p-6 bg-white rounded-2xl border border-slate-200 shadow-xs hover:border-amber-400 hover:shadow-md transition-all duration-200 flex flex-col justify-between group hover:-translate-y-1">
+<div>
+<div class="w-12 h-12 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-700 mb-5 group-hover:scale-105 transition-transform shadow-xs">
+<span class="material-symbols-outlined text-[24px]">account_balance_wallet</span>
+</div>
+<div class="text-[11px] font-mono text-amber-800 font-bold tracking-wider uppercase mb-1">CAPITAL ALLOCATION</div>
+<h3 class="text-xl font-bold text-slate-900 mb-2">$100,000 Starting Capital</h3>
+<p class="text-slate-600 text-sm leading-relaxed">
+              Full buying power on RixTrade for trading high-liquidity index (SPY, QQQ) and equity options with institutional leverage controls.
+            </p>
+</div>
+<div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-mono text-slate-500">
+<span class="text-slate-800 font-semibold">Max Contracts: 20</span>
+<span class="material-symbols-outlined text-[16px] text-emerald-600">check_circle</span>
+</div>
+</div>
+<!-- Card 2: 12% Profit Target ($12,000) -->
+<div class="p-6 bg-white rounded-2xl border border-slate-200 shadow-xs hover:border-emerald-400 hover:shadow-md transition-all duration-200 flex flex-col justify-between group hover:-translate-y-1">
+<div>
+<div class="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700 mb-5 group-hover:scale-105 transition-transform shadow-xs">
+<span class="material-symbols-outlined text-[24px]">trending_up</span>
+</div>
+<div class="text-[11px] font-mono text-emerald-700 font-bold tracking-wider uppercase mb-1">PROFIT OBJECTIVE</div>
+<h3 class="text-xl font-bold text-slate-900 mb-2">12% Profit Target ($12,000)</h3>
+<p class="text-slate-600 text-sm leading-relaxed">
+              Reach a target balance of <span class="text-emerald-700 font-bold font-mono">$112,000</span> with real-time balance tracking to trigger instant funded status graduation.
+            </p>
+</div>
+<div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-mono text-emerald-700 font-bold">
+<span class="">Target: $112,000</span>
+<span class="material-symbols-outlined text-[16px]">military_tech</span>
+</div>
+</div>
+<!-- Card 3: 6% End-of-Day Trailing Drawdown ($94,000 Floor) -->
+<div class="p-6 bg-white rounded-2xl border border-slate-200 shadow-xs hover:border-red-400 hover:shadow-md transition-all duration-200 flex flex-col justify-between group hover:-translate-y-1">
+<div>
+<div class="w-12 h-12 rounded-xl bg-red-50 border border-red-200 flex items-center justify-center text-red-600 mb-5 group-hover:scale-105 transition-transform shadow-xs">
+<span class="material-symbols-outlined text-[24px]">shield</span>
+</div>
+<div class="text-[11px] font-mono text-red-700 font-bold tracking-wider uppercase mb-1">RISK CEILING</div>
+<h3 class="text-xl font-bold text-slate-900 mb-2">6% EOD Trailing Drawdown</h3>
+<p class="text-slate-600 text-sm leading-relaxed">
+              Calculated purely at the End of the Day with a fixed <span class="text-red-600 font-bold font-mono">$94,000 Floor</span>. Zero intraday spike liquidations.
+            </p>
+</div>
+<div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-mono text-red-700 font-bold">
+<span class="">$94,000 Hard Floor</span>
+<span class="material-symbols-outlined text-[16px]">lock</span>
+</div>
+</div>
+<!-- Card 4: 80% Trader Profit Split -->
+<div class="p-6 bg-white rounded-2xl border-2 border-amber-500 shadow-md flex flex-col justify-between group relative hover:-translate-y-1 transition-all">
+<div class="absolute -top-3 right-4 px-3 py-0.5 rounded-full bg-amber-500 text-slate-950 font-mono text-[10px] font-extrabold uppercase tracking-wider shadow-sm">
+            MAX PAYOUT
+          </div>
+<div>
+<div class="w-12 h-12 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center mb-5 group-hover:scale-105 transition-transform shadow-sm">
+<span class="material-symbols-outlined text-[24px]">paid</span>
+</div>
+<div class="text-[11px] font-mono text-amber-800 font-bold tracking-wider uppercase mb-1">REVENUE SHARE</div>
+<h3 class="text-xl font-bold text-amber-900 mb-2 flex items-center gap-2">
+              80% Trader Profit Split
+            </h3>
+<p class="text-slate-600 text-sm leading-relaxed">
+              Keep 80% of all generated net options gains. Direct bi-weekly or on-demand payouts via ACH transfer or crypto (USDT/USDC).
+            </p>
+</div>
+<div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-mono text-amber-800 font-bold">
+<span class="">80/20 Trader Split</span>
+<span class="material-symbols-outlined text-[16px] text-emerald-600">verified</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. Active Trading State Showcase (One-Click Options Execution HUD) -->
+<section class="py-20 bg-white border-b border-slate-200 relative overflow-hidden" id="terminal">
+<div class="max-w-[1440px] mx-auto px-6 lg:px-12 relative z-10">
+<!-- Section Title -->
+<div class="max-w-3xl mb-12">
+<span class="text-amber-800 font-mono text-xs uppercase tracking-widest block mb-2 font-bold">// RIXTRADE OPTIONS HUD SHOWCASE</span>
+<h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          Active One-Click Options Execution Terminal
+        </h2>
+<p class="text-slate-600 text-base mt-3 leading-relaxed">
+          Monitor Greek exposures, execute multi-contract orders in 0.08ms, and track your distance to the $94,000 floor with automated risk guardrails.
         </p>
-
-        <!-- Exact 2 Hero CTA Buttons from Stitch Screen 1 -->
-        <div class="flex flex-wrap items-center gap-3.5 pt-1">
-          <a href="#evaluation-matrix" class="px-6 py-3.5 rounded-xl font-bold text-sm text-white shadow-lg transition hover:scale-[1.02]" style="background: linear-gradient(135deg, #D97706, #B45309);">
-            Get Funded Now ⚡
-          </a>
-          <a href="#rules" class="px-6 py-3.5 rounded-xl font-bold text-sm border-2 bg-white text-slate-900 border-slate-800 hover:bg-slate-50 transition">
-            ⇄ View Trading Rules
-          </a>
-        </div>
-
-        <!-- Exact 3 Feature Pills Below Buttons (2 on row 1, 1 on row 2) -->
-        <div class="pt-3 border-t max-w-md space-y-2.5" style="border-color: var(--border-col);">
-          <div class="flex flex-wrap gap-2.5">
-            <div class="px-3.5 py-2 rounded-lg text-xs font-semibold border bg-white/90 text-slate-800 border-slate-200 shadow-sm flex items-center gap-2">
-              <span class="text-emerald-600 font-bold">✓</span> Zero Setup Fee Today
-            </div>
-            <div class="px-3.5 py-2 rounded-lg text-xs font-semibold border bg-white/90 text-slate-800 border-slate-200 shadow-sm flex items-center gap-2">
-              <span class="text-amber-600 font-bold">☁</span> Direct RixTrade Bridge
-            </div>
-          </div>
-          <div class="flex">
-            <div class="px-3.5 py-2 rounded-lg text-xs font-semibold border bg-white/90 text-slate-800 border-slate-200 shadow-sm flex items-center gap-2">
-              <span class="text-emerald-600 font-bold">⚙</span> Fast ACH &amp; Crypto Payouts
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Right Column: Gold-Bordered 3D RixTrade Frame + SPY 585 CALL Floating Overlay -->
-      <div class="lg:col-span-6">
-        <div class="rixtrade-monitor-frame">
-          <!-- Live 3D Candlestick & Equity Curve Motion Video Inside the RixTrade Monitor -->
-          <div class="relative">
-            <video src="assets/equity-curve-3d.mp4" poster="assets/equity-curve-3d.jpg" autoplay loop muted playsinline class="w-full h-[310px] sm:h-[340px] object-cover block"></video>
-
-            <!-- Floating Dark Glass HUD Card (Exact Match to Stitch Screen 1) -->
-            <div class="mx-4 -mt-16 relative z-20 p-4 rounded-xl border border-white/15 backdrop-blur-xl shadow-2xl" style="background: rgba(13, 18, 30, 0.92);">
-              <div class="flex flex-wrap items-center justify-between gap-3">
-                <div class="flex items-center gap-3">
-                  <div class="w-10 h-10 rounded-lg bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-300 font-bold mono text-xs">
-                    ⚡
-                  </div>
-                  <div>
-                    <div class="flex items-center gap-2">
-                      <span class="font-extrabold text-white text-xs sm:text-sm mono">SPY 585 CALL</span>
-                      <span class="text-[10px] mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">DELTA 0.54</span>
-                    </div>
-                    <div class="text-[11px] mono text-slate-300 mt-1">
-                      Ask: <strong class="text-white">$2.45</strong> | Bid: <strong class="text-white">$2.43</strong> | IV: <strong class="text-amber-300">14.8%</strong>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="flex items-center gap-2">
-                  <button onclick="notifyUser('1-CLICK BUY EXECUTED', 'SPY 585 CALL @ $2.45 · 10 Contracts')" class="px-3.5 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs mono transition shadow-lg">
-                    1-CLICK BUY
-                  </button>
-                  <a href="#rixtrade-platform" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs mono border border-slate-600">
-                    DETAILS
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Bottom Status Bar Inside Frame -->
-          <div class="px-5 py-3.5 mt-3 bg-[#090D16] border-t border-white/10 flex flex-wrap items-center justify-between text-[11px] mono text-slate-400">
-            <span class="text-emerald-400 font-semibold flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              RixTrade Engine Connected
+</div>
+<!-- Main HUD Bento Container -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Left: Options Chain & Order Entry Module (7 cols) -->
+<div class="lg:col-span-7 bg-slate-50 rounded-2xl border border-slate-200 p-6 shadow-sm">
+<!-- Terminal Header -->
+<div class="flex flex-wrap items-center justify-between pb-4 mb-5 border-b border-slate-200 gap-3">
+<div class="flex items-center gap-3">
+<span class="text-sm font-bold font-mono px-3 py-1 rounded bg-amber-100 text-amber-900 border border-amber-300">SPY 0DTE</span>
+<span class="text-sm font-mono font-bold text-slate-900">$586.42</span>
+<span class="text-xs font-mono text-emerald-700 font-bold">+1.14%</span>
+</div>
+<div class="flex items-center gap-2">
+<button onclick="showStitchToast('Switched Symbol Feed: SPY 0DTE')" class="px-2.5 py-1 rounded bg-white border border-amber-400 text-xs font-mono text-amber-800 font-bold shadow-xs">SPY</button>
+<button onclick="showStitchToast('Switched Symbol Feed: QQQ 0DTE')" class="px-2.5 py-1 rounded bg-white border border-slate-200 text-xs font-mono text-slate-600 hover:text-slate-900 shadow-xs">QQQ</button>
+<button onclick="showStitchToast('Switched Symbol Feed: NVDA Weekly')" class="px-2.5 py-1 rounded bg-white border border-slate-200 text-xs font-mono text-slate-600 hover:text-slate-900 shadow-xs">NVDA</button>
+<button onclick="showStitchToast('Switched Symbol Feed: TSLA Weekly')" class="px-2.5 py-1 rounded bg-white border border-slate-200 text-xs font-mono text-slate-600 hover:text-slate-900 shadow-xs">TSLA</button>
+</div>
+</div>
+<!-- Strike Selector Strip -->
+<div class="mb-5">
+<div class="flex items-center justify-between text-xs font-mono text-slate-600 mb-2">
+<span class="">SELECT ACTIVE CONTRACT // EXP: TODAY</span>
+<span class="text-emerald-700 font-semibold">IV Rank: 28% (Normal)</span>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+<div onclick="showStitchToast('Selected Contract: SPY 584 CALL @ $3.12')" class="p-2.5 rounded-xl bg-white border border-slate-200 hover:border-slate-400 cursor-pointer text-center shadow-xs">
+<span class="text-[10px] text-slate-500 block font-mono">CALL</span>
+<span class="text-xs font-mono font-bold text-slate-900">SPY 584 C</span>
+<span class="text-xs font-mono text-emerald-700 block font-semibold">$3.12</span>
+</div>
+<div onclick="showStitchToast('Active Contract Armed: SPY 585 CALL @ $2.45')" class="p-2.5 rounded-xl bg-amber-50 border-2 border-amber-500 cursor-pointer text-center shadow-xs">
+<div class="flex items-center justify-center gap-1">
+<span class="text-[10px] text-amber-800 font-mono font-bold">ACTIVE</span>
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-ping"></span>
+</div>
+<span class="text-xs font-mono font-extrabold text-amber-900">SPY 585 C</span>
+<span class="text-xs font-mono text-emerald-700 block font-bold">$2.45</span>
+</div>
+<div onclick="showStitchToast('Selected Contract: SPY 586 CALL @ $1.82')" class="p-2.5 rounded-xl bg-white border border-slate-200 hover:border-slate-400 cursor-pointer text-center shadow-xs">
+<span class="text-[10px] text-slate-500 block font-mono">CALL</span>
+<span class="text-xs font-mono font-bold text-slate-900">SPY 586 C</span>
+<span class="text-xs font-mono text-emerald-700 block font-semibold">$1.82</span>
+</div>
+<div onclick="showStitchToast('Selected Contract: SPY 580 PUT @ $1.65')" class="p-2.5 rounded-xl bg-white border border-slate-200 hover:border-red-300 cursor-pointer text-center shadow-xs">
+<span class="text-[10px] text-red-600 block font-mono">PUT</span>
+<span class="text-xs font-mono font-bold text-red-700">SPY 580 P</span>
+<span class="text-xs font-mono text-red-600 block font-semibold">$1.65</span>
+</div>
+</div>
+</div>
+<!-- Real-Time Greeks & Matrix -->
+<div class="grid grid-cols-4 gap-2 mb-5 p-3 rounded-xl bg-white border border-slate-200 font-mono text-center shadow-xs">
+<div>
+<span class="text-[10px] text-slate-500 block">DELTA (Δ)</span>
+<span class="text-sm font-bold text-amber-800">0.54</span>
+</div>
+<div>
+<span class="text-[10px] text-slate-500 block">GAMMA (Γ)</span>
+<span class="text-sm font-bold text-slate-900">0.082</span>
+</div>
+<div>
+<span class="text-[10px] text-slate-500 block">THETA (Θ)</span>
+<span class="text-sm font-bold text-red-600">-0.42</span>
+</div>
+<div>
+<span class="text-[10px] text-slate-500 block">VEGA (ν)</span>
+<span class="text-sm font-bold text-emerald-700">0.14</span>
+</div>
+</div>
+<!-- 1-Click Buy / Sell Action Triggers -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+<!-- Put / Short Trigger -->
+<button onclick="showStitchToast('⚡ 1-CLICK BUY PUT EXECUTED: 10x SPY 580 P @ $1.65')" class="relative overflow-hidden rounded-xl border-2 border-red-300 bg-red-50/70 hover:bg-red-100/70 p-4 text-left transition-all active:scale-98 group shadow-xs">
+<div class="flex items-center justify-between mb-1.5">
+<span class="text-xs font-extrabold text-red-700 font-mono tracking-wider">1-CLICK BUY PUT // SHORT</span>
+<span class="w-2.5 h-2.5 rounded-full bg-red-600"></span>
+</div>
+<div class="font-mono text-xl font-black text-slate-900">SPY 580 P</div>
+<div class="text-xs text-slate-600 mt-2 flex items-center justify-between font-mono">
+<span class="">Ask: <strong class="text-red-700 font-bold">$1.65</strong></span>
+<span class="">Max Risk: -$1,650 (10x)</span>
+</div>
+</button>
+<!-- Call / Long Trigger -->
+<button onclick="showStitchToast('⚡ 1-CLICK BUY CALL EXECUTED: 10x SPY 585 C @ $2.45')" class="relative overflow-hidden rounded-xl border-2 border-emerald-500 bg-emerald-50 hover:bg-emerald-100/70 p-4 text-left transition-all active:scale-98 group shadow-xs">
+<div class="flex items-center justify-between mb-1.5">
+<span class="text-xs font-extrabold text-emerald-800 font-mono tracking-wider">1-CLICK BUY CALL // LONG</span>
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-600 animate-ping"></span>
+</div>
+<div class="font-mono text-xl font-black text-slate-900">SPY 585 C</div>
+<div class="text-xs text-slate-600 mt-2 flex items-center justify-between font-mono">
+<span class="">Ask: <strong class="text-emerald-700 font-bold">$2.45</strong></span>
+<span class="">Target: +$2,450 (10x)</span>
+</div>
+</button>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between text-xs font-mono text-slate-500">
+<span class="flex items-center gap-1.5 text-slate-700">
+<span class="material-symbols-outlined text-[14px] text-emerald-600">bolt</span>
+              Order Routing: Direct Options Bridge (0.08ms)
             </span>
-            <span>Max Position: 20 SPY / 15 QQQ Contracts</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ===================================================================== -->
-  <!-- SECTION 2: FOUNDING 50 EVALUATION MATRIX ($100,000 PARAMETERS)        -->
-  <!-- ===================================================================== -->
-  <section id="evaluation-matrix" class="py-16 max-w-7xl mx-auto px-4 sm:px-8">
-    <div class="flex flex-wrap items-end justify-between gap-4 mb-10">
-      <div>
-        <span class="inline-block px-3 py-1 rounded text-[11px] font-extrabold uppercase mono bg-amber-500/15 text-amber-700 dark:text-amber-400 border border-amber-500/30">
-          FOUNDING 50 EVALUATION MATRIX
-        </span>
-        <h2 class="text-3xl sm:text-4xl font-black mt-3 tracking-tight" style="color: var(--text-main);">
-          $100,000 Evaluation Parameters
+<span class="text-amber-800 font-semibold">RixTrade Smart Router: Active</span>
+</div>
+</div>
+<!-- Right: Risk & Drawdown Floor Monitor (5 cols) -->
+<div class="lg:col-span-5 flex flex-col gap-6">
+<!-- Margin & Trailing Drawdown Gauge -->
+<div class="bg-slate-50 rounded-2xl border border-slate-200 p-6 shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-emerald-100 border border-emerald-300 flex items-center justify-center text-emerald-700">
+<span class="material-symbols-outlined text-[18px]">security</span>
+</div>
+<div>
+<h4 class="text-sm font-bold text-slate-900">Risk &amp; Drawdown Monitor</h4>
+<span class="text-[11px] font-mono text-slate-500">Real-Time Evaluation Safeguard</span>
+</div>
+</div>
+<span class="text-xs font-mono font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded border border-emerald-300">PASSING (HEALTHY)</span>
+</div>
+<!-- Progress Bar Toward Target -->
+<div class="space-y-4">
+<div>
+<div class="flex justify-between text-xs font-mono mb-1">
+<span class="text-slate-600">Current Balance</span>
+<span class="text-emerald-700 font-bold">$104,820.00 (+4.82%)</span>
+</div>
+<div class="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden border border-slate-300">
+<div class="h-full bg-gradient-to-r from-amber-500 to-emerald-600 rounded-full" style="width: 40%;"></div>
+</div>
+<div class="flex justify-between text-[10px] font-mono text-slate-500 mt-1">
+<span class="">Start: $100,000</span>
+<span class="text-emerald-700 font-bold">Goal: $112,000 (12%)</span>
+</div>
+</div>
+<!-- Drawdown Floor Gauge -->
+<div class="p-3.5 rounded-xl bg-white border border-slate-200 space-y-2 shadow-xs">
+<div class="flex items-center justify-between text-xs font-mono">
+<span class="text-slate-500">EOD Drawdown Floor:</span>
+<span class="text-red-600 font-bold">$94,000.00 (6%)</span>
+</div>
+<div class="flex items-center justify-between text-xs font-mono">
+<span class="text-slate-500">Safe Drawdown Buffer:</span>
+<span class="text-emerald-700 font-bold">+$10,820.00 from floor</span>
+</div>
+<div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-emerald-600 rounded-full" style="width: 82%;"></div>
+</div>
+</div>
+<!-- Quick Execution Parameters List -->
+<div class="grid grid-cols-2 gap-2 text-xs font-mono pt-1">
+<div class="bg-white p-2.5 rounded-lg border border-slate-200 shadow-xs">
+<span class="text-[10px] text-slate-500 block">PROFIT SPLIT</span>
+<span class="font-bold text-amber-800">80% Payout</span>
+</div>
+<div class="bg-white p-2.5 rounded-lg border border-slate-200 shadow-xs">
+<span class="text-[10px] text-slate-500 block">PAYOUT INTERVAL</span>
+<span class="font-bold text-slate-800">Bi-Weekly / ACH</span>
+</div>
+</div>
+</div>
+</div>
+<!-- RixTrade Platform Highlights Card -->
+<div class="bg-slate-50 rounded-2xl border border-slate-200 p-5 shadow-xs">
+<div class="flex items-center gap-3 mb-3">
+<span class="material-symbols-outlined text-amber-700 text-[22px]">developer_board</span>
+<h4 class="text-sm font-bold text-slate-900">Why Trade With Options Funding?</h4>
+</div>
+<ul class="space-y-2 text-xs text-slate-600 leading-relaxed">
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-emerald-600 text-[16px] shrink-0 mt-0.5">check</span>
+<span class="">Direct market fills with no synthetic spread markups on options contracts.</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-emerald-600 text-[16px] shrink-0 mt-0.5">check</span>
+<span class="">Overnight holding allowed for swings; intraday zero-DTE options fully permitted.</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-emerald-600 text-[16px] shrink-0 mt-0.5">check</span>
+<span class="">Automated performance dashboard with Greeks risk curves and profit target alerts.</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 5. Trust & FAQ Highlights Section -->
+<section class="py-20 bg-slate-50 border-b border-slate-200" id="faq">
+<div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+<div class="text-center max-w-2xl mx-auto mb-16">
+<span class="text-amber-800 font-mono text-xs uppercase tracking-widest block mb-2 font-bold">FREQUENTLY ASKED QUESTIONS</span>
+<h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          Everything You Need to Know
         </h2>
-        <p class="text-sm sm:text-base mt-1.5 max-w-2xl" style="color: var(--text-sub);">
-          No convoluted ladders or confusing hidden drawdowns. Simple, transparent rules engineered for options profitability.
+<p class="text-slate-600 text-base mt-2">
+          Clear answers about the Founding 50 $100k Options Evaluation and RixTrade payouts.
         </p>
-      </div>
-
-      <!-- Cohort Spots Remaining Pill (Exact Match to Stitch Screen 1) -->
-      <div class="px-4 py-2.5 rounded-xl border mono text-xs font-semibold shadow-sm" style="background: var(--bg-card); border-color: var(--border-col);">
-        Cohort Spots Remaining: <span class="font-extrabold text-amber-600 bg-amber-500/15 border border-amber-500/30 px-2 py-0.5 rounded ml-1">14 / 50</span>
-      </div>
-    </div>
-
-    <!-- 4 Parameter Cards (With Gold MAX PAYOUT Badge on Card 4) -->
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-      <div class="stitch-card p-6">
-        <div class="text-[11px] mono font-bold uppercase text-slate-400">01 // STARTING CAPITAL</div>
-        <div class="text-3xl font-black mt-2 mono" style="color: var(--text-main);">$100,000</div>
-        <div class="text-xs font-semibold text-emerald-600 mt-1">Full OPRA Level-2 Options Buying Power</div>
-        <p class="text-xs mt-3 leading-relaxed" style="color: var(--text-sub);">
-          Also available in <strong>$50,000</strong> ($159.60/mo) and <strong>$25,000</strong> ($123.60/mo) account sizes with code <code>OF</code>.
-        </p>
-      </div>
-
-      <div class="stitch-card p-6">
-        <div class="text-[11px] mono font-bold uppercase text-slate-400">02 // PROFIT TARGET</div>
-        <div class="text-3xl font-black mt-2 mono text-emerald-600">$10K – $12K</div>
-        <div class="text-xs font-semibold text-amber-600 mt-1">10% (Express) or 12% (Growth EOD)</div>
-        <p class="text-xs mt-3 leading-relaxed" style="color: var(--text-sub);">
-          Zero minimum evaluation trading days. Pass in a single session or take your time with no consistency rule in evaluation.
-        </p>
-      </div>
-
-      <div class="stitch-card p-6">
-        <div class="text-[11px] mono font-bold uppercase text-slate-400">03 // TRAILING DRAWDOWN</div>
-        <div class="text-3xl font-black mt-2 mono text-amber-600">6% EOD ($6,000)</div>
-        <div class="text-xs font-semibold text-slate-400 mt-1">Or 5% ($5,000) Intraday on Express</div>
-        <p class="text-xs mt-3 leading-relaxed" style="color: var(--text-sub);">
-          Growth Plan drawdown only updates at market close (EOD) and locks permanently at starting balance ($100,000).
-        </p>
-      </div>
-
-      <!-- Highlighted Card 4 with MAX PAYOUT Top Pill (Exact Match to Stitch Screen 1) -->
-      <div class="stitch-card p-6 relative border-2" style="border-color: #D97706;">
-        <span class="absolute -top-3 right-4 px-2.5 py-0.5 rounded bg-amber-600 text-white font-extrabold text-[10px] mono uppercase shadow">
-          MAX PAYOUT
-        </span>
-        <div class="text-[11px] mono font-bold uppercase text-amber-600">04 // PROFIT SPLIT &amp; LIVE IBKR</div>
-        <div class="text-3xl font-black mt-2 mono text-emerald-600">80% Split</div>
-        <div class="text-xs font-semibold text-amber-600 mt-1">$129 Activation Refunded on 1st Payout</div>
-        <p class="text-xs mt-3 leading-relaxed" style="color: var(--text-sub);">
-          Scale to Phase 3 Live Interactive Brokers capital up to <strong>$125,000</strong> with uncapped 80% payouts after 30 live trades.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================================================================== -->
-  <!-- SECTION 3: RIXTRADE WEBTRADER PLATFORM (MULTI-PANE + ONE-CLICK BUY)   -->
-  <!-- ===================================================================== -->
-  <section id="rixtrade-platform" class="py-16 border-t border-b" style="background: var(--bg-elevated); border-color: var(--border-col);">
-    <div class="max-w-7xl mx-auto px-4 sm:px-8">
-      <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
-        <div>
-          <span class="text-xs mono text-emerald-600 font-extrabold uppercase">● LIVE RIXTRADE WORKSPACE // MULTI-PANE INDICATORS + 1-CLICK ORDER BOOK</span>
-          <h2 class="text-3xl font-black mt-1" style="color: var(--text-main);">RixTrade Institutional WebTrader Terminal</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+<!-- FAQ 1 -->
+<div class="p-6 rounded-2xl bg-white border border-slate-200 space-y-2 shadow-xs">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-amber-700 text-[20px]">help</span>
+<h3 class="font-bold text-base text-slate-900">What instruments can I trade?</h3>
+</div>
+<p class="text-sm text-slate-600 leading-relaxed pl-7">
+            You can trade SPY, QQQ, IWM, and major high-liquidity US equity options (AAPL, NVDA, TSLA, MSFT, AMD, META, AMZN) directly inside the RixTrade WebTrader terminal. Both day trading (0DTE) and swing trading contracts are allowed.
+          </p>
+</div>
+<!-- FAQ 2 -->
+<div class="p-6 rounded-2xl bg-white border border-slate-200 space-y-2 shadow-xs">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-amber-700 text-[20px]">schedule</span>
+<h3 class="font-bold text-base text-slate-900">How is the 6% drawdown calculated?</h3>
+</div>
+<p class="text-sm text-slate-600 leading-relaxed pl-7">
+            The drawdown is calculated strictly at the End of Day (EOD) market close based on your closed equity. A temporary intraday fluctuation that dips below the floor during market hours will <strong class="text-slate-900 font-semibold">not</strong> trigger an instant breach.
+          </p>
+</div>
+<!-- FAQ 3 -->
+<div class="p-6 rounded-2xl bg-white border border-slate-200 space-y-2 shadow-xs">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-amber-700 text-[20px]">payments</span>
+<h3 class="font-bold text-base text-slate-900">When do I receive my 80% payout?</h3>
+</div>
+<p class="text-sm text-slate-600 leading-relaxed pl-7">
+            Once funded, payouts are available on a bi-weekly cycle. You can request payouts directly via US Bank ACH, international wire transfer, or cryptocurrency (USDT / USDC on TRC20 / ERC20 networks) with zero withdrawal fees.
+          </p>
+</div>
+<!-- FAQ 4 -->
+<div class="p-6 rounded-2xl bg-white border border-slate-200 space-y-2 shadow-xs">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-amber-700 text-[20px]">verified_user</span>
+<h3 class="font-bold text-base text-slate-900">What is the Founding 50 cohort?</h3>
+</div>
+<p class="text-sm text-slate-600 leading-relaxed pl-7">
+            The Founding 50 is an exclusive initial group of 50 options traders locked in at the 80% profit split for life with guaranteed institutional allocation access, dedicated risk concierge support, and early access to next-gen algorithmic options execution.
+          </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Final CTA Callout -->
+<section id="get-funded" class="py-20 bg-white border-b border-slate-200 relative overflow-hidden text-center">
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(245,158,11,0.08)_0%,transparent_70%)] pointer-events-none"></div>
+<div class="max-w-[1440px] mx-auto px-6 lg:px-12 relative z-10">
+<div class="max-w-2xl mx-auto flex flex-col items-center">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-amber-50 border border-amber-300 text-amber-800 text-xs font-mono uppercase font-bold mb-4 shadow-xs">
+          LIMITED FOUNDING 50 PASSES
         </div>
-        <div class="flex flex-wrap gap-2">
-          <button onclick="toggleChartOverlay('EMA')" class="px-3.5 py-1.5 rounded-lg text-xs mono font-bold bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">✓ Triple EMA (20/50/200)</button>
-          <button onclick="toggleChartOverlay('MACD')" class="px-3.5 py-1.5 rounded-lg text-xs mono font-bold bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30">✓ MACD (12, 26, 9)</button>
-          <button onclick="toggleChartOverlay('BB')" class="px-3.5 py-1.5 rounded-lg text-xs mono font-bold bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-500/30">✓ Bollinger Bands (20, 2)</button>
-        </div>
-      </div>
-
-      <div class="grid lg:grid-cols-12 gap-6">
-        <!-- Interactive Candlestick + EMA + Equity Canvas -->
-        <div class="lg:col-span-8 stitch-card p-5 bg-[#090D16] text-white border-slate-800">
-          <div class="flex flex-wrap justify-between items-center mb-4 pb-3 border-b border-white/10">
-            <div class="flex items-center gap-3">
-              <span class="font-black text-lg mono text-white">SPY 585C 0DTE</span>
-              <span class="text-emerald-400 mono font-bold text-sm">$2.45 (+38.4%)</span>
-              <span class="text-xs mono text-slate-400">OPRA Direct · 11ms Latency</span>
-            </div>
-            <div class="text-xs mono text-amber-400 font-semibold">Equity: $106,420.00 | EOD Floor: $94,000.00</div>
-          </div>
-          <div class="h-[340px] w-full rounded-xl overflow-hidden bg-[#060911] border border-white/10 relative">
-            <canvas id="rixChartCanvas" class="w-full h-full block"></canvas>
-          </div>
-        </div>
-
-        <!-- One-Click Execution Ticket -->
-        <div class="lg:col-span-4 stitch-card p-6 flex flex-col justify-between">
-          <div>
-            <div class="flex justify-between items-center mb-4">
-              <span class="text-xs font-bold mono text-emerald-600 uppercase">● 1-CLICK EXECUTION ARMED</span>
-              <span class="text-[11px] mono px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-600 font-bold">LEVEL-3 MULTI-LEG</span>
-            </div>
-
-            <div class="p-4 rounded-xl border space-y-3" style="background: var(--bg-elevated); border-color: var(--border-col);">
-              <div class="flex justify-between text-xs mono">
-                <span style="color: var(--text-sub);">CONTRACT LOT SIZE</span>
-                <strong id="contractQtyLabel" class="text-amber-600">10 Contracts</strong>
-              </div>
-              <input type="range" min="1" max="20" value="10" class="w-full accent-emerald-600" oninput="document.getElementById('contractQtyLabel').textContent = this.value + ' Contracts'" />
-              <div class="flex justify-between text-[11px] mono" style="color: var(--text-muted);">
-                <span>Max SPY Limit: 20 Lots</span>
-                <span>Max QQQ Limit: 15 Lots</span>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-3 mt-4">
-              <button onclick="notifyUser('BUY CALL ORDER FILLED', '10x SPY 585 CALL @ $2.45 (Δ +0.54)')" class="p-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black mono text-xs transition text-left shadow-md">
-                <div>BUY // CALL</div>
-                <div class="text-lg mt-1">$2.45</div>
-                <div class="text-[10px] opacity-90 mt-1">Ask · Δ +0.54</div>
-              </button>
-              <button onclick="notifyUser('BUY PUT ORDER FILLED', '10x SPY 580 PUT @ $1.92 (Δ -0.46)')" class="p-4 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-black mono text-xs transition text-left shadow-md">
-                <div>BUY // PUT</div>
-                <div class="text-lg mt-1">$1.92</div>
-                <div class="text-[10px] opacity-90 mt-1">Bid · Δ -0.46</div>
-              </button>
-            </div>
-          </div>
-
-          <div class="mt-6 pt-4 border-t text-xs space-y-2 mono" style="border-color: var(--border-col); color: var(--text-sub);">
-            <div class="flex justify-between"><span>Auto Take-Profit (TP):</span><span class="text-emerald-600 font-bold">+40 Ticks ($3,200)</span></div>
-            <div class="flex justify-between"><span>Daily LossGuard (SL):</span><span class="text-rose-600 font-bold">-15 Ticks ($1,200)</span></div>
-            <div class="flex justify-between"><span>Overnight Holding:</span><span class="text-amber-600 font-bold">Permitted (All Phases)</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================================================================== -->
-  <!-- SECTION 4: COMPLETE TRADING RULES MATRIX (GROWTH EOD vs EXPRESS)      -->
-  <!-- ===================================================================== -->
-  <section id="rules" class="py-16 max-w-7xl mx-auto px-4 sm:px-8 space-y-8">
-    <div class="flex flex-wrap justify-between items-end gap-4">
-      <div>
-        <span class="text-xs font-bold mono uppercase text-amber-600">PHASE 1 EVALUATION · PHASE 2 FUNDED · PHASE 3 LIVE IBKR</span>
-        <h2 class="text-3xl font-black mt-1" style="color: var(--text-main);">Complete Options Funding Rulebook &amp; Account Matrix</h2>
-      </div>
-      <span class="text-xs mono font-bold px-3 py-1.5 rounded-lg bg-emerald-500/15 text-emerald-600 border border-emerald-500/30">
-        60% OFF CODE: OF APPLIED
-      </span>
-    </div>
-
-    <div class="stitch-card p-6 overflow-x-auto">
-      <table class="w-full text-left border-collapse mono text-xs">
-        <thead>
-          <tr class="border-b text-amber-600" style="border-color: var(--border-col);">
-            <th class="py-3.5 px-4">PARAMETER</th>
-            <th class="py-3.5 px-4">GROWTH $100K</th>
-            <th class="py-3.5 px-4">GROWTH $50K</th>
-            <th class="py-3.5 px-4">GROWTH $25K</th>
-            <th class="py-3.5 px-4">EXPRESS $100K</th>
-            <th class="py-3.5 px-4">EXPRESS $50K</th>
-            <th class="py-3.5 px-4">EXPRESS $25K</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y" style="border-color: var(--border-col);">
-          <tr>
-            <td class="py-3.5 px-4 font-bold">60% Off Price (Code OF)</td>
-            <td class="py-3.5 px-4 text-emerald-600 font-extrabold">$199.60/mo</td>
-            <td class="py-3.5 px-4 text-emerald-600 font-extrabold">$159.60/mo</td>
-            <td class="py-3.5 px-4 text-emerald-600 font-extrabold">$123.60/mo</td>
-            <td class="py-3.5 px-4 text-amber-600 font-extrabold">$155.60/mo</td>
-            <td class="py-3.5 px-4 text-amber-600 font-extrabold">$111.60/mo</td>
-            <td class="py-3.5 px-4 text-amber-600 font-extrabold">$95.60/mo</td>
-          </tr>
-          <tr>
-            <td class="py-3.5 px-4 font-bold">Profit Target</td>
-            <td class="py-3.5 px-4">12% ($12,000)</td>
-            <td class="py-3.5 px-4">12% ($6,000)</td>
-            <td class="py-3.5 px-4">12% ($3,000)</td>
-            <td class="py-3.5 px-4">10% ($10,000)</td>
-            <td class="py-3.5 px-4">10% ($5,000)</td>
-            <td class="py-3.5 px-4">10% ($2,500)</td>
-          </tr>
-          <tr>
-            <td class="py-3.5 px-4 font-bold">Max Trailing Drawdown</td>
-            <td class="py-3.5 px-4">6% ($6,000 EOD)</td>
-            <td class="py-3.5 px-4">6% ($3,000 EOD)</td>
-            <td class="py-3.5 px-4">6% ($1,500 EOD)</td>
-            <td class="py-3.5 px-4">5% ($5,000 Intraday)</td>
-            <td class="py-3.5 px-4">5% ($2,500 Intraday)</td>
-            <td class="py-3.5 px-4">5% ($1,250 Intraday)</td>
-          </tr>
-          <tr>
-            <td class="py-3.5 px-4 font-bold">Allowed Options Strategies</td>
-            <td class="py-3.5 px-4">All (Buy + Write Spreads)</td>
-            <td class="py-3.5 px-4">All (Buy + Write Spreads)</td>
-            <td class="py-3.5 px-4">All (Buy + Write Spreads)</td>
-            <td class="py-3.5 px-4">Buy Only (Long Calls/Puts)</td>
-            <td class="py-3.5 px-4">Buy Only (Long Calls/Puts)</td>
-            <td class="py-3.5 px-4">Buy Only (Long Calls/Puts)</td>
-          </tr>
-          <tr>
-            <td class="py-3.5 px-4 font-bold">Phase 3 Live IBKR Scaling</td>
-            <td class="py-3.5 px-4">$50K → $125K</td>
-            <td class="py-3.5 px-4">$25K → $62.5K</td>
-            <td class="py-3.5 px-4">$12.5K → $31.25K</td>
-            <td class="py-3.5 px-4">$50K → $125K</td>
-            <td class="py-3.5 px-4">$25K → $62.5K</td>
-            <td class="py-3.5 px-4">$12.5K → $31.25K</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- ===================================================================== -->
-  <!-- SECTION 5: PARTNER & CREATOR NETWORK (25% COMMISSION MATRIX)          -->
-  <!-- ===================================================================== -->
-  <section id="affiliates" class="py-16 border-t" style="background: var(--bg-elevated); border-color: var(--border-col);">
-    <div class="max-w-7xl mx-auto px-4 sm:px-8 space-y-12">
-      <div class="stitch-card p-8 sm:p-12">
-        <span class="px-3 py-1 rounded-full text-[11px] font-bold mono uppercase bg-emerald-500/15 text-emerald-600 border border-emerald-500/30">
-          ● OPTIONS FUNDING // PARTNER &amp; CREATOR NETWORK
-        </span>
-        <h2 class="text-3xl sm:text-5xl font-black tracking-tight mt-4 max-w-3xl leading-[1.08]" style="color: var(--text-main);">
-          Earn Up to <span class="text-emerald-600">25% Recurring Commission</span> Partnering With the Leading Options Prop Firm
+<h2 class="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight mb-4">
+          Ready to Trade With $100,000 Capital?
         </h2>
-        <p class="mt-3 max-w-2xl text-base" style="color: var(--text-sub);">
-          Empower your community with institutional options liquidity, fair EOD drawdown rules, and 90-day sticky attribution cookies.
+<p class="text-slate-600 text-base sm:text-lg mb-8 leading-relaxed">
+          Use promotional code <span class="text-amber-800 font-mono font-bold bg-amber-100 px-2 py-0.5 rounded border border-amber-300">OF</span> to unlock 60% off your evaluation today. Lock in your 80% profit split.
         </p>
-
-        <!-- 3 Commission Tiers + Telemetry Grid -->
-        <div class="grid lg:grid-cols-12 gap-6 mt-8">
-          <div class="lg:col-span-7 space-y-4">
-            <div class="stitch-card p-5 flex justify-between items-center">
-              <div>
-                <div class="font-extrabold text-base">Tier 1 (Bronze Starter · 1–20 Active Traders)</div>
-                <p class="text-xs mt-1" style="color: var(--text-sub);">15% Lifetime Recurring Commission on initial evaluations, resets &amp; renewals.</p>
-              </div>
-              <div class="text-2xl font-black text-emerald-600 mono">15%</div>
-            </div>
-            <div class="stitch-card p-5 flex justify-between items-center border-2" style="border-color: #10B981;">
-              <div>
-                <div class="font-extrabold text-base">Tier 2 (Silver Popular · 21–75 Active Traders)</div>
-                <p class="text-xs mt-1" style="color: var(--text-sub);">20% Lifetime Recurring Commission + custom community discount codes.</p>
-              </div>
-              <div class="text-2xl font-black text-emerald-600 mono">20%</div>
-            </div>
-            <div class="stitch-card p-5 flex justify-between items-center">
-              <div>
-                <div class="font-extrabold text-base">Tier 3 (Institutional Partner · 75+ Active Traders)</div>
-                <p class="text-xs mt-1" style="color: var(--text-sub);">25% Lifetime Recurring Commission + co-branded landing pages &amp; funded giveaways.</p>
-              </div>
-              <div class="text-2xl font-black text-amber-600 mono">25%</div>
-            </div>
-          </div>
-
-          <div class="lg:col-span-5 stitch-card p-6 flex flex-col justify-between">
-            <div class="flex justify-between items-center text-xs mono">
-              <span class="font-bold uppercase text-slate-400">NETWORK REAL-TIME TELEMETRY</span>
-              <span class="text-emerald-600 font-bold">● LIVE FEED</span>
-            </div>
-            <div class="my-4 space-y-3">
-              <div class="p-3.5 rounded-xl border" style="background: var(--bg-elevated); border-color: var(--border-col);">
-                <div class="text-[10px] mono text-slate-400">AVERAGE EPC (EARNINGS PER CLICK)</div>
-                <div class="text-2xl font-black mono mt-0.5">$4.85 <span class="text-xs font-semibold text-emerald-600">(Top creators $9.20+)</span></div>
-              </div>
-              <div class="p-3.5 rounded-xl border" style="background: var(--bg-elevated); border-color: var(--border-col);">
-                <div class="text-[10px] mono text-slate-400">AGGREGATE CONVERSION RATE</div>
-                <div class="text-2xl font-black mono text-emerald-600 mt-0.5">11.2% <span class="text-xs font-normal" style="color: var(--text-sub);">with Code 'OF'</span></div>
-              </div>
-            </div>
-            <button onclick="notifyUser('Affiliate Application', 'Partner Desk Activated')" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs mono uppercase transition">
-              🛡 Become an Official Affiliate Partner
-            </button>
-          </div>
-        </div>
+<button onclick="showStitchToast('⚡ Promo Code OF Applied (60% OFF) — Proceeding to $100K Evaluation Checkout')" class="inline-flex items-center justify-center gap-2 px-10 py-4 rounded-xl font-black text-lg bg-amber-500 hover:bg-amber-400 text-slate-950 transition-all shadow-md hover:shadow-lg hover:scale-[1.03] active:scale-95">
+<span class="">Get Funded — Claim 60% Off</span>
+<span class="material-symbols-outlined text-[22px]">arrow_forward</span>
+</button>
+<p class="text-xs text-slate-500 mt-5 font-mono">
+          Strictly limited to the first 50 vetted traders. No recurring monthly reset traps.
+        </p>
+</div>
+</div>
+</section>
+</main>
+<!-- Institutional Footer for Options Funding LLC -->
+<footer class="bg-slate-50 border-t border-slate-200 text-slate-600">
+<div class="max-w-[1440px] mx-auto px-6 lg:px-12 py-16 flex flex-col gap-12">
+<!-- Top Footer Grid -->
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 pb-8 border-b border-slate-200">
+<!-- Col 1: Brand Info -->
+<div class="col-span-2 lg:col-span-2 flex flex-col gap-4">
+<a class="flex items-center gap-2.5" href="#">
+<div class="w-8 h-8 rounded-lg bg-amber-500 flex items-center justify-center text-slate-950 font-black shadow-xs">
+<span class="material-symbols-outlined text-[20px]">query_stats</span>
+</div>
+<span class="text-lg font-extrabold text-slate-900 tracking-tight">Options <span class="text-amber-600">Funding</span></span>
+</a>
+<p class="text-xs text-slate-500 max-w-sm leading-relaxed">
+          Options Funding LLC is a premier proprietary trading evaluation firm empowering disciplined options traders worldwide with institutional liquidity, advanced RixTrade technology, and market-leading 80% profit splits.
+        </p>
+<div class="flex items-center gap-2 text-xs font-mono text-amber-800">
+<span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+<span class="">RixTrade Trading Engine Online // 99.98% Uptime</span>
+</div>
+</div>
+<!-- Col 2: Programs -->
+<div class="flex flex-col gap-3">
+<h4 class="text-xs font-bold font-mono text-slate-900 uppercase tracking-wider">Programs</h4>
+<ul class="flex flex-col gap-2 text-xs">
+<li class=""><a class="hover:text-amber-700 transition-colors" href="#founding-50">$100k Founding 50</a></li>
+<li class=""><a class="hover:text-amber-700 transition-colors" href="#metrics">Trading Rules</a></li>
+<li class=""><a class="hover:text-amber-700 transition-colors" href="#metrics">Scaling Plan</a></li>
+<li class=""><a class="hover:text-amber-700 transition-colors" href="#terminal">Payout Proof</a></li>
+</ul>
+</div>
+<!-- Col 3: Platforms -->
+<div class="flex flex-col gap-3">
+<h4 class="text-xs font-bold font-mono text-slate-900 uppercase tracking-wider">Platform</h4>
+<ul class="flex flex-col gap-2 text-xs">
+<li class=""><a class="text-amber-700 font-medium hover:underline transition-colors" href="#terminal">RixTrade WebTrader</a></li>
+<li class=""><a class="hover:text-amber-700 transition-colors" href="#terminal">Options Greeks Matrix</a></li>
+<li class=""><a class="hover:text-amber-700 transition-colors" href="#terminal">1-Click Execution HUD</a></li>
+<li class=""><a class="hover:text-amber-700 transition-colors" href="#terminal">TradingView Integration</a></li>
+</ul>
+</div>
+<!-- Col 4: Support & Legal -->
+<div class="flex flex-col gap-3">
+<h4 class="text-xs font-bold font-mono text-slate-900 uppercase tracking-wider">Company &amp; Legal</h4>
+<ul class="flex flex-col gap-2 text-xs">
+<li class=""><a class="hover:text-amber-700 transition-colors" href="#faq">Help Center &amp; FAQ</a></li>
+<li class=""><a class="hover:text-amber-700 transition-colors" href="#get-funded">Affiliate Program</a></li>
+<li class=""><a class="hover:text-amber-700 transition-colors" href="#faq">Terms of Service</a></li>
+<li class=""><a class="hover:text-amber-700 transition-colors" href="#faq">Privacy Policy</a></li>
+</ul>
+</div>
+</div>
+<!-- Institutional Disclaimers for Options Funding LLC -->
+<div class="flex flex-col gap-4 text-[11px] text-slate-500 leading-relaxed">
+<div class="p-4 rounded-xl bg-white border border-slate-200 text-slate-600 shadow-xs">
+<strong class="text-slate-900">Important Regulatory &amp; Risk Disclosure:</strong> Options Funding LLC is a proprietary evaluation technology company. All accounts provided during evaluations and funded stages operate within simulated or proprietary capital accounts using direct market pricing data feeds via RixTrade. Trading options on margin involves substantial risk of loss and is not suitable for all investors. Past performance of a trader or system is not indicative of future results. Options Funding LLC does not act as a broker-dealer or investment advisor and does not accept client deposits for investment purposes.
       </div>
-    </div>
-  </section>
+<div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2 border-t border-slate-200">
+<p class="">© 2026 Options Funding LLC. All rights reserved. RixTrade is a registered trademark.</p>
+<div class="flex items-center gap-4 text-xs">
+<a class="hover:text-slate-900 transition-colors" href="#">Risk Disclosure</a>
+<span class="">•</span>
+<a class="hover:text-slate-900 transition-colors" href="#">Terms of Evaluation</a>
+<span class="">•</span>
+<a class="hover:text-slate-900 transition-colors" href="#">Refund Policy</a>
+</div>
+</div>
+</div>
+</div>
+</footer>
 
-  <!-- ===================================================================== -->
-  <!-- SECTION 6: FAQ & REGULATORY DISCLOSURE FOOTER                         -->
-  <!-- ===================================================================== -->
-  <section id="faq" class="py-16 max-w-7xl mx-auto px-4 sm:px-8">
-    <h2 class="text-3xl font-black mb-6" style="color: var(--text-main);">Frequently Asked Questions</h2>
-    <div class="grid md:grid-cols-3 gap-6">
-      <div class="stitch-card p-6">
-        <h3 class="font-bold text-base mb-2">How do payouts &amp; the $129 refund work?</h3>
-        <p class="text-xs leading-relaxed" style="color: var(--text-sub);">You keep 80% of profits. Payouts unlock after 8 non-consecutive Qualifying Winning Days ($100+ on 25K, $150+ on 50K, $200+ on 100K) and your $129 activation fee is refunded with your 1st payout.</p>
-      </div>
-      <div class="stitch-card p-6">
-        <h3 class="font-bold text-base mb-2">Growth EOD vs. Express Intraday Drawdown?</h3>
-        <p class="text-xs leading-relaxed" style="color: var(--text-sub);">Growth Plan (6% trailing drawdown) calculates your floor strictly at End-of-Day close and supports Level-3 spreads (Iron Condors, Verticals). Express Plan (5% drawdown) trails intraday peak equity and is Buy-Only.</p>
-      </div>
-      <div class="stitch-card p-6">
-        <h3 class="font-bold text-base mb-2">Can I hold options positions overnight?</h3>
-        <p class="text-xs leading-relaxed" style="color: var(--text-sub);">Yes! Overnight holding is permitted across all accounts and phases. You are never forced to flatten before 4:00 PM ET unless a short leg faces near-term expiration/assignment risk.</p>
-      </div>
-    </div>
-  </section>
+<!-- Interactive Toast Notification for Demo Clicks -->
+<div id="stitchToast" class="fixed bottom-6 right-6 z-50 bg-slate-900 text-white border border-amber-400/60 px-4 py-3 rounded-xl shadow-2xl font-mono text-xs transition-all duration-300 translate-y-24 opacity-0 pointer-events-none">
+  Action Executed
+</div>
 
-  <footer class="max-w-7xl mx-auto px-4 sm:px-8 py-10 border-t" style="border-color: var(--border-col);">
-    <div class="p-5 rounded-xl border mb-6 bg-amber-500/5 border-amber-500/25">
-      <div class="text-[11px] font-bold mono text-amber-600 uppercase mb-1">⚠️ INSTITUTIONAL RISK &amp; REGULATORY DISCLOSURE</div>
-      <p class="text-[11px] leading-relaxed" style="color: var(--text-sub);">
-        Options Funding LLC (30 N Gould St Ste R, Sheridan, WY 82801) provides simulated options trading evaluations and institutional analytics. Phase 3 Live Traders execute on Interactive Brokers with firm capital up to $125,000.
-      </p>
-    </div>
-    <div class="flex flex-wrap justify-between items-center text-xs mono" style="color: var(--text-muted);">
-      <span>© 2026 Options Funding // WebTrader + RixTrade. All Stitch Screens Unified Full-Screen.</span>
-      <span class="text-emerald-600 font-bold">● OPRA Feed Connected · &lt;11ms Execution</span>
-    </div>
-  </footer>
-
-  <div id="toastNotification" class="toast-notification">Action Executed</div>
-
-  <script>
-    function toggleTheme() {
-      const html = document.documentElement;
-      const next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-      html.setAttribute('data-theme', next);
-      notifyUser('Stitch Theme Mode', next.toUpperCase());
+<script>
+  function toggleFullScreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+      showStitchToast('⛶ Full Screen Mode Activated (Press ESC to exit)');
+    } else {
+      document.exitFullscreen();
     }
+  }
 
-    function toggleFullScreen() {
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(() => {});
-        notifyUser('Full Screen Mode', 'ACTIVE (Press ESC to exit)');
-      } else {
-        document.exitFullscreen();
-      }
-    }
-
-    function notifyUser(title, detail) {
-      const el = document.getElementById('toastNotification');
-      el.textContent = `⚡ ${title}: ${detail}`;
-      el.classList.add('show');
-      setTimeout(() => el.classList.remove('show'), 3200);
-    }
-
-    function toggleChartOverlay(name) {
-      drawRixCanvas();
-      notifyUser('Indicator Updated', name);
-    }
-
-    function drawRixCanvas() {
-      const c = document.getElementById('rixChartCanvas');
-      if (!c) return;
-      const ctx = c.getContext('2d');
-      const dpr = window.devicePixelRatio || 1;
-      const r = c.getBoundingClientRect();
-      if (!r.width) return;
-      c.width = r.width * dpr;
-      c.height = r.height * dpr;
-      ctx.scale(dpr, dpr);
-      const w = r.width, h = r.height;
-      ctx.clearRect(0, 0, w, h);
-
-      ctx.strokeStyle = 'rgba(255,255,255,0.06)';
-      for (let i = 1; i < 6; i++) {
-        const y = (h / 6) * i;
-        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
-      }
-
-      const candles = [
-        [0.76, 0.68, 0.79, 0.65], [0.68, 0.71, 0.74, 0.64], [0.71, 0.60, 0.73, 0.57],
-        [0.60, 0.52, 0.63, 0.49], [0.52, 0.55, 0.58, 0.49], [0.55, 0.44, 0.57, 0.41],
-        [0.44, 0.38, 0.47, 0.35], [0.38, 0.41, 0.44, 0.36], [0.41, 0.31, 0.43, 0.28],
-        [0.31, 0.24, 0.33, 0.21], [0.24, 0.27, 0.29, 0.22], [0.27, 0.17, 0.29, 0.14],
-        [0.17, 0.12, 0.20, 0.09]
-      ];
-      const step = w / (candles.length + 1);
-
-      candles.forEach((cd, i) => {
-        const x = (i + 1) * step;
-        const open = cd[0] * h, close = cd[1] * h, high = cd[2] * h, low = cd[3] * h;
-        const up = close <= open;
-        ctx.strokeStyle = up ? '#10B981' : '#EF4444';
-        ctx.fillStyle = up ? '#10B981' : '#EF4444';
-        ctx.lineWidth = 1.6;
-        ctx.beginPath(); ctx.moveTo(x, high); ctx.lineTo(x, low); ctx.stroke();
-        ctx.fillRect(x - 6, Math.min(open, close), 12, Math.max(4, Math.abs(close - open)));
-      });
-
-      // Cumulative Equity Curve Overlay (Amber/Gold)
-      ctx.beginPath();
-      candles.forEach((cd, i) => {
-        const x = (i + 1) * step, y = ((cd[0] + cd[1]) / 2) * h + 6;
-        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-      });
-      ctx.strokeStyle = '#F59E0B';
-      ctx.lineWidth = 2.5;
-      ctx.stroke();
-    }
-
-    window.addEventListener('load', drawRixCanvas);
-    window.addEventListener('resize', drawRixCanvas);
-  </script>
+  function showStitchToast(msg) {
+    const t = document.getElementById('stitchToast');
+    if (!t) return;
+    t.textContent = msg;
+    t.classList.remove('translate-y-24', 'opacity-0');
+    clearTimeout(window.__toastTimer);
+    window.__toastTimer = setTimeout(() => {
+      t.classList.add('translate-y-24', 'opacity-0');
+    }, 3200);
+  }
+</script>
 </body>
 </html>
