@@ -549,7 +549,7 @@
                 .join('')}
             </nav>
             <div class="flex items-center gap-4">
-              <a href="#signin" class="hidden sm:inline-block text-[#D1D5DB] hover:text-white font-semibold text-[13.5px] transition-colors whitespace-nowrap">
+              <a href="login.html" class="hidden sm:inline-block text-[#D1D5DB] hover:text-white font-semibold text-[13.5px] transition-colors whitespace-nowrap">
                 Sign in
               </a>
               <a href="rules.html" class="px-5 py-2.5 rounded-[6px] bg-[#00A876] hover:bg-[#009266] text-white font-bold text-[12.5px] tracking-[0.02em] transition-colors whitespace-nowrap inline-flex items-center gap-1.5">
