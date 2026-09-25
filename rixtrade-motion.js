@@ -520,18 +520,20 @@
         nextEl.remove();
       }
       const navLinks = [
-        { href: 'options-funding.html', label: 'Founding 50' },
+        { href: 'options-funding.html', label: 'Founding 50', isGold: true },
         { href: 'rules.html', label: 'Rules' },
-        { href: 'account-metrics.html', label: 'Account Metrics' },
-        { href: 'rixtrade-platform.html', label: 'RixTrade Platform' },
         { href: 'faq.html', label: 'FAQ' },
-        { href: 'affiliates.html', label: 'Affiliates' }
+        { href: 'affiliates.html', label: 'Affiliates' },
+        { href: 'contact.html', label: 'Contact' }
       ];
       headerEl.className = 'sticky top-0 z-50 bg-[#000000] border-none';
       headerEl.innerHTML = `
         <div class="w-full max-w-[1320px] mx-auto px-6 lg:px-10 h-20 flex items-center justify-between">
-          <a href="options-funding.html" class="flex items-center gap-0.5 text-white text-[22px] font-extrabold tracking-[-0.03em] focus:outline-none">
-            <span>optionsfunding</span><span class="text-[#00A876]">.co</span>
+          <a href="options-funding.html" class="flex items-center gap-2 text-white text-[21px] font-extrabold tracking-[-0.03em] focus:outline-none">
+            <span style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;background:rgba(245,158,11,0.14);border:1px solid rgba(245,158,11,0.35);color:#F59E0B;">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </span>
+            <span>Options</span><span class="text-[#F59E0B]">Funding</span>
           </a>
           <div class="flex items-center gap-7">
             <nav class="hidden lg:flex items-center gap-7 text-[13.5px] font-semibold">
@@ -540,18 +542,19 @@
                   (l) =>
                     `<a href="${l.href}" class="${
                       currentFile === l.href
-                        ? 'text-white font-bold'
-                        : 'text-[#D1D5DB] hover:text-white'
+                        ? (l.isGold ? 'text-[#F59E0B] font-bold' : 'text-white font-bold')
+                        : (l.isGold ? 'text-[#F59E0B]/90 hover:text-[#F59E0B]' : 'text-[#D1D5DB] hover:text-white')
                     } transition-colors whitespace-nowrap">${l.label}</a>`
                 )
                 .join('')}
             </nav>
-            <div class="flex items-center gap-5">
-              <a href="options-funding.html#get-funded" class="px-5 py-2.5 rounded-[4px] bg-[#00A876] hover:bg-[#009266] text-white font-bold text-[12px] uppercase tracking-[0.04em] transition-colors whitespace-nowrap">
-                GET FUNDED
+            <div class="flex items-center gap-4">
+              <a href="#signin" class="hidden sm:inline-block text-[#D1D5DB] hover:text-white font-semibold text-[13.5px] transition-colors whitespace-nowrap">
+                Sign in
               </a>
-              <a href="#signin" class="hidden sm:inline-block text-white hover:text-[#00A876] font-semibold text-[13.5px] transition-colors whitespace-nowrap">
-                Log In
+              <a href="rules.html" class="px-5 py-2.5 rounded-[6px] bg-[#00A876] hover:bg-[#009266] text-white font-bold text-[12.5px] tracking-[0.02em] transition-colors whitespace-nowrap inline-flex items-center gap-1.5">
+                <span>Get Funded</span>
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
               </a>
             </div>
           </div>

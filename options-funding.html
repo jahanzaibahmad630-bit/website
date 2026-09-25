@@ -1,448 +1,320 @@
 <!DOCTYPE html>
-
-<html lang="en" class="scroll-smooth" style="width: 100%; min-height: 100%; overflow-x: hidden; overflow-y: auto;"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Options Funding WebTrader - Institutional $100k Options Prop Trading</title>
-<!-- Material Symbols Outlined font -->
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<!-- Inter Google Font -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<!-- Tailwind CSS Play CDN -->
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<!-- Tailwind Theme Configuration -->
-<script id="tailwind-config">
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          "colors": {
-            "surface-base": "#FFFFFF",
-            "surface-raised": "#F8FAFC",
-            "surface-panel": "#FFFFFF",
-            "surface-border": "#E2E8F0",
-            "surface-border-subtle": "#EDF2F7",
-            "text-primary": "#0F172A",
-            "text-secondary": "#475569",
-            "text-muted": "#64748B",
-            "gold": "#D97706",
-            "gold-light": "#F59E0B",
-            "gold-dark": "#B45309",
-            "market-up": "#059669",
-            "market-down": "#DC2626",
-            "market-warn": "#D97706",
-            "regulatory-bg": "#F8FAFC"
-          },
-          "borderRadius": {
-            "DEFAULT": "0.125rem",
-            "lg": "0.25rem",
-            "xl": "0.5rem",
-            "full": "0.75rem"
-          },
-          "fontFamily": {
-            "sans": ["Inter", "sans-serif"],
-            "mono": ["'JetBrains Mono'", "monospace"]
-          }
-        },
-      },
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Options Funding — Founding 50 Partner Seat & Options Prop Firm</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #F8FAFC;
+      color: #0F172A;
+      margin: 0;
     }
-</script>
-<style>
-  /* Crystal-Clear HD 3D Equity Video Background — Zero Milky/Whitish Washout */
-  #founding-50-hero {
-    background-color: #050B14 !important;
-  }
-  .bg-video-element {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.94 !important;
-    filter: contrast(1.15) saturate(1.25) brightness(1.04);
-    image-rendering: high-quality;
-    transform: translateZ(0);
-  }
-  /* Subtle directional vignette ONLY behind left text column so video stays 100% clear & HD */
-  .hero-video-veil {
-    background: linear-gradient(
-      90deg,
-      rgba(5, 11, 20, 0.62) 0%,
-      rgba(5, 11, 20, 0.28) 48%,
-      rgba(5, 11, 20, 0.08) 100%
-    ) !important;
-  }
-  /* Exact trading.com Two-Tone Headline Colors */
-  #founding-50-hero .hero-line-white {
-    color: #FFFFFF !important;
-  }
-  #founding-50-hero .hero-line-grey {
-    color: #8A94A6 !important;
-  }
-</style>
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+  <script src="rixtrade-motion.js?v=12" defer></script>
 </head>
-<body class="bg-white text-slate-900 min-h-screen w-full selection:bg-amber-500/20 selection:text-amber-800 antialiased flex flex-col font-sans relative overflow-x-hidden">
-<!-- trading.com Style Pure Black (#000000) Minimalist Navigation Bar (Zero Promo Ribbon, Zero Borders) -->
-<header class="sticky top-0 z-50 bg-[#000000] border-none">
-  <div class="w-full max-w-[1320px] mx-auto px-6 lg:px-10 h-20 flex items-center justify-between">
-    <!-- Left: Clean Geometric White Brand Wordmark -->
-    <a href="options-funding.html" class="flex items-center gap-1 text-white text-[22px] font-extrabold tracking-[-0.03em] focus:outline-none">
-      <span>optionsfunding</span><span class="text-[#00A876]">.co</span>
-    </a>
+<body class="antialiased selection:bg-emerald-500 selection:text-white">
+  <header class="sticky top-0 z-50 bg-[#000000] border-none"></header>
 
-    <!-- Right-Aligned Navigation + Emerald CTA + Log In (Exact trading.com Structure) -->
-    <div class="flex items-center gap-7">
-      <nav class="hidden lg:flex items-center gap-7 text-[13.5px] font-semibold">
-        <a href="options-funding.html" class="text-white hover:text-[#00A876] transition-colors">Founding 50</a>
-        <a href="rules.html" class="text-[#D1D5DB] hover:text-white transition-colors">Rules</a>
-        <a href="account-metrics.html" class="text-[#D1D5DB] hover:text-white transition-colors">Account Metrics</a>
-        <a href="rixtrade-platform.html" class="text-[#D1D5DB] hover:text-white transition-colors">RixTrade Platform</a>
-        <a href="faq.html" class="text-[#D1D5DB] hover:text-white transition-colors">FAQ</a>
-        <a href="affiliates.html" class="text-[#D1D5DB] hover:text-white transition-colors">Affiliates</a>
-      </nav>
-
-      <div class="flex items-center gap-5">
-        <a href="#get-funded" class="px-5 py-2.5 rounded-[4px] bg-[#00A876] hover:bg-[#009266] text-white font-bold text-[12px] uppercase tracking-[0.04em] transition-colors">
-          GET FUNDED
-        </a>
-        <a href="#signin" class="hidden sm:inline-block text-white hover:text-[#00A876] font-semibold text-[13.5px] transition-colors">
-          Log In
-        </a>
+  <main>
+    <!-- trading.com Minimalist Dark Hero (#0B0E12) -->
+    <section class="relative bg-[#0B0E12] text-white pt-12 pb-20 lg:py-24 overflow-hidden">
+      <div class="w-full max-w-[1320px] mx-auto px-6 lg:px-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+          <div class="lg:col-span-6 space-y-6 text-left">
+            <div class="text-xs font-bold uppercase tracking-[0.14em] text-[#00A876]">FOUNDING 50 • PAID FROM DAY ONE + UP TO 8% PARTNER REVSHARE</div>
+            <h1 class="text-[42px] sm:text-[56px] lg:text-[64px] font-extrabold leading-[1.06] tracking-[-0.03em]">
+              <span class="block text-white">Paid From Day One.</span>
+              <span class="block text-[#8A94A6] mt-1">Up to 8% Forever.</span>
+            </h1>
+            <p class="text-[16px] sm:text-[18px] text-[#9CA3AF] font-normal leading-[1.65] max-w-[540px]">
+              Message trading creators and communities from your own accounts and send them our booking link. Our team takes every call and does the closing. Your conversations pay the day you have them ($0.15–$0.38/msg), and what they build pays you every month after that.
+            </p>
+            <div class="pt-2 flex flex-wrap items-center gap-4">
+              <a href="#apply" class="inline-flex items-center justify-center px-8 py-4 rounded-[6px] bg-[#00A876] hover:bg-[#009266] text-white font-bold text-[14px] uppercase tracking-[0.04em] transition-all">
+                Apply for a Seat
+              </a>
+              <a href="#money" class="inline-flex items-center justify-center px-7 py-4 rounded-[6px] bg-white/5 hover:bg-white/10 border border-white/15 text-white font-semibold text-[14px] transition-all">See the Money</a>
+            </div>
+          </div>
+          <div class="lg:col-span-6 flex items-center justify-center lg:justify-end">
+            <div class="relative w-full max-w-[660px]">
+              <img src="assets/hero-trading-devices.jpg" alt="Options Funding — Founding 50 Partner Seat & Options Prop Firm" class="w-full h-auto object-contain rounded-2xl shadow-2xl" loading="eager"/>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</header>
+    </section>
 
-<main class="flex-grow">
-<!-- trading.com Style Ultra-Clean Dark Matte Hero Section (#0B0E12) -->
-<section id="founding-50-hero" class="relative bg-[#0B0E12] text-white overflow-hidden min-h-[640px] flex items-center py-14 lg:py-20 border-none" style="background: radial-gradient(circle at 72% 52%, #132226 0%, #0B0E12 58%, #07090C 100%) !important;">
-  <div class="w-full max-w-[1320px] mx-auto px-6 lg:px-10 relative z-10">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center">
-      
-      <!-- Left Column: Strictly 3 Clean Elements (Two-Tone Headline + 2-Line Copy + Single Solid Emerald Button + Footnote) -->
-      <div class="lg:col-span-5 flex flex-col items-start text-left">
-        <h1 class="text-[46px] sm:text-[58px] lg:text-[64px] font-bold tracking-[-0.035em] leading-[1.06] mb-6" style="text-shadow: none !important;">
-          <span class="block hero-line-white text-white">Make Every</span>
-          <span class="block hero-line-grey text-[#8A94A6] mt-1">Trade Count</span>
-        </h1>
-
-        <p class="text-[#B0B8C4] text-[15.5px] sm:text-[16.5px] leading-[1.65] max-w-[440px] font-normal mb-9" style="text-shadow: none !important;">
-          Access a $100,000 live options account with low OPRA spreads, static 5:00 PM EST drawdown, and zero commissions. Strive for optimal prices with each trade.
-        </p>
-
-        <a href="#get-funded" class="inline-flex items-center justify-center min-w-[220px] px-9 py-4 rounded-[4px] bg-[#00A876] hover:bg-[#009266] text-white font-bold text-[12.5px] uppercase tracking-[0.06em] transition-all shadow-[0_8px_24px_rgba(0,168,118,0.25)] mb-7">
-          GET FUNDED
-        </a>
-
-        <p class="text-[12px] text-[#8A94A6] font-normal">
-          Options prop evaluation involves market risk. <a href="rules.html" class="text-white underline underline-offset-2 hover:text-[#00A876]">*Evaluation Rules Apply</a>
+    
+  <!-- Section 1: One Ladder. It Pays You Twice -->
+  <section class="py-20 bg-white border-b border-slate-200" id="money">
+    <div class="max-w-[1320px] mx-auto px-6 lg:px-10">
+      <div class="max-w-3xl mb-12">
+        <span class="text-xs font-bold uppercase tracking-widest text-emerald-600 block mb-2">FOUNDING 50 ACQUISITION SEAT • CAPPED AT 50 OPERATORS</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">One Ladder. It Pays You Twice.</h2>
+        <p class="text-slate-600 text-base mt-3 leading-relaxed">
+          Most programs make you wait for somebody else's purchase before you see a cent. Here every conversation pays on the day you have it ($0.15 to $0.38 per contact), and every partner you bring in pays you again (2% to 8% net revenue share), every month, for as long as they keep producing.
         </p>
       </div>
 
-      <!-- Right Column: Clean Floating MacBook Pro + iPhone Watchlist + 3D Emerald Icons (Zero Cluttered Boxes) -->
-      <div class="lg:col-span-7 flex items-center justify-center lg:justify-end">
-        <div class="relative w-full max-w-[820px]">
-          <img
-            src="assets/hero-trading-devices.jpg"
-            alt="RixTrade Options WebTrader on MacBook Pro and iPhone with 3D Market Icons"
-            class="w-full h-auto object-contain select-none pointer-events-none"
-            style="mix-blend-mode: lighten; filter: contrast(1.06) saturate(1.08);"
-          />
+      <!-- 5-Tier Ladder Table -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mb-10">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-900 text-white text-xs uppercase tracking-wider">
+                <th class="py-4 px-6">Tier</th>
+                <th class="py-4 px-6">Lifetime Partner Book</th>
+                <th class="py-4 px-6">Live Monthly Run Rate</th>
+                <th class="py-4 px-6">Paid Per Contact (Day 1)</th>
+                <th class="py-4 px-6">Your Lifetime RevShare</th>
+                <th class="py-4 px-6">Approx. Partners on Book</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 text-sm">
+              <tr class="hover:bg-slate-50">
+                <td class="py-4 px-6 font-bold text-slate-900">Starter</td>
+                <td class="py-4 px-6 font-mono text-slate-600">Day one</td>
+                <td class="py-4 px-6 font-mono text-slate-500">—</td>
+                <td class="py-4 px-6 font-mono font-bold text-emerald-600">$0.15 / msg</td>
+                <td class="py-4 px-6 font-mono font-bold text-slate-900">2.0%</td>
+                <td class="py-4 px-6 text-slate-500">Entry Seat</td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <td class="py-4 px-6 font-bold text-amber-700">Bronze</td>
+                <td class="py-4 px-6 font-mono font-semibold text-slate-900">$25,000+</td>
+                <td class="py-4 px-6 font-mono text-slate-700">$4,000 / mo</td>
+                <td class="py-4 px-6 font-mono font-bold text-emerald-600">$0.19 / msg</td>
+                <td class="py-4 px-6 font-mono font-bold text-slate-900">3.0%</td>
+                <td class="py-4 px-6 text-slate-600">~7 partners</td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <td class="py-4 px-6 font-bold text-slate-700">Silver</td>
+                <td class="py-4 px-6 font-mono font-semibold text-slate-900">$75,000+</td>
+                <td class="py-4 px-6 font-mono text-slate-700">$12,000 / mo</td>
+                <td class="py-4 px-6 font-mono font-bold text-emerald-600">$0.24 / msg</td>
+                <td class="py-4 px-6 font-mono font-bold text-slate-900">4.5%</td>
+                <td class="py-4 px-6 text-slate-600">~20 partners</td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <td class="py-4 px-6 font-bold text-amber-500">Gold</td>
+                <td class="py-4 px-6 font-mono font-semibold text-slate-900">$200,000+</td>
+                <td class="py-4 px-6 font-mono text-slate-700">$40,000 / mo</td>
+                <td class="py-4 px-6 font-mono font-bold text-emerald-600">$0.30 / msg</td>
+                <td class="py-4 px-6 font-mono font-bold text-slate-900">6.0%</td>
+                <td class="py-4 px-6 text-slate-600">~52 partners</td>
+              </tr>
+              <tr class="bg-emerald-50/60">
+                <td class="py-4 px-6 font-extrabold text-emerald-800">Partner</td>
+                <td class="py-4 px-6 font-mono font-bold text-slate-900">$450,000+</td>
+                <td class="py-4 px-6 font-mono font-bold text-emerald-800">$120,000 / mo</td>
+                <td class="py-4 px-6 font-mono font-extrabold text-emerald-700">$0.38 / msg</td>
+                <td class="py-4 px-6 font-mono font-extrabold text-emerald-700">8.0%</td>
+                <td class="py-4 px-6 font-semibold text-emerald-800">~116 partners</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
-    </div>
-  </div>
-</section>
-<!-- 3. Key Evaluation Metrics Bar & Capability Cards -->
-<section class="py-20 bg-slate-50 border-b border-slate-200" id="metrics">
-<div class="max-w-[1440px] mx-auto px-6 lg:px-12">
-<!-- Section Header -->
-<div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
-<div class="max-w-2xl">
-<div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-amber-100 border border-amber-300 text-amber-900 text-xs font-mono uppercase mb-3 font-bold">
-            FOUNDING 50 EVALUATION MATRIX
+      <!-- Hourly Message Pay + Partner Milestones Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Left Card: The Hourly Before Anybody Buys Anything -->
+        <div class="bg-slate-50 rounded-2xl border border-slate-200 p-7">
+          <span class="text-xs font-bold uppercase tracking-wider text-emerald-600 block mb-1">20 SECONDS PER MESSAGE • 180 MESSAGES / HR</span>
+          <h3 class="text-2xl font-extrabold text-slate-900 mb-2">$27.00 to $68.40 / Hour Before Any Sale</h3>
+          <p class="text-sm text-slate-600 mb-5 leading-relaxed">
+            We hand you 80 researched prospects daily (plus unlimited +20 refills once you hit 70%) with pre-written openers. A full day of 160 messages takes ~53 minutes of sending:
+          </p>
+          <div class="space-y-3 font-mono text-xs">
+            <div class="flex justify-between items-center p-3 bg-white rounded-xl border border-slate-200">
+              <span class="font-bold text-slate-800">Starter ($0.15/msg)</span>
+              <span class="text-slate-600">$27.00/hr • $24.00/day</span>
+              <span class="font-bold text-emerald-600">$480 / mo</span>
+            </div>
+            <div class="flex justify-between items-center p-3 bg-white rounded-xl border border-slate-200">
+              <span class="font-bold text-slate-800">Silver ($0.24/msg)</span>
+              <span class="text-slate-600">$43.20/hr • $38.40/day</span>
+              <span class="font-bold text-emerald-600">$768 / mo</span>
+            </div>
+            <div class="flex justify-between items-center p-3 bg-white rounded-xl border border-slate-200">
+              <span class="font-bold text-slate-800">Gold ($0.30/msg)</span>
+              <span class="text-slate-600">$54.00/hr • $48.00/day</span>
+              <span class="font-bold text-emerald-600">$960 / mo</span>
+            </div>
+            <div class="flex justify-between items-center p-3 bg-emerald-50 rounded-xl border border-emerald-300">
+              <span class="font-bold text-emerald-900">Partner ($0.38/msg)</span>
+              <span class="text-emerald-800">$68.40/hr • $60.80/day</span>
+              <span class="font-extrabold text-emerald-700">$1,216 / mo</span>
+            </div>
           </div>
-<h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            $100,000 Evaluation Parameters
-          </h2>
-<p class="text-slate-600 text-base mt-2">
-            No convoluted ladders or confusing hidden drawdowns. Simple, transparent rules engineered for options profitability.
-          </p>
-</div>
-<div class="flex items-center gap-2 bg-white border border-slate-300 shadow-xs px-4 py-2 rounded-xl text-xs font-mono">
-<span class="text-slate-700 font-bold">Cohort Spots Remaining:</span>
-<span class="text-amber-900 font-extrabold bg-amber-100 px-2 py-0.5 rounded border border-amber-300">14 / 50</span>
-</div>
-</div>
-<!-- 4 Core Cards Grid -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-<!-- Card 1: $100,000 Starting Capital -->
-<div class="p-6 bg-white rounded-2xl border border-slate-200 shadow-xs hover:border-amber-400 hover:shadow-md transition-all duration-200 flex flex-col justify-between group hover:-translate-y-1">
-<div>
-<div class="w-12 h-12 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-700 mb-5 group-hover:scale-105 transition-transform shadow-xs">
-<span class="material-symbols-outlined text-[24px]" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg></span>
-</div>
-<div class="text-[11px] font-mono text-amber-800 font-bold tracking-wider uppercase mb-1">CAPITAL ALLOCATION</div>
-<h3 class="text-xl font-bold text-slate-900 mb-2">$100,000 Starting Capital</h3>
-<p class="text-slate-600 text-sm leading-relaxed">
-              Full buying power on RixTrade for trading high-liquidity index (SPY, QQQ) and equity options with institutional leverage controls.
-            </p>
-</div>
-<div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-mono text-slate-500">
-<span class="text-slate-800 font-semibold">Max Contracts: 20</span>
-<span class="material-symbols-outlined text-[16px] text-emerald-600" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
-</div>
-</div>
-<!-- Card 2: 12% Profit Target ($12,000) -->
-<div class="p-6 bg-white rounded-2xl border border-slate-200 shadow-xs hover:border-emerald-400 hover:shadow-md transition-all duration-200 flex flex-col justify-between group hover:-translate-y-1">
-<div>
-<div class="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700 mb-5 group-hover:scale-105 transition-transform shadow-xs">
-<span class="material-symbols-outlined text-[24px]" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span>
-</div>
-<div class="text-[11px] font-mono text-emerald-700 font-bold tracking-wider uppercase mb-1">PROFIT OBJECTIVE</div>
-<h3 class="text-xl font-bold text-slate-900 mb-2">12% Profit Target ($12,000)</h3>
-<p class="text-slate-600 text-sm leading-relaxed">
-              Reach a target balance of <span class="text-emerald-700 font-bold font-mono">$112,000</span> with real-time balance tracking to trigger instant funded status graduation.
-            </p>
-</div>
-<div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-mono text-emerald-700 font-bold">
-<span class="">Target: $112,000</span>
-<span class="material-symbols-outlined text-[16px]" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><circle cx="12" cy="12" r="8"/><path d="m9 12 2 2 4-4"/></svg></span>
-</div>
-</div>
-<!-- Card 3: 6% End-of-Day Trailing Drawdown ($94,000 Floor) -->
-<div class="p-6 bg-white rounded-2xl border border-slate-200 shadow-xs hover:border-red-400 hover:shadow-md transition-all duration-200 flex flex-col justify-between group hover:-translate-y-1">
-<div>
-<div class="w-12 h-12 rounded-xl bg-red-50 border border-red-200 flex items-center justify-center text-red-600 mb-5 group-hover:scale-105 transition-transform shadow-xs">
-<span class="material-symbols-outlined text-[24px]" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
-</div>
-<div class="text-[11px] font-mono text-red-700 font-bold tracking-wider uppercase mb-1">RISK CEILING</div>
-<h3 class="text-xl font-bold text-slate-900 mb-2">6% EOD Trailing Drawdown</h3>
-<p class="text-slate-600 text-sm leading-relaxed">
-              Calculated purely at the End of the Day with a fixed <span class="text-red-600 font-bold font-mono">$94,000 Floor</span>. Zero intraday spike liquidations.
-            </p>
-</div>
-<div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-mono text-red-700 font-bold">
-<span class="">$94,000 Hard Floor</span>
-<span class="material-symbols-outlined text-[16px]" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
-</div>
-</div>
-<!-- Card 4: 80% Trader Profit Split -->
-<div class="p-6 bg-white rounded-2xl border-2 border-amber-500 shadow-md flex flex-col justify-between group relative hover:-translate-y-1 transition-all">
-<div class="absolute -top-3 right-4 px-3 py-0.5 rounded-full bg-amber-500 text-slate-950 font-mono text-[10px] font-extrabold uppercase tracking-wider shadow-sm">
-            MAX PAYOUT
-          </div>
-<div>
-<div class="w-12 h-12 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center mb-5 group-hover:scale-105 transition-transform shadow-sm">
-<span class="material-symbols-outlined text-[24px]" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><circle cx="12" cy="12" r="8"/><path d="m9 12 2 2 4-4"/></svg></span>
-</div>
-<div class="text-[11px] font-mono text-amber-800 font-bold tracking-wider uppercase mb-1">REVENUE SHARE</div>
-<h3 class="text-xl font-bold text-amber-900 mb-2 flex items-center gap-2">
-              80% Trader Profit Split
-            </h3>
-<p class="text-slate-600 text-sm leading-relaxed">
-              Keep 80% of all generated net options gains. Direct bi-weekly or on-demand payouts via ACH transfer or crypto (USDT/USDC).
-            </p>
-</div>
-<div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-mono text-amber-800 font-bold">
-<span class="">80/20 Trader Split</span>
-<span class="material-symbols-outlined text-[16px] text-emerald-600" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- 5. Trust & FAQ Highlights Section -->
-<section class="py-20 bg-slate-50 border-b border-slate-200" id="faq">
-<div class="max-w-[1440px] mx-auto px-6 lg:px-12">
-<div class="text-center max-w-2xl mx-auto mb-16">
-<span class="text-amber-800 font-mono text-xs uppercase tracking-widest block mb-2 font-bold">FREQUENTLY ASKED QUESTIONS</span>
-<h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-          Everything You Need to Know
-        </h2>
-<p class="text-slate-600 text-base mt-2">
-          Clear answers about the Founding 50 $100k Options Evaluation and RixTrade payouts.
-        </p>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-<!-- FAQ 1 -->
-<div class="p-6 rounded-2xl bg-white border border-slate-200 space-y-2 shadow-xs">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-amber-700 text-[20px]" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg></span>
-<h3 class="font-bold text-base text-slate-900">What instruments can I trade?</h3>
-</div>
-<p class="text-sm text-slate-600 leading-relaxed pl-7">
-            You can trade SPY, QQQ, IWM, and major high-liquidity US equity options (AAPL, NVDA, TSLA, MSFT, AMD, META, AMZN) directly inside the RixTrade WebTrader terminal. Both day trading (0DTE) and swing trading contracts are allowed.
-          </p>
-</div>
-<!-- FAQ 2 -->
-<div class="p-6 rounded-2xl bg-white border border-slate-200 space-y-2 shadow-xs">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-amber-700 text-[20px]" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><circle cx="12" cy="12" r="8"/><path d="m9 12 2 2 4-4"/></svg></span>
-<h3 class="font-bold text-base text-slate-900">How is the 6% drawdown calculated?</h3>
-</div>
-<p class="text-sm text-slate-600 leading-relaxed pl-7">
-            The drawdown is calculated strictly at the End of Day (EOD) market close based on your closed equity. A temporary intraday fluctuation that dips below the floor during market hours will <strong class="text-slate-900 font-semibold">not</strong> trigger an instant breach.
-          </p>
-</div>
-<!-- FAQ 3 -->
-<div class="p-6 rounded-2xl bg-white border border-slate-200 space-y-2 shadow-xs">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-amber-700 text-[20px]" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg></span>
-<h3 class="font-bold text-base text-slate-900">When do I receive my 80% payout?</h3>
-</div>
-<p class="text-sm text-slate-600 leading-relaxed pl-7">
-            Once funded, payouts are available on a bi-weekly cycle. You can request payouts directly via US Bank ACH, international wire transfer, or cryptocurrency (USDT / USDC on TRC20 / ERC20 networks) with zero withdrawal fees.
-          </p>
-</div>
-<!-- FAQ 4 -->
-<div class="p-6 rounded-2xl bg-white border border-slate-200 space-y-2 shadow-xs">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-amber-700 text-[20px]" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
-<h3 class="font-bold text-base text-slate-900">What is the Founding 50 cohort?</h3>
-</div>
-<p class="text-sm text-slate-600 leading-relaxed pl-7">
-            The Founding 50 is an exclusive initial group of 50 options traders locked in at the 80% profit split for life with guaranteed institutional allocation access, dedicated risk concierge support, and early access to next-gen algorithmic options execution.
-          </p>
-</div>
-</div>
-</div>
-</section>
-<!-- Final CTA Callout -->
-<section class="py-20 bg-white border-b border-slate-200 relative overflow-hidden text-center">
-<div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(245,158,11,0.08)_0%,transparent_70%)] pointer-events-none"></div>
-<div class="max-w-[1440px] mx-auto px-6 lg:px-12 relative z-10">
-<div class="max-w-2xl mx-auto flex flex-col items-center">
-<div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-amber-50 border border-amber-300 text-amber-800 text-xs font-mono uppercase font-bold mb-4 shadow-xs">
-          LIMITED FOUNDING 50 PASSES
         </div>
-<h2 class="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight mb-4">
-          Ready to Trade With $100,000 Capital?
-        </h2>
-<p class="text-slate-600 text-base sm:text-lg mb-8 leading-relaxed">
-          Use promotional code <span class="text-amber-800 font-mono font-bold bg-amber-100 px-2 py-0.5 rounded border border-amber-300">OF</span> to unlock 60% off your evaluation today. Lock in your 80% profit split.
-        </p>
-<a class="inline-flex items-center justify-center gap-2 px-10 py-4 rounded-xl font-black text-lg bg-amber-500 hover:bg-amber-400 text-slate-950 transition-all shadow-md hover:shadow-lg hover:scale-[1.03] active:scale-95" href="#get-funded">
-<span class="">Get Funded — Claim 60% Off</span>
-<span class="material-symbols-outlined text-[22px]" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><line x1="5" x2="19" y1="12" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
-</a>
-<p class="text-xs text-slate-500 mt-5 font-mono">
-          Strictly limited to the first 50 vetted traders. No recurring monthly reset traps.
-        </p>
-</div>
-</div>
-</section>
-</main>
-<!-- Institutional Footer for Options Funding LLC -->
-<footer class="bg-slate-50 border-t border-slate-200 text-slate-600">
-<div class="max-w-[1440px] mx-auto px-6 lg:px-12 py-16 flex flex-col gap-12">
-<!-- Top Footer Grid -->
-<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 pb-8 border-b border-slate-200">
-<!-- Col 1: Brand Info -->
-<div class="col-span-2 lg:col-span-2 flex flex-col gap-4">
-<a class="flex items-center gap-2.5" href="#">
-<div class="w-8 h-8 rounded-lg bg-amber-500 flex items-center justify-center text-slate-950 font-black shadow-xs">
-<span class="material-symbols-outlined text-[20px]" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><circle cx="12" cy="12" r="8"/><path d="m9 12 2 2 4-4"/></svg></span>
-</div>
-<span class="text-lg font-extrabold text-slate-900 tracking-tight">Options <span class="text-amber-600">Funding</span></span>
-</a>
-<p class="text-xs text-slate-500 max-w-sm leading-relaxed">
-          Options Funding LLC is a premier proprietary trading evaluation firm empowering disciplined options traders worldwide with institutional liquidity, advanced RixTrade technology, and market-leading 80% profit splits.
-        </p>
-<div class="flex items-center gap-2 text-xs font-mono text-amber-800">
-<span class="w-2 h-2 rounded-full bg-emerald-600"></span>
-<span class="">RixTrade Trading Engine Online // 99.98% Uptime</span>
-</div>
-</div>
-<!-- Col 2: Programs -->
-<div class="flex flex-col gap-3">
-<h4 class="text-xs font-bold font-mono text-slate-900 uppercase tracking-wider">Programs</h4>
-<ul class="flex flex-col gap-2 text-xs">
-<li class=""><a class="hover:text-amber-700 transition-colors" href="#founding-50">$100k Founding 50</a></li>
-<li class=""><a class="hover:text-amber-700 transition-colors" href="rules.html">Trading Rules</a></li>
-<li class=""><a class="hover:text-amber-700 transition-colors" href="#metrics">Scaling Plan</a></li>
-<li class=""><a class="hover:text-amber-700 transition-colors" href="#payouts">Payout Proof</a></li>
-</ul>
-</div>
-<!-- Col 3: Platforms -->
-<div class="flex flex-col gap-3">
-<h4 class="text-xs font-bold font-mono text-slate-900 uppercase tracking-wider">Platform</h4>
-<ul class="flex flex-col gap-2 text-xs">
-<li class=""><a class="text-amber-700 font-medium hover:underline transition-colors" href="#terminal">RixTrade WebTrader</a></li>
-<li class=""><a class="hover:text-amber-700 transition-colors" href="#">Options Greeks Matrix</a></li>
-<li class=""><a class="hover:text-amber-700 transition-colors" href="#">1-Click Execution HUD</a></li>
-<li class=""><a class="hover:text-amber-700 transition-colors" href="#">TradingView Integration</a></li>
-</ul>
-</div>
-<!-- Col 4: Support & Legal -->
-<div class="flex flex-col gap-3">
-<h4 class="text-xs font-bold font-mono text-slate-900 uppercase tracking-wider">Company &amp; Legal</h4>
-<ul class="flex flex-col gap-2 text-xs">
-<li class=""><a class="hover:text-amber-700 transition-colors" href="#faq">Help Center &amp; FAQ</a></li>
-<li class=""><a class="hover:text-amber-700 transition-colors" href="#affiliates">Affiliate Program</a></li>
-<li class=""><a class="hover:text-amber-700 transition-colors" href="#">Terms of Service</a></li>
-<li class=""><a class="hover:text-amber-700 transition-colors" href="#">Privacy Policy</a></li>
-</ul>
-</div>
-</div>
-<!-- Institutional Disclaimers for Options Funding LLC -->
-<div class="flex flex-col gap-4 text-[11px] text-slate-500 leading-relaxed">
-<div class="p-4 rounded-xl bg-white border border-slate-200 text-slate-600 shadow-xs">
-<strong class="text-slate-900">Important Regulatory &amp; Risk Disclosure:</strong> Options Funding LLC is a proprietary evaluation technology company. All accounts provided during evaluations and funded stages operate within simulated or proprietary capital accounts using direct market pricing data feeds via RixTrade. Trading options on margin involves substantial risk of loss and is not suitable for all investors. Past performance of a trader or system is not indicative of future results. Options Funding LLC does not act as a broker-dealer or investment advisor and does not accept client deposits for investment purposes.
-      </div>
-<div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2 border-t border-slate-200">
-<p class="">© 2026 Options Funding LLC. All rights reserved. RixTrade is a registered trademark.</p>
-<div class="flex items-center gap-4 text-xs">
-<a class="hover:text-slate-900 transition-colors" href="#">Risk Disclosure</a>
-<span class="">•</span>
-<a class="hover:text-slate-900 transition-colors" href="#">Terms of Evaluation</a>
-<span class="">•</span>
-<a class="hover:text-slate-900 transition-colors" href="#">Refund Policy</a>
-</div>
-</div>
-</div>
-</div>
-</footer>
 
-<!-- Floating Bottom-Right Video Controls (Keeps Top Navbar 100% Clean & Unwrapped) -->
-<div class="fixed bottom-4 right-4 z-50 flex items-center gap-2 bg-white/95 backdrop-blur-md border border-slate-200 shadow-lg rounded-xl p-1.5">
-  <button onclick="switchBgVideoSource()" class="inline-flex items-center gap-1.5 text-[11px] font-mono font-bold text-emerald-900 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-2.5 py-1.5 rounded-lg transition-colors">
-    <span class="material-symbols-outlined text-[15px] text-emerald-600" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><circle cx="12" cy="12" r="8"/><path d="m9 12 2 2 4-4"/></svg></span>
-    <span id="videoSourceLabel">Video 2 (3D Equity)</span>
-  </button>
-  <button onclick="toggleVideoTheme()" class="inline-flex items-center gap-1.5 text-[11px] font-mono font-bold text-sky-900 bg-sky-50 hover:bg-sky-100 border border-sky-200 px-2.5 py-1.5 rounded-lg transition-colors">
-    <span class="material-symbols-outlined text-[15px] text-sky-600" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><circle cx="12" cy="12" r="8"/><path d="m9 12 2 2 4-4"/></svg></span>
-    <span id="videoThemeLabel">Dark Video Mode</span>
-  </button>
-</div>
-<script>
-  let currentVideoIdx = 0;
-  const videoSources = [
-    { src: 'assets/equity-curve-3d.mp4', label: 'Video 2 (3D Equity)' },
-    { src: 'assets/bg-hologram-video.mp4', label: 'Video 1 (Hologram)' }
-  ];
-  function switchBgVideoSource() {
-    currentVideoIdx = (currentVideoIdx + 1) % videoSources.length;
-    const video = document.getElementById('heroBgVideo');
-    const source = document.getElementById('heroBgVideoSrc');
-    const label = document.getElementById('videoSourceLabel');
-    source.src = videoSources[currentVideoIdx].src;
-    video.load();
-    video.play();
-    label.textContent = videoSources[currentVideoIdx].label;
-  }
-  function toggleVideoTheme() {
-    document.body.classList.toggle('video-dark-mode');
-    const label = document.getElementById('videoThemeLabel');
-    label.textContent = document.body.classList.contains('video-dark-mode')
-      ? 'Light Stitch Mode'
-      : 'Dark Video Mode';
-  }
-</script>
-<script src='rixtrade-motion.js?v=11' defer></script>
-</body></html>
+        <!-- Right Card: Staged Partner Bonus (Up to $2,000 Each) -->
+        <div class="bg-slate-50 rounded-2xl border border-slate-200 p-7">
+          <span class="text-xs font-bold uppercase tracking-wider text-amber-600 block mb-1">PRICED ON PRODUCTION, NOT FOLLOWER COUNT</span>
+          <h3 class="text-2xl font-extrabold text-slate-900 mb-2">Up to $2,000 Bonus Per Partner</h3>
+          <p class="text-sm text-slate-600 mb-5 leading-relaxed">
+            Paid in stages as your partner crosses each revenue rung (1.5x up to $3,000 on Relationship Channels like Discord, YouTube, LinkedIn, Facebook & Reddit):
+          </p>
+          <div class="space-y-3 font-mono text-xs">
+            <div class="flex justify-between items-center p-3 bg-white rounded-xl border border-slate-200">
+              <span class="text-slate-700">Partner's First Sale</span>
+              <span class="font-bold text-emerald-600">+$25 Bonus</span>
+            </div>
+            <div class="flex justify-between items-center p-3 bg-white rounded-xl border border-slate-200">
+              <span class="text-slate-700">$1,000 Produced</span>
+              <span class="font-bold text-emerald-600">+$60 Cumulative</span>
+            </div>
+            <div class="flex justify-between items-center p-3 bg-white rounded-xl border border-slate-200">
+              <span class="text-slate-700">$5,000 Produced</span>
+              <span class="font-bold text-emerald-600">+$250 Cumulative</span>
+            </div>
+            <div class="flex justify-between items-center p-3 bg-white rounded-xl border border-slate-200">
+              <span class="text-slate-700">$25,000 Produced</span>
+              <span class="font-bold text-emerald-600">+$750 Cumulative</span>
+            </div>
+            <div class="flex justify-between items-center p-3 bg-amber-50 rounded-xl border border-amber-300">
+              <span class="font-bold text-amber-900">$100,000 Produced</span>
+              <span class="font-extrabold text-amber-700">+$2,000 Bonus ($3,000 Discord/YT)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Monthly Performance & Growth Bonuses + Claim Your Seat -->
+  <section class="py-20 bg-slate-50 border-b border-slate-200" id="apply">
+    <div class="max-w-[1320px] mx-auto px-6 lg:px-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+        <div class="lg:col-span-6 space-y-6">
+          <span class="text-xs font-bold uppercase tracking-widest text-emerald-600 block">CASH ON TOP OF THE LADDER</span>
+          <h2 class="text-3xl font-extrabold text-slate-900">Monthly Performance & Growth Bonuses</h2>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            Evaluated at month close and paid on top of your message pay, partner bonuses, and 2%–8% revenue share. Every time Options Funding sets a new monthly revenue record, <strong>70% of the company milestone pool</strong> goes directly to this acquisition team.
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="bg-white p-5 rounded-2xl border border-slate-200">
+              <h4 class="text-sm font-bold text-slate-900 mb-3">Performance Bonus</h4>
+              <ul class="space-y-2 text-xs font-mono text-slate-600">
+                <li class="flex justify-between"><span>$100,000+ mo:</span><strong class="text-emerald-600">+$1,000</strong></li>
+                <li class="flex justify-between"><span>$150,000+ mo:</span><strong class="text-emerald-600">+$2,500</strong></li>
+                <li class="flex justify-between"><span>$200,000+ mo:</span><strong class="text-emerald-600">+$4,500</strong></li>
+                <li class="flex justify-between"><span>$300,000+ mo:</span><strong class="text-emerald-600">+$7,500</strong></li>
+              </ul>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-200">
+              <h4 class="text-sm font-bold text-slate-900 mb-3">Growth Bonus (Over Last Mo)</h4>
+              <ul class="space-y-2 text-xs font-mono text-slate-600">
+                <li class="flex justify-between"><span>+$25,000 jump:</span><strong class="text-amber-600">+$500</strong></li>
+                <li class="flex justify-between"><span>+$50,000 jump:</span><strong class="text-amber-600">+$1,500</strong></li>
+                <li class="flex justify-between"><span>+$100,000 jump:</span><strong class="text-amber-600">+$3,500</strong></li>
+                <li class="flex justify-between"><span>Hold Clear Time:</span><strong class="text-slate-900">7d Msg / 15d Rev</strong></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Application Form: Claim Your Seat (50 Seats Total) -->
+        <div class="lg:col-span-6 bg-white rounded-2xl border border-slate-200 p-8 shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-extrabold text-slate-900">Claim Your Founding 50 Seat</h3>
+            <span class="text-xs font-mono font-bold px-3 py-1 rounded-full bg-amber-100 text-amber-800">50 Seats Total</span>
+          </div>
+          <p class="text-xs text-slate-500 mb-6">Three short sections, three minutes. Every application gets a human review, and approved applicants go straight into onboarding.</p>
+          <form class="space-y-4" onsubmit="event.preventDefault(); alert('Application submitted for human review! Check your email and Discord.');">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Full Name *</label>
+                <input type="text" required placeholder="Your name" class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm"/>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Email Address *</label>
+                <input type="email" required placeholder="you@domain.com" class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm"/>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Phone Number *</label>
+                <input type="tel" required placeholder="+1 (555) 000-0000" class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm"/>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Discord Username *</label>
+                <input type="text" required placeholder="@username" class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm"/>
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Primary Outreach Platform & Handle (X, IG, TikTok, Discord, YT) *</label>
+              <input type="text" required placeholder="e.g. Instagram @traderhandle (4,200 followers)" class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm"/>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Your Pitch (Outreach background & communities you know)</label>
+              <textarea rows="3" placeholder="Tell us about your consistency and reach..." class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm"></textarea>
+            </div>
+            <button type="submit" class="w-full py-3.5 rounded-lg bg-[#00A876] hover:bg-[#009266] text-white font-bold text-sm uppercase tracking-wider transition-all">
+              Submit My Application
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  </main>
+
+  <!-- Official Options Funding LLC Footer -->
+  <footer class="bg-[#0B0E12] text-slate-400 border-t border-slate-800 py-16">
+    <div class="max-w-[1320px] mx-auto px-6 lg:px-10">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-slate-800">
+        <div class="space-y-3">
+          <a href="options-funding.html" class="flex items-center gap-2 text-white text-[20px] font-extrabold tracking-[-0.03em]">
+            <span>Options</span><span class="text-[#F59E0B]">Funding</span>
+          </a>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Simulated options trading evaluations, educational tools, and skill-based prop progression up to Live capital at Interactive Brokers.
+          </p>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Platform</h4>
+          <ul class="space-y-2.5 text-xs">
+            <li><a href="options-funding.html" class="hover:text-white transition-colors">Founding 50 Outreach</a></li>
+            <li><a href="rules.html" class="hover:text-white transition-colors">Trading Rules (Growth & Express)</a></li>
+            <li><a href="rules.html#whitelist" class="hover:text-white transition-colors">Ticker Whitelist</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Support</h4>
+          <ul class="space-y-2.5 text-xs">
+            <li><a href="faq.html" class="hover:text-white transition-colors">FAQ Knowledgebase</a></li>
+            <li><a href="contact.html" class="hover:text-white transition-colors">Contact Support</a></li>
+            <li><a href="affiliates.html" class="hover:text-white transition-colors">Affiliate Program (20%–35%)</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Legal & Compliance</h4>
+          <ul class="space-y-2.5 text-xs">
+            <li><a href="rules.html#live-rules" class="hover:text-white transition-colors">Live Program Rules</a></li>
+            <li><a href="options-funding.html#terms" class="hover:text-white transition-colors">Outreach & Rewards Rules</a></li>
+            <li><span class="text-emerald-400 font-semibold">support@optionsfunding.co</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="pt-8 text-[11px] text-slate-500 leading-relaxed space-y-3">
+        <p><strong class="text-slate-400">Risk Disclaimer:</strong> Options Funding LLC is not a broker-dealer, investment advisor, or registered financial institution. We provide simulated trading evaluations, educational tools, and skill-based evaluation programs. All information on this website is intended solely for educational purposes related to trading and does not constitute investment advice.</p>
+        <p>© 2026 Options Funding LLC. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

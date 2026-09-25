@@ -1,726 +1,225 @@
 <!DOCTYPE html>
-
-<html class="light scroll-smooth" lang="en" style="width: 100%; min-height: 100%; overflow-x: hidden; overflow-y: auto;"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Options Funding // Evaluation Protocol &amp; Trading Rules</title>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script id="tailwind-config">
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          "colors": {
-            "surface-bright": "#ffffff",
-            "text-secondary": "#475569",
-            "on-surface-variant": "#334155",
-            "surface-dim": "#f1f5f9",
-            "on-error-container": "#991b1b",
-            "surface-container-highest": "#e2e8f0",
-            "inverse-primary": "#059669",
-            "on-primary-container": "#ffffff",
-            "on-primary-fixed": "#022c22",
-            "primary": "#059669",
-            "primary-fixed-dim": "#10b981",
-            "on-tertiary-fixed": "#1e293b",
-            "text-primary": "#0f172a",
-            "surface-variant": "#f1f5f9",
-            "primary-container": "#059669",
-            "on-secondary": "#ffffff",
-            "surface-base": "#ffffff",
-            "surface-tint": "#059669",
-            "tertiary-fixed": "#e2e8f0",
-            "surface-panel": "#f8fafc",
-            "secondary": "#0d9488",
-            "surface-container-low": "#f8fafc",
-            "inverse-surface": "#0f172a",
-            "surface-container-high": "#e2e8f0",
-            "on-error": "#ffffff",
-            "primary-fixed": "#34d399",
-            "outline-variant": "#e2e8f0",
-            "surface-border": "#e2e8f0",
-            "surface-container": "#f1f5f9",
-            "on-surface": "#0f172a",
-            "market-down": "#dc2626",
-            "tertiary": "#64748b",
-            "market-warn": "#d97706",
-            "text-muted": "#64748b",
-            "secondary-fixed": "#99f6e4",
-            "error": "#ef4444",
-            "on-secondary-container": "#0f766e",
-            "surface-container-lowest": "#ffffff",
-            "on-primary-fixed-variant": "#047857",
-            "background": "#ffffff",
-            "error-container": "#fee2e2",
-            "market-up": "#059669",
-            "on-primary": "#ffffff",
-            "tertiary-fixed-dim": "#cbd5e1",
-            "on-tertiary-fixed-variant": "#475569",
-            "on-background": "#0f172a",
-            "on-tertiary-container": "#ffffff",
-            "surface-raised": "#ffffff",
-            "on-tertiary": "#ffffff",
-            "outline": "#cbd5e1",
-            "secondary-fixed-dim": "#2dd4bf",
-            "on-secondary-fixed-variant": "#115e59",
-            "surface-border-subtle": "#f1f5f9",
-            "tertiary-container": "#64748b",
-            "surface": "#ffffff",
-            "on-secondary-fixed": "#042f2e",
-            "secondary-container": "#0d9488",
-            "inverse-on-surface": "#f8fafc",
-            "regulatory-bg": "#f8fafc"
-          },
-          "borderRadius": {
-            "DEFAULT": "0.125rem",
-            "lg": "0.25rem",
-            "xl": "0.5rem",
-            "full": "0.75rem"
-          },
-          "spacing": {
-            "gutter": "1rem",
-            "margin-desktop": "2.5rem",
-            "space-md": "1rem",
-            "space-lg": "1.5rem",
-            "gutter-desktop": "1.5rem",
-            "space-2xl": "4rem",
-            "margin": "1rem",
-            "space-xl": "2.5rem",
-            "space-sm": "0.5rem",
-            "space-xs": "0.25rem"
-          },
-          "fontFamily": {
-            "data-tabular": ["Inter"],
-            "label-caps": ["Inter"],
-            "body-md": ["Inter"],
-            "label-lg": ["Inter"],
-            "headline-sm": ["Inter"],
-            "headline-lg-mobile": ["Inter"],
-            "display-lg": ["Inter"],
-            "body-sm": ["Inter"],
-            "legal-disclaimer": ["Inter"],
-            "headline-md": ["Inter"],
-            "headline-lg": ["Inter"],
-            "body-lg": ["Inter"],
-            "label-md": ["Inter"]
-          },
-          "fontSize": {
-            "data-tabular": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "500" }],
-            "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "600" }],
-            "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }],
-            "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
-            "headline-sm": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "600" }],
-            "headline-lg-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
-            "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
-            "body-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400" }],
-            "legal-disclaimer": ["11px", { "lineHeight": "16px", "letterSpacing": "0em", "fontWeight": "400" }],
-            "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
-            "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
-            "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400" }],
-            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }]
-          }
-        }
-      }
-    };
-  </script>
-<style>
-    .material-symbols-outlined {
-      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-      display: inline-block;
-      vertical-align: middle;
-      line-height: 1;
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Trading Rules — Growth & Express Plans (25K / 50K / 100K) | Options Funding</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #F8FAFC;
+      color: #0F172A;
+      margin: 0;
+    }
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-variant-numeric: tabular-nums;
     }
   </style>
+  <script src="rixtrade-motion.js?v=12" defer></script>
 </head>
-<body class="bg-[#ffffff] text-slate-900 font-body-md text-body-md antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white">
-<!-- Top Navigation Bar -->
-<header class="bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm docked full-width top-0 sticky z-50">
-<div class="w-full max-w-[1440px] mx-auto px-margin md:px-margin-desktop flex items-center justify-between h-16">
-<!-- Brand Anchor -->
-<div class="flex items-center gap-space-md">
-<div class="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600">
-<span class="material-symbols-outlined text-[20px]" data-icon="candlestick_chart" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><circle cx="12" cy="12" r="8"/><path d="m9 12 2 2 4-4"/></svg></span>
-</div>
-<span class="text-label-lg font-label-lg uppercase tracking-wider text-slate-900 font-bold">Options Funding // WebTrader • RixTrade</span>
-</div>
-<!-- Center Links (Desktop - Separate Pages) -->
-<nav class="hidden md:flex items-center gap-space-lg whitespace-nowrap">
-<a class="text-slate-600 hover:text-slate-900 transition-colors text-label-lg font-label-lg font-medium whitespace-nowrap" href="options-funding.html">Founding 50</a>
-<!-- ACTIVE TAB: Rules -->
-<a class="text-emerald-700 border-b-2 border-emerald-600 pb-1 font-semibold text-label-lg font-label-lg whitespace-nowrap" href="rules.html">Rules</a>
-<a class="text-slate-600 hover:text-slate-900 transition-colors text-label-lg font-label-lg font-medium whitespace-nowrap" href="account-metrics.html">Account Metrics</a>
-<a class="text-slate-600 hover:text-slate-900 transition-colors text-label-lg font-label-lg font-medium whitespace-nowrap" href="rixtrade-platform.html">RixTrade Platform</a>
-<a class="text-slate-600 hover:text-slate-900 transition-colors text-label-lg font-label-lg font-medium whitespace-nowrap" href="faq.html">FAQ</a>
-<a class="text-slate-600 hover:text-slate-900 transition-colors text-label-lg font-label-lg font-medium whitespace-nowrap" href="affiliates.html">Affiliates</a>
-</nav>
-<!-- Trailing Action Buttons -->
-<div class="flex items-center gap-space-md">
-<div class="hidden lg:flex items-center gap-space-xs text-slate-400">
-<button class="w-8 h-8 rounded flex items-center justify-center text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors duration-150 active:scale-[0.98]">
-<span class="material-symbols-outlined text-[20px]" data-icon="notifications" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><circle cx="12" cy="12" r="8"/><path d="m9 12 2 2 4-4"/></svg></span>
-</button>
-<button class="w-8 h-8 rounded flex items-center justify-center text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors duration-150 active:scale-[0.98]">
-<span class="material-symbols-outlined text-[20px]" data-icon="help" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg></span>
-</button>
-</div>
-<a class="text-slate-700 hover:text-slate-900 transition-colors text-label-lg font-label-lg font-medium px-space-sm py-1" href="#">Sign In</a>
-<button class="bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white px-space-md py-2 rounded-lg font-semibold text-label-lg transition-all active:scale-[0.98] shadow-sm">
-          Get Funded →
-        </button>
-</div>
-</div>
-</header>
-<!-- Main Rules Content Canvas -->
-<main class="flex-grow w-full max-w-[1440px] mx-auto px-margin md:px-margin-desktop py-space-xl flex flex-col gap-space-2xl bg-white">
-<!-- Top Hero Section (Clean trading.com Minimalist Style - Zero Badge Clutter) -->
-<section id="rules-hd-hero" class="relative rounded-2xl bg-[#0B0E12] p-8 md:p-12 overflow-hidden border border-white/5">
-  <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-    <!-- Left Column: Clean Two-Tone Headline + Copy + Single Solid Emerald CTA -->
-    <div class="lg:col-span-6 flex flex-col items-start text-left">
-      <h1 class="text-[36px] sm:text-[46px] lg:text-[52px] font-bold tracking-[-0.03em] leading-[1.08] mb-5">
-        <span class="block text-white">Transparent Rules</span>
-        <span class="block text-[#8A94A6] mt-1">Built For Traders</span>
-      </h1>
-      <p class="text-[#B0B8C4] text-[15.5px] sm:text-[16.5px] leading-[1.65] max-w-[460px] mb-8">
-        Zero arbitrary rule traps, no intraday spike liquidations, and clear 5:00 PM EST drawdown calculation. Review every parameter before trading your $100,000 account.
-      </p>
-      <a href="options-funding.html#get-funded" class="inline-flex items-center justify-center min-w-[200px] px-8 py-3.5 rounded-[4px] bg-[#00A876] hover:bg-[#009266] text-white font-bold text-[12px] uppercase tracking-[0.06em] transition-all">
-        GET FUNDED
-      </a>
-    </div>
+<body class="antialiased selection:bg-emerald-500 selection:text-white">
+  <header class="sticky top-0 z-50 bg-[#000000] border-none"></header>
 
-    <!-- Right Column: Clean Uncluttered HD Visual (Zero Monospace HUD Boxes) -->
-    <div class="lg:col-span-6">
-      <div class="relative rounded-xl overflow-hidden">
-        <img src="assets/hero-rules-hd.jpg" alt="Options Evaluation Rules" class="w-full h-auto object-cover rounded-xl" style="filter: contrast(1.08) saturate(1.1);"/>
+  <main>
+    <!-- trading.com Minimalist Dark Hero (#0B0E12) -->
+    <section class="relative bg-[#0B0E12] text-white pt-12 pb-20 lg:py-24 overflow-hidden">
+      <div class="w-full max-w-[1320px] mx-auto px-6 lg:px-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+          <div class="lg:col-span-6 space-y-6 text-left">
+            <div class="text-xs font-bold uppercase tracking-[0.14em] text-[#00A876]">PHASE 1 EVALUATION • PHASE 2 FUNDED • PHASE 3 LIVE AT INTERACTIVE BROKERS</div>
+            <h1 class="text-[42px] sm:text-[56px] lg:text-[64px] font-extrabold leading-[1.06] tracking-[-0.03em]">
+              <span class="block text-white">Trading Rules</span>
+              <span class="block text-[#8A94A6] mt-1">Built to Get You Paid.</span>
+            </h1>
+            <p class="text-[16px] sm:text-[18px] text-[#9CA3AF] font-normal leading-[1.65] max-w-[540px]">
+              Everything you need to trade, stay compliant, and scale from a 25K, 50K, or 100K Growth or Express Evaluation to Same-Day Funded and Live firm capital at Interactive Brokers.
+            </p>
+            <div class="pt-2 flex flex-wrap items-center gap-4">
+              <a href="options-funding.html#apply" class="inline-flex items-center justify-center px-8 py-4 rounded-[6px] bg-[#00A876] hover:bg-[#009266] text-white font-bold text-[14px] uppercase tracking-[0.04em] transition-all">
+                Get Funded
+              </a>
+              <a href="faq.html" class="inline-flex items-center justify-center px-7 py-4 rounded-[6px] bg-white/5 hover:bg-white/10 border border-white/15 text-white font-semibold text-[14px] transition-all">Browse FAQ</a>
+            </div>
+          </div>
+          <div class="lg:col-span-6 flex items-center justify-center lg:justify-end">
+            <div class="relative w-full max-w-[660px]">
+              <img src="assets/hero-rules-hd.jpg" alt="Trading Rules — Growth & Express Plans (25K / 50K / 100K) | Options Funding" class="w-full h-auto object-contain rounded-2xl shadow-2xl" loading="eager"/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    
+  <!-- Phase 1: Evaluation (Growth vs Express 100K / 50K / 25K) -->
+  <section class="py-20 bg-white border-b border-slate-200">
+    <div class="max-w-[1320px] mx-auto px-6 lg:px-10">
+      <div class="max-w-3xl mb-12">
+        <span class="text-xs font-bold uppercase tracking-widest text-emerald-600 block mb-2">PHASE 1 • EVALUATION (NO TIME LIMIT • 0 MIN TRADING DAYS)</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">Growth Plan vs. Express Plan</h2>
+        <p class="text-slate-600 text-base mt-3 leading-relaxed">
+          Reach your profit target on your own schedule with zero minimum trading days. Choose <strong>Growth</strong> for End-of-Day drawdown and Level 5 multi-leg strategies (Iron Condors, Verticals, Spreads), or <strong>Express</strong> for a lower 10% target with single-leg long calls and puts.
+        </p>
+      </div>
+
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mb-14">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-900 text-white text-xs uppercase tracking-wider">
+                <th class="py-4 px-5">Metric</th>
+                <th class="py-4 px-5 text-emerald-400">Growth 100K</th>
+                <th class="py-4 px-5 text-emerald-400">Growth 50K</th>
+                <th class="py-4 px-5 text-emerald-400">Growth 25K</th>
+                <th class="py-4 px-5 text-amber-400">Express 100K</th>
+                <th class="py-4 px-5 text-amber-400">Express 50K</th>
+                <th class="py-4 px-5 text-amber-400">Express 25K</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 text-xs sm:text-sm font-mono">
+              <tr class="hover:bg-slate-50">
+                <td class="py-3.5 px-5 font-sans font-bold text-slate-900">Profit Target</td>
+                <td class="py-3.5 px-5 font-bold text-emerald-700">12% ($12,000)</td>
+                <td class="py-3.5 px-5 font-bold text-emerald-700">12% ($6,000)</td>
+                <td class="py-3.5 px-5 font-bold text-emerald-700">12% ($3,000)</td>
+                <td class="py-3.5 px-5 font-bold text-amber-700">10% ($10,000)</td>
+                <td class="py-3.5 px-5 font-bold text-amber-700">10% ($5,000)</td>
+                <td class="py-3.5 px-5 font-bold text-amber-700">10% ($2,500)</td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <td class="py-3.5 px-5 font-sans font-bold text-slate-900">Trailing Drawdown</td>
+                <td class="py-3.5 px-5">6% ($6,000)</td>
+                <td class="py-3.5 px-5">6% ($3,000)</td>
+                <td class="py-3.5 px-5">6% ($1,500)</td>
+                <td class="py-3.5 px-5">5% ($5,000)</td>
+                <td class="py-3.5 px-5">5% ($2,500)</td>
+                <td class="py-3.5 px-5">5% ($1,250)</td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <td class="py-3.5 px-5 font-sans font-bold text-slate-900">Drawdown Mode</td>
+                <td class="py-3.5 px-5 font-bold text-emerald-700">End of Day</td>
+                <td class="py-3.5 px-5 font-bold text-emerald-700">End of Day</td>
+                <td class="py-3.5 px-5 font-bold text-emerald-700">End of Day</td>
+                <td class="py-3.5 px-5 text-slate-700">Intraday</td>
+                <td class="py-3.5 px-5 text-slate-700">Intraday</td>
+                <td class="py-3.5 px-5 text-slate-700">Intraday</td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <td class="py-3.5 px-5 font-sans font-bold text-slate-900">Options Strategies</td>
+                <td class="py-3.5 px-5">All (Level 5 Buy+Write)</td>
+                <td class="py-3.5 px-5">All (Level 5 Buy+Write)</td>
+                <td class="py-3.5 px-5">All (Level 5 Buy+Write)</td>
+                <td class="py-3.5 px-5">Buy Only (Long Call/Put)</td>
+                <td class="py-3.5 px-5">Buy Only (Long Call/Put)</td>
+                <td class="py-3.5 px-5">Buy Only (Long Call/Put)</td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <td class="py-3.5 px-5 font-sans font-bold text-slate-900">Time Limit & Min Days</td>
+                <td class="py-3.5 px-5">Unlimited / None</td>
+                <td class="py-3.5 px-5">Unlimited / None</td>
+                <td class="py-3.5 px-5">Unlimited / None</td>
+                <td class="py-3.5 px-5">Unlimited / None</td>
+                <td class="py-3.5 px-5">Unlimited / None</td>
+                <td class="py-3.5 px-5">Unlimited / None</td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <td class="py-3.5 px-5 font-sans font-bold text-slate-900">Discounted Reset</td>
+                <td class="py-3.5 px-5 text-emerald-700">10% Off (Unlimited)</td>
+                <td class="py-3.5 px-5 text-emerald-700">10% Off (Unlimited)</td>
+                <td class="py-3.5 px-5 text-emerald-700">10% Off (Unlimited)</td>
+                <td class="py-3.5 px-5 text-emerald-700">10% Off (Unlimited)</td>
+                <td class="py-3.5 px-5 text-emerald-700">10% Off (Unlimited)</td>
+                <td class="py-3.5 px-5 text-emerald-700">10% Off (Unlimited)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Phase 2: Funded & Phase 3: Live at Interactive Brokers -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Phase 2 Card -->
+        <div class="bg-slate-50 rounded-2xl border border-slate-200 p-7">
+          <span class="text-xs font-bold uppercase tracking-wider text-emerald-600 block mb-1">PHASE 2 • FUNDED ACCOUNT (SAME-DAY ACTIVATION)</span>
+          <h3 class="text-2xl font-extrabold text-slate-900 mb-3">80/20 Profit Split • Paid in 12 Hours</h3>
+          <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+            Pass your evaluation and activate your Funded account the same day. The flat <strong>$129 activation fee is 100% refunded on your very first payout</strong>.
+          </p>
+          <ul class="space-y-2.5 text-xs text-slate-700">
+            <li class="flex justify-between border-b border-slate-200 pb-2"><span>Qualifying Winning Days Needed:</span><strong class="font-mono">8 Non-Consecutive Days</strong></li>
+            <li class="flex justify-between border-b border-slate-200 pb-2"><span>Min Daily Realized Profit to Qualify:</span><strong class="font-mono">$200 (100K) • $150 (50K) • $100 (25K)</strong></li>
+            <li class="flex justify-between border-b border-slate-200 pb-2"><span>100K Payout Caps (1st → 4th):</span><strong class="font-mono">$2,000 → $3,000 → $4,000 → $6,000 ($10k Express)</strong></li>
+            <li class="flex justify-between pb-1"><span>Drawdown Lock Balance:</span><strong class="font-mono text-emerald-700">Locks permanently at Starting Capital ($100k/$50k/$25k)</strong></li>
+          </ul>
+        </div>
+
+        <!-- Phase 3 Card -->
+        <div class="bg-slate-50 rounded-2xl border border-slate-200 p-7" id="live-rules">
+          <span class="text-xs font-bold uppercase tracking-wider text-amber-600 block mb-1">PHASE 3 • LIVE AT INTERACTIVE BROKERS</span>
+          <h3 class="text-2xl font-extrabold text-slate-900 mb-3">Real Firm Capital • Uncapped Daily Payouts</h3>
+          <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+            Trade real firm capital at <strong>Interactive Brokers</strong> across any US-listed stock or index option (no ticker whitelist!) with 80% profit split and zero withdrawal caps ($100 min).
+          </p>
+          <ul class="space-y-2.5 text-xs text-slate-700">
+            <li class="flex justify-between border-b border-slate-200 pb-2"><span>Live Capital at Entry (100K / 50K / 25K):</span><strong class="font-mono">$50,000 / $25,000 / $12,500</strong></li>
+            <li class="flex justify-between border-b border-slate-200 pb-2"><span>Full Scale Buying Power (1.25x):</span><strong class="font-mono text-emerald-700">$125,000 / $62,500 / $31,250</strong></li>
+            <li class="flex justify-between border-b border-slate-200 pb-2"><span>Live Floor Lock Threshold:</span><strong class="font-mono">$50,100 (100K) • $25,100 (50K) • $12,600 (25K)</strong></li>
+            <li class="flex justify-between pb-1"><span>Expiring Position Cutoff (All Phases):</span><strong class="font-mono">3:55 PM ET (4:10 PM ET for SPY, QQQ, IWM, DIA)</strong></li>
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
-</section>
-<!-- Interactive Filter / Sticky-aligned Tab Bar -->
-<section class="border-b border-slate-200">
-<div class="flex items-center gap-space-md overflow-x-auto no-scrollbar py-2" id="rulesTabBar">
-<button class="tab-btn px-space-md py-2.5 rounded-lg font-label-lg text-label-lg bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold flex items-center gap-2 transition-all shadow-xs">
-<span class="material-symbols-outlined text-[18px]" data-icon="account_balance" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><circle cx="12" cy="12" r="8"/><path d="m9 12 2 2 4-4"/></svg></span>
-          Core Trading Rules
-        </button>
-<button class="tab-btn px-space-md py-2.5 rounded-lg font-label-lg text-label-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-transparent transition-all flex items-center gap-2">
-<span class="material-symbols-outlined text-[18px]" data-icon="water_loss" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><circle cx="12" cy="12" r="8"/><path d="m9 12 2 2 4-4"/></svg></span>
-          Drawdown Calculation
-        </button>
-<button class="tab-btn px-space-md py-2.5 rounded-lg font-label-lg text-label-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-transparent transition-all flex items-center gap-2">
-<span class="material-symbols-outlined text-[18px]" data-icon="contract" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><circle cx="12" cy="12" r="8"/><path d="m9 12 2 2 4-4"/></svg></span>
-          Permitted Contracts &amp; Hours
-        </button>
-<button class="tab-btn px-space-md py-2.5 rounded-lg font-label-lg text-label-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-transparent transition-all flex items-center gap-2">
-<span class="material-symbols-outlined text-[18px]" data-icon="trending_up" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span>
-          Consistency &amp; Scaling Policy
-        </button>
-</div>
-</section>
-<!-- Section 1: Core Parameter Matrix (Bento Architecture) -->
-<section class="flex flex-col gap-space-lg">
-<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-sm">
-<div>
-<span class="font-label-caps text-label-caps text-emerald-700 font-semibold uppercase">Benchmark Spec</span>
-<h2 class="font-headline-lg text-headline-lg text-slate-900 font-bold">$100,000 Evaluation Parameters</h2>
-</div>
-<span class="font-body-sm text-body-sm text-slate-500 font-medium">Standard 1-Phase Account Qualification</span>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md">
-<!-- Parameter 1: Profit Target -->
-<div class="bg-white border border-slate-200 rounded-xl p-space-lg flex flex-col justify-between hover:border-emerald-500 hover:shadow-md transition-all group shadow-xs">
-<div class="flex flex-col gap-space-sm">
-<div class="w-10 h-10 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700">
-<span class="material-symbols-outlined" data-icon="target" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><circle cx="12" cy="12" r="8"/><path d="m9 12 2 2 4-4"/></svg></span>
-</div>
-<span class="font-label-caps text-label-caps text-slate-500 uppercase font-semibold">Profit Target</span>
-<div class="flex items-baseline gap-2">
-<span class="font-headline-lg text-headline-lg text-emerald-700 font-data-tabular font-bold">12.0%</span>
-<span class="font-body-sm text-body-sm text-slate-500">($12,000)</span>
-</div>
-<p class="font-body-sm text-body-sm text-slate-600 pt-2 leading-relaxed">
-              Reach a cumulative balance of <span class="text-slate-900 font-semibold font-data-tabular">$112,000</span>. Requires a minimum of only <strong>1 trading day</strong> with closed positions.
-            </p>
-</div>
-<div class="pt-space-md mt-space-md border-t border-slate-100 flex items-center justify-between text-slate-500 font-label-md text-label-md">
-<span>Minimum Time:</span>
-<span class="text-slate-900 font-medium">1 Active Trading Day</span>
-</div>
-</div>
-<!-- Parameter 2: Maximum EOD Drawdown -->
-<div class="bg-white border border-slate-200 rounded-xl p-space-lg flex flex-col justify-between hover:border-emerald-500 hover:shadow-md transition-all group shadow-xs">
-<div class="flex flex-col gap-space-sm">
-<div class="w-10 h-10 rounded-lg bg-rose-50 border border-rose-200 flex items-center justify-center text-rose-600">
-<span class="material-symbols-outlined" data-icon="hourglass_empty" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><circle cx="12" cy="12" r="8"/><path d="m9 12 2 2 4-4"/></svg></span>
-</div>
-<span class="font-label-caps text-label-caps text-slate-500 uppercase font-semibold">Max EOD Drawdown</span>
-<div class="flex items-baseline gap-2">
-<span class="font-headline-lg text-headline-lg text-rose-600 font-data-tabular font-bold">6.0%</span>
-<span class="font-body-sm text-body-sm text-slate-500">($6,000 Max Loss)</span>
-</div>
-<p class="font-body-sm text-body-sm text-slate-600 pt-2 leading-relaxed">
-              Static hard floor at <strong class="text-slate-900 font-data-tabular font-semibold">$94,000</strong>. Purely calculated at <span class="text-slate-900 font-semibold">5:00 PM EST</span> market close. Intraday volatility swings do not breach your evaluation.
-            </p>
-</div>
-<div class="pt-space-md mt-space-md border-t border-slate-100 flex items-center justify-between text-slate-500 font-label-md text-label-md">
-<span>Calculation Cadence:</span>
-<span class="text-emerald-700 font-semibold">Daily Settlement Only</span>
-</div>
-</div>
-<!-- Parameter 3: Max Contract Sizing -->
-<div class="bg-white border border-slate-200 rounded-xl p-space-lg flex flex-col justify-between hover:border-emerald-500 hover:shadow-md transition-all group shadow-xs">
-<div class="flex flex-col gap-space-sm">
-<div class="w-10 h-10 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700">
-<span class="material-symbols-outlined" data-icon="layers" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><circle cx="12" cy="12" r="8"/><path d="m9 12 2 2 4-4"/></svg></span>
-</div>
-<span class="font-label-caps text-label-caps text-slate-500 uppercase font-semibold">Max Contract Limit</span>
-<div class="flex items-baseline gap-2">
-<span class="font-headline-lg text-headline-lg text-slate-900 font-data-tabular font-bold">20 / 15</span>
-<span class="font-body-sm text-body-sm text-slate-500">Lots</span>
-</div>
-<p class="font-body-sm text-body-sm text-slate-600 pt-2 leading-relaxed">
-              Up to <strong class="text-slate-900">20 contracts</strong> on index options (SPY/QQQ) and <strong class="text-slate-900">15 contracts</strong> across Tier-1 equities (AAPL, NVDA, TSLA, MSFT, AMD).
-            </p>
-</div>
-<div class="pt-space-md mt-space-md border-t border-slate-100 flex items-center justify-between text-slate-500 font-label-md text-label-md">
-<span>Enforcement:</span>
-<span class="text-slate-900 font-medium">Engine Margin Hard-Cap</span>
-</div>
-</div>
-<!-- Parameter 4: Overnight Swing & Expiries -->
-<div class="bg-white border border-slate-200 rounded-xl p-space-lg flex flex-col justify-between hover:border-emerald-500 hover:shadow-md transition-all group shadow-xs">
-<div class="flex flex-col gap-space-sm">
-<div class="w-10 h-10 rounded-lg bg-teal-50 border border-teal-200 flex items-center justify-center text-teal-700">
-<span class="material-symbols-outlined" data-icon="nights_stay" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><circle cx="12" cy="12" r="8"/><path d="m9 12 2 2 4-4"/></svg></span>
-</div>
-<span class="font-label-caps text-label-caps text-slate-500 uppercase font-semibold">Overnight &amp; 0DTE</span>
-<div class="flex items-baseline gap-2">
-<span class="font-headline-lg text-headline-lg text-teal-700 font-data-tabular font-bold">Permitted</span>
-<span class="font-body-sm text-body-sm text-slate-500">Standard sessions</span>
-</div>
-<p class="font-body-sm text-body-sm text-slate-600 pt-2 leading-relaxed">
-              Overnight positions fully permitted across equity and index options. 0DTE trading allowed but must be liquidated before the 4:00 PM EST market expiration cut-off.
-            </p>
-</div>
-<div class="pt-space-md mt-space-md border-t border-slate-100 flex items-center justify-between text-slate-500 font-label-md text-label-md">
-<span>Weekend Holding:</span>
-<span class="text-slate-900 font-medium">Approved</span>
-</div>
-</div>
-</div>
-</section>
-<!-- Deep Dive: End-Of-Day (EOD) vs Trailing High-Watermark Mechanics -->
-<section class="bg-[#f8fafc] border border-slate-200 rounded-xl p-space-lg md:p-space-xl flex flex-col gap-space-lg shadow-sm">
-<div class="flex flex-col gap-2">
-<span class="font-label-caps text-label-caps text-emerald-700 font-semibold uppercase">Drawdown Mechanics</span>
-<h3 class="font-headline-md text-headline-md text-slate-900 font-bold">Why Options Traders Benefit From EOD Settlement</h3>
-<p class="font-body-md text-body-md text-slate-600 max-w-3xl">
-          Traditional prop firms use high-watermark intraday trailing drawdown, which penalizes gamma expansion and midday delta retracements. RixTrade executes our drawdown evaluation strictly after the standard session settles at 5:00 PM EST.
-        </p>
-</div>
-<!-- Comparative Diagram / Box Grid -->
-<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
-<!-- How Our EOD Drawdown Works -->
-<div class="bg-white border border-slate-200 rounded-lg p-space-md flex flex-col gap-3 shadow-xs">
-<div class="flex items-center justify-between">
-<span class="font-label-lg text-label-lg text-emerald-700 font-bold flex items-center gap-2">
-<span class="material-symbols-outlined text-emerald-600 text-[20px]" data-icon="check_circle" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
-              Options Funding: 5:00 PM EST Snapshot
-            </span>
-<span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-label-caps font-label-caps font-semibold">FAIR RULES</span>
-</div>
-<p class="font-body-sm text-body-sm text-slate-600 leading-relaxed">
-            Your account equity can fluctuate beneath $94,000 during high-volatility events (e.g. FOMC, CPI release, or large index swings). As long as your settled account equity at 5:00 PM EST is at or above <strong class="text-slate-900 font-data-tabular">$94,000.00</strong>, your account remains active and in full compliance.
+  </section>
+
+  </main>
+
+  <!-- Official Options Funding LLC Footer -->
+  <footer class="bg-[#0B0E12] text-slate-400 border-t border-slate-800 py-16">
+    <div class="max-w-[1320px] mx-auto px-6 lg:px-10">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-slate-800">
+        <div class="space-y-3">
+          <a href="options-funding.html" class="flex items-center gap-2 text-white text-[20px] font-extrabold tracking-[-0.03em]">
+            <span>Options</span><span class="text-[#F59E0B]">Funding</span>
+          </a>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Simulated options trading evaluations, educational tools, and skill-based prop progression up to Live capital at Interactive Brokers.
           </p>
-<div class="mt-auto pt-2 bg-slate-50 p-3 rounded border border-slate-200 font-data-tabular text-body-sm space-y-1">
-<div class="flex justify-between text-slate-500">
-<span>Account High-Watermark:</span>
-<span class="text-slate-900 font-semibold">$108,000.00</span>
-</div>
-<div class="flex justify-between text-slate-500">
-<span>Intraday Dip (1:30 PM EST):</span>
-<span class="text-amber-600 font-semibold">$93,400.00 (No Breach)</span>
-</div>
-<div class="flex justify-between text-slate-500">
-<span>5:00 PM EST Settlement:</span>
-<span class="text-emerald-700 font-bold">$94,250.00 (Pass/Safe)</span>
-</div>
-</div>
-</div>
-<!-- Other Predatory Props -->
-<div class="bg-white border border-slate-200 rounded-lg p-space-md flex flex-col gap-3 shadow-xs">
-<div class="flex items-center justify-between">
-<span class="font-label-lg text-label-lg text-rose-600 font-bold flex items-center gap-2">
-<span class="material-symbols-outlined text-rose-600 text-[20px]" data-icon="cancel" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><circle cx="12" cy="12" r="10"/><line x1="15" x2="9" y1="9" y2="15"/><line x1="9" x2="15" y1="9" y2="15"/></svg></span>
-              Industry Standard: Intraday Trailing Traps
-            </span>
-<span class="px-2 py-0.5 rounded bg-rose-100 text-rose-700 text-label-caps font-label-caps font-semibold">PREDATORY</span>
-</div>
-<p class="font-body-sm text-body-sm text-slate-600 leading-relaxed">
-            Other firms instantly terminate traders when floating P&amp;L dips below a trailing threshold for a millisecond, trailing peak unrealized option value during rapid implied volatility surges.
-          </p>
-<div class="mt-auto pt-2 bg-slate-50 p-3 rounded border border-slate-200 font-data-tabular text-body-sm space-y-1">
-<div class="flex justify-between text-slate-500">
-<span>Unrealized Peak:</span>
-<span class="text-slate-900 font-semibold">$108,000.00</span>
-</div>
-<div class="flex justify-between text-slate-500">
-<span>Trailing Breach Level:</span>
-<span class="text-rose-600 font-semibold">$102,000.00 Trailing Floor</span>
-</div>
-<div class="flex justify-between text-slate-500">
-<span>Intraday Retracement:</span>
-<span class="text-rose-600 font-semibold">Liquidated at $101,900.00</span>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- Section 2: Breach vs Warning Rule Clarifications -->
-<section class="flex flex-col gap-space-lg">
-<div>
-<span class="font-label-caps text-label-caps text-emerald-700 font-semibold uppercase">Risk Classification</span>
-<h2 class="font-headline-lg text-headline-lg text-slate-900 font-bold">Hard Breach vs Soft Safeguards</h2>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-space-lg">
-<!-- Hard Rule Box -->
-<div class="bg-white border border-slate-200 rounded-xl p-space-lg flex flex-col gap-space-md relative overflow-hidden shadow-xs">
-<div class="absolute top-0 left-0 w-1.5 h-full bg-rose-500"></div>
-<div class="flex items-center gap-space-sm pl-2">
-<div class="w-10 h-10 rounded-lg bg-rose-50 border border-rose-200 flex items-center justify-center text-rose-600">
-<span class="material-symbols-outlined" data-icon="gavel" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><path d="m14 13-7.5 7.5c-.83.83-2.17.83-3 0 0 0 0 0 0 0a2.12 2.12 0 0 1 0-3L11 10"/><path d="m16 16 6-6"/><path d="m8 8 6-6"/><path d="m9 7 8 8"/><path d="m21 11-8-8"/></svg></span>
-</div>
-<div>
-<h4 class="font-headline-sm text-headline-sm text-slate-900 font-bold">Hard Rules (Evaluation Termination)</h4>
-<p class="font-body-sm text-body-sm text-slate-500">Sole non-negotiable threshold leading to account closure</p>
-</div>
-</div>
-<div class="space-y-3 pt-2 pl-2">
-<div class="flex items-start gap-3 p-3 rounded bg-slate-50 border border-slate-200">
-<span class="material-symbols-outlined text-rose-600 text-[20px] mt-0.5" data-icon="error" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><circle cx="12" cy="12" r="8"/><path d="m9 12 2 2 4-4"/></svg></span>
-<div>
-<span class="font-label-lg text-label-lg text-slate-900 font-semibold block">Settled Equity Below $94,000 at 5:00 PM EST</span>
-<p class="font-body-sm text-body-sm text-slate-600 mt-1">
-                  If cumulative losses, realized plus unrealized settled at market close, bring the total account balance below the $94,000 threshold, the evaluation is automatically failed.
-                </p>
-</div>
-</div>
-<div class="flex items-start gap-3 p-3 rounded bg-slate-50 border border-slate-200">
-<span class="material-symbols-outlined text-rose-600 text-[20px] mt-0.5" data-icon="block" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><circle cx="12" cy="12" r="8"/><path d="m9 12 2 2 4-4"/></svg></span>
-<div>
-<span class="font-label-lg text-label-lg text-slate-900 font-semibold block">Prohibited Arbitrage or Latency Exploits</span>
-<p class="font-body-sm text-body-sm text-slate-600 mt-1">
-                  Exploiting delayed option chain quotes or data feed latency breaches institutional fair-trading standards and leads to account revocation.
-                </p>
-</div>
-</div>
-</div>
-</div>
-<!-- Soft Safeguards Box -->
-<div class="bg-white border border-slate-200 rounded-xl p-space-lg flex flex-col gap-space-md relative overflow-hidden shadow-xs">
-<div class="absolute top-0 left-0 w-1.5 h-full bg-emerald-500"></div>
-<div class="flex items-center gap-space-sm pl-2">
-<div class="w-10 h-10 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700">
-<span class="material-symbols-outlined" data-icon="shield" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
-</div>
-<div>
-<h4 class="font-headline-sm text-headline-sm text-slate-900 font-bold">Soft Safeguards (Zero-Failure Execution)</h4>
-<p class="font-body-sm text-body-sm text-slate-500">Integrated safety guards in the RixTrade execution engine</p>
-</div>
-</div>
-<div class="space-y-3 pt-2 pl-2">
-<div class="flex items-start gap-3 p-3 rounded bg-slate-50 border border-slate-200">
-<span class="material-symbols-outlined text-emerald-600 text-[20px] mt-0.5" data-icon="check_circle" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
-<div>
-<span class="font-label-lg text-label-lg text-slate-900 font-semibold block">Automated Order Rejection on Sizing Limits</span>
-<p class="font-body-sm text-body-sm text-slate-600 mt-1">
-                  Accidentally attempting to submit 25 contracts instead of 20? The RixTrade engine automatically rejects the excess ticket. <strong>This does not breach your account</strong>.
-                </p>
-</div>
-</div>
-<div class="flex items-start gap-3 p-3 rounded bg-slate-50 border border-slate-200">
-<span class="material-symbols-outlined text-emerald-600 text-[20px] mt-0.5" data-icon="alarm" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><circle cx="12" cy="12" r="8"/><path d="m9 12 2 2 4-4"/></svg></span>
-<div>
-<span class="font-label-lg text-label-lg text-slate-900 font-semibold block">3:45 PM EST 0DTE Expiration Notice</span>
-<p class="font-body-sm text-body-sm text-slate-600 mt-1">
-                  Trading zero-day options? RixTrade sends automated platform alerts 15 minutes prior to 4:00 PM EST expiration cut-off to allow seamless manual position exit.
-                </p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- Section 3: Permitted Contracts & Asset Specification -->
-<section class="bg-white border border-slate-200 rounded-xl p-space-lg flex flex-col gap-space-lg shadow-sm">
-<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-sm border-b border-slate-200 pb-space-md">
-<div>
-<span class="font-label-caps text-label-caps text-emerald-700 font-semibold uppercase">Asset Allocation</span>
-<h3 class="font-headline-md text-headline-md text-slate-900 font-bold">Allowed Instruments &amp; Lot Specifications</h3>
-</div>
-<div class="flex items-center gap-2">
-<span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
-<span class="font-label-md text-label-md text-slate-600 font-medium">All Tier-1 Quotes Stream Live on RixTrade</span>
-</div>
-</div>
-<div class="overflow-x-auto">
-<table class="w-full text-left border-collapse font-data-tabular">
-<thead>
-<tr class="border-b border-slate-200 font-label-caps text-label-caps text-slate-500 uppercase bg-slate-50/70">
-<th class="py-3 px-4">Asset Class</th>
-<th class="py-3 px-4">Supported Tickers</th>
-<th class="py-3 px-4">Max Total Contracts</th>
-<th class="py-3 px-4">Overnight Holding</th>
-<th class="py-3 px-4">Margin Multiplier</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-slate-100 font-body-sm text-body-sm text-slate-600">
-<tr class="hover:bg-slate-50 transition-colors">
-<td class="py-3.5 px-4 font-semibold text-slate-900 flex items-center gap-2">
-<span class="w-2 h-2 rounded bg-emerald-600"></span>
-                Index Options
-              </td>
-<td class="py-3.5 px-4 text-slate-800 font-medium">SPY, QQQ, IWM</td>
-<td class="py-3.5 px-4 text-emerald-700 font-bold">20 Contracts</td>
-<td class="py-3.5 px-4 text-slate-800 font-medium">Approved (All Days)</td>
-<td class="py-3.5 px-4">1.0x Fixed</td>
-</tr>
-<tr class="hover:bg-slate-50 transition-colors">
-<td class="py-3.5 px-4 font-semibold text-slate-900 flex items-center gap-2">
-<span class="w-2 h-2 rounded bg-teal-600"></span>
-                Mega-Cap Equities
-              </td>
-<td class="py-3.5 px-4 text-slate-800 font-medium">AAPL, NVDA, TSLA, MSFT, AMD</td>
-<td class="py-3.5 px-4 text-emerald-700 font-bold">15 Contracts</td>
-<td class="py-3.5 px-4 text-slate-800 font-medium">Approved (All Days)</td>
-<td class="py-3.5 px-4">1.0x Fixed</td>
-</tr>
-<tr class="hover:bg-slate-50 transition-colors">
-<td class="py-3.5 px-4 font-semibold text-slate-900 flex items-center gap-2">
-<span class="w-2 h-2 rounded bg-slate-400"></span>
-                Other Nasdaq/NYSE Equities
-              </td>
-<td class="py-3.5 px-4 text-slate-800 font-medium">AMZN, META, GOOGL, NFLX</td>
-<td class="py-3.5 px-4 text-emerald-700 font-bold">10 Contracts</td>
-<td class="py-3.5 px-4 text-slate-800 font-medium">Approved (All Days)</td>
-<td class="py-3.5 px-4">1.0x Fixed</td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<!-- Section 4: Institutional Scaling Plan -->
-<section class="flex flex-col gap-space-lg">
-<div class="flex flex-col gap-2">
-<span class="font-label-caps text-label-caps text-emerald-700 font-semibold uppercase">Long-Term Capital Allocation</span>
-<h2 class="font-headline-lg text-headline-lg text-slate-900 font-bold">Institutional Scaling Roadmap Up to $1,000,000</h2>
-<p class="font-body-md text-body-md text-slate-600 max-w-2xl">
-          Demonstrate discipline and consistent risk management. Every time you achieve 10% net profit on your funded account, your capital allocation automatically scales to the next tier.
-        </p>
-</div>
-<!-- Scaling Step Progression -->
-<div class="grid grid-cols-1 md:grid-cols-4 gap-space-md">
-<!-- Step 1: $100k Base -->
-<div class="bg-white border border-slate-200 rounded-xl p-space-lg flex flex-col justify-between relative shadow-xs">
-<div class="flex flex-col gap-3">
-<div class="flex items-center justify-between">
-<span class="px-2 py-0.5 rounded bg-slate-100 border border-slate-200 text-label-caps font-label-caps text-slate-600 font-semibold">TIER 1 (BASE)</span>
-<span class="material-symbols-outlined text-emerald-600" data-icon="check_circle" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
-</div>
-<h4 class="font-headline-md text-headline-md text-slate-900 font-data-tabular font-bold">$100,000</h4>
-<div class="space-y-2 text-body-sm font-body-sm text-slate-600 pt-2">
-<div class="flex justify-between border-b border-slate-100 pb-1">
-<span>Profit Split:</span>
-<span class="text-slate-900 font-semibold font-data-tabular">80% Trader</span>
-</div>
-<div class="flex justify-between border-b border-slate-100 pb-1">
-<span>Max Drawdown:</span>
-<span class="text-rose-600 font-semibold font-data-tabular">6% ($6,000)</span>
-</div>
-<div class="flex justify-between">
-<span>Index Options Limit:</span>
-<span class="text-slate-900 font-semibold font-data-tabular">20 Contracts</span>
-</div>
-</div>
-</div>
-<div class="mt-6 pt-3 border-t border-slate-100">
-<span class="font-label-caps text-label-caps text-slate-500 font-semibold">TARGET TO SCALE:</span>
-<span class="block text-emerald-700 font-data-tabular font-bold mt-0.5">+$10,000 Profit</span>
-</div>
-</div>
-<!-- Step 2: $250k Level -->
-<div class="bg-white border border-slate-200 rounded-xl p-space-lg flex flex-col justify-between relative shadow-xs">
-<div class="flex flex-col gap-3">
-<div class="flex items-center justify-between">
-<span class="px-2 py-0.5 rounded bg-slate-100 border border-slate-200 text-label-caps font-label-caps text-slate-600 font-semibold">TIER 2</span>
-<span class="material-symbols-outlined text-slate-400" data-icon="arrow_forward" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><line x1="5" x2="19" y1="12" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
-</div>
-<h4 class="font-headline-md text-headline-md text-slate-900 font-data-tabular font-bold">$250,000</h4>
-<div class="space-y-2 text-body-sm font-body-sm text-slate-600 pt-2">
-<div class="flex justify-between border-b border-slate-100 pb-1">
-<span>Profit Split:</span>
-<span class="text-emerald-700 font-semibold font-data-tabular">85% Trader</span>
-</div>
-<div class="flex justify-between border-b border-slate-100 pb-1">
-<span>Max Drawdown:</span>
-<span class="text-rose-600 font-semibold font-data-tabular">6% ($15,000)</span>
-</div>
-<div class="flex justify-between">
-<span>Index Options Limit:</span>
-<span class="text-slate-900 font-semibold font-data-tabular">45 Contracts</span>
-</div>
-</div>
-</div>
-<div class="mt-6 pt-3 border-t border-slate-100">
-<span class="font-label-caps text-label-caps text-slate-500 font-semibold">TARGET TO SCALE:</span>
-<span class="block text-emerald-700 font-data-tabular font-bold mt-0.5">+$25,000 Profit</span>
-</div>
-</div>
-<!-- Step 3: $500k Level -->
-<div class="bg-white border border-slate-200 rounded-xl p-space-lg flex flex-col justify-between relative shadow-xs">
-<div class="flex flex-col gap-3">
-<div class="flex items-center justify-between">
-<span class="px-2 py-0.5 rounded bg-slate-100 border border-slate-200 text-label-caps font-label-caps text-slate-600 font-semibold">TIER 3</span>
-<span class="material-symbols-outlined text-slate-400" data-icon="arrow_forward" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><line x1="5" x2="19" y1="12" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
-</div>
-<h4 class="font-headline-md text-headline-md text-slate-900 font-data-tabular font-bold">$500,000</h4>
-<div class="space-y-2 text-body-sm font-body-sm text-slate-600 pt-2">
-<div class="flex justify-between border-b border-slate-100 pb-1">
-<span>Profit Split:</span>
-<span class="text-emerald-700 font-semibold font-data-tabular">90% Trader</span>
-</div>
-<div class="flex justify-between border-b border-slate-100 pb-1">
-<span>Max Drawdown:</span>
-<span class="text-rose-600 font-semibold font-data-tabular">6% ($30,000)</span>
-</div>
-<div class="flex justify-between">
-<span>Index Options Limit:</span>
-<span class="text-slate-900 font-semibold font-data-tabular">80 Contracts</span>
-</div>
-</div>
-</div>
-<div class="mt-6 pt-3 border-t border-slate-100">
-<span class="font-label-caps text-label-caps text-slate-500 font-semibold">TARGET TO SCALE:</span>
-<span class="block text-emerald-700 font-data-tabular font-bold mt-0.5">+$50,000 Profit</span>
-</div>
-</div>
-<!-- Step 4: $1,000,000 Max Cap -->
-<div class="bg-white border-2 border-emerald-500 rounded-xl p-space-lg flex flex-col justify-between relative shadow-sm">
-<div class="flex flex-col gap-3">
-<div class="flex items-center justify-between">
-<span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300 text-label-caps font-label-caps font-bold">MAX ALLOCATION</span>
-<span class="material-symbols-outlined text-emerald-600" data-icon="stars" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><circle cx="12" cy="12" r="8"/><path d="m9 12 2 2 4-4"/></svg></span>
-</div>
-<h4 class="font-headline-md text-headline-md text-slate-900 font-data-tabular font-bold">$1,000,000</h4>
-<div class="space-y-2 text-body-sm font-body-sm text-slate-600 pt-2">
-<div class="flex justify-between border-b border-slate-100 pb-1">
-<span>Profit Split:</span>
-<span class="text-emerald-700 font-bold font-data-tabular">90% Trader</span>
-</div>
-<div class="flex justify-between border-b border-slate-100 pb-1">
-<span>Max Drawdown:</span>
-<span class="text-rose-600 font-semibold font-data-tabular">6% ($60,000)</span>
-</div>
-<div class="flex justify-between">
-<span>Index Options Limit:</span>
-<span class="text-slate-900 font-semibold font-data-tabular">150 Contracts</span>
-</div>
-</div>
-</div>
-<div class="mt-6 pt-3 border-t border-slate-100">
-<span class="font-label-caps text-label-caps text-slate-500 font-semibold">FINAL STATUS:</span>
-<span class="block text-emerald-700 font-data-tabular font-bold mt-0.5">Institutional Desk Access</span>
-</div>
-</div>
-</div>
-</section>
-<!-- Call to Action Banner -->
-<section class="bg-gradient-to-r from-slate-50 via-emerald-50/40 to-slate-50 border border-emerald-200 rounded-xl p-space-lg md:p-space-xl flex flex-col md:flex-row items-center justify-between gap-space-lg relative overflow-hidden shadow-sm">
-<div class="flex flex-col gap-2 max-w-xl z-10">
-<span class="font-label-caps text-label-caps text-emerald-700 font-semibold uppercase">Join The Founding 50 Cohort</span>
-<h3 class="font-headline-lg text-headline-lg text-slate-900 font-bold">
-          Ready to trade by clear, fair rules? Get Funded with 60% OFF today.
-        </h3>
-<p class="font-body-md text-body-md text-slate-600">
-          Lock in a lifetime evaluation discount, direct RixTrade DMA data feed, and 80%+ profit splits.
-        </p>
-</div>
-<div class="flex flex-col sm:flex-row items-center gap-space-md z-10 w-full md:w-auto">
-<a class="w-full sm:w-auto text-center px-space-xl py-3 rounded-lg bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-label-lg font-semibold transition-all shadow-sm active:scale-[0.98]" href="#">
-          Claim 60% OFF ($100k Account) →
-        </a>
-<a class="w-full sm:w-auto text-center px-space-md py-3 rounded-lg border border-slate-300 hover:border-slate-400 bg-white text-slate-700 hover:text-slate-900 transition-all font-label-lg font-medium shadow-xs" href="#">
-          View Platform Demo
-        </a>
-</div>
-<!-- Subtle background graphic accent -->
-<div class="absolute -right-16 -bottom-16 w-64 h-64 bg-emerald-200/30 rounded-full blur-3xl pointer-events-none"></div>
-</section>
-</main>
-<!-- Footer -->
-<footer class="bg-[#f8fafc] border-t border-slate-200 docked full-width bottom-0 mt-space-2xl">
-<div class="w-full max-w-[1440px] mx-auto px-margin md:px-margin-desktop py-space-xl flex flex-col gap-space-lg">
-<!-- Top row: Brand & Link Cluster -->
-<div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-space-lg border-b border-slate-200 pb-space-lg">
-<div class="flex items-center gap-3">
-<div class="w-7 h-7 rounded bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700">
-<span class="material-symbols-outlined text-[18px]" data-icon="token" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><circle cx="12" cy="12" r="8"/><path d="m9 12 2 2 4-4"/></svg></span>
-</div>
-<span class="text-label-lg font-label-lg text-slate-900 font-bold">Options Funding // Institutional Rules</span>
-</div>
-<nav class="flex flex-wrap items-center gap-x-space-lg gap-y-space-sm text-body-sm font-body-sm">
-<a class="text-slate-600 hover:text-slate-900 transition-colors duration-150" href="options-funding.html">Founding 50 Program</a>
-<a class="text-emerald-700 font-semibold" href="rules.html">Evaluation Rules</a>
-<a class="text-slate-600 hover:text-slate-900 transition-colors duration-150" href="account-metrics.html">Account Metrics</a>
-<a class="text-slate-600 hover:text-slate-900 transition-colors duration-150" href="rixtrade-platform.html">RixTrade Platform</a>
-<a class="text-slate-600 hover:text-slate-900 transition-colors duration-150" href="#">Terms of Service</a>
-<a class="text-slate-600 hover:text-slate-900 transition-colors duration-150" href="#">Privacy Policy</a>
-<a class="text-slate-600 hover:text-slate-900 transition-colors duration-150" href="#">Risk Disclosure</a>
-<a class="text-slate-600 hover:text-slate-900 transition-colors duration-150" href="#">MiFID II Notice</a>
-</nav>
-</div>
-<!-- Regulatory Disclosures & Mandatory Legal Risk Notice -->
-<div class="bg-white border border-slate-200 p-space-md rounded-lg flex flex-col gap-2 shadow-xs">
-<div class="flex items-center gap-2 text-slate-700 font-medium">
-<span class="material-symbols-outlined text-[16px] text-amber-600" data-icon="warning" data-svg-converted="1" style="display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg></span>
-<span class="font-label-caps text-label-caps uppercase text-slate-700 font-bold">Mandatory Regulatory Risk Notice &amp; MiFID II Compliance</span>
-</div>
-<p class="text-legal-disclaimer font-legal-disclaimer text-slate-500 leading-relaxed">
-          Trading derivatives, financial options, and volatile underlying instruments carries a high level of risk and may not be suitable for all retail investors. Before participating in any simulated evaluation program with Options Funding, consider your investment objectives, level of experience, and risk appetite. Simulated trading accounts operate strictly in demo environments with hypothetical capital. Evaluation success does not guarantee identical future performance on funded institutional allocations.
-        </p>
-</div>
-<!-- Bottom Meta & Operational Uptime -->
-<div class="flex flex-col sm:flex-row items-center justify-between text-body-sm font-body-sm text-slate-500 pt-2 gap-4">
-<p>© 2026 Options Funding. All rights reserved. System Operational 99.98% Uptime.</p>
-<div class="flex items-center gap-2">
-<span class="w-2 h-2 rounded-full bg-emerald-600"></span>
-<span class="font-data-tabular text-[12px] text-slate-700 font-medium">RixTrade Execution Gateway: Connected</span>
-</div>
-</div>
-</div>
-</footer>
-<!-- Micro-Interactions Script for Tab Navigation Switching -->
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const tabButtons = document.querySelectorAll('#rulesTabBar .tab-btn');
-      
-      tabButtons.forEach(button => {
-        button.addEventListener('click', () => {
-          tabButtons.forEach(btn => {
-            btn.classList.remove('bg-emerald-50', 'text-emerald-700', 'border-emerald-200', 'font-semibold', 'shadow-xs');
-            btn.classList.add('text-slate-600', 'border-transparent');
-          });
-          
-          button.classList.remove('text-slate-600', 'border-transparent');
-          button.classList.add('bg-emerald-50', 'text-emerald-700', 'border-emerald-200', 'font-semibold', 'shadow-xs');
-        });
-      });
-    });
-  </script>
-<script src='rixtrade-motion.js?v=11' defer></script>
-</body></html>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Platform</h4>
+          <ul class="space-y-2.5 text-xs">
+            <li><a href="options-funding.html" class="hover:text-white transition-colors">Founding 50 Outreach</a></li>
+            <li><a href="rules.html" class="hover:text-white transition-colors">Trading Rules (Growth & Express)</a></li>
+            <li><a href="rules.html#whitelist" class="hover:text-white transition-colors">Ticker Whitelist</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Support</h4>
+          <ul class="space-y-2.5 text-xs">
+            <li><a href="faq.html" class="hover:text-white transition-colors">FAQ Knowledgebase</a></li>
+            <li><a href="contact.html" class="hover:text-white transition-colors">Contact Support</a></li>
+            <li><a href="affiliates.html" class="hover:text-white transition-colors">Affiliate Program (20%–35%)</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Legal & Compliance</h4>
+          <ul class="space-y-2.5 text-xs">
+            <li><a href="rules.html#live-rules" class="hover:text-white transition-colors">Live Program Rules</a></li>
+            <li><a href="options-funding.html#terms" class="hover:text-white transition-colors">Outreach & Rewards Rules</a></li>
+            <li><span class="text-emerald-400 font-semibold">support@optionsfunding.co</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="pt-8 text-[11px] text-slate-500 leading-relaxed space-y-3">
+        <p><strong class="text-slate-400">Risk Disclaimer:</strong> Options Funding LLC is not a broker-dealer, investment advisor, or registered financial institution. We provide simulated trading evaluations, educational tools, and skill-based evaluation programs. All information on this website is intended solely for educational purposes related to trading and does not constitute investment advice.</p>
+        <p>© 2026 Options Funding LLC. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
