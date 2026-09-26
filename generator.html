@@ -471,7 +471,7 @@
 
     // API Key Storage
     function getApiKey() {
-      return localStorage.getItem('openrouter_key') || DEFAULT_KEY;
+      return localStorage.getItem('openrouter_key') || '';
     }
 
     document.getElementById('apiKeyInput').value = getApiKey();
