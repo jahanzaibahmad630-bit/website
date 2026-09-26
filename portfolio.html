@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JAHANZAIB AHMAD 匠 — Senior UI/UX Designer & Product Craftsman</title>
+<title>JAHANZAIB AHMAD — Senior UI/UX Designer & Product Craftsman</title>
 <meta name="description" content="Portfolio of Jahanzaib Ahmad — Senior UI/UX Designer, Product Designer, and Creative Technologist specializing in mobile apps, FinTech platforms, design systems, and high-performance web products.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -55,7 +55,7 @@ body::after{
   transition:opacity .7s ease,visibility .7s;
 }
 .loader .lk{
-  font-family:var(--serif);font-weight:800;
+  font-family:var(--sans);font-weight:800;
   font-size:clamp(3.2rem,8.5vw,5.8rem);
   letter-spacing:.2em;overflow:hidden;
 }
@@ -95,7 +95,7 @@ body.ready .loader{opacity:0;visibility:hidden}
 .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
 .hanko{
   width:36px;height:36px;background:var(--verm);color:var(--paper);
-  font-family:var(--serif);font-weight:700;font-size:20px;
+  font-family:var(--sans);font-weight:800;font-size:14px;letter-spacing:.06em;
   display:grid;place-items:center;border-radius:3px;
   box-shadow:0 1px 0 rgba(0,0,0,.15);
 }
@@ -107,13 +107,12 @@ body.ready .loader{opacity:0;visibility:hidden}
   font-family:var(--sans);font-weight:500;font-size:9px;
   letter-spacing:.34em;color:var(--ink2);
 }
-.nlinks{display:flex;gap:clamp(16px,2.8vw,40px)}
+.nlinks{display:flex;gap:clamp(16px,2.8vw,36px);align-items:center}
 .nlinks a{
   position:relative;text-decoration:none;color:var(--ink);
-  font-size:11.5px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;
-  padding:6px 0;display:flex;flex-direction:column;align-items:center;line-height:1.4;
+  font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+  padding:6px 0;display:inline-block;line-height:1.2;
 }
-.nlinks a i{font-style:normal;font-size:9.5px;letter-spacing:.3em;color:var(--ink2);font-family:var(--serif)}
 .nlinks a::after{
   content:'';position:absolute;left:0;right:0;bottom:-2px;height:2px;
   background:var(--verm);transform:scaleX(0);transform-origin:left;
@@ -363,10 +362,9 @@ body.ready .hollow svg path{stroke-dashoffset:0}
   content:'';position:absolute;left:0;top:50%;width:3px;height:0;
   background:var(--verm);transform:translateY(-50%);transition:height .3s;
 }
-.part .p-num{font-size:10px;letter-spacing:.15em;color:var(--ink2);transition:color .3s}
-.part .p-jp{font-family:var(--serif);font-weight:700;font-size:20px}
-.part .p-en{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:500}
-.part .p-en small{display:block;font-size:9px;letter-spacing:.2em;color:var(--ink2);text-transform:none;margin-top:1px}
+.part .p-num{font-size:11px;letter-spacing:.15em;font-weight:700;color:var(--ink2);transition:color .3s;width:24px}
+.part .p-en{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+.part .p-en small{display:block;font-size:9.5px;letter-spacing:.16em;color:var(--ink2);text-transform:none;margin-top:2px}
 .part:hover{padding-left:14px}
 .part.on::before{height:60%}
 .part.on .p-num{color:var(--verm)}
@@ -377,7 +375,7 @@ body.ready .hollow svg path{stroke-dashoffset:0}
   padding-left:32px;transition:opacity .22s ease,transform .22s ease;
 }
 .detail.swap{opacity:0;transform:translateY(10px)}
-.d-kanji{font-family:var(--serif);font-weight:800;font-size:clamp(5rem,7vw,7.5rem);line-height:1;color:var(--verm)}
+.d-kanji{display:none}
 .d-name{display:flex;align-items:baseline;gap:14px;margin:10px 0 18px;flex-wrap:wrap}
 .d-name h3{font-family:var(--serif);font-size:1.6rem;font-weight:700}
 .d-romaji{font-size:10.5px;letter-spacing:.32em;text-transform:uppercase;color:var(--ink2)}
@@ -404,7 +402,7 @@ body.ready .hollow svg path{stroke-dashoffset:0}
   font-family:var(--serif);font-weight:800;font-size:clamp(3.4rem,6vw,5.4rem);
   line-height:.9;color:transparent;-webkit-text-stroke:1px var(--ink2);
 }
-.step .s-jp{font-family:var(--serif);font-weight:700;font-size:clamp(1.5rem,2.4vw,2rem)}
+.step .s-jp{font-family:var(--serif);font-weight:700;font-size:clamp(1.5rem,2.4vw,2rem);color:var(--ink)}
 .step .s-en{
   font-size:10.5px;letter-spacing:.32em;text-transform:uppercase;
   color:var(--verm);margin:4px 0 12px;font-weight:500;
@@ -414,9 +412,9 @@ body.ready .hollow svg path{stroke-dashoffset:0}
 .step.hot{border-top-color:var(--verm)}
 .step.hot .s-en{color:var(--ink)}
 .step.hot .s-jp::after{
-  content:'核心';font-size:10px;letter-spacing:.3em;color:var(--paper);
+  content:'CORE';font-size:10px;letter-spacing:.25em;color:var(--paper);
   background:var(--verm);padding:3px 8px;margin-left:14px;vertical-align:middle;
-  font-family:var(--sans);
+  font-family:var(--sans);font-weight:700;border-radius:2px;
 }
 
 /* ============ SPECS (THE LEDGER) ============ */
@@ -549,7 +547,7 @@ footer .credit{font-size:10.5px;color:var(--ink2);letter-spacing:.08em}
 
 <!-- LOADER -->
 <div class="loader" id="loader">
-  <div class="lk"><span>匠心</span></div>
+  <div class="lk"><span>JA</span></div>
   <div class="ln"><i></i></div>
   <p>Jahanzaib Ahmad — UI/UX Designer & Product Craftsman</p>
 </div>
@@ -560,33 +558,33 @@ footer .credit{font-size:10.5px;color:var(--ink2);letter-spacing:.08em}
 <!-- NAV -->
 <header class="nav" id="nav">
   <a class="brand" href="#top">
-    <span class="hanko">匠</span>
+    <span class="hanko">JA</span>
     <span class="bname">JAHANZAIB<small>UI/UX & Product Designer</small></span>
   </a>
   <nav class="nlinks">
-    <a href="#works" data-spy="works">Works<i>作品</i></a>
-    <a href="#disciplines" data-spy="disciplines">Craft<i>技法</i></a>
-    <a href="#process" data-spy="process">Forge<i>鍛錬</i></a>
-    <a href="#specs" data-spy="specs">Ledger<i>寸法</i></a>
-    <a href="#commission" data-spy="commission">Inquiry<i>注文</i></a>
-    <a href="./generator.html" target="_blank" rel="noopener" style="color:var(--verm);font-weight:700">AI Studio<i>生成</i></a>
+    <a href="#works" data-spy="works">Works</a>
+    <a href="#disciplines" data-spy="disciplines">Craft</a>
+    <a href="#process" data-spy="process">Process</a>
+    <a href="#specs" data-spy="specs">Standards</a>
+    <a href="#commission" data-spy="commission">Inquiry</a>
+    <a href="./generator.html" target="_blank" rel="noopener" style="color:var(--verm);font-weight:700">AI Studio</a>
   </nav>
   <button class="burger" id="burger" aria-label="Open menu"><span></span><span></span></button>
 </header>
 <div class="mmenu" id="mmenu">
-  <a href="#works">Works<i>作品</i></a>
-  <a href="#disciplines">Craft<i>技法</i></a>
-  <a href="#process">Forge<i>鍛錬</i></a>
-  <a href="#specs">Ledger<i>寸法</i></a>
-  <a href="#commission">Inquiry<i>注文</i></a>
-  <a href="./generator.html" target="_blank" rel="noopener" style="color:var(--verm)">AI Studio (GLM-5.2)<i>生成</i></a>
+  <a href="#works">Works</a>
+  <a href="#disciplines">Craft</a>
+  <a href="#process">Process</a>
+  <a href="#specs">Standards</a>
+  <a href="#commission">Inquiry</a>
+  <a href="./generator.html" target="_blank" rel="noopener" style="color:var(--verm)">AI Studio</a>
 </div>
 
 <main>
 <!-- ============ HERO ============ -->
 <section class="hero" id="top">
   <div class="hero-copy">
-    <p class="overline rv">匠心意匠 — Senior UI/UX Designer & Product Craftsman · Available Worldwide</p>
+    <p class="overline rv">Senior UI/UX Designer & Product Craftsman · Available Worldwide</p>
     <h1 class="hero-title">
       <span class="rl"><span>interfaces forged with</span></span>
       <span class="rl"><span>the precision of</span></span>
@@ -602,24 +600,24 @@ footer .credit{font-size:10.5px;color:var(--ink2);letter-spacing:.08em}
       </a>
     </div>
   </div>
-  <div class="vside">意匠と機能の調和<span class="sq"></span></div>
+  <div class="vside">Design & Technical Precision<span class="sq"></span></div>
   <div class="scue"><span class="line"></span>scroll</div>
   <div class="marquee"><div class="track" id="mtrack">
-    <span class="mi"><span class="jp">携帯意匠</span><span class="en">Mobile App UI/UX (iOS & Android)</span></span>
-    <span class="mi"><span class="jp">金融構造</span><span class="en">FinTech & Prop Trading Platforms</span></span>
-    <span class="mi"><span class="jp">設計体系</span><span class="en">Figma Auto-Layout & Design Tokens</span></span>
-    <span class="mi"><span class="jp">対話試作</span><span class="en">Interactive Micro-Prototypes</span></span>
-    <span class="mi"><span class="jp">秒間百廿</span><span class="en">60–120 FPS Fluid Motion</span></span>
-    <span class="mi"><span class="jp">立体硝子</span><span class="en">3D Glassmorphism & WebGL</span></span>
-    <span class="mi"><span class="jp">情報密度</span><span class="en">High-Density SaaS Dashboards</span></span>
-    <span class="mi"><span class="jp">実戦実装</span><span class="en">Clean Production Web Engineering</span></span>
+    <span class="mi"><span class="en">Mobile App UI/UX (iOS & Android)</span></span>
+    <span class="mi"><span class="en">FinTech & Prop Trading Platforms</span></span>
+    <span class="mi"><span class="en">Figma Auto-Layout & Design Tokens</span></span>
+    <span class="mi"><span class="en">Interactive Micro-Prototypes</span></span>
+    <span class="mi"><span class="en">60–120 FPS Fluid Motion</span></span>
+    <span class="mi"><span class="en">3D Glassmorphism & WebGL</span></span>
+    <span class="mi"><span class="en">High-Density SaaS Dashboards</span></span>
+    <span class="mi"><span class="en">Clean Production Web Engineering</span></span>
   </div></div>
 </section>
 
 <!-- ============ WORKS (MASTERPIECES) ============ -->
 <section class="works" id="works">
   <div class="w-head">
-    <p class="overline rv">作品集 — Masterpieces (Selected Works)</p>
+    <p class="overline rv">Masterpieces & Selected Case Studies</p>
     <h2 class="rv" style="--d:.1s">Forged in Figma.<br>Finished in code.</h2>
     <p class="rv" style="--d:.18s;color:var(--ink2);margin-top:14px;max-width:560px">A curated collection of bespoke FinTech platforms, mobile applications, design systems, and high-performance interactive web products crafted for discerning international clients.</p>
   </div>
@@ -630,7 +628,6 @@ footer .credit{font-size:10.5px;color:var(--ink2);letter-spacing:.08em}
       <div>
         <div class="card-top">
           <span class="c-badge">Featured Flagship · FinTech Platform</span>
-          <span class="c-kanji">先物</span>
         </div>
         <h3>OPTIONS FUNDING — Institutional Prop Trading Firm</h3>
         <p>Comprehensive institutional options funding and evaluation firm platform. Engineered with dynamic founding trader programs, interactive capital tier calculator, real-time consistency rule engine, dark-mode Bloomberg-grade trading terminal aesthetic, and instant payout metrics.</p>
@@ -660,7 +657,6 @@ footer .credit{font-size:10.5px;color:var(--ink2);letter-spacing:.08em}
       <div>
         <div class="card-top">
           <span class="c-badge" style="background:rgba(47,99,85,0.14);color:#2F6355;border:1px solid rgba(47,99,85,0.35);font-weight:700;">Featured Mobile UX · 20-Screen Interactive Prototype</span>
-          <span class="c-kanji">伴走</span>
         </div>
         <h3>HINA — Nightlife Companion & Safety Buddy System</h3>
         <p>Comprehensive 20-screen mobile application and interactive prototype covering the complete Happy Path and every edge-case detour. Features a live dual-mode simulator (single-phone interactive player + full architectural 20-screen grid), working 4-digit verification keypad, live SVG countdown grace timer, QR buddy pairing, club partner discovery, and simulated emergency response.</p>
@@ -690,7 +686,6 @@ footer .credit{font-size:10.5px;color:var(--ink2);letter-spacing:.08em}
       <div>
         <div class="card-top">
           <span class="c-badge" style="background:rgba(198,163,92,0.18);color:#96772f;border:1px solid rgba(198,163,92,0.45);font-weight:600;">Co-Flagship Masterwork · 535-Frame Photorealistic CGI</span>
-          <span class="c-kanji">仕立</span>
         </div>
         <h3>The Anatomy of a Suit — Bespoke Atelier</h3>
         <p>An ultra-luxury cinematic scrollytelling masterwork inspired by Savile Row ateliers. Features a 535-frame photorealistic CGI sequence scrubbed via GSAP ScrollTrigger and Lenis across seven anatomical movements: Egyptian poplin foundation, Como silk waistcoat, hand-padded full horsehair canvas, sharp architectural cut, living drape, 4-man Mayfair colour procession, and macro working surgeon's cuffs. Includes procedural Web Audio cello soundscape and private fitting booking drawer.</p>
@@ -720,7 +715,6 @@ footer .credit{font-size:10.5px;color:var(--ink2);letter-spacing:.08em}
       <div>
         <div class="card-top">
           <span class="c-badge">Haute Horlogerie · Flying Tourbillon 3D</span>
-          <span class="c-kanji">旋輪</span>
         </div>
         <h3>AURELINE — Méridienne · Calibre AL-01</h3>
         <p>The Méridienne — a flying-tourbillon wristwatch told in five scroll-driven acts. Features custom procedural studio HDRi lighting via PMREM, Geneva-striped mainplate with 6h tourbillon aperture, continuous hairspring tube geometry, live local-time Dauphine hands, 208-part exploded view with dynamically projected SVG leader lines, and dramatic daylight-to-obsidian cinematic transitions.</p>
@@ -749,7 +743,6 @@ footer .credit{font-size:10.5px;color:var(--ink2);letter-spacing:.08em}
       <div>
         <div class="card-top">
           <span class="c-badge">Tokenized Markets & Web3 Platform</span>
-          <span class="c-kanji">市場</span>
         </div>
         <h3>PrysmCloud — Tokenized Markets & Launchpad</h3>
         <p>Institutional Web3 workspace and Pons V2 launchpad on Robinhood Chain. Features real-time tokenized-stock liquidity pool inspection, registered asset quote-pair verification, simulated launch choreography, and verified receipt provenance.</p>
@@ -778,9 +771,8 @@ footer .credit{font-size:10.5px;color:var(--ink2);letter-spacing:.08em}
       <div>
         <div class="card-top">
           <span class="c-badge">Flagship 3D Showcase</span>
-          <span class="c-kanji">刀身</span>
         </div>
-        <h3>ASAGIRI 朝霧 — Hand-Forged Katana</h3>
+        <h3>ASAGIRI — Hand-Forged Katana 3D</h3>
         <p>A daylight WebGL single-file masterpiece. Features 100% procedural katana geometry (sori, shinogi, kissaki), live GPU martensite crystal hamon shader injected via onBeforeCompile, instanced aerodynamic sakura physics, and interactive anatomy inspection.</p>
         <div class="c-tags">
           <span class="c-tag">Three.js</span>
@@ -794,7 +786,7 @@ footer .credit{font-size:10.5px;color:var(--ink2);letter-spacing:.08em}
           <span>Launch Experience</span>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/></svg>
         </a>
-        <button class="preview-btn" type="button" data-preview="./asagiri.html" data-title="ASAGIRI 朝霧 — Hand-Forged Katana">
+        <button class="preview-btn" type="button" data-preview="./asagiri.html" data-title="ASAGIRI — Hand-Forged Katana 3D">
           <span>Preview</span>
           <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.3"/><polygon points="6,5 10,7 6,9" fill="currentColor"/></svg>
         </button>
@@ -806,7 +798,6 @@ footer .credit{font-size:10.5px;color:var(--ink2);letter-spacing:.08em}
       <div>
         <div class="card-top">
           <span class="c-badge">Editorial Studio</span>
-          <span class="c-kanji">美学</span>
         </div>
         <h3>MIDDAY® — Human-Centred Design</h3>
         <p>Warm editorial agency platform featuring interactive 3D still-life in Three.js, GSAP ScrollTrigger, Lenis smooth scrolling, pinned velocity-skew gallery, and accessible case study modal.</p>
@@ -834,7 +825,6 @@ footer .credit{font-size:10.5px;color:var(--ink2);letter-spacing:.08em}
       <div>
         <div class="card-top">
           <span class="c-badge">Cinematic Web Agency</span>
-          <span class="c-kanji">崇高</span>
         </div>
         <h3>VELA ARMON — A Web Agency for Luxury Spaces</h3>
         <p>Exclusive digital spaces for residences, horology, yachts and aviation. Features five procedural canvas atmospheres (overture cloud descent, golden penthouse, living mechanical horology movement, sunset yacht marina, and runway jet departure), generative Web Audio soundscape, inquiry drawer, and 13.9vh GSAP scrub timeline.</p>
@@ -862,7 +852,6 @@ footer .credit{font-size:10.5px;color:var(--ink2);letter-spacing:.08em}
       <div>
         <div class="card-top">
           <span class="c-badge">FinTech & Creator Monetization</span>
-          <span class="c-kanji">決済</span>
         </div>
         <h3>UsePaid — Route Token Creator Fees Through X Money</h3>
         <p>Next-generation creator fee settlement and payout routing platform. Automatically claims on-chain token fees from protocols, converts them to USD, and routes transparent creator payouts directly through X Money with public on-chain verification.</p>
@@ -891,7 +880,6 @@ footer .credit{font-size:10.5px;color:var(--ink2);letter-spacing:.08em}
       <div>
         <div class="card-top">
           <span class="c-badge">Luxury Atelier</span>
-          <span class="c-kanji">黄金</span>
         </div>
         <h3>AUREUM — Crafted Excellence</h3>
         <p>Ultra-luxury design studio site with interactive copper torus knot in Three.js, floating celestial orbs, RoomEnvironment PBR, particle field, and Lucide iconography.</p>
@@ -921,7 +909,7 @@ footer .credit{font-size:10.5px;color:var(--ink2);letter-spacing:.08em}
 <section class="anatomy" id="disciplines">
   <div class="pin">
     <div class="a-left">
-      <p class="overline rv">技術解剖 — Core Disciplines</p>
+      <p class="overline rv">Core Disciplines & Technical Capabilities</p>
       <h2 class="rv" style="--d:.1s">Anatomy of<br>modern craft.</h2>
       <p class="rv" style="--d:.18s;font-size:12.5px;color:var(--ink2);margin-top:6px">Select a discipline — the artisan sculpture will rotate to reveal its dimension.</p>
       <div class="parts rv" id="parts" style="--d:.25s"></div>
@@ -929,8 +917,7 @@ footer .credit{font-size:10.5px;color:var(--ink2);letter-spacing:.08em}
     <div class="a-mid"></div>
     <div class="a-right">
       <div class="detail" id="detail">
-        <div class="d-kanji" id="dKanji">意</div>
-        <div class="d-name"><h3 id="dName">Mobile & Web UI/UX</h3><span class="d-romaji" id="dRomaji">ishō — Product Architecture</span></div>
+        <div class="d-name"><h3 id="dName">Mobile & Web UI/UX</h3><span class="d-romaji" id="dRomaji">Product Architecture</span></div>
         <p class="d-desc" id="dDesc">Crafting intuitive user journeys, wireframes, and high-fidelity mobile (iOS & Android) and web interfaces. Grounded in human cognitive patterns, ergonomic touch targets, and conversion-focused UX design.</p>
         <div class="d-nav">
           <button id="dPrev" aria-label="Previous discipline"><svg width="15" height="15" viewBox="0 0 14 14" fill="none"><path d="M13 7H1M6 2 1 7l5 5" stroke="currentColor" stroke-width="1.5"/></svg></button>
@@ -944,30 +931,30 @@ footer .credit{font-size:10.5px;color:var(--ink2);letter-spacing:.08em}
 
 <!-- ============ FORGE (THE PROCESS) ============ -->
 <section class="forge" id="process">
-  <span class="wm">匠</span>
+  <span class="wm">UX</span>
   <div class="f-head">
-    <p class="overline rv">鍛錬 — Design Methodology</p>
+    <p class="overline rv">Design Methodology & Engineering Process</p>
     <h2 class="rv" style="--d:.1s">Conceived in research,<br>forged in Figma & code.</h2>
   </div>
   <div class="steps">
     <article class="step rv"><div class="s-num">01</div><div>
-      <h3 class="s-jp">発見</h3><p class="s-en">Discovery & Product Strategy</p>
+      <h3 class="s-jp">Discovery & Product Strategy</h3>
       <p>Every breakthrough digital product begins with deep exploration. Unearthing business requirements, user mental models, competitive positioning, and core conversion metrics before moving a single pixel.</p>
     </div></article>
     <article class="step rv"><div class="s-num">02</div><div>
-      <h3 class="s-jp">骨格</h3><p class="s-en">Wireframing & Information Architecture</p>
+      <h3 class="s-jp">Wireframing & Information Architecture</h3>
       <p>Structuring intuitive user flows, interaction hierarchies, and low-fidelity prototypes. Validating core ergonomics and eliminating cognitive friction across mobile and desktop viewport sizes.</p>
     </div></article>
     <article class="step rv"><div class="s-num">03</div><div>
-      <h3 class="s-jp">具現</h3><p class="s-en">High-Fidelity UI & Design Systems</p>
+      <h3 class="s-jp">High-Fidelity UI & Design Systems</h3>
       <p>Crafting pixel-perfect interface screens in Figma. Building reusable tokens, atomic components with Auto-Layout, variant states, dark & light themes, and rich responsive typography.</p>
     </div></article>
     <article class="step hot rv"><div class="s-num">04</div><div>
-      <h3 class="s-jp">試作</h3><p class="s-en">Interactive Prototyping & Motion</p>
+      <h3 class="s-jp">Interactive Prototyping & Motion</h3>
       <p>Stress-testing flows with tactile micro-interactions, spring damping curves, and multi-device usability testing. Plunging the design into real hardware limits to guarantee sub-16ms fluid response.</p>
     </div></article>
     <article class="step rv"><div class="s-num">05</div><div>
-      <h3 class="s-jp">仕上</h3><p class="s-en">Engineering Handoff & Production Polish</p>
+      <h3 class="s-jp">Engineering Handoff & Production Polish</h3>
       <p>Delivering meticulous developer documentation, design token exports, or production-ready frontend code (HTML5, Tailwind CSS, JS) ready for global deployment without visual regression.</p>
     </div></article>
   </div>
@@ -978,16 +965,16 @@ footer .credit{font-size:10.5px;color:var(--ink2);letter-spacing:.08em}
   <div class="specstage" id="specstage">
     <div class="ruler" id="ruler"><span>Design Standard — <b>8pt Atomic Grid</b> · 60 to 120 FPS Fluid Motion</span></div>
   </div>
-  <p class="overline rv" style="max-width:800px;margin:0 auto 26px">寸法 — Design & Technical Standards</p>
+  <p class="overline rv" style="max-width:800px;margin:0 auto 26px">Design & Technical Standards</p>
   <div class="ledger">
-    <div class="lrow rv"><div class="lt">設計環境<i>Design Tooling · Ecosystem</i></div><div class="ld"></div><div class="lv">Figma (Auto-Layout 5.0, Tokens, FigJam)</div></div>
-    <div class="lrow rv"><div class="lt">対応機器<i>Target Platforms · Viewports</i></div><div class="ld"></div><div class="lv">iOS HIG, Android Material & Responsive Web</div></div>
-    <div class="lrow rv"><div class="lt">格子設計<i>Grid Architecture · Layout</i></div><div class="ld"></div><div class="lv">8pt Atomic Grid & Fluid Typography</div></div>
-    <div class="lrow rv"><div class="lt">実装言語<i>Frontend Stack · Engineering</i></div><div class="ld"></div><div class="lv">Clean HTML5, Tailwind CSS, JavaScript ES6+</div></div>
-    <div class="lrow rv"><div class="lt">空間表現<i>3D & Spatial UI · Aesthetics</i></div><div class="ld"></div><div class="lv">Three.js, WebGL & Frosted Glassmorphism</div></div>
-    <div class="lrow rv"><div class="lt">動的体験<i>Motion Standards · Frame Budget</i></div><div class="ld"></div><div class="lv">60–120 FPS / &lt;16.6ms Spring Damping</div></div>
-    <div class="lrow rv"><div class="lt">適合基準<i>Accessibility · Contrast Standard</i></div><div class="ld"></div><div class="lv">WCAG 2.1 AA Compliant & Touch Ergonomics</div></div>
-    <div class="lrow rv"><div class="lt">成果物<i>Handoff Deliverables · Output</i></div><div class="ld"></div><div class="lv">Figma Component Libraries & Clean Code</div></div>
+    <div class="lrow rv"><div class="lt">Design Tooling<i>Ecosystem & Software</i></div><div class="ld"></div><div class="lv">Figma (Auto-Layout 5.0, Tokens, FigJam)</div></div>
+    <div class="lrow rv"><div class="lt">Target Platforms<i>Supported Viewports</i></div><div class="ld"></div><div class="lv">iOS HIG, Android Material & Responsive Web</div></div>
+    <div class="lrow rv"><div class="lt">Grid Architecture<i>System Layout</i></div><div class="ld"></div><div class="lv">8pt Atomic Grid & Fluid Typography</div></div>
+    <div class="lrow rv"><div class="lt">Frontend Stack<i>Production Engineering</i></div><div class="ld"></div><div class="lv">Clean HTML5, Tailwind CSS, JavaScript ES6+</div></div>
+    <div class="lrow rv"><div class="lt">3D & Spatial UI<i>Aesthetics & Lighting</i></div><div class="ld"></div><div class="lv">Three.js, WebGL & Frosted Glassmorphism</div></div>
+    <div class="lrow rv"><div class="lt">Motion Standards<i>Frame Budget & Physics</i></div><div class="ld"></div><div class="lv">60–120 FPS / &lt;16.6ms Spring Damping</div></div>
+    <div class="lrow rv"><div class="lt">Accessibility<i>Compliance & Ergonomics</i></div><div class="ld"></div><div class="lv">WCAG 2.1 AA Compliant & Touch Ergonomics</div></div>
+    <div class="lrow rv"><div class="lt">Handoff Deliverables<i>Production Output</i></div><div class="ld"></div><div class="lv">Figma Component Libraries & Clean Code</div></div>
   </div>
   <p class="snote rv">Every interface is benchmarked across real mobile devices and high-refresh desktop displays. Software should feel deliberate, intuitive, and as refined as hand-forged steel.</p>
 </section>
@@ -996,7 +983,7 @@ footer .credit{font-size:10.5px;color:var(--ink2);letter-spacing:.08em}
 <section class="commission" id="commission">
   <div class="c-grid">
     <div class="c-left">
-      <p class="overline rv">注文 — Atelier Inquiry</p>
+      <p class="overline rv">Project Inquiry & Commission</p>
       <h2 class="rv" style="--d:.1s">Let's build<br>something iconic.</h2>
       <p class="pitch rv" style="--d:.18s">I partner with forward-thinking founders, FinTech companies, and international design teams looking for world-class mobile apps, design systems, and high-performance web products that stand out in crowded markets.</p>
       <dl class="c-facts rv" style="--d:.26s">
@@ -1045,13 +1032,13 @@ footer .credit{font-size:10.5px;color:var(--ink2);letter-spacing:.08em}
 </main>
 
 <footer>
-  <span class="fbrand">JAHANZAIB AHMAD <span style="color:var(--verm)">匠</span></span>
+  <span class="fbrand">JAHANZAIB AHMAD <span style="color:var(--verm)">·</span> Senior UI/UX</span>
   <nav>
     <a href="#top">Top</a>
     <a href="#works">Works</a>
     <a href="#disciplines">Craft</a>
-    <a href="#process">Forge</a>
-    <a href="#specs">Ledger</a>
+    <a href="#process">Process</a>
+    <a href="#specs">Standards</a>
     <a href="#commission">Inquiry</a>
     <a href="https://github.com/jahanzaibahmad630-bit" target="_blank" rel="noopener">GitHub</a>
   </nav>
@@ -1497,22 +1484,22 @@ addEventListener('resize', () => {
    DISCIPLINES — DATA & INTERACTION
 ================================================================ */
 const DISCIPLINES = [
-  { jp: '意匠', en: 'Mobile & Web UI/UX', gl: 'Product Architecture', romaji: 'ishō',
+  { en: 'Mobile & Web UI/UX', gl: 'Product Architecture',
     desc: 'Crafting intuitive user journeys, wireframes, and high-fidelity mobile (iOS & Android) and web interfaces. Grounded in human cognitive patterns, ergonomic touch targets, and conversion-focused UX design.',
     focus: { rx: 0.35, ry: -0.45, py: -0.15 }, mat: 'crane' },
-  { jp: '体系', en: 'Design Systems & Figma', gl: 'Atomic Foundations', romaji: 'taikei',
+  { en: 'Design Systems & Figma', gl: 'Atomic Foundations',
     desc: 'Building scalable Figma component ecosystems with Auto-Layout 5.0, design tokens, nested variant states, typography hierarchies, and bulletproof specs for seamless developer handoff.',
     focus: { rx: 0.15, ry: 1.15, py: -0.05 }, mat: 'brass' },
-  { jp: '金融', en: 'FinTech & Trading Terminals', gl: 'Data Density & Rules Engines', romaji: 'kin’yū',
+  { en: 'FinTech & Trading Terminals', gl: 'Data Density & Rules Engines',
     desc: 'Designing institutional prop trading platforms, real-time analytics, leverage calculators, rule verification matrices, and dark-mode financial cockpits that demand zero latency and instant clarity.',
     focus: { rx: -0.15, ry: 0.35, py: 0.1 }, mat: 'iron' },
-  { jp: '実装', en: 'Frontend Engineering', gl: 'Production Web Craft', romaji: 'jissō',
+  { en: 'Frontend Engineering', gl: 'Production Web Craft',
     desc: 'Translating Figma designs into pixel-faithful, responsive code using clean HTML5, modern Tailwind CSS, and vanilla ES6+. Zero asset bloat, lightning load speeds, and rock-solid cross-browser stability.',
     focus: { rx: 0.45, ry: 0.75, py: -0.2 }, mat: 'crane' },
-  { jp: '立体', en: '3D WebGL & Glassmorphism', gl: 'Spatial Aesthetics', romaji: 'rittai',
+  { en: '3D WebGL & Glassmorphism', gl: 'Spatial Aesthetics',
     desc: 'Integrating Three.js procedural stages, luminous frosted glassmorphic card systems, custom 3D character iconography, and WebGL shaders that give brands an unmistakable competitive edge.',
     focus: { rx: -0.25, ry: 1.45, py: 0.25 }, mat: 'brass' },
-  { jp: '律動', en: 'Micro-Interactions & Motion', gl: 'Kinetic Choreography', romaji: 'ritsudō',
+  { en: 'Micro-Interactions & Motion', gl: 'Kinetic Choreography',
     desc: 'Choreographing spring damping, haptic feedback curves, GSAP ScrollTrigger timelines, and buttery 120 FPS transitions that make every button click and scroll feel delightfully tactile.',
     focus: { rx: 0.05, ry: -0.85, py: 0 }, mat: 'iron' }
 ];
@@ -1522,7 +1509,7 @@ DISCIPLINES.forEach((p, i) => {
   const b = document.createElement('button');
   b.className = 'part';
   b.type = 'button';
-  b.innerHTML = `<span class="p-num">0${i+1}</span><span class="p-jp">${p.jp}</span><span class="p-en">${p.en}<small>${p.gl}</small></span>`;
+  b.innerHTML = `<span class="p-num">0${i+1}</span><span class="p-en">${p.en}<small>${p.gl}</small></span>`;
   b.addEventListener('click', () => selectDiscipline(i));
   partsEl.appendChild(b);
 });
@@ -1537,9 +1524,9 @@ function selectDiscipline(i){
   [...partsEl.children].forEach((b, j) => b.classList.toggle('on', j === i));
   detail.classList.add('swap');
   setTimeout(() => {
-    $('dKanji').textContent = P.jp;
+    if($('dKanji')) $('dKanji').textContent = '';
     $('dName').textContent = P.en;
-    $('dRomaji').textContent = P.romaji + ' — ' + P.gl;
+    $('dRomaji').textContent = P.gl;
     $('dDesc').textContent = P.desc;
     $('dIdx').textContent = `0${i+1} / 0${DISCIPLINES.length}`;
     detail.classList.remove('swap');
@@ -1622,10 +1609,10 @@ $('cform').addEventListener('submit', e => {
   mark('fMail', !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail.value.trim()));
   mark('fMsg', msg.value.trim().length < 5);
   if(!ok){
-    toast('<b>一歩待て</b>Please provide your name, valid email, and a few words about your project goals.');
+    toast('<b>Please verify: </b>Please provide your name, valid email, and a few words about your project goals.');
     return;
   }
-  toast('<b>便りを受け取った</b>Your inquiry has been received — Jahanzaib will review and reply within 24 hours.');
+  toast('<b>Inquiry Received: </b>Your message has been received — Jahanzaib will review and reply within 24 hours.');
   e.target.reset();
 });
 ['inName', 'inMail', 'inMsg'].forEach(id => $(id).addEventListener('input', e => e.target.closest('.fld').classList.remove('bad')));
