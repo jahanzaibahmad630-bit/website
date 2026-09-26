@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HINA — Dark Mode Experience & Custom Icon Character System (For Amy)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Comfortaa:wght@600;700&display=swap" rel="stylesheet"/>
+  <style>
+    * {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      box-sizing: border-box;
+    }
+    .font-brand {
+      font-family: 'Comfortaa', cursive, sans-serif;
+    }
+    body {
+      background-color: #0C1017;
+      color: #F1F5F9;
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    /* Phone frame simulation */
+    .phone-mockup {
+      width: 100%;
+      max-width: 380px;
+      height: 780px;
+      border-radius: 46px;
+      background: #121722;
+      border: 8px solid #232B3B;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 40px rgba(168, 85, 247, 0.08);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .poster-mockup {
+      width: 100%;
+      max-width: 440px;
+      border-radius: 32px;
+      background: #0E131C;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 30px 70px -20px rgba(0, 0, 0, 0.8), 0 0 60px rgba(234, 179, 8, 0.12);
+      position: relative;
+      overflow: hidden;
+    }
+    /* Custom Icon Card Glow */
+    .icon-card {
+      transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+    }
+    .icon-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(168, 85, 247, 0.4);
+      box-shadow: 0 12px 28px -8px rgba(168, 85, 247, 0.2);
+    }
+  </style>
+</head>
+<body class="py-10 px-4 sm:px-8">
+
+  <!-- Top Header & Presentation Bar for Amy -->
+  <header class="max-w-[1360px] mx-auto mb-10 pb-6 border-b border-slate-800 flex flex-wrap items-center justify-between gap-4">
+    <div>
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/25 text-purple-400 text-xs font-bold uppercase tracking-wider mb-2">
+        <span class="w-2 h-2 rounded-full bg-purple-400 animate-ping"></span>
+        Hina Nightlife Safe-Walk • Design Review for Amy
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight flex items-center gap-3">
+        <span class="font-brand text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-amber-300">Hina</span>
+        <span>Dark Mode & Custom Character Icon System</span>
+      </h1>
+      <p class="text-slate-400 text-sm mt-1 max-w-2xl leading-relaxed">
+        Addressing Amy's feedback: High-fidelity interactive reproduction of the <strong>Mattermind (Bootshaus Köln)</strong> dark screen, the dark-theme QR club poster, and the complete <strong>bespoke non-emoji vector icon set</strong>.
+      </p>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href="hina-elevated.html" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold border border-slate-700 transition-colors">
+        ← View 10 Light Screens
+      </a>
+      <a href="#discord-reply" class="px-5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold shadow-md hover:shadow-purple-500/25 transition-all">
+        Copy Reply for Amy ↓
+      </a>
+    </div>
+  </header>
+
+  <main class="max-w-[1360px] mx-auto space-y-16">
+
+    <!-- SECTION 1: SIDE-BY-SIDE INTERACTIVE DEMO (Amy's Dark App Screen + Dark Poster) -->
+    <section>
+      <div class="mb-6 flex items-center justify-between">
+        <div>
+          <h2 class="text-xl font-bold text-white flex items-center gap-2">
+            <span>1. The Nightlife Experience at 23:00 Uhr</span>
+            <span class="text-xs px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono">Zero Glare in Dark Clubs</span>
+          </h2>
+          <p class="text-xs text-slate-400 mt-0.5">Clubgoers scan the poster at the Bootshaus entrance/wardrobe and land directly on the verified event screen.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start justify-center">
+
+        <!-- PHONE FRAME: Exact Reproduction of Amy's Mattermind Bootshaus Köln Screen -->
+        <div class="lg:col-span-6 flex justify-center">
+          <div class="phone-mockup">
+            <!-- Top Status Bar -->
+            <div class="pt-4 px-7 pb-2 flex items-center justify-between text-[11px] font-semibold text-slate-400">
+              <span>23:04</span>
+              <div class="w-24 h-4 rounded-full bg-black/60 mx-auto"></div>
+              <div class="flex items-center gap-1.5">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 19.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l1.9-1.9C9.22 19.58 10.57 20 12 20c4.97 0 9-4.03 9-9s-4.03-9-9-9z"/></svg>
+                <span>5G</span>
+                <span class="w-5 h-2.5 rounded-sm border border-slate-400 p-0.5 inline-block"><span class="w-full h-full bg-slate-300 block rounded-2xs"></span></span>
+              </div>
+            </div>
+
+            <!-- Subtitle Header from Amy's Screen -->
+            <div class="px-6 pt-3 pb-1">
+              <p class="text-[12px] text-slate-400 font-medium leading-snug">
+                von derselben Veranstaltung.<br/>
+                <span class="text-slate-200 font-semibold">Komm gut nachhause!</span>
+              </p>
+            </div>
+
+            <!-- Main Content Container (Amy's Dark UI) -->
+            <div class="px-5 py-3 space-y-4 flex-1 overflow-y-auto">
+
+              <!-- DEIN EVENT CARD: Bootshaus Köln -->
+              <div class="p-5 rounded-2xl bg-[#19202E] border border-slate-700/60 shadow-lg relative overflow-hidden group">
+                <div class="absolute -right-10 -bottom-10 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
+
+                <div class="flex items-center justify-between text-[11px] mb-3">
+                  <span class="font-bold text-slate-400 tracking-wider uppercase text-[10px]">DEIN EVENT</span>
+                  <button class="text-amber-400 hover:text-amber-300 font-semibold flex items-center gap-0.5 transition-colors text-[11.5px]">
+                    <span>Event wechseln</span>
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+                  </button>
+                </div>
+
+                <div class="flex items-start justify-between gap-3">
+                  <div>
+                    <h3 class="text-xl font-extrabold text-white tracking-tight">Mattermind</h3>
+                    <p class="text-xs text-slate-300 font-medium mt-0.5">Bootshaus</p>
+                    <p class="text-[11px] text-slate-400">Köln</p>
+                    <p class="text-[11px] font-mono text-amber-400/90 font-semibold mt-1">Start 23:00 Uhr</p>
+                  </div>
+                  <!-- Warm Gold Date Badge (Exact from Amy's Mockup) -->
+                  <div class="px-3 py-2 rounded-xl bg-gradient-to-br from-amber-400 to-amber-500 text-slate-950 text-center shadow-md flex-shrink-0">
+                    <span class="block text-[10px] font-extrabold tracking-wider">SA</span>
+                    <span class="block text-lg font-black leading-none">17</span>
+                    <span class="block text-[10px] font-extrabold tracking-wider">MAI</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 3 Semantic Action Cards with Circular Color Badges (From Amy's Screen) -->
+              <div class="space-y-2.5">
+
+                <!-- 1. Verifizierung (Mint Green Badge) -->
+                <div class="p-4 rounded-2xl bg-[#19202E] border border-slate-700/60 hover:border-emerald-500/40 transition-all flex items-center justify-between cursor-pointer group shadow-sm">
+                  <div class="flex items-center gap-3.5">
+                    <div class="w-10 h-10 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
+                      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="m9 12 2 2 4-4"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 class="text-sm font-bold text-white group-hover:text-emerald-300 transition-colors">Verifizierung</h4>
+                      <p class="text-[11px] text-slate-400">Jetzt verifizieren, um Matches zu sehen.</p>
+                    </div>
+                  </div>
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#64748B" stroke-width="2.5" class="group-hover:stroke-white group-hover:translate-x-0.5 transition-all"><path d="m9 18 6-6-6-6"/></svg>
+                </div>
+
+                <!-- 2. Wie funktioniert Hina? (Lavender Purple Badge) -->
+                <div class="p-4 rounded-2xl bg-[#19202E] border border-slate-700/60 hover:border-purple-500/40 transition-all flex items-center justify-between cursor-pointer group shadow-sm">
+                  <div class="flex items-center gap-3.5">
+                    <div class="w-10 h-10 rounded-full bg-purple-500/15 border border-purple-500/30 text-purple-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
+                      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="9"/>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                        <line x1="12" x2="12.01" y1="17" y2="17"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 class="text-sm font-bold text-white group-hover:text-purple-300 transition-colors">Wie funktioniert Hina?</h4>
+                      <p class="text-[11px] text-slate-400">Hier erfährst du, wie Hina dich unterstützt.</p>
+                    </div>
+                  </div>
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#64748B" stroke-width="2.5" class="group-hover:stroke-white group-hover:translate-x-0.5 transition-all"><path d="m9 18 6-6-6-6"/></svg>
+                </div>
+
+                <!-- 3. Was passiert mit meinen Daten? (Rose Pink Badge) -->
+                <div class="p-4 rounded-2xl bg-[#19202E] border border-slate-700/60 hover:border-rose-500/40 transition-all flex items-center justify-between cursor-pointer group shadow-sm">
+                  <div class="flex items-center gap-3.5">
+                    <div class="w-10 h-10 rounded-full bg-rose-500/15 border border-rose-500/30 text-rose-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
+                      <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 class="text-sm font-bold text-white group-hover:text-rose-300 transition-colors">Was passiert mit meinen Daten?</h4>
+                      <p class="text-[11px] text-slate-400">Deine Privatsphäre ist uns wichtig.</p>
+                    </div>
+                  </div>
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#64748B" stroke-width="2.5" class="group-hover:stroke-white group-hover:translate-x-0.5 transition-all"><path d="m9 18 6-6-6-6"/></svg>
+                </div>
+
+              </div>
+
+              <!-- Quick Safe-Walk Matching Teaser inside App -->
+              <div class="p-4 rounded-2xl bg-gradient-to-r from-purple-900/30 to-pink-900/20 border border-purple-500/25">
+                <div class="flex items-center justify-between text-xs mb-2">
+                  <span class="font-bold text-purple-300 flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    14 Begleiter aktiv am Bootshaus
+                  </span>
+                  <span class="text-[10px] text-slate-400">Köln Deutz</span>
+                </div>
+                <p class="text-[11px] text-slate-300 leading-snug">Verifiziere dich kurz, um andere Gäste für den gemeinsamen Heimweg (Bahn / Taxi / Fuß) zu sehen.</p>
+              </div>
+
+            </div>
+
+            <!-- Bottom Navigation Bar inside Phone -->
+            <div class="p-3 bg-[#0E131C] border-t border-slate-800 flex items-center justify-around text-[10px] text-slate-400">
+              <div class="flex flex-col items-center gap-1 text-purple-400 font-bold">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                <span>Event</span>
+              </div>
+              <div class="flex flex-col items-center gap-1 hover:text-white transition-colors cursor-pointer">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <span>Matches</span>
+              </div>
+              <div class="flex flex-col items-center gap-1 hover:text-white transition-colors cursor-pointer">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <span>Chat</span>
+              </div>
+              <div class="flex flex-col items-center gap-1 hover:text-white transition-colors cursor-pointer">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                <span>Profil</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- POSTER FRAME: Amy's Club Poster in Atmospheric Dark Theme -->
+        <div class="lg:col-span-6 flex justify-center">
+          <div class="poster-mockup p-8 text-center text-white flex flex-col justify-between min-h-[660px]">
+
+            <!-- Glowing Background Aura behind Poster -->
+            <div class="absolute -top-24 -left-24 w-64 h-64 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-24 -right-24 w-72 h-72 bg-amber-400/15 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div>
+              <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-slate-300 text-[11px] font-semibold tracking-wider uppercase mb-4">
+                Club-Aushang • Garderobe & Ausgang
+              </div>
+              <h3 class="font-brand text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-pink-300 to-amber-200">
+                Hina
+              </h3>
+              <p class="text-sm font-semibold text-slate-300 mt-1">
+                Kommt <span class="text-white font-bold">gemeinsam</span> sicher nachhause.
+              </p>
+            </div>
+
+            <!-- Central High-Contrast QR Code Card with Glowing Aura -->
+            <div class="my-6 p-6 rounded-3xl bg-white text-slate-950 max-w-[280px] mx-auto shadow-2xl relative">
+              <span class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-3">
+                Heutiger QR-Code
+              </span>
+              <!-- Crisp SVG QR Code Representation -->
+              <div class="w-48 h-48 mx-auto bg-slate-950 p-2.5 rounded-2xl flex items-center justify-center">
+                <svg viewBox="0 0 100 100" class="w-full h-full text-white" fill="currentColor">
+                  <!-- QR Corner Markers -->
+                  <rect x="5" y="5" width="28" height="28" rx="4" fill="none" stroke="currentColor" stroke-width="6"/>
+                  <rect x="13" y="13" width="12" height="12" rx="2"/>
+                  <rect x="67" y="5" width="28" height="28" rx="4" fill="none" stroke="currentColor" stroke-width="6"/>
+                  <rect x="75" y="13" width="12" height="12" rx="2"/>
+                  <rect x="5" y="67" width="28" height="28" rx="4" fill="none" stroke="currentColor" stroke-width="6"/>
+                  <rect x="13" y="75" width="12" height="12" rx="2"/>
+                  <!-- Dense Data Nodes (Stylized) -->
+                  <rect x="42" y="10" width="8" height="8" rx="1"/>
+                  <rect x="54" y="10" width="6" height="6" rx="1"/>
+                  <rect x="42" y="24" width="6" height="14" rx="1"/>
+                  <rect x="54" y="22" width="8" height="6" rx="1"/>
+                  <rect x="10" y="42" width="14" height="6" rx="1"/>
+                  <rect x="28" y="42" width="6" height="8" rx="1"/>
+                  <rect x="42" y="42" width="16" height="16" rx="3" fill="#A855F7"/>
+                  <rect x="66" y="42" width="12" height="8" rx="1"/>
+                  <rect x="82" y="42" width="8" height="14" rx="1"/>
+                  <rect x="42" y="66" width="8" height="10" rx="1"/>
+                  <rect x="56" y="66" width="14" height="6" rx="1"/>
+                  <rect x="76" y="66" width="6" height="14" rx="1"/>
+                  <rect x="42" y="82" width="18" height="8" rx="1"/>
+                  <rect x="66" y="84" width="10" height="6" rx="1"/>
+                  <rect x="82" y="82" width="8" height="8" rx="1"/>
+                </svg>
+              </div>
+              <span class="block text-[11px] text-slate-500 font-mono mt-3 font-semibold">
+                Bootshaus Köln • 17. Mai
+              </span>
+            </div>
+
+            <div class="space-y-2">
+              <p class="text-xs text-slate-400">
+                Kein langes Suchen. Kamera öffnen, scannen und Begleiter für deinen Heimweg finden.
+              </p>
+              <div class="pt-2 text-[11px] text-purple-300 font-semibold">
+                Hast du Fragen oder Bedenken? Unser Awarenessteam & Hina helfen dir.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 2: THE BESPOKE CHARACTER ICON SPECIFICATION (Non-Emoji Character Suite) -->
+    <section class="p-8 sm:p-10 rounded-3xl bg-[#121722] border border-slate-800">
+      <div class="max-w-3xl mb-10">
+        <span class="text-xs font-bold uppercase tracking-widest text-purple-400 block mb-2">
+          CHARAKTER-IKONOGRAFIE • STATT GENERIC WHATSAPP-EMOJIS
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
+          12 Custom Character Icons Designed for Hina
+        </h2>
+        <p class="text-slate-400 text-sm mt-2 leading-relaxed">
+          Amy is 100% right: WhatsApp emojis look too casual for a personal safety app. These 12 bespoke icons follow Amy's visual language: <strong>2px rounded duotone vector strokes, pastel circular badges, and warm organic shapes</strong> that give Hina its own recognizable identity.
+        </p>
+      </div>
+
+      <!-- Icon Category 1: Way Home Modes (Heimweg-Optionen) -->
+      <div class="mb-10">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 pb-2 border-b border-slate-800">
+          Kategorie A — Heimweg-Modi (Für das Matching am Clubausgang)
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+          <!-- 1. Zu Fuß / Walking Group -->
+          <div class="icon-card p-5 rounded-2xl bg-[#181F2E] border border-slate-700/60 flex items-start gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-purple-500/15 border border-purple-500/30 text-purple-400 flex items-center justify-center flex-shrink-0">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M13 4a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+                <path d="m15 7-3 5-3-3-3 5"/>
+                <path d="M12 12v7l3 3"/>
+                <path d="M9 19v3"/>
+                <circle cx="20" cy="5" r="1.5" stroke-dasharray="1 1"/>
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-white">Zu Fuß / Gruppe</h4>
+              <p class="text-xs text-slate-400 mt-1">Zwei Begleiter, die den gleichen Fußweg nach Deutz / Mülheim nehmen.</p>
+            </div>
+          </div>
+
+          <!-- 2. Nachtbus / ÖPNV -->
+          <div class="icon-card p-5 rounded-2xl bg-[#181F2E] border border-slate-700/60 flex items-start gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-cyan-500/15 border border-cyan-500/30 text-cyan-400 flex items-center justify-center flex-shrink-0">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="16" height="16" x="4" y="3" rx="3"/>
+                <path d="M4 11h16"/>
+                <path d="M8 15h.01"/><path d="M16 15h.01"/>
+                <path d="m6 19-2 2"/><path d="m18 19 2 2"/>
+                <path d="M12 3a2 2 0 0 0 2-2"/>
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-white">ÖPNV / Nachtbahn</h4>
+              <p class="text-xs text-slate-400 mt-1">Gemeinsam an der Haltestelle warten und die gleiche KVB-Linie nehmen.</p>
+            </div>
+          </div>
+
+          <!-- 3. Taxi / Uber teilen -->
+          <div class="icon-card p-5 rounded-2xl bg-[#181F2E] border border-slate-700/60 flex items-start gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-amber-500/15 border border-amber-500/30 text-amber-400 flex items-center justify-center flex-shrink-0">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9C2.1 11.2 2 11.6 2 12v4c0 .6.4 1 1 1h2"/>
+                <circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/>
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-white">Taxi / Uber teilen</h4>
+              <p class="text-xs text-slate-400 mt-1">Fahrgemeinschaft bilden: sicherer Heimweg + geteilte Fahrtkosten.</p>
+            </div>
+          </div>
+
+          <!-- 4. Fahrrad / E-Scooter -->
+          <div class="icon-card p-5 rounded-2xl bg-[#181F2E] border border-slate-700/60 flex items-start gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center flex-shrink-0">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/>
+                <path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 5 4-4h3m-8 6 3-6-4-4"/>
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-white">Fahrrad / Scooter</h4>
+              <p class="text-xs text-slate-400 mt-1">Im Tandem mit Beleuchtung über die Rheinbrücke radeln.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Icon Category 2: Trust & Safety Badges (Vertrauen & Sicherheit) -->
+      <div class="mb-10">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 pb-2 border-b border-slate-800">
+          Kategorie B — Vertrauens- & Sicherheits-Badges
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+          <!-- 5. Verifizierter Hina Companion -->
+          <div class="icon-card p-5 rounded-2xl bg-[#181F2E] border border-slate-700/60 flex items-start gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center flex-shrink-0">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <polygon points="12 8 13.5 11.5 17 12 14.5 14.5 15 18 12 16.5 9 18 9.5 14.5 7 12 10.5 11.5 12 8"/>
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-white">Verifizierter Gast</h4>
+              <p class="text-xs text-slate-400 mt-1">Ausweis- oder Student-ID gecheckt. Echte Person, kein anonymer Bot.</p>
+            </div>
+          </div>
+
+          <!-- 6. Treffpunkt am Club-Ausgang -->
+          <div class="icon-card p-5 rounded-2xl bg-[#181F2E] border border-slate-700/60 flex items-start gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-pink-500/15 border border-pink-500/30 text-pink-400 flex items-center justify-center flex-shrink-0">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 21s-6-5.33-6-10a6 6 0 0 1 12 0c0 4.67-6 10-6 10z"/>
+                <circle cx="12" cy="11" r="2.5"/>
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-white">Treffpunkt Ausgang</h4>
+              <p class="text-xs text-slate-400 mt-1">Fester, gut beleuchteter Safe-Spot (z.B. Garderobe / Main Entrance).</p>
+            </div>
+          </div>
+
+          <!-- 7. Sicher Zuhause! (Arrival Confirmation) -->
+          <div class="icon-card p-5 rounded-2xl bg-[#181F2E] border border-slate-700/60 flex items-start gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-amber-500/15 border border-amber-500/30 text-amber-400 flex items-center justify-center flex-shrink-0">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                <polyline points="9 12 11 14 15 10"/>
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-white">Sicher Zuhause!</h4>
+              <p class="text-xs text-slate-400 mt-1">1-Tap Bestätigung, wenn beide Begleiter wohlbehalten die Haustür erreicht haben.</p>
+            </div>
+          </div>
+
+          <!-- 8. Notfall & Awareness Team -->
+          <div class="icon-card p-5 rounded-2xl bg-[#181F2E] border border-slate-700/60 flex items-start gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-rose-500/15 border border-rose-500/30 text-rose-400 flex items-center justify-center flex-shrink-0">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" x2="12" y1="8" y2="12"/>
+                <line x1="12" x2="12.01" y1="16" y2="16"/>
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-white">Awareness Hilfe</h4>
+              <p class="text-xs text-slate-400 mt-1">Direkter Draht zum geschulten Club-Awarenessteam bei Unwohlsein.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Icon Category 3: Companion & Matching Preferences -->
+      <div>
+        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 pb-2 border-b border-slate-800">
+          Kategorie C — Matching-Präferenzen & Filter
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+          <!-- 9. Nur Frauen (FLINTA*) -->
+          <div class="icon-card p-5 rounded-2xl bg-[#181F2E] border border-slate-700/60 flex items-start gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-pink-500/15 border border-pink-500/30 text-pink-400 flex items-center justify-center flex-shrink-0">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="9" r="6"/>
+                <path d="M12 15v7m-3-3h6"/>
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-white">FLINTA* Only</h4>
+              <p class="text-xs text-slate-400 mt-1">Matching-Option ausschließlich mit weiblichen / non-binären Begleitern.</p>
+            </div>
+          </div>
+
+          <!-- 10. Direkter Weg (Keine Umwege) -->
+          <div class="icon-card p-5 rounded-2xl bg-[#181F2E] border border-slate-700/60 flex items-start gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-cyan-500/15 border border-cyan-500/30 text-cyan-400 flex items-center justify-center flex-shrink-0">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" x2="19" y1="12" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-white">Direkter Weg</h4>
+              <p class="text-xs text-slate-400 mt-1">Ohne Zwischenstopps oder Barhopping geradewegs zur Wohnung.</p>
+            </div>
+          </div>
+
+          <!-- 11. Ruhiger Heimweg -->
+          <div class="icon-card p-5 rounded-2xl bg-[#181F2E] border border-slate-700/60 flex items-start gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-purple-500/15 border border-purple-500/30 text-purple-400 flex items-center justify-center flex-shrink-0">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-white">Ruhige Begleitung</h4>
+              <p class="text-xs text-slate-400 mt-1">Nach einer langen Clubnacht entspannt und ohne Stress heimkommen.</p>
+            </div>
+          </div>
+
+          <!-- 12. Geteilte Haltestelle -->
+          <div class="icon-card p-5 rounded-2xl bg-[#181F2E] border border-slate-700/60 flex items-start gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-amber-500/15 border border-amber-500/30 text-amber-400 flex items-center justify-center flex-shrink-0">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="8"/>
+                <path d="M12 8v8m-4-4h8"/>
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-white">Gleicher Umstieg</h4>
+              <p class="text-xs text-slate-400 mt-1">Begleitung bis zum Umsteigebahnhof (z.B. Köln Hbf oder Neumarkt).</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: COPY-PASTE DISCORD RESPONSE FOR AMY -->
+    <section class="p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-purple-950/40 to-slate-900 border border-purple-500/30" id="discord-reply">
+      <div class="max-w-3xl">
+        <span class="text-xs font-bold uppercase tracking-widest text-purple-400 block mb-2">
+          FERTIGE ANTWORT FÜR DEINE DISCORD-DM MIT AMY
+        </span>
+        <h3 class="text-2xl font-extrabold text-white mb-2">
+          Ready-to-Send Feedback & Icon Guide for Amy
+        </h3>
+        <p class="text-slate-400 text-xs mb-6 leading-relaxed">
+          You can copy this exact message and send it to Amy on Discord. It validates her design, explains why custom icons elevate Hina, and gives her the live link to explore:
+        </p>
+
+        <div class="relative bg-[#0E131C] p-6 rounded-2xl border border-slate-800 text-slate-300 font-mono text-xs leading-relaxed select-all">
+Hey Amy! Just spent time going through both your Dark Mode screen and the QR poster in detail — honestly, your dark palette is spot on! 🙌
+
+Here is my detailed feedback and the exact icon roadmap you asked for:
+
+1. Why your Dark Theme works so well for Hina:
+At 23:00 Uhr inside Bootshaus Köln, a bright white screen blinds people and drains battery. Your dark slate layout with the warm gold "SA 17 MAI" badge gives it that nightlife vibe while staying calm. And using the three pastel circular badges (Mint Green for Verifizierung, Purple for Wie funktioniert Hina, and Rose for Datenschutz) gives each card immediate visual clarity!
+
+2. Why you're 100% right on skipping WhatsApp emojis:
+WhatsApp emojis look like a random chat group and render differently on iPhone vs Android. For a safety app, custom 2px rounded line icons with that soft duotone glow give Hina an unmistakable brand identity.
+
+3. The 12 Custom Character Icons we need:
+• Transport Modes: (1) Zu Fuß / Gruppe, (2) ÖPNV / Nachtbahn, (3) Taxi / Uber teilen, (4) Fahrrad / Scooter
+• Trust & Safety: (5) Verifizierter Companion (Shield + Star), (6) Treffpunkt am Ausgang (Club Pin), (7) Sicher Zuhause! (House + Check), (8) Awareness / SOS
+• Companion Filters: (9) FLINTA* Only, (10) Direkter Weg, (11) Ruhige Begleitung, (12) Geteilter Umstieg (Hbf)
+
+I actually built a live interactive preview of your dark Bootshaus screen, the dark poster, and all 12 custom icons here so you can test them live on your phone:
+👉 https://jahanzaibahmad630-bit.github.io/website/hina-dark.html
+
+Let me know what you think of the icon style! Excited to take this to the next level with you.
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="max-w-[1360px] mx-auto mt-16 pt-8 border-t border-slate-800 text-center text-xs text-slate-500">
+    Hina — Kommt gemeinsam sicher nachhause. Designed in collaboration with Amy.
+  </footer>
+
+</body>
+</html>
