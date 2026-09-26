@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>HINA — Handcrafted Nightlife Experience & Bespoke Character Icon System</title>
+  <title>HINA — Bespoke Feminine Character Iconography & Nightlife Experience</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -20,114 +20,146 @@
     body {
       background-color: #0A0D14;
       background-image: 
-        radial-gradient(at 0% 0%, rgba(168, 85, 247, 0.12) 0px, transparent 50%),
-        radial-gradient(at 100% 100%, rgba(245, 158, 11, 0.08) 0px, transparent 50%);
+        radial-gradient(at 0% 0%, rgba(244, 63, 94, 0.12) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.12) 0px, transparent 50%),
+        radial-gradient(at 50% 100%, rgba(251, 146, 60, 0.08) 0px, transparent 50%);
       color: #F8FAFC;
       margin: 0;
       min-height: 100vh;
       overflow-x: hidden;
     }
 
-    /* Handcrafted Glassmorphic Phone Container */
+    /* Soft Tactile Glassmorphism */
+    .hina-glass-card {
+      background: rgba(23, 28, 42, 0.72);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 
+        0 14px 30px -6px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
+      border-radius: 26px;
+      transition: all 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .hina-glass-card:hover {
+      background: rgba(30, 37, 56, 0.88);
+      border-color: rgba(244, 63, 94, 0.35);
+      transform: translateY(-3px);
+      box-shadow: 
+        0 20px 40px -10px rgba(0, 0, 0, 0.65),
+        0 0 25px -5px rgba(244, 63, 94, 0.2),
+        inset 0 1px 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    /* Phone Mockup Frame */
     .phone-container {
       width: 100%;
       max-width: 390px;
-      height: 800px;
-      border-radius: 50px;
-      background: linear-gradient(180deg, #131824 0%, #0D121B 100%);
-      border: 8px solid #1E2638;
+      height: 810px;
+      border-radius: 52px;
+      background: linear-gradient(180deg, #131825 0%, #0D111A 100%);
+      border: 8px solid #1E2538;
       box-shadow: 
-        0 35px 80px -20px rgba(0, 0, 0, 0.9),
-        0 0 50px -10px rgba(168, 85, 247, 0.2),
-        inset 0 1px 1px 0 rgba(255, 255, 255, 0.15);
+        0 35px 80px -20px rgba(0, 0, 0, 0.95),
+        0 0 60px -10px rgba(244, 63, 94, 0.18),
+        inset 0 1px 1px 0 rgba(255, 255, 255, 0.2);
       position: relative;
       overflow: hidden;
       display: flex;
       flex-direction: column;
     }
 
-    /* Tactile Frosted Glass Cards */
-    .hina-glass-card {
-      background: rgba(25, 33, 49, 0.72);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 
-        0 10px 25px -5px rgba(0, 0, 0, 0.45),
-        inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
-      border-radius: 24px;
-      transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .hina-glass-card:hover {
-      background: rgba(30, 40, 58, 0.85);
-      border-color: rgba(168, 85, 247, 0.35);
-      transform: translateY(-2px);
-      box-shadow: 
-        0 16px 32px -8px rgba(0, 0, 0, 0.6),
-        0 0 20px -5px rgba(168, 85, 247, 0.25),
-        inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
-    }
-
-    /* Dreamy Organic Fluid Poster Mesh */
+    /* Dreamy Fluid Poster Mesh */
     .hina-poster-mesh {
       background: 
-        radial-gradient(circle at 85% 15%, rgba(245, 158, 11, 0.42) 0%, transparent 45%),
-        radial-gradient(circle at 20% 85%, rgba(56, 189, 248, 0.38) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.25) 0%, transparent 60%),
+        radial-gradient(circle at 85% 15%, rgba(251, 146, 60, 0.42) 0%, transparent 48%),
+        radial-gradient(circle at 15% 85%, rgba(244, 63, 94, 0.38) 0%, transparent 52%),
+        radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.28) 0%, transparent 60%),
         #0C1017;
-      border-radius: 36px;
+      border-radius: 40px;
       border: 1px solid rgba(255, 255, 255, 0.14);
       box-shadow: 
-        0 35px 80px -15px rgba(0, 0, 0, 0.85),
-        0 0 60px -10px rgba(245, 158, 11, 0.15),
-        inset 0 1px 1px 0 rgba(255, 255, 255, 0.2);
+        0 35px 80px -15px rgba(0, 0, 0, 0.9),
+        0 0 60px -10px rgba(244, 63, 94, 0.15),
+        inset 0 1px 1px 0 rgba(255, 255, 255, 0.22);
     }
 
-    /* Handcrafted Bespoke Icon Badge */
-    .hina-badge-mint {
-      background: radial-gradient(circle at 30% 30%, #34D399 0%, #059669 100%);
-      box-shadow: 0 8px 18px -4px rgba(16, 185, 129, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+    /* Tactile Enamel-Badge Radiance (Feminine Color Palette) */
+    .badge-rose {
+      background: linear-gradient(135deg, #FDA4AF 0%, #FB7185 50%, #E11D48 100%);
+      box-shadow: 0 8px 22px -3px rgba(244, 63, 94, 0.45), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.55);
     }
-    .hina-badge-purple {
-      background: radial-gradient(circle at 30% 30%, #C084FC 0%, #7E22CE 100%);
-      box-shadow: 0 8px 18px -4px rgba(168, 85, 247, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+    .badge-lavender {
+      background: linear-gradient(135deg, #E9D5FF 0%, #C084FC 50%, #9333EA 100%);
+      box-shadow: 0 8px 22px -3px rgba(168, 85, 247, 0.45), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.55);
     }
-    .hina-badge-rose {
-      background: radial-gradient(circle at 30% 30%, #FB7185 0%, #E11D48 100%);
-      box-shadow: 0 8px 18px -4px rgba(244, 63, 94, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+    .badge-peach {
+      background: linear-gradient(135deg, #FED7AA 0%, #FB923C 50%, #EA580C 100%);
+      box-shadow: 0 8px 22px -3px rgba(251, 146, 60, 0.45), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.55);
     }
-    .hina-badge-amber {
-      background: radial-gradient(circle at 30% 30%, #FBBF24 0%, #D97706 100%);
-      box-shadow: 0 8px 18px -4px rgba(245, 158, 11, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+    .badge-mint {
+      background: linear-gradient(135deg, #A7F3D0 0%, #34D399 50%, #059669 100%);
+      box-shadow: 0 8px 22px -3px rgba(16, 185, 129, 0.45), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.55);
     }
-    .hina-badge-cyan {
-      background: radial-gradient(circle at 30% 30%, #38BDF8 0%, #0284C7 100%);
-      box-shadow: 0 8px 18px -4px rgba(56, 189, 248, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+    .badge-champagne {
+      background: linear-gradient(135deg, #FEF08A 0%, #FBBF24 50%, #D97706 100%);
+      box-shadow: 0 8px 22px -3px rgba(245, 158, 11, 0.45), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.55);
+    }
+    .badge-periwinkle {
+      background: linear-gradient(135deg, #BAE6FD 0%, #60A5FA 50%, #3B82F6 100%);
+      box-shadow: 0 8px 22px -3px rgba(96, 165, 250, 0.45), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.55);
+    }
+    .badge-orchid {
+      background: linear-gradient(135deg, #FBCFE8 0%, #F472B6 50%, #DB2777 100%);
+      box-shadow: 0 8px 22px -3px rgba(236, 72, 153, 0.45), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.55);
+    }
+    .badge-twilight {
+      background: linear-gradient(135deg, #C7D2FE 0%, #818CF8 50%, #4F46E5 100%);
+      box-shadow: 0 8px 22px -3px rgba(99, 102, 241, 0.45), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.55);
+    }
+
+    /* Starlight Animation */
+    @keyframes sparkleFloat {
+      0%, 100% { transform: translateY(0) scale(1); opacity: 0.9; }
+      50% { transform: translateY(-2px) scale(1.15); opacity: 1; }
+    }
+    .sparkle-icon {
+      animation: sparkleFloat 3s ease-in-out infinite;
     }
   </style>
 </head>
 <body class="py-12 px-4 sm:px-8">
 
+  <!-- SVG Global Definitions & Gradients -->
+  <svg style="display:none;" width="0" height="0">
+    <defs>
+      <!-- Reusable Sparkle Path -->
+      <g id="sparkle-star">
+        <path d="M0 -5 C0 -1.5 1.5 0 5 0 C1.5 0 0 1.5 0 5 C0 1.5 -1.5 0 -5 0 C-1.5 0 0 -1.5 0 -5 Z" fill="#FFF"/>
+      </g>
+    </defs>
+  </svg>
+
   <!-- Presentation Header -->
   <header class="max-w-[1360px] mx-auto mb-14 text-center sm:text-left flex flex-wrap items-end justify-between gap-6 pb-8 border-b border-white/10">
     <div class="space-y-3 max-w-3xl">
-      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-purple-500/15 via-pink-500/10 to-amber-500/15 border border-purple-400/25 text-purple-300 text-xs font-bold tracking-wide uppercase">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        Handcrafted Boutique Design • Made for Amy
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-rose-500/15 via-purple-500/15 to-amber-500/15 border border-rose-400/30 text-rose-300 text-xs font-bold tracking-wide uppercase">
+        <span class="w-2 h-2 rounded-full bg-rose-400 animate-pulse"></span>
+        Handcrafted for Amy • Soft, Feminine & Protective
       </div>
       <h1 class="text-4xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
-        <span class="font-brand text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-pink-300 to-amber-200">Hina</span>
-        <span>Nightlife Experience & Character Icon System</span>
+        <span class="font-brand text-transparent bg-clip-text bg-gradient-to-r from-rose-300 via-purple-300 to-amber-200">Hina</span>
+        <span>Bespoke Feminine Iconography System</span>
       </h1>
       <p class="text-slate-300 text-base leading-relaxed">
-        Replaced generic AI templates with <strong>warm tactile glassmorphism</strong>, organic duotone character badges, and the dreamy atmospheric Bootshaus Köln dark theme poster.
+        Zero generic stock icons or cold corporate symbols. Every glyph is crafted with <strong>soft organic curves, nurturing gestures, starlight accents, and tactile enamel-gem depth</strong> that feels safe, warm, and distinctly feminine.
       </p>
     </div>
     <div class="flex items-center gap-3">
       <a href="hina-elevated.html" class="px-4 py-2.5 rounded-full bg-white/5 hover:bg-white/10 text-slate-300 text-xs font-semibold border border-white/10 transition-all">
         ← View 10 Light Screens
       </a>
-      <a href="#discord-reply" class="px-6 py-2.5 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white text-xs font-bold shadow-lg shadow-purple-500/25 transition-all">
+      <a href="#discord-reply" class="px-6 py-2.5 rounded-full bg-gradient-to-r from-rose-500 via-purple-600 to-pink-600 hover:from-rose-400 hover:to-pink-500 text-white text-xs font-bold shadow-lg shadow-rose-500/25 transition-all">
         Copy Reply for Amy ↓
       </a>
     </div>
@@ -138,9 +170,9 @@
     <!-- PART 1: THE TACTILE NIGHTLIFE DUO (Amy's Dark Screen + Dreamy Fluid Poster) -->
     <section>
       <div class="text-center max-w-xl mx-auto mb-12 space-y-2">
-        <span class="text-xs font-bold uppercase tracking-widest text-amber-400">23:00 UHR • BOOTSHAUS KÖLN</span>
+        <span class="text-xs font-bold uppercase tracking-widest text-rose-400">23:00 UHR • BOOTSHAUS KÖLN</span>
         <h2 class="text-3xl font-extrabold text-white">Atmospheric Nightlife Presence</h2>
-        <p class="text-xs sm:text-sm text-slate-400">Zero blinding white glare. Deep tactile indigo, warm amber date tags, and glowing organic QR posters.</p>
+        <p class="text-xs sm:text-sm text-slate-400">Tactile frosted glass, warm candlelight dates, and delicate feminine badges.</p>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center justify-center">
@@ -152,7 +184,7 @@
             <div class="pt-3 px-8 flex items-center justify-between text-[11px] font-semibold text-slate-400 z-20">
               <span>23:04</span>
               <div class="w-24 h-4 rounded-full bg-black/80 flex items-center justify-end px-2 gap-1">
-                <span class="w-2 h-2 rounded-full bg-emerald-400/80 animate-ping"></span>
+                <span class="w-2 h-2 rounded-full bg-rose-400/80 animate-ping"></span>
               </div>
               <div class="flex items-center gap-1.5">
                 <span>5G</span>
@@ -164,7 +196,7 @@
             <div class="px-7 pt-4 pb-2 z-10">
               <p class="text-[13px] text-slate-400 font-medium leading-tight">
                 von derselben Veranstaltung.<br/>
-                <span class="text-white font-bold text-[14px]">Komm gut nachhause!</span>
+                <span class="text-white font-bold text-[14px]">Komm gut nachhause, Liebes! ✨</span>
               </p>
             </div>
 
@@ -173,11 +205,11 @@
 
               <!-- DEIN EVENT CARD (Tactile Warm Gold & Deep Slate) -->
               <div class="hina-glass-card p-5 relative overflow-hidden group">
-                <div class="absolute -right-8 -top-8 w-32 h-32 bg-amber-400/15 rounded-full blur-2xl pointer-events-none"></div>
+                <div class="absolute -right-8 -top-8 w-32 h-32 bg-rose-400/15 rounded-full blur-2xl pointer-events-none"></div>
 
                 <div class="flex items-center justify-between text-[11px] mb-3">
                   <span class="font-bold text-slate-400 tracking-widest uppercase text-[10px]">DEIN EVENT</span>
-                  <button class="text-amber-300 hover:text-amber-200 font-bold flex items-center gap-1 transition-colors text-[11.5px]">
+                  <button class="text-rose-300 hover:text-rose-200 font-bold flex items-center gap-1 transition-colors text-[11.5px]">
                     <span>Event wechseln</span>
                     <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
                   </button>
@@ -188,14 +220,14 @@
                     <h3 class="text-[22px] font-extrabold text-white tracking-tight">Mattermind</h3>
                     <p class="text-sm font-semibold text-slate-200">Bootshaus</p>
                     <p class="text-xs text-slate-400">Köln</p>
-                    <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-400/15 text-amber-300 font-mono text-[11px] font-bold mt-2 border border-amber-400/25">
-                      <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+                    <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-rose-400/15 text-rose-300 font-mono text-[11px] font-bold mt-2 border border-rose-400/25">
+                      <span class="w-1.5 h-1.5 rounded-full bg-rose-400 animate-pulse"></span>
                       Start 23:00 Uhr
                     </div>
                   </div>
 
                   <!-- Amy's Warm Gold Tactile Calendar Badge -->
-                  <div class="p-3 w-16 rounded-2xl bg-gradient-to-b from-amber-300 via-amber-400 to-amber-500 text-slate-950 text-center shadow-lg shadow-amber-500/20 flex-shrink-0 border border-amber-200/50">
+                  <div class="p-3 w-16 rounded-2xl bg-gradient-to-b from-amber-200 via-amber-400 to-amber-500 text-slate-950 text-center shadow-lg shadow-amber-500/20 flex-shrink-0 border border-amber-100/60">
                     <span class="block text-[10px] font-black tracking-widest uppercase">SA</span>
                     <span class="block text-2xl font-black leading-none my-0.5">17</span>
                     <span class="block text-[10px] font-black tracking-widest uppercase">MAI</span>
@@ -203,16 +235,18 @@
                 </div>
               </div>
 
-              <!-- 3 Semantic Action Cards (Bespoke Handcrafted Duotone Badges) -->
+              <!-- 3 Semantic Action Cards (Bespoke Handcrafted Feminine Badges) -->
               <div class="space-y-3">
 
-                <!-- 1. Verifizierung (Mint Green Tactile Badge) -->
+                <!-- 1. Verifizierung (Scalloped Lotus Rosette Seal) -->
                 <div class="hina-glass-card p-4 flex items-center justify-between cursor-pointer group">
                   <div class="flex items-center gap-3.5">
-                    <div class="w-11 h-11 rounded-2xl hina-badge-mint flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform text-slate-950">
-                      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                        <path d="m9 12 2 2 4-4"/>
+                    <div class="w-12 h-12 rounded-2xl badge-mint flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform text-white">
+                      <!-- Scalloped Lotus Medallion + Starburst -->
+                      <svg viewBox="0 0 28 28" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2.5 C16 4.5 18 4.5 20.5 4 C21.5 6.5 22.5 8 25 9.5 C24.5 12 25 14 26 16.5 C24.5 18.5 24 20.5 24.5 23 C22 23.5 20.5 24.5 19 26.5 C16.5 25.5 14.5 26 12.5 26.5 C11 24.5 9.5 23.5 7 23 C7.5 20.5 7 18.5 5.5 16.5 C6.5 14 7 12 6.5 9.5 C9 8 10 6.5 11 4 C13.5 4.5 15.5 4.5 14 2.5 Z" fill="rgba(255,255,255,0.18)" stroke="currentColor"/>
+                        <path d="M9.5 14.5 L12.5 17.5 L18.5 11.5" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+                        <circle cx="14" cy="5" r="1" fill="#FFFFFF"/>
                       </svg>
                     </div>
                     <div>
@@ -225,14 +259,15 @@
                   </div>
                 </div>
 
-                <!-- 2. Wie funktioniert Hina? (Lavender Purple Tactile Badge) -->
+                <!-- 2. Wie funktioniert Hina? (Enchanted Compass & Sisterhood Sparkle) -->
                 <div class="hina-glass-card p-4 flex items-center justify-between cursor-pointer group">
                   <div class="flex items-center gap-3.5">
-                    <div class="w-11 h-11 rounded-2xl hina-badge-purple flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform text-white">
-                      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="9"/>
-                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
-                        <circle cx="12" cy="17" r="0.8" fill="currentColor"/>
+                    <div class="w-12 h-12 rounded-2xl badge-lavender flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform text-white">
+                      <!-- Enchanted Guide Compass & Sparkle -->
+                      <svg viewBox="0 0 28 28" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="14" cy="14" r="10" stroke="rgba(255,255,255,0.4)" stroke-dasharray="2 3"/>
+                        <path d="M14 4 L16.5 11.5 L24 14 L16.5 16.5 L14 24 L11.5 16.5 L4 14 L11.5 11.5 Z" fill="rgba(255,255,255,0.25)" stroke="#FFFFFF" stroke-width="1.8"/>
+                        <circle cx="14" cy="14" r="2.5" fill="#FFFFFF"/>
                       </svg>
                     </div>
                     <div>
@@ -245,19 +280,21 @@
                   </div>
                 </div>
 
-                <!-- 3. Was passiert mit meinen Daten? (Rose Pink Tactile Badge) -->
+                <!-- 3. Was passiert mit meinen Daten? (Jeweled Locket of Trust) -->
                 <div class="hina-glass-card p-4 flex items-center justify-between cursor-pointer group">
                   <div class="flex items-center gap-3.5">
-                    <div class="w-11 h-11 rounded-2xl hina-badge-rose flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform text-white">
-                      <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                        <rect width="18" height="11" x="3" y="11" rx="3" ry="3"/>
-                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                        <circle cx="12" cy="16.5" r="1.2" fill="currentColor"/>
+                    <div class="w-12 h-12 rounded-2xl badge-rose flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform text-white">
+                      <!-- Jeweled Heart Locket with Pearl Clasp -->
+                      <svg viewBox="0 0 28 28" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 8 C11 5 6 6 6 11 C6 17 14 22 14 22 C14 22 22 17 22 11 C22 6 17 5 14 8 Z" fill="rgba(255,255,255,0.22)" stroke="#FFFFFF" stroke-width="2"/>
+                        <path d="M14 5 C14 3.5 12.5 2 10.5 2 C8.5 2 7 3.5 7 5" stroke="#FFFFFF" stroke-width="1.8"/>
+                        <circle cx="14" cy="12.5" r="1.8" fill="#FFFFFF"/>
+                        <path d="M14 14.3 V17" stroke="#FFFFFF" stroke-width="2"/>
                       </svg>
                     </div>
                     <div>
                       <h4 class="text-[14.5px] font-bold text-white group-hover:text-rose-300 transition-colors">Was passiert mit meinen Daten?</h4>
-                      <p class="text-[11.5px] text-slate-400 leading-tight mt-0.5">Deine Privatsphäre ist uns wichtig.</p>
+                      <p class="text-[11.5px] text-slate-400 leading-tight mt-0.5">Deine Privatsphäre ist uns heilig.</p>
                     </div>
                   </div>
                   <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors">
@@ -268,26 +305,26 @@
               </div>
 
               <!-- Live Safe-Walk Activity Pill inside Bootshaus -->
-              <div class="p-4 rounded-2xl bg-gradient-to-r from-purple-500/15 via-pink-500/10 to-amber-500/10 border border-purple-500/25 flex items-center justify-between">
+              <div class="p-4 rounded-2xl bg-gradient-to-r from-rose-500/15 via-purple-500/15 to-amber-500/10 border border-rose-500/25 flex items-center justify-between">
                 <div class="flex items-center gap-3">
                   <div class="flex -space-x-2">
-                    <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-amber-400 to-pink-500 border-2 border-[#131824] flex items-center justify-center text-[10px] font-bold text-white">S</div>
-                    <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-purple-500 to-cyan-400 border-2 border-[#131824] flex items-center justify-center text-[10px] font-bold text-white">L</div>
-                    <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-emerald-400 to-blue-500 border-2 border-[#131824] flex items-center justify-center text-[10px] font-bold text-white">M</div>
+                    <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-rose-400 to-pink-500 border-2 border-[#131824] flex items-center justify-center text-[10px] font-bold text-white">S</div>
+                    <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-purple-400 to-indigo-500 border-2 border-[#131824] flex items-center justify-center text-[10px] font-bold text-white">L</div>
+                    <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-amber-300 to-rose-400 border-2 border-[#131824] flex items-center justify-center text-[10px] font-bold text-white">M</div>
                   </div>
                   <div>
-                    <span class="block text-xs font-bold text-white">18 Gäste suchen Begleitung</span>
-                    <span class="block text-[10px] text-purple-300">Köln Hbf • Deutz • Neumarkt</span>
+                    <span class="block text-xs font-bold text-white">18 Mädels suchen Begleitung</span>
+                    <span class="block text-[10px] text-rose-300">Köln Hbf • Deutz • Neumarkt</span>
                   </div>
                 </div>
-                <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold">LIVE</span>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 font-bold">AKTIV</span>
               </div>
 
             </div>
 
             <!-- Bottom Navigation Dock -->
             <div class="px-6 py-4 bg-[#0D121B]/95 backdrop-blur-xl border-t border-white/5 flex items-center justify-between text-xs text-slate-400">
-              <button class="flex flex-col items-center gap-1 text-purple-400 font-bold">
+              <button class="flex flex-col items-center gap-1 text-rose-400 font-bold">
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.3"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
                 <span class="text-[10px]">Event</span>
               </button>
@@ -314,38 +351,38 @@
             <!-- Top Brand Lockup -->
             <div>
               <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md text-slate-200 text-[11px] font-bold tracking-wider uppercase mb-5 border border-white/15">
-                <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span>
                 Official Club Partner • Bootshaus Köln
               </div>
               <h3 class="font-brand text-6xl font-extrabold tracking-tight text-white drop-shadow-md">
                 Hina
               </h3>
               <p class="text-sm font-semibold text-slate-200 mt-2">
-                Kommt <span class="text-amber-300 font-bold">gemeinsam</span> sicher nachhause.
+                Kommt <span class="text-rose-300 font-bold">gemeinsam</span> sicher nachhause.
               </p>
             </div>
 
             <!-- Central Physical Paper QR Card with Ambient Glow -->
-            <div class="my-6 p-7 rounded-[32px] bg-white text-slate-950 max-w-[300px] mx-auto shadow-[0_25px_60px_-10px_rgba(0,0,0,0.8)] relative border border-slate-100">
+            <div class="my-6 p-7 rounded-[32px] bg-white text-slate-950 max-w-[300px] mx-auto shadow-[0_25px_60px_-10px_rgba(0,0,0,0.85)] relative border border-slate-100">
               <span class="block text-xs font-black text-slate-600 uppercase tracking-widest mb-3">
                 Heutiger QR-Code
               </span>
-              <!-- Stylized High-Precision Vector QR -->
+              <!-- Stylized High-Precision Vector QR with Rose Core -->
               <div class="w-52 h-52 mx-auto bg-slate-950 p-3 rounded-2xl flex items-center justify-center shadow-inner">
                 <svg viewBox="0 0 100 100" class="w-full h-full text-white" fill="currentColor">
                   <!-- Corner Locators -->
-                  <rect x="4" y="4" width="30" height="30" rx="6" fill="none" stroke="currentColor" stroke-width="6"/>
-                  <rect x="13" y="13" width="12" height="12" rx="3" fill="#F59E0B"/>
-                  <rect x="66" y="4" width="30" height="30" rx="6" fill="none" stroke="currentColor" stroke-width="6"/>
-                  <rect x="75" y="13" width="12" height="12" rx="3" fill="#38BDF8"/>
-                  <rect x="4" y="66" width="30" height="30" rx="6" fill="none" stroke="currentColor" stroke-width="6"/>
-                  <rect x="13" y="75" width="12" height="12" rx="3" fill="#A855F7"/>
+                  <rect x="4" y="4" width="30" height="30" rx="7" fill="none" stroke="currentColor" stroke-width="6"/>
+                  <rect x="13" y="13" width="12" height="12" rx="3" fill="#FB7185"/>
+                  <rect x="66" y="4" width="30" height="30" rx="7" fill="none" stroke="currentColor" stroke-width="6"/>
+                  <rect x="75" y="13" width="12" height="12" rx="3" fill="#C084FC"/>
+                  <rect x="4" y="66" width="30" height="30" rx="7" fill="none" stroke="currentColor" stroke-width="6"/>
+                  <rect x="13" y="75" width="12" height="12" rx="3" fill="#FBBF24"/>
                   <!-- Aesthetic Pattern Nodes -->
                   <rect x="44" y="8" width="12" height="8" rx="2"/>
                   <rect x="44" y="22" width="8" height="14" rx="2"/>
                   <rect x="8" y="44" width="16" height="8" rx="2"/>
                   <rect x="28" y="44" width="8" height="8" rx="2"/>
-                  <circle cx="50" cy="50" r="10" fill="#EC4899"/>
+                  <circle cx="50" cy="50" r="10" fill="#F43F5E"/>
                   <rect x="68" y="44" width="14" height="8" rx="2"/>
                   <rect x="86" y="44" width="6" height="16" rx="2"/>
                   <rect x="44" y="68" width="8" height="12" rx="2"/>
@@ -365,8 +402,8 @@
               <p class="text-xs text-slate-300 max-w-[280px] mx-auto leading-relaxed">
                 Kein Download nötig. Einfach mit der Handykamera scannen und verifizierte Begleiter finden.
               </p>
-              <div class="pt-2 text-[11.5px] font-bold text-amber-300">
-                Hast du Fragen oder Bedenken? Hina & das Bootshaus Team begleiten dich.
+              <div class="pt-2 text-[11.5px] font-bold text-rose-300">
+                Hast du Fragen oder Bedenken? Hina & das Awareness-Team sind für dich da.
               </div>
             </div>
 
@@ -376,106 +413,164 @@
       </div>
     </section>
 
-    <!-- PART 2: THE 12 BESPOKE HANDCRAFTED CHARACTER ICONS -->
-    <section class="p-8 sm:p-12 rounded-[36px] bg-gradient-to-b from-[#131926] to-[#0D121B] border border-white/10 shadow-2xl">
-      <div class="max-w-3xl mb-12">
-        <span class="text-xs font-bold uppercase tracking-widest text-pink-400 block mb-2">
-          CHARAKTER-IKONOGRAFIE • FÜR AMY ENTWORFEN
-        </span>
-        <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-          12 Handcrafted Character Icons (Zero Generic Outlines)
-        </h2>
-        <p class="text-slate-300 text-sm mt-3 leading-relaxed">
-          Each icon is built as a <strong>multi-layer duotone badge</strong>: tactile gradient base shapes + high-contrast white glyph strokes + ambient back-glow. They feel like physical enamel badges rather than generic AI line drawings.
-        </p>
+    <!-- PART 2: THE 12 BESPOKE HANDCRAFTED FEMININE CHARACTER ICONS -->
+    <section class="p-8 sm:p-12 rounded-[40px] bg-gradient-to-b from-[#151A28] via-[#101420] to-[#0A0D14] border border-white/10 shadow-2xl relative">
+      <div class="flex flex-wrap items-end justify-between gap-6 mb-12">
+        <div class="max-w-3xl">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/15 border border-rose-400/30 text-rose-300 text-xs font-bold uppercase tracking-wider mb-3">
+            ✨ Design System • Handgezeichnet & Berührend
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+            12 Bespoke Feminine Character Icons
+          </h2>
+          <p class="text-slate-300 text-sm mt-3 leading-relaxed">
+            Klicke auf ein Icon, um die <strong>Design-Philosophie, Vektor-Geometrie und SVG-Exporte für Figma</strong> anzuzeigen. Jedes Icon vermeidet kantige Tech-Klischees zugunsten sanfter Kurven, Starlight-Akzenten und schützender Enamel-Texturen.
+          </p>
+        </div>
+        <div class="flex items-center gap-2 text-xs text-slate-400 bg-white/5 px-4 py-2 rounded-full border border-white/10">
+          <span class="w-2 h-2 rounded-full bg-rose-400 animate-ping"></span>
+          Klickbar für Großansicht & SVG-Code
+        </div>
       </div>
 
       <!-- Category 1: Way Home Modes -->
-      <div class="mb-12">
+      <div class="mb-14">
         <div class="flex items-center gap-3 mb-6 pb-3 border-b border-white/10">
-          <span class="w-2.5 h-2.5 rounded-full bg-purple-400"></span>
-          <h3 class="text-sm font-extrabold uppercase tracking-wider text-slate-200">
+          <span class="w-3 h-3 rounded-full bg-rose-400 shadow-md shadow-rose-500/50"></span>
+          <h3 class="text-sm font-extrabold uppercase tracking-wider text-rose-200">
             Kategorie 1 — Heimweg-Optionen (Matching am Clubausgang)
           </h3>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
-          <!-- 1. Zu Fuß / Safe Walk Group -->
-          <div class="hina-glass-card p-6 flex flex-col justify-between min-h-[190px]">
+          <!-- 1. Zu Fuß / Sisterhood Walk -->
+          <div onclick="openIconModal('walk')" class="hina-glass-card p-6 flex flex-col justify-between min-h-[220px] cursor-pointer group">
             <div class="flex items-center justify-between">
-              <div class="w-13 h-13 p-3 rounded-2xl hina-badge-purple text-white">
-                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 4a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
-                  <path d="M7 11l3-2 2 4 3-2"/>
-                  <path d="M10 13v7l3 3"/>
-                  <path d="M14 17l2 4"/>
-                  <circle cx="19" cy="5" r="1.5" fill="currentColor"/>
+              <div class="w-14 h-14 rounded-2xl badge-rose text-white flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                <!-- Two Harmonious Companions with Protective Starlight Arc -->
+                <svg viewBox="0 0 32 32" class="w-8 h-8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <!-- Silhouette 1 (Left) -->
+                  <circle cx="11" cy="9" r="3" fill="#FFFFFF"/>
+                  <path d="M7 25 C7 19.5 9.5 16 13 15" stroke="#FFFFFF" stroke-width="2.4"/>
+                  <!-- Silhouette 2 (Right) -->
+                  <circle cx="21" cy="8" r="3" fill="#FFFFFF"/>
+                  <path d="M17 15 C20.5 16 23 19.5 23 25" stroke="#FFFFFF" stroke-width="2.4"/>
+                  <!-- Intertwined Arm/Hand Arc -->
+                  <path d="M11 16.5 C13.5 19 16.5 19 19 16.5" stroke="#FFFFFF" stroke-width="2.2"/>
+                  <!-- Guiding Starlight overhead -->
+                  <path d="M26 6 L27 8 L29 9 L27 10 L26 12 L25 10 L23 9 L25 8 Z" fill="#FDE047" stroke="none"/>
+                  <circle cx="5" cy="17" r="1.2" fill="#FFFFFF"/>
                 </svg>
               </div>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-bold">Zu Fuß</span>
+              <span class="text-[10px] font-mono px-2.5 py-1 rounded-full bg-rose-500/20 text-rose-300 font-bold border border-rose-400/20">Zu Fuß</span>
             </div>
             <div class="mt-4">
-              <h4 class="text-base font-bold text-white">Laufgruppe</h4>
-              <p class="text-xs text-slate-400 mt-1">Zu zweit oder in der Kleingruppe sicher durch beleuchtete Straßen nach Deutz / Mülheim.</p>
+              <h4 class="text-base font-bold text-white group-hover:text-rose-300 transition-colors flex items-center gap-1.5">
+                <span>Laufgruppe</span>
+                <span class="text-rose-400 text-xs">✨</span>
+              </h4>
+              <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">
+                Zwei Freundinnen gehen Arm in Arm unter schützendem Sternenlicht sicher durch beleuchtete Kölner Straßen.
+              </p>
             </div>
           </div>
 
-          <!-- 2. Nachtbus & Bahn -->
-          <div class="hina-glass-card p-6 flex flex-col justify-between min-h-[190px]">
+          <!-- 2. Sanfte Nachtbahn / Cozy Metro -->
+          <div onclick="openIconModal('train')" class="hina-glass-card p-6 flex flex-col justify-between min-h-[220px] cursor-pointer group">
             <div class="flex items-center justify-between">
-              <div class="w-13 h-13 p-3 rounded-2xl hina-badge-cyan text-white">
-                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect width="16" height="15" x="4" y="4" rx="4"/>
-                  <path d="M4 11h16"/>
-                  <circle cx="8" cy="15" r="1.2" fill="currentColor"/>
-                  <circle cx="16" cy="15" r="1.2" fill="currentColor"/>
-                  <path d="m6 19-2 2"/><path d="m18 19 2 2"/>
-                  <path d="M14 2a4 4 0 0 1 4 4" stroke-dasharray="1 1"/>
+              <div class="w-14 h-14 rounded-2xl badge-lavender text-white flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                <!-- Rounded Cozy Tram with Moon & Sparkle -->
+                <svg viewBox="0 0 32 32" class="w-8 h-8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <!-- Rounded Cabin -->
+                  <rect x="6" y="7" width="20" height="17" rx="6" stroke="#FFFFFF" stroke-width="2.2" fill="rgba(255,255,255,0.15)"/>
+                  <!-- Warm Oval Window -->
+                  <rect x="10" y="11" width="12" height="6" rx="3" fill="#FFFFFF"/>
+                  <circle cx="10" cy="19.5" r="1.5" fill="#FFFFFF"/>
+                  <circle cx="22" cy="19.5" r="1.5" fill="#FFFFFF"/>
+                  <!-- Rails -->
+                  <path d="M4 27 L28 27" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M8 27 L6 29" stroke="#FFFFFF" stroke-width="2"/>
+                  <path d="M24 27 L26 29" stroke="#FFFFFF" stroke-width="2"/>
+                  <!-- Crescent Moon over Roof -->
+                  <path d="M21 4 C22.5 5 23 7 22 8.5 C21 10 19 10.5 17.5 10 C18.8 8.8 19 6.8 18 5 C19 4.5 20 4.2 21 4 Z" fill="#FDE047" stroke="none"/>
                 </svg>
               </div>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-bold">ÖPNV</span>
+              <span class="text-[10px] font-mono px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 font-bold border border-purple-400/20">ÖPNV</span>
             </div>
             <div class="mt-4">
-              <h4 class="text-base font-bold text-white">Nachtbahn / Bus</h4>
-              <p class="text-xs text-slate-400 mt-1">Gemeinsam an der Haltestelle warten und in die gleiche KVB-Bahn einsteigen.</p>
+              <h4 class="text-base font-bold text-white group-hover:text-purple-300 transition-colors flex items-center gap-1.5">
+                <span>Sanfte Nachtbahn</span>
+                <span class="text-purple-400 text-xs">🌙</span>
+              </h4>
+              <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">
+                Gemütliche KVB-Bahn mit leuchtenden Fenstern und Mondsichel: zusammen einsteigen und nicht allein am Gleis stehen.
+              </p>
             </div>
           </div>
 
-          <!-- 3. Taxi / Uber Split -->
-          <div class="hina-glass-card p-6 flex flex-col justify-between min-h-[190px]">
+          <!-- 3. Taxi / Uber Split (Shared Heart Coupe) -->
+          <div onclick="openIconModal('taxi')" class="hina-glass-card p-6 flex flex-col justify-between min-h-[220px] cursor-pointer group">
             <div class="flex items-center justify-between">
-              <div class="w-13 h-13 p-3 rounded-2xl hina-badge-amber text-slate-950">
-                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9C2.1 11.2 2 11.6 2 12v4c0 .6.4 1 1 1h2"/>
-                  <circle cx="7" cy="17" r="2.2" fill="currentColor"/>
-                  <circle cx="17" cy="17" r="2.2" fill="currentColor"/>
-                  <path d="M10 5h4v2h-4z"/>
+              <div class="w-14 h-14 rounded-2xl badge-peach text-slate-950 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                <!-- Sleek Coupe with Glowing Shared Heart Beacon -->
+                <svg viewBox="0 0 32 32" class="w-8 h-8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <!-- Heart Roof Beacon -->
+                  <path d="M16 4 C15 2.5 13 2.5 12 3.5 C11 4.5 11 6 13 7.5 L16 10 L19 7.5 C21 6 21 4.5 20 3.5 C19 2.5 17 2.5 16 4 Z" fill="#FFFFFF" stroke="#000000" stroke-width="1.2"/>
+                  <!-- Organic Car Body -->
+                  <path d="M5 22 C4.5 21 4.5 19 5.5 17.5 L8.5 12 C9.5 10.5 11.5 9.5 14 9.5 L19.5 9.5 C22 9.5 24 10.5 25 12 L27.5 17 C28.5 18.5 28.5 20.5 28 22 C27.5 23 26 23 24 23" stroke="#000000" stroke-width="2.2"/>
+                  <path d="M5 22 C6 23 8 23 10 23" stroke="#000000" stroke-width="2.2"/>
+                  <circle cx="12" cy="22" r="3.2" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+                  <circle cx="22" cy="22" r="3.2" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+                  <!-- Passengers inside Window -->
+                  <circle cx="13" cy="14" r="1.5" fill="#000000"/>
+                  <circle cx="18" cy="14" r="1.5" fill="#000000"/>
                 </svg>
               </div>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-bold">Split Fare</span>
+              <span class="text-[10px] font-mono px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 font-bold border border-amber-400/20">Split Ride</span>
             </div>
             <div class="mt-4">
-              <h4 class="text-base font-bold text-white">Taxi / Uber teilen</h4>
-              <p class="text-xs text-slate-400 mt-1">Gemeinsam ein Taxi nehmen: halbiert die Kosten und keiner fährt alleine.</p>
+              <h4 class="text-base font-bold text-white group-hover:text-amber-300 transition-colors flex items-center gap-1.5">
+                <span>Taxi / Uber teilen</span>
+                <span class="text-amber-400 text-xs">💛</span>
+              </h4>
+              <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">
+                Rundes Coupe mit leuchtendem Herz-Dachlicht: Sicheres Nachhausekommen zu zweit und geteilte Kosten.
+              </p>
             </div>
           </div>
 
-          <!-- 4. Fahrrad / E-Scooter -->
-          <div class="hina-glass-card p-6 flex flex-col justify-between min-h-[190px]">
+          <!-- 4. Fahrrad & E-Scooter (Petal Glider) -->
+          <div onclick="openIconModal('scooter')" class="hina-glass-card p-6 flex flex-col justify-between min-h-[220px] cursor-pointer group">
             <div class="flex items-center justify-between">
-              <div class="w-13 h-13 p-3 rounded-2xl hina-badge-mint text-slate-950">
-                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/>
-                  <path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 5 4-4h3m-8 6 3-6-4-4"/>
-                  <path d="M18.5 14v-3"/>
+              <div class="w-14 h-14 rounded-2xl badge-mint text-slate-950 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                <!-- Floral Spoked Scooter with Flowing Wind Ribbons -->
+                <svg viewBox="0 0 32 32" class="w-8 h-8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <!-- Steer & Stem -->
+                  <path d="M19 6 L23 6" stroke="#000000" stroke-width="2.4"/>
+                  <path d="M21 6 L18 20 L9 20" stroke="#000000" stroke-width="2.4"/>
+                  <!-- Front Wheel with Floral Center -->
+                  <circle cx="21" cy="23" r="4.2" stroke="#000000" stroke-width="2.2" fill="#FFFFFF"/>
+                  <circle cx="21" cy="23" r="1.5" fill="#000000"/>
+                  <!-- Back Wheel -->
+                  <circle cx="8" cy="23" r="4.2" stroke="#000000" stroke-width="2.2" fill="#FFFFFF"/>
+                  <circle cx="8" cy="23" r="1.5" fill="#000000"/>
+                  <!-- Wind Breeze Trails -->
+                  <path d="M4 14 C7 14 8 16 11 16" stroke="#000000" stroke-width="1.8" stroke-dasharray="1 2"/>
+                  <path d="M2 17 C5 17 6 18.5 9 18.5" stroke="#000000" stroke-width="1.8"/>
+                  <circle cx="26" cy="10" r="1.5" fill="#000000"/>
                 </svg>
               </div>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold">Rad / Roller</span>
+              <span class="text-[10px] font-mono px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-400/20">Glider</span>
             </div>
             <div class="mt-4">
-              <h4 class="text-base font-bold text-white">Fahrrad / Scooter</h4>
-              <p class="text-xs text-slate-400 mt-1">Im Tandem mit voller Beleuchtung über die Hohenzollern- oder Deutzer Brücke.</p>
+              <h4 class="text-base font-bold text-white group-hover:text-emerald-300 transition-colors flex items-center gap-1.5">
+                <span>Roller / Rad Konvoi</span>
+                <span class="text-emerald-400 text-xs">🌿</span>
+              </h4>
+              <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">
+                Eleganter Glider mit Blüten-Rädern und sanften Windbändern: Leise und beleuchtet über die Rheinbrücke gleiten.
+              </p>
             </div>
           </div>
 
@@ -483,82 +578,130 @@
       </div>
 
       <!-- Category 2: Trust & Safety Badges -->
-      <div class="mb-12">
+      <div class="mb-14">
         <div class="flex items-center gap-3 mb-6 pb-3 border-b border-white/10">
-          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
-          <h3 class="text-sm font-extrabold uppercase tracking-wider text-slate-200">
-            Kategorie 2 — Vertrauens- & Sicherheits-Badges
+          <span class="w-3 h-3 rounded-full bg-amber-400 shadow-md shadow-amber-500/50"></span>
+          <h3 class="text-sm font-extrabold uppercase tracking-wider text-amber-200">
+            Kategorie 2 — Vertrauens- & Geborgenheits-Badges
           </h3>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
-          <!-- 5. Verifizierter Gast -->
-          <div class="hina-glass-card p-6 flex flex-col justify-between min-h-[190px]">
+          <!-- 5. Verifizierte Schwester / Scalloped Lotus -->
+          <div onclick="openIconModal('verified')" class="hina-glass-card p-6 flex flex-col justify-between min-h-[220px] cursor-pointer group">
             <div class="flex items-center justify-between">
-              <div class="w-13 h-13 p-3 rounded-2xl hina-badge-mint text-slate-950">
-                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                  <polygon points="12 7 13.5 10.5 17 11 14.5 13.5 15 17 12 15.5 9 17 9.5 13.5 7 11 10.5 10.5 12 7" fill="currentColor"/>
+              <div class="w-14 h-14 rounded-2xl badge-champagne text-slate-950 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                <!-- Scalloped 8-Petal Rosette with Gentle Curve Checkmark -->
+                <svg viewBox="0 0 32 32" class="w-8 h-8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M16 3 C18.5 5 21 5 23.5 4 C24.5 7 26 8.5 28.5 10 C28 12.5 28.5 15 29.5 17.5 C27.5 19.5 27 22 27.5 24.5 C24.5 25 23 26.5 21 28.5 C18.5 27.5 16 28 13.5 29 C11.5 26.5 10 25.5 7.5 25 C8 22 7.5 19.5 6 17.5 C7 14.5 7.5 12 7 9.5 C9.5 8 10.5 6.5 12 4 C14.5 4.8 15.5 4.8 16 3 Z" fill="rgba(255,255,255,0.4)" stroke="#000000" stroke-width="2"/>
+                  <!-- Smooth Calligraphic Checkmark -->
+                  <path d="M11 16.5 L14.5 20 L21.5 12.5" stroke="#000000" stroke-width="2.8"/>
+                  <circle cx="16" cy="7" r="1.3" fill="#000000"/>
                 </svg>
               </div>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold">Geprüft</span>
+              <span class="text-[10px] font-mono px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 font-bold border border-amber-400/20">Geprüft</span>
             </div>
             <div class="mt-4">
-              <h4 class="text-base font-bold text-white">Verifizierter Gast</h4>
-              <p class="text-xs text-slate-400 mt-1">Ausweis oder Uni-ID bestätigt. Garantiert echte Person von derselben Party.</p>
+              <h4 class="text-base font-bold text-white group-hover:text-amber-300 transition-colors flex items-center gap-1.5">
+                <span>Verifizierter Gast</span>
+                <span class="text-amber-400 text-xs">👑</span>
+              </h4>
+              <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">
+                Blüten-Rosette statt Polizeistern: Symbolisiert geprüfte Identität und herzliche Zugehörigkeit zum Event.
+              </p>
             </div>
           </div>
 
-          <!-- 6. Treffpunkt am Clubausgang -->
-          <div class="hina-glass-card p-6 flex flex-col justify-between min-h-[190px]">
+          <!-- 6. Safe Spot Ausgang / Welcoming Lantern Beacon -->
+          <div onclick="openIconModal('lantern')" class="hina-glass-card p-6 flex flex-col justify-between min-h-[220px] cursor-pointer group">
             <div class="flex items-center justify-between">
-              <div class="w-13 h-13 p-3 rounded-2xl hina-badge-rose text-white">
-                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 21s-6-5.33-6-10a6 6 0 0 1 12 0c0 4.67-6 10-6 10z"/>
-                  <circle cx="12" cy="11" r="2.5" fill="currentColor"/>
+              <div class="w-14 h-14 rounded-2xl badge-peach text-slate-950 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                <!-- Warm Welcoming Lantern Beacon -->
+                <svg viewBox="0 0 32 32" class="w-8 h-8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <!-- Lantern Top Cap & Ring -->
+                  <path d="M16 3 C14.5 3 13.5 4 13.5 5.5 C13.5 7 14.5 8 16 8 C17.5 8 18.5 7 18.5 5.5 C18.5 4 17.5 3 16 3 Z" stroke="#000000" stroke-width="1.8"/>
+                  <path d="M10 9 L22 9 L20 12 L12 12 Z" fill="#000000"/>
+                  <!-- Curved Glass Body with Flame -->
+                  <path d="M11 12 C10 17 11 21 13 23 L19 23 C21 21 22 17 21 12" stroke="#000000" stroke-width="2.2" fill="rgba(255,255,255,0.4)"/>
+                  <path d="M13 23 L11 26 L21 26 L19 23" fill="#000000"/>
+                  <!-- Warm Radiant Flame -->
+                  <circle cx="16" cy="17" r="2.5" fill="#EA580C"/>
+                  <path d="M8 17 L5 17" stroke="#000000" stroke-width="2"/>
+                  <path d="M24 17 L27 17" stroke="#000000" stroke-width="2"/>
                 </svg>
               </div>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 font-bold">Safe Spot</span>
+              <span class="text-[10px] font-mono px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 font-bold border border-amber-400/20">Beacon</span>
             </div>
             <div class="mt-4">
-              <h4 class="text-base font-bold text-white">Treffpunkt Ausgang</h4>
-              <p class="text-xs text-slate-400 mt-1">Fester, gut beleuchteter Sammelpunkt direkt an der Garderobe oder am Haupteingang.</p>
+              <h4 class="text-base font-bold text-white group-hover:text-amber-300 transition-colors flex items-center gap-1.5">
+                <span>Treffpunkt Laterne</span>
+                <span class="text-amber-400 text-xs">🏮</span>
+              </h4>
+              <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">
+                Leuchtende Laterne statt kaltem GPS-Pin: Warmer, unübersehbarer Sammelpunkt direkt an der Bootshaus-Garderobe.
+              </p>
             </div>
           </div>
 
-          <!-- 7. Sicher Zuhause! -->
-          <div class="hina-glass-card p-6 flex flex-col justify-between min-h-[190px]">
+          <!-- 7. Sicher Zuhause / Cozy Haven Hearth -->
+          <div onclick="openIconModal('hearth')" class="hina-glass-card p-6 flex flex-col justify-between min-h-[220px] cursor-pointer group">
             <div class="flex items-center justify-between">
-              <div class="w-13 h-13 p-3 rounded-2xl hina-badge-amber text-slate-950">
-                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                  <polyline points="9 12 11 14 15 10"/>
+              <div class="w-14 h-14 rounded-2xl badge-rose text-white flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                <!-- Cozy Cottage with Heart Window & Warmth Smoke -->
+                <svg viewBox="0 0 32 32" class="w-8 h-8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <!-- Chimney with Curled Smoke -->
+                  <path d="M22 11 L22 7 L20 7 L20 9" stroke="#FFFFFF" stroke-width="2"/>
+                  <path d="M21 5 C21 3 23 2 24 3.5 C25 5 27 4.5 28 6" stroke="#FFFFFF" stroke-width="1.8"/>
+                  <!-- Curved Roof -->
+                  <path d="M5 14 C12 8 20 8 27 14" stroke="#FFFFFF" stroke-width="2.6"/>
+                  <!-- House Body -->
+                  <path d="M8 13 L8 25 C8 26.5 9.5 27 11 27 L21 27 C22.5 27 24 26.5 24 25 L24 13" stroke="#FFFFFF" stroke-width="2.2" fill="rgba(255,255,255,0.15)"/>
+                  <!-- Glowing Heart Window -->
+                  <path d="M16 17 C15 15.5 13.5 15.5 12.8 16.2 C12 17 12 18.2 13.5 19.5 L16 22 L18.5 19.5 C20 18.2 20 17 19.2 16.2 C18.5 15.5 17 15.5 16 17 Z" fill="#FFFFFF"/>
                 </svg>
               </div>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-bold">1-Tap Check</span>
+              <span class="text-[10px] font-mono px-2.5 py-1 rounded-full bg-rose-500/20 text-rose-300 font-bold border border-rose-400/20">Geborgen</span>
             </div>
             <div class="mt-4">
-              <h4 class="text-base font-bold text-white">Sicher Zuhause!</h4>
-              <p class="text-xs text-slate-400 mt-1">Benachrichtigt beide Begleiter automatisch, sobald beide die eigene Haustür erreicht haben.</p>
+              <h4 class="text-base font-bold text-white group-hover:text-rose-300 transition-colors flex items-center gap-1.5">
+                <span>Sicher Zuhause!</span>
+                <span class="text-rose-400 text-xs">🏠</span>
+              </h4>
+              <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">
+                Märchenhaftes Häuschen mit Herzfenster: Schickt beiden Begleiterinnen automatisch die erlösende Nachricht.
+              </p>
             </div>
           </div>
 
-          <!-- 8. Awareness & Notfall -->
-          <div class="hina-glass-card p-6 flex flex-col justify-between min-h-[190px]">
+          <!-- 8. Awareness Support / Gentle Cupping Hands -->
+          <div onclick="openIconModal('hands')" class="hina-glass-card p-6 flex flex-col justify-between min-h-[220px] cursor-pointer group">
             <div class="flex items-center justify-between">
-              <div class="w-13 h-13 p-3 rounded-2xl hina-badge-rose text-white">
-                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"/>
-                  <line x1="12" x2="12" y1="8" y2="12"/>
-                  <circle cx="12" cy="16" r="1" fill="currentColor"/>
+              <div class="w-14 h-14 rounded-2xl badge-orchid text-white flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                <!-- Two Tender Hands Sheltering a Radiant Heart -->
+                <svg viewBox="0 0 32 32" class="w-8 h-8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <!-- Left Cupping Hand -->
+                  <path d="M6 19 C8 17 10 18 12 21 C13 22.5 14 24 16 24" stroke="#FFFFFF" stroke-width="2.2"/>
+                  <path d="M6 15 C8.5 13.5 11 15 13 18" stroke="#FFFFFF" stroke-width="1.8"/>
+                  <!-- Right Cupping Hand -->
+                  <path d="M26 19 C24 17 22 18 20 21 C19 22.5 18 24 16 24" stroke="#FFFFFF" stroke-width="2.2"/>
+                  <path d="M26 15 C23.5 13.5 21 15 19 18" stroke="#FFFFFF" stroke-width="1.8"/>
+                  <!-- Sheltered Radiant Heart -->
+                  <path d="M16 9 C14.5 7 12 7.5 11.5 9.5 C11 11.5 13 14 16 16.5 C19 14 21 11.5 20.5 9.5 C20 7.5 17.5 7 16 9 Z" fill="#FFFFFF"/>
+                  <!-- Gentle Warmth Rays -->
+                  <circle cx="16" cy="5" r="1.2" fill="#FFFFFF"/>
                 </svg>
               </div>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 font-bold">Club Team</span>
+              <span class="text-[10px] font-mono px-2.5 py-1 rounded-full bg-pink-500/20 text-pink-300 font-bold border border-pink-400/20">Fürsorge</span>
             </div>
             <div class="mt-4">
-              <h4 class="text-base font-bold text-white">Awareness Support</h4>
-              <p class="text-xs text-slate-400 mt-1">Diskrete Soforthilfe durch das geschulte Awareness-Team im Club bei Unwohlsein.</p>
+              <h4 class="text-base font-bold text-white group-hover:text-pink-300 transition-colors flex items-center gap-1.5">
+                <span>Awareness & Fürsorge</span>
+                <span class="text-pink-400 text-xs">🌸</span>
+              </h4>
+              <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">
+                Zwei schützende Hände wiegen ein leuchtendes Herz: Diskrete, sanfte Hilfe ohne Urteil bei Unwohlsein im Club.
+              </p>
             </div>
           </div>
 
@@ -568,77 +711,128 @@
       <!-- Category 3: Companion Preferences -->
       <div>
         <div class="flex items-center gap-3 mb-6 pb-3 border-b border-white/10">
-          <span class="w-2.5 h-2.5 rounded-full bg-pink-400"></span>
-          <h3 class="text-sm font-extrabold uppercase tracking-wider text-slate-200">
+          <span class="w-3 h-3 rounded-full bg-purple-400 shadow-md shadow-purple-500/50"></span>
+          <h3 class="text-sm font-extrabold uppercase tracking-wider text-purple-200">
             Kategorie 3 — Begleiter-Filter & Wohlfühl-Kriterien
           </h3>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
-          <!-- 9. FLINTA* Only -->
-          <div class="hina-glass-card p-6 flex flex-col justify-between min-h-[190px]">
+          <!-- 9. FLINTA* Only / Sisterhood Bloom -->
+          <div onclick="openIconModal('flinta')" class="hina-glass-card p-6 flex flex-col justify-between min-h-[220px] cursor-pointer group">
             <div class="flex items-center justify-between">
-              <div class="w-13 h-13 p-3 rounded-2xl hina-badge-rose text-white">
-                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="9" r="6"/>
-                  <path d="M12 15v7m-3-3h6"/>
+              <div class="w-14 h-14 rounded-2xl badge-lavender text-white flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                <!-- Celestial Venus Glyph blooming with Lotus Petals & Sparkle -->
+                <svg viewBox="0 0 32 32" class="w-8 h-8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <!-- Blooming Lotus / Winged Petals on Loop -->
+                  <circle cx="16" cy="12" r="7" stroke="#FFFFFF" stroke-width="2.3" fill="rgba(255,255,255,0.2)"/>
+                  <path d="M9 12 C9 7 16 5 16 12 C16 5 23 7 23 12" stroke="#FFFFFF" stroke-width="1.8"/>
+                  <!-- Cross Bar with Rounded Pearls -->
+                  <path d="M16 19 L16 28" stroke="#FFFFFF" stroke-width="2.5"/>
+                  <path d="M11 23.5 L21 23.5" stroke="#FFFFFF" stroke-width="2.5"/>
+                  <circle cx="11" cy="23.5" r="1.3" fill="#FFFFFF"/>
+                  <circle cx="21" cy="23.5" r="1.3" fill="#FFFFFF"/>
+                  <!-- Starburst Center -->
+                  <circle cx="16" cy="12" r="2" fill="#FDE047"/>
                 </svg>
               </div>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-pink-500/20 text-pink-300 font-bold">FLINTA*</span>
+              <span class="text-[10px] font-mono px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 font-bold border border-purple-400/20">FLINTA*</span>
             </div>
             <div class="mt-4">
-              <h4 class="text-base font-bold text-white">FLINTA* Begleitung</h4>
-              <p class="text-xs text-slate-400 mt-1">Matching-Präferenz ausschließlich für Frauen, inter, nicht-binäre und trans Gäste.</p>
+              <h4 class="text-base font-bold text-white group-hover:text-purple-300 transition-colors flex items-center gap-1.5">
+                <span>FLINTA* Begleitung</span>
+                <span class="text-purple-400 text-xs">💜</span>
+              </h4>
+              <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">
+                Aufblühende Lotus-Venus: Geschütztes Matching für Frauen, inter, nicht-binäre und trans Nachtschwärmerinnen.
+              </p>
             </div>
           </div>
 
-          <!-- 10. Direkter Weg -->
-          <div class="hina-glass-card p-6 flex flex-col justify-between min-h-[190px]">
+          <!-- 10. Direkter Weg / Starlight Ribbon -->
+          <div onclick="openIconModal('ribbon')" class="hina-glass-card p-6 flex flex-col justify-between min-h-[220px] cursor-pointer group">
             <div class="flex items-center justify-between">
-              <div class="w-13 h-13 p-3 rounded-2xl hina-badge-cyan text-white">
-                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="5" x2="19" y1="12" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              <div class="w-14 h-14 rounded-2xl badge-rose text-white flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                <!-- Flowing Starlight Silk Ribbon Leading to Guiding Star -->
+                <svg viewBox="0 0 32 32" class="w-8 h-8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <!-- Flowing Dual Ribbon Path -->
+                  <path d="M6 26 C9 20 16 17 22 11" stroke="#FFFFFF" stroke-width="2.6"/>
+                  <path d="M10 28 C13 22 19 19 24 13" stroke="rgba(255,255,255,0.5)" stroke-width="1.8" stroke-dasharray="2 3"/>
+                  <!-- Radiant Guiding North Star -->
+                  <path d="M23 4 L24.5 8 L28.5 9.5 L24.5 11 L23 15 L21.5 11 L17.5 9.5 L21.5 8 Z" fill="#FDE047" stroke="none"/>
+                  <circle cx="8" cy="18" r="1.3" fill="#FFFFFF"/>
+                  <circle cx="15" cy="13" r="1.3" fill="#FFFFFF"/>
                 </svg>
               </div>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-bold">Ohne Umweg</span>
+              <span class="text-[10px] font-mono px-2.5 py-1 rounded-full bg-rose-500/20 text-rose-300 font-bold border border-rose-400/20">Direkt</span>
             </div>
             <div class="mt-4">
-              <h4 class="text-base font-bold text-white">Direkter Heimweg</h4>
-              <p class="text-xs text-slate-400 mt-1">Keine Zwischenstopps, kein Weiterfeiern — zügig und sicher nach Hause.</p>
+              <h4 class="text-base font-bold text-white group-hover:text-rose-300 transition-colors flex items-center gap-1.5">
+                <span>Direkter Sternenpfad</span>
+                <span class="text-rose-400 text-xs">✨</span>
+              </h4>
+              <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">
+                Fließendes Seidenband zum Polarstern: Kein Weiterfeiern, keine Umwege — gemeinsam zügig und sicher nach Hause.
+              </p>
             </div>
           </div>
 
-          <!-- 11. Ruhiger Heimweg -->
-          <div class="hina-glass-card p-6 flex flex-col justify-between min-h-[190px]">
+          <!-- 11. Ruhiger Heimweg / Slumbering Moon on Cloud -->
+          <div onclick="openIconModal('moon')" class="hina-glass-card p-6 flex flex-col justify-between min-h-[220px] cursor-pointer group">
             <div class="flex items-center justify-between">
-              <div class="w-13 h-13 p-3 rounded-2xl hina-badge-purple text-white">
-                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+              <div class="w-14 h-14 rounded-2xl badge-twilight text-white flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                <!-- Slumbering Crescent Moon with Eyelashes on Soft Cloud -->
+                <svg viewBox="0 0 32 32" class="w-8 h-8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <!-- Soft Cloud Pillow -->
+                  <path d="M8 24 C5 24 3 22 3 19 C3 16.5 5 15 7.5 15 C8 12 11 10 14 10 C17.5 10 20 12.5 20.5 15 C22.5 15 24 16.5 24 18.5 C24 21.5 21.5 24 18 24 Z" fill="rgba(255,255,255,0.2)" stroke="#FFFFFF" stroke-width="1.8"/>
+                  <!-- Sleeping Moon Nestled in Cloud -->
+                  <path d="M19 6 C21 7.5 22 10 21 12.5 C20 15 17.5 16.5 15 16 C17 14.5 17.5 12 16.5 9.5 C16 8.5 15 7.5 14 7 C15.5 6.2 17.5 5.8 19 6 Z" fill="#FDE047" stroke="none"/>
+                  <!-- Closed Sleeping Eyelash on Moon -->
+                  <path d="M17.5 10 C18.5 10.5 19 11.5 19 12.5" stroke="#4F46E5" stroke-width="1.2"/>
+                  <!-- Floating Night Star -->
+                  <circle cx="26" cy="9" r="1.3" fill="#FFFFFF"/>
                 </svg>
               </div>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-bold">Chillig</span>
+              <span class="text-[10px] font-mono px-2.5 py-1 rounded-full bg-indigo-500/20 text-indigo-300 font-bold border border-indigo-400/20">Stille</span>
             </div>
             <div class="mt-4">
-              <h4 class="text-base font-bold text-white">Ruhige Begleitung</h4>
-              <p class="text-xs text-slate-400 mt-1">Nach lauter Musik einfach schweigend nebeneinander hergehen oder leise reden.</p>
+              <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition-colors flex items-center gap-1.5">
+                <span>Ruhige Begleitung</span>
+                <span class="text-indigo-400 text-xs">☁️</span>
+              </h4>
+              <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">
+                Schlummernder Mond auf Wolkenkissen: Nach lauten Techno-Bässen einfach friedlich nebeneinander hergehen.
+              </p>
             </div>
           </div>
 
-          <!-- 12. Geteilte Haltestelle -->
-          <div class="hina-glass-card p-6 flex flex-col justify-between min-h-[190px]">
+          <!-- 12. Geteilte Haltestelle / Intertwined Infinity Heart -->
+          <div onclick="openIconModal('sync')" class="hina-glass-card p-6 flex flex-col justify-between min-h-[220px] cursor-pointer group">
             <div class="flex items-center justify-between">
-              <div class="w-13 h-13 p-3 rounded-2xl hina-badge-amber text-slate-950">
-                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="8"/>
-                  <path d="M12 7v10m-5-5h10"/>
+              <div class="w-14 h-14 rounded-2xl badge-periwinkle text-white flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                <!-- Intertwined Infinity Ribbon with Meeting Pearl -->
+                <svg viewBox="0 0 32 32" class="w-8 h-8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <!-- Flowing Infinity Loop -->
+                  <path d="M10 11 C6.5 11 4 13.5 4 16 C4 18.5 6.5 21 10 21 C14 21 18 11 22 11 C25.5 11 28 13.5 28 16 C28 18.5 25.5 21 22 21 C18 21 14 11 10 11 Z" stroke="#FFFFFF" stroke-width="2.5" fill="rgba(255,255,255,0.15)"/>
+                  <!-- Central Glowing Sync Pearl -->
+                  <circle cx="16" cy="16" r="3.2" fill="#FFFFFF"/>
+                  <circle cx="16" cy="16" r="1.3" fill="#3B82F6"/>
+                  <!-- Little Stardust Sparkles -->
+                  <circle cx="10" cy="8" r="1.2" fill="#FFFFFF"/>
+                  <circle cx="22" cy="24" r="1.2" fill="#FFFFFF"/>
                 </svg>
               </div>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-bold">Knotenpunkt</span>
+              <span class="text-[10px] font-mono px-2.5 py-1 rounded-full bg-blue-500/20 text-blue-300 font-bold border border-blue-400/20">Sync</span>
             </div>
             <div class="mt-4">
-              <h4 class="text-base font-bold text-white">Gemeinsamer Umstieg</h4>
-              <p class="text-xs text-slate-400 mt-1">Begleitung bis zum Hauptbahnhof, Heumarkt oder Bahnhof Deutz.</p>
+              <h4 class="text-base font-bold text-white group-hover:text-blue-300 transition-colors flex items-center gap-1.5">
+                <span>Gemeinsamer Umstieg</span>
+                <span class="text-blue-400 text-xs">🔗</span>
+              </h4>
+              <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">
+                Verflochtenes Unendlichkeitsband mit Begegnungsperle: Gemeinsam bis zum Hauptbahnhof oder Deutzer Bahnhof fahren.
+              </p>
             </div>
           </div>
 
@@ -647,40 +841,313 @@
     </section>
 
     <!-- PART 3: READY-TO-SEND DISCORD REPLY FOR AMY -->
-    <section class="p-8 sm:p-12 rounded-[36px] bg-gradient-to-r from-purple-950/60 via-slate-900 to-amber-950/30 border border-purple-500/30" id="discord-reply">
+    <section class="p-8 sm:p-12 rounded-[40px] bg-gradient-to-r from-rose-950/60 via-purple-950/50 to-slate-900 border border-rose-500/30" id="discord-reply">
       <div class="max-w-3xl">
-        <span class="text-xs font-bold uppercase tracking-widest text-purple-300 block mb-2">
+        <span class="text-xs font-bold uppercase tracking-widest text-rose-300 block mb-2">
           FERTIGE ANTWORT ZUM KOPIEREN FÜR AMY
         </span>
         <h3 class="text-2xl sm:text-3xl font-extrabold text-white mb-3">
           Send This to Amy on Discord Right Now
         </h3>
         <p class="text-slate-300 text-xs sm:text-sm mb-6 leading-relaxed">
-          This message shows that you elevated her exact Bootshaus Köln screen and poster with genuine tactile craftsmanship, explained the 12 custom icons, and gave her a live URL to test:
+          Diese Nachricht erklärt ihr genau, warum die neuen Icons nicht nach Standard-Tech aussehen, sondern speziell für junge Frauen und das Nachtleben gestaltet wurden:
         </p>
 
-        <div class="bg-[#0B0F17] p-7 rounded-2xl border border-white/10 text-slate-200 font-mono text-xs leading-relaxed select-all shadow-inner">
-Hey Amy! Just took a close look at both your dark mode screen and the poster — honestly, your dark nightlife palette is so much better than generic bright screens! 🙌
+        <div class="bg-[#0B0F17] p-7 rounded-2xl border border-white/10 text-slate-200 font-mono text-xs leading-relaxed select-all shadow-inner relative group">
+          <button onclick="navigator.clipboard.writeText(this.nextElementSibling.innerText); alert('Kopiert!');" class="absolute top-4 right-4 px-3 py-1.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/40 text-rose-300 text-[11px] font-sans font-bold border border-rose-400/30 transition-colors">
+            Text kopieren 📋
+          </button>
+          <div class="space-y-4">
+Hey Amy! 🌸 I took your feedback to heart and completely redesigned the entire icon system to be deeply feminine, soft, and protective — moving far away from cold corporate tech or generic outline icons:
 
-I completely agree with you on avoiding standard emojis. To bring your vision to life, I designed a bespoke 12-icon character system for Hina in your exact style: multi-layer duotone badges (mint, lavender, rose, amber) with tactile depth and warm glows so they look like physical club enamel pins rather than flat generic outlines:
+✨ What makes the new icons special:
+1. Nurturing, organic motifs: We replaced the harsh police shield with a scalloped lotus rosette seal (Verifizierter Gast), the plain house with a cozy storybook haven with a heart window (Sicher Zuhause), and warning icons with two gentle cupping hands cradling a heart (Awareness Support).
+2. Sisterhood storytelling: "Zu Fuß" shows two companions walking arm-in-arm under a protective starlight arc, "Ruhige Begleitung" features a slumbering crescent moon resting on a cloud pillow, and "FLINTA*" blooms with celestial lotus petals.
+3. Tactile enamel-gem finish: Multi-layer pastels (Rose Quartz, Amethyst Lavender, Peach Glow, Mint Sage) with physical glass reflections and starlight accents.
+4. Interactive Figma Exporter: You can click on any icon on the live website to view it at 128px and copy the clean SVG vector code directly into your Figma canvas!
 
-• 4 Transport Modes: (1) Zu Fuß / Gruppe, (2) Nachtbahn / ÖPNV, (3) Taxi / Uber Split, (4) Rad / Scooter
-• 4 Safety & Trust Badges: (5) Verifizierter Gast (Shield + Star), (6) Treffpunkt Ausgang (Club Pin), (7) Sicher Zuhause! (House + Check), (8) Awareness Support
-• 4 Companion Filters: (9) FLINTA* Only, (10) Direkter Weg, (11) Ruhige Begleitung, (12) Geteilter Umstieg
-
-I also built an interactive live preview of your exact Mattermind (Bootshaus Köln) dark screen, the dark fluid-aura poster, and all 12 custom icons so you can test them live on your phone:
+Check out the live interactive showcase on your phone:
 👉 https://jahanzaibahmad630-bit.github.io/website/hina-dark.html
 
-Check it out and let me know how you feel about the tactile badges! Excited to push this forward together.
+Let me know which icon is your personal favorite! 💖
+          </div>
         </div>
       </div>
     </section>
 
   </main>
 
+  <!-- INTERACTIVE ICON INSPECTOR MODAL -->
+  <div id="icon-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-[#131926] border border-white/15 max-w-lg w-full rounded-[36px] p-8 shadow-2xl relative overflow-hidden">
+      <!-- Close Button -->
+      <button onclick="closeIconModal()" class="absolute top-6 right-6 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white flex items-center justify-center transition-colors">
+        ✕
+      </button>
+
+      <!-- Modal Content Area -->
+      <div id="modal-body" class="space-y-6">
+        <!-- Rendered dynamically via JavaScript -->
+      </div>
+    </div>
+  </div>
+
   <footer class="max-w-[1360px] mx-auto mt-20 pt-8 border-t border-white/10 text-center text-xs text-slate-500">
-    Hina — Kommt gemeinsam sicher nachhause. Designed in collaboration with Amy.
+    Hina — Kommt gemeinsam sicher nachhause. Handcrafted with care for Amy.
   </footer>
+
+  <script>
+    // ICON DATA DICTIONARY
+    const ICON_DATA = {
+      walk: {
+        title: "Laufgruppe (Sisterhood Walk)",
+        category: "Kategorie 1 • Heimweg-Option",
+        badgeClass: "badge-rose",
+        svgPath: `<svg viewBox="0 0 32 32" class="w-24 h-24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="9" r="3" fill="#FFFFFF"/>
+          <path d="M7 25 C7 19.5 9.5 16 13 15" stroke="#FFFFFF" stroke-width="2.4"/>
+          <circle cx="21" cy="8" r="3" fill="#FFFFFF"/>
+          <path d="M17 15 C20.5 16 23 19.5 23 25" stroke="#FFFFFF" stroke-width="2.4"/>
+          <path d="M11 16.5 C13.5 19 16.5 19 19 16.5" stroke="#FFFFFF" stroke-width="2.2"/>
+          <path d="M26 6 L27 8 L29 9 L27 10 L26 12 L25 10 L23 9 L25 8 Z" fill="#FDE047" stroke="none"/>
+          <circle cx="5" cy="17" r="1.2" fill="#FFFFFF"/>
+        </svg>`,
+        philosophy: "Ersetzt das einsame Männchen-Piktogramm durch zwei anmutige Freundinnen, die Arm in Arm unter einem schützenden Sternenbogen gehen.",
+        colors: ["#FDA4AF (Rose Quartz)", "#FB7185 (Blush)", "#E11D48 (Crimson Glow)"]
+      },
+      train: {
+        title: "Sanfte Nachtbahn (Cozy Metro)",
+        category: "Kategorie 1 • Heimweg-Option",
+        badgeClass: "badge-lavender",
+        svgPath: `<svg viewBox="0 0 32 32" class="w-24 h-24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="6" y="7" width="20" height="17" rx="6" stroke="#FFFFFF" stroke-width="2.2" fill="rgba(255,255,255,0.15)"/>
+          <rect x="10" y="11" width="12" height="6" rx="3" fill="#FFFFFF"/>
+          <circle cx="10" cy="19.5" r="1.5" fill="#FFFFFF"/>
+          <circle cx="22" cy="19.5" r="1.5" fill="#FFFFFF"/>
+          <path d="M4 27 L28 27" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+          <path d="M8 27 L6 29" stroke="#FFFFFF" stroke-width="2"/>
+          <path d="M24 27 L26 29" stroke="#FFFFFF" stroke-width="2"/>
+          <path d="M21 4 C22.5 5 23 7 22 8.5 C21 10 19 10.5 17.5 10 C18.8 8.8 19 6.8 18 5 C19 4.5 20 4.2 21 4 Z" fill="#FDE047" stroke="none"/>
+        </svg>`,
+        philosophy: "Kein kantiger Industriewaggon, sondern eine einladende Bahn mit warm leuchtenden Fenstern und schützender Mondsichel am Nachthimmel.",
+        colors: ["#E9D5FF (Soft Lilac)", "#C084FC (Lavender)", "#9333EA (Amethyst)"]
+      },
+      taxi: {
+        title: "Taxi / Uber teilen (Shared Heart Coupe)",
+        category: "Kategorie 1 • Heimweg-Option",
+        badgeClass: "badge-peach",
+        svgPath: `<svg viewBox="0 0 32 32" class="w-24 h-24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 4 C15 2.5 13 2.5 12 3.5 C11 4.5 11 6 13 7.5 L16 10 L19 7.5 C21 6 21 4.5 20 3.5 C19 2.5 17 2.5 16 4 Z" fill="#FFFFFF" stroke="#000000" stroke-width="1.2"/>
+          <path d="M5 22 C4.5 21 4.5 19 5.5 17.5 L8.5 12 C9.5 10.5 11.5 9.5 14 9.5 L19.5 9.5 C22 9.5 24 10.5 25 12 L27.5 17 C28.5 18.5 28.5 20.5 28 22 C27.5 23 26 23 24 23" stroke="#000000" stroke-width="2.2"/>
+          <path d="M5 22 C6 23 8 23 10 23" stroke="#000000" stroke-width="2.2"/>
+          <circle cx="12" cy="22" r="3.2" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+          <circle cx="22" cy="22" r="3.2" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+          <circle cx="13" cy="14" r="1.5" fill="#000000"/>
+          <circle cx="18" cy="14" r="1.5" fill="#000000"/>
+        </svg>`,
+        philosophy: "Ein elegantes, rundes Bubble-Coupe mit Herz-Dachleuchte statt kommerziellem Taxi-Schild: Signalisiert geteilte Geborgenheit und halbe Kosten.",
+        colors: ["#FED7AA (Peach Glow)", "#FB923C (Warm Amber)", "#EA580C (Sunset Coral)"]
+      },
+      scooter: {
+        title: "Roller / Rad Konvoi (Petal Glider)",
+        category: "Kategorie 1 • Heimweg-Option",
+        badgeClass: "badge-mint",
+        svgPath: `<svg viewBox="0 0 32 32" class="w-24 h-24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 6 L23 6" stroke="#000000" stroke-width="2.4"/>
+          <path d="M21 6 L18 20 L9 20" stroke="#000000" stroke-width="2.4"/>
+          <circle cx="21" cy="23" r="4.2" stroke="#000000" stroke-width="2.2" fill="#FFFFFF"/>
+          <circle cx="21" cy="23" r="1.5" fill="#000000"/>
+          <circle cx="8" cy="23" r="4.2" stroke="#000000" stroke-width="2.2" fill="#FFFFFF"/>
+          <circle cx="8" cy="23" r="1.5" fill="#000000"/>
+          <path d="M4 14 C7 14 8 16 11 16" stroke="#000000" stroke-width="1.8" stroke-dasharray="1 2"/>
+          <path d="M2 17 C5 17 6 18.5 9 18.5" stroke="#000000" stroke-width="1.8"/>
+          <circle cx="26" cy="10" r="1.5" fill="#000000"/>
+        </svg>`,
+        philosophy: "Sanfte, geschwungene Silhouette mit floralen Radnaben und verspielten Windbändern, die das Gefühl des leichten Gleitens vermitteln.",
+        colors: ["#A7F3D0 (Mint Mist)", "#34D399 (Seafoam)", "#059669 (Emerald)"]
+      },
+      verified: {
+        title: "Verifizierter Gast (Scalloped Lotus Seal)",
+        category: "Kategorie 2 • Vertrauen & Geborgenheit",
+        badgeClass: "badge-champagne",
+        svgPath: `<svg viewBox="0 0 32 32" class="w-24 h-24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 3 C18.5 5 21 5 23.5 4 C24.5 7 26 8.5 28.5 10 C28 12.5 28.5 15 29.5 17.5 C27.5 19.5 27 22 27.5 24.5 C24.5 25 23 26.5 21 28.5 C18.5 27.5 16 28 13.5 29 C11.5 26.5 10 25.5 7.5 25 C8 22 7.5 19.5 6 17.5 C7 14.5 7.5 12 7 9.5 C9.5 8 10.5 6.5 12 4 C14.5 4.8 15.5 4.8 16 3 Z" fill="rgba(255,255,255,0.4)" stroke="#000000" stroke-width="2"/>
+          <path d="M11 16.5 L14.5 20 L21.5 12.5" stroke="#000000" stroke-width="2.8"/>
+          <circle cx="16" cy="7" r="1.3" fill="#000000"/>
+        </svg>`,
+        philosophy: "Ersetzt das autoritäre Polizeischild durch ein geschwungenes Blüten-Siegel mit weichem Häkchen — Sicherheit durch Gemeinschaft statt Kontrolle.",
+        colors: ["#FEF08A (Champagne)", "#FBBF24 (Warm Gold)", "#D97706 (Amber)"]
+      },
+      lantern: {
+        title: "Treffpunkt Laterne (Welcoming Beacon)",
+        category: "Kategorie 2 • Vertrauen & Geborgenheit",
+        badgeClass: "badge-peach",
+        svgPath: `<svg viewBox="0 0 32 32" class="w-24 h-24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 3 C14.5 3 13.5 4 13.5 5.5 C13.5 7 14.5 8 16 8 C17.5 8 18.5 7 18.5 5.5 C18.5 4 17.5 3 16 3 Z" stroke="#000000" stroke-width="1.8"/>
+          <path d="M10 9 L22 9 L20 12 L12 12 Z" fill="#000000"/>
+          <path d="M11 12 C10 17 11 21 13 23 L19 23 C21 21 22 17 21 12" stroke="#000000" stroke-width="2.2" fill="rgba(255,255,255,0.4)"/>
+          <path d="M13 23 L11 26 L21 26 L19 23" fill="#000000"/>
+          <circle cx="16" cy="17" r="2.5" fill="#EA580C"/>
+          <path d="M8 17 L5 17" stroke="#000000" stroke-width="2"/>
+          <path d="M24 17 L27 17" stroke="#000000" stroke-width="2"/>
+        </svg>`,
+        philosophy: "Eine leuchtende französische Straßenlaterne mit wärmender Kerzenflamme markiert den Treffpunkt an der Garderobe statt eines banalen Google Maps Pins.",
+        colors: ["#FED7AA (Soft Peach)", "#FB923C (Honey)", "#B45309 (Tuscan Gold)"]
+      },
+      hearth: {
+        title: "Sicher Zuhause! (Cozy Haven)",
+        category: "Kategorie 2 • Vertrauen & Geborgenheit",
+        badgeClass: "badge-rose",
+        svgPath: `<svg viewBox="0 0 32 32" class="w-24 h-24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 11 L22 7 L20 7 L20 9" stroke="#FFFFFF" stroke-width="2"/>
+          <path d="M21 5 C21 3 23 2 24 3.5 C25 5 27 4.5 28 6" stroke="#FFFFFF" stroke-width="1.8"/>
+          <path d="M5 14 C12 8 20 8 27 14" stroke="#FFFFFF" stroke-width="2.6"/>
+          <path d="M8 13 L8 25 C8 26.5 9.5 27 11 27 L21 27 C22.5 27 24 26.5 24 25 L24 13" stroke="#FFFFFF" stroke-width="2.2" fill="rgba(255,255,255,0.15)"/>
+          <path d="M16 17 C15 15.5 13.5 15.5 12.8 16.2 C12 17 12 18.2 13.5 19.5 L16 22 L18.5 19.5 C20 18.2 20 17 19.2 16.2 C18.5 15.5 17 15.5 16 17 Z" fill="#FFFFFF"/>
+        </svg>`,
+        philosophy: "Ein charmantes Häuschen mit geschwungenem Giebel, Kamin-Rauchkringel und leuchtendem Herzfenster: Reine Geborgenheit nach der Party.",
+        colors: ["#FDA4AF (Pastel Rose)", "#FB7185 (Coral)", "#BE123C (Ruby)"]
+      },
+      hands: {
+        title: "Awareness & Fürsorge (Gentle Care)",
+        category: "Kategorie 2 • Vertrauen & Geborgenheit",
+        badgeClass: "badge-orchid",
+        svgPath: `<svg viewBox="0 0 32 32" class="w-24 h-24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 19 C8 17 10 18 12 21 C13 22.5 14 24 16 24" stroke="#FFFFFF" stroke-width="2.2"/>
+          <path d="M6 15 C8.5 13.5 11 15 13 18" stroke="#FFFFFF" stroke-width="1.8"/>
+          <path d="M26 19 C24 17 22 18 20 21 C19 22.5 18 24 16 24" stroke="#FFFFFF" stroke-width="2.2"/>
+          <path d="M26 15 C23.5 13.5 21 15 19 18" stroke="#FFFFFF" stroke-width="1.8"/>
+          <path d="M16 9 C14.5 7 12 7.5 11.5 9.5 C11 11.5 13 14 16 16.5 C19 14 21 11.5 20.5 9.5 C20 7.5 17.5 7 16 9 Z" fill="#FFFFFF"/>
+          <circle cx="16" cy="5" r="1.2" fill="#FFFFFF"/>
+        </svg>`,
+        philosophy: "Kein Notfall-Warnschild! Zwei sanft geöffnete Hände wiegen ein behütetes Herz: Zeichen für einfühlsame Begleitung ohne Urteil.",
+        colors: ["#FBCFE8 (Blush Orchid)", "#F472B6 (Petal Pink)", "#DB2777 (Berry)"]
+      },
+      flinta: {
+        title: "FLINTA* Begleitung (Sisterhood Bloom)",
+        category: "Kategorie 3 • Begleiter-Filter & Wohlfühl-Kriterien",
+        badgeClass: "badge-lavender",
+        svgPath: `<svg viewBox="0 0 32 32" class="w-24 h-24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="16" cy="12" r="7" stroke="#FFFFFF" stroke-width="2.3" fill="rgba(255,255,255,0.2)"/>
+          <path d="M9 12 C9 7 16 5 16 12 C16 5 23 7 23 12" stroke="#FFFFFF" stroke-width="1.8"/>
+          <path d="M16 19 L16 28" stroke="#FFFFFF" stroke-width="2.5"/>
+          <path d="M11 23.5 L21 23.5" stroke="#FFFFFF" stroke-width="2.5"/>
+          <circle cx="11" cy="23.5" r="1.3" fill="#FFFFFF"/>
+          <circle cx="21" cy="23.5" r="1.3" fill="#FFFFFF"/>
+          <circle cx="16" cy="12" r="2" fill="#FDE047"/>
+        </svg>`,
+        philosophy: "Das Venus-Symbol entfaltet sich wie eine Lotusblüte mit Perlenenden und zentralem Sternenlicht für einen geschützten Safer Space.",
+        colors: ["#E9D5FF (Lilac)", "#A855F7 (Purple Iris)", "#6B21A8 (Deep Amethyst)"]
+      },
+      ribbon: {
+        title: "Direkter Sternenpfad (Starlight Ribbon)",
+        category: "Kategorie 3 • Begleiter-Filter & Wohlfühl-Kriterien",
+        badgeClass: "badge-rose",
+        svgPath: `<svg viewBox="0 0 32 32" class="w-24 h-24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 26 C9 20 16 17 22 11" stroke="#FFFFFF" stroke-width="2.6"/>
+          <path d="M10 28 C13 22 19 19 24 13" stroke="rgba(255,255,255,0.5)" stroke-width="1.8" stroke-dasharray="2 3"/>
+          <path d="M23 4 L24.5 8 L28.5 9.5 L24.5 11 L23 15 L21.5 11 L17.5 9.5 L21.5 8 Z" fill="#FDE047" stroke="none"/>
+          <circle cx="8" cy="18" r="1.3" fill="#FFFFFF"/>
+          <circle cx="15" cy="13" r="1.3" fill="#FFFFFF"/>
+        </svg>`,
+        philosophy: "Kein gerader Verkehrspfeil, sondern ein geschwungenes Seidenband, das den Blick direkt zum leuchtenden Polarstern führt.",
+        colors: ["#FDA4AF (Rose)", "#F43F5E (Ruby Ribbon)", "#9F1239 (Deep Wine)"]
+      },
+      moon: {
+        title: "Ruhige Begleitung (Slumbering Moon)",
+        category: "Kategorie 3 • Begleiter-Filter & Wohlfühl-Kriterien",
+        badgeClass: "badge-twilight",
+        svgPath: `<svg viewBox="0 0 32 32" class="w-24 h-24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 24 C5 24 3 22 3 19 C3 16.5 5 15 7.5 15 C8 12 11 10 14 10 C17.5 10 20 12.5 20.5 15 C22.5 15 24 16.5 24 18.5 C24 21.5 21.5 24 18 24 Z" fill="rgba(255,255,255,0.2)" stroke="#FFFFFF" stroke-width="1.8"/>
+          <path d="M19 6 C21 7.5 22 10 21 12.5 C20 15 17.5 16.5 15 16 C17 14.5 17.5 12 16.5 9.5 C16 8.5 15 7.5 14 7 C15.5 6.2 17.5 5.8 19 6 Z" fill="#FDE047" stroke="none"/>
+          <path d="M17.5 10 C18.5 10.5 19 11.5 19 12.5" stroke="#4F46E5" stroke-width="1.2"/>
+          <circle cx="26" cy="9" r="1.3" fill="#FFFFFF"/>
+        </svg>`,
+        philosophy: "Ein verträumt schlafender Mond mit geschlossenen Wimpern, gebettet auf einem weichen Wolkenkissen für friedliche Heimwege.",
+        colors: ["#C7D2FE (Moonbeam)", "#818CF8 (Periwinkle)", "#4338CA (Midnight Blue)"]
+      },
+      sync: {
+        title: "Gemeinsamer Umstieg (Infinity Heart)",
+        category: "Kategorie 3 • Begleiter-Filter & Wohlfühl-Kriterien",
+        badgeClass: "badge-periwinkle",
+        svgPath: `<svg viewBox="0 0 32 32" class="w-24 h-24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 11 C6.5 11 4 13.5 4 16 C4 18.5 6.5 21 10 21 C14 21 18 11 22 11 C25.5 11 28 13.5 28 16 C28 18.5 25.5 21 22 21 C18 21 14 11 10 11 Z" stroke="#FFFFFF" stroke-width="2.5" fill="rgba(255,255,255,0.15)"/>
+          <circle cx="16" cy="16" r="3.2" fill="#FFFFFF"/>
+          <circle cx="16" cy="16" r="1.3" fill="#3B82F6"/>
+          <circle cx="10" cy="8" r="1.2" fill="#FFFFFF"/>
+          <circle cx="22" cy="24" r="1.2" fill="#FFFFFF"/>
+        </svg>`,
+        philosophy: "Zwei fließende Bänder, die sich zu einer Unendlichkeitsschleife verflechten und in einer zentralen Begegnungsperle synchronisieren.",
+        colors: ["#BAE6FD (Sky Cloud)", "#60A5FA (Cornflower)", "#2563EB (Royal Blue)"]
+      }
+    };
+
+    function openIconModal(key) {
+      const data = ICON_DATA[key];
+      if (!data) return;
+
+      const body = document.getElementById('modal-body');
+      body.innerHTML = `
+        <div class="flex items-center gap-4">
+          <div class="w-20 h-20 rounded-3xl ${data.badgeClass} flex items-center justify-center p-2 text-white shadow-xl flex-shrink-0">
+            ${data.svgPath}
+          </div>
+          <div>
+            <span class="text-[11px] font-mono font-bold uppercase tracking-wider text-rose-300">${data.category}</span>
+            <h3 class="text-2xl font-extrabold text-white mt-0.5">${data.title}</h3>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">Design-Philosophie:</h4>
+          <p class="text-sm text-slate-200 leading-relaxed">${data.philosophy}</p>
+        </div>
+
+        <div class="space-y-2">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">Figma Farb-Tokens:</h4>
+          <div class="flex flex-wrap gap-2">
+            ${data.colors.map(c => `<span class="px-3 py-1 rounded-full bg-white/10 text-xs font-mono text-slate-200 border border-white/10">${c}</span>`).join('')}
+          </div>
+        </div>
+
+        <div class="pt-4 flex gap-3">
+          <button onclick="copyCurrentSvg('${key}')" class="flex-1 py-3 rounded-xl bg-gradient-to-r from-rose-500 to-purple-600 hover:from-rose-400 hover:to-purple-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-rose-500/25 transition-all">
+            <span>SVG-Vektor für Figma kopieren</span>
+            <span>📋</span>
+          </button>
+          <button onclick="closeIconModal()" class="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/15 text-white font-semibold text-xs transition-colors">
+            Schließen
+          </button>
+        </div>
+      `;
+
+      const modal = document.getElementById('icon-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeIconModal() {
+      const modal = document.getElementById('icon-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function copyCurrentSvg(key) {
+      const data = ICON_DATA[key];
+      if (!data) return;
+      navigator.clipboard.writeText(data.svgPath).then(() => {
+        alert(`✨ Vektor-Code für "${data.title}" erfolgreich kopiert! Du kannst ihn direkt per Strg+V in Figma einfügen.`);
+      });
+    }
+
+    // Close on Escape or click outside
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeIconModal();
+    });
+    document.getElementById('icon-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'icon-modal') closeIconModal();
+    });
+  </script>
 
 </body>
 </html>
