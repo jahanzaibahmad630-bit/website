@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hina — Full Interactive Prototype · 20 Screens · Happy Path + Every Detour</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,650;1,9..144,500;1,9..144,650&family=Nunito:wght@600;700;800;900&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FDFAF3; --cream2:#F5EDDB; --line:#E9DCC0; --line2:#DECFA9;
+  --navy:#1E3A5F; --navyd:#152C49; --onnavy:#FFF6E6;
+  --yellow:#E8A81E; --yellowsoft:#F7E3B0;
+  --teal:#2F6355; --tealsoft:#E7F1E3; --tealline:#C4DCD2;
+  --paper:#FFFDF6; --inkmuted:#5B6B7C; --faint:#9A927E;
+  --red:#C0392B; --redsoft:#FBEBE8; --redline:#EFC9C2;
+  --shadow:0 1px 2px rgba(21,44,73,.06),0 14px 30px -14px rgba(21,44,73,.2);
+  --noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:#F2EADA;
+  background-image:radial-gradient(rgba(21,44,73,.05) 1px,transparent 1.4px);
+  background-size:26px 26px;
+  font-family:'Nunito',sans-serif;
+  color:var(--navyd);
+  padding:0 20px 80px;
+  min-height:100vh;
+}
+.hand{font-family:'Caveat',cursive;font-weight:700}
+.ic{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.fl{fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.fic{fill:currentColor;stroke:none}
+:focus-visible{outline:3px solid var(--teal);outline-offset:2px;border-radius:8px}
+::selection{background:var(--yellowsoft)}
+
+/* ---------- Top Controller Bar ---------- */
+.proto-ctrl-bar{
+  position:sticky;top:16px;z-index:900;
+  max-width:1120px;margin:16px auto 30px;
+  background:rgba(255,253,246,0.92);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:8px 16px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:14px;box-shadow:0 12px 32px -10px rgba(21,44,73,0.18);
+}
+.proto-brand{
+  display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--navyd);
+}
+.proto-badge{
+  font-size:9.5px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;
+  background:var(--tealsoft);color:var(--teal);border:1px solid var(--tealline);
+  padding:3px 9px;border-radius:999px;
+}
+.proto-mode-switch{
+  display:flex;background:var(--cream2);border-radius:999px;padding:3px;gap:4px;
+}
+.mode-btn{
+  border:none;background:transparent;padding:6px 14px;border-radius:999px;
+  font-family:'Nunito',sans-serif;font-size:11px;font-weight:900;color:var(--inkmuted);
+  cursor:pointer;transition:all .2s ease;display:inline-flex;align-items:center;gap:6px;
+}
+.mode-btn.active{
+  background:var(--navy);color:var(--onnavy);box-shadow:0 2px 8px rgba(21,44,73,0.25);
+}
+.proto-actions{
+  display:flex;align-items:center;gap:8px;
+}
+.ctrl-btn{
+  border:1px solid var(--line);background:var(--paper);border-radius:999px;
+  padding:6px 12px;font-size:11px;font-weight:800;color:var(--navyd);
+  cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:.2s;
+}
+.ctrl-btn:hover{background:var(--yellowsoft);border-color:var(--yellow)}
+
+/* ---------- Header ---------- */
+.hero{max-width:1060px;margin:0 auto;text-align:center;padding:20px 8px 0}
+.kicker{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:1px solid var(--line);
+  border-radius:999px;padding:7px 16px;font-size:11px;font-weight:900;letter-spacing:.2em;color:var(--faint);box-shadow:var(--shadow)}
+.hero h1{font-family:'Fraunces',serif;font-weight:650;font-size:clamp(36px,5.8vw,56px);line-height:1.05;margin:18px 0 10px}
+.hero h1 em{font-style:italic;font-weight:500;color:var(--navy)}
+.hero p{max-width:640px;margin:0 auto 6px;color:var(--inkmuted);font-weight:700;font-size:15px;line-height:1.6}
+.hero p b{color:var(--navyd)}
+.index{max-width:1120px;margin:22px auto 0;display:flex;flex-wrap:wrap;gap:7px;justify-content:center}
+.index button{
+  display:inline-flex;align-items:center;gap:6px;background:var(--paper);border:1px solid var(--line);border-radius:999px;
+  padding:6px 12px;font-size:10px;font-weight:900;letter-spacing:.06em;color:var(--navyd);cursor:pointer;
+  box-shadow:0 2px 6px -3px rgba(21,44,73,.15);transition:.15s;font-family:inherit;
+}
+.index button:hover,.index button.active{background:var(--yellowsoft);transform:translateY(-2px);border-color:var(--yellow)}
+.index button i{font-style:normal;color:var(--faint)}
+.index button.happy i{color:var(--teal)}
+.index button.edge{border-style:dashed;border-color:#E0CFA0}
+.index button.edge i{color:var(--yellow)}
+
+/* ---------- Flow Map ---------- */
+.flowmap{max-width:1500px;margin:26px auto 0;background:var(--paper);border:1px solid var(--line);border-radius:20px;
+  padding:18px 20px 14px;box-shadow:var(--shadow);overflow-x:auto}
+.flowmap h3{font-family:'Fraunces',serif;font-size:15px;margin-bottom:12px;white-space:nowrap}
+.flowmap h3 small{font-family:'Nunito';font-size:9px;font-weight:900;letter-spacing:.18em;color:var(--faint);margin-left:8px}
+.fline{display:flex;align-items:center;gap:8px;min-width:1240px;margin-bottom:10px}
+.fline:last-child{margin-bottom:2px}
+.fnode{flex:none;background:var(--cream);border:1px solid var(--line);border-radius:12px;padding:7px 11px;
+  font-size:10px;font-weight:900;color:var(--navyd);white-space:nowrap;cursor:pointer;transition:.15s}
+.fnode:hover{transform:scale(1.04)}
+.fnode.start{background:var(--tealsoft);border-color:var(--tealline);color:var(--teal)}
+.fnode.edge{background:#FCF4DE;border-color:#E8D5A0}
+.fnode.res{background:var(--navy);color:var(--onnavy)}
+.farrow{flex:none;display:flex;flex-direction:column;align-items:center;min-width:74px}
+.farrow em{font-style:normal;font-size:8px;font-weight:900;letter-spacing:.05em;color:var(--red);text-align:center;line-height:1.3}
+.farrow em.ok{color:var(--teal)}
+.farrow i{width:100%;border-top:1.5px dashed var(--line2);position:relative;margin-top:3px}
+.farrow i::after{content:'▸';position:absolute;right:-2px;top:-7px;color:var(--faint);font-size:10px}
+
+/* ---------- SIMULATOR WRAPPER ---------- */
+#simView{
+  display:flex;flex-direction:column;align-items:center;margin:30px auto;max-width:800px;
+}
+.sim-controls{
+  display:flex;align-items:center;justify-content:space-between;width:100%;max-width:390px;
+  margin-bottom:14px;padding:0 8px;
+}
+.sim-tag{font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--navy)}
+.sim-detours{
+  margin-top:16px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:520px;
+}
+.sim-detours span{font-size:10px;font-weight:900;color:var(--faint);display:block;width:100%;text-align:center;margin-bottom:2px}
+.d-pill{
+  background:var(--paper);border:1px dashed var(--line2);border-radius:999px;
+  padding:5px 12px;font-size:10px;font-weight:900;color:var(--navyd);cursor:pointer;transition:.15s;
+}
+.d-pill:hover{background:var(--yellowsoft);border-color:var(--yellow);transform:translateY(-1px)}
+.d-pill.warn{border-color:var(--redline);color:var(--red);background:var(--redsoft)}
+
+/* ---------- GRID VIEW WRAPPER ---------- */
+#gridView{display:none}
+
+/* ---------- PHASES & PHONES ---------- */
+.wrap{max-width:1720px;margin:0 auto}
+.phase{display:flex;align-items:center;gap:14px;margin:50px 0 24px}
+.phase .pchip{width:42px;height:42px;border-radius:14px 14px 14px 5px;background:var(--navy);color:var(--yellow);
+  display:grid;place-items:center;flex:none;box-shadow:0 8px 16px -8px rgba(21,44,73,.5)}
+.phase .pchip .ic{width:19px;height:19px}
+.phase h2{font-family:'Fraunces',serif;font-weight:650;font-size:24px;white-space:nowrap}
+.phase .hand{font-size:20px;color:var(--teal);transform:rotate(-2deg);white-space:nowrap}
+.phase .rule{flex:1;border-top:1.5px dashed var(--line2)}
+.phase .count{font-size:10px;font-weight:900;letter-spacing:.18em;color:var(--faint);white-space:nowrap}
+.row{display:flex;flex-wrap:wrap;gap:42px 32px;justify-content:center}
+.cell{display:flex;flex-direction:column;align-items:center;scroll-margin-top:90px}
+.phone{
+  width:320px;background:#17181A;border-radius:52px;padding:12px;flex:none;position:relative;
+  box-shadow:0 2px 4px rgba(21,44,73,.25),0 34px 60px -26px rgba(21,44,73,.42);
+  transition:transform .3s;
+}
+.phone:hover{transform:translateY(-4px)}
+.screen{
+  background:linear-gradient(168deg,#FDF9F0,#F5ECD8);border-radius:41px;height:658px;padding:16px 16px 14px;
+  position:relative;overflow:hidden;display:flex;flex-direction:column;box-shadow:inset 0 0 0 1px rgba(255,255,255,.7);
+}
+.screen::after{content:'';position:absolute;inset:0;background-image:var(--noise);border-radius:41px;pointer-events:none;opacity:.55;mix-blend-mode:multiply;z-index:80}
+.island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:92px;height:26px;background:#0C0D0F;border-radius:18px;z-index:70}
+.status{display:flex;justify-content:space-between;align-items:center;font-weight:900;font-size:13px;position:relative;z-index:20;padding:0 8px}
+.status .ic{width:46px;height:13px}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-top:12px;position:relative;z-index:20}
+.logo{font-family:'Fraunces',serif;font-weight:650;font-size:24px;display:inline-flex;align-items:flex-start}
+.logo .fdot{width:9px;height:9px;color:var(--teal);margin:1px 0 0 -1px}
+.wonly{font-size:8.5px;font-weight:900;letter-spacing:.1em;color:var(--teal);background:var(--tealsoft);
+  border:1px solid var(--tealline);border-radius:999px;padding:2px 7px;margin-left:8px;transform:translateY(-7px);display:inline-block}
+.ticon{color:var(--navyd);display:grid;place-items:center;width:40px;height:40px;border-radius:13px 13px 13px 5px;
+  background:var(--paper);border:1px solid var(--line);box-shadow:0 2px 6px rgba(21,44,73,.08);cursor:pointer;transition:.2s}
+.ticon:hover{background:var(--cream2)}
+.headline{font-family:'Fraunces',serif;font-weight:650;font-size:23px;line-height:1.14;letter-spacing:-.01em;position:relative;z-index:20}
+.headline em{font-style:italic;font-weight:500}
+.sub{font-size:11.5px;color:var(--inkmuted);font-weight:700;line-height:1.55;position:relative;z-index:20}
+.label{font-size:9.5px;letter-spacing:.14em;font-weight:900;color:var(--faint);display:flex;align-items:center;gap:5px;text-transform:uppercase;position:relative;z-index:20}
+.label .ic{width:11px;height:11px;stroke-width:2.6}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:12px 14px;box-shadow:var(--shadow);position:relative;z-index:20}
+.rowline{display:flex;align-items:center;gap:11px}
+.grow{flex:1;min-width:0}
+.t-bold{font-weight:900;font-size:13px}
+.t-sub{font-size:10.5px;color:var(--inkmuted);font-weight:700;line-height:1.45}
+.seal{width:38px;height:38px;border-radius:13px 13px 13px 5px;display:grid;place-items:center;flex:none;color:var(--navy)}
+.seal .ic{width:19px;height:19px}
+.seal.y{background:var(--yellowsoft);color:var(--navyd)}
+.seal.t{background:var(--tealsoft);color:var(--teal)}
+.seal.n{background:var(--navy);color:var(--onnavy)}
+.seal.a{background:#FCF4DE;color:var(--navyd)}
+.btn{
+  display:flex;align-items:center;justify-content:center;gap:9px;border-radius:16px;font-weight:900;font-size:13.5px;
+  min-height:50px;padding:12px 15px;position:relative;z-index:20;border:none;font-family:inherit;cursor:pointer;width:100%;transition:transform .15s,background .2s;
+}
+.btn:active{transform:translateY(1px)}
+.btn-navy{
+  background:linear-gradient(180deg,#24466F,#1A3559);color:var(--onnavy);
+  box-shadow:0 10px 20px -10px rgba(21,44,73,.55),inset 0 1px 0 rgba(255,255,255,.18);
+}
+.btn-navy::after{content:'';position:absolute;inset:4px;border:1px dashed rgba(255,246,230,.3);border-radius:12px;pointer-events:none}
+.btn-line{background:var(--paper);border:1.5px solid var(--line2);color:var(--navyd);box-shadow:0 4px 10px -6px rgba(21,44,73,.15)}
+.btn[disabled]{background:#EAE3CF;color:#A79F8B;cursor:not-allowed;box-shadow:none}
+.btn[disabled]::after{display:none}
+.btn .arr{width:23px;height:23px;border-radius:50%;background:rgba(255,246,230,.16);display:grid;place-items:center;flex:none;transition:transform .2s}
+.btn-line .arr{background:var(--cream2)}
+.btn:hover .arr{transform:translateX(3px)}
+.btn .arr .ic{width:13px;height:13px;stroke-width:2.4}
+.btnrow{display:flex;gap:10px;position:relative;z-index:20}
+.btnrow .btn-line{flex:0 0 40%}
+.btnrow .btn-navy{flex:1}
+.qlink{font-weight:900;font-size:12px;color:var(--navyd);text-decoration:underline;text-underline-offset:4px;
+  text-decoration-color:var(--yellow);text-decoration-thickness:2.5px;text-align:center;z-index:20;position:relative;
+  min-height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.homebar{width:120px;height:4px;border-radius:4px;background:var(--navyd);opacity:.25;margin:10px auto 0;flex:none;position:relative;z-index:20}
+.s6{height:6px;flex:none}.s8{height:8px;flex:none}.s10{height:10px;flex:none}.s12{height:12px;flex:none}.s14{height:14px;flex:none}
+.grow-sp{flex:1}.center{text-align:center}.z{position:relative;z-index:20}
+.cap{margin-top:14px;display:flex;align-items:center;gap:9px}
+.cap b{font-family:'Fraunces',serif;font-style:italic;font-weight:650;font-size:18px}
+.cap span{font-size:9.5px;font-weight:900;letter-spacing:.2em;color:var(--faint)}
+.cap i{width:22px;border-top:2px dashed var(--line2)}
+.cap .fl{width:12px;height:12px;color:var(--teal)}
+
+/* Stepper */
+.stepper{display:flex;align-items:center;position:relative;z-index:20}
+.st{flex:1;height:3px;border-radius:3px;background:#E9DCBD}
+.st.done{background:var(--yellow)}
+.node{width:11px;height:11px;border-radius:50%;background:var(--paper);border:2.5px solid var(--line2);flex:none;margin:0 3px}
+.node.done{background:var(--navy);border-color:var(--navy)}
+.node.cur{border-color:var(--yellow);background:var(--yellow);box-shadow:0 0 0 4px rgba(232,168,30,.22)}
+.stepn{font-size:10px;font-weight:900;color:var(--faint);margin-left:10px}
+
+/* Chips/Badges */
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--paper);border:1px solid var(--line);border-radius:999px;
+  padding:6px 13px;font-size:10px;font-weight:900;color:var(--teal);position:relative;z-index:20;box-shadow:0 3px 8px -4px rgba(21,44,73,.14)}
+.chip.t{background:var(--tealsoft);border-color:var(--tealline)}
+.chip.a{background:#FCF4DE;border-color:#E8D5A0;color:var(--navyd)}
+.chip .ic{width:12px;height:12px}
+.vcheck{width:19px;height:19px;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;flex:none}
+.vcheck .ic{width:10px;height:10px;stroke-width:3}
+.ystar{color:var(--yellow);font-size:11px;letter-spacing:2px}
+.tag{position:absolute;top:-9px;right:12px;background:var(--yellow);color:var(--navyd);font-size:8.5px;font-weight:900;
+  letter-spacing:.1em;padding:3px 9px;border-radius:999px;box-shadow:0 4px 8px -3px rgba(21,44,73,.3);z-index:6}
+
+/* Options */
+.opt{display:flex;align-items:center;gap:11px;transition:.2s;cursor:pointer}
+.opt:hover{transform:translateX(3px)}
+.opt .rmark{width:26px;height:26px;color:#C9BC98;flex:none}
+.opt.sel{background:var(--tealsoft);border-color:var(--teal);box-shadow:0 0 0 1px var(--teal),0 8px 18px -10px rgba(47,99,85,.45)}
+.opt.sel .rmark{color:var(--yellow);filter:drop-shadow(0 2px 3px rgba(21,44,73,.25))}
+
+/* Seed Packet */
+.seed{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);position:relative;z-index:20;margin-top:6px}
+.seed::before{content:'';position:absolute;top:-8px;left:18px;right:18px;height:10px;
+  background:radial-gradient(circle at 8px 9px,var(--paper) 6px,transparent 6.5px);background-size:16px 10px}
+.seedin{display:flex;align-items:center;gap:10px;border:1.5px dashed var(--line2);border-radius:11px;margin:8px;padding:9px 11px}
+.stamp{width:36px;height:44px;border:1.5px dashed var(--line2);border-radius:8px;color:var(--teal);
+  display:grid;place-items:center;transform:rotate(3deg);background:var(--tealsoft);flex:none}
+.stamp .fl{width:19px;height:19px}
+
+/* Avatars */
+.avas{display:flex;align-items:center;position:relative;z-index:20}
+.ava{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:900;color:var(--navyd);font-size:11px;border:2.5px solid var(--cream);flex:none}
+.ava.big{width:46px;height:46px;font-size:14px;font-family:'Fraunces',serif;border:none}
+.ava.butter{background:var(--yellowsoft)}.ava.teal{background:var(--tealsoft);color:var(--teal)}
+.ava.navy{background:var(--navy);color:var(--onnavy)}
+.vbadge{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:900;color:var(--teal);
+  background:var(--tealsoft);border-radius:999px;padding:2.5px 8px;margin-top:4px}
+.vbadge .vcheck{width:13px;height:13px}.vbadge .vcheck .ic{width:7px;height:7px}
+.pbar{height:5px;border-radius:5px;background:#EFE5CB;overflow:hidden;margin-top:5px;width:120px}
+.pbar i{display:block;height:100%;border-radius:5px;background:var(--teal)}
+.pulseava{position:relative}
+.pulseava::after{content:'';position:absolute;inset:-6px;border-radius:50%;border:2px solid rgba(232,168,30,.5);animation:pu 2s infinite}
+@keyframes pu{0%{transform:scale(.85);opacity:1}100%{transform:scale(1.25);opacity:0}}
+
+/* Maps */
+.map{background:#F0EADA;border:1px solid var(--line);border-radius:18px;position:relative;overflow:hidden;z-index:20}
+.blk{position:absolute;background:#E1E7D2;border:1px solid #D5DEC2;border-radius:8px}
+.road{position:absolute;background:var(--paper);box-shadow:0 1px 0 #E4DCC4}
+.pinH{position:absolute;width:36px;height:36px;border-radius:50% 50% 50% 7px;transform:rotate(-45deg);
+  background:linear-gradient(180deg,#F0B23A,var(--yellow));display:grid;place-items:center;
+  box-shadow:0 6px 12px -3px rgba(21,44,73,.35);border:2px solid var(--paper);z-index:8}
+.pinH span{transform:rotate(45deg);font-weight:900;color:var(--navyd);font-size:15px}
+.gps{position:absolute;width:14px;height:14px;border-radius:50%;background:var(--teal);border:2.5px solid #fff;
+  box-shadow:0 2px 6px rgba(21,44,73,.3);z-index:7}
+.gps::after{content:'';position:absolute;inset:-7px;border-radius:50%;border:2px solid rgba(47,99,85,.4);animation:ping 2s infinite}
+@keyframes ping{0%{transform:scale(.6);opacity:1}100%{transform:scale(1.5);opacity:0}}
+.route{stroke:var(--navy);stroke-width:3.2;fill:none;stroke-linecap:round;stroke-dasharray:2 9;animation:dash 1.3s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-22}}
+.mapchip{position:absolute;background:var(--paper);border-radius:999px;padding:5px 11px;font-size:10px;font-weight:900;
+  color:var(--navyd);box-shadow:0 3px 8px rgba(21,44,73,.16);display:flex;gap:6px;align-items:center;z-index:9;border:1px solid var(--line)}
+.mapchip .ic{width:12px;height:12px}
+.compass{position:absolute;width:26px;height:26px;border-radius:50%;background:var(--paper);display:grid;place-items:center;
+  font-size:9px;font-weight:900;color:var(--red);box-shadow:0 2px 6px rgba(21,44,73,.15);z-index:9;border:1px solid var(--line)}
+
+/* QR Scan Viewfinder */
+.scanwrap{position:relative;z-index:20;background:var(--cream2);border:1px solid var(--line);
+  border-radius:22px;padding:18px 18px 14px;cursor:pointer}
+.scanframe{position:relative;height:196px}
+.scanarea{position:absolute;inset:14px;overflow:hidden;display:grid;place-items:center;
+  border-radius:6px;box-shadow:inset 0 0 0 1px rgba(21,44,73,.05)}
+.c{position:absolute;width:34px;height:34px;border:4px solid var(--navy);z-index:3}
+.c.tl{top:0;left:0;border-right:0;border-bottom:0;border-radius:14px 0 0 0}
+.c.tr{top:0;right:0;border-left:0;border-bottom:0;border-radius:0 14px 0 0}
+.c.bl{bottom:0;left:0;border-right:0;border-top:0;border-radius:0 0 0 14px}
+.c.br{bottom:0;right:0;border-left:0;border-top:0;border-radius:0 0 14px 0}
+.scanline{position:absolute;left:8px;right:8px;top:12px;height:3px;border-radius:3px;z-index:2;
+  background:linear-gradient(90deg,transparent 0,var(--navy) 18%,var(--navy) 82%,transparent 100%);
+  animation:scan 3.2s cubic-bezier(.45,0,.55,1) infinite alternate}
+@keyframes scan{from{top:12px}to{top:calc(100% - 15px)}}
+.qrslot{width:84px;height:84px;border-radius:20px 20px 20px 7px;background:var(--paper);
+  box-shadow:0 8px 18px rgba(21,44,73,.15);display:grid;place-items:center;color:var(--navy)}
+.qrslot svg{width:46px;height:46px}
+.scanlabel{margin-top:14px;display:flex;justify-content:center}
+.scanlabel span{display:inline-flex;align-items:center;gap:6px;background:var(--paper);
+  border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:9.5px;
+  font-weight:900;letter-spacing:.08em;color:var(--inkmuted)}
+.scanlabel .ic{width:12px;height:12px;color:var(--teal)}
+
+/* Timeline */
+.tl{position:relative;z-index:20}
+.tl::before{content:'';position:absolute;left:64px;top:14px;bottom:14px;border-left:1.5px dashed var(--line2)}
+.tlitem{display:grid;grid-template-columns:48px 16px 1fr;gap:8px;align-items:start;position:relative}
+.ttime{font-size:9.5px;font-weight:900;color:var(--faint);text-align:right;padding-top:15px}
+.tnode{width:13px;height:13px;border-radius:50%;background:var(--cream);border:3px solid var(--yellow);justify-self:center;margin-top:14px;position:relative;z-index:2}
+
+/* Vault */
+.vault{background:linear-gradient(170deg,#24466F,#152C49);border-radius:20px;padding:16px;text-align:center;
+  color:var(--onnavy);position:relative;z-index:20;box-shadow:0 16px 30px -14px rgba(21,44,73,.6);overflow:hidden}
+.vault::after{content:'';position:absolute;inset:5px;border:1px dashed rgba(255,246,230,.25);border-radius:15px;pointer-events:none}
+.vault .shield{width:48px;height:48px;border-radius:16px 16px 16px 5px;background:var(--yellow);color:var(--navyd);
+  display:grid;place-items:center;margin:0 auto 9px;box-shadow:0 8px 16px -6px rgba(21,44,73,.4);position:relative;z-index:2}
+.vault .shield .ic{width:24px;height:24px}
+.vault b{font-size:13px;display:block;position:relative;z-index:2}
+.vault p{font-size:10.5px;color:#C9D4E2;font-weight:700;margin-top:5px;line-height:1.5;position:relative;z-index:2}
+
+/* Code - 4 Digits */
+.codecard{background:linear-gradient(170deg,#24466F,#152C49);border-radius:20px;padding:14px;
+  box-shadow:0 14px 26px -12px rgba(21,44,73,.55);position:relative;z-index:20}
+.codecard::after{content:'';position:absolute;inset:5px;border:1px dashed rgba(255,246,230,.25);border-radius:15px;pointer-events:none}
+.codecard .clabel{font-size:8.5px;font-weight:900;letter-spacing:.2em;color:var(--yellow);text-align:center;margin-bottom:9px;position:relative;z-index:2}
+.codetiles{display:flex;gap:9px;justify-content:center;position:relative;z-index:2}
+.ctile{width:56px;height:60px;border-radius:14px 14px 14px 5px;background:var(--onnavy);color:var(--navyd);display:grid;place-items:center;
+  font-family:'Fraunces',serif;font-weight:650;font-size:27px;box-shadow:inset 0 -2px 0 rgba(21,44,73,.14)}
+.codeboxes{display:flex;gap:8px;justify-content:center;z-index:20;position:relative}
+.cb{width:52px;height:58px;border-radius:13px 13px 13px 5px;background:var(--paper);border:1.5px solid var(--line2);
+  display:grid;place-items:center;font-weight:900;font-size:20px;color:var(--navyd)}
+.cb.filled{border:2px solid var(--navy)}
+.caret{width:2.5px;height:22px;background:var(--navy);border-radius:2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.codedisp{display:flex;gap:9px;justify-content:center;z-index:20;position:relative}
+.cd{width:52px;height:60px;border-radius:13px 13px 13px 5px;background:var(--paper);border:1.5px solid var(--line2);
+  display:grid;place-items:center;font-family:'Fraunces',serif;font-weight:650;font-size:24px;color:var(--navyd)}
+.cd.on{border:2px solid var(--navy)}
+
+/* Keypad */
+.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;z-index:20;position:relative}
+.key{height:64px;border-radius:16px;background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  font-family:'Fraunces',serif;font-weight:650;font-size:26px;color:var(--navyd);transition:background .12s}
+.key small{font-family:'Nunito';font-size:8px;font-weight:900;letter-spacing:.18em;color:var(--faint);margin-top:-2px}
+.key:active{background:var(--yellowsoft)}
+.key.fn{font-family:'Nunito';font-size:13px;font-weight:900;color:var(--inkmuted)}
+.keyhint{font-size:10px;font-weight:800;color:var(--inkmuted);text-align:center;line-height:1.5;position:relative;z-index:20}
+
+/* F2 Bits */
+.countchip{display:inline-flex;align-items:center;gap:7px;background:var(--yellow);color:var(--navyd);border-radius:999px;
+  padding:4px 11px;font-size:11px;font-weight:900;box-shadow:0 4px 8px -3px rgba(21,44,73,.3)}
+.openbadge{display:inline-flex;align-items:center;gap:4px;font-size:8.5px;font-weight:900;color:var(--teal);
+  background:var(--tealsoft);border:1px solid var(--tealline);border-radius:999px;padding:2px 7px}
+.dist{font-size:9px;font-weight:900;color:var(--faint);letter-spacing:.06em}
+
+/* F3 Ring */
+.ring{position:relative;width:128px;height:128px;margin:0 auto;z-index:20}
+.ring svg{transform:rotate(-90deg)}
+.ring .val{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring .val b{font-family:'Fraunces',serif;font-weight:650;font-size:30px}
+.ring .val span{font-size:8.5px;font-weight:900;letter-spacing:.14em;color:var(--faint)}
+.locknote{display:flex;align-items:center;justify-content:center;gap:5px;font-size:9px;font-weight:900;letter-spacing:.08em;color:#A79F8B;margin-top:5px;position:relative;z-index:20}
+.locknote .ic{width:11px;height:11px}
+
+/* Edge-Case Alert */
+.alertcard{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:var(--shadow);
+  position:relative;z-index:20;display:flex;flex-direction:column;align-items:center;text-align:center;gap:9px}
+.alertcard .bigseal{width:62px;height:62px;border-radius:20px 20px 20px 7px;display:grid;place-items:center;position:relative}
+.alertcard .bigseal .ic{width:30px;height:30px}
+.alertcard .bigseal.n{background:var(--navy);color:var(--yellow)}
+.alertcard .bigseal.t{background:var(--tealsoft);color:var(--teal);border:1.5px dashed var(--teal)}
+.bignum{position:absolute;top:-6px;right:-6px;width:22px;height:22px;border-radius:50%;background:var(--yellow);
+  color:var(--navyd);font-size:12px;font-weight:900;display:grid;place-items:center;border:2px solid var(--paper)}
+.infostrip{display:flex;gap:9px;align-items:flex-start;background:var(--cream2);border:1px solid var(--line);
+  border-radius:13px;padding:10px 12px;z-index:20;position:relative}
+.infostrip .ic{width:16px;height:16px;flex:none;margin-top:1px;color:var(--teal)}
+.infostrip p{font-size:10.5px;font-weight:700;color:var(--inkmuted);line-height:1.5;text-align:left}
+.infostrip b{color:var(--navyd)}
+
+/* Safety */
+.tool{display:flex;align-items:center;gap:11px;padding:11px 13px;cursor:pointer;transition:.15s}
+.tool:hover{transform:translateX(3px)}
+.tool.red{background:var(--redsoft);border-color:var(--redline)}
+.tool.red .seal{background:#F4D8D2;color:var(--red)}
+.eta{display:flex;align-items:center;gap:10px}
+.eta .bar{flex:1;height:6px;border-radius:6px;background:#EFE5CB;overflow:hidden;position:relative}
+.eta .bar i{position:absolute;left:0;top:0;bottom:0;width:64%;border-radius:6px;background:linear-gradient(90deg,#F0B23A,var(--yellow))}
+.eta .bar i::after{content:'';position:absolute;right:-4px;top:50%;transform:translateY(-50%);width:12px;height:12px;border-radius:50%;
+  background:var(--navy);border:2.5px solid #fff}
+
+/* Toast */
+.hina-toast{
+  position:fixed;bottom:24px;left:50%;transform:translate(-50%,60px);z-index:9999;
+  background:var(--navyd);color:var(--onnavy);padding:14px 22px;border-radius:999px;
+  font-size:12px;font-weight:800;letter-spacing:.04em;box-shadow:0 12px 28px rgba(21,44,73,.35);
+  opacity:0;transition:.35s cubic-bezier(.16,1,.3,1);pointer-events:none;display:flex;align-items:center;gap:8px;
+}
+.hina-toast.show{transform:translate(-50%,0);opacity:1}
+.hina-toast .ic{color:var(--yellow);width:16px;height:16px}
+
+footer{max-width:900px;margin:76px auto 0;text-align:center}
+footer .flogo{font-family:'Fraunces',serif;font-weight:650;font-size:30px}
+footer p{color:var(--inkmuted);font-weight:700;font-size:12px;margin-top:6px}
+</style>
+</head>
+<body>
+
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+<symbol id="i-status" viewBox="0 0 48 12"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="3" width="3" height="8" rx="1"/><rect x="13.5" y="1" width="3" height="10" rx="1"/><path d="M24.5 4.5a6.5 6.5 0 0 1 8.5 0M26.3 7.2a3.8 3.8 0 0 1 4.9 0M28.7 9.9h.01" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><rect x="38" y="2.5" width="9" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.3"/><rect x="39.6" y="4" width="4.6" height="4" rx="1"/></symbol>
+<symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 19.5c0-3.6 3-5.5 6.5-5.5s6.5 1.9 6.5 5.5"/></symbol>
+<symbol id="i-duo" viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3"/><path d="M3.8 19c.9-3.3 3.1-4.9 5.2-4.9s4.3 1.6 5.2 4.9"/><circle cx="16.6" cy="9.4" r="2.3"/><path d="M16.4 14.4c1.9.4 3.4 1.8 4 4.6"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24"><path d="M14.5 5.5 8 12l6.5 6.5"/></symbol>
+<symbol id="i-chevr" viewBox="0 0 24 24"><path d="M9.5 5.5 16 12l-6.5 6.5"/></symbol>
+<symbol id="i-chevd" viewBox="0 0 24 24"><path d="M6 9.5l6 6 6-6"/></symbol>
+<symbol id="i-car" viewBox="0 0 24 24"><path d="M4 15.5 5.6 11a2.4 2.4 0 0 1 2.3-1.6h8.2A2.4 2.4 0 0 1 18.4 11L20 15.5V19h-3v-1.5H7V19H4z"/></symbol>
+<symbol id="i-seat" viewBox="0 0 24 24"><circle cx="12" cy="6.8" r="2.6"/><path d="M8.5 20c0-3.8 1.6-6 3.5-6s3.5 2.2 3.5 6"/></symbol>
+<symbol id="i-train" viewBox="0 0 24 24"><rect x="5.5" y="3.5" width="13" height="13" rx="3"/><path d="M5.5 10h13M9 20l-1.6 1.8M15 20l1.6 1.8M9.5 20h5"/><circle cx="9.3" cy="13.6" r=".9" fill="currentColor" stroke="none"/><circle cx="14.7" cy="13.6" r=".9" fill="currentColor" stroke="none"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect x="6" y="10.5" width="12" height="8.5" rx="2.4"/><path d="M9 10.5V8a3 3 0 0 1 6 0v2.5"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.6 4.6L19 7.5"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3.2 19 6v5.2c0 4.6-3 7.6-7 9-4-1.4-7-4.4-7-9V6z"/><path d="M9.2 12.2l2 2 3.8-4"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21c-3.6-3.4-6-6.8-6-10a6 6 0 1 1 12 0c0 3.2-2.4 6.6-6 10z"/><circle cx="12" cy="10.8" r="2.2"/></symbol>
+<symbol id="i-pinH" viewBox="0 0 24 24"><path d="M12 21c-3.6-3.4-6-6.8-6-10a6 6 0 1 1 12 0c0 3.2-2.4 6.6-6 10z"/><path d="M9.6 12.6V8h2.6a1.5 1.5 0 0 1 0 3H9.6m2.8 0a1.5 1.5 0 0 1 0 3H9.6v-3"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="5.6"/><path d="M15.4 15.4 20 20"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 7.5V12l3 1.8"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.2"/><path d="M12 11v5"/><circle cx="12" cy="8" r="1" fill="currentColor" stroke="none"/></symbol>
+<symbol id="i-staff" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.2"/><circle cx="12" cy="10" r="2.4"/><path d="M7.5 17.5c.8-2.2 2.5-3.3 4.5-3.3s3.7 1.1 4.5 3.3"/></symbol>
+<symbol id="i-share" viewBox="0 0 24 24"><path d="M12 14V4M8.5 7.5 12 4l3.5 3.5"/><path d="M6 11h-.5A1.5 1.5 0 0 0 4 12.5v6A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5v-6a1.5 1.5 0 0 0-1.5-1.5H18"/></symbol>
+<symbol id="i-quest" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.2"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.6 2.3c-.9.5-1.2 1-1.2 1.9"/><circle cx="12" cy="16.6" r="1" fill="currentColor" stroke="none"/></symbol>
+<symbol id="i-flag" viewBox="0 0 24 24"><path d="M6.5 21V4"/><path d="M6.5 4.8h10.5L14.5 8.6l2.5 3.8H6.5"/></symbol>
+<symbol id="i-qr" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M17 20h3M14 19.5v.01"/></symbol>
+<symbol id="i-walk" viewBox="0 0 24 24"><circle cx="13" cy="4.6" r="1.9"/><path d="M13 7.5c-1.7.4-2.7 1.4-3.3 2.9L8.6 13M13 7.5c1 .3 1.7 1 2.1 2l.7 2 2.4 1.3M13 7.5 11.7 13l-2.5 6.5M12 10.8l-3.3 1.2M11.7 13l2.8 2.1.8 4.4"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 16H6c1.2-1.1 1.8-2.4 1.8-4.5V10a4.2 4.2 0 0 1 8.4 0v1.5c0 2.1.6 3.4 1.8 4.5z"/><path d="M10.3 19a1.8 1.8 0 0 0 3.4 0"/></symbol>
+<symbol id="i-bellcheck" viewBox="0 0 24 24"><path d="M17.5 15.5H6.2c1.1-1.1 1.7-2.3 1.7-4.3V9.7a4.1 4.1 0 0 1 8.2 0v1.5c0 2 .6 3.2 1.7 4.3z"/><path d="M9.8 18.5a1.8 1.8 0 0 0 3.3 0"/><path d="M14.5 5.5l1.8 1.8 3.4-3.6"/></symbol>
+<symbol id="i-bus" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="13" rx="2.4"/><path d="M4 10.5h16M7.5 20v-1.6M16.5 20v-1.6M4 17h16"/><circle cx="8" cy="14" r="1" fill="currentColor" stroke="none"/><circle cx="16" cy="14" r="1" fill="currentColor" stroke="none"/></symbol>
+<symbol id="i-phone" viewBox="0 0 24 24"><path d="M7.2 4h3l1.4 3.8-2 1.5a12 12 0 0 0 5.1 5.1l1.5-2L20 13.8v3a1.9 1.9 0 0 1-2.1 1.9C11 18 6 13 4.3 6.1A1.9 1.9 0 0 1 6.2 4z"/></symbol>
+<symbol id="i-store" viewBox="0 0 24 24"><path d="M4.5 9.5 6 4.5h12l1.5 5"/><path d="M4.5 9.5a2.3 2.3 0 0 0 4.6.3 2.3 2.3 0 0 0 4.6 0 2.3 2.3 0 0 0 4.6 0 2.3 2.3 0 0 0 1.2-.3"/><path d="M5.5 12.5v7h13v-7"/><path d="M9.5 19.5v-4.5h5v4.5"/></symbol>
+<symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 3.5v2.6M12 17.9v2.6M3.5 12h2.6M17.9 12h2.6M6 6l1.8 1.8M16.2 16.2 18 18M18 6l-1.8 1.8M7.8 16.2 6 18"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3.5 21 19.5H3z"/><path d="M12 9.5v4.5"/><circle cx="12" cy="16.8" r="1" fill="currentColor" stroke="none"/></symbol>
+<symbol id="i-camoff" viewBox="0 0 24 24"><path d="M4 8.5A1.8 1.8 0 0 1 5.8 6.7h1.9L9 5h6l1.3 1.7h1.9A1.8 1.8 0 0 1 20 8.5v8a1.8 1.8 0 0 1-1.8 1.8H5.8A1.8 1.8 0 0 1 4 16.5z"/><path d="M4 4l16 16"/></symbol>
+<symbol id="i-userx" viewBox="0 0 24 24"><circle cx="10" cy="8" r="3.2"/><path d="M4.5 19.5c.9-3.5 3.2-5.3 5.5-5.3 1.4 0 2.8.6 3.9 1.7"/><path d="M16 15.5l5 5M21 15.5l-5 5"/></symbol>
+<symbol id="i-people" viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3"/><path d="M3.8 19c.9-3.3 3.1-4.9 5.2-4.9s4.3 1.6 5.2 4.9"/><circle cx="16.6" cy="9.4" r="2.3"/><path d="M16.4 14.4c1.9.4 3.4 1.8 4 4.6"/></symbol>
+<symbol id="i-nav" viewBox="0 0 24 24"><path d="M21 3 3.6 10.3l7 2.6 2.6 7z"/></symbol>
+<symbol id="f-daisy" viewBox="0 0 24 24"><ellipse cx="12" cy="4.8" rx="2" ry="3.2"/><ellipse cx="12" cy="19.2" rx="2" ry="3.2"/><ellipse cx="4.8" cy="12" rx="3.2" ry="2"/><ellipse cx="19.2" cy="12" rx="3.2" ry="2"/><ellipse cx="7" cy="7" rx="2.1" ry="3.1" transform="rotate(-45 7 7)"/><ellipse cx="17" cy="7" rx="2.1" ry="3.1" transform="rotate(45 17 7)"/><ellipse cx="7" cy="17" rx="2.1" ry="3.1" transform="rotate(45 7 17)"/><ellipse cx="17" cy="17" rx="2.1" ry="3.1" transform="rotate(-45 17 17)"/><circle cx="12" cy="12" r="2.2" fill="currentColor" stroke="none"/></symbol>
+</svg>
+
+<!-- ================= STICKY CONTROLLER BAR ================= -->
+<div class="proto-ctrl-bar">
+  <div class="proto-brand">
+    <svg class="fl" viewBox="0 0 24 24" style="width:20px;height:20px;color:var(--teal)"><use href="#f-daisy"/></svg>
+    <strong style="font-family:'Fraunces',serif;font-size:18px">Hina</strong>
+    <span class="proto-badge">Interactive Prototype</span>
+  </div>
+  <div class="proto-mode-switch">
+    <button class="mode-btn active" id="btnSimMode">
+      <span>📱 Interactive Phone</span>
+    </button>
+    <button class="mode-btn" id="btnGridMode">
+      <span>🗺️ All 20 Screens</span>
+    </button>
+  </div>
+  <div class="proto-actions">
+    <button class="ctrl-btn" id="btnReset" title="Restart flow from screen 1">
+      <svg class="ic" style="width:13px;height:13px"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+      <span>Restart</span>
+    </button>
+    <a class="ctrl-btn" href="./portfolio.html" style="text-decoration:none">
+      <span>← Portfolio</span>
+    </a>
+  </div>
+</div>
+
+<!-- ================= HEADER ================= -->
+<header class="hero">
+  <span class="kicker"><svg class="fl" viewBox="0 0 24 24"><use href="#f-daisy"/></svg> HINA · FULL PROTOTYPE · 20 SCREENS · HAPPY PATH + EVERY DETOUR</span>
+  <h1>Calm enough for a<br><em>2 a.m. walk home.</em></h1>
+  <p>Navy · warm off-white · teal · deep yellow. <b>10 happy-path screens and 10 designed failure states</b> — so no matter what happens tonight, she always has a next step and a way home.</p>
+  <nav class="index" id="indexNav">
+    <button class="happy active" data-target="s01"><i>01</i>HOME</button>
+    <button class="happy" data-target="s02"><i>02</i>QR SCAN</button>
+    <button class="edge" data-target="e1"><i>E1</i>QR INVALID</button>
+    <button class="edge" data-target="e2"><i>E2</i>CAMERA OFF</button>
+    <button class="edge" data-target="f1"><i>F1</i>KEYPAD</button>
+    <button class="happy" data-target="s03"><i>03</i>TRAVEL</button>
+    <button class="happy" data-target="s04"><i>04</i>DESTINATION</button>
+    <button class="happy" data-target="s05"><i>05</i>MATCHES</button>
+    <button class="edge" data-target="e3"><i>E3</i>NO MATCH</button>
+    <button class="edge" data-target="f2"><i>F2</i>SAFE WAYS</button>
+    <button class="happy" data-target="s06"><i>06</i>MEMBERS</button>
+    <button class="happy" data-target="s07"><i>07</i>HINA POINT</button>
+    <button class="edge" data-target="e4"><i>E4</i>POINT MOVED</button>
+    <button class="edge" data-target="f3"><i>F3</i>GRACE TIMER</button>
+    <button class="edge" data-target="f4"><i>F4</i>PING</button>
+    <button class="edge" data-target="f5"><i>F5</i>RE-MATCH</button>
+    <button class="happy" data-target="s08"><i>08</i>CONFIRM</button>
+    <button class="edge" data-target="e5"><i>E5</i>CANCELLED</button>
+    <button class="happy" data-target="s09"><i>09</i>START TRIP</button>
+    <button class="happy" data-target="s10"><i>10</i>ON OUR WAY</button>
+  </nav>
+</header>
+
+<!-- ================= FLOW MAP ================= -->
+<div class="flowmap">
+  <h3>State map <small>SOLID = HAPPY PATH · DASHED-EDGE = RESCUE PATHS · CLICK ANY NODE TO JUMP</small></h3>
+  <div class="fline">
+    <span class="fnode start" data-target="s02">📷 QR SCAN</span>
+    <span class="farrow"><em class="ok">code accepted</em><i></i></span>
+    <span class="fnode start" data-target="s03">🧭 TRAVEL MODE</span>
+    <span class="farrow"><em class="ok">continue</em><i></i></span>
+    <span class="fnode start" data-target="s04">📍 DESTINATION</span>
+    <span class="farrow"><em class="ok">continue</em><i></i></span>
+    <span class="fnode start" data-target="s05">👥 MATCHES</span>
+    <span class="farrow"><em class="ok">join group</em><i></i></span>
+    <span class="fnode start" data-target="s06">VIEW MEMBERS</span>
+    <span class="farrow"><em class="ok">meet at point</em><i></i></span>
+    <span class="fnode start" data-target="s07">📍 HINA POINT</span>
+    <span class="farrow"><em class="ok">buddy arrives</em><i></i></span>
+    <span class="fnode start" data-target="f3">⏱ GRACE 3:00</span>
+    <span class="farrow"><em class="ok">ping answered</em><i></i></span>
+    <span class="fnode start" data-target="f4">🔔 PING OK</span>
+    <span class="farrow"><em class="ok">compare codes</em><i></i></span>
+    <span class="fnode start" data-target="s08">🔢 CONFIRM 4-DIGIT</span>
+    <span class="farrow"><em class="ok">start trip</em><i></i></span>
+    <span class="fnode res" data-target="s10">🏁 ON OUR WAY</span>
+  </div>
+  <div class="fline">
+    <span class="fnode edge" data-target="e1">E1 · QR INVALID</span>
+    <span class="farrow"><em>or camera off →</em><i></i></span>
+    <span class="fnode edge" data-target="e2">E2 · CAMERA OFF</span>
+    <span class="farrow"><em>both lead to</em><i></i></span>
+    <span class="fnode res" data-target="f1">F1 · 4-DIGIT KEYPAD</span>
+    <span class="farrow"><em class="ok">rejoins at TRAVEL MODE</em><i></i></span>
+    <span class="fnode edge" data-target="e3">E3 · NO MATCH YET</span>
+    <span class="farrow"><em>never stranded →</em><i></i></span>
+    <span class="fnode res" data-target="f2">F2 · SAFE WAYS HOME<span style="opacity:.7"> · bus · havens · taxi</span></span>
+    <span class="farrow"><em class="ok">or match opens later →</em><i></i></span>
+    <span class="fnode edge" data-target="e4">E4 · POINT MOVED</span>
+    <span class="farrow"><em class="ok">reroute → HINA POINT</em><i></i></span>
+    <span class="fnode edge" data-target="f5">F3 → F5 · NO-SHOW</span>
+    <span class="farrow"><em class="ok">re-match, new code →</em><i></i></span>
+    <span class="fnode edge" data-target="e5">E5 · BUDDY LEFT</span>
+    <span class="farrow"><em class="ok">find new match → MATCHES</em><i></i></span>
+  </div>
+</div>
+
+<!-- ================= 1. INTERACTIVE SIMULATOR VIEW (DEFAULT) ================= -->
+<main id="simView">
+  <div class="sim-controls">
+    <span class="sim-tag" id="simCurrentTitle">Screen 01 · Home</span>
+    <span style="font-size:11px;font-weight:800;color:var(--inkmuted)">Interactive iPhone Simulator</span>
+  </div>
+  <div id="simPhoneContainer"></div>
+  <div class="sim-detours">
+    <span>TEST RESCUE DETOURS FOR THIS SCREEN:</span>
+    <div id="simDetourButtons" style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center"></div>
+  </div>
+</main>
+
+<!-- ================= 2. ALL 20 SCREENS GRID VIEW ================= -->
+<div id="gridView" class="wrap">
+
+<!-- ============ PHASE A · SET UP TONIGHT ============ -->
+<div class="phase">
+  <span class="pchip"><svg class="ic"><use href="#i-shield"/></svg></span>
+  <h2>Set up tonight</h2><em class="hand">calm from the first tap — even when the camera won't</em><span class="rule"></span><span class="count">7 SCREENS · 01–04 + E1 E2 F1</span>
+</div>
+<div class="row">
+
+<!-- 01 HOME -->
+<div class="cell" id="s01"><div class="phone"><div class="screen">
+  <div class="island"></div>
+  <div class="status"><span>9:41</span><svg class="ic fic" viewBox="0 0 48 12" style="stroke:none"><use href="#i-status"/></svg></div>
+  <div class="topbar">
+    <span class="ticon" data-action="menu"><svg class="ic"><use href="#i-menu"/></svg></span>
+    <span style="display:inline-flex;align-items:flex-start"><span class="logo">H<span style="position:relative;display:inline-block">i<svg class="fl fdot" viewBox="0 0 24 24" style="position:absolute;left:-2px;top:-7px;width:9px;height:9px"><use href="#f-daisy"/></svg></span>na</span><span class="wonly">WOMEN ONLY</span></span>
+    <span class="ticon" data-action="profile"><svg class="ic"><use href="#i-user"/></svg></span>
+  </div>
+  <div class="s12"></div>
+  <div class="card rowline" style="background:var(--tealsoft);border-color:var(--tealline)">
+    <span class="seal t" style="background:#fff"><svg class="ic"><use href="#i-duo"/></svg></span>
+    <span class="grow"><div class="t-bold" style="font-size:12px;color:var(--teal)">Hina is for women, only.</div>
+    <div class="t-sub" style="color:var(--navyd)">Every match is a woman from your event.</div></span>
+  </div>
+  <div class="s10"></div>
+  <div class="headline">Get home safely.<br><em>Together.</em></div>
+  <div class="s8"></div>
+  <div class="sub">Hina matches you with women leaving the same event, travelling the same way home. Match on the journey — share your address only if you choose to.</div>
+  <div class="s12"></div>
+  <div class="seed">
+    <span class="tag">TONIGHT · 22:00–05:00</span>
+    <div class="seedin">
+      <span class="seal y"><svg class="ic"><use href="#i-check"/></svg></span>
+      <span class="grow"><div style="font-size:9px;font-weight:900;letter-spacing:.1em;color:var(--teal)">VERIFIED BY THE EVENT</div>
+      <div class="t-bold" style="margin-top:2px">Cologne, Bootshaus</div></span>
+      <span class="stamp"><svg class="fl" viewBox="0 0 24 24"><use href="#f-daisy"/></svg></span>
+    </div>
+  </div>
+  <div class="s10"></div>
+  <div class="rowline z">
+    <span class="avas"><span class="ava butter">LK</span><span class="ava teal">SM</span><span class="ava butter" style="background:var(--cream2)">AB</span><span class="ava navy">+121</span></span>
+    <span class="t-sub" style="font-weight:800;color:var(--navyd)">124 women are using Hina at this event tonight.</span>
+  </div>
+  <div class="grow-sp"></div>
+  <button class="btn btn-navy" data-nav="s02">Find a match <span class="arr"><svg class="ic"><use href="#i-chevr"/></svg></span></button>
+  <div class="s8"></div>
+  <button class="btn btn-line" data-toast="Hina works by pairing women from verified events leaving in the same direction.">How Hina works</button>
+  <div class="s8"></div>
+  <div class="qlink" data-toast="Quick ID Verification completed at the entrance by Bootshaus security.">Get verified for faster matching</div>
+  <div class="homebar"></div>
+</div></div>
+<span class="cap"><i></i><b>01</b><span>HOME · WOMEN-ONLY FROM THE START</span></span></div>
+
+<!-- 02 QR -->
+<div class="cell" id="s02"><div class="phone"><div class="screen">
+  <div class="island"></div>
+  <div class="status"><span>9:41</span><svg class="ic fic" viewBox="0 0 48 12" style="stroke:none"><use href="#i-status"/></svg></div>
+  <div class="topbar">
+    <span class="ticon" data-nav="s01"><svg class="ic"><use href="#i-back"/></svg></span>
+    <span style="display:inline-flex;align-items:flex-start"><span class="logo">H<span style="position:relative;display:inline-block">i<svg class="fl fdot" viewBox="0 0 24 24" style="position:absolute;left:-2px;top:-7px;width:9px;height:9px"><use href="#f-daisy"/></svg></span>na</span><span class="wonly">WOMEN ONLY</span></span>
+    <span class="ticon" data-toast="Ask Bootshaus security at entrance for assistance."><svg class="ic"><use href="#i-staff"/></svg></span>
+  </div>
+  <div class="s10"></div>
+  <div class="stepper"><span class="node done"></span><span class="st done"></span><span class="node cur"></span><span class="st"></span><span class="node"></span><span class="stepn">2 of 4</span></div>
+  <div class="s12"></div>
+  <div class="headline">Scan the event<br>QR code</div>
+  <div class="s8"></div>
+  <div class="sub"><b style="color:var(--navyd)">The QR code is provided by the event.</b> If you can't find it, ask event staff.</div>
+  <div class="s12"></div>
+  <div class="scanwrap" data-nav="s03" title="Click viewfinder to simulate successful scan">
+    <div class="scanframe">
+      <div class="scanarea">
+        <span class="scanline"></span>
+        <span class="qrslot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+            <path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3z" stroke-width="1.6"/>
+            <path d="M5.2 5.2h2.6v2.6H5.2zM16.2 5.2h2.6v2.6h-2.6zM5.2 16.2h2.6v2.6H5.2z" fill="currentColor" stroke="none"/>
+            <path d="M14 14h3v3h-3zM19 14h2v2h-2zM14 19h2v2h-2zM18 18.5h3M19.5 19.5h1.5" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </span>
+      </div>
+      <span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span>
+    </div>
+    <div class="scanlabel"><span><svg class="ic"><use href="#i-qr"/></svg>TAP TO SIMULATE CODE SCAN</span></div>
+  </div>
+  <div class="s10"></div>
+  <div class="infostrip"><svg class="ic"><use href="#i-staff"/></svg>
+    <p><b>Only women with access to this event can continue.</b> Staff at the entrance can show you the code.</p></div>
+  <div class="grow-sp"></div>
+  <div class="qlink" data-nav="f1">Enter event code instead</div>
+  <div class="homebar"></div>
+</div></div>
+<span class="cap"><i></i><b>02</b><span>QR SCAN · PROVIDED BY THE EVENT</span></span></div>
+
+<!-- E1 INVALID QR -->
+<div class="cell" id="e1"><div class="phone"><div class="screen">
+  <div class="island"></div>
+  <div class="status"><span>9:41</span><svg class="ic fic" viewBox="0 0 48 12" style="stroke:none"><use href="#i-status"/></svg></div>
+  <div class="topbar">
+    <span class="ticon" data-nav="s02"><svg class="ic"><use href="#i-back"/></svg></span>
+    <span class="logo">H<span style="position:relative;display:inline-block">i<svg class="fl fdot" viewBox="0 0 24 24" style="position:absolute;left:-2px;top:-7px;width:9px;height:9px"><use href="#f-daisy"/></svg></span>na</span><span style="width:40px"></span>
+  </div>
+  <div class="s14"></div>
+  <div class="alertcard">
+    <span class="bigseal n"><svg class="ic"><use href="#i-alert"/></svg></span>
+    <div class="headline" style="font-size:20px">This QR code<br>isn't valid.</div>
+    <div class="sub">It may be damaged, from an earlier event, or from a different venue. Nothing has been shared — nothing has gone wrong.</div>
+  </div>
+  <div class="s12"></div>
+  <div class="infostrip"><svg class="ic"><use href="#i-staff"/></svg>
+    <p><b>Fastest fix:</b> ask event staff for tonight's official Hina QR code at the entrance or the info desk.</p></div>
+  <div class="s10"></div>
+  <div class="card rowline" data-nav="f1" style="cursor:pointer"><span class="seal y"><svg class="ic"><use href="#i-qr"/></svg></span>
+    <span class="grow"><div class="t-bold">Have an event code?</div><div class="t-sub">Type the 4-digit code the host gave you.</div></span></div>
+  <div class="grow-sp"></div>
+  <button class="btn btn-navy" data-nav="s02">Scan again <span class="arr"><svg class="ic"><use href="#i-chevr"/></svg></span></button>
+  <div class="s8"></div>
+  <button class="btn btn-line" data-nav="f1">Enter event code instead</button>
+  <div class="homebar"></div>
+</div></div>
+<span class="cap"><i></i><b>E1</b><span>QR NOT VALID · BLAME-FREE</span></span></div>
+
+<!-- E2 CAMERA OFF -->
+<div class="cell" id="e2"><div class="phone"><div class="screen">
+  <div class="island"></div>
+  <div class="status"><span>9:41</span><svg class="ic fic" viewBox="0 0 48 12" style="stroke:none"><use href="#i-status"/></svg></div>
+  <div class="topbar">
+    <span class="ticon" data-nav="s02"><svg class="ic"><use href="#i-back"/></svg></span>
+    <span class="logo">H<span style="position:relative;display:inline-block">i<svg class="fl fdot" viewBox="0 0 24 24" style="position:absolute;left:-2px;top:-7px;width:9px;height:9px"><use href="#f-daisy"/></svg></span>na</span><span style="width:40px"></span>
+  </div>
+  <div class="s14"></div>
+  <div class="alertcard">
+    <span class="bigseal n"><svg class="ic"><use href="#i-camoff"/></svg></span>
+    <div class="headline" style="font-size:20px">Camera access<br>is turned off.</div>
+    <div class="sub">Hina uses the camera only to scan the event QR code — never to record. You can continue without it.</div>
+  </div>
+  <div class="s12"></div>
+  <div class="card rowline" data-nav="f1" style="cursor:pointer"><span class="seal y"><svg class="ic"><use href="#i-qr"/></svg></span>
+    <span class="grow"><div class="t-bold">Event code works just as well</div><div class="t-sub">The host or event staff can give you the 4-digit code.</div></span></div>
+  <div class="grow-sp"></div>
+  <button class="btn btn-navy" data-nav="f1">Enter event code <span class="arr"><svg class="ic"><use href="#i-chevr"/></svg></span></button>
+  <div class="s8"></div>
+  <button class="btn btn-line" data-toast="Settings shortcut: Camera permissions enabled."><svg class="ic" style="width:15px"><use href="#i-gear"/></svg>Allow camera access</button>
+  <div class="homebar"></div>
+</div></div>
+<span class="cap"><i></i><b>E2</b><span>CAMERA DENIED · PATH CONTINUES</span></span></div>
+
+<!-- F1 KEYPAD -->
+<div class="cell" id="f1"><div class="phone"><div class="screen">
+  <div class="island"></div>
+  <div class="status"><span>9:41</span><svg class="ic fic" viewBox="0 0 48 12" style="stroke:none"><use href="#i-status"/></svg></div>
+  <div class="topbar">
+    <span class="ticon" data-nav="s02"><svg class="ic"><use href="#i-back"/></svg></span>
+    <span style="display:inline-flex;align-items:flex-start"><span class="logo">H<span style="position:relative;display:inline-block">i<svg class="fl fdot" viewBox="0 0 24 24" style="position:absolute;left:-2px;top:-7px;width:9px;height:9px"><use href="#f-daisy"/></svg></span>na</span><span class="wonly">WOMEN ONLY</span></span>
+    <span class="ticon" data-toast="Event code is displayed on official Hina entrance flyers."><svg class="ic"><use href="#i-staff"/></svg></span>
+  </div>
+  <div class="s12"></div>
+  <div class="headline">Enter the event code</div>
+  <div class="s6"></div>
+  <div class="sub"><b style="color:var(--navyd)">No camera needed.</b> The 4-digit code is on the Hina poster at the entrance — or ask event staff.</div>
+  <div class="s14"></div>
+  <div class="label center" style="display:flex;justify-content:center">Tonight's code · Bootshaus Cologne</div>
+  <div class="s10"></div>
+  <div class="codedisp" id="kpDisp"><span class="cd on">8</span><span class="cd on">2</span><span class="cd on">4</span><span class="cd" id="kpLastDigit"><span class="caret"></span></span></div>
+  <div class="s14"></div>
+  <div class="keypad" id="interactiveKeypad">
+    <button class="key" data-num="1">1</button><button class="key" data-num="2">2<small>ABC</small></button><button class="key" data-num="3">3<small>DEF</small></button>
+    <button class="key" data-num="4">4<small>GHI</small></button><button class="key" data-num="5">5<small>JKL</small></button><button class="key" data-num="6">6<small>MNO</small></button>
+    <button class="key" data-num="7">7<small>PQRS</small></button><button class="key" data-num="8">8<small>TUV</small></button><button class="key" data-num="9">9<small>WXYZ</small></button>
+    <button class="key fn" data-action="clear">CLEAR</button><button class="key" data-num="0">0</button><button class="key fn" data-action="back">⌫ DEL</button>
+  </div>
+  <div class="grow-sp"></div>
+  <div class="keyhint">Tap digits to complete code · <b style="color:var(--navyd);cursor:pointer" data-nav="s03">Tap here to auto-verify 8241 →</b></div>
+  <div class="homebar"></div>
+</div></div>
+<span class="cap"><i></i><b>F1</b><span>KEYPAD FALLBACK · 64px KEYS</span></span></div>
+
+<!-- 03 TRAVEL -->
+<div class="cell" id="s03"><div class="phone"><div class="screen">
+  <div class="island"></div>
+  <div class="status"><span>9:41</span><svg class="ic fic" viewBox="0 0 48 12" style="stroke:none"><use href="#i-status"/></svg></div>
+  <div class="topbar">
+    <span class="ticon" data-nav="s02"><svg class="ic"><use href="#i-back"/></svg></span>
+    <span class="logo">H<span style="position:relative;display:inline-block">i<svg class="fl fdot" viewBox="0 0 24 24" style="position:absolute;left:-2px;top:-7px;width:9px;height:9px"><use href="#f-daisy"/></svg></span>na</span><span style="width:40px"></span>
+  </div>
+  <div class="s10"></div>
+  <div class="stepper"><span class="node done"></span><span class="st done"></span><span class="node done"></span><span class="st done"></span><span class="node cur"></span><span class="stepn">3 of 4</span></div>
+  <div class="s12"></div>
+  <div class="headline">How would you<br>like to travel?</div>
+  <div class="s8"></div>
+  <div class="sub">Pick one. You can change it before matching.</div>
+  <div class="s12"></div>
+  <div class="card opt" data-travel="driver"><span class="seal" style="background:var(--cream2)"><svg class="ic"><use href="#i-car"/></svg></span><span class="grow"><div class="t-bold">Driver</div><div class="t-sub">I offer a ride</div></span><svg class="rmark" viewBox="0 0 24 24"><use href="#f-daisy"/></svg></div>
+  <div class="s8"></div>
+  <div class="card opt" data-travel="passenger"><span class="seal" style="background:var(--cream2)"><svg class="ic"><use href="#i-seat"/></svg></span><span class="grow"><div class="t-bold">Passenger</div><div class="t-sub">I need a ride</div></span><svg class="rmark" viewBox="0 0 24 24"><use href="#f-daisy"/></svg></div>
+  <div class="s8"></div>
+  <div class="card opt sel" data-travel="train"><span class="seal" style="background:#fff"><svg class="ic"><use href="#i-train"/></svg></span><span class="grow"><div class="t-bold">Public transport group</div><div class="t-sub">Travel together by bus or train</div></span><svg class="rmark" viewBox="0 0 24 24"><use href="#f-daisy"/></svg></div>
+  <div class="s12"></div>
+  <div class="label">Departure window <svg class="ic"><use href="#i-chevd"/></svg></div>
+  <div class="s8"></div>
+  <div class="card rowline" data-toast="Departure window set: 04:30 – 05:00 am"><span class="seal" style="background:var(--cream2)"><svg class="ic"><use href="#i-clock"/></svg></span><span class="grow"><div class="t-bold">04:30 — 05:00 am</div><div class="t-sub">when you want to leave</div></span><svg class="ic" style="width:15px;color:var(--faint)"><use href="#i-chevd"/></svg></div>
+  <div class="grow-sp"></div>
+  <div class="sub center">Groups only include women from this event.</div>
+  <div class="s8"></div>
+  <button class="btn btn-navy" data-nav="s04">Continue <span class="arr"><svg class="ic"><use href="#i-chevr"/></svg></span></button>
+  <div class="homebar"></div>
+</div></div>
+<span class="cap"><i></i><b>03</b><span>TRAVEL MODE · CONSISTENT SELECTION</span></span></div>
+
+<!-- 04 DESTINATION -->
+<div class="cell" id="s04"><div class="phone"><div class="screen">
+  <div class="island"></div>
+  <div class="status"><span>9:41</span><svg class="ic fic" viewBox="0 0 48 12" style="stroke:none"><use href="#i-status"/></svg></div>
+  <div class="topbar">
+    <span class="ticon" data-nav="s03"><svg class="ic"><use href="#i-back"/></svg></span>
+    <span class="logo">H<span style="position:relative;display:inline-block">i<svg class="fl fdot" viewBox="0 0 24 24" style="position:absolute;left:-2px;top:-7px;width:9px;height:9px"><use href="#f-daisy"/></svg></span>na</span><span style="width:40px"></span>
+  </div>
+  <div class="s10"></div>
+  <div class="stepper"><span class="node done"></span><span class="st done"></span><span class="node done"></span><span class="st done"></span><span class="node cur"></span><span class="stepn">3 of 4</span></div>
+  <div class="s14"></div>
+  <div class="headline">Where are you<br>headed?</div>
+  <div class="s12"></div>
+  <div class="label">Destination</div>
+  <div class="s8"></div>
+  <div class="card rowline" data-toast="Destination confirmed: Marienbongard 13, Aachen">
+    <span class="seal y"><svg class="ic"><use href="#i-pin"/></svg></span>
+    <span class="grow"><div class="t-bold">Marienbongard 13, Aachen</div><div class="t-sub">address, stop, or station</div></span>
+    <span class="seal n" style="width:32px;height:32px"><svg class="ic" style="width:15px"><use href="#i-search"/></svg></span>
+  </div>
+  <div class="s14"></div>
+  <div class="vault">
+    <span class="shield"><svg class="ic"><use href="#i-lock"/></svg></span>
+    <b>Your exact address stays private.</b>
+    <p>Matching uses your direction and timing. Your address is shared only if you accept a match and start the trip.</p>
+  </div>
+  <div class="grow-sp"></div>
+  <div class="btnrow"><button class="btn btn-line" data-nav="s03"><svg class="ic" style="width:15px"><use href="#i-back"/></svg> Back</button><button class="btn btn-navy" data-nav="s05">Continue <span class="arr"><svg class="ic"><use href="#i-chevr"/></svg></span></button></div>
+  <div class="homebar"></div>
+</div></div>
+<span class="cap"><i></i><b>04</b><span>DESTINATION · PRIVACY VAULT</span></span></div>
+</div>
+
+<!-- ============ PHASE B · MATCH & FIND ============ -->
+<div class="phase">
+  <span class="pchip"><svg class="ic"><use href="#i-people"/></svg></span>
+  <h2>Match &amp; find</h2><em class="hand">including the “nothing yet” moments</em><span class="rule"></span><span class="count">4 SCREENS · 05 06 + E3 F2</span>
+</div>
+<div class="row">
+
+<!-- 05 MATCHES -->
+<div class="cell" id="s05"><div class="phone"><div class="screen">
+  <div class="island"></div>
+  <div class="status"><span>9:41</span><svg class="ic fic" viewBox="0 0 48 12" style="stroke:none"><use href="#i-status"/></svg></div>
+  <div class="topbar">
+    <span class="ticon" data-nav="s04"><svg class="ic"><use href="#i-back"/></svg></span>
+    <span class="logo">H<span style="position:relative;display:inline-block">i<svg class="fl fdot" viewBox="0 0 24 24" style="position:absolute;left:-2px;top:-7px;width:9px;height:9px"><use href="#f-daisy"/></svg></span>na</span><span style="width:40px"></span>
+  </div>
+  <div class="s10"></div>
+  <div class="headline">3 groups match<br>your route</div>
+  <div class="s8"></div>
+  <div class="sub">Sorted by how much of the way you'd travel together.</div>
+  <div class="s12"></div>
+  <div class="tl">
+    <div class="tlitem"><span class="ttime">04:30</span><span class="tnode"></span>
+      <div class="card opt rowline" data-group="STR 6"><span class="seal" style="background:var(--cream2)"><svg class="ic"><use href="#i-train"/></svg></span>
+      <span class="grow"><div class="rowline" style="gap:7px"><span class="t-bold">STR 6 / RE9</span><span style="font-size:9px;font-weight:900;color:var(--teal)">94% OF THE WAY</span></div><div class="t-sub">Group of 3 · view members</div></span>
+      <svg class="ic" style="width:15px;color:var(--faint)"><use href="#i-chevr"/></svg></div></div>
+    <div class="s8"></div>
+    <div class="tlitem"><span class="ttime">04:30</span><span class="tnode"></span>
+      <div class="card opt sel rowline" data-group="STR 3" style="background:var(--tealsoft)"><span class="seal" style="background:#fff"><svg class="ic"><use href="#i-train"/></svg></span>
+      <span class="grow"><div class="rowline" style="gap:7px"><span class="t-bold">STR 3 / RE8</span><span style="font-size:9px;font-weight:900;color:var(--teal)">97% OF THE WAY</span></div><div class="t-sub">Group of 2 · view members</div></span>
+      <svg class="rmark" viewBox="0 0 24 24" style="width:26px;color:var(--yellow)"><use href="#f-daisy"/></svg></div></div>
+    <div class="s8"></div>
+    <div class="tlitem"><span class="ttime">05:00</span><span class="tnode"></span>
+      <div class="card opt rowline" data-group="STR 7"><span class="seal" style="background:var(--cream2)"><svg class="ic"><use href="#i-train"/></svg></span>
+      <span class="grow"><div class="rowline" style="gap:7px"><span class="t-bold">STR 7 / RE9</span><span style="font-size:9px;font-weight:900;color:var(--teal)">89% OF THE WAY</span></div><div class="t-sub">Group of 3 · view members</div></span>
+      <svg class="ic" style="width:15px;color:var(--faint)"><use href="#i-chevr"/></svg></div></div>
+  </div>
+  <div class="grow-sp"></div>
+  <div class="sub center">Joining shares your first name and route — never your address.</div>
+  <div class="s8"></div>
+  <div class="btnrow"><button class="btn btn-line" data-nav="s04"><svg class="ic" style="width:15px"><use href="#i-back"/></svg> Back</button><button class="btn btn-navy" data-nav="s06">Join STR 3 / RE8 <span class="arr"><svg class="ic"><use href="#i-chevr"/></svg></span></button></div>
+  <div class="homebar"></div>
+</div></div>
+<span class="cap"><i></i><b>05</b><span>MATCHES · % OF WAY, NOT SCORES</span></span></div>
+
+<!-- E3 NO MATCH -->
+<div class="cell" id="e3"><div class="phone"><div class="screen">
+  <div class="island"></div>
+  <div class="status"><span>9:41</span><svg class="ic fic" viewBox="0 0 48 12" style="stroke:none"><use href="#i-status"/></svg></div>
+  <div class="topbar">
+    <span class="ticon" data-nav="s05"><svg class="ic"><use href="#i-back"/></svg></span>
+    <span class="logo">H<span style="position:relative;display:inline-block">i<svg class="fl fdot" viewBox="0 0 24 24" style="position:absolute;left:-2px;top:-7px;width:9px;height:9px"><use href="#f-daisy"/></svg></span>na</span><span style="width:40px"></span>
+  </div>
+  <div class="s14"></div>
+  <div class="alertcard">
+    <span class="bigseal t"><svg class="fl" viewBox="0 0 24 24" style="width:30px;height:30px"><use href="#f-daisy"/></svg><span class="bignum">0</span></span>
+    <div class="headline" style="font-size:20px">No match in your<br>window yet.</div>
+    <div class="sub">No women on your route are leaving between 04:30 and 05:00 right now. This changes as people open the app.</div>
+  </div>
+  <div class="s12"></div>
+  <div class="card rowline" data-toast="Notifications enabled: We will ping you when a match opens."><span class="seal t"><svg class="ic"><use href="#i-bell"/></svg></span>
+    <span class="grow"><div class="t-bold">Notify me</div><div class="t-sub">We'll ping you the moment a group matches your route.</div></span></div>
+  <div class="s10"></div>
+  <div class="infostrip"><svg class="ic"><use href="#i-lock"/></svg>
+    <p><b>Nothing is shared while you wait.</b> Your route stays private until you accept a match.</p></div>
+  <div class="grow-sp"></div>
+  <button class="btn btn-navy" data-nav="f2">See safe ways home now <span class="arr"><svg class="ic"><use href="#i-chevr"/></svg></span></button>
+  <div class="s8"></div>
+  <button class="btn btn-line" data-nav="s03">Widen time window / change route</button>
+  <div class="homebar"></div>
+</div></div>
+<span class="cap"><i></i><b>E3</b><span>NO MATCH · NEVER A DEAD END</span></span></div>
+
+<!-- F2 SAFE WAYS -->
+<div class="cell" id="f2"><div class="phone"><div class="screen">
+  <div class="island"></div>
+  <div class="status"><span>9:41</span><svg class="ic fic" viewBox="0 0 48 12" style="stroke:none"><use href="#i-status"/></svg></div>
+  <div class="topbar">
+    <span class="ticon" data-nav="e3"><svg class="ic"><use href="#i-back"/></svg></span>
+    <span class="logo">H<span style="position:relative;display:inline-block">i<svg class="fl fdot" viewBox="0 0 24 24" style="position:absolute;left:-2px;top:-7px;width:9px;height:9px"><use href="#f-daisy"/></svg></span>na</span><span style="width:40px"></span>
+  </div>
+  <div class="s12"></div>
+  <div class="headline">Safe ways home, <em>right now.</em></div>
+  <div class="s8"></div>
+  <div class="infostrip"><svg class="ic"><use href="#i-bell"/></svg>
+    <p><b>Matching continues in the background.</b> If a group opens on your route, we'll ping you right away.</p></div>
+  <div class="s10"></div>
+  <div class="card rowline" data-toast="Route guidance to NE13 Platform 2 started." style="cursor:pointer">
+    <span class="seal t"><svg class="ic"><use href="#i-bus"/></svg></span>
+    <span class="grow">
+      <div class="rowline" style="gap:6px;justify-content:space-between"><span class="t-bold">Night line NE13 · platform 2</span><span class="countchip">12 min</span></div>
+      <div class="t-sub">departs 04:52 · toward Aachen Hbf · 4 min walk from here</div>
+    </span>
+    <svg class="ic" style="width:15px;color:var(--faint)"><use href="#i-chevr"/></svg>
+  </div>
+  <div class="s8"></div>
+  <div class="label">Open now near you</div>
+  <div class="s8"></div>
+  <div class="card rowline" data-toast="Venue security desk: 40m inside main hall." style="padding:10px 13px;cursor:pointer">
+    <span class="seal t" style="width:32px;height:32px;border-radius:11px 11px 11px 4px"><svg class="ic" style="width:16px"><use href="#i-store"/></svg></span>
+    <span class="grow"><div class="rowline" style="gap:6px"><span class="t-bold" style="font-size:12px">Venue security desk</span><span class="openbadge">✓ OPEN</span></div>
+    <div class="t-sub" style="font-size:9.5px">inside, by main exit · staff briefed on Hina</div></span>
+    <span class="dist">40 m</span>
+  </div>
+  <div class="s6"></div>
+  <div class="card rowline" data-toast="Späti an der Ecke: Open 24/7 with safe shelter policy." style="padding:10px 13px;cursor:pointer">
+    <span class="seal t" style="width:32px;height:32px;border-radius:11px 11px 11px 4px"><svg class="ic" style="width:16px"><use href="#i-store"/></svg></span>
+    <span class="grow"><div class="rowline" style="gap:6px"><span class="t-bold" style="font-size:12px">Späti an der Ecke</span><span class="openbadge">✓ 24/7</span></div>
+    <div class="t-sub" style="font-size:9.5px">lit, staffed, on your route north</div></span>
+    <span class="dist">120 m</span>
+  </div>
+  <div class="s10"></div>
+  <button class="btn btn-navy" data-toast="Calling verified Cologne Night Taxi (ETA 4 mins)..."><svg class="ic" style="width:16px"><use href="#i-phone"/></svg> Call verified taxi <span class="arr"><svg class="ic"><use href="#i-chevr"/></svg></span></button>
+  <div class="s6"></div>
+  <div class="keyhint">Driver, plate &amp; ETA appear before pickup — and can be shared to a friend's phone.</div>
+  <div class="grow-sp"></div>
+  <div class="qlink" data-nav="s03">Change my route or transport instead</div>
+  <div class="homebar"></div>
+</div></div>
+<span class="cap"><i></i><b>F2</b><span>SAFE WAYS · BUS · HAVENS · TAXI</span></span></div>
+
+<!-- 06 MEMBERS -->
+<div class="cell" id="s06"><div class="phone"><div class="screen">
+  <div class="island"></div>
+  <div class="status"><span>9:41</span><svg class="ic fic" viewBox="0 0 48 12" style="stroke:none"><use href="#i-status"/></svg></div>
+  <div class="topbar">
+    <span class="ticon" data-nav="s05"><svg class="ic"><use href="#i-back"/></svg></span>
+    <span class="logo">H<span style="position:relative;display:inline-block">i<svg class="fl fdot" viewBox="0 0 24 24" style="position:absolute;left:-2px;top:-7px;width:9px;height:9px"><use href="#f-daisy"/></svg></span>na</span><span style="width:40px"></span>
+  </div>
+  <div class="s10"></div>
+  <div class="headline">Group members</div>
+  <div class="s8"></div>
+  <div class="label">STR 3 / RE8 · 2 women <svg class="ic"><use href="#i-chevd"/></svg></div>
+  <div class="s10"></div>
+  <div class="card rowline">
+    <span class="ava big butter">AM</span>
+    <span class="grow"><div class="rowline" style="justify-content:space-between"><span class="t-bold">Amy, 22</span><span class="ystar">★★★</span></div>
+    <div class="t-sub">same direction for 68% of the way</div>
+    <span class="vbadge"><span class="vcheck"><svg class="ic"><use href="#i-check"/></svg></span>verified by event staff</span></span>
+    <svg class="ic" style="width:16px;color:var(--faint)"><use href="#i-chevd"/></svg>
+  </div>
+  <div class="s8"></div>
+  <div class="card rowline">
+    <span class="ava big teal">SE</span>
+    <span class="grow"><div class="rowline" style="justify-content:space-between"><span class="t-bold">Senta, 23</span><span class="ystar">★★★</span></div>
+    <div class="t-sub">same direction for 71% of the way</div>
+    <span class="vbadge"><span class="vcheck"><svg class="ic"><use href="#i-check"/></svg></span>verified by event staff</span></span>
+    <svg class="ic" style="width:16px;color:var(--faint)"><use href="#i-chevd"/></svg>
+  </div>
+  <div class="s10"></div>
+  <div class="infostrip"><svg class="ic"><use href="#i-info"/></svg>
+    <p><b>Verified</b> means event staff checked this member's ID at the door tonight.</p></div>
+  <div class="grow-sp"></div>
+  <div class="btnrow"><button class="btn btn-line" data-nav="s05"><svg class="ic" style="width:15px"><use href="#i-back"/></svg> Back</button><button class="btn btn-navy" data-nav="s07">Join this group <span class="arr"><svg class="ic"><use href="#i-chevr"/></svg></span></button></div>
+  <div class="homebar"></div>
+</div></div>
+<span class="cap"><i></i><b>06</b><span>MEMBERS · VERIFIED BY STAFF</span></span></div>
+</div>
+
+<!-- ============ PHASE C · MEET & GO ============ -->
+<div class="phase">
+  <span class="pchip"><svg class="ic"><use href="#i-nav"/></svg></span>
+  <h2>Meet &amp; go</h2><em class="hand">every detour covered, safe to the door</em><span class="rule"></span><span class="count">9 SCREENS · 07–10 + E4 E5 F3 F4 F5</span>
+</div>
+<div class="row">
+
+<!-- 07 HINA POINT -->
+<div class="cell" id="s07"><div class="phone"><div class="screen">
+  <div class="island"></div>
+  <div class="status"><span>9:41</span><svg class="ic fic" viewBox="0 0 48 12" style="stroke:none"><use href="#i-status"/></svg></div>
+  <div class="topbar">
+    <span class="ticon" data-nav="s06"><svg class="ic"><use href="#i-back"/></svg></span>
+    <span class="logo">H<span style="position:relative;display:inline-block">i<svg class="fl fdot" viewBox="0 0 24 24" style="position:absolute;left:-2px;top:-7px;width:9px;height:9px"><use href="#f-daisy"/></svg></span>na</span>
+    <span class="ticon" data-toast="Support: Help desk is right beside Point A."><svg class="ic"><use href="#i-quest"/></svg></span>
+  </div>
+  <div class="s10"></div>
+  <span class="chip t"><svg class="ic"><use href="#i-pinH"/></svg>MEETING POINT</span>
+  <div class="s8"></div>
+  <div class="headline">Meet at Hina Point A</div>
+  <div class="s8"></div>
+  <div class="sub">Main entrance · next to the info desk</div>
+  <div class="s10"></div>
+  <div class="map" style="height:138px">
+    <div class="blk" style="width:74px;height:52px;top:14px;left:14px"></div>
+    <div class="blk" style="width:92px;height:42px;top:84px;left:44px"></div>
+    <div class="blk" style="width:60px;height:66px;top:12px;right:16px"></div>
+    <div class="blk" style="width:80px;height:36px;bottom:12px;right:30px"></div>
+    <div class="road" style="width:160%;height:10px;top:72px;left:-20%;transform:rotate(-8deg)"></div>
+    <div class="road" style="width:10px;height:160%;left:116px;top:-20%;transform:rotate(6deg)"></div>
+    <svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 274 138"><path class="route" d="M40 112 C 90 102, 120 72, 156 48"/></svg>
+    <span class="gps" style="bottom:18px;left:30px"></span>
+    <span class="pinH" style="top:28px;right:80px"><span>H</span></span>
+    <span class="compass" style="top:10px;right:10px">N</span>
+    <div class="mapchip" style="bottom:10px;left:10px"><svg class="ic"><use href="#i-walk"/></svg>3 min walk</div>
+  </div>
+  <div class="s10"></div>
+  <div class="infostrip"><svg class="ic"><use href="#i-staff"/></svg>
+    <p><b>The Hina Point is set by the event.</b> If you can't find it, ask event staff — they know exactly where it is.</p></div>
+  <div class="s10"></div>
+  <div class="codecard"><div class="clabel">COMPARE THIS 4-DIGIT CODE WHEN YOU MEET</div>
+    <div class="codetiles"><span class="ctile">2</span><span class="ctile">4</span><span class="ctile">2</span><span class="ctile">1</span></div></div>
+  <div class="s10"></div>
+  <div class="card rowline" style="background:var(--tealsoft);border-color:var(--tealline);padding:9px 12px">
+    <span class="vcheck"><svg class="ic"><use href="#i-check"/></svg></span>
+    <span class="grow"><div class="t-bold" style="font-size:11.5px;color:var(--teal)">Your match confirmed.</div><div class="t-sub">Confirm only after you've met in person.</div></span>
+  </div>
+  <div class="s8"></div>
+  <button class="btn btn-navy" data-nav="s08">Confirm match</button>
+  <div class="s8"></div>
+  <div class="qlink" data-toast="Report center open. Staff alerted if needed.">Report a problem · Safety tools</div>
+  <div class="homebar"></div>
+</div></div>
+<span class="cap"><i></i><b>07</b><span>HINA POINT · SET BY THE EVENT</span></span></div>
+
+<!-- E4 POINT MOVED -->
+<div class="cell" id="e4"><div class="phone"><div class="screen">
+  <div class="island"></div>
+  <div class="status"><span>9:41</span><svg class="ic fic" viewBox="0 0 48 12" style="stroke:none"><use href="#i-status"/></svg></div>
+  <div class="topbar">
+    <span class="ticon" data-nav="s07"><svg class="ic"><use href="#i-back"/></svg></span>
+    <span class="logo">H<span style="position:relative;display:inline-block">i<svg class="fl fdot" viewBox="0 0 24 24" style="position:absolute;left:-2px;top:-7px;width:9px;height:9px"><use href="#f-daisy"/></svg></span>na</span>
+    <span class="ticon" data-toast="Support: Point B is clearly signed."><svg class="ic"><use href="#i-quest"/></svg></span>
+  </div>
+  <div class="s12"></div>
+  <div class="chip a"><svg class="ic"><use href="#i-alert"/></svg>MEETING POINT CHANGED</div>
+  <div class="s10"></div>
+  <div class="headline">The event moved<br>the Hina Point.</div>
+  <div class="s8"></div>
+  <div class="sub">Changed by the event 10 minutes ago. Your group was notified.</div>
+  <div class="s12"></div>
+  <div class="card rowline" style="border-color:#E8D5A0;background:#FCF4DE">
+    <span class="seal a"><svg class="ic"><use href="#i-pinH"/></svg></span>
+    <span class="grow"><div class="t-bold">Now: Hina Point B</div><div class="t-sub">North entrance · by the coat check</div></span>
+  </div>
+  <div class="s10"></div>
+  <div class="map" style="height:120px">
+    <div class="blk" style="width:80px;height:50px;top:12px;left:14px"></div>
+    <div class="blk" style="width:70px;height:56px;bottom:12px;left:90px"></div>
+    <div class="blk" style="width:76px;height:44px;top:12px;right:16px"></div>
+    <div class="road" style="width:160%;height:9px;top:66px;left:-20%;transform:rotate(-5deg)"></div>
+    <svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 274 120"><path class="route" d="M44 92 C 100 84, 150 52, 208 40"/></svg>
+    <span class="gps" style="bottom:14px;left:36px"></span>
+    <span class="pinH" style="top:14px;right:40px;width:32px;height:32px"><span style="font-size:13px">B</span></span>
+    <span class="compass" style="top:8px;right:8px">N</span>
+  </div>
+  <div class="grow-sp"></div>
+  <button class="btn btn-navy" data-nav="s07">Route to new point <span class="arr"><svg class="ic"><use href="#i-chevr"/></svg></span></button>
+  <div class="s8"></div>
+  <button class="btn btn-line" data-toast="Group message broadcasted: Heading to Point B.">Message my group</button>
+  <div class="homebar"></div>
+</div></div>
+<span class="cap"><i></i><b>E4</b><span>POINT MOVED · GROUP NOTIFIED</span></span></div>
+
+<!-- F3 GRACE TIMER -->
+<div class="cell" id="f3"><div class="phone"><div class="screen">
+  <div class="island"></div>
+  <div class="status"><span>9:41</span><svg class="ic fic" viewBox="0 0 48 12" style="stroke:none"><use href="#i-status"/></svg></div>
+  <div class="topbar">
+    <span class="ticon" data-nav="s07"><svg class="ic"><use href="#i-back"/></svg></span>
+    <span class="logo">H<span style="position:relative;display:inline-block">i<svg class="fl fdot" viewBox="0 0 24 24" style="position:absolute;left:-2px;top:-7px;width:9px;height:9px"><use href="#f-daisy"/></svg></span>na</span><span style="width:40px"></span>
+  </div>
+  <div class="s14"></div>
+  <div class="ring">
+    <svg width="128" height="128" viewBox="0 0 128 128">
+      <circle cx="64" cy="64" r="54" fill="none" stroke="#EADDC0" stroke-width="9"/>
+      <circle cx="64" cy="64" r="54" fill="none" stroke="var(--yellow)" stroke-width="9" stroke-linecap="round"
+        stroke-dasharray="339.3" stroke-dashoffset="108" id="graceRingCircle"/>
+    </svg>
+    <span class="val"><b id="graceTimerDisplay">2:14</b><span>OF 3:00</span></span>
+  </div>
+  <div class="s14"></div>
+  <div class="rowline" style="justify-content:center;gap:12px;position:relative;z-index:20">
+    <span class="ava big pulseava" style="background:var(--yellowsoft)">M</span>
+    <span class="grow">
+      <div class="t-bold">Waiting for Maya</div>
+      <div class="t-sub">Main cloakroom · Hina Point A</div>
+    </span>
+  </div>
+  <div class="s12"></div>
+  <div class="infostrip"><svg class="ic"><use href="#i-check"/></svg>
+    <p><b>Maya checked in at the venue 30 s ago.</b> Most buddies arrive within two minutes — she may just be in the coat queue.</p></div>
+  <div class="grow-sp"></div>
+  <button class="btn btn-line" data-nav="f4"><svg class="ic" style="width:16px"><use href="#i-bell"/></svg> Ping Maya — gentle chime</button>
+  <div class="s8"></div>
+  <button class="btn btn-navy" id="btnRematchF3" data-nav="f5">Re-match with next buddy</button>
+  <div class="locknote" id="locknoteF3"><svg class="ic"><use href="#i-lock"/></svg>CAN BE TRIGGERED OR UNLOCKS AUTOMATICALLY</div>
+  <div class="s6"></div>
+  <div class="qlink" data-nav="f2">I'll just head home — show me safe ways</div>
+  <div class="homebar"></div>
+</div></div>
+<span class="cap"><i></i><b>F3</b><span>GRACE TIMER · 3-MIN BUFFER</span></span></div>
+
+<!-- F4 PING ANSWERED -->
+<div class="cell" id="f4"><div class="phone"><div class="screen">
+  <div class="island"></div>
+  <div class="status"><span>9:41</span><svg class="ic fic" viewBox="0 0 48 12" style="stroke:none"><use href="#i-status"/></svg></div>
+  <div class="topbar">
+    <span class="ticon" data-nav="f3"><svg class="ic"><use href="#i-back"/></svg></span>
+    <span class="logo">H<span style="position:relative;display:inline-block">i<svg class="fl fdot" viewBox="0 0 24 24" style="position:absolute;left:-2px;top:-7px;width:9px;height:9px"><use href="#f-daisy"/></svg></span>na</span><span style="width:40px"></span>
+  </div>
+  <div class="s14"></div>
+  <div class="card rowline" style="justify-content:center;padding:18px 14px;text-align:center;flex-direction:column;gap:10px">
+    <span class="seal t" style="width:56px;height:56px;border-radius:18px 18px 18px 6px"><svg class="ic" style="width:27px;height:27px"><use href="#i-bellcheck"/></svg></span>
+    <div class="headline" style="font-size:21px">Maya's coming —<br><em>2 minutes.</em></div>
+    <div class="sub">She tapped “on my way” 30 s ago. Stay near the cloakroom; we'll chime again when she's 20 m out.</div>
+  </div>
+  <div class="s12"></div>
+  <div class="card rowline" style="padding:10px 13px">
+    <span class="ava big" style="width:38px;height:38px;font-size:12px">M</span>
+    <span class="grow"><div class="t-bold" style="font-size:12px">Maya, 23</div><div class="t-sub" style="font-size:9.5px">verified by event staff · ★★★</div></span>
+    <span class="openbadge" style="font-size:8px">ON HER WAY</span>
+  </div>
+  <div class="grow-sp"></div>
+  <div class="infostrip"><svg class="ic"><use href="#i-shield"/></svg>
+    <p><b>If she doesn't arrive by 0:00,</b> re-match unlocks automatically and your match code changes.</p></div>
+  <div class="s10"></div>
+  <button class="btn btn-navy" data-nav="s08">We're here — compare codes <span class="arr"><svg class="ic"><use href="#i-chevr"/></svg></span></button>
+  <div class="s8"></div>
+  <div class="qlink" data-nav="f2">Show me safe ways home instead</div>
+  <div class="homebar"></div>
+</div></div>
+<span class="cap"><i></i><b>F4</b><span>PING ANSWERED · LOOP CLOSED</span></span></div>
+
+<!-- F5 RE-MATCH -->
+<div class="cell" id="f5"><div class="phone"><div class="screen">
+  <div class="island"></div>
+  <div class="status"><span>9:41</span><svg class="ic fic" viewBox="0 0 48 12" style="stroke:none"><use href="#i-status"/></svg></div>
+  <div class="topbar">
+    <span class="ticon" data-nav="f3"><svg class="ic"><use href="#i-back"/></svg></span>
+    <span class="logo">H<span style="position:relative;display:inline-block">i<svg class="fl fdot" viewBox="0 0 24 24" style="position:absolute;left:-2px;top:-7px;width:9px;height:9px"><use href="#f-daisy"/></svg></span>na</span><span style="width:40px"></span>
+  </div>
+  <div class="s14"></div>
+  <div class="rowline" style="position:relative;z-index:20">
+    <span class="seal t" style="width:44px;height:44px;border-radius:14px 14px 14px 5px"><svg class="ic" style="width:22px;height:22px"><use href="#i-userx"/></svg></span>
+    <span class="grow"><div class="headline" style="font-size:20px">Maya didn't make it.<br><em>That's okay.</em></div></span>
+  </div>
+  <div class="s8"></div>
+  <div class="sub">Nothing was shared. Your old match code has expired automatically — only your new group can use the new one.</div>
+  <div class="s12"></div>
+  <div class="label">Next best match · ready now</div>
+  <div class="s8"></div>
+  <div class="card rowline" style="border-color:var(--teal);box-shadow:0 0 0 1px var(--teal)">
+    <span class="ava big" style="background:var(--tealsoft);color:var(--teal)">L</span>
+    <span class="grow">
+      <div class="rowline" style="gap:6px"><span class="t-bold">Lena, 24</span><span style="font-size:9px;font-weight:900;color:var(--teal)">94% OF THE WAY</span></div>
+      <div class="t-sub">STR 6 / RE9 · group of 3 · waiting at Hina Point A</div>
+    </span>
+  </div>
+  <div class="s10"></div>
+  <div class="infostrip"><svg class="ic"><use href="#i-staff"/></svg>
+    <p><b>Not feeling it?</b> Event staff are briefed on Hina and can help you regroup — or walk you to the NE13 platform.</p></div>
+  <div class="grow-sp"></div>
+  <button class="btn btn-navy" data-nav="s07">Send match request to Lena <span class="arr"><svg class="ic"><use href="#i-chevr"/></svg></span></button>
+  <div class="s8"></div>
+  <button class="btn btn-line" data-nav="f2"><svg class="ic" style="width:15px"><use href="#i-bus"/></svg> Safe ways home instead</button>
+  <div class="s8"></div>
+  <div class="qlink" data-nav="s01">End for tonight</div>
+  <div class="homebar"></div>
+</div></div>
+<span class="cap"><i></i><b>F5</b><span>RE-MATCH · NEW CODE ISSUED</span></span></div>
+
+<!-- 08 CONFIRM -->
+<div class="cell" id="s08"><div class="phone"><div class="screen">
+  <div class="island"></div>
+  <div class="status"><span>9:41</span><svg class="ic fic" viewBox="0 0 48 12" style="stroke:none"><use href="#i-status"/></svg></div>
+  <div class="topbar">
+    <span class="ticon" data-nav="s07"><svg class="ic"><use href="#i-back"/></svg></span>
+    <span class="logo">H<span style="position:relative;display:inline-block">i<svg class="fl fdot" viewBox="0 0 24 24" style="position:absolute;left:-2px;top:-7px;width:9px;height:9px"><use href="#f-daisy"/></svg></span>na</span>
+    <span class="ticon" data-toast="Need help? Ask venue staff right beside Point A."><svg class="ic"><use href="#i-quest"/></svg></span>
+  </div>
+  <div class="s14"></div>
+  <div class="headline">Confirm each other</div>
+  <div class="s8"></div>
+  <div class="sub">Say your codes out loud when you meet. If they match, you're with the right group.</div>
+  <div class="s14"></div>
+  <div class="label">Your code</div>
+  <div class="s8"></div>
+  <div class="codecard"><div class="clabel">SHOW THIS TO YOUR GROUP</div>
+    <div class="codetiles"><span class="ctile">2</span><span class="ctile">4</span><span class="ctile">2</span><span class="ctile">1</span></div></div>
+  <div class="s12"></div>
+  <div class="label">Enter their code</div>
+  <div class="s8"></div>
+  <div class="codeboxes" id="confirmCodeBoxes">
+    <span class="cb filled">4</span><span class="cb filled">2</span><span class="cb filled">1</span><span class="cb filled">8</span>
+  </div>
+  <div class="grow-sp"></div>
+  <div class="infostrip"><svg class="ic"><use href="#i-lock"/></svg>
+    <p>Codes change with every match. <b>Nobody can join your trip without standing in front of you.</b></p></div>
+  <div class="s10"></div>
+  <div class="btnrow"><button class="btn btn-line" data-nav="s07"><svg class="ic" style="width:15px"><use href="#i-back"/></svg> Back</button><button class="btn btn-navy" data-nav="s09">Synchronise <span class="arr"><svg class="ic"><use href="#i-chevr"/></svg></span></button></div>
+  <div class="homebar"></div>
+</div></div>
+<span class="cap"><i></i><b>08</b><span>CONFIRM · 4 DIGITS · IN-PERSON ONLY</span></span></div>
+
+<!-- E5 CANCELLED -->
+<div class="cell" id="e5"><div class="phone"><div class="screen">
+  <div class="island"></div>
+  <div class="status"><span>9:41</span><svg class="ic fic" viewBox="0 0 48 12" style="stroke:none"><use href="#i-status"/></svg></div>
+  <div class="topbar">
+    <span class="ticon" data-nav="s09"><svg class="ic"><use href="#i-back"/></svg></span>
+    <span class="logo">H<span style="position:relative;display:inline-block">i<svg class="fl fdot" viewBox="0 0 24 24" style="position:absolute;left:-2px;top:-7px;width:9px;height:9px"><use href="#f-daisy"/></svg></span>na</span>
+    <span class="ticon" data-toast="Support is available 24/7."><svg class="ic"><use href="#i-quest"/></svg></span>
+  </div>
+  <div class="s14"></div>
+  <div class="alertcard">
+    <span class="bigseal t"><svg class="ic"><use href="#i-userx"/></svg></span>
+    <div class="headline" style="font-size:20px">Amy left<br>the group.</div>
+    <div class="sub">Your match was cancelled 5 minutes ago. That's okay — it happens. Your address and route were never shared and stay private.</div>
+  </div>
+  <div class="s12"></div>
+  <div class="card rowline" data-nav="s05" style="cursor:pointer"><span class="seal t"><svg class="ic"><use href="#i-people"/></svg></span>
+    <span class="grow"><div class="t-bold">2 groups still match your route</div><div class="t-sub">STR 6 / RE9 · STR 7 / RE9 — leaving from 04:30</div></span></div>
+  <div class="s10"></div>
+  <div class="infostrip"><svg class="ic"><use href="#i-staff"/></svg>
+    <p>Feeling unsure? <b>Event staff are briefed on Hina</b> and can help you regroup or get home.</p></div>
+  <div class="grow-sp"></div>
+  <button class="btn btn-navy" data-nav="s05">Find a new match <span class="arr"><svg class="ic"><use href="#i-chevr"/></svg></span></button>
+  <div class="s8"></div>
+  <button class="btn btn-line" data-nav="s01">End for tonight</button>
+  <div class="s6"></div>
+  <div class="qlink" data-toast="Contacting venue support representative...">Talk to support</div>
+  <div class="homebar"></div>
+</div></div>
+<span class="cap"><i></i><b>E5</b><span>MATCH CANCELLED · DIGNITY KEPT</span></span></div>
+
+<!-- 09 START TRIP -->
+<div class="cell" id="s09"><div class="phone"><div class="screen">
+  <div class="island"></div>
+  <div class="status"><span>9:41</span><svg class="ic fic" viewBox="0 0 48 12" style="stroke:none"><use href="#i-status"/></svg></div>
+  <div class="topbar">
+    <span class="ticon" data-nav="s08"><svg class="ic"><use href="#i-back"/></svg></span>
+    <span class="logo">H<span style="position:relative;display:inline-block">i<svg class="fl fdot" viewBox="0 0 24 24" style="position:absolute;left:-2px;top:-7px;width:9px;height:9px"><use href="#f-daisy"/></svg></span>na</span>
+    <span class="ticon" data-toast="Assistance available."><svg class="ic"><use href="#i-quest"/></svg></span>
+  </div>
+  <div class="s10"></div>
+  <div class="headline">You're matched.</div>
+  <div class="s8"></div>
+  <div class="sub">Route to your destination with STR 3 / RE8.</div>
+  <div class="s10"></div>
+  <div class="map" style="height:158px">
+    <div class="blk" style="width:84px;height:60px;top:14px;left:14px"></div>
+    <div class="blk" style="width:70px;height:74px;top:14px;right:22px"></div>
+    <div class="blk" style="width:120px;height:38px;bottom:14px;left:64px"></div>
+    <div class="road" style="width:160%;height:10px;top:90px;left:-20%;transform:rotate(5deg)"></div>
+    <svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 274 158"><path class="route" d="M56 118 C 106 102, 122 62, 200 46"/></svg>
+    <span class="gps" style="bottom:22px;left:46px"></span>
+    <span class="pinH" style="top:26px;right:44px;width:32px;height:32px"><span style="font-size:13px">H</span></span>
+    <span class="compass" style="top:10px;right:10px">N</span>
+  </div>
+  <div class="s12"></div>
+  <div class="vault" style="padding:13px 16px;display:flex;align-items:center;gap:12px;text-align:left">
+    <span class="shield" style="margin:0;flex:none;width:42px;height:42px"><svg class="ic" style="width:20px;height:20px"><use href="#i-lock"/></svg></span>
+    <span><b style="font-size:12.5px">Your address is shared — only now.</b><p style="margin-top:2px">Visible to this group, for this trip, and deleted after.</p></span>
+  </div>
+  <div class="grow-sp"></div>
+  <button class="btn btn-navy" data-nav="s10">Start trip <span class="arr"><svg class="ic"><use href="#i-chevr"/></svg></span></button>
+  <div class="s8"></div>
+  <div class="qlink" data-nav="e5">Something's wrong? Leave this group</div>
+  <div class="homebar"></div>
+</div></div>
+<span class="cap"><i></i><b>09</b><span>START TRIP · ADDRESS UNLOCKS HERE</span></span></div>
+
+<!-- 10 ON OUR WAY -->
+<div class="cell" id="s10"><div class="phone"><div class="screen">
+  <div class="island"></div>
+  <div class="status"><span>9:41</span><svg class="ic fic" viewBox="0 0 48 12" style="stroke:none"><use href="#i-status"/></svg></div>
+  <div class="topbar">
+    <span class="ticon" data-nav="s09"><svg class="ic"><use href="#i-back"/></svg></span>
+    <span class="logo">H<span style="position:relative;display:inline-block">i<svg class="fl fdot" viewBox="0 0 24 24" style="position:absolute;left:-2px;top:-7px;width:9px;height:9px"><use href="#f-daisy"/></svg></span>na</span>
+    <span class="ticon" data-toast="Trip live. Emergency contact notified."><svg class="ic"><use href="#i-quest"/></svg></span>
+  </div>
+  <div class="s10"></div>
+  <div class="headline">On our way.</div>
+  <div class="s8"></div>
+  <div class="sub">You and 1 other are travelling together.</div>
+  <div class="s10"></div>
+  <div class="map" style="height:108px">
+    <div class="blk" style="width:92px;height:48px;top:12px;left:16px"></div>
+    <div class="blk" style="width:60px;height:54px;bottom:12px;left:96px"></div>
+    <div class="blk" style="width:80px;height:42px;top:12px;right:18px"></div>
+    <div class="road" style="width:160%;height:9px;top:62px;left:-20%;transform:rotate(-6deg)"></div>
+    <svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 274 108"><path class="route" d="M42 84 C 96 74, 140 44, 218 32"/></svg>
+    <span class="gps" style="bottom:14px;left:34px"></span>
+    <span class="pinH" style="top:12px;right:36px;width:28px;height:28px"><span style="font-size:12px">H</span></span>
+    <span class="compass" style="top:8px;right:8px">N</span>
+  </div>
+  <div class="s10"></div>
+  <div class="card eta">
+    <span class="seal t" style="width:32px;height:32px"><svg class="ic" style="width:16px"><use href="#i-train"/></svg></span>
+    <span class="grow"><div class="t-bold" style="font-size:12px">Arriving · Cologne Hbf</div><div class="bar" style="margin-top:6px"><i></i></div></span>
+    <span style="font-weight:900;font-size:12px">12 min</span>
+  </div>
+  <div class="s10"></div>
+  <div class="label">Safety tools</div>
+  <div class="s8"></div>
+  <div class="card tool" data-toast="Live tracking link copied to clipboard! Share with your trusted contact."><span class="seal" style="width:32px;height:32px;background:var(--cream2)"><svg class="ic" style="width:15px"><use href="#i-share"/></svg></span><span class="t-bold grow" style="font-size:12.5px">Share live trip</span><span class="t-sub">a friend can watch</span></div>
+  <div class="s8"></div>
+  <div class="card tool" data-toast="Event staff notified: Representative on standby."><span class="seal" style="width:32px;height:32px;background:var(--cream2)"><svg class="ic" style="width:15px"><use href="#i-staff"/></svg></span><span class="t-bold grow" style="font-size:12.5px">I need help</span><span class="t-sub">event staff</span></div>
+  <div class="s8"></div>
+  <div class="card tool red" data-toast="Emergency protocol: Notifying staff & preparing dispatch."><span class="seal" style="width:32px;height:32px;background:var(--cream2)"><svg class="ic" style="width:15px"><use href="#i-flag"/></svg></span><span class="grow"><div class="t-bold" style="font-size:12.5px;color:var(--red)">Emergency</div><div class="t-sub" style="font-size:9.5px">Alerts staff · calls 110</div></span></div>
+  <div class="s10"></div>
+  <button class="btn btn-navy" data-nav="s01">End trip — we're home</button>
+  <div class="homebar"></div>
+</div></div>
+<span class="cap"><i></i><b>10</b><span>ON OUR WAY · SAFETY TOOLKIT LIVE</span></span></div>
+
+</div>
+</div><!-- /gridView -->
+
+<footer>
+  <span class="cap" style="justify-content:center"><i></i><svg class="fl" viewBox="0 0 24 24"><use href="#f-daisy"/></svg><b>Hina — Full Prototype</b><span>10 HAPPY-PATH · 10 RESCUE · EVERY ROAD ENDS SAFE</span><i></i></span>
+  <p>Designed by Jahanzaib Ahmad · Interactive Prototype Architecture · 48px+ Touch Ergonomics · WCAG AA Contrast</p>
+</footer>
+
+<!-- Toast Element -->
+<div class="hina-toast" id="protoToast"><svg class="ic"><use href="#f-daisy"/></svg><span id="toastMsg">Action confirmed</span></div>
+
+<script>
+/* ================================================================
+   HINA PROTOTYPE CONTROLLER — INTERACTIVE ENGINE & STATE MACHINE
+================================================================ */
+
+// Screen titles lookup
+const SCREEN_TITLES = {
+  s01: "01 · Home (Women-Only Setup)",
+  s02: "02 · Event QR Code Scan",
+  e1: "E1 · QR Code Not Valid",
+  e2: "E2 · Camera Access Denied",
+  f1: "F1 · 4-Digit Event Code Keypad",
+  s03: "03 · Travel Mode Selection",
+  s04: "04 · Destination & Privacy Vault",
+  s05: "05 · Route Matches (3 Groups)",
+  e3: "E3 · No Match In Window Yet",
+  f2: "F2 · Safe Ways Home (Bus, Havens, Taxi)",
+  s06: "06 · Group Members & Verification",
+  s07: "07 · Hina Meeting Point A",
+  e4: "E4 · Meeting Point Changed to B",
+  f3: "F3 · Grace Timer (3:00 Arrival Buffer)",
+  f4: "F4 · Ping Answered (Buddy On Her Way)",
+  f5: "F5 · Re-Match (Buddy Didn't Make It)",
+  s08: "08 · In-Person 4-Digit Verification",
+  e5: "E5 · Buddy Cancelled / Left Group",
+  s09: "09 · Start Trip & Address Unlock",
+  s10: "10 · On Our Way & Live Safety Toolkit"
+};
+
+// Detours suggested for each screen in simulator
+const DETOURS_MAP = {
+  s02: [
+    { label: "⚡ Simulate Bad QR (E1)", target: "e1" },
+    { label: "⚡ Simulate Camera Off (E2)", target: "e2" },
+    { label: "⚡ Keypad Fallback (F1)", target: "f1" }
+  ],
+  s05: [
+    { label: "⚡ Simulate 'No Matches' (E3)", target: "e3" },
+    { label: "⚡ Safe Ways Home (F2)", target: "f2" }
+  ],
+  s07: [
+    { label: "⚡ Simulate 'Point Moved' (E4)", target: "e4" },
+    { label: "⚡ Simulate Buddy Delay (F3)", target: "f3" }
+  ],
+  f3: [
+    { label: "⚡ Ping Maya (F4)", target: "f4" },
+    { label: "⚡ Re-Match Next Buddy (F5)", target: "f5" },
+    { label: "⚡ Safe Ways Home (F2)", target: "f2" }
+  ],
+  s09: [
+    { label: "⚡ Simulate Buddy Left (E5)", target: "e5" }
+  ]
+};
+
+let currentScreenId = "s01";
+let viewMode = "sim"; // 'sim' or 'grid'
+const simPhoneContainer = document.getElementById("simPhoneContainer");
+const simCurrentTitle = document.getElementById("simCurrentTitle");
+const simDetourButtons = document.getElementById("simDetourButtons");
+const protoToast = document.getElementById("protoToast");
+const toastMsg = document.getElementById("toastMsg");
+let toastTimer = null;
+
+// Sound synthesizer using Web Audio API for subtle haptic clicks
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+let audioCtx = null;
+function playHapticTone(type) {
+  try {
+    if(!audioCtx) audioCtx = new AudioCtx();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    const now = audioCtx.currentTime;
+
+    if(type === 'nav') {
+      osc.frequency.setValueAtTime(440, now);
+      osc.frequency.exponentialRampToValueAtTime(880, now + 0.08);
+      gain.gain.setValueAtTime(0.04, now);
+      gain.gain.linearRampToValueAtTime(0, now + 0.08);
+      osc.start(now);
+      osc.stop(now + 0.08);
+    } else if(type === 'tap') {
+      osc.frequency.setValueAtTime(600, now);
+      gain.gain.setValueAtTime(0.03, now);
+      gain.gain.linearRampToValueAtTime(0, now + 0.04);
+      osc.start(now);
+      osc.stop(now + 0.04);
+    } else if(type === 'success') {
+      osc.frequency.setValueAtTime(523.25, now);
+      osc.frequency.setValueAtTime(659.25, now + 0.08);
+      osc.frequency.setValueAtTime(783.99, now + 0.16);
+      gain.gain.setValueAtTime(0.05, now);
+      gain.gain.linearRampToValueAtTime(0, now + 0.28);
+      osc.start(now);
+      osc.stop(now + 0.28);
+    }
+  } catch(e) {}
+}
+
+// Toast display helper
+function showToast(msg) {
+  if(!protoToast) return;
+  toastMsg.textContent = msg;
+  protoToast.classList.add("show");
+  playHapticTone('tap');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    protoToast.classList.remove("show");
+  }, 3200);
+}
+
+// Render active screen in interactive simulator
+function renderSimulator(screenId) {
+  currentScreenId = screenId;
+  const sourceCell = document.getElementById(screenId);
+  if(!sourceCell) return;
+
+  // Clone phone node
+  const phoneClone = sourceCell.querySelector('.phone').cloneNode(true);
+
+  // Update simulator display
+  simPhoneContainer.innerHTML = '';
+  simPhoneContainer.appendChild(phoneClone);
+  simCurrentTitle.textContent = SCREEN_TITLES[screenId] || screenId;
+
+  // Render Detours for current screen
+  simDetourButtons.innerHTML = '';
+  const detours = DETOURS_MAP[screenId] || [];
+  if(detours.length) {
+    detours.forEach(d => {
+      const btn = document.createElement('button');
+      btn.className = 'd-pill' + (d.target.startsWith('e') ? ' warn' : '');
+      btn.textContent = d.label;
+      btn.onclick = () => goToScreen(d.target);
+      simDetourButtons.appendChild(btn);
+    });
+  } else {
+    const hint = document.createElement('span');
+    hint.textContent = "Continue normal path or jump anytime via the index bar above.";
+    simDetourButtons.appendChild(hint);
+  }
+
+  // Update active state in top index buttons
+  document.querySelectorAll('#indexNav button').forEach(b => {
+    b.classList.toggle('active', b.dataset.target === screenId);
+  });
+
+  // Attach interactive events to the cloned simulator screen
+  wireSimulatorEvents(phoneClone, screenId);
+}
+
+// Wire interactive events for the active simulator phone
+function wireSimulatorEvents(phoneEl, screenId) {
+  // Navigation buttons
+  phoneEl.querySelectorAll('[data-nav]').forEach(el => {
+    el.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      goToScreen(el.dataset.nav);
+    });
+  });
+
+  // Toast feedback triggers
+  phoneEl.querySelectorAll('[data-toast]').forEach(el => {
+    el.addEventListener('click', e => {
+      e.preventDefault();
+      showToast(el.dataset.toast);
+    });
+  });
+
+  // Screen F1 interactive keypad logic
+  if(screenId === 'f1') {
+    const dispEl = phoneEl.querySelector('#kpDisp');
+    let enteredCode = "824";
+    const updateDisp = () => {
+      let html = '';
+      for(let i=0; i<4; i++){
+        if(i < enteredCode.length) {
+          html += `<span class="cd on">${enteredCode[i]}</span>`;
+        } else if(i === enteredCode.length) {
+          html += `<span class="cd"><span class="caret"></span></span>`;
+        } else {
+          html += `<span class="cd"></span>`;
+        }
+      }
+      dispEl.innerHTML = html;
+      if(enteredCode.length === 4) {
+        playHapticTone('success');
+        showToast("Code verified! Connecting to event...");
+        setTimeout(() => goToScreen('s03'), 650);
+      }
+    };
+    phoneEl.querySelectorAll('#interactiveKeypad button').forEach(key => {
+      key.addEventListener('click', () => {
+        playHapticTone('tap');
+        if(key.dataset.num) {
+          if(enteredCode.length < 4) {
+            enteredCode += key.dataset.num;
+            updateDisp();
+          }
+        } else if(key.dataset.action === 'back') {
+          enteredCode = enteredCode.slice(0, -1);
+          updateDisp();
+        } else if(key.dataset.action === 'clear') {
+          enteredCode = '';
+          updateDisp();
+        }
+      });
+    });
+  }
+
+  // Screen 03 travel mode selection
+  if(screenId === 's03') {
+    const opts = phoneEl.querySelectorAll('[data-travel]');
+    opts.forEach(opt => {
+      opt.addEventListener('click', () => {
+        playHapticTone('tap');
+        opts.forEach(o => o.classList.remove('sel'));
+        opt.classList.add('sel');
+        showToast(`Travel mode selected: ${opt.querySelector('.t-bold').textContent}`);
+      });
+    });
+  }
+
+  // Screen 05 match selection
+  if(screenId === 's05') {
+    const groupOpts = phoneEl.querySelectorAll('[data-group]');
+    groupOpts.forEach(g => {
+      g.addEventListener('click', () => {
+        playHapticTone('tap');
+        groupOpts.forEach(o => o.classList.remove('sel'));
+        g.classList.add('sel');
+        const joinBtn = phoneEl.querySelector('.btn-navy');
+        if(joinBtn) {
+          const gName = g.dataset.group;
+          joinBtn.innerHTML = `Join ${gName} <span class="arr"><svg class="ic"><use href="#i-chevr"/></svg></span>`;
+        }
+      });
+    });
+  }
+
+  // Screen F3 live ticking timer
+  if(screenId === 'f3') {
+    let timeLeft = 134; // 2:14 in seconds
+    const timerDisplay = phoneEl.querySelector('#graceTimerDisplay');
+    const ringCircle = phoneEl.querySelector('#graceTimerCircle');
+    const timerInterval = setInterval(() => {
+      if(!document.body.contains(timerDisplay)) {
+        clearInterval(timerInterval);
+        return;
+      }
+      timeLeft--;
+      if(timeLeft <= 0) {
+        clearInterval(timerInterval);
+        showToast("Grace timer finished: Re-match unlocked.");
+        return;
+      }
+      const m = Math.floor(timeLeft / 60);
+      const s = timeLeft % 60;
+      timerDisplay.textContent = `${m}:${s < 10 ? '0' : ''}${s}`;
+      if(ringCircle) {
+        const offset = 339.3 * (1 - (timeLeft / 180));
+        ringCircle.style.strokeDashoffset = offset;
+      }
+    }, 1000);
+  }
+}
+
+// Master navigate function
+function goToScreen(screenId) {
+  playHapticTone('nav');
+  currentScreenId = screenId;
+
+  if(viewMode === 'sim') {
+    renderSimulator(screenId);
+    window.scrollTo({ top: document.getElementById('simView').offsetTop - 90, behavior: 'smooth' });
+  } else {
+    // Jump to cell in grid view
+    const targetEl = document.getElementById(screenId);
+    if(targetEl) {
+      targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      targetEl.style.transform = 'scale(1.03)';
+      setTimeout(() => targetEl.style.transform = '', 500);
+    }
+  }
+}
+
+// View Mode Switching
+const btnSimMode = document.getElementById("btnSimMode");
+const btnGridMode = document.getElementById("btnGridMode");
+const simView = document.getElementById("simView");
+const gridView = document.getElementById("gridView");
+
+function setViewMode(mode) {
+  viewMode = mode;
+  if(mode === 'sim') {
+    btnSimMode.classList.add('active');
+    btnGridMode.classList.remove('active');
+    simView.style.display = 'flex';
+    gridView.style.display = 'none';
+    renderSimulator(currentScreenId);
+  } else {
+    btnGridMode.classList.add('active');
+    btnSimMode.classList.remove('active');
+    simView.style.display = 'none';
+    gridView.style.display = 'block';
+  }
+}
+
+btnSimMode.addEventListener('click', () => setViewMode('sim'));
+btnGridMode.addEventListener('click', () => setViewMode('grid'));
+
+// Wire all header index buttons & flowmap nodes
+document.querySelectorAll('#indexNav button, .fnode').forEach(b => {
+  b.addEventListener('click', () => {
+    if(b.dataset.target) goToScreen(b.dataset.target);
+  });
+});
+
+// Reset flow button
+document.getElementById("btnReset").addEventListener('click', () => {
+  goToScreen('s01');
+  showToast("Prototype restarted at Screen 01");
+});
+
+// Also wire navigation in grid cells so clicking in grid switches to that screen or works
+document.querySelectorAll('#gridView .cell').forEach(cell => {
+  cell.querySelectorAll('[data-nav]').forEach(el => {
+    el.addEventListener('click', e => {
+      e.preventDefault();
+      goToScreen(el.dataset.nav);
+    });
+  });
+});
+
+// Initialize prototype
+renderSimulator('s01');
+</script>
+</body>
+</html>
