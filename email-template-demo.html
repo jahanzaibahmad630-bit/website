@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Klaviyo Email Design Studio — Ando's Marketing Concept Demo</title>
+  <meta name="description" content="Production-ready Figma-to-Klaviyo responsive email template demo by Jahanzaib Ahmad. Featuring desktop/mobile previews, dark mode simulator, Figma spec overlay, and modular design blocks.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ==========================================================================
+       STUDIO SHELL & WORKBENCH STYLING (Agency Review Environment)
+       ========================================================================== */
+    :root {
+      --bg-studio: #0e1117;
+      --bg-surface: #161b22;
+      --bg-elevated: #1f242d;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(212, 175, 55, 0.4);
+      --text-main: #f0f3f6;
+      --text-muted: #8b949e;
+      --text-dim: #586069;
+      --accent-gold: #d4af37;
+      --accent-emerald: #10b981;
+      --accent-cyan: #38bdf8;
+      --accent-purple: #a855f7;
+      
+      /* Email Template Design System Tokens (Verdant Botanicals) */
+      --email-bg-light: #f6f4ee;
+      --email-card-light: #ffffff;
+      --email-text-primary-light: #18221b;
+      --email-text-secondary-light: #526056;
+      --email-brand-green: #1d3326;
+      --email-brand-accent: #b08d4b;
+      --email-line-light: #e5e0d4;
+
+      /* Dark Mode Email Client Inversion Tokens */
+      --email-bg-dark: #121614;
+      --email-card-dark: #1a201c;
+      --email-text-primary-dark: #edf2ee;
+      --email-text-secondary-dark: #a2b0a6;
+      --email-line-dark: #2a352e;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-studio);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* TOP STUDIO BAR */
+    .studio-header {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(16px);
+    }
+
+    .brand-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+    }
+
+    .brand-badge .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-gold);
+      box-shadow: 0 0 8px var(--accent-gold);
+      animation: pulse-dot 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .brand-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-title span.sub {
+      color: var(--text-muted);
+      font-weight: 400;
+      font-size: 13px;
+    }
+
+    /* CONTROLS TOOLBAR */
+    .controls-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .seg-control {
+      background: var(--bg-studio);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 3px;
+      display: flex;
+      gap: 2px;
+    }
+
+    .seg-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .seg-btn:hover {
+      color: var(--text-main);
+    }
+
+    .seg-btn.active {
+      background: var(--bg-elevated);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .action-btn {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .action-btn:hover {
+      border-color: var(--accent-gold);
+      background: #28303d;
+    }
+
+    .action-btn.primary {
+      background: linear-gradient(135deg, #d4af37 0%, #b38c23 100%);
+      color: #0d100e;
+      border: none;
+      font-weight: 700;
+    }
+
+    .action-btn.primary:hover {
+      filter: brightness(1.1);
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+    }
+
+    /* MAIN WORKSPACE */
+    .studio-body {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - 61px);
+      overflow: hidden;
+    }
+
+    /* LEFT CANVAS (The Email Preview) */
+    .preview-canvas {
+      flex: 1;
+      overflow-y: auto;
+      padding: 40px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: 
+        radial-gradient(circle at 50% 20%, rgba(212, 175, 55, 0.04) 0%, transparent 60%),
+        radial-gradient(#1f2633 1px, transparent 1px);
+      background-size: 100% 100%, 24px 24px;
+      transition: background 0.3s ease;
+    }
+
+    /* EMAIL CLIENT ENVELOPE / SIMULATOR */
+    .email-envelope {
+      width: 100%;
+      max-width: 660px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7);
+      overflow: hidden;
+      transition: max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s ease;
+      position: relative;
+    }
+
+    /* Mobile View Mode for envelope */
+    .email-envelope.mode-mobile {
+      max-width: 390px;
+      border-radius: 40px;
+      border: 8px solid #2a313d;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
+    }
+
+    /* Top fake client chrome */
+    .envelope-chrome {
+      background: #1b212b;
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .chrome-dots {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+
+    .dot-ctrl {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .dot-red { background: #ff5f56; }
+    .dot-yellow { background: #ffbd2e; }
+    .dot-green { background: #27c93f; }
+
+    .client-header-info {
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .client-header-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .client-header-label {
+      color: var(--text-dim);
+      font-weight: 600;
+      width: 55px;
+      text-transform: uppercase;
+      font-size: 10px;
+      letter-spacing: 0.05em;
+    }
+
+    .client-header-val {
+      color: var(--text-main);
+      font-weight: 500;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .preheader-badge {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent-cyan);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      margin-left: 6px;
+    }
+
+    /* ==========================================================================
+       THE PRODUCTION EMAIL TEMPLATE CONTAINER (600px Standard)
+       ========================================================================== */
+    .email-container {
+      background-color: var(--email-bg-light);
+      color: var(--email-text-primary-light);
+      margin: 0 auto;
+      width: 100%;
+      max-width: 600px;
+      font-family: 'Plus Jakarta Sans', Helvetica, Arial, sans-serif;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      position: relative;
+    }
+
+    /* DARK MODE SIMULATOR CLASS (Triggered by client toggle) */
+    .mode-dark-client .email-container {
+      background-color: var(--email-bg-dark);
+      color: var(--email-text-primary-dark);
+    }
+    .mode-dark-client .email-card {
+      background-color: var(--email-card-dark) !important;
+      border-color: var(--email-line-dark) !important;
+    }
+    .mode-dark-client .email-text-sec {
+      color: var(--email-text-secondary-dark) !important;
+    }
+    .mode-dark-client .divider {
+      background-color: var(--email-line-dark) !important;
+    }
+    .mode-dark-client .product-box {
+      background: #1e2621 !important;
+      border-color: #2e3a32 !important;
+    }
+
+    /* FIGMA BLUEPRINT / SPEC OVERLAY MODE */
+    .mode-figma-spec .spec-overlay {
+      display: flex !important;
+    }
+    .mode-figma-spec .email-block {
+      outline: 1px dashed rgba(56, 189, 248, 0.5) !important;
+      outline-offset: -1px;
+    }
+
+    .spec-overlay {
+      display: none;
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      background: rgba(14, 165, 233, 0.9);
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 3px;
+      pointer-events: none;
+      z-index: 50;
+      letter-spacing: 0.02em;
+    }
+
+    /* EMAIL SECTIONS */
+    .email-block {
+      position: relative;
+      padding: 24px 32px;
+    }
+
+    /* Block: Preheader View */
+    .email-preheader {
+      padding: 10px 32px;
+      font-size: 11px;
+      color: var(--email-text-secondary-light);
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--email-line-light);
+      background: rgba(0, 0, 0, 0.02);
+    }
+
+    .email-preheader a {
+      color: inherit;
+      text-decoration: underline;
+    }
+
+    /* Block: Header Logo & Navigation */
+    .email-header {
+      text-align: center;
+      padding: 32px 32px 20px 32px;
+      border-bottom: 1px solid var(--email-line-light);
+    }
+
+    .brand-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--email-brand-accent);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .brand-logo-text {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 30px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--email-brand-green);
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .mode-dark-client .brand-logo-text {
+      color: #e5ede7;
+    }
+
+    .header-nav {
+      margin-top: 16px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .header-nav a {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--email-text-secondary-light);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    /* Block: Hero Section */
+    .email-hero {
+      padding: 40px 32px;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(29, 51, 38, 0.04) 0%, rgba(29, 51, 38, 0.0) 100%);
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      background: #e9e3d3;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--email-brand-green);
+      margin-bottom: 18px;
+    }
+
+    .mode-dark-client .hero-pill {
+      background: #25332a;
+      color: #b8d4c0;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 34px;
+      font-weight: 600;
+      line-height: 1.22;
+      color: var(--email-brand-green);
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+
+    .mode-dark-client .hero-title {
+      color: #f1f7f3;
+    }
+
+    .hero-subtitle {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--email-text-secondary-light);
+      max-width: 460px;
+      margin: 0 auto 28px auto;
+    }
+
+    /* High-Converting CTA Button */
+    .cta-button {
+      display: inline-block;
+      background: var(--email-brand-green);
+      color: #ffffff !important;
+      padding: 16px 36px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      box-shadow: 0 4px 14px rgba(29, 51, 38, 0.25);
+      transition: all 0.2s ease;
+      min-height: 48px; /* Touch target standard */
+    }
+
+    .cta-button:hover {
+      background: #2a4736;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(29, 51, 38, 0.35);
+    }
+
+    .mode-dark-client .cta-button {
+      background: #b08d4b;
+      color: #0e120f !important;
+      box-shadow: 0 4px 16px rgba(176, 141, 75, 0.3);
+    }
+
+    /* Visual Graphic Frame (SVG illustration) */
+    .hero-art-frame {
+      margin-top: 32px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--email-line-light);
+      position: relative;
+      background: #203126;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .art-svg {
+      width: 100%;
+      height: 220px;
+      display: block;
+    }
+
+    /* Block: Dynamic Klaviyo Personalization Greeting */
+    .email-personalization {
+      background: #ffffff;
+      border: 1px solid var(--email-line-light);
+      border-radius: 10px;
+      margin: 12px 32px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .klaviyo-tag-indicator {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      background: rgba(168, 85, 247, 0.12);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      color: var(--accent-purple);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .personalization-text {
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .personalization-text strong {
+      color: var(--email-brand-green);
+    }
+    .mode-dark-client .personalization-text strong {
+      color: #cde4d3;
+    }
+
+    .code-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      background: #f1ecdf;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #92400e;
+      font-weight: 600;
+    }
+
+    .mode-dark-client .code-tag {
+      background: #2a332d;
+      color: #fbbf24;
+    }
+
+    /* Block: 3-Product Grid */
+    .products-section {
+      padding: 32px;
+    }
+
+    .section-eyebrow {
+      text-align: center;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--email-brand-accent);
+      margin-bottom: 6px;
+    }
+
+    .section-heading {
+      text-align: center;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--email-brand-green);
+      margin-bottom: 24px;
+    }
+    .mode-dark-client .section-heading {
+      color: #edf5ef;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .mode-mobile .product-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .product-card {
+      background: #ffffff;
+      border: 1px solid var(--email-line-light);
+      border-radius: 8px;
+      padding: 16px 12px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .product-badge {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: var(--email-brand-green);
+      color: #fff;
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 6px;
+      border-radius: 3px;
+    }
+
+    .product-art {
+      width: 100%;
+      height: 110px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .product-art svg {
+      width: 80px;
+      height: 95px;
+    }
+
+    .product-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--email-brand-green);
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+    .mode-dark-client .product-title {
+      color: #e5ede7;
+    }
+
+    .product-sub {
+      font-size: 11px;
+      color: var(--email-text-secondary-light);
+      margin-bottom: 10px;
+    }
+
+    .product-price {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--email-brand-accent);
+      margin-bottom: 12px;
+    }
+
+    .product-btn {
+      width: 100%;
+      padding: 10px 0;
+      background: transparent;
+      border: 1px solid var(--email-brand-green);
+      color: var(--email-brand-green);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-radius: 4px;
+      text-decoration: none;
+      display: block;
+      transition: all 0.2s ease;
+    }
+
+    .product-btn:hover {
+      background: var(--email-brand-green);
+      color: #fff;
+    }
+
+    .mode-dark-client .product-btn {
+      border-color: #b08d4b;
+      color: #b08d4b;
+    }
+    .mode-dark-client .product-btn:hover {
+      background: #b08d4b;
+      color: #111;
+    }
+
+    /* Block: Brand Editorial Story (No Website Asset Proof) */
+    .brand-story {
+      padding: 32px;
+      background: rgba(29, 51, 38, 0.03);
+      border-top: 1px solid var(--email-line-light);
+      border-bottom: 1px solid var(--email-line-light);
+      text-align: center;
+    }
+
+    .story-quote {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 18px;
+      font-style: italic;
+      line-height: 1.5;
+      color: var(--email-brand-green);
+      max-width: 480px;
+      margin: 0 auto 12px auto;
+    }
+    .mode-dark-client .story-quote {
+      color: #d1ded5;
+    }
+
+    .story-author {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--email-brand-accent);
+    }
+
+    /* Block: Trust Badges (Crucial for Klaviyo E-commerce) */
+    .trust-badges {
+      padding: 24px 32px;
+      display: flex;
+      justify-content: space-around;
+      text-align: center;
+      border-bottom: 1px solid var(--email-line-light);
+    }
+
+    .mode-mobile .trust-badges {
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .trust-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .trust-icon {
+      width: 24px;
+      height: 24px;
+      color: var(--email-brand-accent);
+    }
+
+    .trust-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--email-brand-green);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .mode-dark-client .trust-label {
+      color: #e5ede7;
+    }
+
+    .trust-desc {
+      font-size: 10px;
+      color: var(--email-text-secondary-light);
+    }
+
+    /* Block: Compliance Footer (CAN-SPAM & Klaviyo Requirements) */
+    .email-footer {
+      padding: 32px;
+      text-align: center;
+      font-size: 11px;
+      line-height: 1.7;
+      color: var(--email-text-secondary-light);
+    }
+
+    .footer-socials {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .social-icon-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(29, 51, 38, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--email-brand-green);
+      text-decoration: none;
+      transition: background 0.2s ease;
+    }
+
+    .mode-dark-client .social-icon-circle {
+      background: #232c25;
+      color: #b08d4b;
+    }
+
+    .footer-links {
+      margin-bottom: 14px;
+    }
+
+    .footer-links a {
+      color: inherit;
+      text-decoration: underline;
+      margin: 0 8px;
+    }
+
+    .compliance-text {
+      font-size: 10px;
+      color: #7b887f;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+
+    /* ==========================================================================
+       RIGHT DRAWER: AGENCY TECHNICAL SPECS & KLAVIYO MATRIX
+       ========================================================================== */
+    .studio-inspector {
+      width: 380px;
+      background: var(--bg-surface);
+      border-left: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      flex-shrink: 0;
+    }
+
+    .inspector-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .inspector-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent-emerald);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      text-transform: uppercase;
+    }
+
+    .inspector-content {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .spec-card {
+      background: var(--bg-studio);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 16px;
+    }
+
+    .spec-card-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent-gold);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .spec-table {
+      width: 100%;
+      font-size: 12px;
+      border-collapse: collapse;
+    }
+
+    .spec-table td {
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .spec-table td:first-child {
+      color: var(--text-muted);
+      width: 45%;
+    }
+
+    .spec-table td:last-child {
+      color: var(--text-main);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+    }
+
+    .token-swatches {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .token-swatch {
+      flex: 1;
+      height: 34px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      color: #fff;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    }
+
+    .code-snippet-box {
+      background: #080a0e;
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #93c5fd;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      overflow-x: auto;
+    }
+
+    /* COPY CONFIRMATION TOAST */
+    .toast-popup {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #10b981;
+      color: #052e16;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 2000;
+      pointer-events: none;
+    }
+
+    .toast-popup.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* RESPONSIVENESS FOR STUDIO SHELL */
+    @media (max-width: 1080px) {
+      .studio-inspector {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================================
+       TOP STUDIO WORKBENCH TOOLBAR
+       ======================================================================== -->
+  <header class="studio-header">
+    <div class="brand-meta">
+      <a href="portfolio.html" style="text-decoration:none; color:inherit; display:flex; align-items:center; gap:8px;">
+        <span class="action-btn" style="padding:4px 8px; font-size:11px;">← Portfolio</span>
+      </a>
+      <div class="brand-badge">
+        <span class="dot"></span> Ando's Marketing Demo
+      </div>
+      <div class="brand-title">
+        Klaviyo-Ready Email Design Studio
+        <span class="sub">| Client: Verdant Botanicals (NZ)</span>
+      </div>
+    </div>
+
+    <!-- VIEWPORT & INSPECTOR CONTROLS -->
+    <div class="controls-group">
+      <!-- Device View Switcher -->
+      <div class="seg-control">
+        <button class="seg-btn active" id="btn-desktop" onclick="setDeviceMode('desktop')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          Desktop 600px
+        </button>
+        <button class="seg-btn" id="btn-mobile" onclick="setDeviceMode('mobile')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="3"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          Mobile 390px
+        </button>
+      </div>
+
+      <!-- Dark Mode Simulator Switcher -->
+      <div class="seg-control">
+        <button class="seg-btn active" id="btn-light-mode" onclick="setThemeMode('light')">
+          ☀️ Light Client
+        </button>
+        <button class="seg-btn" id="btn-dark-mode" onclick="setThemeMode('dark')">
+          🌙 Dark Client
+        </button>
+      </div>
+
+      <!-- Figma Spec Blueprint Overlay -->
+      <button class="action-btn" id="btn-spec-toggle" onclick="toggleFigmaSpecs()">
+        📐 Figma Specs
+      </button>
+
+      <!-- Copy Klaviyo Ready Code -->
+      <button class="action-btn primary" onclick="copyKlaviyoSnippet()">
+        ⚡ Export Klaviyo HTML
+      </button>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       STUDIO BODY (PREVIEW CANVAS & INSPECTOR)
+       ======================================================================== -->
+  <div class="studio-body">
+    
+    <!-- CANVAS -->
+    <main class="preview-canvas">
+      
+      <!-- EMAIL CLIENT ENVELOPE -->
+      <div class="email-envelope" id="envelope">
+        
+        <!-- FAKE EMAIL CLIENT CHROME (Apple Mail / Gmail Header) -->
+        <div class="envelope-chrome">
+          <div class="chrome-dots">
+            <span class="dot-ctrl dot-red"></span>
+            <span class="dot-ctrl dot-yellow"></span>
+            <span class="dot-ctrl dot-green"></span>
+          </div>
+          <div class="client-header-info">
+            <div class="client-header-row">
+              <span class="client-header-label">From:</span>
+              <span class="client-header-val">Verdant Botanicals &lt;orders@verdantbotanicals.co.nz&gt;</span>
+            </div>
+            <div class="client-header-row">
+              <span class="client-header-label">Subject:</span>
+              <span class="client-header-val"><strong>Introducing The Equinox Reserve: Hand-Harvested Alpine Botanicals</strong></span>
+            </div>
+            <div class="client-header-row">
+              <span class="client-header-label">Preview:</span>
+              <span class="client-header-val">Your early access is open. Hand-harvested in New Zealand’s South Island. <span class="preheader-badge">Klaviyo Preheader</span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================================================================
+             START: PRODUCTION-GRADE KLAVIYO EMAIL TEMPLATE
+             ================================================================== -->
+        <div class="email-container" id="email-content">
+
+          <!-- SECTION 1: PREHEADER -->
+          <div class="email-block email-preheader">
+            <div class="spec-overlay">Block: Preheader | 10px / 32px pad</div>
+            <span>Rare native botanicals crafted for luminous barrier repair.</span>
+            <span><a href="#">View in web browser</a></span>
+          </div>
+
+          <!-- SECTION 2: BRAND HEADER & NAV -->
+          <div class="email-block email-header">
+            <div class="spec-overlay">Block: Brand Header | 600px grid</div>
+            <span class="brand-eyebrow">Auckland • Christchurch • London</span>
+            <h1 class="brand-logo-text">VERDANT</h1>
+            <div class="header-nav">
+              <a href="#">Elixirs</a>
+              <a href="#">Rituals</a>
+              <a href="#">Extraction</a>
+              <a href="#">Journal</a>
+            </div>
+          </div>
+
+          <!-- SECTION 3: HERO SECTION -->
+          <div class="email-block email-hero">
+            <div class="spec-overlay">Block: Hero Banner | Auto-Layout</div>
+            <div class="hero-pill">🌿 2026 Spring Harvest Reserve</div>
+            <h2 class="hero-title">Nature’s Potency,<br>Clinically Proven.</h2>
+            <p class="hero-subtitle email-text-sec">
+              Formulated with high-altitude New Zealand Alpine Phyto-Actives and wild-crafted active Manuka 850+ MGO to rebuild cellular elasticity overnight.
+            </p>
+            <div>
+              <a href="#" class="cta-button">EXPLORE THE HARVEST →</a>
+            </div>
+
+            <!-- Custom Illustrated SVG Visual Banner -->
+            <div class="hero-art-frame">
+              <svg class="art-svg" viewBox="0 0 600 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Rich Luxury Gradient Background -->
+                <rect width="600" height="240" fill="url(#hero-grad)"/>
+                
+                <!-- Atmospheric Botanical Rays -->
+                <circle cx="300" cy="120" r="160" stroke="#d4af37" stroke-opacity="0.18" stroke-width="1"/>
+                <circle cx="300" cy="120" r="110" stroke="#d4af37" stroke-opacity="0.25" stroke-width="1" stroke-dasharray="4 4"/>
+                <circle cx="300" cy="120" r="60" stroke="#d4af37" stroke-opacity="0.35" stroke-width="1"/>
+                
+                <!-- Stylized Botanical Leaf Motifs -->
+                <path d="M220 180 C240 120 280 80 300 40 C320 80 360 120 380 180 C340 190 260 190 220 180 Z" fill="#2d4a36" fill-opacity="0.8" stroke="#d4af37" stroke-width="1.5"/>
+                <path d="M300 40 L300 180" stroke="#d4af37" stroke-width="1.2" stroke-linecap="round"/>
+                <path d="M300 90 L270 70 M300 120 L260 100 M300 150 L270 135" stroke="#d4af37" stroke-width="1" stroke-linecap="round"/>
+                <path d="M300 90 L330 70 M300 120 L340 100 M300 150 L330 135" stroke="#d4af37" stroke-width="1" stroke-linecap="round"/>
+                
+                <!-- Badge Text on Illustration -->
+                <text x="300" y="215" fill="#f4efe4" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" font-weight="700" letter-spacing="3" text-anchor="middle">SOUTHERN ALPS EXTRACT • 100% ORGANIC</text>
+                
+                <defs>
+                  <linearGradient id="hero-grad" x1="0" y1="0" x2="600" y2="240" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#15241b"/>
+                    <stop offset="0.5" stop-color="#1d3326"/>
+                    <stop offset="1" stop-color="#0f1a13"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+          </div>
+
+          <!-- SECTION 4: KLAVIYO DYNAMIC PERSONALIZATION MODULE -->
+          <div class="email-block" style="padding-top:0; padding-bottom:12px;">
+            <div class="spec-overlay">Block: Klaviyo Merge Tag Logic</div>
+            <div class="email-personalization email-card">
+              <div class="klaviyo-tag-indicator">{}</div>
+              <div class="personalization-text">
+                <strong>Kia Ora {{ first_name|default:'friend' }},</strong>
+                <div class="email-text-sec" style="margin-top:2px;">
+                  We have reserved your subscriber-exclusive 15% opening benefit. Use code <span class="code-tag">VERDANT15</span> at checkout before Friday midnight.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 5: 3-COLUMN PRODUCT CURATION GRID -->
+          <div class="email-block products-section">
+            <div class="spec-overlay">Block: Product Trio | Auto-Wrap</div>
+            <div class="section-eyebrow">The Reserve Formulations</div>
+            <h3 class="section-heading">Curated For Cellular Barrier Health</h3>
+
+            <div class="product-grid">
+              
+              <!-- Product 1 -->
+              <div class="product-card email-card product-box">
+                <span class="product-badge">Best Seller</span>
+                <div class="product-art">
+                  <!-- Bottle SVG -->
+                  <svg viewBox="0 0 60 90" fill="none">
+                    <rect x="24" y="2" width="12" height="14" rx="2" fill="#b08d4b"/>
+                    <rect x="20" y="16" width="20" height="6" rx="1" fill="#2d4a36"/>
+                    <rect x="12" y="22" width="36" height="64" rx="8" fill="#18271e" stroke="#b08d4b" stroke-width="1"/>
+                    <rect x="16" y="38" width="28" height="34" rx="2" fill="#f6f4ee"/>
+                    <text x="30" y="52" fill="#18271e" font-size="7" font-weight="800" text-anchor="middle">VERDANT</text>
+                    <text x="30" y="62" fill="#b08d4b" font-size="5" font-weight="700" text-anchor="middle">MANUKA 850+</text>
+                  </svg>
+                </div>
+                <div class="product-title">Manuka Recovery Elixir</div>
+                <div class="product-sub email-text-sec">30ml • High Potency Serum</div>
+                <div class="product-price">$84 NZD</div>
+                <a href="#" class="product-btn">Add to Bag</a>
+              </div>
+
+              <!-- Product 2 -->
+              <div class="product-card email-card product-box">
+                <span class="product-badge" style="background:#b08d4b;">New</span>
+                <div class="product-art">
+                  <!-- Jar SVG -->
+                  <svg viewBox="0 0 60 90" fill="none">
+                    <rect x="10" y="28" width="40" height="12" rx="2" fill="#b08d4b"/>
+                    <rect x="6" y="40" width="48" height="42" rx="6" fill="#18271e" stroke="#b08d4b" stroke-width="1"/>
+                    <rect x="12" y="50" width="36" height="22" rx="2" fill="#f6f4ee"/>
+                    <text x="30" y="62" fill="#18271e" font-size="7" font-weight="800" text-anchor="middle">KOWHAI</text>
+                    <text x="30" y="68" fill="#b08d4b" font-size="5" font-weight="700" text-anchor="middle">CREAM 50G</text>
+                  </svg>
+                </div>
+                <div class="product-title">Alpine Radiance Cream</div>
+                <div class="product-sub email-text-sec">50ml • Rich Phyto-Ceramides</div>
+                <div class="product-price">$92 NZD</div>
+                <a href="#" class="product-btn">Add to Bag</a>
+              </div>
+
+              <!-- Product 3 -->
+              <div class="product-card email-card product-box">
+                <div class="product-art">
+                  <!-- Dropper Bottle SVG -->
+                  <svg viewBox="0 0 60 90" fill="none">
+                    <rect x="27" y="2" width="6" height="10" rx="3" fill="#2d4a36"/>
+                    <rect x="22" y="12" width="16" height="10" rx="2" fill="#b08d4b"/>
+                    <rect x="14" y="22" width="32" height="64" rx="6" fill="#18271e" stroke="#b08d4b" stroke-width="1"/>
+                    <rect x="18" y="40" width="24" height="30" rx="2" fill="#f6f4ee"/>
+                    <text x="30" y="54" fill="#18271e" font-size="7" font-weight="800" text-anchor="middle">CLEANSE</text>
+                    <text x="30" y="62" fill="#b08d4b" font-size="5" font-weight="700" text-anchor="middle">OIL 100ML</text>
+                  </svg>
+                </div>
+                <div class="product-title">Botanical Cleansing Oil</div>
+                <div class="product-sub email-text-sec">100ml • Gentle Dissolve</div>
+                <div class="product-price">$58 NZD</div>
+                <a href="#" class="product-btn">Add to Bag</a>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- SECTION 6: EDITORIAL BRAND NARRATIVE (Asset-light proof) -->
+          <div class="email-block brand-story">
+            <div class="spec-overlay">Block: Brand Story Statement</div>
+            <div class="story-quote">
+              “We don’t formulate to follow beauty trends. We extract what alpine plants develop to survive frost, gale-force winds, and ultraviolet altitude.”
+            </div>
+            <div class="story-author">— Dr. Elena Vance, Head of Botanical Science</div>
+          </div>
+
+          <!-- SECTION 7: TRUST BADGES -->
+          <div class="email-block trust-badges">
+            <div class="spec-overlay">Block: Trust Metrics (3-Up)</div>
+            
+            <div class="trust-item">
+              <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <div class="trust-label">BioGro Certified</div>
+              <div class="trust-desc email-text-sec">100% Organic NZ Certified</div>
+            </div>
+
+            <div class="trust-item">
+              <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+              <div class="trust-label">Carbon Neutral</div>
+              <div class="trust-desc email-text-sec">Zero Landfill Packaging</div>
+            </div>
+
+            <div class="trust-item">
+              <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+              <div class="trust-label">Global Express</div>
+              <div class="trust-desc email-text-sec">Tracked Delivery Worldwide</div>
+            </div>
+
+          </div>
+
+          <!-- SECTION 8: KLAVIYO & CAN-SPAM COMPLIANCE FOOTER -->
+          <div class="email-block email-footer">
+            <div class="spec-overlay">Block: Compliance Footer & Unsub</div>
+            
+            <div class="footer-socials">
+              <a href="#" class="social-icon-circle">IG</a>
+              <a href="#" class="social-icon-circle">TT</a>
+              <a href="#" class="social-icon-circle">FB</a>
+              <a href="#" class="social-icon-circle">PT</a>
+            </div>
+
+            <div class="footer-links">
+              <a href="#">Shop All</a>
+              <a href="#">FAQ & Shipping</a>
+              <a href="#">Our Lab</a>
+              <a href="#">Privacy Policy</a>
+            </div>
+
+            <p class="compliance-text">
+              Verdant Botanicals New Zealand Ltd. • 12 Queen Street, Auckland CBD 1010, New Zealand<br>
+              You received this email because you subscribed to early release notifications.
+              <br><br>
+              <a href="#" style="color:inherit; font-weight:700;">Update Preferences</a> | 
+              <a href="#" style="color:inherit; font-weight:700;">Unsubscribe from this list</a>
+            </p>
+          </div>
+
+        </div>
+        <!-- ==================================================================
+             END: PRODUCTION-GRADE KLAVIYO EMAIL TEMPLATE
+             ================================================================== -->
+
+      </div>
+    </main>
+
+    <!-- ======================================================================
+         RIGHT INSPECTOR: AGENCY TECHNICAL SPECIFICATIONS
+         ====================================================================== -->
+    <aside class="studio-inspector">
+      
+      <div class="inspector-header">
+        <span>AGENCY SPECS & KLAVIYO MATRIX</span>
+        <span class="inspector-badge">Ready to Ship</span>
+      </div>
+
+      <div class="inspector-content">
+        
+        <!-- Spec 1: Architecture -->
+        <div class="spec-card">
+          <div class="spec-card-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+            Klaviyo Grid Standards
+          </div>
+          <table class="spec-table">
+            <tr>
+              <td>Container Width</td>
+              <td>600px Standard</td>
+            </tr>
+            <tr>
+              <td>Mobile Breakpoint</td>
+              <td>480px / 390px</td>
+            </tr>
+            <tr>
+              <td>CTA Min Height</td>
+              <td>48px (Touch Target)</td>
+            </tr>
+            <tr>
+              <td>Spam Safety Ratio</td>
+              <td>40% Img / 60% Text</td>
+            </tr>
+            <tr>
+              <td>Font Fallback</td>
+              <td>Georgia, Arial, sans</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- Spec 2: Design Tokens -->
+        <div class="spec-card">
+          <div class="spec-card-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 0 0 20v-20z"/></svg>
+            Brand Color Tokens
+          </div>
+          <div class="token-swatches">
+            <div class="token-swatch" style="background:#1d3326;">#1D3326</div>
+            <div class="token-swatch" style="background:#b08d4b;">#B08D4B</div>
+            <div class="token-swatch" style="background:#f6f4ee; color:#111;">#F6F4EE</div>
+            <div class="token-swatch" style="background:#121614;">#121614</div>
+          </div>
+        </div>
+
+        <!-- Spec 3: Klaviyo Dynamic Logic -->
+        <div class="spec-card">
+          <div class="spec-card-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            Klaviyo Dynamic Code
+          </div>
+          <div class="code-snippet-box">
+&lt;!-- Klaviyo Salutation --&gt;
+Kia Ora {{ person.first_name|default:'there' }},
+
+&lt;!-- Cart Abandonment Block --&gt;
+{% for item in event.extra.line_items %}
+  &lt;td&gt;{{ item.product_name }}&lt;/td&gt;
+{% endfor %}
+
+&lt;!-- Unsubscribe Compliance --&gt;
+{% unsubscribe_link %}
+          </div>
+        </div>
+
+        <!-- Spec 4: What makes this deliverable agency-grade -->
+        <div class="spec-card">
+          <div class="spec-card-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            Zero-Asset Capability
+          </div>
+          <p style="font-size:12px; color:var(--text-muted); line-height:1.6;">
+            Built specifically to solve the client's problem: <em>"even when additional assets (like a website) are unavailable."</em> 
+            Uses crisp SVG geometry, editorial type hierarchies, and modular slices that can be handed off directly to developers or Klaviyo drag-and-drop.
+          </p>
+        </div>
+
+      </div>
+
+    </aside>
+
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div class="toast-popup" id="toast">
+    ✓ Klaviyo production template code copied to clipboard!
+  </div>
+
+  <!-- INTERACTIVE CONTROLLER SCRIPT -->
+  <script>
+    const envelope = document.getElementById('envelope');
+    const toast = document.getElementById('toast');
+
+    // Switch Desktop / Mobile Frame
+    function setDeviceMode(mode) {
+      document.getElementById('btn-desktop').classList.toggle('active', mode === 'desktop');
+      document.getElementById('btn-mobile').classList.toggle('active', mode === 'mobile');
+      
+      if (mode === 'mobile') {
+        envelope.classList.add('mode-mobile');
+      } else {
+        envelope.classList.remove('mode-mobile');
+      }
+    }
+
+    // Switch Light / Dark Mode Email Client Simulation
+    function setThemeMode(mode) {
+      document.getElementById('btn-light-mode').classList.toggle('active', mode === 'light');
+      document.getElementById('btn-dark-mode').classList.toggle('active', mode === 'dark');
+      
+      if (mode === 'dark') {
+        document.body.classList.add('mode-dark-client');
+      } else {
+        document.body.classList.remove('mode-dark-client');
+      }
+    }
+
+    // Toggle Figma Bounding Box Specs
+    let figmaSpecsActive = false;
+    function toggleFigmaSpecs() {
+      figmaSpecsActive = !figmaSpecsActive;
+      document.body.classList.toggle('mode-figma-spec', figmaSpecsActive);
+      const btn = document.getElementById('btn-spec-toggle');
+      if (figmaSpecsActive) {
+        btn.style.borderColor = 'var(--accent-cyan)';
+        btn.style.color = 'var(--accent-cyan)';
+      } else {
+        btn.style.borderColor = '';
+        btn.style.color = '';
+      }
+    }
+
+    // Copy Klaviyo HTML Code Snippet
+    function copyKlaviyoSnippet() {
+      const emailHtml = document.getElementById('email-content').outerHTML;
+      navigator.clipboard.writeText(emailHtml).then(() => {
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+      });
+    }
+  </script>
+
+</body>
+</html>
