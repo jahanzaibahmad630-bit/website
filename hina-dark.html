@@ -200,25 +200,29 @@
       transform: translateY(-3px);
     }
 
-    /* Inner Frosted Glass Squircle for Icons (Exactly like close-ups) */
+    /* Inner Frosted Glass Squircle for Icons */
     .ref-icon-squircle {
       width: 58px;
       height: 58px;
       border-radius: 18px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1.5px solid rgba(255, 255, 255, 0.28);
-      backdrop-filter: blur(14px);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25), inset 0 1px 1.5px rgba(255, 255, 255, 0.45);
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      transition: transform 0.25s ease;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .ref-icon-squircle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
     .luminous-ref-card:hover .ref-icon-squircle {
-      transform: scale(1.06);
-      background: rgba(255, 255, 255, 0.15);
-      border-color: rgba(255, 255, 255, 0.55);
+      transform: scale(1.08) translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 255, 255, 0.2);
     }
 
     /* Glowing Neon Vector Filter */
@@ -246,8 +250,9 @@
   <header class="max-w-[1360px] mx-auto mb-10 flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-white/10">
     <div class="flex items-center gap-3">
       <span class="font-brand text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-pink-300 to-amber-200">Hina</span>
-      <span class="text-xs px-3 py-1 rounded-full bg-white/10 border border-white/15 text-slate-300 font-bold uppercase tracking-wider">
-        Exact Reference Build • Live
+      <span class="text-xs px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 font-bold uppercase tracking-wider flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        Original 3D Glass Icons Active
       </span>
     </div>
     <div class="flex items-center gap-3">
@@ -271,25 +276,11 @@
       <!-- ROW 1: HEIMWEG-OPTIONEN (4 CARDS) -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
-        <!-- 1. Laufgruppe (Exact Match to media_1790398400774.png - 3 Intertwined Hands) -->
+        <!-- 1. Laufgruppe (3 Intertwined Hands Frosted 3D Glass) -->
         <div onclick="openIconModal('walk')" class="luminous-ref-card glow-card-1 group">
           <div class="flex items-start justify-between">
             <div class="ref-icon-squircle">
-              <!-- Exact 3 Intertwined Hands Triad -->
-              <svg viewBox="0 0 40 40" class="w-9 h-9 neon-glyph" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
-                <!-- Top-Left Hand reaching down-right -->
-                <path d="M10 7 C13 11 16 15 19 18" stroke-width="2.2"/>
-                <path d="M13 6 C15 9 17 12 19 15" stroke-width="1.8"/>
-                <path d="M12 12 L17 17 M13.5 13.5 L18.5 18.5 M15 15 L20 20" stroke-width="1.6"/>
-                <!-- Top-Right / Right Hand reaching down-left -->
-                <path d="M31 10 C27 14 23 18 19 22" stroke-width="2.2"/>
-                <path d="M33 13 C29 16 26 19 23 21.5" stroke-width="1.8"/>
-                <path d="M27 18 L21 24 M25.5 19.5 L19.5 25.5 M24 21 L18 27" stroke-width="1.6"/>
-                <!-- Bottom Hand reaching up-left -->
-                <path d="M18 33 C17 28 15 23 12 19" stroke-width="2.2"/>
-                <path d="M21 31 C20 26 17.5 21 14 18" stroke-width="1.8"/>
-                <path d="M16 24 L11 19 M17.5 22.5 L12.5 17.5 M19 21 L14 16" stroke-width="1.6"/>
-              </svg>
+              <img src="assets/icons/icon_1_walk.png" alt="Laufgruppe" class="w-full h-full object-cover">
             </div>
             <span class="ref-pill-tag">Zu Fuß</span>
           </div>
@@ -301,27 +292,11 @@
           </div>
         </div>
 
-        <!-- 2. Nachtbahn / Bus (Exact Match to media_1790398416040.png - Rounded Tram with Glowing Headlights) -->
+        <!-- 2. Nachtbahn / Bus (Rounded Tram with Glowing Spherical Headlights) -->
         <div onclick="openIconModal('train')" class="luminous-ref-card glow-card-2 group">
           <div class="flex items-start justify-between">
             <div class="ref-icon-squircle">
-              <!-- Exact Tram with glowing headlights and tracks -->
-              <svg viewBox="0 0 40 40" class="w-9 h-9 neon-glyph" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
-                <!-- Cabin outer shell -->
-                <rect x="10" y="6" width="20" height="23" rx="7" stroke-width="2.4"/>
-                <!-- Destination pill bar -->
-                <line x1="15" y1="9" x2="25" y2="9" stroke-width="2.2"/>
-                <!-- Large panoramic windshield -->
-                <rect x="12.5" y="12" width="15" height="9.5" rx="3.5" stroke-width="2.2"/>
-                <!-- Glowing Headlights -->
-                <circle cx="15" cy="24.5" r="2.2" fill="#FFFFFF"/>
-                <circle cx="15" cy="24.5" r="4" fill="#FFFFFF" opacity="0.35"/>
-                <circle cx="25" cy="24.5" r="2.2" fill="#FFFFFF"/>
-                <circle cx="25" cy="24.5" r="4" fill="#FFFFFF" opacity="0.35"/>
-                <!-- Track Legs -->
-                <line x1="14" y1="29" x2="11" y2="34" stroke-width="2.4"/>
-                <line x1="26" y1="29" x2="29" y2="34" stroke-width="2.4"/>
-              </svg>
+              <img src="assets/icons/icon_2_train.png" alt="Nachtbahn / Bus" class="w-full h-full object-cover">
             </div>
             <span class="ref-pill-tag">ÖPNV</span>
           </div>
@@ -333,31 +308,11 @@
           </div>
         </div>
 
-        <!-- 3. Taxi / Uber teilen (Exact Match to media_1790398429327.png - Slanted Headlights & Roof Sign) -->
+        <!-- 3. Taxi / Uber teilen (Slanted Almond Headlights & Roof Dome) -->
         <div onclick="openIconModal('taxi')" class="luminous-ref-card glow-card-3 group">
           <div class="flex items-start justify-between">
             <div class="ref-icon-squircle">
-              <!-- Exact Taxi Coupe with Slanted Headlights & Mirrors -->
-              <svg viewBox="0 0 40 40" class="w-9 h-9 neon-glyph" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
-                <!-- Roof Taxi Dome -->
-                <path d="M16 6 C16 5 17 4 18 4 L22 4 C23 4 24 5 24 6 L24 8 L16 8 Z" stroke-width="2" fill="rgba(255,255,255,0.2)"/>
-                <!-- Roof Dome Curve -->
-                <path d="M12 12 C13 8.5 16 8 20 8 C24 8 27 8.5 28 12" stroke-width="2.2"/>
-                <!-- Windshield -->
-                <rect x="11.5" y="11.5" width="17" height="6" rx="2.5" stroke-width="2"/>
-                <!-- Side Mirrors -->
-                <circle cx="8" cy="16.5" r="1.5" fill="#FFFFFF"/>
-                <circle cx="32" cy="16.5" r="1.5" fill="#FFFFFF"/>
-                <!-- Hood Line -->
-                <line x1="9" y1="18.5" x2="31" y2="18.5" stroke-width="2.2"/>
-                <!-- Slanted Almond Headlights -->
-                <path d="M11 20.5 C12 19.5 14 21 14.5 23 C13 23.5 11.5 22.5 11 20.5 Z" stroke-width="1.8" fill="rgba(255,255,255,0.3)"/>
-                <path d="M29 20.5 C28 19.5 26 21 25.5 23 C27 23.5 28.5 22.5 29 20.5 Z" stroke-width="1.8" fill="rgba(255,255,255,0.3)"/>
-                <!-- Center Grill -->
-                <rect x="17" y="21.5" width="6" height="2.2" rx="1" stroke-width="1.6"/>
-                <!-- Bumper & Tire Feet -->
-                <path d="M9 24 L9 29 C9 30 10.5 30 11 29 L11 26.5 L29 26.5 L29 29 C29.5 30 31 30 31 29 L31 24" stroke-width="2.2"/>
-              </svg>
+              <img src="assets/icons/icon_3_taxi.png" alt="Taxi / Uber teilen" class="w-full h-full object-cover">
             </div>
             <span class="ref-pill-tag">Split Fare</span>
           </div>
@@ -369,27 +324,11 @@
           </div>
         </div>
 
-        <!-- 4. Fahrrad / Scooter (Exact Match to media_1790398443806.png - Curved Cruiser Bike) -->
+        <!-- 4. Fahrrad / Scooter (Curved Cruiser Bike 3D Frosted Glass) -->
         <div onclick="openIconModal('scooter')" class="luminous-ref-card glow-card-4 group">
           <div class="flex items-start justify-between">
             <div class="ref-icon-squircle">
-              <!-- Exact Cruiser Bike with Hollow Spoke Wheels & Curved Frame -->
-              <svg viewBox="0 0 40 40" class="w-9 h-9 neon-glyph" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
-                <!-- Hollow Wheels -->
-                <circle cx="10" cy="24" r="6" stroke-width="2.4"/>
-                <circle cx="29" cy="24" r="6" stroke-width="2.4"/>
-                <!-- Fork & Handlebar -->
-                <line x1="29" y1="24" x2="24" y2="11" stroke-width="2.2"/>
-                <path d="M24 11 L25.5 8 L22.5 7" stroke-width="2.2"/>
-                <!-- Curved Cruiser Frame -->
-                <line x1="15" y1="24" x2="14" y2="13" stroke-width="2.2"/>
-                <path d="M24 13 C19.5 17.5 17 21.5 15 24" stroke-width="2.2"/>
-                <path d="M24 13 C19.5 15 16.5 15 14 15" stroke-width="2.2"/>
-                <line x1="10" y1="24" x2="15" y2="24" stroke-width="2.2"/>
-                <line x1="10" y1="24" x2="14" y2="15" stroke-width="2.2"/>
-                <!-- Saddle -->
-                <path d="M11.5 12.5 C13 12 15 12 16.5 12.5" stroke-width="2.6"/>
-              </svg>
+              <img src="assets/icons/icon_4_bike.png" alt="Fahrrad / Scooter" class="w-full h-full object-cover">
             </div>
             <span class="ref-pill-tag">Rad / Roller</span>
           </div>
@@ -419,23 +358,7 @@
         <div onclick="openIconModal('verified')" class="luminous-ref-card glow-card-5 group">
           <div class="flex items-start justify-between">
             <div class="ref-icon-squircle">
-              <!-- Exact Laurel Wreath with 5 Stars -->
-              <svg viewBox="0 0 40 40" class="w-9 h-9 neon-glyph" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
-                <!-- Left Branch -->
-                <path d="M12 28 C8 23 8 15 13 9" stroke-width="2.2"/>
-                <path d="M10 16 C8.5 15 8 13 9 12 C10 11 12 11.5 12.5 13" stroke-width="1.8" fill="rgba(255,255,255,0.2)"/>
-                <path d="M11 21 C9.5 20 9 18 10 17 C11 16 13 16.5 13.5 18" stroke-width="1.8" fill="rgba(255,255,255,0.2)"/>
-                <!-- Right Branch -->
-                <path d="M28 28 C32 23 32 15 27 9" stroke-width="2.2"/>
-                <path d="M30 16 C31.5 15 32 13 31 12 C30 11 28 11.5 27.5 13" stroke-width="1.8" fill="rgba(255,255,255,0.2)"/>
-                <path d="M29 21 C30.5 20 31 18 30 17 C29 16 27 16.5 26.5 18" stroke-width="1.8" fill="rgba(255,255,255,0.2)"/>
-                <!-- 5 Stars inside -->
-                <polygon points="20,11 21,13.5 23.5,13.5 21.5,15 22.5,17.5 20,16 17.5,17.5 18.5,15 16.5,13.5 19,13.5" fill="#FFFFFF"/>
-                <circle cx="15.5" cy="18.5" r="1.4" fill="#FFFFFF"/>
-                <circle cx="24.5" cy="18.5" r="1.4" fill="#FFFFFF"/>
-                <circle cx="14" cy="23.5" r="1.1" fill="#FFFFFF"/>
-                <circle cx="26" cy="23.5" r="1.1" fill="#FFFFFF"/>
-              </svg>
+              <img src="assets/icons/icon_5_verified.png" alt="Verifizierter Gast" class="w-full h-full object-cover">
             </div>
             <span class="ref-pill-tag">Geprüft</span>
           </div>
@@ -451,13 +374,7 @@
         <div onclick="openIconModal('lantern')" class="luminous-ref-card glow-card-6 group">
           <div class="flex items-start justify-between">
             <div class="ref-icon-squircle">
-              <!-- Location Pin with Ground Waves -->
-              <svg viewBox="0 0 40 40" class="w-9 h-9 neon-glyph" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20 6 C15 6 11 10 11 15 C11 21 20 28 20 28 C20 28 29 21 29 15 C29 10 25 6 20 6 Z" stroke-width="2.4"/>
-                <circle cx="20" cy="14.5" r="3.5" stroke-width="2"/>
-                <ellipse cx="20" cy="30" rx="11" ry="3.8" stroke-width="2" opacity="0.6"/>
-                <ellipse cx="20" cy="30" rx="6" ry="2" stroke-width="1.6" opacity="0.9"/>
-              </svg>
+              <img src="assets/icons/icon_6_lantern.png" alt="Treffpunkt Ausgang" class="w-full h-full object-cover">
             </div>
             <span class="ref-pill-tag">Safe Spot</span>
           </div>
@@ -473,15 +390,7 @@
         <div onclick="openIconModal('hearth')" class="luminous-ref-card glow-card-7 group">
           <div class="flex items-start justify-between">
             <div class="ref-icon-squircle">
-              <!-- Cottage with Floating Heart -->
-              <svg viewBox="0 0 40 40" class="w-9 h-9 neon-glyph" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
-                <!-- Floating Heart -->
-                <path d="M20 7.5 C19 6 17.5 6 16.8 6.7 C16 7.5 16 8.7 17.5 10 L20 12.5 L22.5 10 C24 8.7 24 7.5 23.2 6.7 C22.5 6 21 6 20 7.5 Z" fill="#FFFFFF"/>
-                <path d="M25 16 L25 12 L23 12 L23 14" stroke-width="2"/>
-                <path d="M7 19 C14 13 26 13 33 19" stroke-width="2.6"/>
-                <path d="M10 18 L10 29 C10 30 11 30.5 12 30.5 L28 30.5 C29 30.5 30 30 30 29 L30 18" stroke-width="2"/>
-                <path d="M17 30.5 L17 23.5 C17 22 23 22 23 23.5 L23 30.5" stroke-width="2"/>
-              </svg>
+              <img src="assets/icons/icon_7_home.png" alt="Sicher Zuhause!" class="w-full h-full object-cover">
             </div>
             <span class="ref-pill-tag">1-Tap Check</span>
           </div>
@@ -497,12 +406,7 @@
         <div onclick="openIconModal('hands')" class="luminous-ref-card glow-card-8 group">
           <div class="flex items-start justify-between">
             <div class="ref-icon-squircle">
-              <!-- Rounded Exclamation Badge -->
-              <svg viewBox="0 0 40 40" class="w-9 h-9 neon-glyph" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="8" y="8" width="24" height="24" rx="10" stroke-width="2.4"/>
-                <line x1="20" y1="14" x2="20" y2="22" stroke-width="3"/>
-                <circle cx="20" cy="26" r="1.6" fill="#FFFFFF"/>
-              </svg>
+              <img src="assets/icons/icon_8_care.png" alt="Awareness Support" class="w-full h-full object-cover">
             </div>
             <span class="ref-pill-tag">Club Team</span>
           </div>
@@ -531,15 +435,8 @@
         <!-- 9. FLINTA* Begleitung (Venus Intertwined with Infinity Loop) -->
         <div onclick="openIconModal('flinta')" class="luminous-ref-card glow-card-9 group">
           <div class="flex items-start justify-between">
-            <div class="ref-icon-squircle">
-              <!-- Venus + Infinity Intertwined -->
-              <svg viewBox="0 0 40 40" class="w-9 h-9 neon-glyph" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="13" cy="16" r="6" stroke-width="2.6"/>
-                <line x1="13" y1="22" x2="13" y2="30" stroke-width="2.6"/>
-                <line x1="8.5" y1="26" x2="17.5" y2="26" stroke-width="2.6"/>
-                <path d="M18 16 C20 12 24 12 27 14 C30 16 30 19 27 21 C24 23 20 23 18 16" stroke-width="2.6"/>
-                <path d="M27 14 C29 15.5 29 18 27 19.5" stroke-width="2.6"/>
-              </svg>
+            <div class="ref-icon-squircle !w-auto !h-[58px]">
+              <img src="assets/icons/icon_9_flinta.png" alt="FLINTA* Begleitung" class="h-full w-auto object-contain rounded-[18px]">
             </div>
             <span class="ref-pill-tag">FLINTA*</span>
           </div>
@@ -555,14 +452,7 @@
         <div onclick="openIconModal('ribbon')" class="luminous-ref-card glow-card-10 group">
           <div class="flex items-start justify-between">
             <div class="ref-icon-squircle">
-              <!-- Winged Feathers Forward Arrow -->
-              <svg viewBox="0 0 40 40" class="w-9 h-9 neon-glyph" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M24 12 L32 20 L24 28" stroke-width="2.8"/>
-                <line x1="8" y1="20" x2="31" y2="20" stroke-width="2.6"/>
-                <path d="M10 14 C15 16 20 16 24 13" stroke-width="2.2"/>
-                <path d="M10 26 C15 24 20 24 24 27" stroke-width="2.2"/>
-                <path d="M7 20 C10 18 13 18 16 20" stroke-width="2"/>
-              </svg>
+              <img src="assets/icons/icon_10_direct.png" alt="Direkter Heimweg" class="w-full h-full object-cover">
             </div>
             <span class="ref-pill-tag">Ohne Umweg</span>
           </div>
@@ -578,12 +468,7 @@
         <div onclick="openIconModal('moon')" class="luminous-ref-card glow-card-11 group">
           <div class="flex items-start justify-between">
             <div class="ref-icon-squircle">
-              <!-- Crescent Moon + Two Twinkle Stars -->
-              <svg viewBox="0 0 40 40" class="w-9 h-9 neon-glyph" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20 8 C23 10 24 14.5 22 18.5 C20 22.5 16 25 11.5 24 C14 22 15 18.5 14 14.5 C13 12 11.5 10 9 8.5 C12 7.5 16.5 7 20 8 Z" fill="#FFFFFF" stroke="none"/>
-                <path d="M26 11 L27.2 13.8 L30 14.8 L27.2 15.8 L26 18.5 L24.8 15.8 L22 14.8 L24.8 13.8 Z" fill="#FFFFFF" stroke="none"/>
-                <path d="M28 22 L28.8 23.8 L31 24.5 L28.8 25.2 L28 27 L27.2 25.2 L25 24.5 L27.2 23.8 Z" fill="#FFFFFF" stroke="none"/>
-              </svg>
+              <img src="assets/icons/icon_11_moon.png" alt="Ruhige Begleitung" class="w-full h-full object-cover">
             </div>
             <span class="ref-pill-tag">chillig</span>
           </div>
@@ -599,12 +484,7 @@
         <div onclick="openIconModal('sync')" class="luminous-ref-card glow-card-12 group">
           <div class="flex items-start justify-between">
             <div class="ref-icon-squircle">
-              <!-- Interlocking 4-Loop Celtic Knot -->
-              <svg viewBox="0 0 40 40" class="w-9 h-9 neon-glyph" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20 7 C23.5 7 27 10 27 14 C27 18.5 18 21 14 25.5 C10.5 29 7 25.5 7 20 C7 14.5 14 7 20 7 Z" stroke-width="2.4"/>
-                <path d="M20 33 C16.5 33 13 30 13 26 C13 21.5 22 19 26 14.5 C29.5 11 33 14.5 33 20 C33 25.5 26 33 20 33 Z" stroke-width="2.4"/>
-                <circle cx="20" cy="20" r="2" fill="#FFFFFF"/>
-              </svg>
+              <img src="assets/icons/icon_12_knot.png" alt="Gemeinsamer Umstieg" class="w-full h-full object-cover">
             </div>
             <span class="ref-pill-tag">Knotenpunkt</span>
           </div>
@@ -689,11 +569,7 @@
                 <div class="glow-card-5 rounded-[22px] p-4 flex items-center justify-between cursor-pointer">
                   <div class="flex items-center gap-3.5">
                     <div class="ref-icon-squircle w-11 h-11">
-                      <svg viewBox="0 0 40 40" class="w-6 h-6" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 28 C8 23 8 15 13 9" stroke-width="2"/>
-                        <path d="M28 28 C32 23 32 15 27 9" stroke-width="2"/>
-                        <polygon points="20,11 21,13.5 23.5,13.5 21.5,15 22.5,17.5 20,16 17.5,17.5 18.5,15 16.5,13.5 19,13.5" fill="#FFFFFF"/>
-                      </svg>
+                      <img src="assets/icons/icon_5_verified.png" class="w-full h-full object-cover rounded-[14px]" alt="Verifizierung">
                     </div>
                     <div>
                       <h4 class="text-[14px] font-bold text-white">Verifizierung</h4>
@@ -708,10 +584,7 @@
                 <div class="glow-card-1 rounded-[22px] p-4 flex items-center justify-between cursor-pointer">
                   <div class="flex items-center gap-3.5">
                     <div class="ref-icon-squircle w-11 h-11">
-                      <svg viewBox="0 0 40 40" class="w-6 h-6" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M20 8 C23 10 24 14.5 22 18.5 C20 22.5 16 25 11.5 24 C14 22 15 18.5 14 14.5 C13 12 11.5 10 9 8.5 C12 7.5 16.5 7 20 8 Z" fill="#FFFFFF" stroke="none"/>
-                        <path d="M26 11 L27.2 13.8 L30 14.8 L27.2 15.8 L26 18.5 L24.8 15.8 L22 14.8 L24.8 13.8 Z" fill="#FFFFFF" stroke="none"/>
-                      </svg>
+                      <img src="assets/icons/icon_1_walk.png" class="w-full h-full object-cover rounded-[14px]" alt="Wie funktioniert Hina?">
                     </div>
                     <div>
                       <h4 class="text-[14px] font-bold text-white">Wie funktioniert Hina?</h4>
@@ -726,11 +599,7 @@
                 <div class="glow-card-7 rounded-[22px] p-4 flex items-center justify-between cursor-pointer">
                   <div class="flex items-center gap-3.5">
                     <div class="ref-icon-squircle w-11 h-11">
-                      <svg viewBox="0 0 40 40" class="w-6 h-6" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M20 7.5 C19 6 17.5 6 16.8 6.7 C16 7.5 16 8.7 17.5 10 L20 12.5 L22.5 10 C24 8.7 24 7.5 23.2 6.7 C22.5 6 21 6 20 7.5 Z" fill="#FFFFFF"/>
-                        <path d="M7 19 C14 13 26 13 33 19" stroke-width="2.4"/>
-                        <path d="M10 18 L10 29 C10 30 11 30.5 12 30.5 L28 30.5 C29 30.5 30 30 30 29 L30 18" stroke-width="2"/>
-                      </svg>
+                      <img src="assets/icons/icon_7_home.png" class="w-full h-full object-cover rounded-[14px]" alt="Was passiert mit meinen Daten?">
                     </div>
                     <div>
                       <h4 class="text-[14px] font-bold text-white">Was passiert mit meinen Daten?</h4>
@@ -901,6 +770,7 @@ Let me know what you think! 💖
         title: "Laufgruppe",
         category: "Kategorie 1 • Heimweg-Option",
         badgeClass: "glow-card-1",
+        iconFile: "icon_1_walk.png",
         svgPath: `<svg viewBox="0 0 40 40" class="w-24 h-24 neon-glyph" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
           <path d="M10 7 C13 11 16 15 19 18" stroke-width="2.2"/>
           <path d="M13 6 C15 9 17 12 19 15" stroke-width="1.8"/>
@@ -919,6 +789,7 @@ Let me know what you think! 💖
         title: "Nachtbahn / Bus",
         category: "Kategorie 1 • Heimweg-Option",
         badgeClass: "glow-card-2",
+        iconFile: "icon_2_train.png",
         svgPath: `<svg viewBox="0 0 40 40" class="w-24 h-24 neon-glyph" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
           <rect x="10" y="6" width="20" height="23" rx="7" stroke-width="2.4"/>
           <line x1="15" y1="9" x2="25" y2="9" stroke-width="2.2"/>
@@ -937,6 +808,7 @@ Let me know what you think! 💖
         title: "Taxi / Uber teilen",
         category: "Kategorie 1 • Heimweg-Option",
         badgeClass: "glow-card-3",
+        iconFile: "icon_3_taxi.png",
         svgPath: `<svg viewBox="0 0 40 40" class="w-24 h-24 neon-glyph" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
           <path d="M16 6 C16 5 17 4 18 4 L22 4 C23 4 24 5 24 6 L24 8 L16 8 Z" stroke-width="2" fill="rgba(255,255,255,0.2)"/>
           <path d="M12 12 C13 8.5 16 8 20 8 C24 8 27 8.5 28 12" stroke-width="2.2"/>
@@ -956,6 +828,7 @@ Let me know what you think! 💖
         title: "Fahrrad / Scooter",
         category: "Kategorie 1 • Heimweg-Option",
         badgeClass: "glow-card-4",
+        iconFile: "icon_4_bike.png",
         svgPath: `<svg viewBox="0 0 40 40" class="w-24 h-24 neon-glyph" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="10" cy="24" r="6" stroke-width="2.4"/>
           <circle cx="29" cy="24" r="6" stroke-width="2.4"/>
@@ -975,6 +848,7 @@ Let me know what you think! 💖
         title: "Verifizierter Gast",
         category: "Kategorie 2 • Vertrauens- & Sicherheits-Badges",
         badgeClass: "glow-card-5",
+        iconFile: "icon_5_verified.png",
         svgPath: `<svg viewBox="0 0 40 40" class="w-24 h-24 neon-glyph" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 28 C8 23 8 15 13 9" stroke-width="2.2"/>
           <path d="M10 16 C8.5 15 8 13 9 12 C10 11 12 11.5 12.5 13" stroke-width="1.8" fill="rgba(255,255,255,0.2)"/>
@@ -995,6 +869,7 @@ Let me know what you think! 💖
         title: "Treffpunkt Ausgang",
         category: "Kategorie 2 • Vertrauens- & Sicherheits-Badges",
         badgeClass: "glow-card-6",
+        iconFile: "icon_6_lantern.png",
         svgPath: `<svg viewBox="0 0 40 40" class="w-24 h-24 neon-glyph" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
           <path d="M20 6 C15 6 11 10 11 15 C11 21 20 28 20 28 C20 28 29 21 29 15 C29 10 25 6 20 6 Z" stroke-width="2.4"/>
           <circle cx="20" cy="14.5" r="3.5" stroke-width="2"/>
@@ -1008,6 +883,7 @@ Let me know what you think! 💖
         title: "Sicher Zuhause!",
         category: "Kategorie 2 • Vertrauens- & Sicherheits-Badges",
         badgeClass: "glow-card-7",
+        iconFile: "icon_7_home.png",
         svgPath: `<svg viewBox="0 0 40 40" class="w-24 h-24 neon-glyph" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
           <path d="M20 7.5 C19 6 17.5 6 16.8 6.7 C16 7.5 16 8.7 17.5 10 L20 12.5 L22.5 10 C24 8.7 24 7.5 23.2 6.7 C22.5 6 21 6 20 7.5 Z" fill="#FFFFFF"/>
           <path d="M25 16 L25 12 L23 12 L23 14" stroke-width="2"/>
@@ -1022,6 +898,7 @@ Let me know what you think! 💖
         title: "Awareness Support",
         category: "Kategorie 2 • Vertrauens- & Sicherheits-Badges",
         badgeClass: "glow-card-8",
+        iconFile: "icon_8_care.png",
         svgPath: `<svg viewBox="0 0 40 40" class="w-24 h-24 neon-glyph" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
           <rect x="8" y="8" width="24" height="24" rx="10" stroke-width="2.4"/>
           <line x1="20" y1="14" x2="20" y2="22" stroke-width="3"/>
@@ -1034,6 +911,7 @@ Let me know what you think! 💖
         title: "FLINTA* Begleitung",
         category: "Kategorie 3 • Begleiter-Filter & Wohlfühl-Kriterien",
         badgeClass: "glow-card-9",
+        iconFile: "icon_9_flinta.png",
         svgPath: `<svg viewBox="0 0 40 40" class="w-24 h-24 neon-glyph" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="13" cy="16" r="6" stroke-width="2.6"/>
           <line x1="13" y1="22" x2="13" y2="30" stroke-width="2.6"/>
@@ -1048,6 +926,7 @@ Let me know what you think! 💖
         title: "Direkter Heimweg",
         category: "Kategorie 3 • Begleiter-Filter & Wohlfühl-Kriterien",
         badgeClass: "glow-card-10",
+        iconFile: "icon_10_direct.png",
         svgPath: `<svg viewBox="0 0 40 40" class="w-24 h-24 neon-glyph" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
           <path d="M24 12 L32 20 L24 28" stroke-width="2.8"/>
           <line x1="8" y1="20" x2="31" y2="20" stroke-width="2.6"/>
@@ -1062,6 +941,7 @@ Let me know what you think! 💖
         title: "Ruhige Begleitung",
         category: "Kategorie 3 • Begleiter-Filter & Wohlfühl-Kriterien",
         badgeClass: "glow-card-11",
+        iconFile: "icon_11_moon.png",
         svgPath: `<svg viewBox="0 0 40 40" class="w-24 h-24 neon-glyph" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
           <path d="M20 8 C23 10 24 14.5 22 18.5 C20 22.5 16 25 11.5 24 C14 22 15 18.5 14 14.5 C13 12 11.5 10 9 8.5 C12 7.5 16.5 7 20 8 Z" fill="#FFFFFF" stroke="none"/>
           <path d="M26 11 L27.2 13.8 L30 14.8 L27.2 15.8 L26 18.5 L24.8 15.8 L22 14.8 L24.8 13.8 Z" fill="#FFFFFF" stroke="none"/>
@@ -1074,6 +954,7 @@ Let me know what you think! 💖
         title: "Gemeinsamer Umstieg",
         category: "Kategorie 3 • Begleiter-Filter & Wohlfühl-Kriterien",
         badgeClass: "glow-card-12",
+        iconFile: "icon_12_knot.png",
         svgPath: `<svg viewBox="0 0 40 40" class="w-24 h-24 neon-glyph" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
           <path d="M20 7 C23.5 7 27 10 27 14 C27 18.5 18 21 14 25.5 C10.5 29 7 25.5 7 20 C7 14.5 14 7 20 7 Z" stroke-width="2.4"/>
           <path d="M20 33 C16.5 33 13 30 13 26 C13 21.5 22 19 26 14.5 C29.5 11 33 14.5 33 20 C33 25.5 26 33 20 33 Z" stroke-width="2.4"/>
@@ -1090,8 +971,8 @@ Let me know what you think! 💖
       const body = document.getElementById('modal-body');
       body.innerHTML = `
         <div class="flex items-center gap-4">
-          <div class="w-20 h-20 rounded-3xl ${data.badgeClass} flex items-center justify-center p-2 text-white shadow-xl flex-shrink-0">
-            ${data.svgPath}
+          <div class="w-20 h-20 rounded-3xl ${data.badgeClass} flex items-center justify-center p-1.5 text-white shadow-xl flex-shrink-0 overflow-hidden">
+            <img src="assets/icons/${data.iconFile}" alt="${data.title}" class="w-full h-full object-contain rounded-2xl drop-shadow-md">
           </div>
           <div>
             <span class="text-[11px] font-mono font-bold uppercase tracking-wider text-purple-300">${data.category}</span>
@@ -1111,12 +992,14 @@ Let me know what you think! 💖
           </div>
         </div>
 
-        <div class="pt-4 flex gap-3">
-          <button onclick="copyCurrentSvg('${key}')" class="flex-1 py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-400 hover:to-pink-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-purple-500/25 transition-all">
-            <span>SVG-Vektor für Figma kopieren</span>
-            <span>📋</span>
+        <div class="pt-4 flex flex-wrap gap-3">
+          <a href="assets/icons/${data.iconFile}" download="${data.iconFile}" class="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-400 hover:to-pink-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-purple-500/25 transition-all text-center">
+            <span>✨ 3D Glass Asset (.png)</span>
+          </a>
+          <button onclick="copyCurrentSvg('${key}')" class="py-3 px-4 rounded-xl bg-white/10 hover:bg-white/15 text-white font-semibold text-xs transition-colors flex items-center justify-center gap-1.5">
+            <span>📋 SVG kopieren</span>
           </button>
-          <button onclick="closeIconModal()" class="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/15 text-white font-semibold text-xs transition-colors">
+          <button onclick="closeIconModal()" class="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-300 hover:text-white font-semibold text-xs transition-colors">
             Schließen
           </button>
         </div>
