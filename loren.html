@@ -845,6 +845,8 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
       transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
@@ -1135,6 +1137,12 @@
       width: 100%;
       height: auto;
       display: block;
+      image-rendering: -webkit-optimize-contrast;
+      transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .ritual-art-frame:hover img {
+      transform: scale(1.03);
     }
 
     .ritual-steps {
@@ -1247,8 +1255,17 @@
     .pdp-media-pane img {
       max-width: 100%;
       height: auto;
-      max-height: 380px;
+      max-height: 420px;
       object-fit: contain;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+      border-radius: 4px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .pdp-media-pane:hover img {
+      transform: scale(1.02);
     }
 
     .pdp-info-pane {
@@ -1629,7 +1646,7 @@
 
     <!-- Living HD Cinema Motion Video (Autoplays Continuously in Background) -->
     <div class="hero-video-layer" id="hero-video-layer">
-      <video class="hero-bg-video" id="hero-motion-video" autoplay muted loop playsinline preload="auto" poster="assets/loren/slide-mocha-clean.png">
+      <video class="hero-bg-video" id="hero-motion-video" autoplay muted loop playsinline preload="auto" poster="assets/loren/hero-poster-4k.jpg">
         <source src="assets/loren/loren-hero.mp4" type="video/mp4">
       </video>
     </div>
@@ -1737,7 +1754,7 @@
     <div class="ritual-container scroll-reveal">
       
       <div class="ritual-art-frame scroll-reveal-left">
-        <img src="assets/loren/ritual-scene.png" alt="The Ritual of Perfume Mist on Skin">
+        <img src="assets/loren/ritual-scene-4k.jpg" alt="The Ritual of Perfume Mist on Skin">
       </div>
 
       <div class="ritual-content scroll-reveal-right">
@@ -1787,7 +1804,7 @@
   <section class="shop-section" id="discovery-set" style="background:var(--bg-cream);">
     <div class="scroll-reveal-scale" style="max-width:1100px; margin:0 auto; background:#ffffff; border:1px solid var(--line-light); border-radius:4px; padding:48px; display:grid; grid-template-columns:1fr 1.2fr; gap:48px; align-items:center;">
       <div style="border-radius:4px; overflow:hidden; border:1px solid var(--line-light); background:#faf8f5;">
-        <img src="assets/loren/product-fleur.png" alt="LORÉN Discovery Wardrobe" style="width:100%; height:auto; display:block;">
+        <img src="assets/loren/product-discovery-4k.jpg" alt="LORÉN Discovery Wardrobe" style="width:100%; height:auto; display:block;">
       </div>
       <div>
         <span style="font-size:10px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#c9aa76; display:block; margin-bottom:12px;">Risk-Free Exploration</span>
@@ -1978,7 +1995,7 @@
         badge: "Bestseller",
         price50: 145,
         price100: 210,
-        img: "assets/loren/product-iris-noir.png",
+        img: "assets/loren/product-iris-noir-4k.jpg",
         sub: "50ml / 100ml · Haute Maceration",
         desc: "An intimate study in quiet contrast. Florentine orris root enveloped in smoked black tea, ambergris, and sun-warmed French cade wood.",
         top: "Florentine Orris Root, Bergamot, Pink Peppercorn",
@@ -1993,7 +2010,7 @@
         badge: "Solar White",
         price50: 120,
         price100: 185,
-        img: "assets/loren/product-magnolia.png",
+        img: "assets/loren/product-magnolia-4k.jpg",
         sub: "50ml / 100ml · Honed Limestone Extract",
         desc: "Cream magnolia petals suspended in cold morning mist. Softened by smoked white birch, mineral limestone, and skin musk.",
         top: "Dewy Magnolia Petals, Italian Lemon, White Neroli",
@@ -2008,7 +2025,7 @@
         badge: "Nocturnal Floral",
         price50: 120,
         price100: 185,
-        img: "assets/loren/product-jasmin.png",
+        img: "assets/loren/product-jasmin-4k.jpg",
         sub: "50ml / 100ml · Limited Harvest",
         desc: "Night-picked Sambac jasmine flowers resting upon sun-warmed travertine marble. Deep, animalic, and laced with liquid golden resins.",
         top: "Midnight Sambac Jasmine, Green Tea Leaf, Bitter Orange",
@@ -2023,7 +2040,7 @@
         badge: "Opulent White",
         price50: 135,
         price100: 195,
-        img: "assets/loren/product-tubereuse.png",
+        img: "assets/loren/product-tubereuse-4k.jpg",
         sub: "50ml / 100ml · Grasse Night Bloom",
         desc: "Hypnotic night-blooming tuberose cut with crisp sheared green stems, pink pepper, and solar salicylates.",
         top: "Crisp Green Stems, Pink Pepper, Mandora",
@@ -2038,7 +2055,7 @@
         badge: "Warm Floral",
         price50: 125,
         price100: 190,
-        img: "assets/loren/product-fleur.png",
+        img: "assets/loren/product-orchidee-4k.jpg",
         sub: "50ml / 100ml · Artisanal Distillation",
         desc: "Wild vanilla orchid blossoms steeped in toasted cardamom, golden saffron threads, and Australian sandalwood.",
         top: "Saffron Threads, Cardamom, Bergamot",
@@ -2053,7 +2070,7 @@
         badge: "Cold Mineral",
         price50: 130,
         price100: 195,
-        img: "assets/loren/product-magnolia.png",
+        img: "assets/loren/product-vetiver-4k.jpg",
         sub: "50ml / 100ml · Atlantic Coast Series",
         desc: "Wild Haitian vetiver roots washed in ocean salt spray, cold Atlantic cedar, and wet graphite stone.",
         top: "Sea Salt Accord, Grapefruit Rind, Crushed Sage",
@@ -2068,7 +2085,7 @@
         badge: "Warm Velvet",
         price50: 140,
         price100: 205,
-        img: "assets/loren/product-iris-noir.png",
+        img: "assets/loren/product-santal-4k.jpg",
         sub: "50ml / 100ml · Pure Sandalwood",
         desc: "Creamy Mysore sandalwood aged in charred oak casks, wrapped in cardamon milk, papyrus, and cashmere warmth.",
         top: "Cardamom Pod, Violet Leaves, Cypress",
@@ -2083,7 +2100,7 @@
         badge: "Sample Set + $48 Voucher",
         price50: 48,
         price100: 48,
-        img: "assets/loren/product-fleur.png",
+        img: "assets/loren/product-discovery-4k.jpg",
         sub: "5 × 2ml Extraits · 100% Refundable",
         desc: "Explore the complete house at your own pace. Includes 5 × 2ml atomizers + a $48 voucher towards your chosen full flacon.",
         top: "Iris Noir, Magnolia Cendrée",
