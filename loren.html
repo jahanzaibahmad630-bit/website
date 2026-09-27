@@ -587,19 +587,7 @@
       background: rgba(255, 255, 255, 0.7);
     }
 
-    /* HERO LIVING CINEMATIC HD VIDEO BACKGROUND (SEAMLESS AUTOMATIC BREATHING ZOOM) */
-    @keyframes heroCinemaBreathe {
-      0% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(1.08);
-      }
-      100% {
-        transform: scale(1);
-      }
-    }
-
+    /* HERO BACKGROUND (STATICALLY LOCKED & PRISTINE 4K) */
     .hero-video-layer {
       position: absolute;
       inset: 0;
@@ -610,7 +598,7 @@
       visibility: visible;
       overflow: hidden;
       background: #0d0806;
-      will-change: transform;
+      transform: none !important;
     }
 
     .hero-bg-video {
@@ -622,37 +610,11 @@
       object-position: center center;
       display: block;
       filter: contrast(1.03) brightness(0.98);
-      transform-origin: center center;
-      animation: heroCinemaBreathe 20s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
-      will-change: transform;
+      transform: none !important;
     }
 
     .hero-film-pill {
-      position: absolute;
-      bottom: 24px;
-      right: 36px;
-      z-index: 70;
-      background: rgba(18, 11, 7, 0.7);
-      backdrop-filter: blur(14px);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      color: #ded6cc;
-      padding: 6px 14px;
-      border-radius: 999px;
-      font-size: 10px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.25s ease;
-    }
-
-    .hero-film-pill:hover {
-      background: #ffffff;
-      color: #120b07;
-      border-color: #ffffff;
+      display: none !important;
     }
 
     /* ==========================================================================
@@ -2736,20 +2698,13 @@
         if (scrollY < heroH + 100) {
           const scrollFraction = Math.min(1, scrollY / (heroH * 0.7));
 
-          // Video Layer: Steady downward parallax sink & atmospheric dimming on scroll (leaves video breathing zoom uninhibited)
+          // Statically locked: completely stationary, crisp 4K background and centered typography
           if (videoLayer) {
-            const brightness = Math.max(0.6, 0.98 - scrollFraction * 0.35);
-            const scrollSink = scrollY * 0.2;
-            videoLayer.style.transform = `translate3d(0, ${scrollSink}px, 0)`;
-            videoLayer.style.filter = `contrast(1.03) brightness(${brightness})`;
+            videoLayer.style.transform = 'none';
           }
 
-          // Static Typography: Perfectly centered vector title and button, floats upward cleanly on scroll
           if (staticContent) {
-            const scrollLift = -scrollY * 0.38;
-            const opacity = Math.max(0, 1 - scrollFraction * 1.4);
-            staticContent.style.transform = `translate3d(-50%, calc(-50% + ${scrollLift}px), 0)`;
-            staticContent.style.opacity = opacity;
+            staticContent.style.transform = 'translate(-50%, -50%)';
           }
 
           // Cursor ambient specular lighting
