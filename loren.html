@@ -626,277 +626,6 @@
       50% { transform: scale(1.08); opacity: 1; filter: drop-shadow(0 0 14px rgba(212, 175, 55, 0.65)); }
     }
 
-    /* Scent Accord Floating Tags */
-    .mg-accord-tag {
-      position: absolute;
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.85);
-      background: rgba(18, 11, 7, 0.65);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(212, 175, 55, 0.35);
-      padding: 5px 12px;
-      border-radius: 999px;
-      white-space: nowrap;
-      animation: mgTagFloat 4s ease-in-out infinite alternate;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-    }
-
-    .mg-accord-tag.tag-top {
-      top: 10%;
-      right: 14%;
-      animation-delay: 0.2s;
-    }
-
-    .mg-accord-tag.tag-right {
-      bottom: 26%;
-      right: -2%;
-      animation-delay: 1.2s;
-    }
-
-    .mg-accord-tag.tag-bottom {
-      bottom: 8%;
-      left: 14%;
-      animation-delay: 0.7s;
-    }
-
-    @keyframes mgTagFloat {
-      0% { transform: translateY(0px); border-color: rgba(212, 175, 55, 0.35); }
-      100% { transform: translateY(-7px); border-color: rgba(212, 175, 55, 0.8); box-shadow: 0 0 18px rgba(212, 175, 55, 0.35); }
-    }
-
-    /* Editorial Corner HUD (Top Right) */
-    .mg-hud-top-right {
-      position: absolute;
-      top: 96px;
-      right: max(4vw, 36px);
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-      padding: 12px 18px;
-      background: rgba(14, 9, 8, 0.65);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-left: 2px solid var(--accent-gold);
-      border-radius: 2px;
-      font-size: 10px;
-      color: rgba(255, 255, 255, 0.75);
-      overflow: hidden;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
-    }
-
-    .mg-hud-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .mg-hud-label {
-      font-size: 8.5px;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent-gold);
-    }
-
-    .mg-hud-val {
-      font-family: var(--font-mono, monospace);
-      font-size: 9.5px;
-      letter-spacing: 0.12em;
-      color: #ffffff;
-    }
-
-    .mg-spectrum-mini {
-      display: inline-flex;
-      align-items: flex-end;
-      gap: 2.5px;
-      height: 12px;
-    }
-
-    .mg-spectrum-mini span {
-      width: 2px;
-      height: 100%;
-      background: var(--accent-gold);
-      border-radius: 1px;
-      animation: mgMiniBar 0.9s ease-in-out infinite alternate;
-      animation-delay: var(--d, 0s);
-    }
-
-    @keyframes mgMiniBar {
-      0% { height: 2px; opacity: 0.3; }
-      100% { height: 12px; opacity: 1; }
-    }
-
-    .mg-hud-scanline {
-      position: absolute;
-      left: 0;
-      right: 0;
-      height: 1.5px;
-      background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
-      box-shadow: 0 0 10px var(--accent-gold);
-      animation: mgScanlineSweep 3.5s ease-in-out infinite;
-    }
-
-    @keyframes mgScanlineSweep {
-      0% { top: 0%; opacity: 0; }
-      15% { opacity: 0.95; }
-      85% { opacity: 0.95; }
-      100% { top: 100%; opacity: 0; }
-    }
-
-    /* Precision Crosshair Target Markers */
-    .mg-crosshair {
-      position: absolute;
-      width: 14px;
-      height: 14px;
-      opacity: 0.5;
-      animation: mgCrosshairPulse 3s ease-in-out infinite alternate;
-    }
-
-    .mg-crosshair::before, .mg-crosshair::after {
-      content: '';
-      position: absolute;
-      background: var(--accent-gold);
-    }
-
-    .mg-crosshair::before {
-      top: 6px;
-      left: 0;
-      width: 14px;
-      height: 1px;
-    }
-
-    .mg-crosshair::after {
-      left: 6px;
-      top: 0;
-      width: 1px;
-      height: 14px;
-    }
-
-    .mg-crosshair-tl { top: 96px; left: max(4vw, 36px); }
-    .mg-crosshair-bl { bottom: 36px; left: max(4vw, 36px); }
-
-    @keyframes mgCrosshairPulse {
-      0% { opacity: 0.25; transform: scale(0.9); }
-      100% { opacity: 0.8; transform: scale(1.1); }
-    }
-
-    /* Scent Diffusion Equalizer / Resonance Waveform */
-    .mg-diffusion-bar {
-      position: absolute;
-      bottom: 28px;
-      left: max(5vw, 44px);
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      z-index: 25;
-    }
-
-    .mg-diff-header {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .mg-diff-dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--accent-gold);
-      box-shadow: 0 0 8px var(--accent-gold);
-      animation: mgDotBlink 1.4s ease-in-out infinite alternate;
-    }
-
-    @keyframes mgDotBlink {
-      0% { opacity: 0.4; }
-      100% { opacity: 1; }
-    }
-
-    .mg-diff-title {
-      font-size: 8.5px;
-      font-weight: 700;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.55);
-    }
-
-    .mg-diff-bars {
-      display: flex;
-      align-items: flex-end;
-      gap: 3px;
-      height: 22px;
-      padding-top: 2px;
-    }
-
-    .mg-diff-bars span {
-      width: 2.5px;
-      height: 5px;
-      background: linear-gradient(to top, rgba(212, 175, 55, 0.35), rgba(255, 245, 215, 0.95));
-      border-radius: 1px;
-      animation: mgDiffPulse var(--speed, 1s) ease-in-out infinite alternate;
-    }
-
-    @keyframes mgDiffPulse {
-      0% { height: 4px; opacity: 0.35; }
-      50% { height: var(--h, 16px); opacity: 0.95; }
-      100% { height: 6px; opacity: 0.45; }
-    }
-
-    /* Sleek Editorial Scroll Down Cue */
-    .mg-scroll-indicator {
-      position: absolute;
-      bottom: 26px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      z-index: 25;
-      opacity: 0.8;
-      transition: opacity 0.3s ease;
-    }
-
-    .mg-scroll-text {
-      font-size: 8px;
-      font-weight: 700;
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.65);
-    }
-
-    .mg-scroll-track {
-      width: 1px;
-      height: 32px;
-      background: rgba(255, 255, 255, 0.15);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .mg-scroll-bead {
-      position: absolute;
-      top: 0;
-      left: -1px;
-      width: 3px;
-      height: 8px;
-      border-radius: 2px;
-      background: var(--accent-gold);
-      box-shadow: 0 0 8px var(--accent-gold);
-      animation: mgBeadDrop 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
-    }
-
-    @keyframes mgBeadDrop {
-      0% { transform: translateY(-8px); opacity: 0; }
-      30% { opacity: 1; }
-      80% { opacity: 1; }
-      100% { transform: translateY(32px); opacity: 0; }
-    }
-
     /* Gold foil shimmer sweep across static title */
     .hero-static-title em {
       background: linear-gradient(105deg, #f7efe6 20%, #ffffff 42%, #ecd19b 55%, #f7efe6 78%);
@@ -916,12 +645,6 @@
         opacity: 0.35;
         right: -80px;
         transform: translateY(-50%) scale(0.65);
-      }
-      .mg-hud-top-right {
-        display: none;
-      }
-      .mg-diffusion-bar {
-        display: none;
       }
     }
 
@@ -1664,40 +1387,13 @@
       </video>
     </div>
 
-    <!-- LUXURY MOTION GRAPHICS SUITE (Hardware-Accelerated 60fps Vector Elements) -->
+    <!-- LUXURY MOTION GRAPHICS SUITE (Pure Minimalist Vector Motion — Zero Text Boxes) -->
     <div class="hero-motion-graphics" id="hero-motion-graphics" aria-hidden="true">
       
       <!-- Interactive Ambient Cursor Specular Flare -->
       <div class="mg-cursor-glow" id="mg-cursor-glow"></div>
 
-      <!-- Precision Editorial Crosshairs -->
-      <div class="mg-crosshair mg-crosshair-tl"></div>
-      <div class="mg-crosshair mg-crosshair-bl"></div>
-
-      <!-- Editorial Corner HUD (Top Right) -->
-      <div class="mg-hud-top-right">
-        <div class="mg-hud-item">
-          <span class="mg-hud-label">COORDINATES</span>
-          <span class="mg-hud-val">43°41'52"N 6°55'23"E</span>
-        </div>
-        <div class="mg-hud-item">
-          <span class="mg-hud-label">ATELIER PRIVÉ</span>
-          <span class="mg-hud-val">GRASSE • PARIS</span>
-        </div>
-        <div class="mg-hud-item">
-          <span class="mg-hud-label">DIFFUSION HARMONICS</span>
-          <div class="mg-spectrum-mini">
-            <span style="--d: 0.1s"></span>
-            <span style="--d: 0.35s"></span>
-            <span style="--d: 0.5s"></span>
-            <span style="--d: 0.2s"></span>
-            <span style="--d: 0.4s"></span>
-          </div>
-        </div>
-        <div class="mg-hud-scanline"></div>
-      </div>
-
-      <!-- Kinetic Astrolabe / Celestial Orbit Ring (Framing Iris Noir Bottle) -->
+      <!-- Kinetic Astrolabe / Celestial Orbit Ring (Framing Iris Noir Bottle with Pure Elegant Lines) -->
       <div class="mg-orbit-system" id="mg-orbit-system">
         <svg class="mg-orbit-svg" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
           <!-- Outer Compass Orbit -->
@@ -1708,13 +1404,13 @@
             <circle cx="250" cy="250" r="215" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1.2" stroke-dasharray="4 8"/>
             <circle cx="250" cy="250" r="200" stroke="rgba(212, 175, 55, 0.35)" stroke-width="1" stroke-dasharray="1 16"/>
             <!-- Cardinal Nodes -->
-            <circle cx="250" cy="35" r="3.5" fill="#d4af37"/>
-            <circle cx="465" cy="250" r="3.5" fill="#d4af37"/>
-            <circle cx="250" cy="465" r="3.5" fill="#d4af37"/>
-            <circle cx="35" cy="250" r="3.5" fill="#d4af37"/>
+            <circle cx="250" cy="35" r="3" fill="#d4af37"/>
+            <circle cx="465" cy="250" r="3" fill="#d4af37"/>
+            <circle cx="250" cy="465" r="3" fill="#d4af37"/>
+            <circle cx="35" cy="250" r="3" fill="#d4af37"/>
           </g>
 
-          <!-- Inner Counter-Rotating Ring with Accords -->
+          <!-- Inner Counter-Rotating Ring -->
           <g class="mg-ring-inner">
             <circle cx="250" cy="250" r="165" stroke="rgba(212, 175, 55, 0.4)" stroke-width="1.2" stroke-dasharray="10 14"/>
             <circle cx="250" cy="250" r="135" stroke="rgba(255, 255, 255, 0.15)" stroke-width="0.8"/>
@@ -1729,44 +1425,9 @@
             <circle cx="250" cy="250" r="45" stroke="rgba(212, 175, 55, 0.45)" stroke-width="1"/>
             <polygon points="250,165 323,292 177,292" stroke="rgba(255, 255, 255, 0.2)" stroke-width="0.8"/>
             <polygon points="250,335 177,208 323,208" stroke="rgba(212, 175, 55, 0.25)" stroke-width="0.8"/>
-            <circle cx="250" cy="250" r="4.5" fill="#ffffff"/>
+            <circle cx="250" cy="250" r="4" fill="#ffffff"/>
           </g>
         </svg>
-
-        <!-- Floating Scent Accord Callouts on the Orbit -->
-        <div class="mg-accord-tag tag-top">FLORENTINE ORRIS 18%</div>
-        <div class="mg-accord-tag tag-right">BOURBON VANILLE</div>
-        <div class="mg-accord-tag tag-bottom">CÈDRE FUMÉ NOIR</div>
-      </div>
-
-      <!-- Scent Diffusion Equalizer / Resonance Waveform -->
-      <div class="mg-diffusion-bar">
-        <div class="mg-diff-header">
-          <span class="mg-diff-dot"></span>
-          <span class="mg-diff-title">DIFFUSION SPECTRUM • HARMONIC ACCORD</span>
-        </div>
-        <div class="mg-diff-bars">
-          <span style="--h: 16px; --speed: 0.95s;"></span>
-          <span style="--h: 22px; --speed: 0.75s;"></span>
-          <span style="--h: 14px; --speed: 1.2s;"></span>
-          <span style="--h: 24px; --speed: 0.85s;"></span>
-          <span style="--h: 18px; --speed: 1.1s;"></span>
-          <span style="--h: 26px; --speed: 0.7s;"></span>
-          <span style="--h: 20px; --speed: 1.25s;"></span>
-          <span style="--h: 28px; --speed: 0.8s;"></span>
-          <span style="--h: 15px; --speed: 1.05s;"></span>
-          <span style="--h: 23px; --speed: 0.9s;"></span>
-          <span style="--h: 17px; --speed: 1.15s;"></span>
-          <span style="--h: 25px; --speed: 0.78s;"></span>
-        </div>
-      </div>
-
-      <!-- Sleek Editorial Scroll Down Cue -->
-      <div class="mg-scroll-indicator">
-        <span class="mg-scroll-text">DISCOVER</span>
-        <div class="mg-scroll-track">
-          <div class="mg-scroll-bead"></div>
-        </div>
       </div>
 
     </div>
