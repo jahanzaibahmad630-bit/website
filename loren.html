@@ -820,17 +820,126 @@
       transform: scale(1.08);
     }
 
-    /* GLOBAL SCROLL-TRIGGERED REVEAL ANIMATIONS */
-    .reveal-item {
+    /* ==========================================================================
+       SCROLL ANIMATIONS & DYNAMICS (GOLD PROGRESS, HERO EXIT, SECTION REVEALS)
+       ========================================================================== */
+    .scroll-progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2.5px;
+      width: 0%;
+      background: linear-gradient(90deg, #c9aa76, #fff4e0, #d4af37, #eed6a6);
+      box-shadow: 0 0 12px rgba(212, 175, 55, 0.8);
+      z-index: 9999;
+      pointer-events: none;
+      transition: width 0.08s ease-out;
+    }
+
+    /* Minimalist Editorial Scroll Cue */
+    .hero-scroll-cue {
+      position: absolute;
+      bottom: 26px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+      z-index: 30;
+      text-decoration: none;
+      cursor: pointer;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .scroll-cue-text {
+      font-size: 8.5px;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.65);
+      transition: color 0.25s ease;
+    }
+
+    .hero-scroll-cue:hover .scroll-cue-text {
+      color: #ffffff;
+      text-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+    }
+
+    .scroll-cue-line {
+      width: 1px;
+      height: 38px;
+      background: rgba(255, 255, 255, 0.2);
+      position: relative;
+      overflow: hidden;
+      border-radius: 1px;
+    }
+
+    .scroll-cue-drop {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 14px;
+      background: linear-gradient(to bottom, transparent, var(--accent-gold), #ffffff);
+      box-shadow: 0 0 6px var(--accent-gold);
+      animation: scrollDropAnimation 2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+    }
+
+    @keyframes scrollDropAnimation {
+      0% { transform: translateY(-14px); opacity: 0; }
+      35% { opacity: 1; }
+      75% { opacity: 1; }
+      100% { transform: translateY(42px); opacity: 0; }
+    }
+
+    /* Section Scroll Reveals */
+    .scroll-reveal, .reveal-item {
       opacity: 0;
-      transform: translateY(32px);
-      transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateY(38px);
+      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
       will-change: opacity, transform;
     }
 
-    .reveal-item.revealed {
+    .scroll-reveal.is-revealed, .reveal-item.revealed {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    .scroll-reveal-left {
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+
+    .scroll-reveal-left.is-revealed {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .scroll-reveal-right {
+      opacity: 0;
+      transform: translateX(40px);
+      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+
+    .scroll-reveal-right.is-revealed {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .scroll-reveal-scale {
+      opacity: 0;
+      transform: scale(0.94);
+      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+
+    .scroll-reveal-scale.is-revealed {
+      opacity: 1;
+      transform: scale(1);
     }
 
     .card-tag {
@@ -1371,6 +1480,9 @@
 </head>
 <body>
 
+  <!-- GOLD SCROLL READING PROGRESS BAR -->
+  <div class="scroll-progress-bar" id="scroll-progress-bar"></div>
+
   <!-- BACK TO PORTFOLIO MINIMAL PILL -->
   <a href="portfolio.html" class="portfolio-pill-badge" title="Return to Main Portfolio">
     ← Portfolio
@@ -1465,16 +1577,24 @@
       <span id="motion-icon">⏸</span> <span id="motion-text">4K 60fps Motion</span>
     </button>
 
+    <!-- MINIMALIST EDITORIAL SCROLL CUE -->
+    <a href="#manifesto" class="hero-scroll-cue" id="hero-scroll-cue" aria-label="Scroll to discover collection">
+      <span class="scroll-cue-text">SCROLL</span>
+      <div class="scroll-cue-line">
+        <span class="scroll-cue-drop"></span>
+      </div>
+    </a>
+
   </section>
 
   <!-- BRAND MANIFESTO SECTION -->
   <section class="manifesto-section" id="manifesto">
     <div class="manifesto-container">
-      <span class="manifesto-eyebrow">BRAND MANIFESTO</span>
-      <h2 class="manifesto-statement">
+      <span class="manifesto-eyebrow scroll-reveal">BRAND MANIFESTO</span>
+      <h2 class="manifesto-statement scroll-reveal">
         LORÉN explores fragrance through <em>quiet contrast</em>, where flowers, shadow, and light come together in compositions that feel <em>intimate, modern, and softly memorable</em>. Each scent is created as a study in atmosphere — refined, tactile, and designed to linger with understated presence.
       </h2>
-      <p class="manifesto-body">
+      <p class="manifesto-body scroll-reveal">
         Rooted in a considered approach to scent, LORÉN values refined materials, modern simplicity, and a slower, more intentional ritual of wearing perfume. The house explores florals with restraint, allowing each composition to feel clean, contemporary, and quietly expressive.
       </p>
     </div>
@@ -1485,7 +1605,7 @@
        ======================================================================== -->
   <section class="shop-section" id="shop">
     
-    <div class="shop-header">
+    <div class="shop-header scroll-reveal">
       <div class="shop-title-area">
         <span style="font-size:11px; font-weight:700; letter-spacing:0.2em; color:#8c734e; text-transform:uppercase;">The Olfactory Archive</span>
         <h2>Permanent Collection</h2>
@@ -1511,13 +1631,13 @@
 
   <!-- THE RITUAL SECTION -->
   <section class="ritual-section" id="ritual">
-    <div class="ritual-container">
+    <div class="ritual-container scroll-reveal">
       
-      <div class="ritual-art-frame">
+      <div class="ritual-art-frame scroll-reveal-left">
         <img src="assets/loren/ritual-scene.png" alt="The Ritual of Perfume Mist on Skin">
       </div>
 
-      <div class="ritual-content">
+      <div class="ritual-content scroll-reveal-right">
         <span class="hero-eyebrow">THE RITUAL</span>
         <h3 style="font-family:var(--font-serif); font-size:46px; font-weight:400; line-height:1.2; margin-bottom:24px;">
           A quiet <em>ritual</em> of scent,<br>
@@ -1562,7 +1682,7 @@
        DISCOVERY WARDROBE FEATURE SECTION (THE #1 CONVERTING PERFUME PRODUCT)
        ======================================================================== -->
   <section class="shop-section" id="discovery-set" style="background:var(--bg-cream);">
-    <div style="max-width:1100px; margin:0 auto; background:#ffffff; border:1px solid var(--line-light); border-radius:4px; padding:48px; display:grid; grid-template-columns:1fr 1.2fr; gap:48px; align-items:center;">
+    <div class="scroll-reveal-scale" style="max-width:1100px; margin:0 auto; background:#ffffff; border:1px solid var(--line-light); border-radius:4px; padding:48px; display:grid; grid-template-columns:1fr 1.2fr; gap:48px; align-items:center;">
       <div style="border-radius:4px; overflow:hidden; border:1px solid var(--line-light); background:#faf8f5;">
         <img src="assets/loren/product-fleur.png" alt="LORÉN Discovery Wardrobe" style="width:100%; height:auto; display:block;">
       </div>
@@ -2259,12 +2379,15 @@
       animate();
     })();
 
-    // INTERACTIVE 3D CAMERA PARALLAX & SPECULAR AMBIENT LIGHT FLARE
-    (function initHero3DMotion() {
+    // INTERACTIVE 3D CAMERA PARALLAX, SCROLL PROGRESS & HERO DISSOLVE
+    (function initHeroScrollAndMotion() {
       const hero = document.getElementById('top');
       const glow = document.getElementById('mg-cursor-glow');
       const video = document.getElementById('hero-motion-video');
       const staticContent = document.querySelector('.hero-static-content');
+      const scrollCue = document.getElementById('hero-scroll-cue');
+      const progressBar = document.getElementById('scroll-progress-bar');
+      const stickyNav = document.getElementById('sticky-nav');
       if (!hero) return;
 
       let targetX = window.innerWidth * 0.7;
@@ -2282,22 +2405,64 @@
         currentX += (targetX - currentX) * 0.06;
         currentY += (targetY - currentY) * 0.06;
 
-        if (glow) {
-          glow.style.left = currentX + 'px';
-          glow.style.top = currentY + 'px';
+        const scrollY = window.scrollY || window.pageYOffset || 0;
+        const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+        
+        // 1. Reading Progress Bar Animation
+        if (progressBar && totalHeight > 0) {
+          const progressPercent = Math.min(100, Math.max(0, (scrollY / totalHeight) * 100));
+          progressBar.style.width = progressPercent + '%';
         }
 
+        // 2. Navigation Bar Scroll Elevation
+        if (stickyNav) {
+          if (scrollY > 40) {
+            stickyNav.classList.add('scrolled');
+          } else {
+            stickyNav.classList.remove('scrolled');
+          }
+        }
+
+        const heroH = hero.offsetHeight || window.innerHeight;
         const normX = (currentX / (window.innerWidth || 1)) - 0.5;
         const normY = (currentY / (window.innerHeight || 1)) - 0.5;
 
-        // Cinematic 3D camera pan on background 4K video (simulating live physical camera move)
-        if (video) {
-          video.style.transform = `scale(1.04) translate(${normX * -15}px, ${normY * -15}px)`;
-        }
+        // 3. Hero Scroll-Driven Parallax & Dissolve (within hero view)
+        if (scrollY < heroH + 100) {
+          const scrollFraction = Math.min(1, scrollY / (heroH * 0.7));
 
-        // Layered subtle counter-shift on static typography for real depth
-        if (staticContent) {
-          staticContent.style.transform = `translate(${normX * 6}px, calc(-50% + ${normY * 6}px))`;
+          // Video: Subtle 3D mouse tilt + smooth slow downward parallax sink & atmospheric dim
+          if (video) {
+            const panX = normX * -15;
+            const panY = normY * -15 + scrollY * 0.22;
+            const scale = 1.04 + scrollFraction * 0.06;
+            const brightness = Math.max(0.6, 0.98 - scrollFraction * 0.35);
+            video.style.transform = `scale(${scale}) translate(${panX}px, ${panY}px)`;
+            video.style.filter = `contrast(1.03) brightness(${brightness})`;
+          }
+
+          // Static Typography: Floats upward on scroll with soft fade-out
+          if (staticContent) {
+            const shiftX = normX * 6;
+            const shiftY = normY * 6 - scrollY * 0.42;
+            const opacity = Math.max(0, 1 - scrollFraction * 1.3);
+            staticContent.style.transform = `translate(${shiftX}px, calc(-50% + ${shiftY}px))`;
+            staticContent.style.opacity = opacity;
+          }
+
+          // Cursor ambient specular lighting
+          if (glow) {
+            glow.style.left = currentX + 'px';
+            glow.style.top = currentY + 'px';
+            glow.style.opacity = Math.max(0, 0.85 - scrollFraction);
+          }
+
+          // Scroll Cue Indicator: Fades out immediately on scroll
+          if (scrollCue) {
+            const cueOpacity = Math.max(0, 1 - scrollY / 60);
+            scrollCue.style.opacity = cueOpacity;
+            scrollCue.style.pointerEvents = scrollY > 40 ? 'none' : 'auto';
+          }
         }
 
         requestAnimationFrame(updateMotion);
@@ -2308,9 +2473,15 @@
     // SCROLL-TRIGGERED REVEAL ANIMATIONS (INTERSECTION OBSERVER)
     (function initScrollReveals() {
       const targets = [
+        '.scroll-reveal',
+        '.scroll-reveal-left',
+        '.scroll-reveal-right',
+        '.scroll-reveal-scale',
+        '.reveal-item',
         '.manifesto-eyebrow',
         '.manifesto-statement',
         '.manifesto-body',
+        '.shop-header',
         '.shop-title-area',
         '.filter-bar',
         '.catalog-grid',
@@ -2322,7 +2493,7 @@
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('revealed');
+            entry.target.classList.add('is-revealed', 'revealed');
             observer.unobserve(entry.target);
           }
         });
@@ -2333,7 +2504,6 @@
 
       targets.forEach(sel => {
         document.querySelectorAll(sel).forEach(el => {
-          el.classList.add('reveal-item');
           observer.observe(el);
         });
       });
