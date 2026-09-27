@@ -574,58 +574,6 @@
       will-change: transform, left, top;
     }
 
-    /* Kinetic Astrolabe / Celestial Orbit Ring System */
-    .mg-orbit-system {
-      position: absolute;
-      right: max(5vw, 40px);
-      top: 50%;
-      transform: translateY(-50%);
-      width: min(560px, 42vw);
-      height: min(560px, 42vw);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0.88;
-      filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.25));
-      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .mg-orbit-svg {
-      width: 100%;
-      height: 100%;
-      overflow: visible;
-    }
-
-    .mg-ring-outer {
-      transform-origin: 250px 250px;
-      animation: mgRotateClockwise 65s linear infinite;
-    }
-
-    .mg-ring-inner {
-      transform-origin: 250px 250px;
-      animation: mgRotateCounter 42s linear infinite;
-    }
-
-    .mg-ring-core {
-      transform-origin: 250px 250px;
-      animation: mgPulseCore 5s ease-in-out infinite;
-    }
-
-    @keyframes mgRotateClockwise {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    @keyframes mgRotateCounter {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(-360deg); }
-    }
-
-    @keyframes mgPulseCore {
-      0%, 100% { transform: scale(1); opacity: 0.7; }
-      50% { transform: scale(1.08); opacity: 1; filter: drop-shadow(0 0 14px rgba(212, 175, 55, 0.65)); }
-    }
-
     /* Gold foil shimmer sweep across static title */
     .hero-static-title em {
       background: linear-gradient(105deg, #f7efe6 20%, #ffffff 42%, #ecd19b 55%, #f7efe6 78%);
@@ -638,14 +586,6 @@
     @keyframes mgGoldShimmer {
       0% { background-position: 200% center; }
       100% { background-position: -200% center; }
-    }
-
-    @media (max-width: 900px) {
-      .mg-orbit-system {
-        opacity: 0.35;
-        right: -80px;
-        transform: translateY(-50%) scale(0.65);
-      }
     }
 
     /* ==========================================================================
@@ -1387,49 +1327,10 @@
       </video>
     </div>
 
-    <!-- LUXURY MOTION GRAPHICS SUITE (Pure Minimalist Vector Motion — Zero Text Boxes) -->
+    <!-- LUXURY MOTION GRAPHICS SUITE (Ambient Specular Lighting) -->
     <div class="hero-motion-graphics" id="hero-motion-graphics" aria-hidden="true">
-      
       <!-- Interactive Ambient Cursor Specular Flare -->
       <div class="mg-cursor-glow" id="mg-cursor-glow"></div>
-
-      <!-- Kinetic Astrolabe / Celestial Orbit Ring (Framing Iris Noir Bottle with Pure Elegant Lines) -->
-      <div class="mg-orbit-system" id="mg-orbit-system">
-        <svg class="mg-orbit-svg" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Outer Compass Orbit -->
-          <circle cx="250" cy="250" r="235" stroke="rgba(212, 175, 55, 0.15)" stroke-width="1"/>
-          
-          <!-- Outer Clockwise Rotating Ring with Degree Ticks -->
-          <g class="mg-ring-outer">
-            <circle cx="250" cy="250" r="215" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1.2" stroke-dasharray="4 8"/>
-            <circle cx="250" cy="250" r="200" stroke="rgba(212, 175, 55, 0.35)" stroke-width="1" stroke-dasharray="1 16"/>
-            <!-- Cardinal Nodes -->
-            <circle cx="250" cy="35" r="3" fill="#d4af37"/>
-            <circle cx="465" cy="250" r="3" fill="#d4af37"/>
-            <circle cx="250" cy="465" r="3" fill="#d4af37"/>
-            <circle cx="35" cy="250" r="3" fill="#d4af37"/>
-          </g>
-
-          <!-- Inner Counter-Rotating Ring -->
-          <g class="mg-ring-inner">
-            <circle cx="250" cy="250" r="165" stroke="rgba(212, 175, 55, 0.4)" stroke-width="1.2" stroke-dasharray="10 14"/>
-            <circle cx="250" cy="250" r="135" stroke="rgba(255, 255, 255, 0.15)" stroke-width="0.8"/>
-            <!-- Luminous Golden Arcs -->
-            <path d="M 250 85 A 165 165 0 0 1 415 250" stroke="#f5e6be" stroke-width="2" stroke-linecap="round"/>
-            <path d="M 250 415 A 165 165 0 0 1 85 250" stroke="#d4af37" stroke-width="2" stroke-linecap="round"/>
-          </g>
-
-          <!-- Central Sacred Geometry / Iris Mandala Wireframe -->
-          <g class="mg-ring-core">
-            <circle cx="250" cy="250" r="85" stroke="rgba(255, 255, 255, 0.25)" stroke-width="0.8"/>
-            <circle cx="250" cy="250" r="45" stroke="rgba(212, 175, 55, 0.45)" stroke-width="1"/>
-            <polygon points="250,165 323,292 177,292" stroke="rgba(255, 255, 255, 0.2)" stroke-width="0.8"/>
-            <polygon points="250,335 177,208 323,208" stroke="rgba(212, 175, 55, 0.25)" stroke-width="0.8"/>
-            <circle cx="250" cy="250" r="4" fill="#ffffff"/>
-          </g>
-        </svg>
-      </div>
-
     </div>
 
     <!-- STATIC EDITORIAL TYPOGRAPHY & CLICKABLE CTA BUTTONS (PERMANENT VECTOR HTML) -->
@@ -2263,11 +2164,10 @@
       animate();
     })();
 
-    // INTERACTIVE MOTION GRAPHICS (MOUSE PARALLAX & SPECULAR FLARE)
-    (function initMotionGraphicsInteractive() {
+    // INTERACTIVE SPECULAR AMBIENT LIGHT FLARE
+    (function initSpecularGlow() {
       const hero = document.getElementById('top');
       const glow = document.getElementById('mg-cursor-glow');
-      const orbit = document.getElementById('mg-orbit-system');
       if (!hero || !glow) return;
 
       let targetX = window.innerWidth * 0.7;
@@ -2286,12 +2186,6 @@
         currentY += (targetY - currentY) * 0.08;
         glow.style.left = currentX + 'px';
         glow.style.top = currentY + 'px';
-
-        if (orbit) {
-          const offsetX = (targetX / (window.innerWidth || 1) - 0.5) * 18;
-          const offsetY = (targetY / (window.innerHeight || 1) - 0.5) * 18;
-          orbit.style.transform = `translate(${offsetX}px, calc(-50% + ${offsetY}px))`;
-        }
         requestAnimationFrame(updateGlow);
       }
       updateGlow();
