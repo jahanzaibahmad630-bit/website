@@ -2368,64 +2368,143 @@
       window.addEventListener('resize', resize);
       resize();
 
-      // Petal Class (Fluttering Iris Petals)
+      // Dynamic Interactive Cursor Wind Tracker
+      const cursor = {
+        x: -2000,
+        y: -2000,
+        lastX: -2000,
+        lastY: -2000,
+        vx: 0,
+        vy: 0,
+        speed: 0,
+        active: false,
+        lastMove: 0
+      };
+
+      window.addEventListener('mousemove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const currentX = e.clientX - rect.left;
+        const currentY = e.clientY - rect.top;
+
+        if (cursor.lastX > -1000) {
+          cursor.vx = (currentX - cursor.lastX) * 0.75 + cursor.vx * 0.25;
+          cursor.vy = (currentY - cursor.lastY) * 0.75 + cursor.vy * 0.25;
+          cursor.speed = Math.hypot(cursor.vx, cursor.vy);
+        }
+
+        cursor.x = currentX;
+        cursor.y = currentY;
+        cursor.lastX = currentX;
+        cursor.lastY = currentY;
+        cursor.active = true;
+        cursor.lastMove = performance.now();
+      }, { passive: true });
+
+      window.addEventListener('mouseleave', () => {
+        cursor.active = false;
+      });
+
+      // Petal Class (Interactive Fluttering Iris Petals with Aerodynamic Physics)
       class Petal {
         constructor() {
           this.reset(true);
         }
         reset(initial = false) {
           this.x = Math.random() * (w || window.innerWidth);
-          this.y = initial ? Math.random() * (h || window.innerHeight) : -20;
-          this.size = Math.random() * 9 + 5;
-          this.speedX = Math.random() * 0.9 - 0.45;
-          this.speedY = Math.random() * 0.7 + 0.35;
+          this.y = initial ? Math.random() * (h || window.innerHeight) : -30;
+          this.size = Math.random() * 11 + 6;
+          this.baseSpeedX = (Math.random() - 0.5) * 0.7;
+          this.baseSpeedY = Math.random() * 0.75 + 0.35;
+          this.vx = this.baseSpeedX;
+          this.vy = this.baseSpeedY;
           this.angle = Math.random() * Math.PI * 2;
           this.rotSpeed = (Math.random() - 0.5) * 0.025;
           this.alpha = 0;
-          this.maxAlpha = Math.random() * 0.55 + 0.25;
+          this.maxAlpha = Math.random() * 0.6 + 0.3;
           this.life = 0;
-          this.maxLife = Math.random() * 450 + 250;
-          // Lilac / violet petal tones
+          this.maxLife = Math.random() * 500 + 300;
+
+          // Velvet Iris Violet, Royal Purple, Pale Lavender & Translucent Gold Tones
           const tones = [
-            'rgba(186, 150, 218, ',
-            'rgba(215, 185, 235, ',
-            'rgba(155, 110, 190, ',
-            'rgba(240, 225, 205, ' // golden amber accent
+            'rgba(186, 130, 225, ',
+            'rgba(145, 80, 205, ',
+            'rgba(215, 175, 245, ',
+            'rgba(110, 50, 160, ',
+            'rgba(255, 230, 185, ' // golden amber accent
           ];
           this.colorBase = tones[Math.floor(Math.random() * tones.length)];
         }
+
         step() {
-          this.x += this.speedX + Math.sin(this.life * 0.02) * 0.3;
-          this.y += this.speedY;
+          // 1. Aerodynamic Cursor Interaction: Wind Force, Repulsion & Flutter Wake
+          if (cursor.active) {
+            const dx = this.x - cursor.x;
+            const dy = this.y - cursor.y;
+            const dist = Math.hypot(dx, dy);
+            // Influence radius expands when moving cursor rapidly
+            const radius = 220 + Math.min(120, cursor.speed * 4.5);
+
+            if (dist < radius && dist > 1) {
+              const force = (1 - dist / radius);
+              const normX = dx / dist;
+              const normY = dy / dist;
+
+              // Physical push away from cursor
+              const pushMag = force * (4.5 + Math.min(8, cursor.speed * 0.4));
+              this.vx += normX * pushMag;
+              this.vy += normY * pushMag;
+
+              // Aerodynamic slipstream: petal dragged along cursor trajectory
+              this.vx += cursor.vx * 0.32 * force;
+              this.vy += cursor.vy * 0.32 * force;
+
+              // Angular torque: imparts realistic petal tumbling
+              const crossProduct = normX * cursor.vy - normY * cursor.vx;
+              this.rotSpeed += crossProduct * 0.005 * force;
+            }
+          }
+
+          // 2. Air resistance and gentle return to natural falling glide
+          this.vx += (this.baseSpeedX + Math.sin(this.life * 0.025) * 0.45 - this.vx) * 0.045;
+          this.vy += (this.baseSpeedY - this.vy) * 0.045;
+          this.rotSpeed += (-this.rotSpeed) * 0.025;
+
+          this.x += this.vx;
+          this.y += this.vy;
           this.angle += this.rotSpeed;
           this.life++;
+
           if (this.life < 60) {
             this.alpha = (this.life / 60) * this.maxAlpha;
           } else if (this.life > this.maxLife - 60) {
             this.alpha = Math.max(0, ((this.maxLife - this.life) / 60) * this.maxAlpha);
           }
-          if (this.y > (h || window.innerHeight) + 20 || this.x < -30 || this.x > (w || window.innerWidth) + 30 || this.life >= this.maxLife) {
+
+          if (this.y > (h || window.innerHeight) + 40 || this.x < -60 || this.x > (w || window.innerWidth) + 60 || this.life >= this.maxLife) {
             this.reset(false);
           }
         }
+
         draw() {
           if (!w || !h) return;
           ctx.save();
           ctx.translate(this.x, this.y);
           ctx.rotate(this.angle);
           ctx.beginPath();
-          // Draw graceful almond petal shape
+          // Curvature of natural iris flower petal
           ctx.moveTo(0, -this.size);
-          ctx.quadraticCurveTo(this.size * 0.65, -this.size * 0.3, this.size * 0.4, this.size * 0.8);
-          ctx.quadraticCurveTo(0, this.size, -this.size * 0.4, this.size * 0.8);
-          ctx.quadraticCurveTo(-this.size * 0.65, -this.size * 0.3, 0, -this.size);
+          ctx.quadraticCurveTo(this.size * 0.68, -this.size * 0.25, this.size * 0.42, this.size * 0.85);
+          ctx.quadraticCurveTo(0, this.size * 1.05, -this.size * 0.42, this.size * 0.85);
+          ctx.quadraticCurveTo(-this.size * 0.68, -this.size * 0.25, 0, -this.size);
           ctx.fillStyle = this.colorBase + this.alpha + ')';
+          ctx.shadowColor = 'rgba(160, 90, 220, 0.4)';
+          ctx.shadowBlur = 8;
           ctx.fill();
           ctx.restore();
         }
       }
 
-      // Golden Starlight Bokeh Sparkle Class
+      // Golden Starlight Bokeh Sparkle Class (Reacts with Subtle Swirl)
       class Starlight {
         constructor() {
           this.reset(true);
@@ -2434,14 +2513,25 @@
           this.x = Math.random() * (w || window.innerWidth);
           this.y = initial ? Math.random() * (h || window.innerHeight) : (h || window.innerHeight) + 10;
           this.r = Math.random() * 2.2 + 0.8;
-          this.vx = (Math.random() - 0.5) * 0.3;
+          this.vx = (Math.random() - 0.5) * 0.35;
           this.vy = -(Math.random() * 0.35 + 0.15);
           this.alpha = 0;
           this.maxAlpha = Math.random() * 0.6 + 0.2;
           this.life = 0;
-          this.maxLife = Math.random() * 300 + 150;
+          this.maxLife = Math.random() * 320 + 160;
         }
         step() {
+          if (cursor.active) {
+            const dx = this.x - cursor.x;
+            const dy = this.y - cursor.y;
+            const dist = Math.hypot(dx, dy);
+            if (dist < 160 && dist > 1) {
+              const f = (1 - dist / 160) * 2.8;
+              this.x += (dx / dist) * f + cursor.vx * 0.18;
+              this.y += (dy / dist) * f + cursor.vy * 0.18;
+            }
+          }
+
           this.x += this.vx;
           this.y += this.vy;
           this.life++;
@@ -2469,14 +2559,19 @@
 
       const petals = [];
       const stars = [];
-      for (let i = 0; i < 22; i++) petals.push(new Petal());
-      for (let i = 0; i < 28; i++) stars.push(new Starlight());
+      for (let i = 0; i < 38; i++) petals.push(new Petal());
+      for (let i = 0; i < 30; i++) stars.push(new Starlight());
 
       function animate() {
         if (w && h) {
           ctx.clearRect(0, 0, w, h);
           stars.forEach(s => { s.step(); s.draw(); });
           petals.forEach(p => { p.step(); p.draw(); });
+
+          // Smoothly decay cursor velocity each frame
+          cursor.vx *= 0.88;
+          cursor.vy *= 0.88;
+          cursor.speed *= 0.88;
         }
         requestAnimationFrame(animate);
       }
