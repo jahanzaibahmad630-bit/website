@@ -515,29 +515,26 @@
       background: rgba(255, 255, 255, 0.7);
     }
 
-    /* CONTINUOUS CINEMA FILM OVERLAY (OPTIONAL TOGGLE) */
+    /* HERO LIVING CINEMATIC HD VIDEO BACKGROUND (MOVES ON ITS OWN) */
     .hero-video-layer {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
-      z-index: 2;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.8s ease, visibility 0.8s;
-      overflow: hidden;
-    }
-
-    .hero-video-layer.active {
+      z-index: 5;
       opacity: 1;
       visibility: visible;
+      overflow: hidden;
+      background: #0d0806;
     }
 
     .hero-bg-video {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center;
+      object-position: center top;
+      display: block;
+      filter: contrast(1.03) brightness(0.98);
     }
 
     .hero-film-pill {
@@ -1262,9 +1259,9 @@
     <!-- Floating Petal & Golden Starlight Particle Canvas -->
     <canvas id="hero-particles-canvas" style="position: absolute; inset: 0; z-index: 15; pointer-events: none; width: 100%; height: 100%;"></canvas>
 
-    <!-- Optional Cinema Film Overlay -->
+    <!-- Living HD Cinema Motion Video (Autoplays Continuously in Background) -->
     <div class="hero-video-layer" id="hero-video-layer">
-      <video class="hero-bg-video" id="hero-motion-video" muted loop playsinline poster="assets/loren/slide-mocha-clean.png">
+      <video class="hero-bg-video" id="hero-motion-video" autoplay muted loop playsinline preload="auto" poster="assets/loren/slide-mocha-clean.png">
         <source src="assets/loren/loren-hero.mp4" type="video/mp4">
       </video>
     </div>
@@ -1329,9 +1326,9 @@
       <div class="hero-dash" onclick="goToSlide(3)" title="Chapter 4: Haute Ornamentation"></div>
     </div>
 
-    <!-- CINEMA MOTION FILM TOGGLE PILL -->
-    <button class="hero-film-pill" id="btn-toggle-motion" onclick="toggleMotionVideo()" aria-label="Toggle Cinematic Motion Film">
-      <span id="motion-icon">▶</span> <span id="motion-text">Motion Film</span>
+    <!-- CINEMA MOTION FILM CONTROL PILL -->
+    <button class="hero-film-pill" id="btn-toggle-motion" onclick="toggleMotionVideo()" aria-label="Pause or Resume Cinematic Motion Video">
+      <span id="motion-icon">⏸</span> <span id="motion-text">HD Cinema Motion</span>
     </button>
 
   </section>
@@ -1970,6 +1967,16 @@
         }
       }
 
+      // Jump video timeline to matching chapter:
+      const vid = document.getElementById('hero-motion-video');
+      if (vid) {
+        if (currentSlide === 0) vid.currentTime = 0;
+        else if (currentSlide === 1) vid.currentTime = 5.0;
+        else if (currentSlide === 2) vid.currentTime = 7.5;
+        else vid.currentTime = 0;
+        vid.play().catch(() => {});
+      }
+
       // Update dashes
       const dashes = document.querySelectorAll('.hero-dash');
       dashes.forEach((dash, idx) => {
@@ -1981,9 +1988,6 @@
       });
 
       // Update CTA hotspots visibility:
-      // Slide 0: Left CTA button (SHOP IRIS NOIR ↗)
-      // Slide 1 & 2: Center CTA button ([ Shop Now ])
-      // Slide 3: Handled by clean HTML ghost button
       const cta0 = document.getElementById('hotspot-cta-0');
       const cta1 = document.getElementById('hotspot-cta-1');
       if (cta0 && cta1) {
@@ -2008,20 +2012,6 @@
           heroSection.classList.remove('slide-has-arrows');
         }
       }
-
-      // If motion film was playing, pause it when switching slides
-      const filmLayer = document.getElementById('hero-video-layer');
-      const vid = document.getElementById('hero-motion-video');
-      if (filmLayer && filmLayer.classList.contains('active')) {
-        filmLayer.classList.remove('active');
-        if (vid) vid.pause();
-        const icon = document.getElementById('motion-icon');
-        const text = document.getElementById('motion-text');
-        if (icon) icon.innerText = '▶';
-        if (text) text.innerText = 'Motion Film';
-      }
-
-      resetAutoSlide();
     }
 
     function nextSlide() {
@@ -2032,28 +2022,6 @@
       goToSlide(currentSlide - 1);
     }
 
-    function startAutoSlide() {
-      if (autoSlideTimer) clearInterval(autoSlideTimer);
-      autoSlideTimer = setInterval(() => {
-        nextSlide();
-      }, 6500);
-    }
-
-    function resetAutoSlide() {
-      startAutoSlide();
-    }
-
-    // Pause on hover
-    const heroSection = document.getElementById('top');
-    if (heroSection) {
-      heroSection.addEventListener('mouseenter', () => {
-        if (autoSlideTimer) clearInterval(autoSlideTimer);
-      });
-      heroSection.addEventListener('mouseleave', () => {
-        startAutoSlide();
-      });
-    }
-
     // Keyboard Arrow Navigation
     document.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowRight') nextSlide();
@@ -2062,37 +2030,75 @@
 
     // Touch Swipe Support
     let touchStartX = 0;
-    if (heroSection) {
-      heroSection.addEventListener('touchstart', (e) => {
+    const heroEl = document.getElementById('top');
+    if (heroEl) {
+      heroEl.addEventListener('touchstart', (e) => {
         touchStartX = e.changedTouches[0].screenX;
       }, { passive: true });
-      heroSection.addEventListener('touchend', (e) => {
+      heroEl.addEventListener('touchend', (e) => {
         const diffX = e.changedTouches[0].screenX - touchStartX;
         if (diffX < -50) nextSlide();
         if (diffX > 50) prevSlide();
       }, { passive: true });
     }
 
-    // MOTION FILM TOGGLE (CONTINUOUS CINEMATIC VIDEO LAYER)
+    // LIVING HD VIDEO AUTOPLAY & REAL-TIME CHAPTER SYNC
+    (function initLivingHdVideo() {
+      const vid = document.getElementById('hero-motion-video');
+      if (!vid) return;
+
+      // Autoplay immediately on load
+      vid.muted = true;
+      const playPromise = vid.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          document.addEventListener('click', () => vid.play(), { once: true });
+        });
+      }
+
+      // Synchronize dashes & hotspots automatically as the film plays on its own
+      vid.addEventListener('timeupdate', () => {
+        const t = vid.currentTime;
+        const dashes = document.querySelectorAll('.hero-dash');
+        const heroSection = document.getElementById('top');
+        const cta0 = document.getElementById('hotspot-cta-0');
+        const cta1 = document.getElementById('hotspot-cta-1');
+
+        if (t < 4.8) {
+          // Chapter 1: Warm Mocha Signature Iris
+          currentSlide = 0;
+          if (dashes[0]) dashes[0].classList.add('active');
+          if (dashes[1]) dashes[1].classList.remove('active');
+          if (heroSection) heroSection.classList.remove('slide-has-arrows');
+          if (cta0) cta0.style.display = 'block';
+          if (cta1) cta1.style.display = 'none';
+        } else {
+          // Chapter 2: Midnight Nocturne Iris Noir
+          currentSlide = 1;
+          if (dashes[0]) dashes[0].classList.remove('active');
+          if (dashes[1]) dashes[1].classList.add('active');
+          if (heroSection) heroSection.classList.add('slide-has-arrows');
+          if (cta0) cta0.style.display = 'none';
+          if (cta1) cta1.style.display = 'block';
+        }
+      });
+    })();
+
+    // MOTION FILM TOGGLE (PAUSE / PLAY)
     function toggleMotionVideo() {
-      const layer = document.getElementById('hero-video-layer');
       const vid = document.getElementById('hero-motion-video');
       const icon = document.getElementById('motion-icon');
       const text = document.getElementById('motion-text');
-      if (!layer || !vid) return;
+      if (!vid) return;
 
-      if (layer.classList.contains('active')) {
-        layer.classList.remove('active');
-        vid.pause();
-        if (icon) icon.innerText = '▶';
-        if (text) text.innerText = 'Motion Film';
-        startAutoSlide();
-      } else {
-        layer.classList.add('active');
+      if (vid.paused) {
         vid.play();
         if (icon) icon.innerText = '⏸';
-        if (text) text.innerText = 'Editorial Slides';
-        if (autoSlideTimer) clearInterval(autoSlideTimer);
+        if (text) text.innerText = 'HD Cinema Motion';
+      } else {
+        vid.pause();
+        if (icon) icon.innerText = '▶';
+        if (text) text.innerText = 'Play Motion';
       }
     }
 
