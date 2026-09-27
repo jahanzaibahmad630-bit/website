@@ -249,8 +249,7 @@
       position: relative;
       width: 100%;
       height: 100vh;
-      max-height: calc(100vw * 9 / 16);
-      min-height: 520px;
+      min-height: 100vh;
       overflow: hidden;
       background: #0d0806;
       display: flex;
@@ -509,10 +508,12 @@
     }
 
     .hero-bg-video {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center top;
+      object-position: center center;
       display: block;
       filter: contrast(1.03) brightness(0.98);
     }
