@@ -1595,6 +1595,97 @@
         display: none;
       }
     }
+
+    /* ==========================================================================
+       BESPOKE MAISON LORÉN LUXURY MOTION CURSOR & TRAILING PARTICLES
+       ========================================================================== */
+    @media (hover: hover) and (pointer: fine) {
+      .luxury-cursor-dot {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 6px;
+        height: 6px;
+        background: #ffffff;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 100000;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 0 10px rgba(255, 235, 175, 0.9), 0 0 4px #ffffff;
+        transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1), 
+                    height 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                    opacity 0.25s ease,
+                    background 0.25s ease;
+        will-change: transform;
+        opacity: 0;
+      }
+
+      .luxury-cursor-ring {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        border: 1px solid rgba(212, 175, 55, 0.65);
+        background: rgba(212, 175, 55, 0.04);
+        pointer-events: none;
+        z-index: 99999;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 0 16px rgba(212, 175, 55, 0.25), inset 0 0 10px rgba(212, 175, 55, 0.1);
+        transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
+                    height 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                    border-color 0.3s ease, 
+                    background 0.3s ease,
+                    box-shadow 0.3s ease,
+                    opacity 0.3s ease;
+        will-change: transform;
+        opacity: 0;
+      }
+
+      /* Interactive hover state over buttons, links, cards */
+      .luxury-cursor-ring.cursor-hover {
+        width: 68px;
+        height: 68px;
+        border-color: rgba(255, 235, 170, 0.95);
+        background: rgba(212, 175, 55, 0.14);
+        box-shadow: 0 0 28px rgba(212, 175, 55, 0.5), inset 0 0 18px rgba(255, 230, 150, 0.25);
+        backdrop-filter: blur(2px);
+        -webkit-backdrop-filter: blur(2px);
+      }
+
+      .luxury-cursor-dot.cursor-hover {
+        width: 8px;
+        height: 8px;
+        background: #ffd875;
+        box-shadow: 0 0 16px #ffea9f;
+      }
+
+      /* Click down / active tactile state */
+      .luxury-cursor-ring.cursor-active {
+        width: 28px;
+        height: 28px;
+        background: rgba(212, 175, 55, 0.35);
+        border-color: #ffffff;
+      }
+
+      .luxury-cursor-canvas {
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        height: 100vh;
+        pointer-events: none;
+        z-index: 99998;
+      }
+    }
+
+    @media (hover: none) or (pointer: coarse) {
+      .luxury-cursor-dot,
+      .luxury-cursor-ring,
+      .luxury-cursor-canvas {
+        display: none !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -2725,10 +2816,183 @@
       openBag();
     }
 
+    // ==========================================================================
+    // BESPOKE MAISON LORÉN MOTION CURSOR & VAPOR TRAIL PARTICLES
+    // ==========================================================================
+    (function initLuxuryCursor() {
+      // Respect touch / mobile devices
+      if (window.matchMedia('(hover: none) or (pointer: coarse)').matches) return;
+
+      const dot = document.getElementById('luxury-cursor-dot');
+      const ring = document.getElementById('luxury-cursor-ring');
+      const canvas = document.getElementById('luxury-cursor-trail-canvas');
+      if (!dot || !ring || !canvas) return;
+
+      const ctx = canvas.getContext('2d');
+      let dpr = window.devicePixelRatio || 1;
+
+      function resize() {
+        dpr = window.devicePixelRatio || 1;
+        canvas.width = window.innerWidth * dpr;
+        canvas.height = window.innerHeight * dpr;
+        if (ctx.resetTransform) ctx.resetTransform();
+        ctx.scale(dpr, dpr);
+      }
+      resize();
+      window.addEventListener('resize', resize, { passive: true });
+
+      let mouseX = -100;
+      let mouseY = -100;
+      let ringX = -100;
+      let ringY = -100;
+      let prevMouseX = -100;
+      let prevMouseY = -100;
+      let isVisible = false;
+
+      // Golden starlight trail particle pool
+      const particles = [];
+      const sparkColors = [
+        '212, 175, 55',   // Loren gold
+        '255, 235, 175',  // Champagne luminesce
+        '242, 210, 120',  // Warm amber glow
+        '255, 255, 255'   // Diamond shimmer
+      ];
+
+      function spawnSpark(x, y, vx, vy) {
+        if (particles.length > 90) return; // Keep 60fps silky smooth
+        const color = sparkColors[Math.floor(Math.random() * sparkColors.length)];
+        particles.push({
+          x: x + (Math.random() - 0.5) * 6,
+          y: y + (Math.random() - 0.5) * 6,
+          vx: vx * 0.15 + (Math.random() - 0.5) * 1.4,
+          vy: vy * 0.15 + (Math.random() - 0.5) * 1.4,
+          size: Math.random() * 2.2 + 0.8,
+          alpha: 0.75 + Math.random() * 0.25,
+          decay: 0.024 + Math.random() * 0.022,
+          color: color
+        });
+      }
+
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+
+        if (!isVisible) {
+          isVisible = true;
+          dot.style.opacity = '1';
+          ring.style.opacity = '1';
+          ringX = mouseX;
+          ringY = mouseY;
+        }
+
+        const dx = mouseX - prevMouseX;
+        const dy = mouseY - prevMouseY;
+        const dist = Math.hypot(dx, dy);
+
+        // Spawn gold starlight vapor when cursor moves
+        if (dist > 3 && prevMouseX > 0) {
+          const spawnCount = Math.min(3, Math.floor(dist / 8) + 1);
+          for (let i = 0; i < spawnCount; i++) {
+            const t = i / spawnCount;
+            spawnSpark(
+              prevMouseX + dx * t,
+              prevMouseY + dy * t,
+              -dx * 0.1,
+              -dy * 0.1
+            );
+          }
+        }
+
+        prevMouseX = mouseX;
+        prevMouseY = mouseY;
+      }, { passive: true });
+
+      document.addEventListener('mouseleave', () => {
+        isVisible = false;
+        dot.style.opacity = '0';
+        ring.style.opacity = '0';
+      });
+
+      document.addEventListener('mouseenter', () => {
+        isVisible = true;
+        dot.style.opacity = '1';
+        ring.style.opacity = '1';
+      });
+
+      window.addEventListener('mousedown', () => {
+        ring.classList.add('cursor-active');
+      });
+
+      window.addEventListener('mouseup', () => {
+        ring.classList.remove('cursor-active');
+      });
+
+      // Hover delegation on interactive targets
+      const interactiveSelector = 'a, button, input, textarea, select, .product-card, .filter-pill, .size-btn, .bag-item-row, .ritual-step, .boutique-cta, .hero-scroll-indicator, .nav-icon-btn, [role="button"]';
+
+      document.addEventListener('mouseover', (e) => {
+        if (e.target.closest(interactiveSelector)) {
+          ring.classList.add('cursor-hover');
+          dot.classList.add('cursor-hover');
+        }
+      });
+
+      document.addEventListener('mouseout', (e) => {
+        if (e.target.closest(interactiveSelector)) {
+          ring.classList.remove('cursor-hover');
+          dot.classList.remove('cursor-hover');
+        }
+      });
+
+      // Animation render loop
+      function renderCursor() {
+        // Zero-lag dot positioning
+        dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+
+        // Damped inertia lerp for the luxury halo ring
+        ringX += (mouseX - ringX) * 0.18;
+        ringY += (mouseY - ringY) * 0.18;
+        ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
+
+        // Render trailing starlight sparks
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+          p.alpha -= p.decay;
+          p.size *= 0.965;
+
+          if (p.alpha <= 0 || p.size <= 0.2) {
+            particles.splice(i, 1);
+            continue;
+          }
+
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${p.color}, ${p.alpha})`;
+          ctx.shadowColor = `rgba(${p.color}, 0.8)`;
+          ctx.shadowBlur = p.size * 2.5;
+          ctx.fill();
+          ctx.restore();
+        }
+
+        requestAnimationFrame(renderCursor);
+      }
+      requestAnimationFrame(renderCursor);
+    })();
+
     // INITIALIZATION
     renderCatalog();
     renderBag();
   </script>
+
+  <!-- BESPOKE LUXURY MOTION CURSOR & TRAILING PARTICLES -->
+  <canvas id="luxury-cursor-trail-canvas" class="luxury-cursor-canvas"></canvas>
+  <div id="luxury-cursor-ring" class="luxury-cursor-ring"></div>
+  <div id="luxury-cursor-dot" class="luxury-cursor-dot"></div>
 
 </body>
 </html>
