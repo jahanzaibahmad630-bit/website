@@ -330,6 +330,41 @@
       color: #ffffff;
       pointer-events: auto;
       text-align: left;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform;
+    }
+
+    @keyframes heroRevealUp {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+        filter: blur(4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes dotPulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 8px var(--accent-gold);
+      }
+      50% {
+        transform: scale(1.4);
+        box-shadow: 0 0 16px #ffea9f;
+      }
+    }
+
+    @keyframes btnGlowPulse {
+      0%, 100% {
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 15px rgba(212, 175, 55, 0.15);
+      }
+      50% {
+        box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5), 0 0 26px rgba(212, 175, 55, 0.5);
+      }
     }
 
     .hero-eyebrow-badge {
@@ -342,6 +377,7 @@
       letter-spacing: 0.24em;
       text-transform: uppercase;
       color: var(--accent-gold);
+      animation: heroRevealUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s backwards;
     }
 
     .hero-eyebrow-badge .eyebrow-dot {
@@ -351,6 +387,7 @@
       border-radius: 50%;
       box-shadow: 0 0 10px var(--accent-gold);
       display: inline-block;
+      animation: dotPulse 2.4s ease-in-out infinite;
     }
 
     .hero-static-title {
@@ -362,6 +399,7 @@
       letter-spacing: -0.015em;
       margin: 0 0 20px 0;
       text-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+      animation: heroRevealUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.32s backwards;
     }
 
     .hero-static-title em {
@@ -378,6 +416,7 @@
       margin: 0 0 32px 0;
       max-width: 500px;
       text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+      animation: heroRevealUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.5s backwards;
     }
 
     .hero-static-actions {
@@ -385,6 +424,7 @@
       align-items: center;
       gap: 16px;
       flex-wrap: wrap;
+      animation: heroRevealUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.68s backwards;
     }
 
     .btn-hero-primary {
@@ -405,19 +445,28 @@
       cursor: pointer;
       text-decoration: none;
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      animation: btnGlowPulse 3.5s ease-in-out infinite;
     }
 
     .btn-hero-primary:hover {
       background: var(--accent-gold);
       border-color: var(--accent-gold);
       color: #0d0806;
-      transform: translateY(-2px);
-      box-shadow: 0 14px 35px rgba(212, 175, 55, 0.3);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 16px 40px rgba(212, 175, 55, 0.45);
+    }
+
+    .btn-hero-primary .hero-arrow {
+      display: inline-block;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-hero-primary:hover .hero-arrow {
+      transform: translate(3px, -3px) rotate(8deg);
     }
 
     .btn-hero-primary:active {
-      transform: translateY(0);
+      transform: translateY(0) scale(0.99);
     }
 
     .btn-hero-secondary {
@@ -443,9 +492,10 @@
     }
 
     .btn-hero-secondary:hover {
-      background: rgba(255, 255, 255, 0.16);
+      background: rgba(255, 255, 255, 0.18);
       border-color: #ffffff;
-      transform: translateY(-2px);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
     }
 
     .hero-olfactory-pills {
@@ -457,6 +507,18 @@
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: rgba(255, 255, 255, 0.55);
+      animation: heroRevealUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.86s backwards;
+    }
+
+    .hero-olfactory-pills span:not(.olf-sep) {
+      transition: all 0.25s ease;
+      cursor: default;
+    }
+
+    .hero-olfactory-pills span:not(.olf-sep):hover {
+      color: #ffffff;
+      text-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
+      transform: translateY(-2px);
     }
 
     .hero-olfactory-pills .olf-sep {
@@ -494,17 +556,19 @@
       background: rgba(255, 255, 255, 0.7);
     }
 
-    /* HERO LIVING CINEMATIC HD VIDEO BACKGROUND (MOVES ON ITS OWN) */
+    /* HERO LIVING CINEMATIC HD VIDEO BACKGROUND (MOVES ON ITS OWN + 3D PARALLAX) */
     .hero-video-layer {
       position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
+      inset: -20px;
+      width: calc(100% + 40px);
+      height: calc(100% + 40px);
       z-index: 5;
       opacity: 1;
       visibility: visible;
       overflow: hidden;
       background: #0d0806;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform;
     }
 
     .hero-bg-video {
@@ -516,6 +580,8 @@
       object-position: center center;
       display: block;
       filter: contrast(1.03) brightness(0.98);
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform;
     }
 
     .hero-film-pill {
@@ -703,6 +769,17 @@
       gap: 28px;
     }
 
+    @keyframes cardCascade {
+      from {
+        opacity: 0;
+        transform: translateY(35px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
     .product-card {
       background: var(--bg-card);
       border: 1px solid var(--line-light);
@@ -711,13 +788,15 @@
       display: flex;
       flex-direction: column;
       position: relative;
-      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: cardCascade 0.75s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+      animation-delay: var(--delay, 0s);
     }
 
     .product-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
-      border-color: rgba(201, 170, 118, 0.4);
+      transform: translateY(-8px);
+      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.12);
+      border-color: rgba(201, 170, 118, 0.55);
     }
 
     .card-thumb-wrap {
@@ -734,11 +813,24 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.5s ease;
+      transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
     .product-card:hover .card-thumb-wrap img {
-      transform: scale(1.05);
+      transform: scale(1.08);
+    }
+
+    /* GLOBAL SCROLL-TRIGGERED REVEAL ANIMATIONS */
+    .reveal-item {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+
+    .reveal-item.revealed {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .card-tag {
@@ -1352,7 +1444,7 @@
       <div class="hero-static-actions">
         <button class="btn-hero-primary" onclick="openPdp(0)" aria-label="Explore Iris Noir Eau de Parfum">
           <span>SHOP IRIS NOIR — $145</span>
-          <span style="font-size: 14px; margin-left: 2px;">↗</span>
+          <span class="hero-arrow" style="font-size: 14px; margin-left: 4px;">↗</span>
         </button>
         <a href="#shop" class="btn-hero-secondary">
           <span>EXPLORE COLLECTION</span>
@@ -1787,11 +1879,14 @@
       const grid = document.getElementById('catalog-grid');
       grid.innerHTML = '';
 
+      let cardIdx = 0;
       fragrances.forEach(f => {
         if (filter !== 'all' && !f.category.includes(filter)) return;
 
         const card = document.createElement('article');
         card.className = 'product-card';
+        card.style.setProperty('--delay', `${cardIdx * 0.07}s`);
+        cardIdx++;
         card.innerHTML = `
           <div class="card-thumb-wrap">
             <span class="card-tag">${f.badge}</span>
@@ -2164,11 +2259,13 @@
       animate();
     })();
 
-    // INTERACTIVE SPECULAR AMBIENT LIGHT FLARE
-    (function initSpecularGlow() {
+    // INTERACTIVE 3D CAMERA PARALLAX & SPECULAR AMBIENT LIGHT FLARE
+    (function initHero3DMotion() {
       const hero = document.getElementById('top');
       const glow = document.getElementById('mg-cursor-glow');
-      if (!hero || !glow) return;
+      const video = document.getElementById('hero-motion-video');
+      const staticContent = document.querySelector('.hero-static-content');
+      if (!hero) return;
 
       let targetX = window.innerWidth * 0.7;
       let targetY = window.innerHeight * 0.45;
@@ -2179,16 +2276,67 @@
         const rect = hero.getBoundingClientRect();
         targetX = e.clientX - rect.left;
         targetY = e.clientY - rect.top;
+      }, { passive: true });
+
+      function updateMotion() {
+        currentX += (targetX - currentX) * 0.06;
+        currentY += (targetY - currentY) * 0.06;
+
+        if (glow) {
+          glow.style.left = currentX + 'px';
+          glow.style.top = currentY + 'px';
+        }
+
+        const normX = (currentX / (window.innerWidth || 1)) - 0.5;
+        const normY = (currentY / (window.innerHeight || 1)) - 0.5;
+
+        // Cinematic 3D camera pan on background 4K video (simulating live physical camera move)
+        if (video) {
+          video.style.transform = `scale(1.04) translate(${normX * -15}px, ${normY * -15}px)`;
+        }
+
+        // Layered subtle counter-shift on static typography for real depth
+        if (staticContent) {
+          staticContent.style.transform = `translate(${normX * 6}px, calc(-50% + ${normY * 6}px))`;
+        }
+
+        requestAnimationFrame(updateMotion);
+      }
+      updateMotion();
+    })();
+
+    // SCROLL-TRIGGERED REVEAL ANIMATIONS (INTERSECTION OBSERVER)
+    (function initScrollReveals() {
+      const targets = [
+        '.manifesto-eyebrow',
+        '.manifesto-statement',
+        '.manifesto-body',
+        '.shop-title-area',
+        '.filter-bar',
+        '.catalog-grid',
+        '.discovery-banner-inner',
+        '.notes-accordion',
+        '.boutique-row'
+      ];
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
       });
 
-      function updateGlow() {
-        currentX += (targetX - currentX) * 0.08;
-        currentY += (targetY - currentY) * 0.08;
-        glow.style.left = currentX + 'px';
-        glow.style.top = currentY + 'px';
-        requestAnimationFrame(updateGlow);
-      }
-      updateGlow();
+      targets.forEach(sel => {
+        document.querySelectorAll(sel).forEach(el => {
+          el.classList.add('reveal-item');
+          observer.observe(el);
+        });
+      });
     })();
 
     // MEMBER LOUNGE ACCOUNT MODAL
