@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CallRescue Engine — Missed-Call Revenue Recovery System</title>
+  <meta name="description" content="Deterministic, event-driven revenue recovery console that intercepts missed contractor calls, delivers sub-3-second automated SMS intake, and recovers $10k-$30k/month in lost emergency jobs.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-base: #080a0f;
+      --bg-surface: #0f131c;
+      --bg-elevated: #161c28;
+      --bg-card: #121722;
+      --border-subtle: rgba(255, 255, 255, 0.07);
+      --border-medium: rgba(255, 255, 255, 0.12);
+      --border-bright: rgba(56, 189, 248, 0.35);
+      
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      
+      --accent-red: #ef4444;
+      --accent-red-glow: rgba(239, 68, 68, 0.2);
+      --accent-amber: #f59e0b;
+      --accent-emerald: #10b981;
+      --accent-emerald-glow: rgba(16, 185, 129, 0.2);
+      --accent-cyan: #38bdf8;
+      --accent-cyan-glow: rgba(56, 189, 248, 0.2);
+      --accent-purple: #a855f7;
+
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* TOP APPLICATION BAR */
+    .app-header {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(16px);
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 5px 10px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .back-btn:hover {
+      color: #fff;
+      border-color: var(--accent-cyan);
+    }
+
+    .logo-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+    }
+
+    .logo-text {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-text span.version {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      letter-spacing: 0.05em;
+    }
+
+    .client-selector {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--bg-elevated);
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-subtle);
+      font-size: 12px;
+    }
+
+    .client-selector .name {
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .client-selector .tag {
+      color: var(--accent-amber);
+      font-size: 10px;
+      font-weight: 600;
+      background: rgba(245, 158, 11, 0.12);
+      padding: 1px 6px;
+      border-radius: 3px;
+    }
+
+    /* RIGHT ACTIONS */
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .status-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent-emerald);
+      background: var(--accent-emerald-glow);
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      font-family: var(--font-mono);
+    }
+
+    .pulsing-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-emerald);
+      box-shadow: 0 0 8px var(--accent-emerald);
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(0.8); opacity: 0.4; }
+    }
+
+    .btn-simulate {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 0 20px rgba(239, 68, 68, 0.35);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-simulate:hover {
+      filter: brightness(1.15);
+      transform: translateY(-1px);
+      box-shadow: 0 0 25px rgba(239, 68, 68, 0.55);
+    }
+
+    .btn-simulate:active {
+      transform: scale(0.97);
+    }
+
+    /* REVENUE SUMMARY METRICS (TOP COMMAND BAR) */
+    .metrics-bar {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 20px 24px;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1fr;
+      gap: 16px;
+    }
+
+    .metric-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .metric-card.hero-revenue {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(15, 23, 42, 0.4) 100%);
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+
+    .metric-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .metric-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+
+    .metric-delta {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent-emerald);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .metric-value {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #fff;
+      font-family: var(--font-mono);
+      line-height: 1.1;
+    }
+
+    .metric-value.emerald {
+      color: #34d399;
+      text-shadow: 0 0 20px rgba(52, 211, 153, 0.3);
+    }
+
+    .metric-sub {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 6px;
+    }
+
+    /* MAIN TWO-COLUMN CONSOLE BODY */
+    .console-body {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      height: calc(100vh - 165px);
+      overflow: hidden;
+    }
+
+    /* LEFT: INCIDENT DISPATCH QUEUE */
+    .dispatch-queue {
+      border-right: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-base);
+      overflow: hidden;
+    }
+
+    .queue-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-surface);
+    }
+
+    .queue-title-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .queue-title {
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .queue-counter {
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      border: 1px solid var(--border-subtle);
+    }
+
+    /* FILTERS */
+    .queue-filters {
+      display: flex;
+      gap: 6px;
+    }
+
+    .filter-btn {
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--bg-elevated);
+      color: #fff;
+      border-color: var(--border-medium);
+    }
+
+    .incident-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* INCIDENT CARD */
+    .incident-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 14px 18px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    .incident-card:hover {
+      background: var(--bg-elevated);
+      border-color: var(--border-bright);
+      transform: translateX(3px);
+    }
+
+    .incident-card.active {
+      background: var(--bg-elevated);
+      border-color: var(--accent-cyan);
+      box-shadow: 0 4px 20px rgba(56, 189, 248, 0.15);
+    }
+
+    .incident-card.new-pulse {
+      animation: highlight-pulse 2s ease;
+    }
+
+    @keyframes highlight-pulse {
+      0% { box-shadow: 0 0 25px rgba(239, 68, 68, 0.7); border-color: var(--accent-red); }
+      100% { box-shadow: none; }
+    }
+
+    .card-row-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .caller-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .caller-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .caller-phone {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .badge-urgent {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #f87171;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .badge-booked {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34d399;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .badge-inquiry {
+      background: rgba(148, 163, 184, 0.12);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      color: #cbd5e1;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .card-issue-text {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-row-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 6px;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      font-size: 11px;
+    }
+
+    .latency-pill {
+      font-family: var(--font-mono);
+      color: var(--accent-cyan);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .ticket-value {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: #34d399;
+    }
+
+    /* RIGHT: CONVERSATION RELAY & AI EXTRACTION INSPECTOR */
+    .convo-inspector {
+      background: var(--bg-surface);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .inspector-top {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .inspector-title {
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #fff;
+    }
+
+    /* AI EXTRACTION CARD */
+    .ai-extraction-box {
+      margin: 16px 20px 0 20px;
+      background: #090c13;
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      border-radius: 8px;
+      padding: 12px 16px;
+    }
+
+    .ai-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .ai-tag {
+      color: var(--accent-purple);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ai-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      font-size: 11px;
+    }
+
+    .ai-field-label {
+      color: var(--text-muted);
+      font-size: 10px;
+      text-transform: uppercase;
+    }
+
+    .ai-field-val {
+      color: #fff;
+      font-weight: 600;
+      font-family: var(--font-mono);
+    }
+
+    /* SMS STREAM */
+    .sms-stream {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .telemetry-event {
+      text-align: center;
+      font-size: 10px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      position: relative;
+      margin: 4px 0;
+    }
+
+    .telemetry-event span {
+      background: var(--bg-surface);
+      padding: 2px 10px;
+      border-radius: 4px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .sms-bubble {
+      max-width: 85%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 12.5px;
+      line-height: 1.5;
+      position: relative;
+    }
+
+    .sms-system {
+      align-self: flex-start;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-medium);
+      color: #f1f5f9;
+      border-bottom-left-radius: 2px;
+    }
+
+    .sms-system-meta {
+      font-size: 9.5px;
+      color: var(--accent-cyan);
+      font-weight: 700;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .sms-customer {
+      align-self: flex-end;
+      background: #1e3a8a;
+      color: #fff;
+      border-bottom-right-radius: 2px;
+    }
+
+    .sms-contractor {
+      align-self: flex-start;
+      background: #064e3b;
+      color: #fff;
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      border-bottom-left-radius: 2px;
+    }
+
+    .sms-time {
+      font-size: 9px;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 4px;
+      text-align: right;
+      font-family: var(--font-mono);
+    }
+
+    /* BOTTOM DISPATCH RELAY ACTION */
+    .convo-footer {
+      padding: 14px 20px;
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .quick-actions-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .action-pill-btn {
+      flex: 1;
+      padding: 8px 12px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+
+    .action-pill-btn:hover {
+      background: #252e42;
+      border-color: var(--accent-cyan);
+    }
+
+    .action-pill-btn.primary {
+      background: var(--accent-emerald);
+      color: #022c22;
+      border: none;
+    }
+
+    .action-pill-btn.primary:hover {
+      background: #34d399;
+    }
+
+    .sms-input-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .sms-input {
+      flex: 1;
+      background: var(--bg-base);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 12px;
+      color: #fff;
+      outline: none;
+    }
+
+    .sms-input:focus {
+      border-color: var(--accent-cyan);
+    }
+
+    .sms-send-btn {
+      background: var(--accent-cyan);
+      border: none;
+      color: #082f49;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    /* MODAL: ROI CALCULATOR */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-medium);
+      border-radius: 16px;
+      width: 90%;
+      max-width: 520px;
+      padding: 28px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .calc-slider-group {
+      margin-bottom: 18px;
+    }
+
+    .slider-head {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .slider-input {
+      width: 100%;
+      accent-color: var(--accent-emerald);
+    }
+
+    .calc-result-box {
+      background: var(--bg-card);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 10px;
+      padding: 16px;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .calc-result-num {
+      font-size: 32px;
+      font-weight: 800;
+      color: #34d399;
+      font-family: var(--font-mono);
+      margin: 4px 0;
+    }
+
+    /* TOAST ALERT */
+    .live-alert-toast {
+      position: fixed;
+      top: 80px;
+      right: 24px;
+      background: #1e1b4b;
+      border: 1px solid #6366f1;
+      color: #fff;
+      padding: 14px 20px;
+      border-radius: 10px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transform: translateX(120%);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 3000;
+    }
+
+    .live-alert-toast.show {
+      transform: translateX(0);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 960px) {
+      .metrics-bar {
+        grid-template-columns: 1fr 1fr;
+      }
+      .console-body {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+      .convo-inspector {
+        height: 600px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================================
+       TOP COMMAND APPLICATION BAR
+       ======================================================================== -->
+  <header class="app-header">
+    <div class="brand-section">
+      <a href="portfolio.html" class="back-btn">← Portfolio</a>
+      <div class="logo-badge">
+        <div class="logo-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/><polyline points="15 2 18 5 22 1"/></svg>
+        </div>
+        <div class="logo-text">
+          CALLRESCUE ENGINE
+          <span class="version">PRD v1.0 MVP</span>
+        </div>
+      </div>
+
+      <!-- Active Client Tenant Switcher -->
+      <div class="client-selector">
+        <span class="name">Apex Plumbing & Emergency HVAC</span>
+        <span class="tag">Dallas-Fort Worth</span>
+      </div>
+    </div>
+
+    <!-- Right Telemetry & Actions -->
+    <div class="header-actions">
+      <div class="status-pill">
+        <span class="pulsing-dot"></span>
+        TWILIO A2P 10DLC: LIVE (P95 180ms)
+      </div>
+
+      <button class="back-btn" onclick="openRoiModal()" style="color:#f59e0b; border-color:rgba(245,158,11,0.3)">
+        📊 ROI Calculator
+      </button>
+
+      <!-- SIMULATION TRIGGER BUTTON -->
+      <button class="btn-simulate" onclick="simulateMissedCall()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Simulate Missed Call
+      </button>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       REVENUE SUMMARY METRICS (TOP COMMAND BAR)
+       ======================================================================== -->
+  <section class="metrics-bar">
+    
+    <!-- Metric 1: HERO REVENUE -->
+    <div class="metric-card hero-revenue">
+      <div class="metric-card-top">
+        <span class="metric-label">Recovered Gross Revenue (MTD)</span>
+        <span class="metric-delta">▲ +28.4%</span>
+      </div>
+      <div class="metric-value emerald" id="val-revenue">$34,200</div>
+      <div class="metric-sub">21 confirmed jobs saved from Google competitor dials</div>
+    </div>
+
+    <!-- Metric 2: SLA SPEED -->
+    <div class="metric-card">
+      <div class="metric-card-top">
+        <span class="metric-label">Avg Recovery SLA (Speed)</span>
+        <span class="metric-delta" style="color:var(--accent-cyan)">⚡ 3s Benchmark</span>
+      </div>
+      <div class="metric-value" style="color:var(--accent-cyan)">2.38s</div>
+      <div class="metric-sub">P99 Latency from call drop to customer handset delivery</div>
+    </div>
+
+    <!-- Metric 3: INTERCEPTIONS -->
+    <div class="metric-card">
+      <div class="metric-card-top">
+        <span class="metric-label">Missed Calls Intercepted</span>
+        <span class="metric-delta">63 Total</span>
+      </div>
+      <div class="metric-value" id="val-calls">63</div>
+      <div class="metric-sub">41 two-way SMS dialogues initiated (65% engagement)</div>
+    </div>
+
+    <!-- Metric 4: CONVERSION -->
+    <div class="metric-card">
+      <div class="metric-card-top">
+        <span class="metric-label">Lead-To-Booking Rate</span>
+        <span class="metric-delta">▲ Industry 12%</span>
+      </div>
+      <div class="metric-value" style="color:var(--accent-amber)">33.3%</div>
+      <div class="metric-sub">Average ticket size: $1,628 per emergency repair</div>
+    </div>
+
+  </section>
+
+  <!-- ========================================================================
+       MAIN CONSOLE BODY (DISPATCH FEED & TWO-WAY RELAY INSPECTOR)
+       ======================================================================== -->
+  <main class="console-body">
+    
+    <!-- LEFT: DISPATCH QUEUE -->
+    <section class="dispatch-queue">
+      
+      <div class="queue-header">
+        <div class="queue-title-group">
+          <span class="queue-title">Live Dispatch Queue</span>
+          <span class="queue-counter" id="queue-count">4 Active</span>
+        </div>
+        <div class="queue-filters">
+          <button class="filter-btn active" onclick="filterQueue('all')">All</button>
+          <button class="filter-btn" onclick="filterQueue('urgent')">Urgent (2)</button>
+          <button class="filter-btn" onclick="filterQueue('booked')">Booked</button>
+        </div>
+      </div>
+
+      <div class="incident-list" id="incident-list">
+        
+        <!-- Incident 1 -->
+        <article class="incident-card active" onclick="selectIncident(0)">
+          <div class="card-row-top">
+            <div class="caller-info">
+              <span class="caller-name">Sarah Jenkins</span>
+              <span class="caller-phone">(214) 892-1104</span>
+            </div>
+            <span class="badge-urgent">🚨 EMERGENCY</span>
+          </div>
+          <div class="card-issue-text">
+            “Water pipe burst under kitchen sink, water is gushing into the basement. Need emergency shutoff!”
+          </div>
+          <div class="card-row-bottom">
+            <span class="latency-pill">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              SLA: 2.1s · 442 Maple Ave
+            </span>
+            <span class="ticket-value">Est. $1,800 · Booked Today</span>
+          </div>
+        </article>
+
+        <!-- Incident 2 -->
+        <article class="incident-card" onclick="selectIncident(1)">
+          <div class="card-row-top">
+            <div class="caller-info">
+              <span class="caller-name">David Miller</span>
+              <span class="caller-phone">(469) 332-9012</span>
+            </div>
+            <span class="badge-urgent">🚨 EMERGENCY</span>
+          </div>
+          <div class="card-issue-text">
+            “AC compressor smoking and sparking outside in 102°F heat, baby in house. Need same-day tech.”
+          </div>
+          <div class="card-row-bottom">
+            <span class="latency-pill">SLA: 1.9s · 812 Oak Ridge Blvd</span>
+            <span class="ticket-value">Est. $4,200 · Tech En Route</span>
+          </div>
+        </article>
+
+        <!-- Incident 3 -->
+        <article class="incident-card" onclick="selectIncident(2)">
+          <div class="card-row-top">
+            <div class="caller-info">
+              <span class="caller-name">Elena Rostova</span>
+              <span class="caller-phone">(972) 441-2098</span>
+            </div>
+            <span class="badge-urgent" style="background:rgba(245,158,11,0.15); color:#fbbf24; border-color:rgba(245,158,11,0.4)">⚠️ SAME DAY</span>
+          </div>
+          <div class="card-issue-text">
+            “Water heater pilot won't ignite, whole family has no hot water. Can someone come by 4pm?”
+          </div>
+          <div class="card-row-bottom">
+            <span class="latency-pill">SLA: 2.4s · 1204 Pine Hollow</span>
+            <span class="ticket-value">Est. $950 · In Dialogue</span>
+          </div>
+        </article>
+
+        <!-- Incident 4 -->
+        <article class="incident-card" onclick="selectIncident(3)">
+          <div class="card-row-top">
+            <div class="caller-info">
+              <span class="caller-name">Marcus Vance</span>
+              <span class="caller-phone">(214) 775-4301</span>
+            </div>
+            <span class="badge-inquiry">ℹ️ COMMERCIAL</span>
+          </div>
+          <div class="card-issue-text">
+            “Looking for a quote on annual preventative maintenance for our commercial distribution center.”
+          </div>
+          <div class="card-row-bottom">
+            <span class="latency-pill">SLA: 2.7s · 550 Industrial Pkwy</span>
+            <span class="ticket-value">Est. $3,500 · Quote Sent</span>
+          </div>
+        </article>
+
+      </div>
+
+    </section>
+
+    <!-- RIGHT: TWO-WAY RELAY & AI EXTRACTION INSPECTOR -->
+    <aside class="convo-inspector">
+      
+      <div class="inspector-top">
+        <span class="inspector-title" id="inspector-caller-title">Sarah Jenkins (214) 892-1104</span>
+        <span class="badge-booked" id="inspector-status-badge">Confirmed Booking</span>
+      </div>
+
+      <!-- GEMINI AI ENTITY EXTRACTION INSPECTOR -->
+      <div class="ai-extraction-box">
+        <div class="ai-header">
+          <span class="ai-tag">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            AI Entity Parser (Gemini API v1)
+          </span>
+          <span style="font-size:10px; color:#a855f7; font-family:var(--font-mono)">Confidence: 99.4%</span>
+        </div>
+        <div class="ai-fields">
+          <div>
+            <span class="ai-field-label">Address Detected:</span>
+            <div class="ai-field-val" id="ai-address">442 Maple Ave</div>
+          </div>
+          <div>
+            <span class="ai-field-label">Priority / Classification:</span>
+            <div class="ai-field-val" id="ai-urgency" style="color:#ef4444">CRITICAL EMERGENCY</div>
+          </div>
+          <div style="grid-column: span 2; margin-top:4px;">
+            <span class="ai-field-label">Extracted Problem:</span>
+            <div class="ai-field-val" id="ai-issue" style="color:#38bdf8">Burst pipe flooding basement</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SMS CHAT STREAM -->
+      <div class="sms-stream" id="chat-stream">
+        
+        <div class="telemetry-event">
+          <span>📞 INBOUND CALL MISSED (Duration 0s · Ringout 18s) · 14:02:10</span>
+        </div>
+
+        <!-- 3-Second Automated Outbound SMS -->
+        <div class="sms-bubble sms-system">
+          <div class="sms-system-meta">
+            ⚡ AUTOMATED RECOVERY SMS (DISPATCHED IN 2.1s)
+          </div>
+          Hi Sarah, this is Mike with Apex Plumbing. I'm currently on a job site with tools in hand and couldn't grab the phone. Is this an active emergency, and what is your address? I'll text you right back.
+          <div class="sms-time">14:02:12</div>
+        </div>
+
+        <!-- Homeowner Reply -->
+        <div class="sms-bubble sms-customer">
+          Yes! Water pipe burst under kitchen sink, water is gushing everywhere into the basement. 442 Maple Ave!
+          <div class="sms-time">14:02:35</div>
+        </div>
+
+        <div class="telemetry-event">
+          <span>🚨 RELAY SENT TO CONTRACTOR PRIVATE CELL (+1 214-***-9921)</span>
+        </div>
+
+        <!-- Contractor Relay Message -->
+        <div class="sms-bubble sms-contractor">
+          Sarah, shut off the main water valve near your meter immediately! I am wrapping up on Main St and dispatching our emergency truck to 442 Maple Ave. ETA 25 minutes.
+          <div class="sms-time">14:03:02</div>
+        </div>
+
+        <div class="sms-bubble sms-customer">
+          Found the valve and shut it off! Thank god you texted so fast, I was about to call another company on Google.
+          <div class="sms-time">14:03:45</div>
+        </div>
+
+      </div>
+
+      <!-- FOOTER DISPATCH CONTROLS -->
+      <div class="convo-footer">
+        <div class="quick-actions-row">
+          <button class="action-pill-btn primary" onclick="markBooked()">
+            ✓ Confirm $1,800 Booking
+          </button>
+          <button class="action-pill-btn" onclick="callCustomerDirect()">
+            📞 Call Back
+          </button>
+          <button class="action-pill-btn" onclick="assignTechModal()">
+            🚐 Dispatch Tech
+          </button>
+        </div>
+
+        <div class="sms-input-row">
+          <input type="text" class="sms-input" id="reply-input" placeholder="Text customer as Apex Plumbing..." onkeypress="handleKeyPress(event)">
+          <button class="sms-send-btn" onclick="sendCustomSms()">Send</button>
+        </div>
+      </div>
+
+    </aside>
+
+  </main>
+
+  <!-- ========================================================================
+       MODAL: CONTRACTOR ROI CALCULATOR
+       ======================================================================== -->
+  <div class="modal-overlay" id="roi-modal" onclick="closeRoiModal(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <div class="modal-head">
+        <div class="modal-title">Contractor Lost Revenue Calculator</div>
+        <button class="modal-close" onclick="closeRoiModal()">×</button>
+      </div>
+
+      <div class="calc-slider-group">
+        <div class="slider-head">
+          <span>Missed Calls Per Week (While on Jobs):</span>
+          <strong id="lbl-calls" style="color:#38bdf8">6 calls</strong>
+        </div>
+        <input type="range" class="slider-input" id="slider-calls" min="1" max="25" value="6" oninput="calculateRoi()">
+      </div>
+
+      <div class="calc-slider-group">
+        <div class="slider-head">
+          <span>Average Emergency Job Size:</span>
+          <strong id="lbl-ticket" style="color:#34d399">$1,500</strong>
+        </div>
+        <input type="range" class="slider-input" id="slider-ticket" min="500" max="4000" step="100" value="1500" oninput="calculateRoi()">
+      </div>
+
+      <div class="calc-result-box">
+        <span style="font-size:11px; text-transform:uppercase; color:var(--text-muted); font-weight:700;">
+          Estimated Monthly Recovered Revenue (35% Recovery Rate)
+        </span>
+        <div class="calc-result-num" id="calc-recovered">$12,600 / mo</div>
+        <p style="font-size:11px; color:var(--text-secondary); margin-top:4px;">
+          Without CallRescue, you lose <strong>$36,000/mo</strong> straight to competitors on Google Maps.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIVE SIMULATION TOAST -->
+  <div class="live-alert-toast" id="live-toast">
+    <div style="font-size:20px;">⚡</div>
+    <div>
+      <div style="font-weight:800; font-size:13px;" id="toast-title">INBOUND MISSED CALL DETECTED!</div>
+      <div style="font-size:11px; color:#c7d2fe;" id="toast-sub">Twilio Webhook: No-Answer · Dispatching 3s SMS...</div>
+    </div>
+  </div>
+
+  <!-- INTERACTIVE CONTROLLER SCRIPT -->
+  <script>
+    // Audio synthesis using Web Audio API for tactile feedback
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playBeep(freq = 440, type = 'sine', duration = 0.08) {
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + duration);
+    }
+
+    const incidentsData = [
+      {
+        name: "Sarah Jenkins",
+        phone: "(214) 892-1104",
+        badge: "🚨 EMERGENCY",
+        statusBadge: "Confirmed Booking",
+        address: "442 Maple Ave",
+        urgency: "CRITICAL EMERGENCY",
+        issue: "Burst pipe flooding basement",
+        est: "$1,800",
+        messages: [
+          { type: 'telemetry', text: '📞 INBOUND CALL MISSED (Duration 0s · Ringout 18s) · 14:02:10' },
+          { type: 'system', text: "Hi Sarah, this is Mike with Apex Plumbing. I'm currently on a job site with tools in hand and couldn't grab the phone. Is this an active emergency, and what is your address? I'll text you right back.", time: "14:02:12" },
+          { type: 'customer', text: "Yes! Water pipe burst under kitchen sink, water is gushing everywhere into the basement. 442 Maple Ave!", time: "14:02:35" },
+          { type: 'telemetry', text: '🚨 RELAY SENT TO CONTRACTOR PRIVATE CELL (+1 214-***-9921)' },
+          { type: 'contractor', text: "Sarah, shut off the main water valve near your meter immediately! I am wrapping up on Main St and dispatching our emergency truck to 442 Maple Ave. ETA 25 minutes.", time: "14:03:02" },
+          { type: 'customer', text: "Found the valve and shut it off! Thank god you texted so fast, I was about to call another company on Google.", time: "14:03:45" }
+        ]
+      },
+      {
+        name: "David Miller",
+        phone: "(469) 332-9012",
+        badge: "🚨 EMERGENCY",
+        statusBadge: "Tech Dispatched",
+        address: "812 Oak Ridge Blvd",
+        urgency: "CRITICAL EMERGENCY",
+        issue: "AC compressor sparking in 102°F heat",
+        est: "$4,200",
+        messages: [
+          { type: 'telemetry', text: '📞 INBOUND CALL MISSED (Duration 0s · Ringout 15s) · 13:45:00' },
+          { type: 'system', text: "Hi David, this is Mike with Apex HVAC. We missed your call while on a rooftop install. What's the issue and your address? Texting back immediately.", time: "13:45:02" },
+          { type: 'customer', text: "My outdoor AC unit just started smoking and sparking. Temperature inside is 86° and we have a 4-month-old infant. 812 Oak Ridge Blvd.", time: "13:45:20" },
+          { type: 'contractor', text: "David, turn off the AC breaker on your electrical panel right now. I have Tyler en route in truck #4. Hang tight.", time: "13:45:50" }
+        ]
+      },
+      {
+        name: "Elena Rostova",
+        phone: "(972) 441-2098",
+        badge: "⚠️ SAME DAY",
+        statusBadge: "In Dialogue",
+        address: "1204 Pine Hollow Way",
+        urgency: "SAME-DAY REPAIR",
+        issue: "Water heater pilot flame out",
+        est: "$950",
+        messages: [
+          { type: 'telemetry', text: '📞 INBOUND CALL MISSED · 12:10:04' },
+          { type: 'system', text: "Hi Elena, Mike here from Apex Plumbing. Couldn't answer in time—what's the emergency and address?", time: "12:10:06" },
+          { type: 'customer', text: "Water heater pilot went out, no hot water in the house. Can someone come by this afternoon? 1204 Pine Hollow Way.", time: "12:11:15" }
+        ]
+      },
+      {
+        name: "Marcus Vance",
+        phone: "(214) 775-4301",
+        badge: "ℹ️ COMMERCIAL",
+        statusBadge: "Quote Sent",
+        address: "550 Industrial Pkwy",
+        urgency: "GENERAL INQUIRY",
+        issue: "Commercial HVAC annual maintenance",
+        est: "$3,500",
+        messages: [
+          { type: 'telemetry', text: '📞 INBOUND CALL MISSED · 10:02:18' },
+          { type: 'system', text: "Hi Marcus, Apex Plumbing & HVAC here. Missed your call while working on equipment. How can we help?", time: "10:02:21" },
+          { type: 'customer', text: "Looking for an annual preventative HVAC maintenance bid for our 45,000 sq ft logistics warehouse.", time: "10:05:00" }
+        ]
+      }
+    ];
+
+    let currentIncidentIdx = 0;
+
+    function renderMessages() {
+      const incident = incidentsData[currentIncidentIdx];
+      document.getElementById('inspector-caller-title').innerText = `${incident.name} ${incident.phone}`;
+      document.getElementById('inspector-status-badge').innerText = incident.statusBadge;
+      document.getElementById('ai-address').innerText = incident.address;
+      document.getElementById('ai-urgency').innerText = incident.urgency;
+      document.getElementById('ai-issue').innerText = incident.issue;
+
+      const stream = document.getElementById('chat-stream');
+      stream.innerHTML = '';
+
+      incident.messages.forEach(msg => {
+        if (msg.type === 'telemetry') {
+          const div = document.createElement('div');
+          div.className = 'telemetry-event';
+          div.innerHTML = `<span>${msg.text}</span>`;
+          stream.appendChild(div);
+        } else {
+          const div = document.createElement('div');
+          div.className = `sms-bubble ${msg.type === 'system' ? 'sms-system' : msg.type === 'contractor' ? 'sms-contractor' : 'sms-customer'}`;
+          if (msg.type === 'system') {
+            div.innerHTML = `<div class="sms-system-meta">⚡ AUTOMATED RECOVERY SMS (DISPATCHED IN 2.1s)</div>${msg.text}<div class="sms-time">${msg.time}</div>`;
+          } else {
+            div.innerHTML = `${msg.text}<div class="sms-time">${msg.time}</div>`;
+          }
+          stream.appendChild(div);
+        }
+      });
+      stream.scrollTop = stream.scrollHeight;
+    }
+
+    function selectIncident(idx) {
+      currentIncidentIdx = idx;
+      const cards = document.querySelectorAll('.incident-card');
+      cards.forEach((c, i) => c.classList.toggle('active', i === idx));
+      playBeep(520, 'sine', 0.05);
+      renderMessages();
+    }
+
+    // SIMULATE LIVE MISSED CALL ACTION
+    function simulateMissedCall() {
+      playBeep(880, 'square', 0.15);
+      const toast = document.getElementById('live-toast');
+      toast.classList.add('show');
+
+      setTimeout(() => {
+        playBeep(659, 'sine', 0.2);
+        toast.classList.remove('show');
+
+        // Create new dynamic caller
+        const newIncident = {
+          name: "Rachel Cooper",
+          phone: "(972) 551-8840",
+          badge: "🚨 EMERGENCY",
+          statusBadge: "Recovered via SMS",
+          address: "709 Mockingbird Ln",
+          urgency: "FLOOD EMERGENCY",
+          issue: "Sump pump failed in storm, 3 inches of water in finished basement",
+          est: "$2,600",
+          messages: [
+            { type: 'telemetry', text: '📞 INBOUND CALL MISSED (Ringout 18s) · Just Now' },
+            { type: 'system', text: "Hi Rachel, this is Mike with Apex Plumbing. Missed your call while on a job. Is water actively rising, and what's your address? Texting back immediately.", time: "Just Now" },
+            { type: 'customer', text: "YES! Sump pump died during the storm and basement is flooding! 709 Mockingbird Ln, please hurry!", time: "Just Now" },
+            { type: 'telemetry', text: '🤖 GEMINI AI EXTRACTED: 709 Mockingbird Ln • $2,600 Ticket' },
+            { type: 'contractor', text: "Rachel, I got your alert. Grabbed a backup 1/2 HP submersible pump, heading your way now. ETA 18 mins.", time: "Just Now" }
+          ]
+        };
+
+        incidentsData.unshift(newIncident);
+        currentIncidentIdx = 0;
+
+        // Update counts
+        const callsEl = document.getElementById('val-calls');
+        callsEl.innerText = parseInt(callsEl.innerText) + 1;
+
+        const revEl = document.getElementById('val-revenue');
+        revEl.innerText = '$36,800';
+
+        // Rebuild card list
+        const list = document.getElementById('incident-list');
+        const card = document.createElement('article');
+        card.className = 'incident-card active new-pulse';
+        card.onclick = () => selectIncident(0);
+        card.innerHTML = `
+          <div class="card-row-top">
+            <div class="caller-info">
+              <span class="caller-name">Rachel Cooper</span>
+              <span class="caller-phone">(972) 551-8840</span>
+            </div>
+            <span class="badge-urgent">🚨 EMERGENCY</span>
+          </div>
+          <div class="card-issue-text">
+            “Sump pump failed in storm, 3 inches of water in finished basement!”
+          </div>
+          <div class="card-row-bottom">
+            <span class="latency-pill">SLA: 1.8s · 709 Mockingbird Ln</span>
+            <span class="ticket-value">Est. $2,600 · Recovered Now</span>
+          </div>
+        `;
+        list.insertBefore(card, list.firstChild);
+
+        renderMessages();
+      }, 2500);
+    }
+
+    function sendCustomSms() {
+      const input = document.getElementById('reply-input');
+      const val = input.value.trim();
+      if (!val) return;
+
+      playBeep(440, 'sine', 0.08);
+      incidentsData[currentIncidentIdx].messages.push({
+        type: 'contractor',
+        text: val,
+        time: 'Just Now'
+      });
+      input.value = '';
+      renderMessages();
+    }
+
+    function handleKeyPress(e) {
+      if (e.key === 'Enter') sendCustomSms();
+    }
+
+    function markBooked() {
+      playBeep(784, 'triangle', 0.12);
+      incidentsData[currentIncidentIdx].statusBadge = '✓ Job Confirmed & Booked';
+      renderMessages();
+      alert('✓ Job marked as confirmed! Synced to Google Sheets CRM & technician dispatch calendar.');
+    }
+
+    function callCustomerDirect() {
+      playBeep(330, 'sine', 0.1);
+      alert(`Initiating masked outbound VoIP call to ${incidentsData[currentIncidentIdx].phone}...`);
+    }
+
+    function assignTechModal() {
+      playBeep(600, 'sine', 0.08);
+      alert(`Dispatched incident to Lead Tech: Tyler Harris (Truck #4) with Google Maps routing.`);
+    }
+
+    // ROI CALCULATOR MODAL
+    function openRoiModal() {
+      document.getElementById('roi-modal').classList.add('open');
+      calculateRoi();
+    }
+
+    function closeRoiModal() {
+      document.getElementById('roi-modal').classList.remove('open');
+    }
+
+    function calculateRoi() {
+      const calls = parseInt(document.getElementById('slider-calls').value);
+      const ticket = parseInt(document.getElementById('slider-ticket').value);
+
+      document.getElementById('lbl-calls').innerText = `${calls} calls`;
+      document.getElementById('lbl-ticket').innerText = `$${ticket.toLocaleString()}`;
+
+      // 35% conversion recovery * 4 weeks
+      const recoveredPerMonth = Math.round(calls * 4 * 0.35 * ticket);
+      document.getElementById('calc-recovered').innerText = `$${recoveredPerMonth.toLocaleString()} / mo`;
+    }
+
+    // Initial render
+    renderMessages();
+  </script>
+
+</body>
+</html>
