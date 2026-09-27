@@ -386,8 +386,8 @@
       color: #ffffff;
       pointer-events: auto;
       text-align: center;
-      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-      will-change: transform;
+      transition: opacity 0.3s ease;
+      will-change: transform, opacity;
     }
 
     @keyframes heroRevealUp {
@@ -587,19 +587,17 @@
       background: rgba(255, 255, 255, 0.7);
     }
 
-    /* HERO LIVING CINEMATIC HD VIDEO BACKGROUND (MOVES ON ITS OWN + 3D PARALLAX) */
+    /* HERO LIVING CINEMATIC HD VIDEO BACKGROUND (ROCK-SOLID & PRISTINE 4K) */
     .hero-video-layer {
       position: absolute;
-      inset: -20px;
-      width: calc(100% + 40px);
-      height: calc(100% + 40px);
+      inset: 0;
+      width: 100%;
+      height: 100%;
       z-index: 5;
       opacity: 1;
       visibility: visible;
       overflow: hidden;
       background: #0d0806;
-      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-      will-change: transform;
     }
 
     .hero-bg-video {
@@ -611,7 +609,6 @@
       object-position: center center;
       display: block;
       filter: contrast(1.03) brightness(0.98);
-      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       will-change: transform;
     }
 
@@ -2722,22 +2719,19 @@
         if (scrollY < heroH + 100) {
           const scrollFraction = Math.min(1, scrollY / (heroH * 0.7));
 
-          // Video: Subtle 3D mouse tilt + smooth slow downward parallax sink & atmospheric dim
+          // Video: Steady pristine 4K background with subtle scroll-down dimming & GPU compositing
           if (video) {
-            const panX = normX * -15;
-            const panY = normY * -15 + scrollY * 0.22;
-            const scale = 1.04 + scrollFraction * 0.06;
             const brightness = Math.max(0.6, 0.98 - scrollFraction * 0.35);
-            video.style.transform = `scale(${scale}) translate(${panX}px, ${panY}px)`;
+            const scrollSink = scrollY * 0.2;
+            video.style.transform = `translate3d(0, ${scrollSink}px, 0)`;
             video.style.filter = `contrast(1.03) brightness(${brightness})`;
           }
 
-          // Static Typography: Centered in clear zone, floats upward on scroll with soft fade-out
+          // Static Typography: Perfectly centered vector title and button, floats upward cleanly on scroll
           if (staticContent) {
-            const shiftX = normX * 6;
-            const shiftY = normY * 6 - scrollY * 0.42;
-            const opacity = Math.max(0, 1 - scrollFraction * 1.3);
-            staticContent.style.transform = `translate(calc(-50% + ${shiftX}px), calc(-50% + ${shiftY}px))`;
+            const scrollLift = -scrollY * 0.38;
+            const opacity = Math.max(0, 1 - scrollFraction * 1.4);
+            staticContent.style.transform = `translate3d(-50%, calc(-50% + ${scrollLift}px), 0)`;
             staticContent.style.opacity = opacity;
           }
 
