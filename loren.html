@@ -587,7 +587,19 @@
       background: rgba(255, 255, 255, 0.7);
     }
 
-    /* HERO LIVING CINEMATIC HD VIDEO BACKGROUND (ROCK-SOLID & PRISTINE 4K) */
+    /* HERO LIVING CINEMATIC HD VIDEO BACKGROUND (SEAMLESS AUTOMATIC BREATHING ZOOM) */
+    @keyframes heroCinemaBreathe {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.08);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
     .hero-video-layer {
       position: absolute;
       inset: 0;
@@ -598,6 +610,7 @@
       visibility: visible;
       overflow: hidden;
       background: #0d0806;
+      will-change: transform;
     }
 
     .hero-bg-video {
@@ -609,6 +622,8 @@
       object-position: center center;
       display: block;
       filter: contrast(1.03) brightness(0.98);
+      transform-origin: center center;
+      animation: heroCinemaBreathe 20s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
       will-change: transform;
     }
 
@@ -2419,12 +2434,14 @@
       const text = document.getElementById('motion-text');
       if (!vid) return;
 
-      if (vid.paused) {
+      if (vid.paused || vid.style.animationPlayState === 'paused') {
         vid.play();
+        vid.style.animationPlayState = 'running';
         if (icon) icon.innerText = '⏸';
-        if (text) text.innerText = 'HD Cinema Motion';
+        if (text) text.innerText = '4K Motion Active';
       } else {
         vid.pause();
+        vid.style.animationPlayState = 'paused';
         if (icon) icon.innerText = '▶';
         if (text) text.innerText = 'Play Motion';
       }
@@ -2670,7 +2687,7 @@
     (function initHeroScrollAndMotion() {
       const hero = document.getElementById('top');
       const glow = document.getElementById('mg-cursor-glow');
-      const video = document.getElementById('hero-motion-video');
+      const videoLayer = document.getElementById('hero-video-layer');
       const staticContent = document.querySelector('.hero-static-content');
       const scrollCue = document.getElementById('hero-scroll-cue');
       const progressBar = document.getElementById('scroll-progress-bar');
@@ -2719,12 +2736,12 @@
         if (scrollY < heroH + 100) {
           const scrollFraction = Math.min(1, scrollY / (heroH * 0.7));
 
-          // Video: Steady pristine 4K background with subtle scroll-down dimming & GPU compositing
-          if (video) {
+          // Video Layer: Steady downward parallax sink & atmospheric dimming on scroll (leaves video breathing zoom uninhibited)
+          if (videoLayer) {
             const brightness = Math.max(0.6, 0.98 - scrollFraction * 0.35);
             const scrollSink = scrollY * 0.2;
-            video.style.transform = `translate3d(0, ${scrollSink}px, 0)`;
-            video.style.filter = `contrast(1.03) brightness(${brightness})`;
+            videoLayer.style.transform = `translate3d(0, ${scrollSink}px, 0)`;
+            videoLayer.style.filter = `contrast(1.03) brightness(${brightness})`;
           }
 
           // Static Typography: Perfectly centered vector title and button, floats upward cleanly on scroll
