@@ -645,18 +645,164 @@
       will-change: transform, left, top;
     }
 
-    /* Gold foil shimmer sweep across static title */
-    .hero-static-title em {
-      background: linear-gradient(105deg, #f7efe6 20%, #ffffff 42%, #ecd19b 55%, #f7efe6 78%);
-      background-size: 200% auto;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: mgGoldShimmer 6s linear infinite;
+    /* ==========================================================================
+       GLOBAL MAISON MOTION GRAPHICS SUITE (EDITORIAL HAUTE COUTURE)
+       ========================================================================== */
+    @keyframes mgGoldSheen {
+      0% { background-position: 250% center; }
+      100% { background-position: -250% center; }
     }
 
-    @keyframes mgGoldShimmer {
-      0% { background-position: 200% center; }
-      100% { background-position: -200% center; }
+    .mg-gold-text {
+      background: linear-gradient(110deg, #19120c 18%, #9f7f4e 35%, #fff6db 50%, #9f7f4e 65%, #19120c 82%);
+      background-size: 250% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: mgGoldSheen 8s ease-in-out infinite;
+      display: inline-block;
+    }
+
+    .mg-gold-text-dark {
+      background: linear-gradient(110deg, #f7efe6 18%, #dfc38a 38%, #ffffff 50%, #dfc38a 62%, #f7efe6 82%);
+      background-size: 250% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: mgGoldSheen 8s ease-in-out infinite;
+      display: inline-block;
+    }
+
+    /* Kinetic Decorative Section Dividers with Rotating Diamond Glint */
+    .mg-divider {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 1000px;
+      margin: 60px auto;
+      overflow: hidden;
+      opacity: 0.85;
+    }
+
+    .mg-divider::before,
+    .mg-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201, 170, 118, 0.45), transparent);
+    }
+
+    .mg-divider-diamond {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      background: var(--accent-gold);
+      transform: rotate(45deg);
+      margin: 0 20px;
+      box-shadow: 0 0 12px rgba(212, 175, 55, 0.7);
+      animation: diamondGlint 5s ease-in-out infinite;
+    }
+
+    @keyframes diamondGlint {
+      0%, 100% { transform: rotate(45deg) scale(1); opacity: 0.75; }
+      50% { transform: rotate(225deg) scale(1.3); opacity: 1; box-shadow: 0 0 18px rgba(255, 235, 175, 0.95); }
+    }
+
+    /* Ambient Living Scent Aura */
+    .ambient-scent-aura {
+      position: absolute;
+      width: 550px;
+      height: 550px;
+      border-radius: 50%;
+      filter: blur(90px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.14;
+      animation: ambientAuraDrift 16s ease-in-out infinite alternate;
+    }
+
+    @keyframes ambientAuraDrift {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(70px, -50px) scale(1.18); }
+      100% { transform: translate(-50px, 40px) scale(0.92); }
+    }
+
+    /* Scent Dispersion Micro-Mist Waves in Ritual */
+    .scent-dispersion-aura {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 280px;
+      height: 280px;
+      pointer-events: none;
+      z-index: 4;
+    }
+
+    .scent-wave {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1px solid rgba(212, 175, 55, 0.45);
+      animation: scentWaveExpand 4.5s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+    }
+
+    .scent-wave:nth-child(2) { animation-delay: 1.5s; }
+    .scent-wave:nth-child(3) { animation-delay: 3s; }
+
+    @keyframes scentWaveExpand {
+      0% {
+        transform: scale(0.25);
+        opacity: 0.9;
+        border-color: rgba(255, 235, 175, 0.85);
+        box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+      }
+      70% {
+        opacity: 0.3;
+        border-color: rgba(212, 175, 55, 0.25);
+      }
+      100% {
+        transform: scale(1.75);
+        opacity: 0;
+      }
+    }
+
+    /* Monogram Live Laser Engraving Glint */
+    .monogram-preview-cap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 10px;
+      padding: 8px 18px;
+      background: radial-gradient(circle, #2a1f18 0%, #150f0c 100%);
+      border: 1px solid rgba(212, 175, 55, 0.5);
+      border-radius: 999px;
+      color: #ffd875;
+      font-family: var(--font-serif);
+      font-size: 15px;
+      letter-spacing: 0.25em;
+      font-weight: 600;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), inset 0 0 8px rgba(212, 175, 55, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .monogram-preview-cap::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+      transform: skewX(-20deg);
+      animation: monogramGlint 3.5s ease-in-out infinite;
+    }
+
+    @keyframes monogramGlint {
+      0% { left: -100%; }
+      30% { left: 180%; }
+      100% { left: 180%; }
     }
 
     /* ==========================================================================
@@ -793,15 +939,17 @@
       display: flex;
       flex-direction: column;
       position: relative;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
       animation: cardCascade 0.75s cubic-bezier(0.16, 1, 0.3, 1) backwards;
       animation-delay: var(--delay, 0s);
+      perspective: 1000px;
+      transform-style: preserve-3d;
+      will-change: transform;
     }
 
     .product-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.12);
-      border-color: rgba(201, 170, 118, 0.55);
+      box-shadow: 0 28px 65px rgba(22, 14, 8, 0.16);
+      border-color: rgba(201, 170, 118, 0.65);
     }
 
     .card-thumb-wrap {
@@ -812,6 +960,18 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      transform-style: preserve-3d;
+    }
+
+    .card-specular-glare {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 6;
+      border-radius: 4px;
+      opacity: 0;
+      mix-blend-mode: soft-light;
+      transition: opacity 0.35s ease;
     }
 
     .card-thumb-wrap img {
@@ -820,11 +980,12 @@
       object-fit: cover;
       image-rendering: -webkit-optimize-contrast;
       image-rendering: crisp-edges;
-      transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+      transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+      transform-origin: center center;
     }
 
     .product-card:hover .card-thumb-wrap img {
-      transform: scale(1.08);
+      transform: scale(1.05) translateZ(16px);
     }
 
     /* ==========================================================================
@@ -1757,11 +1918,12 @@
   </section>
 
   <!-- BRAND MANIFESTO SECTION -->
-  <section class="manifesto-section" id="manifesto">
+  <section class="manifesto-section" id="manifesto" style="position:relative; overflow:hidden;">
+    <div class="ambient-scent-aura" style="top:-80px; right:-60px; background:radial-gradient(circle, rgba(201,170,118,0.28) 0%, rgba(160,110,60,0.12) 50%, transparent 70%);"></div>
     <div class="manifesto-container">
       <span class="manifesto-eyebrow scroll-reveal">BRAND MANIFESTO</span>
       <h2 class="manifesto-statement scroll-reveal">
-        LORÉN explores fragrance through <em>quiet contrast</em>, where flowers, shadow, and light come together in compositions that feel <em>intimate, modern, and softly memorable</em>. Each scent is created as a study in atmosphere — refined, tactile, and designed to linger with understated presence.
+        LORÉN explores fragrance through <em class="mg-gold-text">quiet contrast</em>, where flowers, shadow, and light come together in compositions that feel <em class="mg-gold-text">intimate, modern, and softly memorable</em>. Each scent is created as a study in atmosphere — refined, tactile, and designed to linger with understated presence.
       </h2>
       <p class="manifesto-body scroll-reveal">
         Rooted in a considered approach to scent, LORÉN values refined materials, modern simplicity, and a slower, more intentional ritual of wearing perfume. The house explores florals with restraint, allowing each composition to feel clean, contemporary, and quietly expressive.
@@ -1769,15 +1931,21 @@
     </div>
   </section>
 
+  <!-- EDITORIAL KINETIC GOLD DIVIDER -->
+  <div class="mg-divider scroll-reveal" aria-hidden="true">
+    <span class="mg-divider-diamond"></span>
+  </div>
+
   <!-- ========================================================================
        PROPER E-COMMERCE SELLING SECTION: MULTIPLE FRAGRANCES
        ======================================================================== -->
-  <section class="shop-section" id="shop">
+  <section class="shop-section" id="shop" style="position:relative; overflow:hidden;">
+    <div class="ambient-scent-aura" style="bottom:-100px; left:-80px; background:radial-gradient(circle, rgba(140,80,180,0.2) 0%, rgba(212,175,55,0.1) 45%, transparent 70%);"></div>
     
     <div class="shop-header scroll-reveal">
       <div class="shop-title-area">
         <span style="font-size:11px; font-weight:700; letter-spacing:0.2em; color:#8c734e; text-transform:uppercase;">The Olfactory Archive</span>
-        <h2>Permanent Collection</h2>
+        <h2><span class="mg-gold-text">Permanent Collection</span></h2>
         <p>Eight distinct olfactory studies crafted through artisanal maceration in Grasse, France.</p>
       </div>
 
@@ -1793,23 +1961,35 @@
 
     <!-- 8 MULTI-FRAGRANCE CATALOG GRID -->
     <div class="catalog-grid" id="catalog-grid">
-      <!-- Generated dynamically by script for full e-commerce interaction -->
+      <!-- Generated dynamically by script with 3D tilt and specular reflection -->
     </div>
 
   </section>
 
+  <!-- EDITORIAL KINETIC GOLD DIVIDER -->
+  <div class="mg-divider scroll-reveal" aria-hidden="true">
+    <span class="mg-divider-diamond"></span>
+  </div>
+
   <!-- THE RITUAL SECTION -->
-  <section class="ritual-section" id="ritual">
+  <section class="ritual-section" id="ritual" style="position:relative; overflow:hidden;">
+    <div class="ambient-scent-aura" style="top:20%; right:5%; background:radial-gradient(circle, rgba(212,175,55,0.22) 0%, rgba(80,20,100,0.15) 50%, transparent 70%);"></div>
     <div class="ritual-container scroll-reveal">
       
       <div class="ritual-art-frame scroll-reveal-left">
+        <!-- Animated Concentric Scent Dispersion Waves -->
+        <div class="scent-dispersion-aura" aria-hidden="true">
+          <div class="scent-wave"></div>
+          <div class="scent-wave"></div>
+          <div class="scent-wave"></div>
+        </div>
         <img src="assets/loren/ritual-scene-4k.jpg" alt="The Ritual of Perfume Mist on Skin">
       </div>
 
       <div class="ritual-content scroll-reveal-right">
         <span class="hero-eyebrow">THE RITUAL</span>
         <h3 style="font-family:var(--font-serif); font-size:46px; font-weight:400; line-height:1.2; margin-bottom:24px;">
-          A quiet <em>ritual</em> of scent,<br>
+          A quiet <em class="mg-gold-text-dark">ritual</em> of scent,<br>
           softness, and presence.
         </h3>
         <p style="font-size:14px; line-height:1.8; color:var(--text-muted-light); font-weight:300;">
@@ -1847,17 +2027,23 @@
     </div>
   </section>
 
+  <!-- EDITORIAL KINETIC GOLD DIVIDER -->
+  <div class="mg-divider scroll-reveal" aria-hidden="true">
+    <span class="mg-divider-diamond"></span>
+  </div>
+
   <!-- ========================================================================
        DISCOVERY WARDROBE FEATURE SECTION (THE #1 CONVERTING PERFUME PRODUCT)
        ======================================================================== -->
-  <section class="shop-section" id="discovery-set" style="background:var(--bg-cream);">
-    <div class="scroll-reveal-scale" style="max-width:1100px; margin:0 auto; background:#ffffff; border:1px solid var(--line-light); border-radius:4px; padding:48px; display:grid; grid-template-columns:1fr 1.2fr; gap:48px; align-items:center;">
+  <section class="shop-section" id="discovery-set" style="background:var(--bg-cream); position:relative; overflow:hidden;">
+    <div class="ambient-scent-aura" style="top:-60px; right:-40px; background:radial-gradient(circle, rgba(201,170,118,0.25) 0%, rgba(180,120,60,0.12) 50%, transparent 70%);"></div>
+    <div class="scroll-reveal-scale" style="max-width:1100px; margin:0 auto; background:#ffffff; border:1px solid var(--line-light); border-radius:4px; padding:48px; display:grid; grid-template-columns:1fr 1.2fr; gap:48px; align-items:center; position:relative; z-index:1;">
       <div style="border-radius:4px; overflow:hidden; border:1px solid var(--line-light); background:#faf8f5;">
         <img src="assets/loren/product-discovery-4k.jpg" alt="LORÉN Discovery Wardrobe" style="width:100%; height:auto; display:block;">
       </div>
       <div>
         <span style="font-size:10px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#c9aa76; display:block; margin-bottom:12px;">Risk-Free Exploration</span>
-        <h3 style="font-family:var(--font-serif); font-size:36px; font-weight:400; line-height:1.2; margin-bottom:16px;">The Discovery Wardrobe</h3>
+        <h3 style="font-family:var(--font-serif); font-size:36px; font-weight:400; line-height:1.2; margin-bottom:16px;"><span class="mg-gold-text">The Discovery Wardrobe</span></h3>
         <p style="font-size:14px; color:var(--text-muted-dark); line-height:1.8; margin-bottom:20px;">
           Experience all five permanent extraits at home. Includes 5 × 2ml atomizers (Iris Noir, Magnolia Cendrée, Nuit de Jasmin, Tubéreuse Royale, Fleur d’Orchidée) in an embossed black linen presentation box.
         </p>
@@ -1866,7 +2052,7 @@
         </div>
         <div style="display:flex; align-items:center; gap:20px;">
           <span style="font-size:22px; font-weight:700; color:var(--text-dark);">$48 USD</span>
-          <button class="btn-card-add" style="padding:14px 28px; font-size:12px;" onclick="quickAddToCart(7)">
+          <button class="btn-card-add" style="padding:14px 28px; font-size:12px;" onclick="quickAddToCart(7, event)">
             Order Discovery Set ↗
           </button>
         </div>
@@ -1919,12 +2105,13 @@
             <input type="checkbox" id="chk-engraving" onchange="toggleEngravingInput()">
             <span>Complimentary Cap Monogramming (Up to 3 Initials)</span>
           </label>
-          <input type="text" id="engraving-text" class="engraving-input" placeholder="e.g. J.A." maxlength="3" style="display:none;">
+          <input type="text" id="engraving-text" class="engraving-input" placeholder="e.g. J.A." maxlength="3" style="display:none;" oninput="updateMonogramLivePreview()">
+          <div id="monogram-preview" class="monogram-preview-cap" style="display:none;"></div>
         </div>
 
         <!-- ACTION -->
         <div style="display:flex; gap:12px; margin-top:auto;">
-          <button class="btn-checkout-primary" id="modal-add-btn" onclick="addModalToBag()">
+          <button class="btn-checkout-primary" id="modal-add-btn" onclick="addModalToBag(event)">
             Add to Private Bag — $<span id="modal-current-price">120</span>
           </button>
         </div>
@@ -2163,7 +2350,79 @@
       { id: 0, size: '100ml', price: 210, engraving: 'J.A.' }
     ];
 
-    // RENDER PRODUCT CATALOG
+    // ==========================================================================
+    // GOLDEN STARLIGHT ADD-TO-BAG PARTICLE FLIGHT TRAJECTORY (MOTION GRAPHIC)
+    // ==========================================================================
+    function spawnCartParticleTrajectory(sourceBtn) {
+      if (!sourceBtn) return;
+      const canvas = document.getElementById('luxury-cursor-trail-canvas');
+      const navBtn = document.querySelector('.sticky-store-nav .nav-action-btn:last-child') || document.getElementById('sticky-nav');
+      if (!canvas || !navBtn) return;
+
+      const btnRect = sourceBtn.getBoundingClientRect();
+      const navRect = navBtn.getBoundingClientRect();
+
+      const startX = btnRect.left + btnRect.width / 2;
+      const startY = btnRect.top + btnRect.height / 2;
+      const targetX = navRect.left + navRect.width / 2;
+      const targetY = navRect.top + navRect.height / 2;
+
+      const flightSparks = [];
+      const colors = ['212, 175, 55', '255, 235, 175', '242, 210, 120', '255, 255, 255'];
+
+      for (let i = 0; i < 14; i++) {
+        flightSparks.push({
+          progress: 0,
+          speed: 0.024 + Math.random() * 0.016,
+          startX: startX,
+          startY: startY,
+          cpX: (startX + targetX) / 2 + (Math.random() - 0.5) * 140,
+          cpY: Math.min(startY, targetY) - (50 + Math.random() * 100),
+          targetX: targetX,
+          targetY: targetY,
+          size: Math.random() * 2.6 + 1.2,
+          color: colors[Math.floor(Math.random() * colors.length)]
+        });
+      }
+
+      const ctx = canvas.getContext('2d');
+
+      function animFlight() {
+        let active = false;
+        for (let i = 0; i < flightSparks.length; i++) {
+          const sp = flightSparks[i];
+          if (sp.progress < 1) {
+            active = true;
+            sp.progress += sp.speed;
+            const t = Math.min(1, sp.progress);
+            const curX = (1 - t) * (1 - t) * sp.startX + 2 * (1 - t) * t * sp.cpX + t * t * sp.targetX;
+            const curY = (1 - t) * (1 - t) * sp.startY + 2 * (1 - t) * t * sp.cpY + t * t * sp.targetY;
+
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(curX, curY, sp.size, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(${sp.color}, ${Math.max(0, 1 - sp.progress * 0.35)})`;
+            ctx.shadowColor = `rgba(${sp.color}, 0.85)`;
+            ctx.shadowBlur = sp.size * 3;
+            ctx.fill();
+            ctx.restore();
+
+            if (sp.progress >= 1) {
+              const badge = document.querySelector('.bag-badge');
+              if (badge) {
+                badge.classList.remove('pop');
+                void badge.offsetWidth;
+                badge.classList.add('pop');
+              }
+            }
+          }
+        }
+        if (active) requestAnimationFrame(animFlight);
+      }
+      requestAnimationFrame(animFlight);
+    }
+
+    // RENDER PRODUCT CATALOG WITH 3D TILT & SPECULAR REFLECTION
     function renderCatalog(filter = 'all') {
       const grid = document.getElementById('catalog-grid');
       grid.innerHTML = '';
@@ -2179,6 +2438,7 @@
         card.innerHTML = `
           <div class="card-thumb-wrap">
             <span class="card-tag">${f.badge}</span>
+            <div class="card-specular-glare"></div>
             <img src="${f.img}" alt="${f.name}">
             <div class="card-quick-view" onclick="openPdp(${f.id})">Quick View & Notes ↗</div>
           </div>
@@ -2196,12 +2456,33 @@
 
             <div class="card-bottom-row">
               <span class="card-price" id="card-price-${f.id}">$${f.price50} USD</span>
-              <button class="btn-card-add" onclick="quickAddToCart(${f.id})">
+              <button class="btn-card-add" onclick="quickAddToCart(${f.id}, event)">
                 Add to Bag
               </button>
             </div>
           </div>
         `;
+
+        // 3D GYROSCOPIC TILT & SPECULAR FLACON REFLECTION (MOTION GRAPHIC)
+        const glare = card.querySelector('.card-specular-glare');
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const rotX = ((y / rect.height) - 0.5) * -11;
+          const rotY = ((x / rect.width) - 0.5) * 11;
+          card.style.transform = `perspective(1000px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) translateY(-8px)`;
+          if (glare) {
+            glare.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.7) 0%, rgba(212,175,55,0.2) 35%, transparent 65%)`;
+            glare.style.opacity = '1';
+          }
+        }, { passive: true });
+
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = '';
+          if (glare) glare.style.opacity = '0';
+        });
+
         grid.appendChild(card);
       });
     }
@@ -2223,13 +2504,16 @@
       document.getElementById(`card-price-${id}`).innerText = `$${price} USD`;
     }
 
-    // QUICK ADD TO BAG
-    function quickAddToCart(id) {
+    // QUICK ADD TO BAG WITH GOLDEN FLIGHT TRAJECTORY
+    function quickAddToCart(id, event) {
+      if (event && event.currentTarget) {
+        spawnCartParticleTrajectory(event.currentTarget);
+      }
       const f = fragrances.find(item => item.id === id);
       bag.push({ id: f.id, size: '50ml', price: f.price50, engraving: '' });
       renderBag();
       showToast(`${f.name} added to your bag`);
-      openBag();
+      setTimeout(() => openBag(), 400);
     }
 
     // MODAL PDP (PRODUCT DETAIL VIEW)
@@ -2259,6 +2543,15 @@
       document.getElementById('chk-engraving').checked = false;
       document.getElementById('engraving-text').style.display = 'none';
       document.getElementById('engraving-text').value = '';
+      const preview = document.getElementById('monogram-preview');
+      if (preview) { preview.style.display = 'none'; preview.innerText = ''; }
+
+      // Staggered Olfactory Pyramid Note emergence
+      document.querySelectorAll('.pyramid-row').forEach((row, i) => {
+        row.style.animation = 'none';
+        void row.offsetWidth;
+        row.style.animation = `cardCascade 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards ${0.1 + i * 0.1}s`;
+      });
 
       document.getElementById('pdp-modal').classList.add('open');
     }
@@ -2278,11 +2571,29 @@
     function toggleEngravingInput() {
       const chk = document.getElementById('chk-engraving');
       const input = document.getElementById('engraving-text');
+      const preview = document.getElementById('monogram-preview');
       input.style.display = chk.checked ? 'block' : 'none';
+      if (preview) preview.style.display = (chk.checked && input.value.trim()) ? 'inline-flex' : 'none';
       if (chk.checked) input.focus();
     }
 
-    function addModalToBag() {
+    function updateMonogramLivePreview() {
+      const input = document.getElementById('engraving-text');
+      const preview = document.getElementById('monogram-preview');
+      if (!input || !preview) return;
+      const text = input.value.trim().toUpperCase();
+      if (text.length > 0) {
+        preview.style.display = 'inline-flex';
+        preview.innerText = text.split('').join(' · ');
+      } else {
+        preview.style.display = 'none';
+      }
+    }
+
+    function addModalToBag(event) {
+      if (event && event.currentTarget) {
+        spawnCartParticleTrajectory(event.currentTarget);
+      }
       const price = currentModalSize === '50ml' ? currentModalFragrance.price50 : currentModalFragrance.price100;
       const engraving = document.getElementById('chk-engraving').checked ? document.getElementById('engraving-text').value.toUpperCase() : '';
       bag.push({
@@ -2294,7 +2605,7 @@
       closePdp();
       renderBag();
       showToast(`${currentModalFragrance.name} (${currentModalSize}) added`);
-      openBag();
+      setTimeout(() => openBag(), 400);
     }
 
     // RENDER BAG DRAWER
