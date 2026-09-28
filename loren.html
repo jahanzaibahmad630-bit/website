@@ -2566,12 +2566,15 @@
       <div class="shop-title-area">
         <span style="font-size:11px; font-weight:700; letter-spacing:0.2em; color:#8c734e; text-transform:uppercase;">The Olfactory Archive</span>
         <h2><span class="mg-gold-text">Permanent Collection</span></h2>
-        <p>Eight distinct olfactory studies crafted through artisanal maceration in Grasse, France.</p>
+        <p>Twelve distinct creations crafted through artisanal maceration in Grasse, France — Rare Extraits, Porcelain Bougies, &amp; Scented Rituals.</p>
       </div>
 
-      <!-- Olfactory Family Filter Tabs -->
+      <!-- Olfactory Family & Category Filter Tabs -->
       <div class="filter-bar">
-        <button class="filter-pill active" onclick="applyFilter('all', this)">All (8)</button>
+        <button class="filter-pill active" onclick="applyFilter('all', this)">All (12)</button>
+        <button class="filter-pill" onclick="applyFilter('extraits', this)">Extraits de Parfum</button>
+        <button class="filter-pill" onclick="applyFilter('bougies', this)">Bougies (Home)</button>
+        <button class="filter-pill" onclick="applyFilter('body', this)">Body &amp; Hair Rituals</button>
         <button class="filter-pill" onclick="applyFilter('dark', this)">Dark Florals</button>
         <button class="filter-pill" onclick="applyFilter('solar', this)">Solar Whites</button>
         <button class="filter-pill" onclick="applyFilter('woods', this)">Smoked Woods</button>
@@ -2889,7 +2892,9 @@
         <ul style="list-style:none; display:flex; flex-direction:column; gap:10px; font-size:13px;">
           <li><a href="maison.html" style="color:var(--accent-gold); text-decoration:none; font-weight:600;">La Maison &amp; Savoir-Faire →</a></li>
           <li><a href="quiz.html" style="color:var(--accent-gold); text-decoration:none; font-weight:600;">Diagnostic Olfactif (Quiz) →</a></li>
-          <li><a href="#shop" style="color:inherit; text-decoration:none;">Extraits de Parfum</a></li>
+          <li><a href="#shop" onclick="applyFilter('extraits', document.querySelectorAll('.filter-pill')[1])" style="color:inherit; text-decoration:none;">Extraits de Parfum</a></li>
+          <li><a href="#shop" onclick="applyFilter('bougies', document.querySelectorAll('.filter-pill')[2])" style="color:inherit; text-decoration:none;">Bougies &amp; Home</a></li>
+          <li><a href="#shop" onclick="applyFilter('body', document.querySelectorAll('.filter-pill')[3])" style="color:inherit; text-decoration:none;">Body &amp; Hair Rituals</a></li>
           <li><a href="#discovery-set" style="color:inherit; text-decoration:none;">Discovery Wardrobes</a></li>
           <li><a href="#ritual" style="color:inherit; text-decoration:none;">The Atomizers</a></li>
           <li><a href="#shop" style="color:inherit; text-decoration:none;">Bespoke Engraving</a></li>
@@ -2937,7 +2942,7 @@
         id: 0,
         name: "Iris Noir",
         concentration: "Maison Signature Extrait",
-        category: "dark woods",
+        category: "dark woods extraits",
         badge: "Bestseller",
         price50: 145,
         price100: 210,
@@ -2975,7 +2980,7 @@
         id: 1,
         name: "Magnolia Cendrée",
         concentration: "Eau de Parfum",
-        category: "solar",
+        category: "solar extraits",
         badge: "Solar White",
         price50: 120,
         price100: 185,
@@ -3010,7 +3015,7 @@
         id: 2,
         name: "Nuit de Jasmin",
         concentration: "Extrait de Parfum",
-        category: "dark",
+        category: "dark extraits",
         badge: "Nocturnal Floral",
         price50: 120,
         price100: 185,
@@ -3045,7 +3050,7 @@
         id: 3,
         name: "Tubéreuse Royale",
         concentration: "Extrait de Parfum",
-        category: "dark",
+        category: "dark extraits",
         badge: "Opulent White",
         price50: 135,
         price100: 195,
@@ -3080,7 +3085,7 @@
         id: 4,
         name: "Fleur d’Orchidée",
         concentration: "Eau de Parfum",
-        category: "solar woods",
+        category: "solar woods extraits",
         badge: "Warm Floral",
         price50: 125,
         price100: 190,
@@ -3115,7 +3120,7 @@
         id: 5,
         name: "Vétiver Minéral",
         concentration: "Extrait de Parfum",
-        category: "woods",
+        category: "woods extraits",
         badge: "Cold Mineral",
         price50: 130,
         price100: 195,
@@ -3150,7 +3155,7 @@
         id: 6,
         name: "Santal Alabâtre",
         concentration: "Extrait de Parfum",
-        category: "woods",
+        category: "woods extraits",
         badge: "Warm Velvet",
         price50: 140,
         price100: 205,
@@ -3185,10 +3190,11 @@
         id: 7,
         name: "The Discovery Wardrobe",
         concentration: "5 × 2ml Presentation Box",
-        category: "sets",
+        category: "sets extraits",
         badge: "Sample Set + $48 Voucher",
         price50: 48,
         price100: 48,
+        singleSize: "5 × 2ml Box · $48",
         img: "assets/loren/product-discovery-4k.jpg",
         sub: "5 × 2ml Extraits · 100% Refundable",
         desc: "Explore the complete house at your own pace. Includes 5 × 2ml atomizers + a $48 voucher towards your chosen full flacon.",
@@ -3213,6 +3219,148 @@
           base: [
             { name: "Fleur d’Orchidée 2ml", story: "Vanilla Orchid & Cardamom Sandalwood." },
             { name: "Maison Gift Certificate", story: "$48 credit automatically deducted from your first 50ml or 100ml flacon." }
+          ]
+        }
+      },
+      {
+        id: 8,
+        name: "Bougie Parfumée Iris Noir",
+        concentration: "Bougie de Cire Noire (280g)",
+        category: "bougies dark woods home",
+        badge: "Porcelain Candle",
+        price50: 95,
+        price100: 95,
+        singleSize: "280g French Porcelain · $95",
+        img: "assets/loren/product-candle-noir-4k.jpg",
+        sub: "280g Hand-Poured · 65h Combustion",
+        desc: "Hand-poured black vegetal wax inside a heavy matte black porcelain vessel debossed with the Maison crest. Releases smoked French cade, Florentine orris, and golden ambergris.",
+        top: "Florentine Orris, Smoked French Cade",
+        heart: "Smoked Black Tea, Velvet Violet",
+        base: "Golden Ambergris, Natural Mineral Wax",
+        longevity: "65 Hours Combustion",
+        longevityPercent: 95,
+        sillage: "Room-Filling Atmosphere (45m²)",
+        sillagePercent: 90,
+        season: "Autumn & Winter",
+        timeOfDay: "Intimate Evening Glow",
+        botanicals: {
+          top: [
+            { name: "Florentine Orris", story: "Aged root powder infused into hot vegetal wax." },
+            { name: "French Cade Wood", story: "Smoky juniper wood providing fireside salon atmosphere." }
+          ],
+          heart: [
+            { name: "Smoked Black Tea", story: "Rare leaves giving warm atmospheric diffusion." },
+            { name: "Velvet Violet", story: "Soft floral comfort for living spaces." }
+          ],
+          base: [
+            { name: "Natural Black Wax", story: "100% sustainable European rapeseed and coconut wax." },
+            { name: "Braided Cotton Wick", story: "Lead-free wick ensuring clean, soot-free combustion." }
+          ]
+        }
+      },
+      {
+        id: 9,
+        name: "Bougie Santal Alabâtre",
+        concentration: "Bougie de Pierre d'Alabâtre (280g)",
+        category: "bougies woods home",
+        badge: "Carved Alabaster",
+        price50: 110,
+        price100: 110,
+        singleSize: "280g Alabaster Stone · $110",
+        img: "assets/loren/product-candle-santal-4k.jpg",
+        sub: "280g Carved Stone · 65h Combustion",
+        desc: "Sculpted from genuine translucent white alabaster stone with a brushed solid brass rim. Pure creamy wax infused with Mysore sandalwood, cardamom milk, and charred oak.",
+        top: "Green Cardamom, White Cypress",
+        heart: "Mysore Sandalwood, Cashmere Wood",
+        base: "French Charred Oak, Creamy Bisque Wax",
+        longevity: "65 Hours Combustion",
+        longevityPercent: 95,
+        sillage: "Velvety Ambient Warmth",
+        sillagePercent: 88,
+        season: "Winter & Late Autumn",
+        timeOfDay: "Fireside & Salon Sanctuary",
+        botanicals: {
+          top: [
+            { name: "Green Cardamom", story: "Fresh aristocratic spice illuminating the ambient air." },
+            { name: "White Cypress", story: "Crisp architectural needles bringing clarity." }
+          ],
+          heart: [
+            { name: "Mysore Sandalwood", story: "Rich sacred heartwood yielding creamy diffusion." },
+            { name: "Cashmere Accord", story: "Envelops the salon in tactile softness." }
+          ],
+          base: [
+            { name: "Translucent Alabaster", story: "Glows with a warm lantern effect when lit." },
+            { name: "Brushed Brass Rim", story: "Protects stone lip and reflects golden candlelight." }
+          ]
+        }
+      },
+      {
+        id: 10,
+        name: "Brume pour Cheveux Iris Noir",
+        concentration: "Brume Parfumée pour Cheveux (75ml)",
+        category: "body dark woods",
+        badge: "Hair Ritual",
+        price50: 85,
+        price100: 85,
+        singleSize: "75ml Silk Flacon · $85",
+        img: "assets/loren/product-hair-mist-4k.jpg",
+        sub: "75ml Silk Infusion · Alcohol-Free",
+        desc: "An ethereal scented hair mist enriched with wild Japanese camellia oil and provitamin B5. Leaves hair softly nourished, radiant, and trailing Iris Noir with every movement.",
+        top: "Dewy Orris Petals, Calabrian Bergamot",
+        heart: "Wild Camellia Oil, Silk Proteins",
+        base: "Weightless Ambergris, Skin Musk",
+        longevity: "8–10 Hours Hair Sillage",
+        longevityPercent: 82,
+        sillage: "Radiant Veil in Motion",
+        sillagePercent: 78,
+        season: "All Seasons",
+        timeOfDay: "Day to Night Hair Ritual",
+        botanicals: {
+          top: [
+            { name: "Dewy Orris Petals", story: "Micro-distilled floral water refreshing the scalp." },
+            { name: "Calabrian Bergamot", story: "Delivers an instantaneous flash of clean vitality." }
+          ],
+          heart: [
+            { name: "Wild Camellia Oil", story: "Ancient Japanese botanical oil providing featherlight shine." },
+            { name: "Hydrolyzed Silk", story: "Binds to keratin for thermal and UV protection." }
+          ],
+          base: [
+            { name: "Weightless Ambergris", story: "Anchors the fragrance gently to hair fibers without weighing them down." }
+          ]
+        }
+      },
+      {
+        id: 11,
+        name: "Huile Sèche Parfumée Nuit de Jasmin",
+        concentration: "Huile Botanique Sublime (100ml)",
+        category: "body dark solar",
+        badge: "Body & Bath",
+        price50: 98,
+        price100: 98,
+        singleSize: "100ml Crystal Flask · $98",
+        img: "assets/loren/product-body-oil-4k.jpg",
+        sub: "100ml Pure Botanical · Golden Squalane",
+        desc: "A satin-finish dry botanical body and bath oil infused with midnight Sambac jasmine, cold-pressed golden jojoba, and plant squalane. Leaves skin glowing, silky, and deeply perfumed.",
+        top: "Midnight Sambac Petals, Sweet Almond",
+        heart: "Olive-Derived Squalane, Solar Ylang-Ylang",
+        base: "Bourbon Vanilla, Golden Amber Resin",
+        longevity: "12 Hours Skin Cling & Glow",
+        longevityPercent: 88,
+        sillage: "Intimate Luminous Glow",
+        sillagePercent: 75,
+        season: "All Seasons · Post-Bath",
+        timeOfDay: "Nocturne & Golden Hour",
+        botanicals: {
+          top: [
+            { name: "Midnight Sambac Jasmine", story: "Solar maceration of blossoms yielding rich floral lipid infusion." },
+            { name: "Sweet Almond Oil", story: "Cold-pressed from Provence for intense lipid replenishment." }
+          ],
+          heart: [
+            { name: "Plant Squalane", story: "Biocompatible lipid that absorbs instantaneously with dry touch." },
+            { name: "Solar Ylang-Ylang", story: "Brings exotic golden sun warmth to the skin." }
+          ],
+          base: [
+            { name: "Bourbon Vanilla Cask", story: "Warm gourmand finish lingering delicately on warm skin." }
           ]
         }
       }
@@ -3320,12 +3468,16 @@
             <div class="card-fragrance-sub">${f.sub}</div>
             <div class="card-notes-preview">${f.desc}</div>
 
-            ${f.id !== 7 ? `
+            ${f.price50 !== f.price100 ? `
             <div class="card-size-selector">
               <button class="size-btn active" onclick="selectCardSize(this, ${f.id}, '50ml')">50ml · $${f.price50}</button>
               <button class="size-btn" onclick="selectCardSize(this, ${f.id}, '100ml')">100ml · $${f.price100}</button>
             </div>
-            ` : ''}
+            ` : `
+            <div class="card-size-selector">
+              <button class="size-btn active" style="pointer-events:none; width:100%; text-align:center;">${f.singleSize || ('Standard Vessel · $' + f.price50)}</button>
+            </div>
+            `}
 
             <div class="card-bottom-row">
               <span class="card-price" id="card-price-${f.id}">$${f.price50} USD</span>
@@ -3383,7 +3535,8 @@
         spawnCartParticleTrajectory(event.currentTarget);
       }
       const f = fragrances.find(item => item.id === id);
-      bag.push({ id: f.id, size: '50ml', price: f.price50, engraving: '' });
+      const sizeLabel = f.price50 === f.price100 ? (f.singleSize || 'Standard Vessel') : '50ml';
+      bag.push({ id: f.id, size: sizeLabel, price: f.price50, engraving: '' });
       renderBag();
       showToast(`${f.name} added to your bag`);
       setTimeout(() => openBag(), 400);
@@ -3445,12 +3598,22 @@
       selectPyramidTier('top');
 
       // 3. SIZE & PRICING
-      document.getElementById('modal-price-50').innerText = f.price50;
-      document.getElementById('modal-price-100').innerText = f.price100;
-      document.getElementById('modal-current-price').innerText = f.price50;
-
-      document.getElementById('modal-size-50').classList.add('active');
-      document.getElementById('modal-size-100').classList.remove('active');
+      if (f.price50 === f.price100) {
+        document.getElementById('modal-price-50').innerText = f.price50;
+        document.getElementById('modal-current-price').innerText = f.price50;
+        document.getElementById('modal-size-50').innerText = f.singleSize || `Standard · $${f.price50}`;
+        document.getElementById('modal-size-100').style.display = 'none';
+        document.getElementById('modal-size-50').classList.add('active');
+      } else {
+        document.getElementById('modal-price-50').innerText = f.price50;
+        document.getElementById('modal-price-100').innerText = f.price100;
+        document.getElementById('modal-current-price').innerText = f.price50;
+        document.getElementById('modal-size-50').innerText = `50ml - $${f.price50}`;
+        document.getElementById('modal-size-100').innerText = `100ml - $${f.price100}`;
+        document.getElementById('modal-size-100').style.display = 'inline-block';
+        document.getElementById('modal-size-50').classList.add('active');
+        document.getElementById('modal-size-100').classList.remove('active');
+      }
 
       document.getElementById('chk-engraving').checked = false;
       document.getElementById('engraving-text').style.display = 'none';
@@ -3556,17 +3719,19 @@
       if (event && event.currentTarget) {
         spawnCartParticleTrajectory(event.currentTarget);
       }
-      const price = currentModalSize === '50ml' ? currentModalFragrance.price50 : currentModalFragrance.price100;
+      const isSingleSize = currentModalFragrance.price50 === currentModalFragrance.price100;
+      const size = isSingleSize ? (currentModalFragrance.singleSize || 'Standard Vessel') : currentModalSize;
+      const price = (!isSingleSize && currentModalSize === '100ml') ? currentModalFragrance.price100 : currentModalFragrance.price50;
       const engraving = document.getElementById('chk-engraving').checked ? document.getElementById('engraving-text').value.toUpperCase() : '';
       bag.push({
         id: currentModalFragrance.id,
-        size: currentModalSize,
+        size: size,
         price: price,
         engraving: engraving
       });
       closePdp();
       renderBag();
-      showToast(`${currentModalFragrance.name} (${currentModalSize}) added`);
+      showToast(`${currentModalFragrance.name} (${size}) added`);
       setTimeout(() => openBag(), 400);
     }
 
