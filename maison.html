@@ -97,6 +97,16 @@
       z-index: 1000;
     }
 
+    /* HIGH PERFORMANCE HARDWARE ACCELERATION & LAZY SECTION RENDERING */
+    .section-chapter,
+    .section-savoir-faire,
+    .section-nez,
+    .section-cta,
+    .site-footer {
+      content-visibility: auto;
+      contain-intrinsic-size: 1px 650px;
+    }
+
     /* STICKY STORE NAVIGATION */
     .sticky-store-nav {
       position: fixed;
@@ -951,7 +961,7 @@
 
       <!-- 4K HERO CINEMATIC ESTATE IMAGE -->
       <div class="maison-hero-media-wrap">
-        <img src="assets/loren/maison-estate-4k.jpg" alt="Maison LORÉN Historic Estate in Grasse France" class="maison-hero-img">
+        <img src="assets/loren/maison-estate-4k.jpg" alt="Maison LORÉN Historic Estate in Grasse France" class="maison-hero-img" fetchpriority="high" decoding="async">
         <span class="maison-hero-badge">Le Domaine de Grasse · Terroir Floral depuis 1924</span>
       </div>
 
@@ -1023,7 +1033,7 @@
 
       <div class="chapter-media-pane scroll-reveal">
         <div class="chapter-media-frame">
-          <img src="assets/loren/ritual-scene-4k.jpg" alt="Botanical Harvest in Grasse France">
+          <img src="assets/loren/ritual-scene-4k.jpg" alt="Botanical Harvest in Grasse France" loading="lazy" decoding="async">
           <span class="chapter-media-badge">Terroir de Grasse · 43°39'36"N</span>
         </div>
       </div>
@@ -1051,7 +1061,7 @@
         <!-- 4K VAULT MEDIA FRAME -->
         <div class="scroll-reveal">
           <div class="chapter-media-frame">
-            <img src="assets/loren/maison-vault-4k.jpg" alt="LORÉN Cold Maceration Laboratory in Grasse">
+            <img src="assets/loren/maison-vault-4k.jpg" alt="LORÉN Cold Maceration Laboratory in Grasse" loading="lazy" decoding="async">
             <span class="chapter-media-badge">Les Caves de Grasse · Fûts de Chêne Français</span>
           </div>
         </div>
@@ -1104,7 +1114,7 @@
       <!-- 4K PORTRAIT OF LE NEZ -->
       <div class="scroll-reveal">
         <div class="chapter-media-frame">
-          <img src="assets/loren/maison-nez-4k.jpg" alt="Master Perfumer Le Nez Maison LORÉN">
+          <img src="assets/loren/maison-nez-4k.jpg" alt="Master Perfumer Le Nez Maison LORÉN" loading="lazy" decoding="async">
           <span class="chapter-media-badge" style="background:rgba(24,17,11,0.85); color:#ffd875;">Le Nez · Atelier Paris</span>
         </div>
       </div>
@@ -1177,7 +1187,7 @@
 
       <div class="chapter-media-pane scroll-reveal">
         <div class="chapter-media-frame">
-          <img src="assets/loren/product-iris-noir-4k.jpg" alt="Refillable Crystal Flacon Architecture">
+          <img src="assets/loren/product-iris-noir-4k.jpg" alt="Refillable Crystal Flacon Architecture" loading="lazy" decoding="async">
           <span class="chapter-media-badge">Crystal Architecture · 100% Refillable</span>
         </div>
       </div>
@@ -1416,18 +1426,19 @@
     }
 
     /* ==========================================================================
-       LUXURY GOLDEN CURSOR TRAIL PARTICLES
+       LUXURY GOLDEN CURSOR TRAIL PARTICLES (IDLE-AWARE, HARDWARE-ACCELERATED)
        ========================================================================== */
     const canvas = document.getElementById('luxury-cursor-trail-canvas');
     const ctx = canvas ? canvas.getContext('2d') : null;
     let particles = [];
+    let particlesRunning = false;
 
     function resizeCanvas() {
       if (!canvas) return;
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     }
-    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('resize', resizeCanvas, { passive: true });
     resizeCanvas();
 
     window.addEventListener('pointermove', (e) => {
@@ -1443,12 +1454,21 @@
           vx: (Math.random() - 0.5) * 0.8,
           vy: (Math.random() - 0.5) * 0.8 - 0.3
         });
+        if (!particlesRunning) {
+          particlesRunning = true;
+          requestAnimationFrame(renderParticles);
+        }
       }
-    });
+    }, { passive: true });
 
     function renderParticles() {
       if (!ctx || !canvas) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (particles.length === 0) {
+        particlesRunning = false;
+        return;
+      }
 
       for (let i = particles.length - 1; i >= 0; i--) {
         const p = particles[i];
@@ -1464,15 +1484,11 @@
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(${p.color}, ${p.alpha})`;
-        ctx.shadowBlur = 8;
-        ctx.shadowColor = `rgba(${p.color}, 0.8)`;
         ctx.fill();
-        ctx.shadowBlur = 0;
       }
 
       requestAnimationFrame(renderParticles);
     }
-    requestAnimationFrame(renderParticles);
   </script>
 </body>
 </html>

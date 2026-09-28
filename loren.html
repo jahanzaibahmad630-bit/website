@@ -62,6 +62,15 @@
       color: var(--bg-darker);
     }
 
+    /* HIGH PERFORMANCE HARDWARE ACCELERATION & LAZY SECTION RENDERING */
+    .shop-section,
+    .ritual-section,
+    #discovery-set,
+    .site-footer {
+      content-visibility: auto;
+      contain-intrinsic-size: 1px 700px;
+    }
+
     /* TOP ANNOUNCEMENT BAR */
     .announce-bar {
       background: #090605;
@@ -2433,7 +2442,7 @@
 
     <!-- Living HD Cinema Motion Video (Autoplays Continuously in Background) -->
     <div class="hero-video-layer" id="hero-video-layer">
-      <video class="hero-bg-video" id="hero-motion-video" autoplay muted loop playsinline preload="auto" poster="assets/loren/hero-poster-4k.jpg">
+      <video class="hero-bg-video" id="hero-motion-video" autoplay muted loop playsinline preload="metadata" poster="assets/loren/hero-poster-4k.jpg">
         <source src="assets/loren/loren-hero.mp4" type="video/mp4">
       </video>
     </div>
@@ -2526,7 +2535,7 @@
 
       <!-- RIGHT COLUMN: CINEMATIC 3D FLACON VIDEO -->
       <div class="flacon-cinema-frame scroll-reveal-right">
-        <video class="flacon-cinema-video" id="flacon-3d-video" autoplay muted loop playsinline preload="auto" poster="assets/loren/flacon-3d-poster.jpg">
+        <video class="flacon-cinema-video" id="flacon-3d-video" muted loop playsinline preload="none" poster="assets/loren/flacon-3d-poster.jpg">
           <source src="assets/loren/flacon-3d.mp4" type="video/mp4">
         </video>
         <div class="flacon-cinema-vignette"></div>
@@ -2617,7 +2626,7 @@
           <div class="scent-wave"></div>
           <div class="scent-wave"></div>
         </div>
-        <img src="assets/loren/ritual-scene-4k.jpg" alt="The Ritual of Perfume Mist on Skin">
+        <img src="assets/loren/ritual-scene-4k.jpg" alt="The Ritual of Perfume Mist on Skin" loading="lazy" decoding="async">
       </div>
 
       <div class="ritual-content scroll-reveal-right">
@@ -2672,7 +2681,7 @@
     <div class="ambient-scent-aura" style="top:-60px; right:-40px; background:radial-gradient(circle, rgba(201,170,118,0.25) 0%, rgba(180,120,60,0.12) 50%, transparent 70%);"></div>
     <div class="scroll-reveal-scale" style="max-width:1100px; margin:0 auto; background:#ffffff; border:1px solid var(--line-light); border-radius:4px; padding:48px; display:grid; grid-template-columns:1fr 1.2fr; gap:48px; align-items:center; position:relative; z-index:1;">
       <div style="border-radius:4px; overflow:hidden; border:1px solid var(--line-light); background:#faf8f5;">
-        <img src="assets/loren/product-discovery-4k.jpg" alt="LORÉN Discovery Wardrobe" style="width:100%; height:auto; display:block;">
+        <img src="assets/loren/product-discovery-4k.jpg" alt="LORÉN Discovery Wardrobe" style="width:100%; height:auto; display:block;" loading="lazy" decoding="async">
       </div>
       <div>
         <span style="font-size:10px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#c9aa76; display:block; margin-bottom:10px;">Discovery</span>
@@ -2699,7 +2708,7 @@
       
       <div class="pdp-media-pane">
         <span class="macro-zoom-indicator" id="macro-zoom-indicator">✦ Macro Focus: Atomizer</span>
-        <img id="pdp-img" src="" alt="Product Image">
+        <img id="pdp-img" src="" alt="Product Image" decoding="async">
       </div>
 
       <div class="pdp-info-pane">
@@ -3452,7 +3461,7 @@
           <div class="card-thumb-wrap">
             <span class="card-tag">${f.badge}</span>
             <div class="card-specular-glare"></div>
-            <img src="${f.img}" alt="${f.name}">
+            <img src="${f.img}" alt="${f.name}" loading="lazy" decoding="async">
             <div class="card-quick-view" onclick="openPdp(${f.id})">Quick View & Notes ↗</div>
           </div>
           <div class="card-details">
@@ -3480,23 +3489,30 @@
           </div>
         `;
 
-        // 3D GYROSCOPIC TILT & SPECULAR FLACON REFLECTION (MOTION GRAPHIC)
+        // 3D GYROSCOPIC TILT & SPECULAR FLACON REFLECTION (OPTIMIZED / ZERO REFLOW)
         const glare = card.querySelector('.card-specular-glare');
+        let cardRect = null;
+        card.addEventListener('mouseenter', () => {
+          cardRect = card.getBoundingClientRect();
+          card.style.willChange = 'transform';
+        });
         card.addEventListener('mousemove', (e) => {
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          const rotX = ((y / rect.height) - 0.5) * -11;
-          const rotY = ((x / rect.width) - 0.5) * 11;
-          card.style.transform = `perspective(1000px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) translateY(-8px)`;
+          if (!cardRect) cardRect = card.getBoundingClientRect();
+          const x = e.clientX - cardRect.left;
+          const y = e.clientY - cardRect.top;
+          const rotX = ((y / cardRect.height) - 0.5) * -9;
+          const rotY = ((x / cardRect.width) - 0.5) * 9;
+          card.style.transform = `perspective(1000px) rotateX(${rotX.toFixed(1)}deg) rotateY(${rotY.toFixed(1)}deg) translateY(-6px)`;
           if (glare) {
-            glare.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.7) 0%, rgba(212,175,55,0.2) 35%, transparent 65%)`;
+            glare.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.6) 0%, rgba(212,175,55,0.18) 35%, transparent 65%)`;
             glare.style.opacity = '1';
           }
         }, { passive: true });
 
         card.addEventListener('mouseleave', () => {
+          cardRect = null;
           card.style.transform = '';
+          card.style.willChange = 'auto';
           if (glare) glare.style.opacity = '0';
         });
 
@@ -4056,62 +4072,70 @@
 
       const petals = [];
       const stars = [];
-      for (let i = 0; i < 38; i++) petals.push(new Petal());
-      for (let i = 0; i < 30; i++) stars.push(new Starlight());
+      for (let i = 0; i < 20; i++) petals.push(new Petal());
+      for (let i = 0; i < 16; i++) stars.push(new Starlight());
+
+      let heroVisible = true;
+      let heroAnimId = null;
 
       function animate() {
+        if (!heroVisible) {
+          heroAnimId = null;
+          return; // STOP canvas render loop when scrolled offscreen!
+        }
         if (w && h) {
           ctx.clearRect(0, 0, w, h);
           stars.forEach(s => { s.step(); s.draw(); });
           petals.forEach(p => { p.step(); p.draw(); });
 
-          // Smoothly decay cursor velocity each frame
+          // Smoothly decay cursor velocity
           cursor.vx *= 0.88;
           cursor.vy *= 0.88;
           cursor.speed *= 0.88;
         }
-        requestAnimationFrame(animate);
+        heroAnimId = requestAnimationFrame(animate);
       }
-      animate();
+
+      if ('IntersectionObserver' in window) {
+        const heroObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            heroVisible = entry.isIntersecting;
+            if (heroVisible && !heroAnimId) {
+              heroAnimId = requestAnimationFrame(animate);
+            }
+          });
+        }, { threshold: 0.05 });
+        heroObserver.observe(canvas.parentElement || canvas);
+      } else {
+        animate();
+      }
     })();
 
-    // INTERACTIVE 3D CAMERA PARALLAX, SCROLL PROGRESS & HERO DISSOLVE
+    // INTERACTIVE HERO SCROLL STATE, PROGRESS & NAV ELEVATION (THROTTLED / ZERO IDLE DRAIN)
     (function initHeroScrollAndMotion() {
       const hero = document.getElementById('top');
       const glow = document.getElementById('mg-cursor-glow');
-      const videoLayer = document.getElementById('hero-video-layer');
-      const staticContent = document.querySelector('.hero-static-content');
       const scrollCue = document.getElementById('hero-scroll-cue');
       const progressBar = document.getElementById('scroll-progress-bar');
       const stickyNav = document.getElementById('sticky-nav');
+      const annBar = document.getElementById('top-announcement-bar');
+      const heroVideo = document.getElementById('hero-motion-video');
+      const flaconVideo = document.getElementById('flacon-3d-video');
       if (!hero) return;
 
-      let targetX = window.innerWidth * 0.7;
-      let targetY = window.innerHeight * 0.45;
-      let currentX = targetX;
-      let currentY = targetY;
+      let scrollTicking = false;
 
-      hero.addEventListener('mousemove', (e) => {
-        const rect = hero.getBoundingClientRect();
-        targetX = e.clientX - rect.left;
-        targetY = e.clientY - rect.top;
-      }, { passive: true });
-
-      function updateMotion() {
-        currentX += (targetX - currentX) * 0.06;
-        currentY += (targetY - currentY) * 0.06;
-
+      function updateScrollState() {
         const scrollY = window.scrollY || window.pageYOffset || 0;
         const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-        
-        // 1. Reading Progress Bar Animation
+
+        // 1. Reading Progress Bar
         if (progressBar && totalHeight > 0) {
           const progressPercent = Math.min(100, Math.max(0, (scrollY / totalHeight) * 100));
           progressBar.style.width = progressPercent + '%';
         }
 
         // 2. Navigation Bar & Announcement Bar Scroll Elevation
-        const annBar = document.getElementById('top-announcement-bar');
         if (scrollY > 30) {
           if (stickyNav) stickyNav.classList.add('scrolled');
           if (annBar) annBar.style.transform = 'translateY(-100%)';
@@ -4120,41 +4144,63 @@
           if (annBar) annBar.style.transform = 'translateY(0)';
         }
 
-        const heroH = hero.offsetHeight || window.innerHeight;
-        const normX = (currentX / (window.innerWidth || 1)) - 0.5;
-        const normY = (currentY / (window.innerHeight || 1)) - 0.5;
-
-        // 3. Hero Scroll-Driven Parallax & Dissolve (within hero view)
-        if (scrollY < heroH + 100) {
-          const scrollFraction = Math.min(1, scrollY / (heroH * 0.7));
-
-          // Statically locked: completely stationary, crisp 4K background and centered typography
-          if (videoLayer) {
-            videoLayer.style.transform = 'none';
-          }
-
-          if (staticContent) {
-            staticContent.style.transform = 'translate(-50%, -50%)';
-          }
-
-          // Cursor ambient specular lighting
-          if (glow) {
-            glow.style.left = currentX + 'px';
-            glow.style.top = currentY + 'px';
-            glow.style.opacity = Math.max(0, 0.85 - scrollFraction);
-          }
-
-          // Scroll Cue Indicator: Fades out immediately on scroll
-          if (scrollCue) {
-            const cueOpacity = Math.max(0, 1 - scrollY / 60);
-            scrollCue.style.opacity = cueOpacity;
-            scrollCue.style.pointerEvents = scrollY > 40 ? 'none' : 'auto';
-          }
+        // 3. Scroll Cue Indicator (Fades out when leaving hero)
+        if (scrollCue && scrollY < 120) {
+          scrollCue.style.opacity = Math.max(0, 1 - scrollY / 60);
+          scrollCue.style.pointerEvents = scrollY > 40 ? 'none' : 'auto';
         }
 
-        requestAnimationFrame(updateMotion);
+        scrollTicking = false;
       }
-      updateMotion();
+
+      window.addEventListener('scroll', () => {
+        if (!scrollTicking) {
+          requestAnimationFrame(updateScrollState);
+          scrollTicking = true;
+        }
+      }, { passive: true });
+
+      // Ambient Specular Cursor Glow (Hardware transform, active inside hero)
+      if (glow) {
+        hero.addEventListener('mousemove', (e) => {
+          const rect = hero.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          glow.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+        }, { passive: true });
+      }
+
+      // Initial state
+      updateScrollState();
+
+      // GPU & Hardware Video Playback Management (Pause offscreen video decoding)
+      if ('IntersectionObserver' in window) {
+        if (heroVideo) {
+          const heroObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                heroVideo.play().catch(() => {});
+              } else {
+                heroVideo.pause();
+              }
+            });
+          }, { threshold: 0.08 });
+          heroObserver.observe(hero);
+        }
+
+        if (flaconVideo) {
+          const flaconObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                flaconVideo.play().catch(() => {});
+              } else {
+                flaconVideo.pause();
+              }
+            });
+          }, { threshold: 0.15 });
+          flaconObserver.observe(flaconVideo);
+        }
+      }
     })();
 
     // SCROLL-TRIGGERED REVEAL ANIMATIONS (INTERSECTION OBSERVER)
@@ -4255,18 +4301,22 @@
       ];
 
       function spawnSpark(x, y, vx, vy) {
-        if (particles.length > 90) return; // Keep 60fps silky smooth
+        if (particles.length > 36) return;
         const color = sparkColors[Math.floor(Math.random() * sparkColors.length)];
         particles.push({
-          x: x + (Math.random() - 0.5) * 6,
-          y: y + (Math.random() - 0.5) * 6,
-          vx: vx * 0.15 + (Math.random() - 0.5) * 1.4,
-          vy: vy * 0.15 + (Math.random() - 0.5) * 1.4,
-          size: Math.random() * 2.2 + 0.8,
-          alpha: 0.75 + Math.random() * 0.25,
-          decay: 0.024 + Math.random() * 0.022,
+          x: x + (Math.random() - 0.5) * 5,
+          y: y + (Math.random() - 0.5) * 5,
+          vx: vx * 0.12 + (Math.random() - 0.5) * 1.1,
+          vy: vy * 0.12 + (Math.random() - 0.5) * 1.1,
+          size: Math.random() * 2 + 0.8,
+          alpha: 0.7,
+          decay: 0.03,
           color: color
         });
+        if (!cursorLoopActive) {
+          cursorLoopActive = true;
+          requestAnimationFrame(renderCursor);
+        }
       }
 
       window.addEventListener('mousemove', (e) => {
@@ -4281,20 +4331,23 @@
           ringY = mouseY;
         }
 
+        dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+        ring.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+
         const dx = mouseX - prevMouseX;
         const dy = mouseY - prevMouseY;
         const dist = Math.hypot(dx, dy);
 
         // Spawn gold starlight vapor when cursor moves
-        if (dist > 3 && prevMouseX > 0) {
-          const spawnCount = Math.min(3, Math.floor(dist / 8) + 1);
+        if (dist > 4 && prevMouseX > 0) {
+          const spawnCount = Math.min(2, Math.floor(dist / 12) + 1);
           for (let i = 0; i < spawnCount; i++) {
             const t = i / spawnCount;
             spawnSpark(
               prevMouseX + dx * t,
               prevMouseY + dy * t,
-              -dx * 0.1,
-              -dy * 0.1
+              -dx * 0.08,
+              -dy * 0.08
             );
           }
         }
@@ -4340,17 +4393,15 @@
         }
       });
 
-      // Animation render loop
+      // On-demand animation render loop (Zero idle CPU drain)
+      let cursorLoopActive = false;
       function renderCursor() {
-        // Zero-lag dot positioning
-        dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+        if (particles.length === 0) {
+          ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+          cursorLoopActive = false;
+          return; // STOP loop completely when no particles exist!
+        }
 
-        // Damped inertia lerp for the luxury halo ring
-        ringX += (mouseX - ringX) * 0.18;
-        ringY += (mouseY - ringY) * 0.18;
-        ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
-
-        // Render trailing starlight sparks
         ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
         for (let i = particles.length - 1; i >= 0; i--) {
@@ -4358,26 +4409,21 @@
           p.x += p.vx;
           p.y += p.vy;
           p.alpha -= p.decay;
-          p.size *= 0.965;
+          p.size *= 0.96;
 
           if (p.alpha <= 0 || p.size <= 0.2) {
             particles.splice(i, 1);
             continue;
           }
 
-          ctx.save();
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(${p.color}, ${p.alpha})`;
-          ctx.shadowColor = `rgba(${p.color}, 0.8)`;
-          ctx.shadowBlur = p.size * 2.5;
           ctx.fill();
-          ctx.restore();
         }
 
         requestAnimationFrame(renderCursor);
       }
-      requestAnimationFrame(renderCursor);
     })();
 
     // ========================================================================
