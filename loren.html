@@ -8,7 +8,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <script src="assets/loren/three.min.js"></script>
   <style>
     /* ==========================================================================
        LORÉN HAUTE PARFUMERIE — DESIGN SYSTEM TOKENS
@@ -1824,52 +1823,91 @@
     }
 
     /* ==========================================================================
-       L'ATELIER 3D — REAL FRAGRANCE 3D ATELIER (PURE ISOLATED FLACON)
+       CINEMATIC 3D FLACON VIDEO SECTION (PURE CINEMA EXPERIENCE)
        ========================================================================== */
-    .atelier-3d-section {
-      background: radial-gradient(circle at 50% 50%, #1c0e24 0%, #100615 55%, #060209 100%);
-      padding: 0;
+    .flacon-cinema-section {
+      background: radial-gradient(circle at 50% 50%, #170b20 0%, #0c0411 60%, #050208 100%);
+      padding: 80px 48px;
       position: relative;
       overflow: hidden;
-      border-top: 1px solid rgba(212, 175, 55, 0.15);
-      border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+      border-top: 1px solid rgba(212, 175, 55, 0.16);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.16);
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 100%;
-      height: 85vh;
-      min-height: 650px;
-      max-height: 900px;
     }
 
-    .atelier-pure-stage {
+    .flacon-cinema-container {
       width: 100%;
-      height: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
       position: relative;
+      z-index: 2;
       display: flex;
-      align-items: center;
       justify-content: center;
     }
 
-    .atelier-canvas-wrapper {
+    .flacon-cinema-frame {
       width: 100%;
-      height: 100%;
       position: relative;
-      cursor: grab;
-      touch-action: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      border-radius: 8px;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+      background: #000000;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      box-shadow: 0 35px 90px rgba(0, 0, 0, 0.85), 0 0 50px rgba(140, 80, 180, 0.22);
     }
 
-    .atelier-canvas-wrapper:active {
-      cursor: grabbing;
-    }
-
-    #atelier-3d-canvas {
+    .flacon-cinema-video {
       width: 100%;
       height: 100%;
+      object-fit: cover;
       display: block;
+    }
+
+    .flacon-cinema-vignette {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      box-shadow: inset 0 0 60px rgba(6, 2, 9, 0.5);
+    }
+
+    .flacon-audio-toggle {
+      position: absolute;
+      bottom: 24px;
+      right: 24px;
+      background: rgba(14, 6, 20, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      color: #ffd875;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 10;
+    }
+
+    .flacon-audio-toggle:hover {
+      background: rgba(212, 175, 55, 0.25);
+      border-color: #ffd875;
+      transform: scale(1.1);
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+    }
+
+    @media (max-width: 768px) {
+      .flacon-cinema-section {
+        padding: 40px 16px;
+      }
+      .flacon-audio-toggle {
+        bottom: 16px;
+        right: 16px;
+        width: 38px;
+        height: 38px;
+      }
     }
   </style>
 </head>
@@ -1988,14 +2026,30 @@
   </div>
 
   <!-- ========================================================================
-       L'ATELIER 3D — REAL FRAGRANCE 3D ATELIER (PURE ISOLATED FLACON)
+       CINEMATIC 3D FLACON VIDEO SECTION (PURE FRAGRANCE CINEMA)
        ======================================================================== -->
-  <section class="atelier-3d-section" id="atelier-3d">
-    <div class="ambient-scent-aura" style="top:50%; left:50%; transform:translate(-50%, -50%); width:750px; height:750px; background:radial-gradient(circle, rgba(140,80,180,0.18) 0%, rgba(212,175,55,0.08) 45%, transparent 70%); pointer-events:none;"></div>
+  <section class="flacon-cinema-section" id="atelier-3d">
+    <div class="ambient-scent-aura" style="top:50%; left:50%; transform:translate(-50%, -50%); width:850px; height:850px; background:radial-gradient(circle, rgba(140,80,180,0.22) 0%, rgba(212,175,55,0.08) 45%, transparent 70%); pointer-events:none;"></div>
 
-    <div class="atelier-pure-stage">
-      <div class="atelier-canvas-wrapper" id="atelier-canvas-wrapper">
-        <canvas id="atelier-3d-canvas"></canvas>
+    <div class="flacon-cinema-container scroll-reveal">
+      <div class="flacon-cinema-frame">
+        <video class="flacon-cinema-video" id="flacon-3d-video" autoplay muted loop playsinline preload="auto" poster="assets/loren/flacon-3d-poster.jpg">
+          <source src="assets/loren/flacon-3d.mp4" type="video/mp4">
+        </video>
+        <div class="flacon-cinema-vignette"></div>
+
+        <!-- Sleek minimal sound toggle -->
+        <button class="flacon-audio-toggle" id="flacon-audio-btn" onclick="toggleFlaconAudio()" aria-label="Toggle Audio" title="Sound">
+          <svg id="flacon-sound-muted-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+            <line x1="23" y1="9" x2="17" y2="15"/>
+            <line x1="17" y1="9" x2="23" y2="15"/>
+          </svg>
+          <svg id="flacon-sound-active-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;">
+            <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+          </svg>
+        </button>
       </div>
     </div>
   </section>
@@ -3331,471 +3385,29 @@
     })();
 
     // ========================================================================
-    // L'ATELIER 3D: REAL FRAGRANCE 3D MODEL STUDIO (PURE ISOLATED EXPERIENCE)
+    // CINEMATIC 3D FLACON VIDEO AUDIO CONTROLLER
     // ========================================================================
-    let atelierScene, atelierCamera, atelierRenderer;
-    let flaconRoot, flaconCapGroup, pumpMesh;
-    let mistPositions, mistVelocities, mistLifetimes, mistSystem;
-    let isAtelierAutoRotate = true;
-    let atelierIsDragging = false;
-    let atelierPrevPointerX = 0;
-    let atelierPrevPointerY = 0;
-    let atelierTargetRotY = 0.35;
-    let atelierTargetRotX = 0.08;
-    let atelierTargetZoom = 5.2;
+    function toggleFlaconAudio() {
+      const vid = document.getElementById('flacon-3d-video');
+      const mutedIcon = document.getElementById('flacon-sound-muted-icon');
+      const activeIcon = document.getElementById('flacon-sound-active-icon');
+      if (!vid) return;
 
-    function initAtelier3D() {
-      const container = document.getElementById('atelier-canvas-wrapper');
-      const canvas = document.getElementById('atelier-3d-canvas');
-      if (!container || !canvas || typeof THREE === 'undefined') return;
-
-      const width = container.clientWidth || window.innerWidth;
-      const height = container.clientHeight || 700;
-
-      // 1. Scene & Perspective Camera
-      atelierScene = new THREE.Scene();
-      atelierCamera = new THREE.PerspectiveCamera(36, width / height, 0.1, 50);
-      atelierCamera.position.set(0, 0.25, atelierTargetZoom);
-
-      // 2. High-Precision Physical WebGL Renderer
-      atelierRenderer = new THREE.WebGLRenderer({
-        canvas: canvas,
-        antialias: true,
-        alpha: true,
-        powerPreference: 'high-performance'
-      });
-      atelierRenderer.setSize(width, height);
-      atelierRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-      atelierRenderer.toneMapping = THREE.ACESFilmicToneMapping;
-      atelierRenderer.toneMappingExposure = 1.35;
-      atelierRenderer.outputEncoding = THREE.sRGBEncoding;
-
-      // 3. Studio Lighting Rig for Genuine Haute Parfumerie Glass
-      const ambientLight = new THREE.AmbientLight(0x20102a, 1.6);
-      atelierScene.add(ambientLight);
-
-      // Key light: Warm studio key
-      const keyLight = new THREE.DirectionalLight(0xffeedd, 3.2);
-      keyLight.position.set(5, 7, 6);
-      atelierScene.add(keyLight);
-
-      // Fill light: Subtle cool violet studio fill
-      const fillLight = new THREE.DirectionalLight(0x9060d0, 1.8);
-      fillLight.position.set(-6, 3, -2);
-      atelierScene.add(fillLight);
-
-      // Powerful rear golden rim light to illuminate liquid refraction
-      const rimLight = new THREE.PointLight(0xd4af37, 4.2, 25);
-      rimLight.position.set(0, 5, -5);
-      atelierScene.add(rimLight);
-
-      // Under-bottle warm amber glow
-      const underLight = new THREE.PointLight(0xe8a848, 1.8, 12);
-      underLight.position.set(0, -2.5, 1.5);
-      atelierScene.add(underLight);
-
-      // 4. Construct Authentic Chamfered Octagonal French Crystal Flacon
-      flaconRoot = new THREE.Group();
-      flaconRoot.position.set(0, -0.25, 0);
-      atelierScene.add(flaconRoot);
-
-      function createChamferedRectShape(w, h, c) {
-        const shape = new THREE.Shape();
-        const hw = w / 2;
-        const hh = h / 2;
-        shape.moveTo(-hw + c, -hh);
-        shape.lineTo(hw - c, -hh);
-        shape.lineTo(hw, -hh + c);
-        shape.lineTo(hw, hh - c);
-        shape.lineTo(hw - c, hh);
-        shape.lineTo(-hw + c, hh);
-        shape.lineTo(-hw, hh - c);
-        shape.lineTo(-hw, -hh + c);
-        shape.closePath();
-        return shape;
+      vid.muted = !vid.muted;
+      if (vid.muted) {
+        if (mutedIcon) mutedIcon.style.display = 'block';
+        if (activeIcon) activeIcon.style.display = 'none';
+        showToast('Flacon Audio Muted');
+      } else {
+        if (mutedIcon) mutedIcon.style.display = 'none';
+        if (activeIcon) activeIcon.style.display = 'block';
+        showToast('Flacon Audio Unmuted');
       }
-
-      // A. Outer Multifaceted Crystal Glass Body
-      const outerShape = createChamferedRectShape(1.85, 1.25, 0.36);
-      const outerGeo = new THREE.ExtrudeGeometry(outerShape, {
-        depth: 2.15,
-        bevelEnabled: true,
-        bevelSegments: 5,
-        steps: 2,
-        bevelSize: 0.12,
-        bevelThickness: 0.12
-      });
-      outerGeo.center();
-      outerGeo.rotateX(Math.PI / 2);
-
-      const glassMat = new THREE.MeshPhysicalMaterial({
-        color: 0xffffff,
-        roughness: 0.02,
-        metalness: 0.0,
-        transmission: 0.96,
-        ior: 1.54, // Crown optical crystal
-        reflectivity: 0.96,
-        clearcoat: 1.0,
-        clearcoatRoughness: 0.02,
-        transparent: true,
-        opacity: 0.98,
-        depthWrite: false
-      });
-      const outerGlass = new THREE.Mesh(outerGeo, glassMat);
-      flaconRoot.add(outerGlass);
-
-      // B. Inner Liquid Perfume Nectar (Violet-Amber Gradient Nectar)
-      const innerShape = createChamferedRectShape(1.5, 0.92, 0.28);
-      const innerGeo = new THREE.ExtrudeGeometry(innerShape, {
-        depth: 1.62,
-        bevelEnabled: true,
-        bevelSegments: 4,
-        steps: 1,
-        bevelSize: 0.06,
-        bevelThickness: 0.06
-      });
-      innerGeo.center();
-      innerGeo.rotateX(Math.PI / 2);
-      innerGeo.translate(0, -0.16, 0);
-
-      const liquidMat = new THREE.MeshPhysicalMaterial({
-        color: 0x4a1464, // Deep royal velvet amethyst with warm amber transmission
-        roughness: 0.06,
-        metalness: 0.04,
-        transmission: 0.88,
-        ior: 1.36,
-        transparent: true,
-        opacity: 0.94
-      });
-      const liquidMesh = new THREE.Mesh(innerGeo, liquidMat);
-      flaconRoot.add(liquidMesh);
-
-      // C. Heavy Crystal Solid Base Footing
-      const baseGeo = new THREE.BoxGeometry(1.95, 0.32, 1.35);
-      baseGeo.translate(0, -1.35, 0);
-      const baseMesh = new THREE.Mesh(baseGeo, glassMat);
-      flaconRoot.add(baseMesh);
-
-      // D. Cylindrical Crystal Neck
-      const neckGeo = new THREE.CylinderGeometry(0.36, 0.44, 0.42, 32);
-      neckGeo.translate(0, 1.26, 0);
-      const neckMesh = new THREE.Mesh(neckGeo, glassMat);
-      flaconRoot.add(neckMesh);
-
-      // E. Translucent Glass Capillary Dip Tube
-      const tubeGeo = new THREE.CylinderGeometry(0.018, 0.018, 1.95, 16);
-      tubeGeo.translate(0, 0.18, 0);
-      const tubeMat = new THREE.MeshStandardMaterial({
-        color: 0xffffff,
-        roughness: 0.2,
-        transparent: true,
-        opacity: 0.45
-      });
-      flaconRoot.add(new THREE.Mesh(tubeGeo, tubeMat));
-
-      // F. 24k Gold Stepped Collar & Atomizer Nozzle
-      flaconCapGroup = new THREE.Group();
-      flaconCapGroup.position.set(0, 1.45, 0);
-      flaconRoot.add(flaconCapGroup);
-
-      const collarMat = new THREE.MeshStandardMaterial({
-        color: 0xd4af37,
-        metalness: 0.96,
-        roughness: 0.16
-      });
-
-      const collar1 = new THREE.Mesh(new THREE.CylinderGeometry(0.44, 0.46, 0.1, 32), collarMat);
-      collar1.position.set(0, 0.05, 0);
-      flaconCapGroup.add(collar1);
-
-      const collar2 = new THREE.Mesh(new THREE.CylinderGeometry(0.40, 0.42, 0.2, 32), collarMat);
-      collar2.position.set(0, 0.19, 0);
-      flaconCapGroup.add(collar2);
-
-      pumpMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 0.32, 24), collarMat);
-      pumpMesh.position.set(0, 0.44, 0);
-      flaconCapGroup.add(pumpMesh);
-
-      // G. Polished Spherical Domed Obsidian Onyx Cap
-      const capGeo = new THREE.SphereGeometry(0.58, 36, 36);
-      capGeo.scale(1, 0.92, 1);
-      capGeo.translate(0, 0.74, 0);
-      const capMat = new THREE.MeshPhysicalMaterial({
-        color: 0x060609,
-        roughness: 0.05,
-        metalness: 0.35,
-        clearcoat: 1.0,
-        clearcoatRoughness: 0.02
-      });
-      const capMesh = new THREE.Mesh(capGeo, capMat);
-      flaconCapGroup.add(capMesh);
-
-      // Gold Trim Ring around base of cap
-      const trimGeo = new THREE.TorusGeometry(0.43, 0.02, 16, 32);
-      trimGeo.rotateX(Math.PI / 2);
-      trimGeo.translate(0, 0.23, 0);
-      flaconCapGroup.add(new THREE.Mesh(trimGeo, collarMat));
-
-      // H. Radial Crystal Caustic Floor Light Pool & Contact Shadow
-      function createCausticTexture() {
-        const cvs = document.createElement('canvas');
-        cvs.width = 512; cvs.height = 512;
-        const ctx = cvs.getContext('2d');
-        const cx = 256, cy = 256;
-
-        // Ambient glow
-        const grad = ctx.createRadialGradient(cx, cy, 20, cx, cy, 240);
-        grad.addColorStop(0, 'rgba(180, 110, 240, 0.42)');
-        grad.addColorStop(0.25, 'rgba(212, 175, 55, 0.24)');
-        grad.addColorStop(0.6, 'rgba(120, 50, 160, 0.1)');
-        grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-        ctx.fillStyle = grad;
-        ctx.fillRect(0, 0, 512, 512);
-
-        // Radial caustic rays
-        ctx.save();
-        ctx.translate(cx, cy);
-        for (let i = 0; i < 24; i++) {
-          const angle = (i * Math.PI * 2) / 24;
-          const len = 130 + Math.sin(i * 3.5) * 60;
-          ctx.rotate(angle);
-          const rayGrad = ctx.createLinearGradient(0, 0, len, 0);
-          rayGrad.addColorStop(0, 'rgba(255, 235, 170, 0.35)');
-          rayGrad.addColorStop(0.5, 'rgba(200, 130, 255, 0.2)');
-          rayGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-          ctx.fillStyle = rayGrad;
-          ctx.beginPath();
-          ctx.moveTo(15, -4);
-          ctx.lineTo(len, 0);
-          ctx.lineTo(15, 4);
-          ctx.closePath();
-          ctx.fill();
-          ctx.rotate(-angle);
-        }
-        ctx.restore();
-
-        // Contact shadow
-        const shadowGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 75);
-        shadowGrad.addColorStop(0, 'rgba(0, 0, 0, 0.88)');
-        shadowGrad.addColorStop(0.6, 'rgba(12, 4, 18, 0.55)');
-        shadowGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-        ctx.fillStyle = shadowGrad;
-        ctx.beginPath();
-        ctx.ellipse(cx, cy, 95, 65, 0, 0, Math.PI * 2);
-        ctx.fill();
-
-        return new THREE.CanvasTexture(cvs);
-      }
-
-      const floorGeo = new THREE.PlaneGeometry(6.5, 6.5);
-      const floorMat = new THREE.MeshBasicMaterial({
-        map: createCausticTexture(),
-        transparent: true,
-        opacity: 0.94,
-        depthWrite: false,
-        blending: THREE.AdditiveBlending
-      });
-      const floorMesh = new THREE.Mesh(floorGeo, floorMat);
-      floorMesh.rotation.x = -Math.PI / 2;
-      floorMesh.position.y = -1.48;
-      atelierScene.add(floorMesh);
-
-      // 5. Physical Atomizer Micro-Mist Particle System
-      const mistCount = 280;
-      const mistGeo = new THREE.BufferGeometry();
-      mistPositions = new Float32Array(mistCount * 3);
-      mistVelocities = [];
-      mistLifetimes = new Float32Array(mistCount);
-
-      for (let i = 0; i < mistCount; i++) {
-        mistPositions[i * 3 + 0] = 0;
-        mistPositions[i * 3 + 1] = -50;
-        mistPositions[i * 3 + 2] = 0;
-        mistVelocities.push(new THREE.Vector3());
-        mistLifetimes[i] = 0;
-      }
-      mistGeo.setAttribute('position', new THREE.BufferAttribute(mistPositions, 3));
-
-      // Circular blurred mist particle map
-      const pCvs = document.createElement('canvas');
-      pCvs.width = 64; pCvs.height = 64;
-      const pCtx = pCvs.getContext('2d');
-      const grad = pCtx.createRadialGradient(32, 32, 0, 32, 32, 32);
-      grad.addColorStop(0, 'rgba(255,255,255,1)');
-      grad.addColorStop(0.3, 'rgba(235,215,255,0.7)');
-      grad.addColorStop(0.7, 'rgba(212,175,55,0.2)');
-      grad.addColorStop(1, 'rgba(0,0,0,0)');
-      pCtx.fillStyle = grad;
-      pCtx.fillRect(0, 0, 64, 64);
-
-      const pTexture = new THREE.CanvasTexture(pCvs);
-      const mistMat = new THREE.PointsMaterial({
-        size: 0.16,
-        map: pTexture,
-        transparent: true,
-        opacity: 0.88,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false,
-        color: 0xd8b4fe
-      });
-      mistSystem = new THREE.Points(mistGeo, mistMat);
-      atelierScene.add(mistSystem);
-
-      // Spray trigger function
-      function sprayFragranceMist() {
-        if (!flaconRoot || !mistPositions) return;
-
-        // Tactile pump dip
-        if (flaconCapGroup) {
-          flaconCapGroup.position.y = 1.34;
-          setTimeout(() => {
-            if (flaconCapGroup) flaconCapGroup.position.y = 1.45;
-          }, 160);
-        }
-
-        const nozzleLocal = new THREE.Vector3(0, 2.08, 0.22);
-        const nozzleWorld = flaconRoot.localToWorld(nozzleLocal.clone());
-        const forwardLocal = new THREE.Vector3(0, 0.22, 1).applyEuler(flaconRoot.rotation).normalize();
-
-        let spawned = 0;
-        for (let i = 0; i < mistLifetimes.length && spawned < 140; i++) {
-          if (mistLifetimes[i] <= 0) {
-            mistPositions[i * 3 + 0] = nozzleWorld.x;
-            mistPositions[i * 3 + 1] = nozzleWorld.y;
-            mistPositions[i * 3 + 2] = nozzleWorld.z;
-
-            const speed = 0.045 + Math.random() * 0.055;
-            const spreadX = (Math.random() - 0.5) * 0.032;
-            const spreadY = (Math.random() - 0.5) * 0.024;
-            const spreadZ = (Math.random() - 0.5) * 0.032;
-
-            mistVelocities[i].set(
-              forwardLocal.x * speed + spreadX,
-              forwardLocal.y * speed + spreadY + 0.012,
-              forwardLocal.z * speed + spreadZ
-            );
-            mistLifetimes[i] = 1.0;
-            spawned++;
-          }
-        }
-        if (mistSystem) {
-          mistSystem.geometry.attributes.position.needsUpdate = true;
-        }
-      }
-
-      // 6. Direct User Interaction Handlers (Click to Spray, Drag to 360° Rotate)
-      let dragDistance = 0;
-
-      function onPointerStart(e) {
-        atelierIsDragging = true;
-        dragDistance = 0;
-        const pt = e.touches ? e.touches[0] : e;
-        atelierPrevPointerX = pt.clientX;
-        atelierPrevPointerY = pt.clientY;
-      }
-
-      function onPointerMove(e) {
-        if (!atelierIsDragging) return;
-        const pt = e.touches ? e.touches[0] : e;
-        const dx = pt.clientX - atelierPrevPointerX;
-        const dy = pt.clientY - atelierPrevPointerY;
-        dragDistance += Math.abs(dx) + Math.abs(dy);
-
-        atelierTargetRotY += dx * 0.008;
-        atelierTargetRotX += dy * 0.005;
-        atelierTargetRotX = Math.max(-0.45, Math.min(0.55, atelierTargetRotX));
-
-        atelierPrevPointerX = pt.clientX;
-        atelierPrevPointerY = pt.clientY;
-      }
-
-      function onPointerEnd() {
-        if (atelierIsDragging && dragDistance < 8) {
-          // Click/tap on perfume triggers atomized mist!
-          sprayFragranceMist();
-        }
-        atelierIsDragging = false;
-      }
-
-      function onWheel(e) {
-        e.preventDefault();
-        atelierTargetZoom += e.deltaY * 0.003;
-        atelierTargetZoom = Math.max(3.6, Math.min(7.0, atelierTargetZoom));
-      }
-
-      container.addEventListener('mousedown', onPointerStart);
-      window.addEventListener('mousemove', onPointerMove);
-      window.addEventListener('mouseup', onPointerEnd);
-
-      container.addEventListener('touchstart', onPointerStart, { passive: true });
-      window.addEventListener('touchmove', onPointerMove, { passive: true });
-      window.addEventListener('touchend', onPointerEnd);
-
-      container.addEventListener('wheel', onWheel, { passive: false });
-
-      // 7. Auto-Resizing
-      window.addEventListener('resize', () => {
-        if (!container || !atelierRenderer || !atelierCamera) return;
-        const w = container.clientWidth || window.innerWidth;
-        const h = container.clientHeight || 700;
-        atelierCamera.aspect = w / h;
-        atelierCamera.updateProjectionMatrix();
-        atelierRenderer.setSize(w, h);
-      });
-
-      // 8. 60FPS Silk Render Loop
-      let clock = new THREE.Clock();
-
-      function animateAtelier() {
-        requestAnimationFrame(animateAtelier);
-
-        const delta = clock.getDelta();
-
-        // Idle turntable rotation
-        if (isAtelierAutoRotate && !atelierIsDragging) {
-          atelierTargetRotY += 0.0035;
-        }
-
-        // Smooth physics damping
-        flaconRoot.rotation.y += (atelierTargetRotY - flaconRoot.rotation.y) * 0.08;
-        flaconRoot.rotation.x += (atelierTargetRotX - flaconRoot.rotation.x) * 0.08;
-        atelierCamera.position.z += (atelierTargetZoom - atelierCamera.position.z) * 0.08;
-
-        // Animate mist particles
-        const posAttr = mistGeo.attributes.position;
-        let anyAlive = false;
-
-        for (let i = 0; i < mistCount; i++) {
-          if (mistLifetimes[i] > 0) {
-            anyAlive = true;
-            mistLifetimes[i] -= delta * 0.75;
-
-            mistPositions[i * 3 + 0] += mistVelocities[i].x;
-            mistPositions[i * 3 + 1] += mistVelocities[i].y + 0.0016; // upward thermal lift
-            mistPositions[i * 3 + 2] += mistVelocities[i].z;
-
-            mistVelocities[i].multiplyScalar(0.968);
-
-            if (mistLifetimes[i] <= 0) {
-              mistPositions[i * 3 + 1] = -50;
-            }
-          }
-        }
-
-        if (anyAlive) {
-          posAttr.needsUpdate = true;
-        }
-
-        atelierRenderer.render(atelierScene, atelierCamera);
-      }
-
-      animateAtelier();
     }
 
     // INITIALIZATION
     renderCatalog();
     renderBag();
-    initAtelier3D();
   </script>
 
   <!-- BESPOKE LUXURY MOTION CURSOR & TRAILING PARTICLES -->
