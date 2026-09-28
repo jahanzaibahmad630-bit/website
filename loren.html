@@ -249,7 +249,72 @@
     .sticky-store-nav .nav-actions {
       display: flex;
       align-items: center;
-      gap: 18px;
+      gap: 16px;
+    }
+
+    /* MAISON AMBIENT SOUNDSCAPE CONTROLLER BUTTON */
+    .nav-soundscape-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: rgba(255, 255, 255, 0.9);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .nav-soundscape-btn:hover {
+      background: rgba(212, 175, 55, 0.22);
+      border-color: rgba(212, 175, 55, 0.6);
+      color: #ffd875;
+      transform: translateY(-1px);
+    }
+
+    .nav-soundscape-btn.playing {
+      background: rgba(212, 175, 55, 0.26);
+      border-color: #ffd875;
+      color: #ffd875;
+      box-shadow: 0 0 16px rgba(212, 175, 55, 0.4);
+    }
+
+    .soundscape-waves {
+      display: inline-flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 11px;
+    }
+
+    .wave-bar {
+      width: 2px;
+      height: 4px;
+      background: currentColor;
+      border-radius: 1px;
+      transition: height 0.2s ease;
+    }
+
+    .nav-soundscape-btn.playing .wave-bar:nth-child(1) {
+      animation: soundWave 0.75s infinite ease-in-out alternate;
+    }
+    .nav-soundscape-btn.playing .wave-bar:nth-child(2) {
+      animation: soundWave 0.75s infinite ease-in-out 0.2s alternate;
+    }
+    .nav-soundscape-btn.playing .wave-bar:nth-child(3) {
+      animation: soundWave 0.75s infinite ease-in-out 0.4s alternate;
+    }
+
+    @keyframes soundWave {
+      0% { height: 3px; }
+      100% { height: 11px; }
     }
 
     .sticky-store-nav .nav-action-btn {
@@ -1384,6 +1449,28 @@
       align-items: center;
       justify-content: center;
       border-right: 1px solid var(--line-light);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .macro-zoom-indicator {
+      position: absolute;
+      top: 14px;
+      left: 16px;
+      background: rgba(25, 18, 12, 0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: #ffd875;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      z-index: 5;
+      pointer-events: none;
+      transition: all 0.35s ease;
     }
 
     .pdp-media-pane img {
@@ -1395,15 +1482,24 @@
       image-rendering: crisp-edges;
       border-radius: 4px;
       box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
-      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), filter 0.65s ease;
+      transform-origin: center center;
     }
 
-    .pdp-media-pane:hover img {
-      transform: scale(1.02);
+    .pdp-media-pane img.macro-zoom-top {
+      transform: scale(1.36) translateY(14%);
+    }
+
+    .pdp-media-pane img.macro-zoom-heart {
+      transform: scale(1.38) translateY(0%);
+    }
+
+    .pdp-media-pane img.macro-zoom-base {
+      transform: scale(1.36) translateY(-14%);
     }
 
     .pdp-info-pane {
-      padding: 40px;
+      padding: 36px 40px;
       display: flex;
       flex-direction: column;
     }
@@ -1417,26 +1513,256 @@
       font-size: 24px;
       cursor: pointer;
       color: var(--text-muted-dark);
+      transition: color 0.2s ease, transform 0.2s ease;
+      z-index: 10;
+    }
+    .pdp-close-btn:hover {
+      color: var(--text-dark);
+      transform: scale(1.15);
     }
 
-    .pdp-olfactory-pyramid {
-      background: var(--bg-cream);
+    /* SENSORY PERFORMANCE METERS */
+    .pdp-sensory-meters {
+      background: #fbf9f4;
+      border: 1px solid rgba(201, 170, 118, 0.3);
+      border-radius: 6px;
       padding: 14px 16px;
-      border-radius: 4px;
-      margin: 18px 0;
-      font-size: 11.5px;
+      margin: 14px 0 16px 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
     }
 
-    .pyramid-row {
-      display: flex;
-      margin-bottom: 6px;
+    .sensory-meter-row {
+      margin-bottom: 12px;
     }
-    .pyramid-label {
-      width: 75px;
+
+    .sensory-meter-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+
+    .sensory-meter-title {
+      font-family: var(--font-sans);
       font-weight: 700;
+      font-size: 10px;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
       color: #8c734e;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .sensory-meter-value {
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 11px;
+      color: var(--text-dark);
+    }
+
+    .sensory-meter-track {
+      width: 100%;
+      height: 6px;
+      background: #ece4d5;
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .sensory-meter-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #dfb76c 0%, #aa7c11 100%);
+      border-radius: 999px;
+      transition: width 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .sensory-meter-scale {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 3px;
+      font-size: 9px;
+      color: #9c8e7e;
+      font-family: var(--font-mono);
+      letter-spacing: 0.05em;
+    }
+
+    .sensory-tags-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(25, 18, 12, 0.07);
+    }
+
+    .sensory-tag-label {
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #8c734e;
+    }
+
+    .sensory-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .sensory-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 9px;
+      background: #ffffff;
+      border: 1px solid rgba(201, 170, 118, 0.4);
+      border-radius: 999px;
+      font-size: 10.5px;
+      font-weight: 500;
+      color: #4a3e31;
+    }
+
+    /* INTERACTIVE OLFACTORY PYRAMID VISUALIZER */
+    .pdp-olfactory-pyramid {
+      background: #fdfbf7;
+      border: 1px solid rgba(201, 170, 118, 0.25);
+      border-radius: 6px;
+      padding: 14px 16px;
+      margin: 14px 0 16px 0;
+    }
+
+    .pyramid-header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .pyramid-header-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #8c734e;
+    }
+
+    .pyramid-instruction {
+      font-size: 9.5px;
+      color: #9c8e7e;
+      font-style: italic;
+    }
+
+    .pyramid-tiers {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .pyramid-tier-btn {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      text-align: left;
+      background: #ffffff;
+      border: 1px solid rgba(25, 18, 12, 0.08);
+      border-radius: 4px;
+      padding: 8px 12px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .pyramid-tier-btn:hover {
+      border-color: rgba(201, 170, 118, 0.5);
+      background: #faf6ee;
+      transform: translateX(2px);
+    }
+
+    .pyramid-tier-btn.active {
+      background: #f8f2e6;
+      border-color: #c9aa76;
+      box-shadow: 0 3px 12px rgba(201, 170, 118, 0.18);
+    }
+
+    .pyramid-tier-topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      margin-bottom: 2px;
+    }
+
+    .pyramid-tier-name {
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #7a5f36;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pyramid-tier-time {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      color: #8c7b6a;
+    }
+
+    .pyramid-tier-notes {
+      font-family: var(--font-serif);
+      font-size: 13px;
+      line-height: 1.35;
+      color: var(--text-dark);
+      font-style: italic;
+    }
+
+    .pyramid-botanical-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed rgba(201, 170, 118, 0.3);
+    }
+
+    .botanical-chip {
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 500;
+      padding: 3px 9px;
+      background: #ffffff;
+      border: 1px solid rgba(201, 170, 118, 0.35);
+      border-radius: 999px;
+      color: #4a3e31;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .botanical-chip:hover, .botanical-chip.active {
+      background: #dfb76c;
+      color: #120904;
+      border-color: #aa7c11;
+      transform: translateY(-1px);
+    }
+
+    .botanical-story-tooltip {
+      margin-top: 8px;
+      padding: 8px 12px;
+      background: #19120c;
+      color: #f7f4ef;
+      border-radius: 4px;
+      font-size: 11px;
+      line-height: 1.45;
+      font-style: italic;
+      display: none;
+      animation: fadeIn 0.3s ease;
     }
 
     .engraving-box {
@@ -2070,6 +2396,16 @@
     </nav>
 
     <div class="nav-actions">
+      <!-- MAISON AMBIENT SOUNDSCAPE TOGGLE -->
+      <button class="nav-soundscape-btn" id="maison-soundscape-toggle" onclick="toggleMaisonSoundscape()" aria-label="Toggle Maison Ambient Soundscape" title="Maison Atmosphere">
+        <span class="soundscape-waves" id="soundscape-waves">
+          <span class="wave-bar"></span>
+          <span class="wave-bar"></span>
+          <span class="wave-bar"></span>
+        </span>
+        <span class="soundscape-label">Ambiance</span>
+      </button>
+
       <button class="nav-action-btn" onclick="openSearch()" aria-label="Search Fragrances" title="Search">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       </button>
@@ -2345,6 +2681,7 @@
       <button class="pdp-close-btn" onclick="closePdp()">×</button>
       
       <div class="pdp-media-pane">
+        <span class="macro-zoom-indicator" id="macro-zoom-indicator">✦ Macro Focus: Atomizer</span>
         <img id="pdp-img" src="" alt="Product Image">
       </div>
 
@@ -2353,20 +2690,84 @@
         <h3 id="pdp-name" style="font-family:var(--font-serif); font-size:32px; font-weight:500; margin:4px 0 10px 0;"></h3>
         <p id="pdp-desc" style="font-size:13px; color:var(--text-muted-dark); line-height:1.6;"></p>
 
-        <!-- OLFACTORY PYRAMID -->
+        <!-- SENSORY PERFORMANCE METERS -->
+        <div class="pdp-sensory-meters">
+          <div class="sensory-meter-row">
+            <div class="sensory-meter-header">
+              <span class="sensory-meter-title">✦ Longevity</span>
+              <span class="sensory-meter-value" id="pdp-meter-longevity-val">10–14 Hours (Extrait)</span>
+            </div>
+            <div class="sensory-meter-track">
+              <div class="sensory-meter-fill" id="pdp-meter-longevity-bar" style="width:90%;"></div>
+            </div>
+            <div class="sensory-meter-scale">
+              <span>4h</span>
+              <span>8h</span>
+              <span>12h+ (Extrait)</span>
+            </div>
+          </div>
+
+          <div class="sensory-meter-row">
+            <div class="sensory-meter-header">
+              <span class="sensory-meter-title">✦ Sillage / Projection</span>
+              <span class="sensory-meter-value" id="pdp-meter-sillage-val">Intimate Skin Aura vs. Magnetic Trail</span>
+            </div>
+            <div class="sensory-meter-track">
+              <div class="sensory-meter-fill" id="pdp-meter-sillage-bar" style="width:85%;"></div>
+            </div>
+            <div class="sensory-meter-scale">
+              <span>Skin Veil</span>
+              <span>Intimate Aura</span>
+              <span>Magnetic Trail</span>
+            </div>
+          </div>
+
+          <div class="sensory-tags-row">
+            <span class="sensory-tag-label">Best Season & Time:</span>
+            <div class="sensory-pills">
+              <span class="sensory-pill" id="pdp-pill-season">✦ Autumn & Winter</span>
+              <span class="sensory-pill" id="pdp-pill-time">✦ Dusk to Midnight</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- INTERACTIVE OLFACTORY PYRAMID VISUALIZER (CLICK TO TRIGGER MACRO-ZOOM) -->
         <div class="pdp-olfactory-pyramid">
-          <div class="pyramid-row">
-            <span class="pyramid-label">Top:</span>
-            <span id="pdp-top-notes" style="color:var(--text-dark);"></span>
+          <div class="pyramid-header-bar">
+            <span class="pyramid-header-title">Olfactory Architecture</span>
+            <span class="pyramid-instruction">Click tier to trigger macro-zoom focus</span>
           </div>
-          <div class="pyramid-row">
-            <span class="pyramid-label">Heart:</span>
-            <span id="pdp-heart-notes" style="color:var(--text-dark);"></span>
+
+          <div class="pyramid-tiers">
+            <button class="pyramid-tier-btn active" id="tier-btn-top" onclick="selectPyramidTier('top')">
+              <div class="pyramid-tier-topline">
+                <span class="pyramid-tier-name">I. Tête (Top Notes)</span>
+                <span class="pyramid-tier-time">0–30 Mins</span>
+              </div>
+              <div class="pyramid-tier-notes" id="pdp-top-notes"></div>
+              <div class="pyramid-botanical-chips" id="pdp-top-chips"></div>
+            </button>
+
+            <button class="pyramid-tier-btn" id="tier-btn-heart" onclick="selectPyramidTier('heart')">
+              <div class="pyramid-tier-topline">
+                <span class="pyramid-tier-name">II. Cœur (Heart Notes)</span>
+                <span class="pyramid-tier-time">2–6 Hours</span>
+              </div>
+              <div class="pyramid-tier-notes" id="pdp-heart-notes"></div>
+              <div class="pyramid-botanical-chips" id="pdp-heart-chips" style="display:none;"></div>
+            </button>
+
+            <button class="pyramid-tier-btn" id="tier-btn-base" onclick="selectPyramidTier('base')">
+              <div class="pyramid-tier-topline">
+                <span class="pyramid-tier-name">III. Fond (Base Notes)</span>
+                <span class="pyramid-tier-time">8–14+ Hours</span>
+              </div>
+              <div class="pyramid-tier-notes" id="pdp-base-notes"></div>
+              <div class="pyramid-botanical-chips" id="pdp-base-chips" style="display:none;"></div>
+            </button>
           </div>
-          <div class="pyramid-row" style="margin-bottom:0;">
-            <span class="pyramid-label">Base:</span>
-            <span id="pdp-base-notes" style="color:var(--text-dark);"></span>
-          </div>
+
+          <div class="botanical-story-tooltip" id="botanical-story-tooltip"></div>
         </div>
 
         <!-- SIZE SELECTOR -->
@@ -2488,8 +2889,16 @@
         </form>
       </div>
     </div>
-    <div style="max-width:1280px; margin:0 auto; padding-top:30px; border-top:1px solid rgba(255,255,255,0.06); display:flex; justify-content:space-between; font-size:11px; color:#7d6e61;">
+    <div style="max-width:1280px; margin:0 auto; padding-top:30px; border-top:1px solid rgba(255,255,255,0.06); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; font-size:11px; color:#7d6e61;">
       <span>© 2026 LORÉN Haute Parfumerie Paris. All Rights Reserved.</span>
+      <button class="nav-soundscape-btn" id="footer-soundscape-toggle" onclick="toggleMaisonSoundscape()" style="font-size:9.5px; padding:4px 12px; background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.14);">
+        <span class="soundscape-waves">
+          <span class="wave-bar"></span>
+          <span class="wave-bar"></span>
+          <span class="wave-bar"></span>
+        </span>
+        <span>Atelier Ambiance</span>
+      </button>
       <span>Complimentary Worldwide White-Glove Courier Delivery</span>
     </div>
   </footer>
@@ -2498,7 +2907,7 @@
        E-COMMERCE DATA & LOGIC ENGINE
        ======================================================================== -->
   <script>
-    // 8 LUXURY FRAGRANCE CATALOG DATABASE
+    // 8 LUXURY FRAGRANCE CATALOG DATABASE (ENRICHED WITH SENSORY & BOTANICAL DATA)
     const fragrances = [
       {
         id: 0,
@@ -2513,7 +2922,30 @@
         desc: "An intimate study in quiet contrast. Florentine orris root enveloped in smoked black tea, ambergris, and sun-warmed French cade wood.",
         top: "Florentine Orris Root, Bergamot, Pink Peppercorn",
         heart: "Smoked Black Tea, Velvet Violet, Leather Accord",
-        base: "French Cade Wood, Ambrette Seed, Golden Ambergris"
+        base: "French Cade Wood, Ambrette Seed, Golden Ambergris",
+        longevity: "12–14 Hours (Extrait)",
+        longevityPercent: 92,
+        sillage: "Intimate Skin Aura → Magnetic Trail",
+        sillagePercent: 86,
+        season: "Autumn & Winter",
+        timeOfDay: "Dusk to Midnight",
+        botanicals: {
+          top: [
+            { name: "Florentine Orris", story: "Rhizomes aged 36 months in dark oak vaults in Tuscany for a dense, buttery, powder-velvet opening." },
+            { name: "Calabrian Bergamot", story: "Early morning harvest cold-pressed to release sparkling aristocratic citrus facets." },
+            { name: "Pink Peppercorn", story: "Hand-picked berries that impart a subtle piquant warmth without sharp spice." }
+          ],
+          heart: [
+            { name: "Smoked Black Tea", story: "Rare high-altitude leaves cured over pine smoke, wrapping the florals in mist." },
+            { name: "Velvet Violet", story: "Midnight-harvested French violet petals offering intoxicating softness." },
+            { name: "Supple Leather", story: "Artisanal cuir accord evoking vintage calfskin binding in an ancient Grasse library." }
+          ],
+          base: [
+            { name: "French Cade Wood", story: "Wild juniper wood distilled over open coals on the rocky hills of Provence." },
+            { name: "Ambrette Seed", story: "Botanical musk extracted from hibiscus seeds offering a warm, silky halo." },
+            { name: "Golden Ambergris", story: "Rare oceanic tincture lending 14-hour skin cling and quiet magnetism." }
+          ]
+        }
       },
       {
         id: 1,
@@ -2528,7 +2960,27 @@
         desc: "Cream magnolia petals suspended in cold morning mist. Softened by smoked white birch, mineral limestone, and skin musk.",
         top: "Dewy Magnolia Petals, Italian Lemon, White Neroli",
         heart: "Crushed Mineral Accord, Lily of the Valley, Heliotrope",
-        base: "Smoked Birch Wood, White Musk, Clean Amber"
+        base: "Smoked Birch Wood, White Musk, Clean Amber",
+        longevity: "10–12 Hours (EdP)",
+        longevityPercent: 78,
+        sillage: "Radiant Skin Halo → Luminous Presence",
+        sillagePercent: 72,
+        season: "Spring & Summer",
+        timeOfDay: "Morning Dew & Daylight",
+        botanicals: {
+          top: [
+            { name: "Dewy Magnolia", story: "Fragile waxy petals hand-plucked at dawn before the sun warms the blossom." },
+            { name: "White Neroli", story: "Distilled orange blossoms from Moroccan orchards bringing luminous air." }
+          ],
+          heart: [
+            { name: "Limestone Mineral", story: "Artisanal tincture of rain-washed French travertine marble." },
+            { name: "Lily of the Valley", story: "Crisp white floral essence carrying innocent springtime sweetness." }
+          ],
+          base: [
+            { name: "Smoked White Birch", story: "Silver birch bark smoke that grounds the crystalline white floral." },
+            { name: "Pure Skin Musk", story: "Featherlight modern musk that mimics sun-warmed skin." }
+          ]
+        }
       },
       {
         id: 2,
@@ -2543,7 +2995,27 @@
         desc: "Night-picked Sambac jasmine flowers resting upon sun-warmed travertine marble. Deep, animalic, and laced with liquid golden resins.",
         top: "Midnight Sambac Jasmine, Green Tea Leaf, Bitter Orange",
         heart: "Solar Ylang-Ylang, Travertine Mineral Note, Cardamom",
-        base: "Dark Labdanum, Liquid Amber, Bourbon Vanilla"
+        base: "Dark Labdanum, Liquid Amber, Bourbon Vanilla",
+        longevity: "12–14 Hours (Extrait)",
+        longevityPercent: 90,
+        sillage: "Hypnotic Skin Aura → Magnetic Nocturne",
+        sillagePercent: 88,
+        season: "All Seasons · Warm Nights",
+        timeOfDay: "Dusk to Midnight",
+        botanicals: {
+          top: [
+            { name: "Midnight Sambac", story: "Night-harvested when petals unfurl their deepest animalic fragrance." },
+            { name: "Green Tea Leaf", story: "Steam-extracted tender leaves providing herbaceous freshness." }
+          ],
+          heart: [
+            { name: "Solar Ylang-Ylang", story: "Tropical blossom distilled to enhance creamy, sun-drenched floral facets." },
+            { name: "Travertine Accord", story: "Captures the aroma of historic Parisian architecture warmed by daylight." }
+          ],
+          base: [
+            { name: "Dark Labdanum", story: "Rich Mediterranean rockrose resin providing ambered, sacred depth." },
+            { name: "Bourbon Vanilla", story: "Cured Madagascar pods macerated for 6 months in aged wooden barrels." }
+          ]
+        }
       },
       {
         id: 3,
@@ -2558,7 +3030,27 @@
         desc: "Hypnotic night-blooming tuberose cut with crisp sheared green stems, pink pepper, and solar salicylates.",
         top: "Crisp Green Stems, Pink Pepper, Mandora",
         heart: "Night-Blooming Tuberose, Gardenia Milk, Clove Bud",
-        base: "Solar Salicylates, White Cedar, Cashmere Resins"
+        base: "Solar Salicylates, White Cedar, Cashmere Resins",
+        longevity: "14–16 Hours (Extrait)",
+        longevityPercent: 96,
+        sillage: "Dramatic Room-Filling Presence",
+        sillagePercent: 94,
+        season: "Autumn & Winter",
+        timeOfDay: "Gala & Midnight Soirée",
+        botanicals: {
+          top: [
+            { name: "Sheared Green Stems", story: "Crushed stems providing a razor-sharp emerald counterweight to rich tuberose." },
+            { name: "Pink Pepper", story: "Brisk effervescent spice that electrifies the opening." }
+          ],
+          heart: [
+            { name: "Grasse Tuberose", story: "The undisputed queen of white florals, opulent and intoxicatingly sensual." },
+            { name: "Gardenia Milk", story: "Smooth lactonic accord that caresses the skin like velvet silk." }
+          ],
+          base: [
+            { name: "Solar Salicylates", story: "Warm molecules evoking sunbeams cutting through midnight fog." },
+            { name: "White Cedar", story: "Clean architectural wood balancing the floral drama." }
+          ]
+        }
       },
       {
         id: 4,
@@ -2573,7 +3065,27 @@
         desc: "Wild vanilla orchid blossoms steeped in toasted cardamom, golden saffron threads, and Australian sandalwood.",
         top: "Saffron Threads, Cardamom, Bergamot",
         heart: "Wild Vanilla Orchid, Rose Damascena, Tonka",
-        base: "Australian Sandalwood, Benzoin Tears, White Amber"
+        base: "Australian Sandalwood, Benzoin Tears, White Amber",
+        longevity: "10–12 Hours (EdP)",
+        longevityPercent: 82,
+        sillage: "Velvety Warm Radiance",
+        sillagePercent: 78,
+        season: "Autumn & Spring",
+        timeOfDay: "Golden Hour to Twilight",
+        botanicals: {
+          top: [
+            { name: "Kashmiri Saffron", story: "Hand-separated crimson threads bringing aristocratic warmth." },
+            { name: "Toasted Cardamom", story: "Slow-roasted green pods releasing spicy aromatic citrus nuances." }
+          ],
+          heart: [
+            { name: "Vanilla Orchid", story: "Wild jungle bloom infused with natural gourmand sophistication." },
+            { name: "Rose Damascena", story: "Honeyed Bulgarian petals macerated for opulent texture." }
+          ],
+          base: [
+            { name: "Sandalwood Album", story: "Sustainably harvested Australian wood aged for buttery richness." },
+            { name: "Benzoin Tears", story: "Golden tree sap tears delivering soothing balsamic vanilla sweetness." }
+          ]
+        }
       },
       {
         id: 5,
@@ -2588,7 +3100,27 @@
         desc: "Wild Haitian vetiver roots washed in ocean salt spray, cold Atlantic cedar, and wet graphite stone.",
         top: "Sea Salt Accord, Grapefruit Rind, Crushed Sage",
         heart: "Graphite Stone, Juniper Berry, Nutmeg",
-        base: "Haitian Vetiver, Smoked Cedar, Driftwood Musk"
+        base: "Haitian Vetiver, Smoked Cedar, Driftwood Musk",
+        longevity: "12–14 Hours (Extrait)",
+        longevityPercent: 88,
+        sillage: "Crisp Coastal Aura → Pure Distinction",
+        sillagePercent: 82,
+        season: "All Seasons · High Elegance",
+        timeOfDay: "Daybreak to Dusk",
+        botanicals: {
+          top: [
+            { name: "Atlantic Salt Spray", story: "Captures oceanic iodine mist rising off rugged granite cliffs." },
+            { name: "Grapefruit Rind", story: "Cold-expressed bitter peel that cuts through dense woody notes." }
+          ],
+          heart: [
+            { name: "Graphite Mineral", story: "Cold stone facet evoking modern architecture and clean slate." },
+            { name: "Juniper Berry", story: "Crisp piney gin-like botanicals crushed for freshness." }
+          ],
+          base: [
+            { name: "Haitian Vetiver", story: "Deep earthy roots harvested from mountain slopes, free from muddy dampness." },
+            { name: "Atlantic Cedar", story: "Wind-swept timber providing dry, noble structure." }
+          ]
+        }
       },
       {
         id: 6,
@@ -2603,7 +3135,27 @@
         desc: "Creamy Mysore sandalwood aged in charred oak casks, wrapped in cardamon milk, papyrus, and cashmere warmth.",
         top: "Cardamom Pod, Violet Leaves, Cypress",
         heart: "Egyptian Papyrus, Iris Butter, Dried Cedar",
-        base: "Mysore Sandalwood, Charred Oak, White Amber"
+        base: "Mysore Sandalwood, Charred Oak, White Amber",
+        longevity: "12–14 Hours (Extrait)",
+        longevityPercent: 91,
+        sillage: "Sensual Velvet Skin Cling",
+        sillagePercent: 84,
+        season: "Winter & Late Autumn",
+        timeOfDay: "Intimate Evenings & Fireside",
+        botanicals: {
+          top: [
+            { name: "Green Cardamom", story: "Cool spicy headnote creating immediate tactile intrigue." },
+            { name: "Violet Leaf Absolute", story: "Metallic green leafy freshness that cuts through rich cream." }
+          ],
+          heart: [
+            { name: "Egyptian Papyrus", story: "Dry reed essence reminiscent of parchment scrolls and ancient libraries." },
+            { name: "Orris Butter", story: "Triple-refined iris root delivering soft suede nuances." }
+          ],
+          base: [
+            { name: "Mysore Sandalwood", story: "Renowned sacred heartwood aged 30 years for unrivaled milky depth." },
+            { name: "Charred French Oak", story: "Brings toasted vanilla oak barrel nuances to the drydown." }
+          ]
+        }
       },
       {
         id: 7,
@@ -2618,7 +3170,27 @@
         desc: "Explore the complete house at your own pace. Includes 5 × 2ml atomizers + a $48 voucher towards your chosen full flacon.",
         top: "Iris Noir, Magnolia Cendrée",
         heart: "Nuit de Jasmin, Tubéreuse Royale",
-        base: "Fleur d’Orchidée + $48 Gift Voucher"
+        base: "Fleur d’Orchidée + $48 Gift Voucher",
+        longevity: "Complete House Spectrum",
+        longevityPercent: 88,
+        sillage: "Curated Sillage Wardrobe",
+        sillagePercent: 85,
+        season: "All Seasons",
+        timeOfDay: "Day to Night Wardrobe",
+        botanicals: {
+          top: [
+            { name: "Iris Noir 2ml", story: "Florentine Orris & Smoked Lapsang Tea." },
+            { name: "Magnolia Cendrée 2ml", story: "Cream Magnolia & Honed Limestone." }
+          ],
+          heart: [
+            { name: "Nuit de Jasmin 2ml", story: "Night Sambac & Travertine Marble." },
+            { name: "Tubéreuse Royale 2ml", story: "Night-Blooming Tuberose & Crisp Stems." }
+          ],
+          base: [
+            { name: "Fleur d’Orchidée 2ml", story: "Vanilla Orchid & Cardamom Sandalwood." },
+            { name: "Maison Gift Certificate", story: "$48 credit automatically deducted from your first 50ml or 100ml flacon." }
+          ]
+        }
       }
     ];
 
@@ -2796,20 +3368,59 @@
     // MODAL PDP (PRODUCT DETAIL VIEW)
     let currentModalFragrance = null;
     let currentModalSize = '50ml';
+    let currentModalTier = 'top';
 
     function openPdp(id) {
       const f = fragrances.find(item => item.id === id);
+      if (!f) return;
       currentModalFragrance = f;
       currentModalSize = '50ml';
 
-      document.getElementById('pdp-img').src = f.img;
+      const img = document.getElementById('pdp-img');
+      if (img) {
+        img.src = f.img;
+        img.className = '';
+      }
+
       document.getElementById('pdp-name').innerText = f.name;
       document.getElementById('pdp-concentration').innerText = f.concentration;
       document.getElementById('pdp-desc').innerText = f.desc;
+
+      // 1. POPULATE SENSORY PERFORMANCE METERS
+      const lonVal = document.getElementById('pdp-meter-longevity-val');
+      const lonBar = document.getElementById('pdp-meter-longevity-bar');
+      if (lonVal) lonVal.innerText = f.longevity || '10–14 Hours (Extrait)';
+      if (lonBar) {
+        lonBar.style.width = '0%';
+        setTimeout(() => { lonBar.style.width = (f.longevityPercent || 90) + '%'; }, 80);
+      }
+
+      const silVal = document.getElementById('pdp-meter-sillage-val');
+      const silBar = document.getElementById('pdp-meter-sillage-bar');
+      if (silVal) silVal.innerText = f.sillage || 'Intimate Skin Aura vs. Magnetic Trail';
+      if (silBar) {
+        silBar.style.width = '0%';
+        setTimeout(() => { silBar.style.width = (f.sillagePercent || 85) + '%'; }, 80);
+      }
+
+      const pillSeason = document.getElementById('pdp-pill-season');
+      const pillTime = document.getElementById('pdp-pill-time');
+      if (pillSeason) pillSeason.innerText = `✦ ${f.season || 'Autumn & Winter'}`;
+      if (pillTime) pillTime.innerText = `✦ ${f.timeOfDay || 'Dusk to Midnight'}`;
+
+      // 2. POPULATE INTERACTIVE OLFACTORY PYRAMID & INGREDIENT CHIPS
       document.getElementById('pdp-top-notes').innerText = f.top;
       document.getElementById('pdp-heart-notes').innerText = f.heart;
       document.getElementById('pdp-base-notes').innerText = f.base;
 
+      renderBotanicalChips('top', f.botanicals ? f.botanicals.top : []);
+      renderBotanicalChips('heart', f.botanicals ? f.botanicals.heart : []);
+      renderBotanicalChips('base', f.botanicals ? f.botanicals.base : []);
+
+      // Reset to Top Tier with smooth macro-zoom
+      selectPyramidTier('top');
+
+      // 3. SIZE & PRICING
       document.getElementById('modal-price-50').innerText = f.price50;
       document.getElementById('modal-price-100').innerText = f.price100;
       document.getElementById('modal-current-price').innerText = f.price50;
@@ -2823,17 +3434,67 @@
       const preview = document.getElementById('monogram-preview');
       if (preview) { preview.style.display = 'none'; preview.innerText = ''; }
 
-      // Staggered Olfactory Pyramid Note emergence
-      document.querySelectorAll('.pyramid-row').forEach((row, i) => {
-        row.style.animation = 'none';
-        void row.offsetWidth;
-        row.style.animation = `cardCascade 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards ${0.1 + i * 0.1}s`;
-      });
+      const tooltip = document.getElementById('botanical-story-tooltip');
+      if (tooltip) tooltip.style.display = 'none';
 
       document.getElementById('pdp-modal').classList.add('open');
     }
 
+    function renderBotanicalChips(tier, items) {
+      const container = document.getElementById(`pdp-${tier}-chips`);
+      if (!container) return;
+      if (!items || items.length === 0) {
+        container.innerHTML = '';
+        return;
+      }
+      container.innerHTML = items.map(item => `
+        <span class="botanical-chip" onclick="event.stopPropagation(); showBotanicalStory('${item.story.replace(/'/g, "\\'")}', this)">
+          ✦ ${item.name}
+        </span>
+      `).join('');
+    }
+
+    function selectPyramidTier(tier) {
+      currentModalTier = tier;
+      const img = document.getElementById('pdp-img');
+      const indicator = document.getElementById('macro-zoom-indicator');
+
+      // Tiers button active state
+      ['top', 'heart', 'base'].forEach(t => {
+        const btn = document.getElementById(`tier-btn-${t}`);
+        const chips = document.getElementById(`pdp-${t}-chips`);
+        if (btn) btn.classList.toggle('active', t === tier);
+        if (chips) chips.style.display = (t === tier) ? 'flex' : 'none';
+      });
+
+      // Apply smooth macro zoom on the flacon image pane
+      if (img) {
+        img.classList.remove('macro-zoom-top', 'macro-zoom-heart', 'macro-zoom-base');
+        img.classList.add(`macro-zoom-${tier}`);
+      }
+
+      // Update indicator label
+      if (indicator) {
+        if (tier === 'top') indicator.innerText = '✦ Macro Focus: Atomizer & Tête Notes';
+        if (tier === 'heart') indicator.innerText = '✦ Macro Focus: Crystal Core & Cœur Notes';
+        if (tier === 'base') indicator.innerText = '✦ Macro Focus: Crystal Pedestal & Fond Notes';
+      }
+    }
+
+    function showBotanicalStory(story, chipElem) {
+      const tooltip = document.getElementById('botanical-story-tooltip');
+      if (!tooltip) return;
+
+      document.querySelectorAll('.botanical-chip').forEach(c => c.classList.remove('active'));
+      if (chipElem) chipElem.classList.add('active');
+
+      tooltip.innerText = `“${story}”`;
+      tooltip.style.display = 'block';
+    }
+
     function closePdp() {
+      const img = document.getElementById('pdp-img');
+      if (img) img.classList.remove('macro-zoom-top', 'macro-zoom-heart', 'macro-zoom-base');
       document.getElementById('pdp-modal').classList.remove('open');
     }
 
@@ -3559,6 +4220,115 @@
         if (activeIcon) activeIcon.style.display = 'block';
         if (soundText) soundText.textContent = 'Mute Soundtrack';
         showToast('Flacon Audio Unmuted');
+      }
+    }
+
+    // ========================================================================
+    // MAISON AMBIENT SOUNDSCAPE ENGINE (PARISIAN RAIN & WARM ATELIER HARMONICS)
+    // ========================================================================
+    let maisonAudioCtx = null;
+    let maisonAudioPlaying = false;
+    let masterSoundscapeGain = null;
+
+    function toggleMaisonSoundscape() {
+      const btn = document.getElementById('maison-soundscape-toggle');
+      const footerBtn = document.getElementById('footer-soundscape-toggle');
+
+      if (!maisonAudioPlaying) {
+        startMaisonSoundscape();
+        maisonAudioPlaying = true;
+        if (btn) btn.classList.add('playing');
+        if (footerBtn) footerBtn.classList.add('playing');
+        showToast('Maison Soundscape: Rain on Parisian Cobblestones & Atelier Warmth Active');
+      } else {
+        stopMaisonSoundscape();
+        maisonAudioPlaying = false;
+        if (btn) btn.classList.remove('playing');
+        if (footerBtn) footerBtn.classList.remove('playing');
+        showToast('Maison Soundscape Paused');
+      }
+    }
+
+    function startMaisonSoundscape() {
+      try {
+        if (!maisonAudioCtx) {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          maisonAudioCtx = new AudioCtx();
+        }
+        if (maisonAudioCtx.state === 'suspended') {
+          maisonAudioCtx.resume();
+        }
+
+        // Master Gain with delicate exponential swell
+        masterSoundscapeGain = maisonAudioCtx.createGain();
+        masterSoundscapeGain.gain.setValueAtTime(0.0001, maisonAudioCtx.currentTime);
+        masterSoundscapeGain.gain.exponentialRampToValueAtTime(0.22, maisonAudioCtx.currentTime + 1.8);
+        masterSoundscapeGain.connect(maisonAudioCtx.destination);
+
+        // 1. Procedural Parisian Rain on Cobblestones (Pink Noise with Dual Lowpass Filters)
+        const bufferSize = maisonAudioCtx.sampleRate * 2;
+        const noiseBuffer = maisonAudioCtx.createBuffer(1, bufferSize, maisonAudioCtx.sampleRate);
+        const output = noiseBuffer.getChannelData(0);
+        let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+        for (let i = 0; i < bufferSize; i++) {
+          const white = Math.random() * 2 - 1;
+          b0 = 0.99886 * b0 + white * 0.0555179;
+          b1 = 0.99332 * b1 + white * 0.0750759;
+          b2 = 0.96900 * b2 + white * 0.1538520;
+          b3 = 0.86650 * b3 + white * 0.3104856;
+          b4 = 0.55000 * b4 + white * 0.5329522;
+          b5 = -0.7616 * b5 - white * 0.0168980;
+          output[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362) * 0.04;
+          b6 = white * 0.115926;
+        }
+
+        const rainSource = maisonAudioCtx.createBufferSource();
+        rainSource.buffer = noiseBuffer;
+        rainSource.loop = true;
+
+        const rainFilter = maisonAudioCtx.createBiquadFilter();
+        rainFilter.type = 'lowpass';
+        rainFilter.frequency.setValueAtTime(850, maisonAudioCtx.currentTime);
+
+        const rainGain = maisonAudioCtx.createGain();
+        rainGain.gain.setValueAtTime(0.4, maisonAudioCtx.currentTime);
+
+        rainSource.connect(rainFilter);
+        rainFilter.connect(rainGain);
+        rainGain.connect(masterSoundscapeGain);
+        rainSource.start();
+
+        // 2. Warm Parisian Atelier Harmonics (Peaceful chord in 432Hz golden ratio: D, A, F)
+        const chordFreqs = [144, 216, 288, 345.6];
+        chordFreqs.forEach((freq, idx) => {
+          const osc = maisonAudioCtx.createOscillator();
+          const oscGain = maisonAudioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, maisonAudioCtx.currentTime);
+          osc.detune.setValueAtTime((idx % 2 === 0 ? 3.5 : -3.5), maisonAudioCtx.currentTime);
+
+          oscGain.gain.setValueAtTime(0.035 / (idx + 1), maisonAudioCtx.currentTime);
+          osc.connect(oscGain);
+          oscGain.connect(masterSoundscapeGain);
+          osc.start();
+        });
+      } catch (err) {
+        console.warn('Maison soundscape context notice:', err);
+      }
+    }
+
+    function stopMaisonSoundscape() {
+      try {
+        if (masterSoundscapeGain && maisonAudioCtx) {
+          masterSoundscapeGain.gain.exponentialRampToValueAtTime(0.0001, maisonAudioCtx.currentTime + 0.8);
+          setTimeout(() => {
+            if (maisonAudioCtx && maisonAudioCtx.state === 'running') {
+              maisonAudioCtx.suspend();
+            }
+          }, 850);
+        }
+      } catch (err) {
+        console.warn('Maison soundscape suspension notice:', err);
       }
     }
 
