@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Maison — LORÉN Haute Parfumerie Paris | Heritage & Savoir-Faire</title>
+  <meta name="description" content="Discover the heritage, Grasse ateliers, and 180-day cold maceration savoir-faire of LORÉN Haute Parfumerie Paris. Crafted in Grasse, France.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ==========================================================================
+       LORÉN HAUTE PARFUMERIE — DESIGN SYSTEM TOKENS
+       ========================================================================== */
+    :root {
+      --bg-dark: #170b20;
+      --bg-darker: #0c0512;
+      --bg-espresso: #20102b;
+      --bg-cream: #f6f3ee;
+      --bg-alabaster: #ebe6dc;
+      --bg-card: #ffffff;
+      
+      --text-light: #f7f4ef;
+      --text-muted-light: #c5b8ab;
+      --text-dark: #19120c;
+      --text-muted-dark: #6e6155;
+      
+      --accent-gold: #c9aa76;
+      --accent-gold-light: #e5cb9b;
+      --accent-gold-bright: #ffd875;
+      --accent-gold-dim: rgba(201, 170, 118, 0.15);
+      --line-dark: rgba(255, 255, 255, 0.1);
+      --line-light: rgba(25, 18, 12, 0.1);
+
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-cream);
+      color: var(--text-dark);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::selection {
+      background: var(--accent-gold);
+      color: var(--bg-darker);
+    }
+
+    /* READING PROGRESS BAR */
+    .scroll-progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background: linear-gradient(90deg, #c9aa76, #ffd875, #dfb76c);
+      z-index: 1002;
+      transition: width 0.1s linear;
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
+    }
+
+    /* TOP ANNOUNCEMENT BAR */
+    .top-announcement-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 30px;
+      background: rgba(12, 5, 18, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10.5px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.85);
+      z-index: 1000;
+    }
+
+    /* STICKY STORE NAVIGATION */
+    .sticky-store-nav {
+      position: fixed;
+      top: 30px;
+      left: 0;
+      width: 100%;
+      height: 70px;
+      z-index: 990;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 max(4vw, 36px);
+      background: rgba(14, 7, 20, 0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.18);
+      transition: all 0.35s ease;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .back-portfolio-btn {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-gold-bright);
+      text-decoration: none;
+      padding: 5px 12px;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      border-radius: 999px;
+      transition: all 0.25s ease;
+    }
+
+    .back-portfolio-btn:hover {
+      background: rgba(212, 175, 55, 0.2);
+      border-color: var(--accent-gold-bright);
+      color: #ffffff;
+    }
+
+    .nav-brand {
+      font-family: var(--font-serif);
+      font-size: 26px;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      color: #ffffff;
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.75);
+      text-decoration: none;
+      transition: color 0.25s ease;
+      position: relative;
+      padding: 6px 0;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--accent-gold-bright);
+    }
+
+    .nav-links a.active::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: var(--accent-gold-bright);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    /* SOUNDSCAPE BUTTON */
+    .nav-soundscape-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: rgba(255, 255, 255, 0.9);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .nav-soundscape-btn:hover {
+      background: rgba(212, 175, 55, 0.22);
+      border-color: rgba(212, 175, 55, 0.6);
+      color: #ffd875;
+      transform: translateY(-1px);
+    }
+
+    .nav-soundscape-btn.playing {
+      background: rgba(212, 175, 55, 0.26);
+      border-color: #ffd875;
+      color: #ffd875;
+      box-shadow: 0 0 16px rgba(212, 175, 55, 0.4);
+    }
+
+    .soundscape-waves {
+      display: inline-flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 11px;
+    }
+
+    .wave-bar {
+      width: 2px;
+      height: 4px;
+      background: currentColor;
+      border-radius: 1px;
+      transition: height 0.2s ease;
+    }
+
+    .nav-soundscape-btn.playing .wave-bar:nth-child(1) {
+      animation: soundWave 0.75s infinite ease-in-out alternate;
+    }
+    .nav-soundscape-btn.playing .wave-bar:nth-child(2) {
+      animation: soundWave 0.75s infinite ease-in-out 0.2s alternate;
+    }
+    .nav-soundscape-btn.playing .wave-bar:nth-child(3) {
+      animation: soundWave 0.75s infinite ease-in-out 0.4s alternate;
+    }
+
+    @keyframes soundWave {
+      0% { height: 3px; }
+      100% { height: 11px; }
+    }
+
+    .nav-btn-boutique {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 8px 18px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #dfb76c 0%, #aa7c11 100%);
+      color: #0c0512;
+      text-decoration: none;
+      border: 1px solid rgba(255, 240, 200, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    .nav-btn-boutique:hover {
+      background: linear-gradient(135deg, #ffd875 0%, #c49520 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(212, 175, 55, 0.4);
+    }
+
+    /* SCROLL REVEALS */
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .scroll-reveal.is-revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .scroll-reveal-left {
+      opacity: 0;
+      transform: translateX(-36px);
+      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .scroll-reveal-left.is-revealed {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .scroll-reveal-right {
+      opacity: 0;
+      transform: translateX(36px);
+      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .scroll-reveal-right.is-revealed {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* GOLD TEXT UTILITY */
+    .mg-gold-text {
+      background: linear-gradient(135deg, #ffffff 0%, #fae6c2 35%, #d4af37 70%, #ffd875 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* ==========================================================================
+       HERO CHAPTER: L'ÂME DE LA MAISON
+       ========================================================================== */
+    .maison-hero {
+      position: relative;
+      min-height: 85vh;
+      background: radial-gradient(circle at 50% 40%, #20102e 0%, #0d0414 55%, #050209 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 160px 24px 100px 24px;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.18);
+    }
+
+    .maison-hero-aura {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 900px;
+      height: 900px;
+      background: radial-gradient(circle, rgba(140, 80, 180, 0.22) 0%, rgba(212, 175, 55, 0.08) 45%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .maison-hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .maison-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: #dfb76c;
+      margin-bottom: 20px;
+    }
+
+    .maison-eyebrow::before,
+    .maison-eyebrow::after {
+      content: "";
+      width: 24px;
+      height: 1px;
+      background: rgba(212, 175, 55, 0.6);
+    }
+
+    .maison-hero-title {
+      font-family: var(--font-serif);
+      font-size: clamp(42px, 6vw, 84px);
+      font-weight: 400;
+      line-height: 1.05;
+      color: #ffffff;
+      margin-bottom: 24px;
+      letter-spacing: -0.01em;
+    }
+
+    .maison-hero-title em {
+      font-style: italic;
+      color: #f7f4ef;
+    }
+
+    .maison-hero-lead {
+      font-family: var(--font-sans);
+      font-size: clamp(14px, 1.35vw, 17px);
+      line-height: 1.8;
+      color: rgba(247, 244, 239, 0.78);
+      font-weight: 300;
+      max-width: 720px;
+      margin: 0 auto 42px auto;
+    }
+
+    .maison-hallmarks-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      max-width: 880px;
+      margin: 0 auto;
+      padding-top: 36px;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .hallmark-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hallmark-num {
+      font-family: var(--font-serif);
+      font-size: clamp(26px, 3vw, 36px);
+      font-weight: 400;
+      color: #ffd875;
+      line-height: 1;
+    }
+
+    .hallmark-lbl {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    /* ==========================================================================
+       CHAPTER I: THE GRASSE TERROIR & SACRED BOTANICALS
+       ========================================================================== */
+    .section-chapter {
+      padding: clamp(80px, 9vw, 130px) clamp(24px, 5vw, 64px);
+      position: relative;
+    }
+
+    .chapter-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: clamp(48px, 6vw, 90px);
+      align-items: center;
+    }
+
+    .chapter-container.reverse {
+      grid-template-columns: 1fr 1.15fr;
+    }
+
+    .chapter-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #8c734e;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .chapter-title {
+      font-family: var(--font-serif);
+      font-size: clamp(34px, 4vw, 54px);
+      font-weight: 400;
+      line-height: 1.12;
+      color: var(--text-dark);
+      margin-bottom: 20px;
+    }
+
+    .chapter-quote {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 18px;
+      line-height: 1.55;
+      color: #5d4f41;
+      padding-left: 20px;
+      border-left: 2px solid var(--accent-gold);
+      margin-bottom: 22px;
+    }
+
+    .chapter-desc {
+      font-size: 14px;
+      line-height: 1.85;
+      color: var(--text-muted-dark);
+      font-weight: 300;
+      margin-bottom: 28px;
+    }
+
+    .botanical-cards-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .botanical-card {
+      background: #ffffff;
+      border: 1px solid rgba(25, 18, 12, 0.08);
+      border-radius: 8px;
+      padding: 16px 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+      transition: all 0.3s ease;
+    }
+
+    .botanical-card:hover {
+      border-color: rgba(201, 170, 118, 0.5);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 26px rgba(0, 0, 0, 0.06);
+    }
+
+    .botanical-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .botanical-card-name {
+      font-family: var(--font-serif);
+      font-size: 17px;
+      font-weight: 500;
+      color: var(--text-dark);
+    }
+
+    .botanical-card-origin {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      color: #8c734e;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .botanical-card-body {
+      font-size: 12.5px;
+      line-height: 1.6;
+      color: var(--text-muted-dark);
+    }
+
+    /* CHAPTER MEDIA FRAMES */
+    .chapter-media-frame {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.14);
+      background: #000000;
+      aspect-ratio: 4 / 5;
+    }
+
+    .chapter-media-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .chapter-media-frame:hover img {
+      transform: scale(1.04);
+    }
+
+    .chapter-media-badge {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(14, 7, 20, 0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: #ffd875;
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+    }
+
+    /* ==========================================================================
+       CHAPTER II: THE 180-DAY SAVOIR-FAIRE TIMELINE
+       ========================================================================== */
+    .section-savoir-faire {
+      background: #12081a;
+      color: #ffffff;
+      padding: clamp(90px, 10vw, 140px) clamp(24px, 5vw, 64px);
+      position: relative;
+      overflow: hidden;
+      border-top: 1px solid rgba(212, 175, 55, 0.18);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.18);
+    }
+
+    .savoir-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .savoir-header {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 70px auto;
+    }
+
+    .savoir-timeline-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      position: relative;
+    }
+
+    .savoir-step-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      border-radius: 8px;
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.35s ease;
+      position: relative;
+    }
+
+    .savoir-step-card:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(212, 175, 55, 0.55);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(212, 175, 55, 0.15);
+    }
+
+    .savoir-step-num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #ffd875;
+      letter-spacing: 0.2em;
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .savoir-step-title {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 500;
+      color: #ffffff;
+      margin-bottom: 12px;
+      line-height: 1.25;
+    }
+
+    .savoir-step-text {
+      font-size: 13px;
+      line-height: 1.75;
+      color: rgba(247, 244, 239, 0.7);
+      font-weight: 300;
+    }
+
+    /* ==========================================================================
+       CHAPTER III: LE NEZ DE LA MAISON
+       ========================================================================== */
+    .section-nez {
+      padding: clamp(90px, 10vw, 140px) clamp(24px, 5vw, 64px);
+      background: var(--bg-cream);
+    }
+
+    .nez-card {
+      max-width: 1180px;
+      margin: 0 auto;
+      background: #ffffff;
+      border: 1px solid rgba(25, 18, 12, 0.08);
+      border-radius: 12px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1.35fr;
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.06);
+    }
+
+    .nez-photo-pane {
+      background: #0f0714;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nez-photo-pane img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(20%) contrast(105%);
+    }
+
+    .nez-content-pane {
+      padding: clamp(36px, 5vw, 64px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .nez-quote {
+      font-family: var(--font-serif);
+      font-size: clamp(20px, 2vw, 26px);
+      font-style: italic;
+      line-height: 1.5;
+      color: var(--text-dark);
+      margin-bottom: 24px;
+    }
+
+    .nez-author {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #8c734e;
+      margin-bottom: 28px;
+    }
+
+    .nez-rules-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      border-top: 1px solid rgba(25, 18, 12, 0.08);
+      padding-top: 24px;
+    }
+
+    .nez-rule-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text-muted-dark);
+    }
+
+    .nez-rule-diamond {
+      color: var(--accent-gold);
+      font-size: 10px;
+      margin-top: 4px;
+    }
+
+    /* ==========================================================================
+       CALL TO EXPERIENCE & BOUTIQUE INVITATION
+       ========================================================================== */
+    .section-cta {
+      background: radial-gradient(circle at 50% 50%, #1e0d29 0%, #0d0413 60%, #050208 100%);
+      color: #ffffff;
+      padding: clamp(100px, 12vw, 160px) clamp(24px, 5vw, 64px);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border-top: 1px solid rgba(212, 175, 55, 0.18);
+    }
+
+    .cta-container {
+      max-width: 820px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .cta-title {
+      font-family: var(--font-serif);
+      font-size: clamp(38px, 5vw, 64px);
+      font-weight: 400;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .cta-desc {
+      font-size: 15px;
+      line-height: 1.8;
+      color: rgba(247, 244, 239, 0.75);
+      font-weight: 300;
+      margin-bottom: 38px;
+    }
+
+    .cta-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+
+    .btn-cta-gold {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #dfb76c 0%, #aa7c11 100%);
+      color: #0c0512;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 16px 32px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 240, 200, 0.4);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.35);
+    }
+
+    .btn-cta-gold:hover {
+      background: linear-gradient(135deg, #ffd875 0%, #c49520 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 14px 40px rgba(212, 175, 55, 0.5);
+      color: #000000;
+    }
+
+    .btn-cta-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 15px 30px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      cursor: pointer;
+      text-decoration: none;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: all 0.3s ease;
+    }
+
+    .btn-cta-ghost:hover {
+      background: rgba(255, 255, 255, 0.18);
+      border-color: #ffd875;
+      color: #ffd875;
+      transform: translateY(-2px);
+    }
+
+    /* ==========================================================================
+       MAISON FOOTER
+       ========================================================================== */
+    .site-footer {
+      background: #09030c;
+      color: #cfc3b5;
+      padding: 80px max(4vw, 36px) 40px max(4vw, 36px);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .footer-grid {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1.2fr 1.5fr;
+      gap: 48px;
+      margin-bottom: 60px;
+    }
+
+    .site-footer a {
+      color: #cfc3b5;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .site-footer a:hover {
+      color: var(--accent-gold-bright);
+    }
+
+    /* TOAST */
+    .mini-toast {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      background: rgba(14, 7, 20, 0.94);
+      color: #ffd875;
+      border: 1px solid rgba(212, 175, 55, 0.45);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      padding: 12px 22px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 2000;
+      opacity: 0;
+      transform: translateY(20px);
+      pointer-events: none;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .mini-toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* MOTION CURSOR */
+    .luxury-cursor-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 9998;
+    }
+
+    .luxury-cursor-ring {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 32px;
+      height: 32px;
+      margin-top: -16px;
+      margin-left: -16px;
+      border: 1px solid rgba(212, 175, 55, 0.55);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate3d(-100px, -100px, 0);
+      transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+    }
+
+    .luxury-cursor-ring.cursor-hover {
+      width: 52px;
+      height: 52px;
+      margin-top: -26px;
+      margin-left: -26px;
+      border-color: #ffd875;
+      background: rgba(212, 175, 55, 0.08);
+    }
+
+    .luxury-cursor-dot {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 5px;
+      margin-top: -2.5px;
+      margin-left: -2.5px;
+      background: #ffd875;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 10000;
+      transform: translate3d(-100px, -100px, 0);
+      box-shadow: 0 0 8px #ffd875;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      .chapter-container,
+      .chapter-container.reverse,
+      .nez-card {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .savoir-timeline-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .maison-hallmarks-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      .savoir-timeline-grid {
+        grid-template-columns: 1fr;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+      .luxury-cursor-canvas,
+      .luxury-cursor-ring,
+      .luxury-cursor-dot {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- GOLD SCROLL READING PROGRESS BAR -->
+  <div class="scroll-progress-bar" id="scroll-progress-bar"></div>
+
+  <!-- TOP LUXURY ANNOUNCEMENT TICKER -->
+  <div class="top-announcement-bar" id="top-announcement-bar">
+    ✦ LORÉN Haute Parfumerie Paris · Artisanal Maceration in Grasse ✦
+  </div>
+
+  <!-- STICKY STORE NAVIGATION -->
+  <header class="sticky-store-nav" id="sticky-nav">
+    <div class="nav-left">
+      <a href="loren.html" class="back-portfolio-btn">← Boutique</a>
+      <a href="loren.html" class="nav-brand">LORÉN</a>
+    </div>
+
+    <nav>
+      <ul class="nav-links">
+        <li><a href="loren.html#shop">Boutique</a></li>
+        <li><a href="loren.html#shop">Collection</a></li>
+        <li><a href="maison.html" class="active">La Maison</a></li>
+        <li><a href="#terroir">Terroir</a></li>
+        <li><a href="#savoir-faire">Savoir-Faire</a></li>
+        <li><a href="loren.html#atelier-3d">3D Atelier</a></li>
+      </ul>
+    </nav>
+
+    <div class="nav-actions">
+      <!-- MAISON AMBIENT SOUNDSCAPE TOGGLE -->
+      <button class="nav-soundscape-btn" id="maison-soundscape-toggle" onclick="toggleMaisonSoundscape()" aria-label="Toggle Maison Ambient Soundscape" title="Maison Atmosphere">
+        <span class="soundscape-waves" id="soundscape-waves">
+          <span class="wave-bar"></span>
+          <span class="wave-bar"></span>
+          <span class="wave-bar"></span>
+        </span>
+        <span class="soundscape-label">Ambiance</span>
+      </button>
+
+      <a href="loren.html#shop" class="nav-btn-boutique">The Archive ↗</a>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       HERO CHAPTER: L'ÂME DE LA MAISON
+       ======================================================================== -->
+  <section class="maison-hero" id="top">
+    <div class="maison-hero-aura"></div>
+
+    <div class="maison-hero-content scroll-reveal">
+      <span class="maison-eyebrow">La Maison LORÉN • Grasse & Paris</span>
+      <h1 class="maison-hero-title">
+        Artisans of the <br><span class="mg-gold-text">Invisible Architecture</span>
+      </h1>
+      <p class="maison-hero-lead">
+        Founded upon the quiet belief that true luxury never announces itself with noise. Since 1924, LORÉN has composed bespoke olfactory poetry through 180-day cold maceration in the nocturnal flower valleys of Grasse, France.
+      </p>
+
+      <div class="maison-hallmarks-grid">
+        <div class="hallmark-card">
+          <span class="hallmark-num">1924</span>
+          <span class="hallmark-lbl">Atelier Established</span>
+        </div>
+        <div class="hallmark-card">
+          <span class="hallmark-num">180 Jours</span>
+          <span class="hallmark-lbl">Slow Cold Maceration</span>
+        </div>
+        <div class="hallmark-card">
+          <span class="hallmark-num">32%</span>
+          <span class="hallmark-lbl">Extrait Concentration</span>
+        </div>
+        <div class="hallmark-card">
+          <span class="hallmark-num">Grasse</span>
+          <span class="hallmark-lbl">Heirloom Terroir</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       CHAPTER I: THE GRASSE TERROIR & SACRED BOTANICALS
+       ======================================================================== -->
+  <section class="section-chapter" id="terroir">
+    <div class="chapter-container">
+      
+      <div class="chapter-content-pane scroll-reveal-left">
+        <span class="chapter-tag">Chapter I • The Provençal Cradle</span>
+        <h2 class="chapter-title">
+          Where Morning Mist Meets <br><em style="font-family:var(--font-serif); color:#8c734e;">Sunken Valley Air</em>
+        </h2>
+        
+        <blockquote class="chapter-quote">
+          “In Grasse, the soil does not merely feed the flower; it imparts centuries of geological memory into every single drop of nectar.”
+        </blockquote>
+
+        <p class="chapter-desc">
+          Perched between the Mediterranean coastline and the maritime foothills of the Southern Prealps, Grasse possesses an incomparable microclimate. Here, warm maritime breezes collide with cool alpine currents, coaxing botanicals into producing essential oils of unmatched olfactory depth.
+        </p>
+
+        <div class="botanical-cards-stack">
+          <div class="botanical-card">
+            <div class="botanical-card-head">
+              <span class="botanical-card-name">Rose de Mai (Centifolia)</span>
+              <span class="botanical-card-origin">Harvested 05:00 – 09:00</span>
+            </div>
+            <div class="botanical-card-body">
+              Delicate hundred-petaled blossoms hand-picked strictly in early morning before sunlight evaporates their sweet honeyed dew.
+            </div>
+          </div>
+
+          <div class="botanical-card">
+            <div class="botanical-card-head">
+              <span class="botanical-card-name">Florentine Orris Rhizomes</span>
+              <span class="botanical-card-origin">36-Month Vault Aging</span>
+            </div>
+            <div class="botanical-card-body">
+              Aged in dark cedar vaults for three years until irone crystals develop, yielding the legendary velvet butter of haute perfumery.
+            </div>
+          </div>
+
+          <div class="botanical-card">
+            <div class="botanical-card-head">
+              <span class="botanical-card-name">Midnight Sambac Jasmine</span>
+              <span class="botanical-card-origin">Moonlight Extraction</span>
+            </div>
+            <div class="botanical-card-body">
+              Harvested after nightfall when the star-shaped white corollas release their most intoxicating, animalic floral facets.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="chapter-media-pane scroll-reveal-right">
+        <div class="chapter-media-frame">
+          <img src="assets/loren/ritual-scene-4k.jpg" alt="Botanical Harvest in Grasse France">
+          <span class="chapter-media-badge">Terroir de Grasse • 43°39'36"N</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       CHAPTER II: THE 180-DAY SAVOIR-FAIRE
+       ======================================================================== -->
+  <section class="section-savoir-faire" id="savoir-faire">
+    <div class="savoir-container">
+      
+      <div class="savoir-header scroll-reveal">
+        <span class="maison-eyebrow">Chapter II • The Artisanal Alchemy</span>
+        <h2 style="font-family:var(--font-serif); font-size:clamp(36px, 4.5vw, 58px); font-weight:400; margin-bottom:18px;">
+          The 180-Day <span class="mg-gold-text">Cold Maceration</span>
+        </h2>
+        <p style="font-size:14.5px; line-height:1.8; color:rgba(247, 244, 239, 0.75); font-weight:300;">
+          While modern industrial perfumery relies on rapid thermal synthesis, LORÉN preserves the sacred slowness of classical French maceration.
+        </p>
+      </div>
+
+      <div class="savoir-timeline-grid">
+        <div class="savoir-step-card scroll-reveal">
+          <span class="savoir-step-num">ETAPE 01</span>
+          <h3 class="savoir-step-title">Hydro-Distillation & Enfleurage</h3>
+          <p class="savoir-step-text">
+            Fresh botanical harvests undergo low-pressure copper steam distillation and traditional cold enfleurage to extract volatile essence without thermal denaturation.
+          </p>
+        </div>
+
+        <div class="savoir-step-card scroll-reveal">
+          <span class="savoir-step-num">ETAPE 02</span>
+          <h3 class="savoir-step-title">180-Day Oak Maturation</h3>
+          <p class="savoir-step-text">
+            The concentrate rests in charred French oak casks deep within underground limestone vaults, allowing raw molecules to harmonize into liquid velvet over six months.
+          </p>
+        </div>
+
+        <div class="savoir-step-card scroll-reveal">
+          <span class="savoir-step-num">ETAPE 03</span>
+          <h3 class="savoir-step-title">Sub-Zero Glaciation (-4°C)</h3>
+          <p class="savoir-step-text">
+            Before bottling, the macerated extrait is chilled to -4°C. Natural plant waxes precipitate out gently, resulting in crystalline clarity without stripping aromatic potency.
+          </p>
+        </div>
+
+        <div class="savoir-step-card scroll-reveal">
+          <span class="savoir-step-num">ETAPE 04</span>
+          <h3 class="savoir-step-title">32% Extrait Hand-Pouring</h3>
+          <p class="savoir-step-text">
+            Each flacon is individually filled at pure parfum concentration (32%), sealed with silk cord, and inspected under directional light by master artisans in Grasse.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       CHAPTER III: LE NEZ DE LA MAISON
+       ======================================================================== -->
+  <section class="section-nez" id="philosophie">
+    <div class="nez-card scroll-reveal">
+      
+      <div class="nez-photo-pane">
+        <img src="assets/loren/clean_01.png" alt="Master Perfumer Le Nez">
+      </div>
+
+      <div class="nez-content-pane">
+        <span class="chapter-tag">Chapter III • Master Perfumer's Desk</span>
+        <blockquote class="nez-quote">
+          “Fragrance should never announce you before you arrive, nor linger aggressively when you leave. It must be an intimate skin conversation—a quiet presence felt only by those you invite close.”
+        </blockquote>
+        <div class="nez-author">
+          Hélène de Valois • Nez Principal, Maison LORÉN
+        </div>
+
+        <div class="nez-rules-list">
+          <div class="nez-rule-item">
+            <span class="nez-rule-diamond">◆</span>
+            <div><strong>Zero Synthetic Fillers:</strong> Every formula is grounded in cold-macerated botanicals rather than petroleum-derived carriers.</div>
+          </div>
+          <div class="nez-rule-item">
+            <span class="nez-rule-diamond">◆</span>
+            <div><strong>Subtle Projection, Endless Longevity:</strong> Engineered to settle as a 14-hour intimate skin veil rather than an invasive cloud.</div>
+          </div>
+          <div class="nez-rule-item">
+            <span class="nez-rule-diamond">◆</span>
+            <div><strong>Individual Flacon Numbering:</strong> Each seasonal batch is strictly limited to 500 hand-numbered flacons worldwide.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       CHAPTER IV: SUSTAINABLE HERITAGE & REFILLABLE FLACONS
+       ======================================================================== -->
+  <section class="section-chapter" style="background:#ffffff; border-top:1px solid rgba(25,18,12,0.08); border-bottom:1px solid rgba(25,18,12,0.08);">
+    <div class="chapter-container reverse">
+      
+      <div class="chapter-media-pane scroll-reveal-left">
+        <div class="chapter-media-frame">
+          <img src="assets/loren/product-iris-noir-4k.jpg" alt="Refillable Hand-Blown Flacon">
+          <span class="chapter-media-badge">Crystal Architecture • 100% Refillable</span>
+        </div>
+      </div>
+
+      <div class="chapter-content-pane scroll-reveal-right">
+        <span class="chapter-tag">Chapter IV • Sustainable Heritage</span>
+        <h2 class="chapter-title">
+          Vessels Conceived for <br><em style="font-family:var(--font-serif); color:#8c734e;">Generations, Not Seasons</em>
+        </h2>
+
+        <p class="chapter-desc">
+          True luxury is inherently sustainable. A LORÉN flacon is never discarded. Sculpted from heavy lead-free crystal with a solid gold-toned brass cap, each vessel is designed to be cherished for a lifetime.
+        </p>
+
+        <div class="botanical-cards-stack">
+          <div class="botanical-card">
+            <div class="botanical-card-head">
+              <span class="botanical-card-name">The Flagship Refill Fountain</span>
+              <span class="botanical-card-origin">Paris · London · New York</span>
+            </div>
+            <div class="botanical-card-body">
+              Bring your empty flacon to any LORÉN boutique worldwide to receive a complimentary cleansing and refill with your chosen extrait at a 25% privilege.
+            </div>
+          </div>
+
+          <div class="botanical-card">
+            <div class="botanical-card-head">
+              <span class="botanical-card-name">Fair Agricultural Partnerships</span>
+              <span class="botanical-card-origin">Grasse Farming Guild</span>
+            </div>
+            <div class="botanical-card-body">
+              We contract generational farming families in Grasse at 10-year guaranteed prices, preserving centuries-old Provençal agricultural biodiversity.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       CALL TO EXPERIENCE: ENTER THE BOUTIQUE
+       ======================================================================== -->
+  <section class="section-cta">
+    <div class="cta-container scroll-reveal">
+      <span class="maison-eyebrow">The Olfactory Journey</span>
+      <h2 class="cta-title">
+        Experience the Sillage <br><span class="mg-gold-text">of Maison LORÉN</span>
+      </h2>
+      <p class="cta-desc">
+        Explore our Permanent Collection of eight distinct olfactory studies, or witness the kinetic poetry of the crystal flacon in motion.
+      </p>
+
+      <div class="cta-actions">
+        <a href="loren.html#shop" class="btn-cta-gold">
+          <span>Explore The Collection</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="loren.html#atelier-3d" class="btn-cta-ghost">
+          <span>Enter 3D Cinema Atelier</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       MAISON FOOTER
+       ======================================================================== -->
+  <footer class="site-footer" id="footer">
+    <div class="footer-grid">
+      <div>
+        <h4 style="font-family:var(--font-serif); font-size:32px; font-weight:400; color:var(--text-light); margin-bottom:12px; letter-spacing:0.12em;">LORÉN</h4>
+        <p style="font-size:13px; line-height:1.8; max-width:320px;">
+          Haute Parfumerie Paris. Exploring the delicate tension of flowers, shadow, and light through artisanal maceration in Grasse, France.
+        </p>
+      </div>
+
+      <div>
+        <h5 style="font-size:11px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent-gold); margin-bottom:20px;">Collection</h5>
+        <ul style="list-style:none; display:flex; flex-direction:column; gap:10px; font-size:13px;">
+          <li><a href="loren.html#shop">Extraits de Parfum</a></li>
+          <li><a href="loren.html#shop">Discovery Wardrobes</a></li>
+          <li><a href="loren.html#atelier-3d">The 3D Flacon</a></li>
+          <li><a href="maison.html">Heritage & Ateliers</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h5 style="font-size:11px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent-gold); margin-bottom:20px;">Maison Flagships</h5>
+        <ul style="list-style:none; display:flex; flex-direction:column; gap:10px; font-size:13px;">
+          <li>Paris · 28 Rue Saint-Honoré</li>
+          <li>New York · 740 Madison Ave</li>
+          <li>London · 14 Mount St, Mayfair</li>
+          <li>Tokyo · Ginza Six 2F</li>
+        </ul>
+      </div>
+
+      <div>
+        <h5 style="font-size:11px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent-gold); margin-bottom:16px;">The Private Book</h5>
+        <p style="font-size:12px; margin-bottom:12px;">Inscribe to receive private invitations to limited seasonal harvests.</p>
+        <form onsubmit="event.preventDefault(); showToast('Merci. You are now inscribed in the register.');" style="display:flex; border-bottom:1px solid rgba(255,255,255,0.2); padding-bottom:8px;">
+          <input type="email" placeholder="Your email address" style="flex:1; background:transparent; border:none; color:#fff; font-size:12px; outline:none;" required>
+          <button type="submit" style="background:none; border:none; color:var(--accent-gold); font-size:11px; font-weight:700; text-transform:uppercase; cursor:pointer;">Join</button>
+        </form>
+      </div>
+    </div>
+
+    <div style="max-width:1280px; margin:0 auto; padding-top:30px; border-top:1px solid rgba(255,255,255,0.06); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; font-size:11px; color:#7d6e61;">
+      <span>© 2026 LORÉN Haute Parfumerie Paris. All Rights Reserved.</span>
+      <button class="nav-soundscape-btn" id="footer-soundscape-toggle" onclick="toggleMaisonSoundscape()" style="font-size:9.5px; padding:4px 12px; background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.14);">
+        <span class="soundscape-waves">
+          <span class="wave-bar"></span>
+          <span class="wave-bar"></span>
+          <span class="wave-bar"></span>
+        </span>
+        <span>Atelier Ambiance</span>
+      </button>
+      <span>Complimentary Worldwide White-Glove Courier Delivery</span>
+    </div>
+  </footer>
+
+  <!-- TOAST -->
+  <div class="mini-toast" id="toast">
+    <span>✦</span> Message
+  </div>
+
+  <!-- BESPOKE LUXURY MOTION CURSOR & TRAILING PARTICLES -->
+  <canvas id="luxury-cursor-trail-canvas" class="luxury-cursor-canvas"></canvas>
+  <div id="luxury-cursor-ring" class="luxury-cursor-ring"></div>
+  <div id="luxury-cursor-dot" class="luxury-cursor-dot"></div>
+
+  <!-- SCRIPT ENGINE -->
+  <script>
+    // TOAST SYSTEM
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      if (!t) return;
+      t.innerHTML = `<span>✦</span> ${msg}`;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3200);
+    }
+
+    // READING PROGRESS BAR
+    window.addEventListener('scroll', () => {
+      const progressBar = document.getElementById('scroll-progress-bar');
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (progressBar && totalHeight > 0) {
+        const progress = (window.scrollY / totalHeight) * 100;
+        progressBar.style.width = Math.min(100, Math.max(0, progress)) + '%';
+      }
+    }, { passive: true });
+
+    // SCROLL REVEALS
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed');
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right').forEach(el => {
+      revealObserver.observe(el);
+    });
+
+    // ========================================================================
+    // MAISON AMBIENT SOUNDSCAPE ENGINE (PARISIAN RAIN & WARM ATELIER HARMONICS)
+    // ========================================================================
+    let maisonAudioCtx = null;
+    let maisonAudioPlaying = false;
+    let masterSoundscapeGain = null;
+
+    function toggleMaisonSoundscape() {
+      const btn = document.getElementById('maison-soundscape-toggle');
+      const footerBtn = document.getElementById('footer-soundscape-toggle');
+
+      if (!maisonAudioPlaying) {
+        startMaisonSoundscape();
+        maisonAudioPlaying = true;
+        if (btn) btn.classList.add('playing');
+        if (footerBtn) footerBtn.classList.add('playing');
+        showToast('Maison Soundscape: Rain on Parisian Cobblestones & Atelier Warmth Active');
+      } else {
+        stopMaisonSoundscape();
+        maisonAudioPlaying = false;
+        if (btn) btn.classList.remove('playing');
+        if (footerBtn) footerBtn.classList.remove('playing');
+        showToast('Maison Soundscape Paused');
+      }
+    }
+
+    function startMaisonSoundscape() {
+      try {
+        if (!maisonAudioCtx) {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          maisonAudioCtx = new AudioCtx();
+        }
+        if (maisonAudioCtx.state === 'suspended') {
+          maisonAudioCtx.resume();
+        }
+
+        // Master Gain
+        masterSoundscapeGain = maisonAudioCtx.createGain();
+        masterSoundscapeGain.gain.setValueAtTime(0.0001, maisonAudioCtx.currentTime);
+        masterSoundscapeGain.gain.exponentialRampToValueAtTime(0.22, maisonAudioCtx.currentTime + 1.8);
+        masterSoundscapeGain.connect(maisonAudioCtx.destination);
+
+        // 1. Rain
+        const bufferSize = maisonAudioCtx.sampleRate * 2;
+        const noiseBuffer = maisonAudioCtx.createBuffer(1, bufferSize, maisonAudioCtx.sampleRate);
+        const output = noiseBuffer.getChannelData(0);
+        let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+        for (let i = 0; i < bufferSize; i++) {
+          const white = Math.random() * 2 - 1;
+          b0 = 0.99886 * b0 + white * 0.0555179;
+          b1 = 0.99332 * b1 + white * 0.0750759;
+          b2 = 0.96900 * b2 + white * 0.1538520;
+          b3 = 0.86650 * b3 + white * 0.3104856;
+          b4 = 0.55000 * b4 + white * 0.5329522;
+          b5 = -0.7616 * b5 - white * 0.0168980;
+          output[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362) * 0.04;
+          b6 = white * 0.115926;
+        }
+
+        const rainSource = maisonAudioCtx.createBufferSource();
+        rainSource.buffer = noiseBuffer;
+        rainSource.loop = true;
+
+        const rainFilter = maisonAudioCtx.createBiquadFilter();
+        rainFilter.type = 'lowpass';
+        rainFilter.frequency.setValueAtTime(850, maisonAudioCtx.currentTime);
+
+        const rainGain = maisonAudioCtx.createGain();
+        rainGain.gain.setValueAtTime(0.4, maisonAudioCtx.currentTime);
+
+        rainSource.connect(rainFilter);
+        rainFilter.connect(rainGain);
+        rainGain.connect(masterSoundscapeGain);
+        rainSource.start();
+
+        // 2. Warm Harmonics
+        const chordFreqs = [144, 216, 288, 345.6];
+        chordFreqs.forEach((freq, idx) => {
+          const osc = maisonAudioCtx.createOscillator();
+          const oscGain = maisonAudioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, maisonAudioCtx.currentTime);
+          osc.detune.setValueAtTime((idx % 2 === 0 ? 3.5 : -3.5), maisonAudioCtx.currentTime);
+
+          oscGain.gain.setValueAtTime(0.035 / (idx + 1), maisonAudioCtx.currentTime);
+          osc.connect(oscGain);
+          oscGain.connect(masterSoundscapeGain);
+          osc.start();
+        });
+      } catch (err) {
+        console.warn('Maison soundscape context notice:', err);
+      }
+    }
+
+    function stopMaisonSoundscape() {
+      try {
+        if (masterSoundscapeGain && maisonAudioCtx) {
+          masterSoundscapeGain.gain.exponentialRampToValueAtTime(0.0001, maisonAudioCtx.currentTime + 0.8);
+          setTimeout(() => {
+            if (maisonAudioCtx && maisonAudioCtx.state === 'running') {
+              maisonAudioCtx.suspend();
+            }
+          }, 850);
+        }
+      } catch (err) {
+        console.warn('Maison soundscape suspension notice:', err);
+      }
+    }
+
+    // ========================================================================
+    // LUXURY MOTION CURSOR & TRAILING PARTICLES
+    // ========================================================================
+    (function initLuxuryCursor() {
+      if (window.innerWidth <= 768) return;
+
+      const canvas = document.getElementById('luxury-cursor-trail-canvas');
+      const ring = document.getElementById('luxury-cursor-ring');
+      const dot = document.getElementById('luxury-cursor-dot');
+      if (!canvas || !ring || !dot) return;
+
+      const ctx = canvas.getContext('2d');
+      let mouseX = -100;
+      let mouseY = -100;
+      let ringX = -100;
+      let ringY = -100;
+      const particles = [];
+
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+
+        // Spawn trailing starlight micro-sparkles
+        if (Math.random() < 0.65) {
+          particles.push({
+            x: mouseX + (Math.random() - 0.5) * 6,
+            y: mouseY + (Math.random() - 0.5) * 6,
+            vx: (Math.random() - 0.5) * 0.9,
+            vy: (Math.random() - 0.5) * 0.9 + 0.2,
+            size: Math.random() * 2.2 + 0.8,
+            alpha: 0.9,
+            decay: Math.random() * 0.025 + 0.015,
+            color: Math.random() > 0.4 ? '255, 216, 117' : '223, 183, 108'
+          });
+        }
+      }, { passive: true });
+
+      // Interactive hover expand
+      const interactiveSelector = 'a, button, input, select, .botanical-card, .savoir-step-card';
+      document.addEventListener('mouseover', (e) => {
+        if (e.target.closest(interactiveSelector)) {
+          ring.classList.add('cursor-hover');
+        }
+      });
+      document.addEventListener('mouseout', (e) => {
+        if (e.target.closest(interactiveSelector)) {
+          ring.classList.remove('cursor-hover');
+        }
+      });
+
+      function renderCursor() {
+        dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+        ringX += (mouseX - ringX) * 0.18;
+        ringY += (mouseY - ringY) * 0.18;
+        ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
+
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+          p.alpha -= p.decay;
+          p.size *= 0.965;
+
+          if (p.alpha <= 0 || p.size <= 0.2) {
+            particles.splice(i, 1);
+            continue;
+          }
+
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${p.color}, ${p.alpha})`;
+          ctx.shadowColor = `rgba(${p.color}, 0.8)`;
+          ctx.shadowBlur = p.size * 2.5;
+          ctx.fill();
+          ctx.restore();
+        }
+
+        requestAnimationFrame(renderCursor);
+      }
+      requestAnimationFrame(renderCursor);
+    })();
+  </script>
+</body>
+</html>
