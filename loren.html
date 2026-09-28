@@ -1823,30 +1823,30 @@
     }
 
     /* ==========================================================================
-       CINEMATIC FLACON SECTION — SPLIT EDITORIAL & VIDEO EXPERIENCE
+       CINEMATIC FLACON SECTION — MINIMALIST EDITORIAL & VIDEO
        ========================================================================== */
     .flacon-cinema-section {
-      background: radial-gradient(circle at 35% 50%, #1a0b26 0%, #0d0515 55%, #050209 100%);
-      padding: clamp(70px, 8vw, 110px) clamp(24px, 5vw, 64px);
+      background: radial-gradient(circle at 30% 50%, #170b22 0%, #0d0514 55%, #050208 100%);
+      padding: clamp(60px, 7vw, 100px) clamp(24px, 5vw, 64px);
       position: relative;
       overflow: hidden;
-      border-top: 1px solid rgba(212, 175, 55, 0.18);
-      border-bottom: 1px solid rgba(212, 175, 55, 0.18);
+      border-top: 1px solid rgba(212, 175, 55, 0.16);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.16);
     }
 
     .flacon-cinema-container {
       width: 100%;
-      max-width: 1380px;
+      max-width: 1360px;
       margin: 0 auto;
       position: relative;
       z-index: 2;
       display: grid;
-      grid-template-columns: 1fr 1.25fr;
-      gap: clamp(40px, 5vw, 76px);
+      grid-template-columns: 0.95fr 1.35fr;
+      gap: clamp(36px, 5vw, 68px);
       align-items: center;
     }
 
-    /* LEFT EDITORIAL COLUMN */
+    /* LEFT EDITORIAL COLUMN (MINIMALIST LUXURY) */
     .flacon-cinema-editorial {
       display: flex;
       flex-direction: column;
@@ -1855,55 +1855,29 @@
       z-index: 3;
     }
 
-    .flacon-editorial-badge {
+    .flacon-minimal-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: #dfb76c;
+      margin-bottom: 16px;
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      padding: 6px 16px;
-      background: rgba(212, 175, 55, 0.08);
-      border: 1px solid rgba(212, 175, 55, 0.28);
-      border-radius: 999px;
-      margin-bottom: 22px;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
     }
 
-    .flacon-badge-spark {
-      color: #ffd875;
-      font-size: 11px;
-      animation: pulseGlow 2.5s infinite ease-in-out;
-    }
-
-    @keyframes pulseGlow {
-      0%, 100% { opacity: 0.6; transform: scale(0.92); }
-      50% { opacity: 1; transform: scale(1.15); filter: drop-shadow(0 0 6px #d4af37); }
-    }
-
-    .flacon-badge-text {
-      font-family: var(--font-sans);
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: #eeddbb;
-    }
-
-    .flacon-badge-sep {
-      color: rgba(212, 175, 55, 0.4);
-      font-size: 10px;
-    }
-
-    .flacon-badge-sub {
-      font-family: var(--font-mono);
-      font-size: 9.5px;
-      letter-spacing: 0.14em;
-      color: rgba(255, 255, 255, 0.6);
+    .flacon-minimal-eyebrow::before {
+      content: "";
+      width: 22px;
+      height: 1px;
+      background: rgba(212, 175, 55, 0.6);
     }
 
     .flacon-editorial-title {
       font-family: var(--font-serif);
-      margin: 0 0 16px 0;
-      line-height: 0.98;
+      margin: 0 0 18px 0;
+      line-height: 0.96;
     }
 
     .flacon-title-script {
@@ -1911,129 +1885,33 @@
       font-family: var(--font-serif);
       font-style: italic;
       font-weight: 300;
-      font-size: clamp(26px, 3.2vw, 40px);
-      color: rgba(247, 244, 239, 0.82);
+      font-size: clamp(28px, 3.4vw, 44px);
+      color: rgba(247, 244, 239, 0.85);
       letter-spacing: 0.02em;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
 
     .flacon-title-main {
       display: block;
       font-family: var(--font-serif);
       font-weight: 400;
-      font-size: clamp(42px, 5.2vw, 68px);
+      font-size: clamp(44px, 5.5vw, 70px);
       letter-spacing: 0.04em;
       text-transform: uppercase;
       background: linear-gradient(135deg, #ffffff 0%, #fae6c2 35%, #d4af37 70%, #ffd875 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 2px 18px rgba(212, 175, 55, 0.25));
+      filter: drop-shadow(0 2px 20px rgba(212, 175, 55, 0.28));
     }
 
-    .flacon-title-sub {
-      display: block;
+    .flacon-minimal-quote {
       font-family: var(--font-serif);
       font-style: italic;
-      font-weight: 300;
-      font-size: clamp(18px, 2vw, 26px);
-      color: #c9aa76;
-      letter-spacing: 0.06em;
-      margin-top: 6px;
-    }
-
-    .flacon-editorial-rule {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 20px 0 22px 0;
-      width: 100%;
-      max-width: 260px;
-    }
-
-    .flacon-rule-line {
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(90deg, rgba(212, 175, 55, 0.5), transparent);
-    }
-    .flacon-rule-line:first-child {
-      background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.5));
-    }
-
-    .flacon-rule-diamond {
-      color: #ffd875;
-      font-size: 9px;
-      opacity: 0.85;
-    }
-
-    .flacon-editorial-quote {
-      font-family: var(--font-serif);
-      font-style: italic;
-      font-size: clamp(16px, 1.35vw, 19px);
-      line-height: 1.5;
-      color: #f7f4ef;
-      margin-bottom: 14px;
-      position: relative;
-      padding-left: 18px;
-      border-left: 2px solid rgba(212, 175, 55, 0.6);
-    }
-
-    .flacon-editorial-desc {
-      font-family: var(--font-sans);
-      font-size: 13.5px;
-      line-height: 1.75;
-      color: rgba(247, 244, 239, 0.72);
-      font-weight: 300;
-      margin-bottom: 24px;
-      max-width: 480px;
-    }
-
-    /* SCENT NOTES ACCORD TRIAD MATRIX */
-    .flacon-scent-triad {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      width: 100%;
-      max-width: 490px;
-      background: rgba(14, 7, 20, 0.65);
-      border: 1px solid rgba(212, 175, 55, 0.22);
-      border-radius: 8px;
-      padding: 14px 16px;
-      margin-bottom: 28px;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.4);
-    }
-
-    .triad-item {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .triad-label {
-      font-family: var(--font-mono);
-      font-size: 9px;
-      letter-spacing: 0.18em;
-      color: #ffd875;
-      text-transform: uppercase;
-      font-weight: 500;
-    }
-
-    .triad-value {
-      font-family: var(--font-serif);
-      font-size: 12.5px;
-      line-height: 1.35;
-      color: rgba(255, 255, 255, 0.88);
-      font-style: italic;
-    }
-
-    /* ACTIONS & BUTTONS */
-    .flacon-editorial-actions {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 14px;
-      margin-bottom: 24px;
+      font-size: clamp(16px, 1.35vw, 20px);
+      line-height: 1.55;
+      color: rgba(247, 244, 239, 0.78);
+      margin: 0 0 28px 0;
+      max-width: 400px;
     }
 
     .flacon-btn-explore {
@@ -2047,13 +1925,14 @@
       font-weight: 600;
       letter-spacing: 0.16em;
       text-transform: uppercase;
-      padding: 14px 26px;
+      padding: 13px 26px;
       border-radius: 999px;
       border: 1px solid rgba(255, 240, 200, 0.4);
       cursor: pointer;
       text-decoration: none;
       transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
       box-shadow: 0 8px 24px rgba(212, 175, 55, 0.28);
+      margin-bottom: 22px;
     }
 
     .flacon-btn-explore:hover {
@@ -2071,48 +1950,12 @@
       transform: translateX(3px);
     }
 
-    .flacon-btn-sound {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255, 255, 255, 0.06);
-      color: rgba(255, 255, 255, 0.85);
-      font-family: var(--font-sans);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      padding: 13px 22px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      cursor: pointer;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      transition: all 0.3s ease;
-    }
-
-    .flacon-btn-sound:hover {
-      background: rgba(255, 255, 255, 0.14);
-      border-color: rgba(212, 175, 55, 0.5);
-      color: #ffd875;
-      transform: translateY(-2px);
-    }
-
-    /* ORIGIN HALLMARK */
     .flacon-origin-stamp {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
       font-family: var(--font-mono);
       font-size: 9.5px;
-      letter-spacing: 0.16em;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
       color: rgba(255, 255, 255, 0.38);
-    }
-
-    .stamp-sep {
-      color: rgba(212, 175, 55, 0.4);
     }
 
     /* RIGHT VIDEO FRAME */
@@ -2123,14 +1966,14 @@
       overflow: hidden;
       aspect-ratio: 16 / 9;
       background: #000000;
-      border: 1px solid rgba(212, 175, 55, 0.38);
-      box-shadow: 0 35px 90px rgba(0, 0, 0, 0.9), 0 0 60px rgba(140, 80, 180, 0.28);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      box-shadow: 0 35px 90px rgba(0, 0, 0, 0.9), 0 0 60px rgba(140, 80, 180, 0.25);
       transition: border-color 0.5s ease, box-shadow 0.5s ease;
     }
 
     .flacon-cinema-frame:hover {
-      border-color: rgba(212, 175, 55, 0.6);
-      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.95), 0 0 80px rgba(160, 90, 210, 0.35);
+      border-color: rgba(212, 175, 55, 0.55);
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.95), 0 0 75px rgba(150, 85, 200, 0.3);
     }
 
     .flacon-cinema-video {
@@ -2176,53 +2019,22 @@
     @media (max-width: 1024px) {
       .flacon-cinema-container {
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: 36px;
       }
       .flacon-cinema-editorial {
         align-items: center;
         text-align: center;
       }
-      .flacon-editorial-lead,
-      .flacon-editorial-desc {
+      .flacon-minimal-quote {
         max-width: 100%;
-      }
-      .flacon-editorial-quote {
-        border-left: none;
-        padding-left: 0;
-        border-top: 1px solid rgba(212, 175, 55, 0.4);
-        border-bottom: 1px solid rgba(212, 175, 55, 0.4);
-        padding: 12px 0;
-      }
-      .flacon-editorial-rule {
-        margin: 18px auto 20px auto;
-      }
-      .flacon-scent-triad {
-        margin-left: auto;
-        margin-right: auto;
-      }
-      .flacon-editorial-actions {
-        justify-content: center;
-      }
-      .flacon-origin-stamp {
-        justify-content: center;
       }
     }
 
     @media (max-width: 640px) {
       .flacon-cinema-section {
-        padding: 50px 20px;
+        padding: 48px 20px;
       }
-      .flacon-scent-triad {
-        grid-template-columns: 1fr;
-        text-align: left;
-        padding: 16px;
-      }
-      .flacon-editorial-actions {
-        flex-direction: column;
-        width: 100%;
-      }
-      .flacon-btn-explore,
-      .flacon-btn-sound {
+      .flacon-btn-explore {
         width: 100%;
         justify-content: center;
       }
@@ -2350,74 +2162,27 @@
     <div class="ambient-scent-aura" style="top:50%; left:50%; transform:translate(-50%, -50%); width:900px; height:900px; background:radial-gradient(circle, rgba(140,80,180,0.24) 0%, rgba(212,175,55,0.09) 45%, transparent 70%); pointer-events:none;"></div>
 
     <div class="flacon-cinema-container">
-      <!-- LEFT EDITORIAL COLUMN: HAUTE COUTURE TYPOGRAPHY -->
+      <!-- LEFT EDITORIAL COLUMN: MINIMALIST LUXURY TYPOGRAPHY -->
       <div class="flacon-cinema-editorial scroll-reveal-left">
-        <div class="flacon-editorial-badge">
-          <span class="flacon-badge-spark">✦</span>
-          <span class="flacon-badge-text">Haute Parfumerie</span>
-          <span class="flacon-badge-sep">•</span>
-          <span class="flacon-badge-sub">32% EXTRAIT</span>
-        </div>
+        <span class="flacon-minimal-eyebrow">Édition N° 07 • 32% Extrait</span>
 
         <h2 class="flacon-editorial-title">
           <span class="flacon-title-script">L'Élixir</span>
           <span class="flacon-title-main">NOCTURNE</span>
-          <span class="flacon-title-sub">En Mouvement</span>
         </h2>
 
-        <div class="flacon-editorial-rule" aria-hidden="true">
-          <span class="flacon-rule-line"></span>
-          <span class="flacon-rule-diamond">◆</span>
-          <span class="flacon-rule-line"></span>
-        </div>
-
-        <blockquote class="flacon-editorial-quote">
-          “Where nocturnal violet petals dance within suspended liquid amber.”
-        </blockquote>
-
-        <p class="flacon-editorial-desc">
-          Witness the kinetic soul of the Maison. Hand-sculpted crystal houses rare nocturnal botanicals, cold-macerated for 180 days beneath the moonlit hills of Grasse to preserve their volatile aromatic ecstasy.
+        <p class="flacon-minimal-quote">
+          “Nocturnal violet petals suspended in molten amber.”
         </p>
 
-        <!-- Scent Notes Triad Matrix -->
-        <div class="flacon-scent-triad">
-          <div class="triad-item">
-            <span class="triad-label">I. TÊTE</span>
-            <span class="triad-value">Violette Noire & Baies Roses</span>
-          </div>
-          <div class="triad-item">
-            <span class="triad-label">II. CŒUR</span>
-            <span class="triad-value">Orris Concrete & Rose Sombre</span>
-          </div>
-          <div class="triad-item">
-            <span class="triad-label">III. FOND</span>
-            <span class="triad-value">Ambre Fumé & Bois de Cade</span>
-          </div>
-        </div>
+        <button class="flacon-btn-explore" onclick="openPdp(0)">
+          <span>Discover Iris Noir</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </button>
 
-        <div class="flacon-editorial-actions">
-          <button class="flacon-btn-explore" onclick="openPdp(0)">
-            <span>Discover Iris Noir</span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-          </button>
-          <button class="flacon-btn-sound" onclick="toggleFlaconAudio()">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-            </svg>
-            <span id="flacon-sound-text">Atmospheric Sound</span>
-          </button>
-        </div>
-
-        <div class="flacon-origin-stamp">
-          <span class="stamp-coords">43°39'36"N 6°55'30"E</span>
-          <span class="stamp-sep">•</span>
-          <span class="stamp-loc">GRASSE, FRANCE</span>
-          <span class="stamp-sep">•</span>
-          <span class="stamp-batch">FLACON N° 07 / 500</span>
-        </div>
+        <span class="flacon-origin-stamp">Atelier Grasse, France</span>
       </div>
 
       <!-- RIGHT COLUMN: CINEMATIC 3D FLACON VIDEO -->
