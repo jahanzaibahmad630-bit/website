@@ -61,25 +61,22 @@ em{
 body.cursor-on,body.cursor-on *{cursor:none}
 
 /* ---------- header ---------- */
-#hd{position:fixed;top:0;left:0;right:0;z-index:50;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+#hd{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;
   padding:20px clamp(20px,5vw,72px);transition:background-color .4s,color .4s,border-color .4s,backdrop-filter .4s;border-bottom:1px solid transparent}
 #hd.scrolled{background:rgba(244,239,230,.92);backdrop-filter:blur(14px);border-bottom-color:var(--line);box-shadow:0 8px 24px rgba(26,22,18,.05)}
 #hd.inv{color:var(--ivory)}
 #hd.inv .label{color:rgba(238,231,215,.7)}
 #hd.inv.scrolled{background:rgba(18,14,10,.92);border-bottom-color:var(--darkline);box-shadow:0 8px 30px rgba(0,0,0,.35)}
-.brand{display:flex;flex-direction:column;gap:3px;justify-self:start}
+.brand{display:flex;flex-direction:column;gap:3px}
 .brand-mark{font:560 22px/1 var(--serif);letter-spacing:.32em;background:linear-gradient(135deg,var(--ivory),#D4AF37);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 #hd:not(.inv) .brand-mark{background:linear-gradient(135deg,var(--ink),var(--bronze));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .brand-sub{font-size:8.5px}
-#hd nav{display:flex;gap:34px;justify-self:center}
+#hd nav{display:flex;gap:34px}
 #hd nav a{font:600 11px var(--sans);letter-spacing:.2em;text-transform:uppercase;position:relative;padding:4px 0;transition:color .3s}
 #hd nav a::after{content:'';position:absolute;left:0;bottom:0;width:100%;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:right;transition:transform .35s}
 #hd nav a:hover{color:var(--gold)}
 #hd nav a:hover::after{transform:scaleX(1);transform-origin:left}
-.hd-clock{justify-self:end;display:flex;align-items:center;gap:9px;font-variant-numeric:tabular-nums}
-.pulse{width:7px;height:7px;border-radius:50%;background:#10B981;box-shadow:0 0 10px #10B981;animation:pulse 2s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(0.85)}}
-@media(max-width:820px){#hd nav{display:none}#hd{grid-template-columns:auto 1fr}.hd-clock{justify-self:end}}
+@media(max-width:820px){#hd nav{display:none}}
 
 /* ---------- hero + 4K cinematic film & video ---------- */
 .hero{position:relative;background:#08070A;color:var(--ivory);overflow:hidden;padding:clamp(150px,20vh,220px) 0 clamp(40px,6vh,70px)}
@@ -608,7 +605,6 @@ footer{padding-top:clamp(90px,13vh,150px);overflow:hidden;content-visibility:aut
     <a href="#heritage">Héritage</a>
     <a href="#boutiques">Salons</a>
   </nav>
-  <div class="hd-clock label"><span class="pulse"></span>Genève&nbsp;<span id="gva">--:--:--</span></div>
 </header>
 
 <main>
@@ -636,9 +632,6 @@ footer{padding-top:clamp(90px,13vh,150px);overflow:hidden;content-visibility:aut
         <div class="hero-watch-wrap">
           <svg id="draft" viewBox="-80 -80 760 760" aria-hidden="true"></svg>
           <div id="heroTilt"><div id="heroWatch" role="img" aria-label="Léman Calibre L-21 showing the current time"></div></div>
-        </div>
-        <div class="film-row">
-          <p class="fig-cap label" id="hint" style="margin-top:0;text-align:left">Fig. 1 — Calibre L-21, running. The crown is live: press &amp; hold to wind.</p>
         </div>
       </div>
     </div>
@@ -1222,10 +1215,10 @@ const heroW=new Watch($('#heroWatch'),{
 },{
   reserve:25,
   onStop(){toast('The calibre has run down. Press and hold the crown to wind it.');
-    hint.textContent='The movement has stopped — press & hold the crown to wind it.';hint.classList.add('warn');},
-  onRestart(){toast('The balance resumes, unbothered.');hint.textContent=HINT0;hint.classList.remove('warn');},
-  onFull(){toast('Fully wound — forty-two hours in hand.');hint.textContent=HINT0;hint.classList.remove('warn');},
-  onLow(){hint.textContent='The réserve is running low — the crown would appreciate your attention.';hint.classList.add('warn');}
+    if(hint){hint.textContent='The movement has stopped — press & hold the crown to wind it.';hint.classList.add('warn');}},
+  onRestart(){toast('The balance resumes, unbothered.');if(hint){hint.textContent=HINT0;hint.classList.remove('warn');}},
+  onFull(){toast('Fully wound — forty-two hours in hand.');if(hint){hint.textContent=HINT0;hint.classList.remove('warn');}},
+  onLow(){if(hint){hint.textContent='The réserve is running low — the crown would appreciate your attention.';hint.classList.add('warn');}}
 });
 watches.push(heroW);
 
@@ -2018,9 +2011,11 @@ $('#ledgerForm').addEventListener('submit',e=>{
 
 /* ================= GENEVA CLOCK ================= */
 const gvaEl=$('#gva');
-const fmt=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Zurich',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
-function tickClock(){try{gvaEl.textContent=fmt.format(new Date());}catch(e){gvaEl.textContent=new Date().toLocaleTimeString();}}
-tickClock();setInterval(tickClock,1000);
+if(gvaEl){
+  const fmt=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Zurich',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
+  function tickClock(){try{gvaEl.textContent=fmt.format(new Date());}catch(e){gvaEl.textContent=new Date().toLocaleTimeString();}}
+  tickClock();setInterval(tickClock,1000);
+}
 
 /* ================= CUSTOM CURSOR ================= */
 if(FINE){
