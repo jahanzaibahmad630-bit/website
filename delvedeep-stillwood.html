@@ -1,0 +1,2728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Stillwood Retreat — Catskills | DelveDeep</title>
+  <meta name="description" content="A five-night restorative retreat in the Catskills. Slower mornings, guided movement, nourishing food, and deep rest at Stillwood House.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌿</text></svg>">
+
+  <!-- Google Fonts: Cormorant Garamond & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ================= DESIGN SYSTEM TOKENS (FIGMA EXACT) ================= */
+    :root {
+      --bg-cream: #FCFAF5;
+      --bg-warm: #F5F1E8;
+      --card-white: #FFFFFF;
+      --forest-dark: #243027;
+      --forest-charcoal: #2D3B30;
+      --forest-green: #415442;
+      --sage-pale: #DDE4D8;
+      --sage-accent: #55745D;
+      --terracotta: #A76247;
+      --terracotta-soft: #F3E1D8;
+      --text-muted: #6E756D;
+      --text-light-muted: rgba(245, 241, 232, 0.72);
+      --border-divider: #D8D7CC;
+      --border-light: rgba(216, 215, 204, 0.6);
+
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 24px;
+      --radius-full: 999px;
+
+      --shadow-sm: 0 4px 12px rgba(36, 48, 39, 0.04);
+      --shadow-md: 0 10px 24px rgba(36, 48, 39, 0.08);
+      --shadow-lg: 0 14px 36px -8px rgba(38, 48, 40, 0.1);
+      --shadow-hero: 0 20px 48px -12px rgba(23, 37, 29, 0.15);
+
+      --transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+      background-color: var(--bg-cream);
+      color: var(--forest-dark);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background-color: var(--bg-cream);
+      color: var(--forest-dark);
+      line-height: 1.55;
+      overflow-x: hidden;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: var(--transition-smooth);
+    }
+
+    button {
+      font-family: inherit;
+      border: none;
+      background: none;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+
+    /* Container */
+    .container {
+      width: 100%;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 72px;
+    }
+
+    @media (max-width: 1024px) {
+      .container {
+        padding: 0 36px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 0 20px;
+      }
+    }
+
+    /* ================= TOP SWITCHER BANNER ================= */
+    .retreat-switcher-bar {
+      background-color: var(--forest-charcoal);
+      color: var(--bg-warm);
+      font-size: 0.76rem;
+      letter-spacing: 0.06em;
+      padding: 9px 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+      z-index: 100;
+    }
+    .retreat-switcher-bar .switcher-label {
+      color: rgba(245, 241, 232, 0.7);
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .retreat-switcher-bar a {
+      color: #FFFFFF;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      font-weight: 500;
+    }
+    .retreat-switcher-bar a:hover {
+      color: var(--sage-pale);
+    }
+    .switcher-pill {
+      background: rgba(255, 255, 255, 0.12);
+      padding: 3px 9px;
+      border-radius: var(--radius-full);
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #FFFFFF;
+    }
+
+    /* ================= NAVIGATION ================= */
+    .nav-header {
+      background: var(--bg-cream);
+      height: 82px;
+      display: flex;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 90;
+      border-bottom: 1px solid rgba(216, 215, 204, 0.35);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-brand-logo {
+      width: 28px;
+      height: 28px;
+      color: var(--forest-green);
+    }
+
+    .nav-brand-name {
+      font-family: var(--serif);
+      font-size: 1.68rem;
+      font-weight: 500;
+      color: var(--forest-dark);
+      letter-spacing: -0.01em;
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 34px;
+    }
+
+    .nav-link {
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--forest-dark);
+      letter-spacing: 0.01em;
+      position: relative;
+    }
+
+    .nav-link:hover {
+      color: var(--forest-green);
+    }
+
+    .btn-pill-primary {
+      background-color: var(--forest-green);
+      color: #FFFFFF !important;
+      font-size: 0.875rem;
+      font-weight: 700;
+      padding: 0 24px;
+      height: 54px;
+      border-radius: var(--radius-full);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      box-shadow: 0 4px 14px rgba(65, 84, 66, 0.2);
+    }
+
+    .btn-pill-primary:hover {
+      background-color: var(--forest-charcoal);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(65, 84, 66, 0.25);
+    }
+
+    .btn-pill-light {
+      background-color: var(--bg-warm);
+      color: var(--forest-dark) !important;
+      font-size: 0.875rem;
+      font-weight: 700;
+      padding: 0 24px;
+      height: 56px;
+      border-radius: var(--radius-full);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn-pill-light:hover {
+      background-color: #FFFFFF;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--forest-dark);
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    @media (max-width: 900px) {
+      .nav-menu {
+        display: none;
+      }
+      .mobile-menu-btn {
+        display: block;
+      }
+    }
+
+    /* ================= HERO SECTION ================= */
+    .hero-section {
+      padding: 0 72px;
+      margin-top: 16px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 1024px) {
+      .hero-section {
+        padding: 0 36px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero-section {
+        padding: 0 20px;
+      }
+    }
+
+    .hero-frame {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      width: 100%;
+      aspect-ratio: 1440 / 650;
+      min-height: 520px;
+      background: #17251D url('assets/delvedeep/hero-bg.png') center/cover no-repeat;
+      box-shadow: var(--shadow-hero);
+    }
+
+    /* Screen reader only utility */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* Interactive button hotspot placed precisely over 'Choose your room' */
+    .hero-cta-hotspot {
+      position: absolute;
+      left: 5%;
+      bottom: 8%;
+      width: 15%;
+      min-width: 190px;
+      height: 9%;
+      min-height: 54px;
+      border-radius: var(--radius-full);
+      background: transparent;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.25s ease;
+    }
+
+    .hero-cta-hotspot:hover {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: brightness(1.08);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    /* ================= RETREAT FACTS BAR ================= */
+    .facts-bar-container {
+      margin-top: -30px;
+      position: relative;
+      z-index: 10;
+      padding: 0 72px;
+    }
+
+    @media (max-width: 1024px) {
+      .facts-bar-container {
+        padding: 0 36px;
+        margin-top: -20px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .facts-bar-container {
+        padding: 0 20px;
+        margin-top: 16px;
+      }
+    }
+
+    .facts-bar {
+      background: var(--card-white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      padding: 22px 34px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 20px;
+      align-items: center;
+      border: 1px solid rgba(216, 215, 204, 0.4);
+    }
+
+    @media (max-width: 1100px) {
+      .facts-bar {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .facts-bar {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .facts-bar {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .fact-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .fact-icon-tile {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-warm);
+      color: var(--forest-green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .fact-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .fact-label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+
+    .fact-val {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--forest-dark);
+    }
+
+    /* ================= SECTION COMMON HEADINGS ================= */
+    .section-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--terracotta);
+      margin-bottom: 12px;
+      display: inline-block;
+    }
+
+    .section-title {
+      font-family: var(--serif);
+      font-size: 3rem;
+      font-weight: 500;
+      line-height: 1.05;
+      color: var(--forest-dark);
+      letter-spacing: -0.015em;
+    }
+
+    @media (max-width: 768px) {
+      .section-title {
+        font-size: 2.25rem;
+      }
+    }
+
+    /* ================= RETREAT OVERVIEW ================= */
+    .overview-section {
+      padding: 96px 0 112px;
+      background-color: var(--bg-cream);
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 490px 1fr;
+      gap: 96px;
+      align-items: center;
+      margin-bottom: 96px;
+    }
+
+    @media (max-width: 1100px) {
+      .intro-grid {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+    }
+
+    .intro-copy p {
+      font-size: 0.9375rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+      margin-top: 18px;
+    }
+
+    .intro-host {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 28px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-divider);
+    }
+
+    .host-avatar {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--card-white);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .host-meta-name {
+      font-size: 0.9375rem;
+      font-weight: 700;
+      color: var(--forest-dark);
+    }
+
+    .host-meta-role {
+      font-size: 0.78125rem;
+      color: var(--text-muted);
+    }
+
+    .collage-frame {
+      position: relative;
+      height: 560px;
+    }
+
+    @media (max-width: 640px) {
+      .collage-frame {
+        height: 380px;
+      }
+    }
+
+    .collage-main-img {
+      width: 82%;
+      height: 480px;
+      object-fit: cover;
+      border-radius: 180px 24px 24px 24px;
+      box-shadow: var(--shadow-lg);
+    }
+
+    @media (max-width: 640px) {
+      .collage-main-img {
+        width: 85%;
+        height: 320px;
+        border-radius: 100px 20px 20px 20px;
+      }
+    }
+
+    .collage-detail-img {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 44%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: var(--radius-lg);
+      border: 8px solid var(--bg-cream);
+      box-shadow: var(--shadow-lg);
+    }
+
+    @media (max-width: 640px) {
+      .collage-detail-img {
+        width: 50%;
+        height: 180px;
+      }
+    }
+
+    /* Photo Narrative Row */
+    .photo-narrative-container {
+      margin-bottom: 96px;
+    }
+
+    .photo-narrative-grid {
+      display: grid;
+      grid-template-columns: 500px 1fr 350px;
+      gap: 14px;
+      height: 410px;
+      margin-bottom: 22px;
+    }
+
+    @media (max-width: 1100px) {
+      .photo-narrative-grid {
+        grid-template-columns: repeat(3, 1fr);
+        height: 320px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .photo-narrative-grid {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+    }
+
+    .narrative-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+      transition: transform 0.4s ease;
+    }
+
+    .narrative-photo:hover {
+      transform: scale(1.02);
+    }
+
+    @media (max-width: 768px) {
+      .narrative-photo {
+        height: 260px;
+      }
+    }
+
+    .narrative-caption {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    /* What is Included (Dark Container) */
+    .included-box {
+      background-color: var(--forest-charcoal);
+      border-radius: var(--radius-lg);
+      padding: 66px 72px;
+      color: var(--bg-warm);
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 94px;
+      box-shadow: var(--shadow-lg);
+    }
+
+    @media (max-width: 1100px) {
+      .included-box {
+        grid-template-columns: 1fr;
+        gap: 48px;
+        padding: 48px 36px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .included-box {
+        padding: 36px 24px;
+      }
+    }
+
+    .included-heading h3 {
+      font-family: var(--serif);
+      font-size: 2.75rem;
+      line-height: 1.05;
+      font-weight: 500;
+      color: var(--bg-warm);
+      margin-top: 14px;
+      margin-bottom: 18px;
+    }
+
+    .included-heading p {
+      font-size: 0.875rem;
+      line-height: 1.6;
+      color: var(--text-light-muted);
+    }
+
+    .included-lists-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px 56px;
+      align-content: center;
+    }
+
+    @media (max-width: 680px) {
+      .included-lists-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
+
+    .included-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .check-circle {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(245, 241, 232, 0.15);
+      color: var(--sage-pale);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .included-item span {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--bg-warm);
+    }
+
+    /* ================= ACCOMMODATION SECTION (FIGMA #12:123) ================= */
+    .accommodation-section {
+      background-color: var(--bg-warm);
+      padding: 110px 0;
+      border-top: 1px solid var(--border-divider);
+      border-bottom: 1px solid var(--border-divider);
+    }
+
+    .acc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 48px;
+      margin-bottom: 56px;
+    }
+
+    @media (max-width: 900px) {
+      .acc-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+      }
+    }
+
+    .acc-header-left {
+      max-width: 650px;
+    }
+
+    .acc-header-right {
+      max-width: 320px;
+      font-size: 0.875rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+
+    /* Room Cards */
+    .room-cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 56px;
+    }
+
+    @media (max-width: 900px) {
+      .room-cards-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .room-card {
+      background: var(--card-white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid rgba(216, 215, 204, 0.4);
+      transition: var(--transition-smooth);
+    }
+
+    .room-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 44px -8px rgba(38, 48, 40, 0.14);
+    }
+
+    .room-img-container {
+      position: relative;
+      height: 330px;
+      overflow: hidden;
+    }
+
+    .room-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .room-card:hover .room-img {
+      transform: scale(1.03);
+    }
+
+    .room-badges-overlay {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 2;
+    }
+
+    .badge-remaining-terracotta {
+      background-color: var(--terracotta-soft);
+      color: var(--terracotta);
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 7px 13px;
+      border-radius: var(--radius-full);
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .badge-remaining-terracotta .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--terracotta);
+    }
+
+    .badge-remaining-sage {
+      background-color: var(--sage-pale);
+      color: var(--forest-charcoal);
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 7px 13px;
+      border-radius: var(--radius-full);
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .badge-remaining-sage .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--sage-accent);
+    }
+
+    .badge-recommendation {
+      background-color: var(--forest-charcoal);
+      color: var(--bg-warm);
+      font-size: 0.625rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 7px 12px;
+      border-radius: var(--radius-full);
+    }
+
+    .room-details {
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .room-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+
+    .room-title {
+      font-family: var(--serif);
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--forest-dark);
+      margin-bottom: 5px;
+    }
+
+    .room-desc {
+      font-size: 0.8125rem;
+      line-height: 1.45;
+      color: var(--text-muted);
+      max-width: 300px;
+    }
+
+    .room-pricing {
+      text-align: right;
+    }
+
+    .room-price-val {
+      font-family: var(--serif);
+      font-size: 1.875rem;
+      font-weight: 600;
+      color: var(--forest-dark);
+      line-height: 1;
+    }
+
+    .room-price-per {
+      font-size: 0.6875rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    .room-divider {
+      height: 1px;
+      background-color: var(--border-divider);
+      margin: 16px 0 20px;
+    }
+
+    .room-features-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 28px;
+      flex: 1;
+    }
+
+    .room-feature-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.8125rem;
+      color: var(--forest-dark);
+    }
+
+    .room-feature-item svg {
+      width: 15px;
+      height: 15px;
+      color: var(--forest-green);
+      flex-shrink: 0;
+    }
+
+    .btn-room-select {
+      width: 100%;
+      height: 56px;
+      border-radius: var(--radius-full);
+      background-color: var(--forest-green);
+      color: #FFFFFF;
+      font-size: 0.875rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn-room-select:hover {
+      background-color: var(--forest-charcoal);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(65, 84, 66, 0.25);
+    }
+
+    /* Comparison Table */
+    .comparison-section {
+      margin-top: 28px;
+      border-top: 1px solid var(--border-divider);
+      padding-top: 28px;
+    }
+
+    .comparison-header-row {
+      display: grid;
+      grid-template-columns: 476px 1fr 1fr;
+      padding-bottom: 18px;
+      align-items: flex-end;
+    }
+
+    .comparison-header-title {
+      font-family: var(--serif);
+      font-size: 1.625rem;
+      font-weight: 600;
+      color: var(--forest-dark);
+    }
+
+    .comparison-col-header {
+      font-size: 0.8125rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--forest-dark);
+    }
+
+    .comparison-row {
+      display: grid;
+      grid-template-columns: 476px 1fr 1fr;
+      padding: 18px 0;
+      border-top: 1px solid var(--border-divider);
+      align-items: center;
+    }
+
+    .comparison-label {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+    }
+
+    .comparison-val {
+      font-size: 0.875rem;
+      color: var(--forest-dark);
+    }
+
+    @media (max-width: 850px) {
+      .comparison-header-row,
+      .comparison-row {
+        grid-template-columns: 180px 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .comparison-header-row,
+      .comparison-row {
+        grid-template-columns: 120px 1fr 1fr;
+        font-size: 0.78rem;
+      }
+    }
+
+    /* Availability Callout */
+    .availability-callout {
+      margin-top: 40px;
+      background-color: var(--sage-pale);
+      border-radius: var(--radius-md);
+      padding: 22px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .availability-callout {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    .availability-callout-title {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--forest-charcoal);
+      margin-bottom: 4px;
+    }
+
+    .availability-callout-sub {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+    }
+
+    .availability-callout-time {
+      font-size: 0.75rem;
+      color: var(--forest-green);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    /* ================= TESTIMONIALS SECTION ================= */
+    .testimonials-section {
+      padding: 104px 0;
+      background-color: var(--bg-cream);
+    }
+
+    .testimonials-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 50px;
+    }
+
+    @media (max-width: 768px) {
+      .testimonials-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+    }
+
+    .rating-box {
+      text-align: right;
+    }
+
+    @media (max-width: 768px) {
+      .rating-box {
+        text-align: left;
+      }
+    }
+
+    .stars {
+      color: var(--terracotta);
+      font-size: 1rem;
+      letter-spacing: 2px;
+    }
+
+    .rating-text {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 990px) {
+      .testimonials-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .testimonial-card {
+      background: var(--card-white);
+      border-radius: var(--radius-lg);
+      padding: 34px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 310px;
+      border: 1px solid rgba(216, 215, 204, 0.4);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .testimonial-quote {
+      font-size: 0.9375rem;
+      line-height: 1.65;
+      color: var(--forest-dark);
+      font-style: normal;
+    }
+
+    .guest-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .guest-avatar-initials {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background-color: var(--bg-warm);
+      color: var(--forest-green);
+      font-size: 0.8125rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border-divider);
+    }
+
+    .guest-name {
+      font-size: 0.8125rem;
+      font-weight: 700;
+      color: var(--forest-dark);
+    }
+
+    .guest-role {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* ================= FAQ SECTION ================= */
+    .faq-section {
+      background-color: var(--bg-warm);
+      padding: 104px 0;
+      border-top: 1px solid var(--border-divider);
+    }
+
+    .faq-grid {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 110px;
+    }
+
+    @media (max-width: 1024px) {
+      .faq-grid {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+    }
+
+    .faq-heading h2 {
+      font-family: var(--serif);
+      font-size: 2.75rem;
+      line-height: 1.05;
+      font-weight: 500;
+      color: var(--forest-dark);
+      margin-bottom: 18px;
+    }
+
+    .faq-heading p {
+      font-size: 0.875rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border-divider);
+      padding: 24px 0;
+      cursor: pointer;
+    }
+
+    .faq-item:first-child {
+      border-top: 1px solid var(--border-divider);
+    }
+
+    .faq-question-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .faq-question {
+      font-size: 1.0625rem;
+      font-weight: 600;
+      color: var(--forest-dark);
+      line-height: 1.35;
+    }
+
+    .faq-toggle-icon {
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--forest-green);
+      transition: transform 0.25s ease;
+      flex-shrink: 0;
+    }
+
+    .faq-answer {
+      font-size: 0.875rem;
+      line-height: 1.65;
+      color: var(--text-muted);
+      margin-top: 12px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, opacity 0.3s ease;
+      opacity: 0;
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 200px;
+      opacity: 1;
+    }
+
+    .faq-item.active .faq-toggle-icon {
+      transform: rotate(45deg);
+    }
+
+    /* ================= REGISTRATION & ORDER SUMMARY ================= */
+    .registration-section {
+      padding: 108px 0;
+      background-color: var(--bg-cream);
+    }
+
+    .reg-heading {
+      max-width: 680px;
+      margin-bottom: 48px;
+    }
+
+    .reg-heading h2 {
+      font-family: var(--serif);
+      font-size: 3rem;
+      font-weight: 500;
+      line-height: 1.05;
+      color: var(--forest-dark);
+      margin-top: 12px;
+      margin-bottom: 14px;
+    }
+
+    .reg-heading p {
+      font-size: 0.9375rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+
+    .reg-workspace {
+      display: grid;
+      grid-template-columns: 1fr 410px;
+      gap: 32px;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 1024px) {
+      .reg-workspace {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Form Card */
+    .form-card {
+      background: var(--bg-warm);
+      border-radius: var(--radius-lg);
+      padding: 38px;
+      border: 1px solid rgba(216, 215, 204, 0.6);
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    @media (max-width: 640px) {
+      .form-card {
+        padding: 24px;
+      }
+    }
+
+    .form-heading-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-divider);
+    }
+
+    .form-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--forest-dark);
+    }
+
+    .form-required-note {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 640px) {
+      .form-row-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-label {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--forest-dark);
+    }
+
+    .form-input, .form-textarea {
+      width: 100%;
+      background: var(--card-white);
+      border: 1px solid var(--border-divider);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      font-size: 0.875rem;
+      color: var(--forest-dark);
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .form-input:focus, .form-textarea:focus {
+      border-color: var(--forest-green);
+      box-shadow: 0 0 0 3px rgba(65, 84, 66, 0.15);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    /* Radio Room Choices */
+    .room-choice-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .room-choice-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 20px;
+      background: var(--card-white);
+      border: 1.5px solid var(--border-divider);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+
+    .room-choice-card:hover {
+      border-color: var(--forest-green);
+    }
+
+    .room-choice-card.selected {
+      background-color: var(--sage-pale);
+      border-color: var(--forest-green);
+    }
+
+    .room-choice-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .radio-circle {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border-divider);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      background: #FFFFFF;
+      transition: var(--transition-smooth);
+    }
+
+    .room-choice-card.selected .radio-circle {
+      border-color: var(--forest-green);
+    }
+
+    .radio-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: var(--forest-green);
+      display: none;
+    }
+
+    .room-choice-card.selected .radio-dot {
+      display: block;
+    }
+
+    .choice-name {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--forest-dark);
+    }
+
+    .choice-desc {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .choice-price {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--forest-dark);
+    }
+
+    .consent-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.75rem;
+      line-height: 1.45;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .consent-checkbox {
+      margin-top: 2px;
+      width: 16px;
+      height: 16px;
+      accent-color: var(--forest-green);
+      cursor: pointer;
+    }
+
+    /* Order Summary Card */
+    .summary-card {
+      background: var(--card-white);
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(216, 215, 204, 0.4);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .summary-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .summary-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--forest-dark);
+    }
+
+    .summary-badge {
+      background-color: var(--sage-pale);
+      color: var(--forest-charcoal);
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 5px 11px;
+      border-radius: var(--radius-full);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .summary-badge .dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: var(--sage-accent);
+    }
+
+    .summary-thumb {
+      width: 100%;
+      height: 150px;
+      border-radius: var(--radius-md);
+      object-fit: cover;
+    }
+
+    .summary-retreat-name {
+      font-size: 1.0625rem;
+      font-weight: 600;
+      color: var(--forest-dark);
+    }
+
+    .summary-retreat-meta {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .summary-line-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .line-item-name {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--forest-dark);
+    }
+
+    .line-item-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .line-item-price {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--forest-dark);
+    }
+
+    .summary-total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding-top: 14px;
+      border-top: 1px solid var(--border-divider);
+    }
+
+    .total-label {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--forest-dark);
+    }
+
+    .total-amount {
+      font-family: var(--serif);
+      font-size: 1.875rem;
+      font-weight: 600;
+      color: var(--forest-dark);
+    }
+
+    .btn-checkout-kajabi {
+      width: 100%;
+      height: 56px;
+      border-radius: var(--radius-full);
+      background-color: var(--forest-green);
+      color: #FFFFFF;
+      font-size: 0.875rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 4px 14px rgba(65, 84, 66, 0.2);
+    }
+
+    .btn-checkout-kajabi:hover {
+      background-color: var(--forest-charcoal);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(65, 84, 66, 0.25);
+    }
+
+    .kajabi-security-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      font-size: 0.75rem;
+      line-height: 1.45;
+      color: var(--text-muted);
+    }
+
+    .kajabi-security-note svg {
+      width: 16px;
+      height: 16px;
+      color: var(--forest-green);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ================= CONFIRMATION EMAIL SUCCESS ================= */
+    .confirmation-section {
+      background-color: var(--sage-pale);
+      border-radius: var(--radius-lg);
+      padding: 90px 112px;
+      display: grid;
+      grid-template-columns: 104px 1fr 340px;
+      gap: 60px;
+      align-items: center;
+      margin: 80px 0 100px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    @media (max-width: 1100px) {
+      .confirmation-section {
+        grid-template-columns: 1fr;
+        padding: 50px 36px;
+        gap: 30px;
+      }
+    }
+
+    .conf-icon-circle {
+      width: 104px;
+      height: 104px;
+      border-radius: 50%;
+      background-color: var(--forest-green);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .conf-copy h3 {
+      font-family: var(--serif);
+      font-size: 2.5rem;
+      font-weight: 500;
+      color: var(--forest-dark);
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+
+    .conf-copy p {
+      font-size: 0.875rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+
+    .email-preview-box {
+      background: var(--bg-cream);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      border: 1px solid var(--border-divider);
+    }
+
+    .email-preview-status {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--sage-accent);
+    }
+
+    .email-preview-subject {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--forest-dark);
+    }
+
+    .email-preview-text {
+      font-size: 0.75rem;
+      line-height: 1.45;
+      color: var(--text-muted);
+    }
+
+    .btn-view-receipt-modal {
+      margin-top: 10px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--forest-green);
+      text-decoration: underline;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    /* ================= FOOTER ================= */
+    .site-footer {
+      background-color: var(--forest-charcoal);
+      color: var(--bg-warm);
+      padding: 64px 0 40px;
+    }
+
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 36px;
+    }
+
+    @media (max-width: 640px) {
+      .footer-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 24px;
+      }
+    }
+
+    .footer-brand {
+      font-family: var(--serif);
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--bg-warm);
+    }
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .footer-link {
+      font-size: 0.8125rem;
+      color: var(--bg-warm);
+      opacity: 0.85;
+    }
+
+    .footer-link:hover {
+      opacity: 1;
+      color: var(--sage-pale);
+    }
+
+    .footer-divider {
+      height: 1px;
+      background-color: rgba(245, 241, 232, 0.15);
+      margin-bottom: 32px;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      color: rgba(245, 241, 232, 0.6);
+    }
+
+    @media (max-width: 640px) {
+      .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+    }
+
+    /* ================= MODALS ================= */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(20, 35, 28, 0.8);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-sheet {
+      background: var(--card-white);
+      border-radius: var(--radius-lg);
+      max-width: 580px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 40px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+
+    @media (max-width: 640px) {
+      .modal-sheet {
+        padding: 28px 20px;
+      }
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--bg-warm);
+      color: var(--forest-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .modal-close-btn:hover {
+      background: var(--border-divider);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= TOP SWITCHER BANNER ================= -->
+  <div class="retreat-switcher-bar">
+    <span class="switcher-label">DelveDeep Retreat Locations</span>
+    <span class="switcher-pill">Now Viewing: Catskills, NY</span>
+    <span>•</span>
+    <a href="delvedeep.html">Switch to Osa Peninsula Sanctuary (Nosara, Costa Rica) &rarr;</a>
+  </div>
+
+  <!-- ================= NAVIGATION ================= -->
+  <header class="nav-header">
+    <div class="container nav-container">
+      <a href="#top" class="nav-brand">
+        <!-- Leaf SVG Icon matching Figma #12:710 -->
+        <svg class="nav-brand-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+          <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+        </svg>
+        <span class="nav-brand-name">DelveDeep</span>
+      </a>
+
+      <nav class="nav-menu">
+        <a href="#overview" class="nav-link">The retreat</a>
+        <a href="#stay" class="nav-link">Stay</a>
+        <a href="#included" class="nav-link">What’s included</a>
+        <a href="#faqs" class="nav-link">FAQs</a>
+        <a href="#register" class="btn-pill-primary">
+          <span>Reserve your place</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="7" y1="17" x2="17" y2="7"></line>
+            <polyline points="7 7 17 7 17 17"></polyline>
+          </svg>
+        </a>
+      </nav>
+
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- ================= HERO SECTION (FIGMA #12:4) ================= -->
+    <section class="hero-section">
+      <div class="hero-frame">
+        <a href="#stay" class="hero-cta-hotspot" aria-label="Choose your room at Stillwood Retreat" title="Choose your room"></a>
+        <h1 class="sr-only">Return to the quiet within. A five-night restorative retreat in the Catskills</h1>
+        <p class="sr-only">A considered pause for slower mornings, guided movement, honest conversation, and deep rest — held by forest and mountain air. 12–16 guests · intimate by design. From $1,850 · payment on Kajabi.</p>
+      </div>
+    </section>
+
+    <!-- ================= RETREAT FACTS BAR (FIGMA #12:31) ================= -->
+    <div class="facts-bar-container">
+      <div class="facts-bar">
+        <div class="fact-item">
+          <div class="fact-icon-tile">
+            <!-- calendar-days -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          </div>
+          <div class="fact-copy">
+            <span class="fact-label">Dates</span>
+            <span class="fact-val">October 12–17, 2027</span>
+          </div>
+        </div>
+
+        <div class="fact-item">
+          <div class="fact-icon-tile">
+            <!-- map-pin -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          </div>
+          <div class="fact-copy">
+            <span class="fact-label">Location</span>
+            <span class="fact-val">Livingston Manor, NY</span>
+          </div>
+        </div>
+
+        <div class="fact-item">
+          <div class="fact-icon-tile">
+            <!-- moon-star -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
+          </div>
+          <div class="fact-copy">
+            <span class="fact-label">Length</span>
+            <span class="fact-val">5 nights · 6 days</span>
+          </div>
+        </div>
+
+        <div class="fact-item">
+          <div class="fact-icon-tile">
+            <!-- users -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          </div>
+          <div class="fact-copy">
+            <span class="fact-label">Group</span>
+            <span class="fact-val">12–16 guests</span>
+          </div>
+        </div>
+
+        <div class="fact-item">
+          <div class="fact-icon-tile">
+            <!-- sparkles -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path></svg>
+          </div>
+          <div class="fact-copy">
+            <span class="fact-label">Experience</span>
+            <span class="fact-val">All levels welcome</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= RETREAT OVERVIEW (FIGMA #12:62) ================= -->
+    <section class="overview-section" id="overview">
+      <div class="container">
+        <!-- Introduction Grid -->
+        <div class="intro-grid">
+          <div class="intro-copy">
+            <span class="section-eyebrow">A softer way back to yourself</span>
+            <h2 class="section-title">Space to exhale.<br>Time to listen.</h2>
+            <p>The Stillwood Retreat is an invitation to set down the noise and return to what feels essential. Across six unhurried days, gentle practices, nourishing meals, and spacious afternoons create room for a deeper kind of attention.</p>
+            <p>Come alone or with a friend. No previous retreat, yoga, or meditation experience is needed — only curiosity and a willingness to slow down.</p>
+
+            <div class="intro-host">
+              <img src="assets/delvedeep/host-portrait.png" alt="Mara Ellison - Somatic Guide" class="host-avatar">
+              <div>
+                <div class="host-meta-name">Hosted by Mara Ellison</div>
+                <div class="host-meta-role">Somatic guide · teacher · writer</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="collage-frame">
+            <img src="assets/delvedeep/overview-main.png" alt="Livingston Manor retreat porch and forest" class="collage-main-img">
+            <img src="assets/delvedeep/overview-detail.png" alt="Somatic mindfulness circle" class="collage-detail-img">
+          </div>
+        </div>
+
+        <!-- Photo Narrative -->
+        <div class="photo-narrative-container">
+          <div class="photo-narrative-grid">
+            <img src="assets/delvedeep/forest-walk.png" alt="Guided forest walking immersion" class="narrative-photo">
+            <img src="assets/delvedeep/shared-meal.png" alt="Seasonal plant-forward communal dining" class="narrative-photo">
+            <img src="assets/delvedeep/quiet-moment.png" alt="Quiet contemplative afternoon rest" class="narrative-photo">
+          </div>
+          <div class="narrative-caption">UNHURRIED DAYS · SHARED TABLES · WILD, QUIET PLACES</div>
+        </div>
+
+        <!-- What is Included (Dark Container) -->
+        <div class="included-box" id="included">
+          <div class="included-heading">
+            <span class="section-eyebrow" style="color: var(--bg-warm);">Everything held for you</span>
+            <h3>Arrive, settle in, and let the details soften away.</h3>
+            <p>Travel to the retreat and optional bodywork are not included. We’ll help coordinate shared transfers from NYC.</p>
+          </div>
+
+          <div class="included-lists-grid">
+            <div class="included-item">
+              <div class="check-circle">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <span>Five nights in your selected room</span>
+            </div>
+
+            <div class="included-item">
+              <div class="check-circle">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <span>Three seasonal, plant-forward meals daily</span>
+            </div>
+
+            <div class="included-item">
+              <div class="check-circle">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <span>Daily movement and meditation</span>
+            </div>
+
+            <div class="included-item">
+              <div class="check-circle">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <span>Two guided forest immersions</span>
+            </div>
+
+            <div class="included-item">
+              <div class="check-circle">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <span>Opening and closing circles</span>
+            </div>
+
+            <div class="included-item">
+              <div class="check-circle">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <span>Creative journaling workshop</span>
+            </div>
+
+            <div class="included-item">
+              <div class="check-circle">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <span>Sauna and cedar hot tub access</span>
+            </div>
+
+            <div class="included-item">
+              <div class="check-circle">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <span>All materials, tea, and refreshments</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= ACCOMMODATION SECTION (FIGMA #12:123) ================= -->
+    <section class="accommodation-section" id="stay">
+      <div class="container">
+        <!-- Accommodation heading -->
+        <div class="acc-header">
+          <div class="acc-header-left">
+            <span class="section-eyebrow">Stay your way</span>
+            <h2 class="section-title">Choose the room that lets you rest fully.</h2>
+          </div>
+          <div class="acc-header-right">
+            One simple retreat price includes your stay, meals, and all listed programming. Rooms are held only after Kajabi checkout is complete.
+          </div>
+        </div>
+
+        <!-- Room Cards (Figma Room Options) -->
+        <div class="room-cards-grid">
+          <!-- Room Option 1: Private room -->
+          <div class="room-card" id="cardPrivateRoom">
+            <div class="room-img-container">
+              <img src="assets/delvedeep/private-room.png" alt="Private room with queen bed and panoramic forest window" class="room-img">
+              <div class="room-badges-overlay">
+                <div class="badge-remaining-terracotta">
+                  <span class="dot"></span>
+                  <span>2 rooms remaining</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="room-details">
+              <div class="room-title-row">
+                <div>
+                  <h3 class="room-title">Private room</h3>
+                  <p class="room-desc">A quiet room of your own, with ensuite bath and generous forest views.</p>
+                </div>
+                <div class="room-pricing">
+                  <div class="room-price-val">$2,450</div>
+                  <div class="room-price-per">per guest</div>
+                </div>
+              </div>
+
+              <div class="room-divider"></div>
+
+              <ul class="room-features-list">
+                <li class="room-feature-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>Private queen room for one</span>
+                </li>
+                <li class="room-feature-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>Private ensuite bathroom</span>
+                </li>
+                <li class="room-feature-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>All meals and programming</span>
+                </li>
+                <li class="room-feature-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>Best for spacious solitude</span>
+                </li>
+              </ul>
+
+              <button type="button" class="btn-room-select" onclick="selectRoomOption('private')">
+                <span>Select private room</span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Room Option 2: Shared room -->
+          <div class="room-card" id="cardSharedRoom">
+            <div class="room-img-container">
+              <img src="assets/delvedeep/shared-room.png" alt="Shared room with two twin beds and bright tree canopy view" class="room-img">
+              <div class="room-badges-overlay">
+                <div class="badge-remaining-sage">
+                  <span class="dot"></span>
+                  <span>5 places remaining</span>
+                </div>
+                <div class="badge-recommendation">Most chosen</div>
+              </div>
+            </div>
+
+            <div class="room-details">
+              <div class="room-title-row">
+                <div>
+                  <h3 class="room-title">Shared room</h3>
+                  <p class="room-desc">A thoughtfully paired twin room for guests open to sharing the experience.</p>
+                </div>
+                <div class="room-pricing">
+                  <div class="room-price-val">$1,850</div>
+                  <div class="room-price-per">per guest</div>
+                </div>
+              </div>
+
+              <div class="room-divider"></div>
+
+              <ul class="room-features-list">
+                <li class="room-feature-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>Shared room for two guests</span>
+                </li>
+                <li class="room-feature-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>Shared ensuite bathroom</span>
+                </li>
+                <li class="room-feature-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>All meals and programming</span>
+                </li>
+                <li class="room-feature-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>Come with a friend or be matched</span>
+                </li>
+              </ul>
+
+              <button type="button" class="btn-room-select" onclick="selectRoomOption('shared')">
+                <span>Select shared room</span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Room comparison (Figma table) -->
+        <div class="comparison-section">
+          <div class="comparison-header-row">
+            <h3 class="comparison-header-title">Compare at a glance</h3>
+            <div class="comparison-col-header">PRIVATE ROOM</div>
+            <div class="comparison-col-header">SHARED ROOM</div>
+          </div>
+
+          <div class="comparison-row">
+            <div class="comparison-label">Guests</div>
+            <div class="comparison-val">1 guest</div>
+            <div class="comparison-val">2 guests</div>
+          </div>
+
+          <div class="comparison-row">
+            <div class="comparison-label">Bed</div>
+            <div class="comparison-val">Queen bed</div>
+            <div class="comparison-val">Two twin beds</div>
+          </div>
+
+          <div class="comparison-row">
+            <div class="comparison-label">Bathroom</div>
+            <div class="comparison-val">Private ensuite</div>
+            <div class="comparison-val">Shared ensuite</div>
+          </div>
+
+          <div class="comparison-row">
+            <div class="comparison-label">View</div>
+            <div class="comparison-val">Forest or meadow</div>
+            <div class="comparison-val">Forest</div>
+          </div>
+
+          <div class="comparison-row">
+            <div class="comparison-label">Total retreat price</div>
+            <div class="comparison-val" style="font-weight: 700;">$2,450</div>
+            <div class="comparison-val" style="font-weight: 700;">$1,850 per guest</div>
+          </div>
+        </div>
+
+        <!-- Availability callout banner (Figma #12:221) -->
+        <div class="availability-callout">
+          <div>
+            <div class="availability-callout-title">Small group, limited rooms</div>
+            <div class="availability-callout-sub">Availability shown is sample content and will be updated before launch.</div>
+          </div>
+          <div class="availability-callout-time">Last updated today · 10:30 AM ET</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= GUEST STORIES & QUESTIONS (FIGMA #12:226) ================= -->
+    <section class="testimonials-section">
+      <div class="container">
+        <div class="testimonials-header">
+          <div>
+            <span class="section-eyebrow">Guest reflections</span>
+            <h2 class="section-title">What stays with them.</h2>
+          </div>
+          <div class="rating-box">
+            <div class="stars">★★★★★</div>
+            <div class="rating-text">4.9 average from 38 past guests</div>
+          </div>
+        </div>
+
+        <div class="testimonials-grid">
+          <!-- Card 1 -->
+          <div class="testimonial-card">
+            <p class="testimonial-quote">“I arrived carrying months of noise. By the third morning, I could hear myself again. The care in every detail felt extraordinary.”</p>
+            <div class="guest-row">
+              <div class="guest-avatar-initials">AR</div>
+              <div>
+                <div class="guest-name">Amelia R.</div>
+                <div class="guest-role">Founder · Brooklyn, NY</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="testimonial-card">
+            <p class="testimonial-quote">“It was spacious without feeling unstructured — beautiful teaching, deeply nourishing food, and the loveliest group of people.”</p>
+            <div class="guest-row">
+              <div class="guest-avatar-initials">JM</div>
+              <div>
+                <div class="guest-name">June M.</div>
+                <div class="guest-role">Creative director · Boston, MA</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="testimonial-card">
+            <p class="testimonial-quote">“The rare retreat that feels both elevated and completely human. I left rested, clear, and genuinely changed.”</p>
+            <div class="guest-row">
+              <div class="guest-avatar-initials">ES</div>
+              <div>
+                <div class="guest-name">Elena S.</div>
+                <div class="guest-role">Therapist · Toronto, ON</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= FREQUENTLY ASKED QUESTIONS (FIGMA #12:266) ================= -->
+    <section class="faq-section" id="faqs">
+      <div class="container">
+        <div class="faq-grid">
+          <div class="faq-heading">
+            <span class="section-eyebrow">Questions &amp; details</span>
+            <h2>A few good questions, answered.</h2>
+            <p>Still wondering about something? Write to <a href="mailto:hello@delvedeep.com" style="text-decoration: underline; color: var(--forest-green); font-weight: 600;">hello@delvedeep.com</a> and our retreat concierge will help.</p>
+          </div>
+
+          <div class="faq-list">
+            <!-- FAQ 1 -->
+            <div class="faq-item active" onclick="toggleFaq(this)">
+              <div class="faq-question-row">
+                <div class="faq-question">Do I need meditation or yoga experience?</div>
+                <div class="faq-toggle-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                </div>
+              </div>
+              <div class="faq-answer">
+                Not at all. Every practice is invitational and designed for a range of bodies and experience levels.
+              </div>
+            </div>
+
+            <!-- FAQ 2 -->
+            <div class="faq-item" onclick="toggleFaq(this)">
+              <div class="faq-question-row">
+                <div class="faq-question">How will shared-room pairing work?</div>
+                <div class="faq-toggle-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                </div>
+              </div>
+              <div class="faq-answer">
+                You may name a roommate during registration, or we’ll thoughtfully match guests after a short preference questionnaire.
+              </div>
+            </div>
+
+            <!-- FAQ 3 -->
+            <div class="faq-item" onclick="toggleFaq(this)">
+              <div class="faq-question-row">
+                <div class="faq-question">What is the cancellation policy?</div>
+                <div class="faq-toggle-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                </div>
+              </div>
+              <div class="faq-answer">
+                Your place is transferable. Refund details and deadlines are shown clearly in Kajabi before you complete payment.
+              </div>
+            </div>
+
+            <!-- FAQ 4 -->
+            <div class="faq-item" onclick="toggleFaq(this)">
+              <div class="faq-question-row">
+                <div class="faq-question">How do I get to Stillwood House?</div>
+                <div class="faq-toggle-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                </div>
+              </div>
+              <div class="faq-answer">
+                We’ll provide driving directions and coordinate optional shared transfers from Manhattan and the nearest train station.
+              </div>
+            </div>
+
+            <!-- FAQ 5 -->
+            <div class="faq-item" onclick="toggleFaq(this)">
+              <div class="faq-question-row">
+                <div class="faq-question">Can dietary needs be accommodated?</div>
+                <div class="faq-toggle-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                </div>
+              </div>
+              <div class="faq-answer">
+                Yes. Our kitchen can support common dietary needs and allergies; share details in the registration form below.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= REGISTRATION & CHECKOUT HANDOFF (FIGMA #12:297) ================= -->
+    <section class="registration-section" id="register">
+      <div class="container">
+        <div class="reg-heading">
+          <span class="section-eyebrow">Your place at Stillwood</span>
+          <h2>Tell us who’s joining.</h2>
+          <p>We’ll use these details to prepare your registration. You’ll continue to our secure Kajabi checkout to review terms and complete payment.</p>
+        </div>
+
+        <div class="reg-workspace">
+          <!-- Form -->
+          <form class="form-card" id="guestForm" onsubmit="handleRegistrationSubmit(event)">
+            <div class="form-heading-row">
+              <span class="form-title">Guest details</span>
+              <span class="form-required-note">* Required fields</span>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-field">
+                <label class="form-label" for="firstName">First name *</label>
+                <input type="text" id="firstName" class="form-input" placeholder="First name" required>
+              </div>
+              <div class="form-field">
+                <label class="form-label" for="lastName">Last name *</label>
+                <input type="text" id="lastName" class="form-input" placeholder="Last name" required>
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label class="form-label" for="email">Email address *</label>
+              <input type="email" id="email" class="form-input" placeholder="Email address" required>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-field">
+                <label class="form-label" for="phone">Phone number (optional)</label>
+                <input type="tel" id="phone" class="form-input" placeholder="+1 (555) 000-0000">
+              </div>
+              <div class="form-field">
+                <label class="form-label" for="cityCountry">City and country *</label>
+                <input type="text" id="cityCountry" class="form-input" placeholder="New York, USA" required>
+              </div>
+            </div>
+
+            <!-- Room Choice Radio -->
+            <div class="form-field">
+              <label class="form-label">Accommodation *</label>
+              <div class="room-choice-container">
+                <!-- Choice 1 -->
+                <div class="room-choice-card selected" id="choicePrivate" onclick="selectRoomOption('private')">
+                  <div class="room-choice-left">
+                    <div class="radio-circle">
+                      <div class="radio-dot"></div>
+                    </div>
+                    <div>
+                      <div class="choice-name">Private room</div>
+                      <div class="choice-desc">One guest · private ensuite</div>
+                    </div>
+                  </div>
+                  <div class="choice-price">$2,450</div>
+                </div>
+
+                <!-- Choice 2 -->
+                <div class="room-choice-card" id="choiceShared" onclick="selectRoomOption('shared')">
+                  <div class="room-choice-left">
+                    <div class="radio-circle">
+                      <div class="radio-dot"></div>
+                    </div>
+                    <div>
+                      <div class="choice-name">Shared room</div>
+                      <div class="choice-desc">One guest · shared twin room</div>
+                    </div>
+                  </div>
+                  <div class="choice-price">$1,850</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Dietary Needs -->
+            <div class="form-field">
+              <label class="form-label" for="dietary">Dietary needs or accessibility notes</label>
+              <textarea id="dietary" class="form-textarea" placeholder="Tell us what would help you feel supported… (allergies, vegan, room preferences)"></textarea>
+            </div>
+
+            <!-- Consent -->
+            <label class="consent-row">
+              <input type="checkbox" id="consent" class="consent-checkbox" required>
+              <span>I agree that DelveDeep may use these details to coordinate my retreat registration and send essential guest communications.</span>
+            </label>
+          </form>
+
+          <!-- Order Summary Card -->
+          <div class="summary-card">
+            <div class="summary-header">
+              <span class="summary-title">Your retreat</span>
+              <div class="summary-badge" id="summaryAvailabilityBadge">
+                <span class="dot"></span>
+                <span id="summaryBadgeText">2 spots remaining</span>
+              </div>
+            </div>
+
+            <img src="assets/delvedeep/checkout-thumbnail.png" alt="Stillwood Catskills Retreat Grounds" class="summary-thumb">
+
+            <div>
+              <div class="summary-retreat-name">Stillwood Retreat</div>
+              <div class="summary-retreat-meta">October 12–17, 2027 · Livingston Manor, NY</div>
+            </div>
+
+            <div class="room-divider" style="margin: 4px 0;"></div>
+
+            <div class="summary-line-item">
+              <div>
+                <div class="line-item-name" id="summaryRoomName">Private room</div>
+                <div class="line-item-sub">1 guest · 5 nights · all meals &amp; workshops</div>
+              </div>
+              <div class="line-item-price" id="summaryRoomPrice">$2,450</div>
+            </div>
+
+            <div class="summary-total-row">
+              <span class="total-label">Total</span>
+              <span class="total-amount" id="summaryTotal">$2,450 USD</span>
+            </div>
+
+            <button type="submit" form="guestForm" class="btn-checkout-kajabi" id="btnContinueKajabi">
+              <span>Continue to secure Kajabi checkout</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+            </button>
+
+            <div class="kajabi-security-note">
+              <!-- lock-keyhole icon -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="16" r="1"></circle><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              <span>No payment is collected on this page. Next, Kajabi will securely process your payment and display the final terms.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= CONFIRMATION EMAIL SUCCESS (FIGMA #12:378) ================= -->
+        <div class="confirmation-section">
+          <div class="conf-icon-circle">
+            <!-- mail-check SVG -->
+            <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 13V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h9"></path><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path><path d="m16 19 2 2 4-4"></path></svg>
+          </div>
+
+          <div class="conf-copy">
+            <span class="section-eyebrow" style="color: var(--forest-green);">Post-checkout peace of mind</span>
+            <h3>Your confirmation will be on its way.</h3>
+            <p>Once Kajabi confirms payment, DelveDeep will email your receipt, room selection, travel guide, and a private guest questionnaire. Please allow up to 10 minutes.</p>
+          </div>
+
+          <div class="email-preview-box">
+            <span class="email-preview-status">Confirmation email sent</span>
+            <div class="email-preview-subject">You’re joining us at Stillwood</div>
+            <p class="email-preview-text">Look for an email from hello@delvedeep.com. Check spam or promotions if you don’t see it.</p>
+            <button type="button" class="btn-view-receipt-modal" onclick="openConfirmationModal()">
+              &rarr; View sample confirmation email &amp; receipt
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER (FIGMA #12:389) ================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">DelveDeep</div>
+        <div class="footer-links">
+          <a href="mailto:hello@delvedeep.com" class="footer-link">Contact</a>
+          <a href="#stay" class="footer-link">Terms</a>
+          <a href="#stay" class="footer-link">Privacy</a>
+          <a href="https://instagram.com" target="_blank" rel="noopener" class="footer-link">Instagram</a>
+        </div>
+      </div>
+
+      <div class="footer-divider"></div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2027 DelveDeep Retreats. Sample retreat content for review.</div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="16" r="1"></circle><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <span>Secure checkout completed on Kajabi</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= CONFIRMATION MODAL (INTERACTIVE RECEIPT) ================= -->
+  <div class="modal-backdrop" id="confirmationModal">
+    <div class="modal-sheet">
+      <button class="modal-close-btn" onclick="closeConfirmationModal()" aria-label="Close modal">&times;</button>
+      
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+        <span style="font-size: 0.75rem; font-weight: 700; color: var(--sage-accent); text-transform: uppercase; letter-spacing: 0.08em;">
+          DelveDeep Official Receipt &amp; Welcome
+        </span>
+      </div>
+
+      <h3 style="font-family: var(--serif); font-size: 2.25rem; font-weight: 500; color: var(--forest-dark); line-height: 1.1; margin-bottom: 10px;">
+        You're Confirmed for Stillwood House
+      </h3>
+
+      <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 24px;">
+        Dear <span id="modalGuestName" style="font-weight: 600; color: var(--forest-dark);">Seeker</span>, your deposit has been registered through Kajabi. A personalized guest questionnaire and preparation guide have been sent to <span id="modalGuestEmail" style="font-weight: 600; color: var(--forest-dark);">your email</span>.
+      </p>
+
+      <div style="background: var(--bg-warm); border-radius: var(--radius-md); padding: 20px; margin-bottom: 24px; border: 1px solid var(--border-divider);">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.8125rem;">
+          <span style="color: var(--text-muted);">Reservation Ref:</span>
+          <span style="font-weight: 700; color: var(--forest-dark);">DD-2027-STILLWOOD-8492</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.8125rem;">
+          <span style="color: var(--text-muted);">Selected Room:</span>
+          <span style="font-weight: 700; color: var(--forest-dark);" id="modalRoomTitle">Private Room</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.8125rem;">
+          <span style="color: var(--text-muted);">Dates:</span>
+          <span style="font-weight: 700; color: var(--forest-dark);">October 12–17, 2027 (5 Nights)</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.8125rem;">
+          <span style="color: var(--text-muted);">Location:</span>
+          <span style="font-weight: 700; color: var(--forest-dark);">Stillwood House, Livingston Manor, NY</span>
+        </div>
+        <div style="height: 1px; background: var(--border-divider); margin: 12px 0;"></div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.9375rem;">
+          <span style="font-weight: 700; color: var(--forest-dark);">Total Paid (via Kajabi):</span>
+          <span style="font-family: var(--serif); font-size: 1.35rem; font-weight: 700; color: var(--forest-green);" id="modalTotalPaid">$2,450 USD</span>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <button type="button" class="btn-pill-primary" style="width: 100%;" onclick="closeConfirmationModal()">
+          Done &amp; Return to Retreat
+        </button>
+        <a href="mailto:hello@delvedeep.com" style="text-align: center; font-size: 0.8125rem; color: var(--forest-green); padding: 8px; font-weight: 600;">
+          Need assistance? Email Retreat Concierge
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= CLIENT JAVASCRIPT LOGIC ================= -->
+  <script>
+    // State
+    let selectedRoom = 'private';
+    const roomData = {
+      private: {
+        title: 'Private room',
+        price: 2450,
+        sub: '1 guest · 5 nights · all meals & workshops',
+        remainingText: '2 spots remaining',
+        kajabiUrl: 'https://checkout.kajabi.com/delvedeep-stillwood-private?price=2450'
+      },
+      shared: {
+        title: 'Shared room',
+        price: 1850,
+        sub: '1 guest · shared twin room · all meals & workshops',
+        remainingText: '5 spots remaining',
+        kajabiUrl: 'https://checkout.kajabi.com/delvedeep-stillwood-shared?price=1850'
+      }
+    };
+
+    function selectRoomOption(type) {
+      selectedRoom = type;
+      const data = roomData[type];
+
+      // Update Radio Choice UI
+      const choicePriv = document.getElementById('choicePrivate');
+      const choiceShr = document.getElementById('choiceShared');
+      if (type === 'private') {
+        choicePriv.classList.add('selected');
+        choiceShr.classList.remove('selected');
+      } else {
+        choiceShr.classList.add('selected');
+        choicePriv.classList.remove('selected');
+      }
+
+      // Update Summary Card
+      document.getElementById('summaryRoomName').textContent = data.title;
+      document.getElementById('summaryRoomPrice').textContent = '$' + data.price.toLocaleString();
+      document.getElementById('summaryTotal').textContent = '$' + data.price.toLocaleString() + ' USD';
+      document.getElementById('summaryBadgeText').textContent = data.remainingText;
+
+      // Scroll to registration form if clicked from accommodation card
+      if (window.event && window.event.target && window.event.target.closest('.room-card')) {
+        document.getElementById('register').scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    function toggleFaq(item) {
+      const isActive = item.classList.contains('active');
+      document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('active'));
+      if (!isActive) {
+        item.classList.add('active');
+      }
+    }
+
+    function handleRegistrationSubmit(e) {
+      e.preventDefault();
+      const form = document.getElementById('guestForm');
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const firstName = document.getElementById('firstName').value.trim() || 'Guest';
+      const lastName = document.getElementById('lastName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const cityCountry = document.getElementById('cityCountry').value.trim();
+      const dietary = document.getElementById('dietary').value.trim();
+
+      // Build prefilled Kajabi redirect URL
+      const data = roomData[selectedRoom];
+      const params = new URLSearchParams({
+        first_name: firstName,
+        last_name: lastName,
+        email: email,
+        phone: phone,
+        room: selectedRoom,
+        city: cityCountry,
+        notes: dietary
+      });
+
+      const fullKajabiCheckoutUrl = `${data.kajabiUrl}&${params.toString()}`;
+      console.log('Redirecting to Kajabi checkout endpoint:', fullKajabiCheckoutUrl);
+
+      // Populate confirmation modal state
+      document.getElementById('modalGuestName').textContent = firstName + ' ' + lastName;
+      document.getElementById('modalGuestEmail').textContent = email;
+      document.getElementById('modalRoomTitle').textContent = data.title;
+      document.getElementById('modalTotalPaid').textContent = '$' + data.price.toLocaleString() + ' USD';
+
+      // Open interactive confirmation preview
+      openConfirmationModal();
+    }
+
+    function openConfirmationModal() {
+      const modal = document.getElementById('confirmationModal');
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeConfirmationModal() {
+      const modal = document.getElementById('confirmationModal');
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('confirmationModal').addEventListener('click', (e) => {
+      if (e.target.id === 'confirmationModal') {
+        closeConfirmationModal();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeConfirmationModal();
+      }
+    });
+
+    // Mobile nav toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    if (mobileMenuBtn) {
+      mobileMenuBtn.addEventListener('click', () => {
+        const navMenu = document.querySelector('.nav-menu');
+        if (navMenu.style.display === 'flex') {
+          navMenu.style.display = 'none';
+        } else {
+          navMenu.style.display = 'flex';
+          navMenu.style.flexDirection = 'column';
+          navMenu.style.position = 'absolute';
+          navMenu.style.top = '82px';
+          navMenu.style.left = '0';
+          navMenu.style.width = '100%';
+          navMenu.style.background = 'var(--bg-cream)';
+          navMenu.style.padding = '24px';
+          navMenu.style.boxShadow = 'var(--shadow-md)';
+        }
+      });
+    }
+  </script>
+</body>
+</html>
