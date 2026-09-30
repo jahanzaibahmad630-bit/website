@@ -3,19 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jahanzaib Ahmad — Senior UI/UX Designer & Product Craftsman Resume</title>
+  <title>Jahanzaib Ahmad — Senior Product Designer & UI/UX Specialist CV</title>
+  <meta name="description" content="Professional CV of Jahanzaib Ahmad — Senior Product Designer & UI/UX Specialist with a Bachelor of Business and Information Technology (BBIT), specializing in Mobile Apps (iOS/Android), FinTech Platforms, and Design Systems.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #ffffff;
+      --surface: #f8fafc;
       --text-main: #0f172a;
-      --text-muted: #475569;
+      --text-muted: #334155;
       --text-dim: #64748b;
       --border: #e2e8f0;
+      --border-dark: #cbd5e1;
       --accent: #0f766e;
       --accent-dark: #134e4a;
+      --accent-soft: #f0fdfa;
       --tag-bg: #f1f5f9;
     }
 
@@ -26,65 +30,95 @@
     }
 
     body {
-      background-color: #f8fafc;
+      background-color: #f1f5f9;
       color: var(--text-main);
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      line-height: 1.55;
-      padding: 40px 20px;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.5;
+      padding: 36px 16px 60px;
       display: flex;
       flex-direction: column;
       align-items: center;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* TOP ACTION BAR (Hidden when printing/saving to PDF) */
+    /* TOP ACTION BAR */
     .download-bar {
       width: 100%;
-      max-width: 820px;
+      max-width: 860px;
       margin-bottom: 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       background: #0f172a;
-      padding: 12px 20px;
-      border-radius: 10px;
+      padding: 14px 24px;
+      border-radius: 12px;
       color: #fff;
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.15);
+      gap: 16px;
+      flex-wrap: wrap;
     }
 
-    .download-bar p {
-      font-size: 13px;
+    .download-bar-left strong {
+      font-size: 14px;
+      color: #f8fafc;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .download-bar-left p {
+      font-size: 12px;
       color: #94a3b8;
     }
 
-    .download-bar strong {
-      color: #fff;
+    .download-bar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 12.5px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: none;
+      white-space: nowrap;
     }
 
     .btn-pdf {
       background: #0ea5e9;
-      color: #fff;
-      border: none;
-      padding: 8px 18px;
-      border-radius: 6px;
-      font-weight: 700;
-      font-size: 13px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: background 0.2s ease;
+      color: #ffffff;
     }
 
     .btn-pdf:hover {
       background: #0284c7;
+      transform: translateY(-1px);
+    }
+
+    .btn-portfolio {
+      background: rgba(255, 255, 255, 0.12);
+      color: #f8fafc;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-portfolio:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
     }
 
     /* A4 RESUME SHEET CONTAINER */
     .resume-sheet {
       background: var(--bg);
       width: 100%;
-      max-width: 820px;
-      padding: 48px 56px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      max-width: 860px;
+      padding: 44px 52px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
       border-radius: 8px;
       border: 1px solid var(--border);
     }
@@ -92,8 +126,8 @@
     /* HEADER */
     .resume-header {
       border-bottom: 2px solid var(--border);
-      padding-bottom: 24px;
-      margin-bottom: 24px;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
@@ -101,29 +135,36 @@
     }
 
     .header-left h1 {
-      font-size: 32px;
+      font-size: 30px;
       font-weight: 800;
       color: var(--text-main);
-      letter-spacing: -0.02em;
-      line-height: 1.1;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
       margin-bottom: 6px;
     }
 
     .header-left .title-sub {
-      font-size: 15px;
-      font-weight: 600;
+      font-size: 14.5px;
+      font-weight: 700;
       color: var(--accent);
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .header-left .title-sub span {
+      color: var(--text-dim);
+      font-weight: 500;
+      font-size: 13px;
     }
 
     .header-right {
       text-align: right;
-      font-size: 12px;
+      font-size: 11.5px;
       color: var(--text-muted);
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 3.5px;
+      line-height: 1.4;
+      flex-shrink: 0;
     }
 
     .header-right a {
@@ -137,44 +178,63 @@
       text-decoration: underline;
     }
 
+    .header-right strong {
+      color: var(--text-dim);
+      font-weight: 600;
+    }
+
     /* SUMMARY */
     .summary-text {
-      font-size: 13.5px;
+      font-size: 13px;
       color: var(--text-muted);
-      line-height: 1.6;
-      margin-bottom: 24px;
+      line-height: 1.62;
+      margin-bottom: 20px;
+      padding: 12px 16px;
+      background: var(--surface);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 6px 6px 0;
     }
 
     /* SECTION TITLE */
     .section-title {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.1em;
       color: var(--accent);
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 6px;
-      margin-top: 24px;
-      margin-bottom: 16px;
+      border-bottom: 1.5px solid var(--border);
+      padding-bottom: 5px;
+      margin-top: 22px;
+      margin-bottom: 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
 
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      margin-left: 12px;
+    }
+
     /* PROJECT & EXPERIENCE CARDS */
     .item-block {
-      margin-bottom: 18px;
+      margin-bottom: 16px;
+      page-break-inside: avoid;
     }
 
     .item-head {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
+      gap: 12px;
     }
 
     .item-title {
-      font-size: 15px;
+      font-size: 14.5px;
       font-weight: 700;
       color: var(--text-main);
     }
@@ -182,6 +242,7 @@
     .item-title a {
       color: inherit;
       text-decoration: none;
+      transition: color 0.15s ease;
     }
 
     .item-title a:hover {
@@ -190,22 +251,37 @@
     }
 
     .item-meta {
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 600;
       color: var(--text-dim);
+      font-family: 'JetBrains Mono', monospace;
+      white-space: nowrap;
     }
 
     .item-role {
-      font-size: 12.5px;
-      font-weight: 600;
+      font-size: 12px;
+      font-weight: 700;
       color: var(--accent);
-      margin-bottom: 6px;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .item-role .badge-type {
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      padding: 1px 7px;
+      border-radius: 4px;
+      font-size: 10.5px;
+      font-weight: 600;
+      border: 1px solid rgba(15, 118, 110, 0.2);
     }
 
     .item-bullets {
       list-style-type: none;
       padding-left: 0;
-      font-size: 13px;
+      font-size: 12.5px;
       color: var(--text-muted);
     }
 
@@ -213,7 +289,7 @@
       position: relative;
       padding-left: 16px;
       margin-bottom: 4px;
-      line-height: 1.5;
+      line-height: 1.52;
     }
 
     .item-bullets li::before {
@@ -224,20 +300,25 @@
       font-weight: bold;
     }
 
+    .item-bullets li strong {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
     /* TAGS */
     .tags-container {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 5px;
       margin-top: 6px;
     }
 
     .pill-tag {
       background: var(--tag-bg);
       color: #334155;
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 600;
-      padding: 2px 8px;
+      padding: 2px 7px;
       border-radius: 4px;
       border: 1px solid var(--border);
     }
@@ -246,27 +327,71 @@
     .skills-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 12px 20px;
+    }
+
+    .skill-cat {
+      background: var(--surface);
+      padding: 10px 14px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
     }
 
     .skill-cat h4 {
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 700;
       color: var(--text-main);
-      margin-bottom: 6px;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .skill-cat p {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      line-height: 1.48;
+    }
+
+    /* EDUCATION BLOCK */
+    .edu-block {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 6px;
+    }
+
+    .edu-left h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .edu-left p {
+      font-size: 12px;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .edu-desc {
       font-size: 12px;
       color: var(--text-muted);
       line-height: 1.5;
+      margin-top: 4px;
     }
 
     /* PRINT SPECIFIC STYLES */
     @media print {
+      @page {
+        size: A4 portrait;
+        margin: 10mm 12mm;
+      }
       body {
-        background: #fff;
+        background: #ffffff;
         padding: 0;
+        margin: 0;
+        font-size: 11.5px;
+        line-height: 1.42;
       }
       .download-bar {
         display: none !important;
@@ -276,10 +401,94 @@
         border: none;
         padding: 0;
         max-width: 100%;
+        width: 100%;
+      }
+      .resume-header {
+        padding-bottom: 14px;
+        margin-bottom: 14px;
+      }
+      .header-left h1 {
+        font-size: 24px;
+      }
+      .header-left .title-sub {
+        font-size: 13px;
+      }
+      .summary-text {
+        font-size: 11.5px;
+        padding: 8px 12px;
+        margin-bottom: 14px;
+        line-height: 1.5;
+      }
+      .section-title {
+        font-size: 11px;
+        margin-top: 14px;
+        margin-bottom: 10px;
+        padding-bottom: 3px;
+      }
+      .item-block {
+        margin-bottom: 12px;
+        page-break-inside: avoid;
+      }
+      .item-title {
+        font-size: 13px;
+      }
+      .item-meta {
+        font-size: 10.5px;
+      }
+      .item-role {
+        font-size: 11px;
+        margin-bottom: 3px;
+      }
+      .item-bullets {
+        font-size: 11px;
+      }
+      .item-bullets li {
+        margin-bottom: 2.5px;
+        line-height: 1.42;
+      }
+      .pill-tag {
+        font-size: 9.5px;
+        padding: 1px 5px;
+      }
+      .skills-grid {
+        gap: 8px 14px;
+      }
+      .skill-cat {
+        padding: 6px 10px;
+      }
+      .skill-cat h4 {
+        font-size: 11px;
+        margin-bottom: 2px;
+      }
+      .skill-cat p {
+        font-size: 10.5px;
       }
       a {
         text-decoration: none !important;
         color: #0f172a !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 16px 10px;
+      }
+      .resume-sheet {
+        padding: 24px 20px;
+      }
+      .resume-header {
+        flex-direction: column;
+        gap: 12px;
+      }
+      .header-right {
+        text-align: left;
+      }
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+      .download-bar {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
   </style>
@@ -287,16 +496,26 @@
 <body>
 
   <!-- DOWNLOAD / PRINT ACTION BAR -->
-  <div class="download-bar">
-    <div>
-      <strong>Jahanzaib Ahmad — UI/UX Designer Resume</strong>
-      <p>Click "Save as PDF" to download and upload directly to Wellfound, Contra, or LinkedIn.</p>
+  <header class="download-bar" role="banner">
+    <div class="download-bar-left">
+      <strong>Jahanzaib Ahmad — Product Designer &amp; UI/UX Specialist CV</strong>
+      <p>Print to PDF or click below to download pre-rendered copy.</p>
     </div>
-    <button class="btn-pdf" onclick="window.print()">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      Save as PDF
-    </button>
-  </div>
+    <div class="download-bar-right">
+      <a class="btn-action btn-portfolio" href="portfolio.html" target="_blank">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        Live Portfolio
+      </a>
+      <a class="btn-action btn-pdf" href="Jahanzaib_Ahmad_CV.pdf" download="Jahanzaib_Ahmad_CV.pdf">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download PDF
+      </a>
+      <button class="btn-action btn-portfolio" onclick="window.print()" title="Print or save as PDF via system dialog">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        Print
+      </button>
+    </div>
+  </header>
 
   <!-- A4 RESUME SHEET -->
   <main class="resume-sheet">
@@ -305,103 +524,170 @@
     <header class="resume-header">
       <div class="header-left">
         <h1>Jahanzaib Ahmad</h1>
-        <div class="title-sub">Senior UI/UX Designer & Product Craftsman</div>
+        <div class="title-sub">
+          Product Designer &amp; UI/UX Specialist
+          <span>· Mobile Apps, SaaS &amp; Design Systems</span>
+        </div>
       </div>
       <div class="header-right">
-        <div><strong>Location:</strong> Remote Worldwide (Open to Contracts)</div>
-        <div><strong>Email:</strong> jahanzaibahmad630@gmail.com</div>
-        <div><strong>Live Portfolio:</strong> <a href="https://jahanzaibahmad630-bit.github.io/website/portfolio.html" target="_blank">jahanzaibahmad630-bit.github.io</a></div>
+        <div><strong>Location:</strong> Remote Worldwide (Open to Contracts &amp; Full-Time)</div>
+        <div><strong>Email:</strong> <a href="mailto:jahanzaibahmad630@gmail.com">jahanzaibahmad630@gmail.com</a></div>
+        <div><strong>Portfolio:</strong> <a href="https://jahanzaibahmad630-bit.github.io/website/portfolio.html" target="_blank">jahanzaibahmad630-bit.github.io</a></div>
         <div><strong>Contra:</strong> <a href="https://contra.com/jahanzaib_ahmad_49mo9t8e" target="_blank">contra.com/jahanzaib_ahmad_49mo9t8e</a></div>
+        <div><strong>GitHub:</strong> <a href="https://github.com/jahanzaibahmad630-bit" target="_blank">github.com/jahanzaibahmad630-bit</a></div>
       </div>
     </header>
 
     <!-- EXECUTIVE SUMMARY -->
-    <p class="summary-text">
-      Product-focused Senior UI/UX Designer with deep expertise in turning complex technical mechanics and business architectures into intuitive, high-converting digital products. Specializes in mobile app UX (iOS & Android), FinTech and trading platforms, SaaS dashboards, and scalable Figma design systems with auto-layout and design tokens. Proven track record delivering live interactive prototypes that bridge design craft with clean engineering execution.
-    </p>
+    <section class="summary-text" aria-label="Professional Summary">
+      Product-minded UI/UX Designer with <strong>1+ years of intense production experience</strong> architecting end-to-end mobile applications (iOS/Android), high-density FinTech and prop trading platforms, SaaS dashboards, and scalable Figma design systems. Holds a <strong>Bachelor of Business and Information Technology (BBIT)</strong>, bridging user psychology, business logic, and front-end engineering literacy. Proven track record delivering production-ready component architectures, developer-aligned tokens, and high-fidelity interactive prototypes that streamline handoff and accelerate ship velocity.
+    </section>
 
     <!-- CORE COMPETENCIES -->
-    <div class="section-title">Core Competencies</div>
-    <div class="tags-container" style="margin-bottom: 20px;">
-      <span class="pill-tag">Mobile App Design (iOS/Android)</span>
-      <span class="pill-tag">Interactive Prototyping</span>
-      <span class="pill-tag">FinTech & Prop Trading UX</span>
-      <span class="pill-tag">Figma Design Systems & Tokens</span>
-      <span class="pill-tag">Information Architecture</span>
-      <span class="pill-tag">User Journey & Flow Mapping</span>
-      <span class="pill-tag">Developer Handoff Specs</span>
-      <span class="pill-tag">Klaviyo & Responsive Email Design</span>
-      <span class="pill-tag">High-Density SaaS Dashboards</span>
-    </div>
-
-    <!-- FEATURED PROJECTS & CASE STUDIES -->
-    <div class="section-title">Featured Projects & Case Studies</div>
-
-    <!-- Project 1: Options Funding -->
-    <div class="item-block">
-      <div class="item-head">
-        <span class="item-title"><a href="https://jahanzaibahmad630-bit.github.io/website/options-funding.html" target="_blank">OPTIONS FUNDING — Institutional Prop Trading Platform</a></span>
-        <span class="item-meta">FinTech · 2026</span>
+    <section aria-labelledby="sec-competencies">
+      <div class="section-title" id="sec-competencies">Core Competencies</div>
+      <div class="tags-container" style="margin-bottom: 18px;">
+        <span class="pill-tag">Mobile App UX (iOS HIG &amp; Material 3)</span>
+        <span class="pill-tag">Interactive Prototyping</span>
+        <span class="pill-tag">FinTech &amp; Prop Trading UX</span>
+        <span class="pill-tag">Figma Variables &amp; Design Tokens</span>
+        <span class="pill-tag">High-Density SaaS Dashboards</span>
+        <span class="pill-tag">Information Architecture &amp; User Flows</span>
+        <span class="pill-tag">Wireframing &amp; Rapid Iteration</span>
+        <span class="pill-tag">Developer Handoff Specs</span>
+        <span class="pill-tag">Tailwind CSS &amp; HTML/JS Literacy</span>
+        <span class="pill-tag">Klaviyo &amp; Responsive Email UI</span>
       </div>
-      <div class="item-role">Lead UI/UX Designer & Product Technologist</div>
-      <ul class="item-bullets">
-        <li>Designed comprehensive institutional trading evaluation portal featuring dynamic account size tiers ($10k–$200k), consistency rule validation, and instant profit payout metrics.</li>
-        <li>Engineered a Bloomberg-grade high-contrast dark aesthetic with interactive leverage and drawdown risk calculators.</li>
-        <li>Built responsive Figma components and Tailwind CSS styling ready for rapid frontend implementation.</li>
-      </ul>
-    </div>
+    </section>
 
-    <!-- Project 2: Hina -->
-    <div class="item-block">
-      <div class="item-head">
-        <span class="item-title"><a href="https://jahanzaibahmad630-bit.github.io/website/hina-prototype.html" target="_blank">HINA — Nightlife Companion & Safety Buddy System</a></span>
-        <span class="item-meta">Mobile App (iOS/Android) · 2026</span>
-      </div>
-      <div class="item-role">Lead Product Designer & Prototyper</div>
-      <ul class="item-bullets">
-        <li>Designed end-to-end 20-screen mobile application and fully interactive dual-mode simulator covering Happy Path onboarding, QR buddy pairing, and edge-case safety detours.</li>
-        <li>Integrated live 4-digit keypad verification, SVG countdown grace timers, and haptic web-audio cues to simulate emergency and venue check-in scenarios.</li>
-        <li>Created modular iOS Human Interface Guidelines (HIG) compliant design tokens and auto-layout frames.</li>
-      </ul>
-    </div>
+    <!-- PROFESSIONAL EXPERIENCE & PRACTICE -->
+    <section aria-labelledby="sec-experience">
+      <div class="section-title" id="sec-experience">Professional Experience</div>
 
-    <!-- Project 3: PrysmCloud -->
-    <div class="item-block">
-      <div class="item-head">
-        <span class="item-title"><a href="https://jahanzaibahmad630-bit.github.io/website/prysmcloud.html" target="_blank">PrysmCloud — Tokenized Markets & Cloud Launchpad</a></span>
-        <span class="item-meta">Web3 / Cloud Infrastructure · 2026</span>
+      <div class="item-block">
+        <div class="item-head">
+          <span class="item-title">Product Designer &amp; UI/UX Consultant</span>
+          <span class="item-meta">2025 — Present · Remote</span>
+        </div>
+        <div class="item-role">
+          Independent Client Practice
+          <span class="badge-type">Contract &amp; Project-Based</span>
+        </div>
+        <ul class="item-bullets">
+          <li><strong>End-to-End Product Design:</strong> Partnered with international founders, startups, and boutique development teams across FinTech, Web3, and mobile consumer apps to design intuitive zero-to-one user experiences.</li>
+          <li><strong>Design Systems Architecture:</strong> Built modular, scalable Figma design systems with auto-layout 5.0, variables, dark/light modes, and semantic tokens, cutting developer implementation time by ~40%.</li>
+          <li><strong>Interactive Prototyping:</strong> Engineered high-fidelity interactive web prototypes with realistic states, animations, and micro-interactions, validating UX decisions with stakeholders prior to engineering handoff.</li>
+        </ul>
       </div>
-      <div class="item-role">Senior UI/UX Designer</div>
-      <ul class="item-bullets">
-        <li>Created high-density telemetry console for distributed infrastructure, liquidity pool inspection, and quote-pair verification.</li>
-        <li>Translated complex blockchain data and multi-node status pipelines into clean visual hierarchies and real-time data charts.</li>
-      </ul>
-    </div>
+    </section>
 
-    <!-- Project 4: Aureline -->
-    <div class="item-block">
-      <div class="item-head">
-        <span class="item-title"><a href="https://jahanzaibahmad630-bit.github.io/website/aureline.html" target="_blank">AURELINE — Méridienne · Calibre AL-01</a></span>
-        <span class="item-meta">Luxury Brand & Haute Horlogerie · 2026</span>
-      </div>
-      <div class="item-role">Creative Director & Visual System Designer</div>
-      <ul class="item-bullets">
-        <li>Designed high-end digital horological exhibition featuring 208-part exploded movement view, technical schematics, and editorial micro-typography.</li>
-      </ul>
-    </div>
+    <!-- FEATURED FLAGSHIP CASE STUDIES -->
+    <section aria-labelledby="sec-projects">
+      <div class="section-title" id="sec-projects">Featured Flagship Projects</div>
 
-    <!-- TECHNICAL SKILLS & TOOLS -->
-    <div class="section-title">Technical Tooling & Methodologies</div>
-    <div class="skills-grid">
-      <div class="skill-cat">
-        <h4>Design & Prototyping Tools</h4>
-        <p>Figma (Advanced Auto-Layout, Component Sets, Variables, Prototypes), FigJam, Whimsical, Adobe Photoshop, Illustrator.</p>
+      <!-- Project 1: Options Funding -->
+      <div class="item-block">
+        <div class="item-head">
+          <span class="item-title"><a href="https://jahanzaibahmad630-bit.github.io/website/options-funding.html" target="_blank">OPTIONS FUNDING — Institutional Prop Trading Platform</a></span>
+          <span class="item-meta">FinTech SaaS · 2026</span>
+        </div>
+        <div class="item-role">
+          Lead Product Designer &amp; Technologist
+          <span class="badge-type">Web App</span>
+        </div>
+        <ul class="item-bullets">
+          <li><strong>Trading Challenge Portal:</strong> Architected end-to-end evaluation portal featuring dynamic account size tiers ($10k–$200k), consistency rule validation, leverage toggles, and instant profit-split calculators.</li>
+          <li><strong>Financial UI Hierarchy:</strong> Designed Bloomberg-grade dark telemetry interface optimizing high-density numerical tables, margin indicators, and drawdown risk gauges for high-stress trading environments.</li>
+          <li><strong>Engineering Delivery:</strong> Formulated tokenized Figma component libraries and clean Tailwind CSS responsive styling ready for immediate frontend integration.</li>
+        </ul>
       </div>
-      <div class="skill-cat">
-        <h4>Frontend & Engineering Literacy</h4>
-        <p>HTML5, CSS3, JavaScript, Tailwind CSS, Klaviyo Email Architecture, Git/GitHub, Developer Handoff, Design Tokens.</p>
+
+      <!-- Project 2: Hina -->
+      <div class="item-block">
+        <div class="item-head">
+          <span class="item-title"><a href="https://jahanzaibahmad630-bit.github.io/website/hina-prototype.html" target="_blank">HINA — Nightlife Companion &amp; Safety Buddy System</a></span>
+          <span class="item-meta">iOS &amp; Android · 2026</span>
+        </div>
+        <div class="item-role">
+          Lead Mobile UX Designer &amp; Prototyper
+          <span class="badge-type">Mobile App</span>
+        </div>
+        <ul class="item-bullets">
+          <li><strong>20-Screen Mobile Flow:</strong> Designed comprehensive mobile journey covering rapid onboarding, QR-code buddy pairing, venue check-in checkouts, and low-friction emergency panic detours.</li>
+          <li><strong>Interactive Simulator:</strong> Built fully interactive dual-mode simulator featuring 4-digit PIN verification, SVG countdown grace timers, and haptic feedback audio cues for edge-case user testing.</li>
+          <li><strong>Platform Compliance:</strong> Strictly adhered to Apple iOS Human Interface Guidelines (HIG) with accessible 44pt touch targets, WCAG AAA color contrast, and seamless bottom-sheet drawer patterns.</li>
+        </ul>
       </div>
-    </div>
+
+      <!-- Project 3: PrysmCloud -->
+      <div class="item-block">
+        <div class="item-head">
+          <span class="item-title"><a href="https://jahanzaibahmad630-bit.github.io/website/prysmcloud.html" target="_blank">PrysmCloud — Decentralized Cloud &amp; Tokenized Markets</a></span>
+          <span class="item-meta">Web3 &amp; Cloud Infra · 2026</span>
+        </div>
+        <div class="item-role">
+          Senior UI/UX Designer
+          <span class="badge-type">Infrastructure SaaS</span>
+        </div>
+        <ul class="item-bullets">
+          <li><strong>Telemetry Console:</strong> Designed high-density node monitoring dashboard displaying cluster latency, validator distribution, liquidity pool metrics, and automated quote-pair execution.</li>
+          <li><strong>Cognitive Simplification:</strong> Converted multi-tiered cryptographic infrastructure logs into intuitive visual hierarchy cards with status pill indicators and real-time state transitions.</li>
+        </ul>
+      </div>
+
+      <!-- Project 4: Léman Horlogerie -->
+      <div class="item-block">
+        <div class="item-head">
+          <span class="item-title"><a href="https://jahanzaibahmad630-bit.github.io/website/leman.html" target="_blank">LÉMAN HORLOGERIE GENÈVE — Haute Horlogerie Digital Showcase</a></span>
+          <span class="item-meta">Luxury Brand &amp; Interactive Web · 2026</span>
+        </div>
+        <div class="item-role">
+          Creative Director &amp; UI/UX Technologist
+          <span class="badge-type">Interactive Experience</span>
+        </div>
+        <ul class="item-bullets">
+          <li><strong>Bespoke Digital Exhibition:</strong> Crafted an editorial digital flagship showcasing mechanical watchmaking heritage, featuring 207-part exploded movement views, live winding mechanics, and 60fps parallax motion.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TECHNICAL TOOLING & METHODOLOGIES -->
+    <section aria-labelledby="sec-skills">
+      <div class="section-title" id="sec-skills">Technical Tooling &amp; Methodologies</div>
+      <div class="skills-grid">
+        <div class="skill-cat">
+          <h4>Design &amp; Prototyping</h4>
+          <p>Figma (Auto-Layout 5.0, Component Sets, Variables, Interactive Prototypes, Tokens), FigJam, Whimsical, Adobe Photoshop, Adobe Illustrator.</p>
+        </div>
+        <div class="skill-cat">
+          <h4>Product &amp; UX Research</h4>
+          <p>Information Architecture, User Journey Mapping, Wireframing, Usability Testing, Heuristic Audits, Design System Documentation.</p>
+        </div>
+        <div class="skill-cat">
+          <h4>Frontend &amp; Engineering Literacy</h4>
+          <p>HTML5, CSS3/Tailwind CSS, JavaScript, Developer Handoff, Design-to-Code Implementation, Git/GitHub, Klaviyo Email Design.</p>
+        </div>
+        <div class="skill-cat">
+          <h4>Platform &amp; Design Standards</h4>
+          <p>Apple iOS Human Interface Guidelines (HIG), Android Material Design 3, WCAG 2.1 Accessibility Standards, Responsive Web.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section aria-labelledby="sec-education">
+      <div class="section-title" id="sec-education">Education</div>
+      <div class="edu-block">
+        <div class="edu-left">
+          <h3>Bachelor of Business and Information Technology (BBIT)</h3>
+          <p>Focus on Business Systems, Human-Computer Interaction &amp; Software Project Strategy</p>
+        </div>
+        <div class="item-meta">Graduated</div>
+      </div>
+      <p class="edu-desc">
+        Equipped with an interdisciplinary foundation integrating enterprise business logic, user psychology, information systems architecture, and modern product development workflows.
+      </p>
+    </section>
 
   </main>
 
