@@ -233,8 +233,20 @@ h2{font-size:clamp(38px,4.6vw,72px);line-height:1.02;font-weight:400;letter-spac
   background:linear-gradient(180deg, rgba(14,10,7,.5) 0%, rgba(14,10,7,0) 30%, rgba(14,10,7,.15) 55%, rgba(10,7,4,.9) 100%);
 }
 
-.cell-top-row{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;width:100%}
+.cell-top-row{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;width:100%;gap:8px;flex-wrap:wrap}
+.cell-top-left{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .cell-no{font-size:10px;color:rgba(240,233,218,.8);text-shadow:0 1px 4px rgba(0,0,0,.6)}
+
+/* Stock / Commercial Status Pills */
+.stock-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  border-radius:20px;padding:3px 9px;
+  font:600 8.5px var(--sans);letter-spacing:.08em;text-transform:uppercase;
+  box-shadow:0 2px 6px rgba(0,0,0,.3);white-space:nowrap;
+}
+.stock-pill.in-stock{background:rgba(34,197,94,.16);border:1px solid rgba(74,222,128,.4);color:#4ade80}
+.stock-pill.allocation{background:rgba(245,158,11,.16);border:1px solid rgba(251,191,36,.4);color:#fbbf24}
+.stock-pill.novelty{background:rgba(212,175,55,.2);border:1px solid rgba(212,175,55,.5);color:var(--gold-light)}
 
 /* Gemstone Dial Color Pill */
 .dial-color-pill{
@@ -261,24 +273,193 @@ h2{font-size:clamp(38px,4.6vw,72px);line-height:1.02;font-weight:400;letter-spac
 .vitrine.mode-vector .cell .plate img{opacity:.35;filter:grayscale(0.5)}
 .vitrine.mode-vector .cell-watch{opacity:1}
 
-.cell-bottom{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:flex-end;width:100%;margin-top:auto}
-.cell-cap{display:flex;flex-direction:column;gap:5px;color:var(--ivory)}
+.cell-bottom{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:flex-end;width:100%;margin-top:auto;gap:12px;flex-wrap:wrap}
+.cell-cap{display:flex;flex-direction:column;gap:4px;color:var(--ivory)}
 .cell-cap b{font:420 clamp(22px,2vw,28px)/1 var(--serif);text-shadow:0 2px 8px rgba(0,0,0,.8)}
-.cell-cap i{font:600 10.5px var(--sans);letter-spacing:.14em;text-transform:uppercase;font-style:normal;color:var(--gold-light)}
-.cell-open{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:8px 14px;border-radius:20px;
-  background:rgba(212,175,55,.18);border:1px solid rgba(212,175,55,.5);
+.cell-cap i{font:600 10px var(--sans);letter-spacing:.12em;text-transform:uppercase;font-style:normal;color:rgba(238,231,215,.75)}
+.cell-price{font:500 17px var(--serif);color:var(--gold-light);text-shadow:0 1px 6px rgba(0,0,0,.6)}
+
+/* Dual Action Buttons (Dossier + Instant Buy Now) */
+.cell-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.btn-dossier{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:7px 13px;border-radius:20px;
+  background:rgba(212,175,55,.14);border:1px solid rgba(212,175,55,.45);
   color:var(--gold-light);backdrop-filter:blur(6px);
-  font:600 10px var(--sans);letter-spacing:.14em;text-transform:uppercase;
-  transition:all .35s;
+  font:600 9.5px var(--sans);letter-spacing:.12em;text-transform:uppercase;
+  cursor:pointer;transition:all .3s ease;
 }
-.cell-open svg{width:11px;height:11px}
-.cell:hover .cell-open{background:var(--gold);color:var(--dark);border-color:var(--gold);transform:translateX(3px)}
+.btn-dossier:hover{background:rgba(212,175,55,.28);border-color:var(--gold);color:#ffffff;transform:translateY(-1px)}
+.btn-dossier svg{width:10px;height:10px}
+.btn-buynow{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:7px 15px;border-radius:20px;
+  background:var(--gold);border:1px solid var(--gold);
+  color:var(--dark);font:700 9.5px var(--sans);letter-spacing:.12em;text-transform:uppercase;
+  cursor:pointer;box-shadow:0 2px 10px rgba(212,175,55,.35);
+  transition:all .3s ease;
+}
+.btn-buynow:hover{
+  background:#ffffff;border-color:#ffffff;color:var(--dark);
+  transform:translateY(-1px);box-shadow:0 4px 16px rgba(255,255,255,.35);
+}
+
+/* Category Filter Bar (Option B) */
+.cat-filter-bar{
+  display:flex;align-items:center;gap:10px;overflow-x:auto;
+  padding:4px 0 10px;margin:22px 0 12px;scrollbar-width:none;
+}
+.cat-filter-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 18px;border-radius:30px;
+  border:1px solid rgba(140,109,59,.3);background:rgba(235,229,216,.7);
+  font:600 10.5px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--ink);
+  cursor:pointer;white-space:nowrap;transition:all .3s cubic-bezier(.16,1,.3,1);
+}
+.cat-filter-btn:hover{
+  border-color:var(--gold);background:#ffffff;color:var(--dark);
+  transform:translateY(-2px);box-shadow:0 4px 14px rgba(212,175,55,.2);
+}
+.cat-filter-btn.active{
+  background:var(--dark);border-color:var(--gold);color:var(--gold-light);
+  box-shadow:0 4px 16px rgba(0,0,0,.25);
+}
+.cat-cnt{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:18px;height:18px;padding:0 5px;border-radius:10px;
+  background:rgba(212,175,55,.2);font-size:9.5px;color:currentColor;
+}
 
 @media(max-width:1060px){.vitrine{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:680px){.vitrine{grid-template-columns:1fr}}
 .vit-foot{margin-top:32px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* ---------- TRENDING NOW & NEW ARRIVALS CAROUSEL / GRID (Option A) ---------- */
+.slider-section{
+  padding:clamp(70px,10vh,110px) 0;
+  border-bottom:1px solid var(--line);
+}
+.slider-nav-wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.slider-arrows{display:flex;align-items:center;gap:8px}
+.slider-arrow-btn{
+  width:40px;height:40px;border-radius:50%;
+  border:1px solid var(--line2);background:var(--paper);
+  color:var(--ink);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .3s ease;
+}
+.slider-arrow-btn:hover{background:var(--gold);border-color:var(--gold);color:var(--dark)}
+.slider-track-wrap{position:relative;overflow:hidden;margin-top:24px}
+.slider-track{
+  display:grid;grid-auto-flow:column;grid-auto-columns:min(320px,82vw);
+  gap:22px;overflow-x:auto;scroll-behavior:smooth;
+  scroll-snap-type:x mandatory;scrollbar-width:none;
+  padding:6px 2px 24px;
+}
+.slider-track::-webkit-scrollbar{display:none}
+.slider-card{
+  scroll-snap-align:start;background:#14100C;
+  border:1px solid rgba(140,109,59,.25);border-radius:8px;
+  overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:0 12px 32px rgba(28,24,18,.08);
+  transition:transform .45s cubic-bezier(.16,1,.3,1),border-color .45s,box-shadow .45s;
+}
+.slider-card:hover{
+  transform:translateY(-8px);border-color:rgba(212,175,55,.7);
+  box-shadow:0 24px 54px rgba(140,109,59,.22);
+}
+.slider-plate-wrap{position:relative;aspect-ratio:1/1;overflow:hidden;background:#17130E}
+.slider-plate-wrap img{
+  width:100%;height:100%;object-fit:cover;
+  filter:saturate(1.18) contrast(1.06) brightness(1.02);
+  transition:transform 1.2s cubic-bezier(.16,1,.3,1);
+}
+.slider-card:hover .slider-plate-wrap img{transform:scale(1.08)}
+.slider-card-top{
+  position:absolute;top:14px;left:14px;right:14px;z-index:2;
+  display:flex;justify-content:space-between;align-items:center;gap:8px;
+}
+.slider-card-body{
+  padding:20px;display:flex;flex-direction:column;gap:8px;
+  background:#14100C;color:var(--ivory);flex:1;justify-content:space-between;
+}
+.slider-card-title{font:420 24px/1.1 var(--serif);color:var(--ivory);margin:4px 0}
+.slider-card-desc{font-size:13.5px;line-height:1.55;color:rgba(238,231,215,.68);font-weight:380}
+.slider-card-foot{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-top:14px;padding-top:14px;border-top:1px solid rgba(238,231,215,.1);gap:10px;flex-wrap:wrap;
+}
+.slider-price{font:500 18px var(--serif);color:var(--gold-light)}
+
+/* New Arrivals 3-Column Luxury Feature Grid */
+.arrivals-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:28px}
+@media(max-width:980px){.arrivals-grid{grid-template-columns:1fr}}
+.arrival-card{
+  position:relative;background:#14100C;border:1px solid rgba(212,175,55,.3);
+  border-radius:8px;overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:0 14px 40px rgba(0,0,0,.15);
+  transition:transform .45s cubic-bezier(.16,1,.3,1),border-color .45s,box-shadow .45s;
+}
+.arrival-card:hover{
+  transform:translateY(-8px);border-color:var(--gold);
+  box-shadow:0 24px 60px rgba(212,175,55,.2);
+}
+.arrival-badge-wrap{position:absolute;top:14px;left:14px;right:14px;z-index:3;display:flex;justify-content:space-between;align-items:center}
+.novelty-badge{
+  background:linear-gradient(135deg,rgba(212,175,55,.9),rgba(170,135,67,.9));
+  color:var(--dark);padding:4px 12px;border-radius:20px;
+  font:700 9px var(--sans);letter-spacing:.14em;text-transform:uppercase;box-shadow:0 2px 8px rgba(0,0,0,.3);
+}
+
+/* ---------- EXPRESS ACQUISITION & CHECKOUT MODAL (Option A & B) ---------- */
+.buy-modal{
+  position:relative;background:var(--paper);width:min(960px,94vw);max-height:min(88vh,780px);
+  overflow-y:auto;display:grid;grid-template-columns:1fr 1.15fr;border-radius:8px;
+  border:1px solid rgba(140,109,59,.35);box-shadow:0 32px 80px rgba(0,0,0,.6);
+  transform:translateY(26px);transition:transform .5s cubic-bezier(.16,1,.3,1);
+}
+.scrim.open .buy-modal{transform:none}
+.buy-watch-visual{
+  position:relative;background:#14100C;overflow:hidden;padding:28px;
+  display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid var(--line);
+}
+.buy-watch-visual .plate{position:absolute;inset:0;overflow:hidden}
+.buy-watch-visual .plate img{
+  width:100%;height:100%;object-fit:cover;
+  filter:saturate(1.2) contrast(1.08) brightness(1.02);
+}
+.buy-watch-visual::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg, rgba(14,10,7,.65) 0%, transparent 40%, rgba(10,7,4,.88) 100%);
+}
+.buy-watch-top{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center}
+.buy-content{padding:40px 44px;display:flex;flex-direction:column}
+.currency-bar{display:flex;align-items:center;gap:6px;margin:14px 0 18px;flex-wrap:wrap}
+.curr-btn{
+  padding:5px 12px;border-radius:4px;border:1px solid var(--line2);background:rgba(28,24,18,.05);
+  font:600 10.5px var(--sans);color:var(--ink2);cursor:pointer;transition:all .25s;
+}
+.curr-btn:hover{border-color:var(--gold);color:var(--dark)}
+.curr-btn.on{background:var(--ink);color:var(--paper);border-color:var(--ink);font-weight:700}
+.buy-price-box{
+  background:rgba(28,24,18,.04);border:1px solid var(--line);padding:14px 18px;
+  border-radius:6px;margin-bottom:20px;
+}
+.buy-price-main{font:500 28px var(--serif);color:var(--ink)}
+.buy-price-sub{font:400 12px var(--sans);color:var(--ink2);margin-top:4px}
+.btn-buy-submit{
+  display:inline-block;background:var(--ink);color:var(--paper);border:1px solid var(--ink);
+  padding:14px;border-radius:4px;font:600 11px var(--sans);letter-spacing:.18em;text-transform:uppercase;
+  cursor:pointer;transition:all .35s;
+}
+.btn-buy-submit:hover{
+  background:var(--gold);border-color:var(--gold);color:var(--dark);
+  transform:translateY(-2px);box-shadow:0 8px 24px var(--gold-glow);
+}
+@media(max-width:820px){
+  .buy-modal{grid-template-columns:1fr}
+  .buy-watch-visual{border-right:0;border-bottom:1px solid var(--line);min-height:300px}
+  .buy-content{padding:28px 20px}
+}
 
 /* ---------- full-bleed plate (VIBRANT 4K COLOR BENCH) ---------- */
 .plate-wide{position:relative;height:min(88vh,880px);overflow:hidden;background:#14100C}
@@ -462,6 +643,8 @@ footer{padding-top:clamp(90px,13vh,150px);overflow:hidden;content-visibility:aut
     <span class="brand-sub label">Maison d'horlogerie</span>
   </a>
   <nav>
+    <a href="#trending">Trending</a>
+    <a href="#arrivals">Nouveautés</a>
     <a href="#collections">Vitrine</a>
     <a href="#calibre">Calibre</a>
     <a href="#heritage">Héritage</a>
@@ -523,12 +706,87 @@ footer{padding-top:clamp(90px,13vh,150px);overflow:hidden;content-visibility:aut
     </div>
   </div>
 
-  <!-- ================= THE VITRINE : 3 × 3 (VIBRANT 4K PHOTOGRAPHY & CONTROLS) ================= -->
+  <!-- ================= SECTION 01: TRENDING NOW (CURATED CAROUSEL) ================= -->
+  <section class="slider-section" id="trending">
+    <div class="wrap">
+      <div class="kicker rv"><span class="label">N° 01 — Sélection · Trending Now</span></div>
+      <div class="sec-head rv" style="--d:.08s">
+        <div>
+          <h2>Trending Now,<br><em>Les Plus Convoitées.</em></h2>
+          <p class="sec-note" style="text-align:left;max-width:540px;margin-top:10px;">
+            Les quatre créations les plus sollicitées cette saison à Genève. Disponibilité immédiate en atelier ou sur allocation restreinte.
+          </p>
+        </div>
+        <div class="slider-nav-wrap">
+          <a href="#collections" class="btn" style="padding:10px 18px;font-size:10.5px;letter-spacing:.16em;">
+            Voir Tous les Modèles
+          </a>
+          <div class="slider-arrows">
+            <button type="button" class="slider-arrow-btn" id="trendPrev" aria-label="Précédent">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 2L4 7l5 5"/></svg>
+            </button>
+            <button type="button" class="slider-arrow-btn" id="trendNext" aria-label="Suivant">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 2l5 5-5 5"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="slider-track-wrap">
+        <div class="slider-track" id="trendTrack"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SECTION 02: NEW ARRIVALS & NOVELTIES 2026 ================= -->
+  <section class="slider-section" id="arrivals" style="background:rgba(235,229,216,.35);">
+    <div class="wrap">
+      <div class="kicker rv"><span class="label">N° 02 — Nouveautés · New Arrivals 2026</span></div>
+      <div class="sec-head rv" style="--d:.08s">
+        <div>
+          <h2>New Arrivals,<br><em>Complications &amp; Métiers Rares.</em></h2>
+          <p class="sec-note" style="text-align:left;max-width:540px;margin-top:10px;">
+            Trois nouvelles révélations de manufacture : astronomie miniature, acoustique cathédrale et texture givrée argentée.
+          </p>
+        </div>
+        <a href="#collections" class="link-arrow" style="font:600 11px var(--sans);letter-spacing:.16em;text-transform:uppercase;">
+          <span>Collection Complète</span>
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 12L12 2M4 2h8v8"/></svg>
+        </a>
+      </div>
+
+      <div class="arrivals-grid" id="arrivalsGrid"></div>
+    </div>
+  </section>
+
+  <!-- ================= SECTION 03: THE VITRINE (CATEGORY TABS & 3 × 3 GRID) ================= -->
   <section id="collections">
     <div class="wrap">
-      <div class="kicker rv"><span class="label">N° 01 — La Vitrine · neuf planches</span></div>
+      <div class="kicker rv"><span class="label">N° 03 — La Vitrine · Collection Complète</span></div>
       <div class="sec-head rv" style="--d:.08s">
-        <h2>Nine watches,<br><em>one conviction.</em></h2>
+        <div>
+          <h2>Nine watches,<br><em>one conviction.</em></h2>
+          
+          <!-- Category Filter Bar (Option B) -->
+          <div class="cat-filter-bar" role="tablist" aria-label="Filtrer par catégorie">
+            <button type="button" class="cat-filter-btn active" data-cat="all">
+              <span>✦ Tous les Modèles</span> <span class="cat-cnt">9</span>
+            </button>
+            <button type="button" class="cat-filter-btn" data-cat="trending">
+              <span>🔥 Trending Now</span> <span class="cat-cnt">4</span>
+            </button>
+            <button type="button" class="cat-filter-btn" data-cat="arrivals">
+              <span>✨ New Arrivals</span> <span class="cat-cnt">3</span>
+            </button>
+            <button type="button" class="cat-filter-btn" data-cat="complication">
+              <span>⚙️ Complications</span> <span class="cat-cnt">3</span>
+            </button>
+            <button type="button" class="cat-filter-btn" data-cat="metiers">
+              <span>💎 Métiers d'Art</span> <span class="cat-cnt">4</span>
+            </button>
+          </div>
+        </div>
+
         <div class="sec-side">
           <p class="sec-note">Nine signature dials captured in true 4K atelier photography. Switch between full-color photography and mechanical movement vectors.</p>
           
@@ -749,6 +1007,65 @@ footer{padding-top:clamp(90px,13vh,150px);overflow:hidden;content-visibility:aut
       <p class="dossier-plate-cap label" id="dossierPlateCap"></p>
     </div>
     <div class="dossier-info" id="dossierInfo"></div>
+  </aside>
+</div>
+
+<!-- ================= EXPRESS ACQUISITION & INSTANT CHECKOUT MODAL ================= -->
+<div id="buyScrim" class="scrim" aria-hidden="true">
+  <aside class="buy-modal" role="dialog" aria-modal="true" aria-label="Acquisition Immédiate">
+    <button class="dossier-x" id="buyX" aria-label="Fermer la réservation">
+      <svg viewBox="0 0 14 14" stroke="currentColor" stroke-width="1.4"><path d="M2 2l10 10M12 2L2 12"/></svg>
+    </button>
+    <div class="buy-watch-visual">
+      <div class="plate" aria-hidden="true"><img id="buyPlate" alt="" decoding="async"></div>
+      <div class="buy-watch-top">
+        <span class="label" id="buyPlancheNo" style="color:var(--gold-light);">Planche 01</span>
+        <span class="stock-pill in-stock" id="buyStockPill">● En Stock (2 pièces)</span>
+      </div>
+      <p class="dossier-plate-cap label" id="buyPlateCap"></p>
+    </div>
+    <div class="buy-content">
+      <p class="label" id="buyRef" style="color:var(--bronze2);letter-spacing:.16em;"></p>
+      <h3 id="buyName" style="font-size:clamp(30px,3.2vw,44px);font-weight:420;margin:6px 0 12px;line-height:1.1;"></h3>
+      <p id="buyDesc" style="font-size:14.5px;color:var(--ink2);line-height:1.6;font-weight:380;margin-bottom:18px;"></p>
+      
+      <!-- Multi-Currency Selector (CHF, USD, EUR, GBP, PKR) -->
+      <div class="currency-bar">
+        <span class="label" style="font-size:10px;color:var(--ink2);">Devise :</span>
+        <button type="button" class="curr-btn on" data-curr="CHF">CHF</button>
+        <button type="button" class="curr-btn" data-curr="USD">USD ($)</button>
+        <button type="button" class="curr-btn" data-curr="EUR">EUR (€)</button>
+        <button type="button" class="curr-btn" data-curr="GBP">GBP (£)</button>
+        <button type="button" class="curr-btn" data-curr="PKR">PKR (Rs.)</button>
+      </div>
+
+      <div class="buy-price-box">
+        <div class="buy-price-main" id="buyPriceDisplay">CHF 48 000</div>
+        <div class="buy-price-sub" id="buyPriceSub">Assurance transport blindé, certificat d'origine &amp; garantie 5 ans inclus</div>
+      </div>
+
+      <form class="buy-form" id="buyForm" novalidate>
+        <div class="row2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px;">
+          <input class="field" name="buyerName" placeholder="Votre nom &amp; prénom" required>
+          <input class="field" type="email" name="buyerEmail" placeholder="Adresse email" required>
+        </div>
+        <div class="row2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px;">
+          <input class="field" type="tel" name="buyerPhone" placeholder="Téléphone / WhatsApp" required>
+          <input class="field" name="buyerCity" placeholder="Ville &amp; Pays" required>
+        </div>
+        <div style="margin-bottom:16px;">
+          <select class="field" name="deliveryMethod" style="cursor:pointer;background:transparent;padding:10px 0;width:100%;color:var(--ink);border-bottom:1px solid var(--line2);">
+            <option value="salon">Retrait privé au Salon de Genève (Rue du Rhône)</option>
+            <option value="armored">Envoi sécurisé par transporteur blindé (International)</option>
+            <option value="concierge">Livraison privée en main propre par Concierge</option>
+          </select>
+        </div>
+        <button class="btn-buy-submit" type="submit" style="width:100%;text-align:center;">
+          Confirmer l'Acquisition Immédiate
+        </button>
+      </form>
+      <p class="dossier-ok" id="buyOk" hidden>Votre réservation a été transmise au Maître Horloger. Notre concierge vous contacte sous 24h ouvrées pour organiser la remise de votre pièce.</p>
+    </div>
   </aside>
 </div>
 
@@ -1336,63 +1653,72 @@ new IntersectionObserver(es=>es.forEach(en=>filmVisible=en.isIntersecting)).obse
 
 /* ================= THE COLLECTION — NINE TIMEPIECES (VIVID COLOR ARTISTRY) ================= */
 const COLLECTION=[
- {no:'01',name:'Héritage',ref:'Réf. 1874-A',comp:'Grand feu enamel',price:'CHF 48 000',
+ {no:'01',name:'Héritage',ref:'Réf. 1874-A',comp:'Grand feu enamel',price:'CHF 48 000',rawPrice:48000,
+  stockStatus:'in-stock',stockLabel:'● En Stock (2 pièces)',categories:['trending','classique','metiers'],
   colorDot:'#1D457E',colorName:'Émail Grand Feu & Acier Bleui',
   swatches:[{name:'Cadran',color:'#F1EADA',label:'Émail Fired 4×'},{name:'Boîtier',color:'#E2DFD8',label:'Platine 950'},{name:'Aiguilles',color:'#1D457E',label:'Acier Bleui Feu'}],
   desc:'The founding watch, drawn in 1874 and deliberately unchanged since. Its dial is grand feu enamel — fired four times, and allowed, on the fourth firing, to fail as it always has. What survives the kiln is what you wear.',
   specs:{'Calibre':'L-21, manual wind','Réserve':'42 hours','Case':'Platinum, 38.5 mm','Dial':'Grand feu enamel, ivory porcelain','Strap':'Havane alligator leather','Edition':'Numbered; the kiln decides'},
   dial:{dial:'#F1EADA',mark:'#1D457E',onDark:false,accent:'#D4AF37',handFill:'#1D457E',facet:'rgba(255,255,255,.5)'},
   plate:{base:'assets/leman/leman-plate-01-heritage',cap:'grand feu — porcelaine ivoire, cuisson au four & aiguilles bleuies'}},
- {no:'02',name:'Nocturne',ref:'Réf. 1988-N',comp:'Anthracite',price:'CHF 61 000',
+ {no:'02',name:'Nocturne',ref:'Réf. 1988-N',comp:'Anthracite',price:'CHF 61 000',rawPrice:61000,
+  stockStatus:'in-stock',stockLabel:'● En Stock (1 pièce)',categories:['trending','classique'],
   colorDot:'#757169',colorName:'Anthracite & Grain de Fer',
   swatches:[{name:'Cadran',color:'#2B2A2E',label:'Anthracite Météorite'},{name:'Boîtier',color:'#E9E5DD',label:'Or Blanc 18K'},{name:'Index',color:'#F4E2AA',label:'Or Facetté'}],
   desc:'Anthracite with a grain of iron, made for evenings that begin late. The indices are milled, not stamped; you feel the difference before you can name it.',
   specs:{'Calibre':'L-21, manual wind','Réserve':'42 hours','Case':'White gold, 39 mm','Dial':'Anthracite, vertical grain iron','Strap':'Black alligator leather','Edition':'Numbered, annual series'},
   dial:{dial:'#2B2A2E',mark:'#E9E2D0',onDark:true,accent:'#D4AF37',handFill:'#E9E2D0',facet:'rgba(0,0,0,.3)'},
   plate:{base:'assets/leman/leman-plate-02-nocturne',cap:'anthracite — grain de fer & nuit étoilée de Genève'}},
- {no:'03',name:'Seconde Centrale',ref:'Réf. 1958-S',comp:'Salmon dial',price:'CHF 36 500',
+ {no:'03',name:'Seconde Centrale',ref:'Réf. 1958-S',comp:'Salmon dial',price:'CHF 36 500',rawPrice:36500,
+  stockStatus:'in-stock',stockLabel:'● En Stock (3 pièces)',categories:['trending','classique'],
   colorDot:'#D98A62',colorName:'Saumon Solaire du Léman',
   swatches:[{name:'Cadran',color:'#E8C2A2',label:'Saumon Cuivré Brossé'},{name:'Boîtier',color:'#D1D5DB',label:'Acier Forgé 316L'},{name:'Trotteuse',color:'#1E447A',label:'Bleu Flamme'}],
   desc:'A salmon dial the colour of the lake at seven in the morning. The seconds ride the centre pinion rather than a subdial — a small impertinence when it was drawn, a signature now.',
   specs:{'Calibre':'L-21, manual wind','Réserve':'42 hours','Case':'Steel, 38.5 mm','Dial':'Salmon copper, sun-brushed reflection','Strap':'Suede, cognac patinated','Edition':'Numbered, annual series'},
   dial:{dial:'#E8C2A2',mark:'#2A2018',onDark:false,accent:'#1E447A',handFill:'#2A2018',facet:'rgba(255,255,255,.4)'},
   plate:{base:'assets/leman/leman-plate-03-saumon',cap:'saumon — soleil de sept heures sur les eaux du Léman'}},
- {no:'04',name:'Vert Empire',ref:'Réf. 1972-V',comp:'Empire green',price:'CHF 52 000',
+ {no:'04',name:'Vert Empire',ref:'Réf. 1972-V',comp:'Empire green',price:'CHF 52 000',rawPrice:52000,
+  stockStatus:'allocation',stockLabel:'○ Sur Allocation (1 pièce)',categories:['trending','metiers'],
   colorDot:'#1E7E44',colorName:'Vert Empire Guilloché Main',
   swatches:[{name:'Cadran',color:'#17482D',label:'Émeraude Guilloché'},{name:'Boîtier',color:'#E9E5DD',label:'Or Blanc 18K'},{name:'Bracelet',color:'#132E1E',label:'Alligator Forêt'}],
   desc:'Empire green — the colour of the atelier door, which has been repainted exactly once since the war. Hand-turned guilloché rosette, Breguet numerals, and a certain reluctance to explain itself.',
   specs:{'Calibre':'L-21, manual wind','Réserve':'42 hours','Case':'White gold, 39 mm','Dial':'Empire green, hand guilloché rosette','Strap':'Forest alligator leather','Edition':'Numbered, 88 pieces a year'},
   dial:{dial:'#1B3D2B',mark:'#EFE7D3',onDark:true,accent:'#D4AF37',handFill:'#EFE7D3',facet:'rgba(0,0,0,.3)'},
   plate:{base:'assets/leman/leman-plate-04-vert',cap:'vert empire — la porte de l’atelier, guilloché main en rosace'}},
- {no:'05',name:'Champagne',ref:'Réf. 1979-C',comp:'Gilt champagne',price:'CHF 44 000',
+ {no:'05',name:'Champagne',ref:'Réf. 1979-C',comp:'Gilt champagne',price:'CHF 44 000',rawPrice:44000,
+  stockStatus:'in-stock',stockLabel:'● En Stock (2 pièces)',categories:['classique','metiers'],
   colorDot:'#E5C158',colorName:'Gilt Champagne & Or Rose',
   swatches:[{name:'Cadran',color:'#E6D3A8',label:'Champagne Doré Soleil'},{name:'Boîtier',color:'#D99B77',label:'Or Rose 18K 4N'},{name:'Bracelet',color:'#8C481F',label:'Alligator Cognac Miel'}],
   desc:'Gilt champagne — the dial of the workshop at four in the afternoon, when the light comes in low off the lake and every screw looks briefly like a decision. The print is gilt, the case pink gold, the restraint intact.',
   specs:{'Calibre':'L-21, manual wind','Réserve':'42 hours','Case':'Pink gold, 38.5 mm','Dial':'Champagne, radial gilt sunray','Strap':'Cognac alligator leather','Edition':'Numbered, annual series'},
   dial:{dial:'#E6D3A8',mark:'#3A2F1C',onDark:false,accent:'#8C6D3B',handFill:'#3A2F1C',facet:'rgba(255,255,255,.45)'},
   plate:{base:'assets/leman/leman-plate-05-champagne',cap:'champagne — seize heures à l’atelier sous la lumière dorée'}},
- {no:'06',name:'Bleu Nuit',ref:'Réf. 1996-B',comp:'Bleu nuit',price:'CHF 56 000',
+ {no:'06',name:'Bleu Nuit',ref:'Réf. 1996-B',comp:'Bleu nuit',price:'CHF 56 000',rawPrice:56000,
+  stockStatus:'in-stock',stockLabel:'● En Stock (2 pièces)',categories:['trending','classique'],
   colorDot:'#2563EB',colorName:'Bleu Nuit Solaire du Lac',
   swatches:[{name:'Cadran',color:'#152B4D',label:'Bleu Nuit Rayonné'},{name:'Boîtier',color:'#E9E5DD',label:'Or Blanc 18K'},{name:'Index',color:'#F3F4F6',label:'Rhodium Miroir'}],
   desc:'The blue of the lake ten minutes after the sun has gone — not the blue of anything synthetic. Rhodiumed indices over a sunray brush cut radially, one degree at a time, on the same wheel since 1961.',
   specs:{'Calibre':'L-21, manual wind','Réserve':'42 hours','Case':'White gold, 39 mm','Dial':'Bleu nuit, sunray radial brush','Strap':'Marine alligator leather','Edition':'Numbered, annual series'},
   dial:{dial:'#152B4D',mark:'#E7E1D2',onDark:true,accent:'#D4AF37',handFill:'#E7E1D2',facet:'rgba(0,0,0,.3)'},
   plate:{base:'assets/leman/leman-plate-06-bleunuit',cap:'bleu nuit — dix minutes après le coucher, eaux profondes'}},
- {no:'07',name:'Lune',ref:'Réf. 2001-L',comp:'Moonphase',price:'CHF 88 000',
+ {no:'07',name:'Lune',ref:'Réf. 2001-L',comp:'Moonphase',price:'CHF 88 000',rawPrice:88000,
+  stockStatus:'novelty',stockLabel:'✨ Nouveauté 2026',categories:['arrivals','complication','metiers'],
   colorDot:'#F59E0B',colorName:'Lune d’Or & Ciel Étoilé',
   swatches:[{name:'Cadran',color:'#EFE7D3',label:'Ivoire Porcelaine'},{name:'Disque Lune',color:'#0D1A33',label:'Lapis Lazuli & Or'},{name:'Boîtier',color:'#D99B77',label:'Or Rose 18K'}],
   desc:'A moon that accrues one day of error every 122 years — our grandmothers’ moon, drawn in enamel, patient as they were. The gear for it has 135 teeth. Each one is counted twice.',
   specs:{'Calibre':'L-21-L, moonphase complication','Réserve':'42 hours','Case':'Pink gold, 40 mm','Dial':'Ivory, enamel moon & constellation','Strap':'Noisette alligator leather','Edition':'Numbered, annual series'},
   dial:{dial:'#EFE7D3',mark:'#241E13',onDark:false,accent:'#1F4478',handFill:'#241E13',facet:'rgba(255,255,255,.4)',moon:true},
   plate:{base:'assets/leman/leman-plate-07-lune',cap:'lune — disque céleste miniature, étoiles poudrées & patience'}},
- {no:'08',name:'Répétition',ref:'Réf. 1926-R',comp:'Minute repeater',price:'CHF 320 000',
+ {no:'08',name:'Répétition',ref:'Réf. 1926-R',comp:'Minute repeater',price:'CHF 320 000',rawPrice:320000,
+  stockStatus:'allocation',stockLabel:'✦ Série Limitée 8 Pcs',categories:['arrivals','complication','metiers'],
   colorDot:'#DC2626',colorName:'Laque Noire & Timbres Cathédrale',
   swatches:[{name:'Cadran',color:'#0D0B09',label:'Laque Noire Profonde'},{name:'Boîtier',color:'#E2DFD8',label:'Platine 950'},{name:'Timbres',color:'#8E8B82',label:'Acier Trempé Saint-Pierre'}],
   desc:'Two gongs on steel wire, tuned — so the story goes — to the bell of Saint-Pierre. Slide the bolt and the watch tells you the time in the dark: courteously, in hours, quarters and minutes.',
   specs:{'Calibre':'L-21-R, two cathedral gongs','Réserve':'38 hours','Case':'Platinum, 40 mm','Dial':'Deep black lacquer, mirror polished','Strap':'Noir alligator leather','Edition':'Eight pieces a year'},
   dial:{dial:'#181410',mark:'#E9E2D0',onDark:true,accent:'#D4AF37',handFill:'#E9E2D0',facet:'rgba(0,0,0,.3)'},
   plate:{base:'assets/leman/leman-plate-08-repetition',cap:'laque noire — deux timbres d’acier, cloches de Saint-Pierre'}},
- {no:'09',name:'Opaline',ref:'Réf. 1962-O',comp:'Opaline silver',price:'CHF 31 000',
+ {no:'09',name:'Opaline',ref:'Réf. 1962-O',comp:'Opaline silver',price:'CHF 31 000',rawPrice:31000,
+  stockStatus:'novelty',stockLabel:'✨ Nouveauté 2026',categories:['arrivals','classique'],
   colorDot:'#60A5FA',colorName:'Opaline Givrée & Aiguilles Bleues',
   swatches:[{name:'Cadran',color:'#D9DACC',label:'Opaline Sablée Givrée'},{name:'Boîtier',color:'#D1D5DB',label:'Acier Pur 316L'},{name:'Aiguilles',color:'#1E447A',label:'Acier Bleui Flamme'}],
   desc:'Opaline silver with printed marks only — no appliques, no tricks. It is the quietest dial the house makes, and the one the watchmakers choose for themselves.',
@@ -1400,6 +1726,22 @@ const COLLECTION=[
   dial:{dial:'#D9DACC',mark:'#26221A',onDark:false,accent:'#1E447A',handFill:'#26221A',facet:'rgba(255,255,255,.4)'},
   plate:{base:'assets/leman/leman-plate-09-opaline',cap:'opaline — le silence de l’établi, texture givrée argent'}},
 ];
+
+/* ================= MULTI-CURRENCY CONVERTER ================= */
+let currentCurrency = 'CHF';
+const CURR_RATES = {
+  CHF: { sym: 'CHF ', rate: 1 },
+  USD: { sym: '$ ', rate: 1.15 },
+  EUR: { sym: '€ ', rate: 1.05 },
+  GBP: { sym: '£ ', rate: 0.88 },
+  PKR: { sym: 'Rs. ', rate: 320, suf: ' PKR' }
+};
+
+function formatPrice(rawChf, curr) {
+  const c = CURR_RATES[curr] || CURR_RATES.CHF;
+  const val = Math.round(rawChf * c.rate);
+  return c.sym + val.toLocaleString('en-US') + (c.suf || '');
+}
 
 /* ================= VITRINE : 3 × 3 (VIVID 4K PHOTOGRAPHY & INTERACTION) ================= */
 const ARROW='<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 12L12 2M4 2h8v8"/></svg>';
@@ -1416,20 +1758,29 @@ const store=COLLECTION.map((c,i)=>{
 });
 
 const cells=COLLECTION.map((c,i)=>{
-  const b=document.createElement('button');
-  b.type='button';b.className='cell rv';b.dataset.i=i;b.dataset.cursor='Ouvrir';
-  b.setAttribute('aria-haspopup','dialog');
+  const b=document.createElement('article');
+  b.className='cell rv';b.dataset.i=i;b.dataset.cursor='Ouvrir';
   b.style.setProperty('--d',((i%3)*.07+Math.floor(i/3)*.1).toFixed(2)+'s');
   b.innerHTML=
     `<span class="plate" aria-hidden="true"><img alt="${c.name} ${c.comp}" loading="lazy" decoding="async"></span>`+
     `<div class="cell-top-row">`+
-      `<span class="cell-no label">✦ Planche ${String(i+1).padStart(2,'0')}</span>`+
+      `<div class="cell-top-left">`+
+        `<span class="cell-no label">✦ Planche ${String(i+1).padStart(2,'0')}</span>`+
+        `<span class="stock-pill ${c.stockStatus}">${c.stockLabel}</span>`+
+      `</div>`+
       `<span class="dial-color-pill"><span class="color-dot" style="background:${c.colorDot}"></span>${c.colorName}</span>`+
     `</div>`+
     `<span class="cell-watch"></span>`+
     `<div class="cell-bottom">`+
-      `<span class="cell-cap"><b>${c.name}</b><i>${c.ref} — ${c.price}</i></span>`+
-      `<span class="cell-open label">${ARROW}<span>Dossier</span></span>`+
+      `<span class="cell-cap">`+
+        `<b>${c.name}</b>`+
+        `<i>${c.ref} · ${c.specs.Case.split(',')[0]}</i>`+
+        `<span class="cell-price" data-i="${i}">${formatPrice(c.rawPrice, currentCurrency)}</span>`+
+      `</span>`+
+      `<div class="cell-actions">`+
+        `<button type="button" class="btn-dossier" data-i="${i}">${ARROW}<span>Dossier</span></button>`+
+        `<button type="button" class="btn-buynow" data-i="${i}"><svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor"><path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg><span>Commander</span></button>`+
+      `</div>`+
     `</div>`;
 
   const cw=b.querySelector('.cell-watch');
@@ -1445,9 +1796,97 @@ const cellIO=new IntersectionObserver(es=>es.forEach(en=>{
 }),{rootMargin:'120px'});
 cells.forEach(c=>cellIO.observe(c));
 
-vit.addEventListener('click',e=>{
-  const b=e.target.closest('.cell');
-  if(b)openDossier(+b.dataset.i);
+/* ================= SECTION 01: TRENDING NOW SLIDER ================= */
+const trendTrack=$('#trendTrack');
+const trendIndices=[0,2,3,5];
+if(trendTrack){
+  trendTrack.innerHTML=trendIndices.map(idx=>{
+    const c=COLLECTION[idx];
+    return `
+      <article class="slider-card" data-i="${idx}">
+        <div class="slider-plate-wrap">
+          <img src="${c.plate.base}-web.jpg" alt="${c.name}" loading="lazy">
+          <div class="slider-card-top">
+            <span class="stock-pill ${c.stockStatus}">${c.stockLabel}</span>
+            <span class="dial-color-pill"><span class="color-dot" style="background:${c.colorDot}"></span>${c.colorName}</span>
+          </div>
+        </div>
+        <div class="slider-card-body">
+          <div>
+            <span class="label" style="font-size:10px;color:var(--bronze2);">${c.ref} · ${c.specs.Case.split(',')[0]}</span>
+            <h3 class="slider-card-title">${c.name}</h3>
+            <p class="slider-card-desc">${c.desc.substring(0,92)}...</p>
+          </div>
+          <div class="slider-card-foot">
+            <span class="slider-price" data-i="${idx}">${formatPrice(c.rawPrice, currentCurrency)}</span>
+            <div class="cell-actions">
+              <button type="button" class="btn-dossier" data-i="${idx}">${ARROW}<span>Dossier</span></button>
+              <button type="button" class="btn-buynow" data-i="${idx}"><svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor"><path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg><span>Commander</span></button>
+            </div>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join('');
+}
+
+const trendPrev=$('#trendPrev'),trendNext=$('#trendNext');
+trendPrev&&trendPrev.addEventListener('click',()=>trendTrack&&trendTrack.scrollBy({left:-340,behavior:'smooth'}));
+trendNext&&trendNext.addEventListener('click',()=>trendTrack&&trendTrack.scrollBy({left:340,behavior:'smooth'}));
+
+/* ================= SECTION 02: NEW ARRIVALS GRID ================= */
+const arrivalsGrid=$('#arrivalsGrid');
+const arrivalIndices=[6,7,8];
+if(arrivalsGrid){
+  arrivalsGrid.innerHTML=arrivalIndices.map(idx=>{
+    const c=COLLECTION[idx];
+    return `
+      <article class="arrival-card" data-i="${idx}">
+        <div class="slider-plate-wrap">
+          <img src="${c.plate.base}-web.jpg" alt="${c.name}" loading="lazy">
+          <div class="arrival-badge-wrap">
+            <span class="novelty-badge">${c.stockLabel}</span>
+            <span class="dial-color-pill"><span class="color-dot" style="background:${c.colorDot}"></span>${c.colorName}</span>
+          </div>
+        </div>
+        <div class="slider-card-body">
+          <div>
+            <span class="label" style="font-size:10px;color:var(--bronze2);">${c.ref} · ${c.specs.Case.split(',')[0]}</span>
+            <h3 class="slider-card-title">${c.name}</h3>
+            <p class="slider-card-desc">${c.desc.substring(0,105)}...</p>
+          </div>
+          <div class="slider-card-foot">
+            <span class="slider-price" data-i="${idx}">${formatPrice(c.rawPrice, currentCurrency)}</span>
+            <div class="cell-actions">
+              <button type="button" class="btn-dossier" data-i="${idx}">${ARROW}<span>Dossier</span></button>
+              <button type="button" class="btn-buynow" data-i="${idx}"><svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor"><path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg><span>Commander</span></button>
+            </div>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join('');
+}
+
+/* ================= CATEGORY FILTER BUTTONS (Option B) ================= */
+$$('.cat-filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    $$('.cat-filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const cat=btn.dataset.cat;
+    let count=0;
+    cells.forEach((cell,idx)=>{
+      const c=COLLECTION[idx];
+      const match=cat==='all'||(c.categories&&c.categories.includes(cat));
+      if(match){
+        cell.style.display='';
+        count++;
+      }else{
+        cell.style.display='none';
+      }
+    });
+    toast(`Filtre activé : ${btn.querySelector('span').textContent} (${count} montres)`);
+  });
 });
 
 /* View Mode Toggler (Photo 4K vs Calibre Vector) */
@@ -1469,6 +1908,7 @@ const heritageImg=$('#heritageImg');
 const salonImg=$('#salonImg');
 
 function setPlate(img,basePath,mode){
+  if(!img)return;
   mode=mode||RES.mode;
   const suffix=mode==='4k'?'-4k.jpg':'-web.jpg';
   const target=basePath+suffix;
@@ -1480,6 +1920,13 @@ function setPlate(img,basePath,mode){
 
 function loadPlates(){
   cells.forEach((cell,i)=>setPlate(cell.querySelector('.plate img'),COLLECTION[i].plate.base));
+  $$('.slider-plate-wrap img').forEach(img=>{
+    const card=img.closest('[data-i]');
+    if(card){
+      const idx=+card.dataset.i;
+      if(COLLECTION[idx])setPlate(img,COLLECTION[idx].plate.base);
+    }
+  });
   setPlate(wideImg,'assets/leman/leman-bench-wide');
   setPlate(heritageImg,'assets/leman/leman-heritage-archive');
   setPlate(salonImg,'assets/leman/leman-salon-geneve');
@@ -1527,16 +1974,28 @@ function openDossier(i){
     </div>
 
     <dl class="specs">${Object.entries(c.specs).map(([k,v])=>`<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>
-    <p class="dossier-price">${c.price} <span>— delivery 14 to 26 months, honestly counted</span></p>
+    <p class="dossier-price">${formatPrice(c.rawPrice, currentCurrency)} <span>— livraison 14 à 26 mois, comptée loyalement</span></p>
+    
+    <div style="display:flex;gap:12px;margin:22px 0 10px;flex-wrap:wrap;">
+      <button class="btn" id="dossierBuyBtn" type="button" style="background:var(--gold);border-color:var(--gold);color:var(--dark);font-weight:700;">
+        Commander cette Pièce
+      </button>
+    </div>
+
     <form class="dossier-form" novalidate>
-      <h4 class="label">Request an audience</h4>
+      <h4 class="label">Demande d'audience privée</h4>
       <div class="row2">
-        <input class="field" name="name" placeholder="Your name" aria-label="Your name" required>
-        <input class="field" type="email" name="email" placeholder="Your address" aria-label="Email address" required>
+        <input class="field" name="name" placeholder="Votre nom" aria-label="Votre nom" required>
+        <input class="field" type="email" name="email" placeholder="Adresse email" aria-label="Adresse email" required>
       </div>
-      <button class="btn" type="submit">Request an Audience</button>
+      <button class="btn" type="submit">Prendre Audience</button>
     </form>
-    <p class="dossier-ok" hidden>Noted with pleasure. Our concierge writes within two days — from Geneva, on paper.</p>`;
+    <p class="dossier-ok" hidden>Noté avec plaisir. Notre concierge vous écrit sous deux jours — depuis Genève, sur papier.</p>`;
+
+  $('#dossierBuyBtn')?.addEventListener('click',()=>{
+    closeDossier();
+    openBuyModal(i);
+  });
 
   const form=dossierInfo.querySelector('.dossier-form'),ok=dossierInfo.querySelector('.dossier-ok');
   form.addEventListener('submit',e=>{
@@ -1545,7 +2004,7 @@ function openDossier(i){
     if(!/.+@.+\..+/.test(email)){form.email.classList.add('err');setTimeout(()=>form.email.classList.remove('err'),600);form.email.focus();return;}
     if(!name){form.name.classList.add('err');setTimeout(()=>form.name.classList.remove('err'),600);form.name.focus();return;}
     form.hidden=true;ok.hidden=false;
-    toast(`Your request for the ${c.name} has been noted, ${name.split(' ')[0]}.`);
+    toast(`Votre demande pour la ${c.name} a été enregistrée, ${name.split(' ')[0]}.`);
   });
 
   scrim.classList.add('open');scrim.setAttribute('aria-hidden','false');
@@ -1563,9 +2022,108 @@ function closeDossier(){
   }
   lastIdx=-1;
 }
-$('#dossierX').addEventListener('click',closeDossier);
+$('#dossierX')?.addEventListener('click',closeDossier);
 scrim.addEventListener('click',e=>{if(e.target===scrim)closeDossier();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&scrim.classList.contains('open'))closeDossier();});
+
+/* ================= EXPRESS ACQUISITION & CHECKOUT MODAL ================= */
+const buyScrim=$('#buyScrim'),buyForm=$('#buyForm'),buyOk=$('#buyOk'),
+      buyPlate=$('#buyPlate'),buyPlateCap=$('#buyPlateCap'),
+      buyPlancheNo=$('#buyPlancheNo'),buyStockPill=$('#buyStockPill'),
+      buyRef=$('#buyRef'),buyName=$('#buyName'),buyDesc=$('#buyDesc'),
+      buyPriceDisplay=$('#buyPriceDisplay');
+let currentBuyIdx=-1;
+
+function updateBuyPrice(){
+  if(currentBuyIdx<0)return;
+  const c=COLLECTION[currentBuyIdx];
+  if(buyPriceDisplay)buyPriceDisplay.textContent=formatPrice(c.rawPrice, currentCurrency);
+}
+
+function updateAllPrices(){
+  $$('.cell-price').forEach(el=>{
+    const idx=+el.dataset.i;
+    if(COLLECTION[idx])el.textContent=formatPrice(COLLECTION[idx].rawPrice, currentCurrency);
+  });
+  $$('.slider-price').forEach(el=>{
+    const idx=+el.dataset.i;
+    if(COLLECTION[idx])el.textContent=formatPrice(COLLECTION[idx].rawPrice, currentCurrency);
+  });
+  updateBuyPrice();
+}
+
+function openBuyModal(i){
+  const c=COLLECTION[i];currentBuyIdx=i;
+  if(buyPlancheNo)buyPlancheNo.textContent=`Planche ${String(i+1).padStart(2,'0')}`;
+  if(buyStockPill){
+    buyStockPill.className=`stock-pill ${c.stockStatus}`;
+    buyStockPill.textContent=c.stockLabel;
+  }
+  if(buyRef)buyRef.textContent=`${c.ref} · ${c.specs.Case}`;
+  if(buyName)buyName.textContent=c.name;
+  if(buyDesc)buyDesc.textContent=c.desc;
+  if(buyPlateCap)buyPlateCap.textContent='✦ '+c.plate.cap;
+  if(buyPlate)setPlate(buyPlate,c.plate.base,'4k');
+  updateBuyPrice();
+  if(buyForm)buyForm.hidden=false;
+  if(buyOk)buyOk.hidden=true;
+  buyScrim.classList.add('open');
+  buyScrim.setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+  $('#buyX')?.focus();
+}
+
+function closeBuyModal(){
+  buyScrim.classList.remove('open');
+  buyScrim.setAttribute('aria-hidden','true');
+  document.body.style.overflow='';
+  currentBuyIdx=-1;
+}
+$('#buyX')?.addEventListener('click',closeBuyModal);
+buyScrim.addEventListener('click',e=>{if(e.target===buyScrim)closeBuyModal();});
+
+$$('.curr-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    $$('.curr-btn').forEach(b=>b.classList.remove('on'));
+    btn.classList.add('on');
+    currentCurrency=btn.dataset.curr;
+    updateAllPrices();
+    toast(`Prix convertis en ${currentCurrency}`);
+  });
+});
+
+buyForm?.addEventListener('submit',e=>{
+  e.preventDefault();
+  const name=buyForm.buyerName.value.trim();
+  if(!name)return;
+  buyForm.hidden=true;
+  buyOk.hidden=false;
+  toast(`Réservation confirmée pour la ${COLLECTION[currentBuyIdx].name}. Notre concierge vous contacte immédiatement, ${name.split(' ')[0]}.`);
+});
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    if(buyScrim.classList.contains('open'))closeBuyModal();
+    if(scrim.classList.contains('open'))closeDossier();
+  }
+});
+
+/* Delegated click handler for Commander & Dossier buttons */
+document.addEventListener('click',e=>{
+  const buyBtn=e.target.closest('.btn-buynow');
+  if(buyBtn){
+    e.preventDefault();
+    e.stopPropagation();
+    openBuyModal(+buyBtn.dataset.i);
+    return;
+  }
+  const dossierBtn=e.target.closest('.btn-dossier');
+  if(dossierBtn){
+    e.preventDefault();
+    e.stopPropagation();
+    openDossier(+dossierBtn.dataset.i);
+    return;
+  }
+});
 
 /* ================= TOASTS ================= */
 const toasts=$('#toasts');
