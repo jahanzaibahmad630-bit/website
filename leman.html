@@ -258,30 +258,60 @@ h2{font-size:clamp(38px,4.6vw,72px);line-height:1.02;font-weight:400;letter-spac
   transform:translateY(-1px);box-shadow:0 4px 16px rgba(255,255,255,.35);
 }
 
-/* Category Filter Bar (Option B) */
+/* Category Filter Bar (Haute Horlogerie Typographic Navigation) */
 .cat-filter-bar{
-  display:flex;align-items:center;gap:10px;overflow-x:auto;
-  padding:4px 0 10px;margin:22px 0 12px;scrollbar-width:none;
+  display:flex;
+  align-items:center;
+  gap:clamp(20px, 3.5vw, 44px);
+  overflow-x:auto;
+  scrollbar-width:none;
+  padding:0;
+  margin:28px 0 28px;
+  border-bottom:1px solid rgba(140,109,59,.2);
 }
+.cat-filter-bar::-webkit-scrollbar{display:none}
 .cat-filter-btn{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:8px 18px;border-radius:30px;
-  border:1px solid rgba(140,109,59,.3);background:rgba(235,229,216,.7);
-  font:600 10.5px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--ink);
-  cursor:pointer;white-space:nowrap;transition:all .3s cubic-bezier(.16,1,.3,1);
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  padding:8px 0 14px;
+  background:none;
+  border:none;
+  font:600 11.5px/1 var(--sans);
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--ink2);
+  cursor:pointer;
+  white-space:nowrap;
+  transition:color .3s ease;
 }
 .cat-filter-btn:hover{
-  border-color:var(--gold);background:#ffffff;color:var(--dark);
-  transform:translateY(-2px);box-shadow:0 4px 14px rgba(212,175,55,.2);
+  color:var(--ink);
 }
 .cat-filter-btn.active{
-  background:var(--dark);border-color:var(--gold);color:var(--gold-light);
-  box-shadow:0 4px 16px rgba(0,0,0,.25);
+  color:var(--ink);
+  font-weight:700;
 }
-.cat-cnt{
-  display:inline-flex;align-items:center;justify-content:center;
-  min-width:18px;height:18px;padding:0 5px;border-radius:10px;
-  background:rgba(212,175,55,.2);font-size:9.5px;color:currentColor;
+.cat-filter-btn::after{
+  content:'';
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:100%;
+  height:2px;
+  background:linear-gradient(90deg, var(--gold), var(--bronze2));
+  box-shadow:0 0 10px rgba(212,175,55,.45);
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform .35s cubic-bezier(.16,1,.3,1), opacity .3s ease;
+}
+.cat-filter-btn:not(.active):hover::after{
+  transform:scaleX(0.45);
+  opacity:.5;
+}
+.cat-filter-btn.active::after{
+  transform:scaleX(1);
+  opacity:1;
 }
 
 @media(max-width:1060px){.vitrine{grid-template-columns:repeat(2,1fr)}}
@@ -696,22 +726,22 @@ footer{padding-top:clamp(90px,13vh,150px);overflow:hidden;content-visibility:aut
         <div style="width:100%;">
           <h2>Nine watches,<br><em>one conviction.</em></h2>
           
-          <!-- Category Filter Bar (Option B) -->
+          <!-- Category Filter Bar (Haute Horlogerie Navigation) -->
           <div class="cat-filter-bar" role="tablist" aria-label="Filtrer par catégorie">
             <button type="button" class="cat-filter-btn active" data-cat="all">
-              <span>✦ Tous les Modèles</span> <span class="cat-cnt">9</span>
+              <span>Tous les Modèles</span>
             </button>
             <button type="button" class="cat-filter-btn" data-cat="trending">
-              <span>🔥 Trending Now</span> <span class="cat-cnt">4</span>
+              <span>Trending Now</span>
             </button>
             <button type="button" class="cat-filter-btn" data-cat="arrivals">
-              <span>✨ New Arrivals</span> <span class="cat-cnt">3</span>
+              <span>New Arrivals</span>
             </button>
             <button type="button" class="cat-filter-btn" data-cat="complication">
-              <span>⚙️ Complications</span> <span class="cat-cnt">3</span>
+              <span>Complications</span>
             </button>
             <button type="button" class="cat-filter-btn" data-cat="metiers">
-              <span>💎 Métiers d'Art</span> <span class="cat-cnt">4</span>
+              <span>Métiers d'Art</span>
             </button>
           </div>
         </div>
