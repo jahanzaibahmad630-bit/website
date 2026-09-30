@@ -255,193 +255,254 @@
       font-size: 0.88rem;
     }
 
-    /* ================= HERO SECTION ================= */
+    /* ================= FULL CINEMATIC HERO SECTION ================= */
     .hero {
       position: relative;
-      padding: clamp(60px, 9vh, 110px) 0 clamp(70px, 10vh, 120px);
-      overflow: hidden;
-    }
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: clamp(36px, 5vw, 72px);
+      min-height: 94vh;
+      display: flex;
       align-items: center;
+      padding: clamp(90px, 14vh, 150px) 0 clamp(70px, 10vh, 110px);
+      overflow: hidden;
+      color: #FAF8F5;
+      background: var(--forest-dark);
     }
-    .hero-content {
-      position: relative;
+    
+    /* Full-bleed background video */
+    .hero-video-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .hero-bg-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 36%;
+      display: block;
+      transform: scale(1.02);
+      transition: transform 1.2s ease-out;
+    }
+    .hero-video-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        95deg,
+        rgba(15, 27, 21, 0.93) 0%,
+        rgba(15, 27, 21, 0.82) 42%,
+        rgba(15, 27, 21, 0.40) 72%,
+        rgba(15, 27, 21, 0.22) 100%
+      );
       z-index: 2;
     }
+    @media (max-width: 900px) {
+      .hero-video-overlay {
+        background: linear-gradient(
+          180deg,
+          rgba(15, 27, 21, 0.94) 0%,
+          rgba(15, 27, 21, 0.82) 60%,
+          rgba(15, 27, 21, 0.65) 100%
+        );
+      }
+    }
+
+    .hero-container {
+      position: relative;
+      z-index: 3;
+      width: 100%;
+    }
+    .hero-content {
+      max-width: 780px;
+    }
+    .hero-badges-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .eyebrow-light {
+      color: #E68A6E !important;
+      margin-bottom: 0 !important;
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .eyebrow-light::before {
+      content: '';
+      width: 24px;
+      height: 1.5px;
+      background: #E68A6E !important;
+    }
+    .badge-urgent-glass {
+      background: rgba(217, 119, 6, 0.28);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: #FDE68A;
+      border: 1px solid rgba(253, 230, 138, 0.38);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 5px 14px;
+      border-radius: var(--radius-full);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hero-headline {
+      color: #FFFFFF !important;
+      font-size: clamp(2.6rem, 5.8vw, 4.7rem);
+      line-height: 1.12;
+      margin-bottom: 24px;
+      font-family: var(--serif);
+      font-weight: 500;
+      text-shadow: 0 4px 28px rgba(0,0,0,0.35);
+    }
     .hero-lede {
-      font-size: clamp(1.1rem, 1.4vw, 1.28rem);
-      color: var(--text-muted);
-      margin: 20px 0 32px;
-      max-width: 580px;
-      font-weight: 380;
+      font-size: clamp(1.08rem, 1.35vw, 1.25rem);
+      color: rgba(247, 245, 240, 0.92) !important;
+      margin: 0 0 38px;
+      max-width: 640px;
+      line-height: 1.68;
+      text-shadow: 0 2px 14px rgba(0,0,0,0.3);
     }
     .hero-cta-group {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 18px;
       flex-wrap: wrap;
-      margin-bottom: 38px;
+      margin-bottom: 46px;
     }
-    
-    /* Hero Key Metrics Strip */
-    .hero-specs {
+    .btn-outline-white {
+      background: rgba(255, 255, 255, 0.1);
+      color: #FFFFFF !important;
+      border: 1.5px solid rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .btn-outline-white:hover {
+      background: rgba(255, 255, 255, 0.22);
+      border-color: #FFFFFF;
+      transform: translateY(-2px);
+    }
+
+    /* Glassmorphic Metrics Bar */
+    .hero-specs-glass {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      padding: 20px 24px;
-      background: var(--surface);
-      border: 1px solid var(--surface-border);
+      gap: 18px;
+      padding: 20px 28px;
+      background: rgba(20, 35, 28, 0.72);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: var(--radius-md);
-      box-shadow: var(--shadow-sm);
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.3);
+      max-width: 820px;
     }
-    .spec-item {
+    .hero-specs-glass .spec-item {
       display: flex;
       flex-direction: column;
       gap: 3px;
     }
-    .spec-label {
+    .hero-specs-glass .spec-label {
+      color: rgba(255, 255, 255, 0.68);
       font-size: 0.72rem;
       font-weight: 700;
-      text-transform: uppercase;
       letter-spacing: 0.12em;
-      color: var(--text-dim);
+      text-transform: uppercase;
     }
-    .spec-val {
+    .hero-specs-glass .spec-val {
+      color: #FFFFFF;
       font-family: var(--serif);
-      font-size: 1.1rem;
+      font-size: 1.18rem;
       font-weight: 600;
-      color: var(--forest);
+      margin-top: 2px;
     }
 
-    /* Hero Media Visual */
-    .hero-media {
-      position: relative;
-    }
-    .hero-image-card {
-      position: relative;
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      box-shadow: var(--shadow-lg);
-      aspect-ratio: 16/11;
-      background: var(--forest-dark);
-    }
-    .hero-retreat-video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.8s ease;
-    }
-    .hero-image-card:hover .hero-retreat-video {
-      transform: scale(1.02);
-    }
-
-    /* Video Overlay Glass Bar */
-    .video-glass-bar {
+    /* Floating Video Controls in Hero Section Corner */
+    .hero-controls-floating {
       position: absolute;
-      bottom: 14px;
-      left: 14px;
-      right: 14px;
-      padding: 10px 14px;
-      background: rgba(20, 35, 28, 0.78);
+      bottom: 36px;
+      right: 36px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 10;
+      flex-wrap: wrap;
+    }
+    @media (max-width: 1024px) {
+      .hero-controls-floating {
+        position: static;
+        margin-top: 32px;
+      }
+    }
+    .live-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      background: rgba(20, 35, 28, 0.8);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: var(--radius-sm);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      z-index: 5;
-      color: #FFFFFF;
-    }
-    .video-live-pill {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: var(--radius-full);
       font-size: 0.78rem;
       font-weight: 600;
-      letter-spacing: 0.04em;
+      color: #FFFFFF;
     }
-    .video-live-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #10B981;
-      box-shadow: 0 0 8px #10B981;
-      animation: pulseGreen 2s infinite;
-    }
-    @keyframes pulseGreen {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.85); }
-    }
-    .video-actions {
-      display: flex;
+    .hero-ctrl-actions {
+      display: inline-flex;
       align-items: center;
       gap: 8px;
     }
-    .vid-action-btn {
-      background: rgba(255, 255, 255, 0.16);
-      border: 1px solid rgba(255, 255, 255, 0.22);
+    .vid-glass-btn {
+      background: rgba(20, 35, 28, 0.8);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
       color: #FFFFFF;
-      padding: 6px 12px;
-      border-radius: 6px;
+      padding: 9px 16px;
+      border-radius: var(--radius-full);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      font-size: 0.75rem;
+      gap: 7px;
+      font-size: 0.78rem;
       font-weight: 600;
       font-family: var(--sans);
-      transition: all 0.2s ease;
+      transition: all 0.25s ease;
     }
-    .vid-action-btn:hover {
-      background: rgba(255, 255, 255, 0.3);
-      transform: translateY(-1px);
+    .vid-glass-btn:hover {
+      background: rgba(194, 99, 70, 0.9);
+      border-color: rgba(255, 255, 255, 0.45);
+      transform: translateY(-2px);
     }
-    .vid-action-btn svg {
-      width: 14px;
-      height: 14px;
-      flex-shrink: 0;
+    @media (max-width: 1100px) {
+      .hero-controls-floating {
+        position: static;
+        margin-top: 36px;
+        justify-content: flex-start;
+      }
     }
-
-    .hero-floating-card {
-      position: absolute;
-      top: -18px;
-      right: -18px;
-      background: rgba(255,255,255,0.96);
-      backdrop-filter: blur(12px);
-      padding: 14px 20px;
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-md);
-      border: 1px solid var(--surface-border);
-      max-width: 250px;
-      z-index: 6;
-      transition: var(--transition);
+    @media (max-width: 820px) {
+      .hero-specs-glass {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
-    .hero-floating-card p {
-      font-size: 0.82rem;
-      color: var(--forest);
-      font-weight: 600;
-      line-height: 1.4;
-    }
-    .hero-floating-card small {
-      display: block;
-      font-size: 0.72rem;
-      color: var(--terracotta);
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-top: 4px;
-    }
-    @media (max-width: 991px) {
-      .hero-floating-card {
-        top: auto;
-        bottom: -24px;
-        right: 16px;
+    @media (max-width: 540px) {
+      .hero-specs-glass {
+        grid-template-columns: 1fr;
+      }
+      .hero-controls-floating {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
 
@@ -1262,12 +1323,25 @@
   </header>
 
   <main id="top">
-    <!-- ================= HERO SECTION ================= -->
-    <section class="hero">
-      <div class="container hero-grid">
+    <!-- ================= FULL CINEMATIC HERO SECTION ================= -->
+    <section class="hero hero-cinematic">
+      <!-- Full-bleed background video -->
+      <div class="hero-video-bg">
+        <video id="heroRetreatVid" class="hero-bg-video" autoplay loop muted playsinline preload="auto" poster="assets/delvedeep/delvedeep-sanctuary-poster.jpg">
+          <source src="assets/delvedeep/delvedeep-retreat-sanctuary.mp4" type="video/mp4">
+        </video>
+        <div class="hero-video-overlay"></div>
+      </div>
+
+      <div class="container hero-container">
         <div class="hero-content">
-          <div class="eyebrow">6-Day Somatic Transformation Retreat</div>
-          <h1>Return to Stillness.<br>Delve into What Truly Matters.</h1>
+          <div class="hero-badges-row">
+            <div class="eyebrow eyebrow-light">6-Day Somatic Transformation Retreat</div>
+            <div class="badge-urgent-glass">⚡ Strictly Capped at 14 Seekers · 5 Spots Remaining</div>
+          </div>
+
+          <h1 class="hero-headline">Return to Stillness.<br>Delve into What Truly Matters.</h1>
+
           <p class="hero-lede">
             Join an intimate circle of 14 seekers on the untamed Osa Peninsula of Costa Rica. Six days of guided somatic breathwork, silent rainforest meditation, restorative movement, and profound nervous system restoration.
           </p>
@@ -1277,73 +1351,65 @@
               <span>Select Your Accommodation</span>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
-            <a href="#experience" class="btn btn-outline">Explore the Journey</a>
+            <a href="#sanctuary" class="btn btn-outline-white">Explore the Sanctuary</a>
           </div>
 
-          <div class="hero-specs">
+          <!-- Glassmorphic Key Metrics Strip -->
+          <div class="hero-specs-glass">
             <div class="spec-item">
               <span class="spec-label">Dates</span>
-              <span class="spec-val">Oct 14–19</span>
+              <span class="spec-val">Oct 14–19, 2026</span>
             </div>
             <div class="spec-item">
               <span class="spec-label">Sanctuary</span>
-              <span class="spec-val">Costa Rica</span>
+              <span class="spec-val">Nosara, Costa Rica</span>
             </div>
             <div class="spec-item">
               <span class="spec-label">Capacity</span>
-              <span class="spec-val">14 Seekers</span>
+              <span class="spec-val">Strictly 14 Seekers</span>
             </div>
             <div class="spec-item">
               <span class="spec-label">Pricing</span>
-              <span class="spec-val">From $2,350</span>
+              <span class="spec-val">From $2,350 · All-Inclusive</span>
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="hero-media">
-          <div class="hero-image-card">
-            <video id="heroRetreatVid" class="hero-retreat-video" autoplay loop muted playsinline preload="auto" poster="assets/delvedeep/delvedeep-sanctuary-poster.jpg">
-              <source src="assets/delvedeep/delvedeep-retreat-sanctuary.mp4" type="video/mp4">
-            </video>
+      <!-- Floating Glassmorphic Audio & Theater Controls in Hero Corner -->
+      <div class="hero-controls-floating">
+        <div class="live-status-pill">
+          <span class="video-live-dot"></span>
+          <span>Live Sanctuary Footage</span>
+        </div>
 
-            <!-- Video Glass Control Bar -->
-            <div class="video-glass-bar">
-              <div class="video-live-pill">
-                <span class="video-live-dot"></span>
-                <span>Live Sanctuary View</span>
-              </div>
-              <div class="video-actions">
-                <button type="button" class="vid-action-btn" id="heroSoundBtn" aria-label="Toggle Audio">
-                  <svg id="heroSoundIcon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                    <line x1="23" y1="9" x2="17" y2="15"></line>
-                    <line x1="17" y1="9" x2="23" y2="15"></line>
-                  </svg>
-                  <span id="heroSoundLabel">Sound</span>
-                </button>
-                <button type="button" class="vid-action-btn" id="heroPlayBtn" aria-label="Toggle Play Pause">
-                  <svg id="heroPlayIcon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="6" y="4" width="4" height="16"></rect>
-                    <rect x="14" y="4" width="4" height="16"></rect>
-                  </svg>
-                </button>
-                <button type="button" class="vid-action-btn" id="heroCinemaBtn" aria-label="Open Cinema Lightbox" title="Full Theater Mode">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="15 3 21 3 21 9"></polyline>
-                    <polyline points="9 21 3 21 3 15"></polyline>
-                    <line x1="21" y1="3" x2="14" y2="10"></line>
-                    <line x1="3" y1="21" x2="10" y2="14"></line>
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
+        <div class="hero-ctrl-actions">
+          <button type="button" class="vid-glass-btn" id="heroSoundBtn" aria-label="Toggle Audio">
+            <svg id="heroSoundIcon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <line x1="23" y1="9" x2="17" y2="15"></line>
+              <line x1="17" y1="9" x2="23" y2="15"></line>
+            </svg>
+            <span id="heroSoundLabel">Unmute Waves</span>
+          </button>
 
-          <div class="hero-floating-card">
-            <div class="badge badge-urgent" style="margin-bottom: 6px;">⚡ High Demand</div>
-            <p>9 of 14 sanctuary accommodations have been confirmed.</p>
-            <small>Kajabi Instant Registration</small>
-          </div>
+          <button type="button" class="vid-glass-btn" id="heroPlayBtn" aria-label="Pause or Play Video">
+            <svg id="heroPlayIcon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="6" y="4" width="4" height="16"></rect>
+              <rect x="14" y="4" width="4" height="16"></rect>
+            </svg>
+            <span id="heroPlayLabel">Pause</span>
+          </button>
+
+          <button type="button" class="vid-glass-btn" id="heroCinemaBtn" aria-label="Theater Mode" title="Full Theater View">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <polyline points="9 21 3 21 3 15"></polyline>
+              <line x1="21" y1="3" x2="14" y2="10"></line>
+              <line x1="3" y1="21" x2="10" y2="14"></line>
+            </svg>
+            <span>Cinema View</span>
+          </button>
         </div>
       </div>
     </section>
