@@ -325,28 +325,102 @@
       border-radius: var(--radius-lg);
       overflow: hidden;
       box-shadow: var(--shadow-lg);
-      aspect-ratio: 4/5;
+      aspect-ratio: 16/11;
+      background: var(--forest-dark);
     }
-    .hero-image-card img {
+    .hero-retreat-video {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      display: block;
       transition: transform 0.8s ease;
     }
-    .hero-image-card:hover img {
-      transform: scale(1.03);
+    .hero-image-card:hover .hero-retreat-video {
+      transform: scale(1.02);
     }
+
+    /* Video Overlay Glass Bar */
+    .video-glass-bar {
+      position: absolute;
+      bottom: 14px;
+      left: 14px;
+      right: 14px;
+      padding: 10px 14px;
+      background: rgba(20, 35, 28, 0.78);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      z-index: 5;
+      color: #FFFFFF;
+    }
+    .video-live-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    .video-live-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10B981;
+      box-shadow: 0 0 8px #10B981;
+      animation: pulseGreen 2s infinite;
+    }
+    @keyframes pulseGreen {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
+    .video-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .vid-action-btn {
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: #FFFFFF;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      font-family: var(--sans);
+      transition: all 0.2s ease;
+    }
+    .vid-action-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-1px);
+    }
+    .vid-action-btn svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+
     .hero-floating-card {
       position: absolute;
-      bottom: -24px;
-      left: -28px;
-      background: rgba(255,255,255,0.95);
+      top: -18px;
+      right: -18px;
+      background: rgba(255,255,255,0.96);
       backdrop-filter: blur(12px);
-      padding: 16px 22px;
+      padding: 14px 20px;
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-md);
       border: 1px solid var(--surface-border);
       max-width: 250px;
+      z-index: 6;
+      transition: var(--transition);
     }
     .hero-floating-card p {
       font-size: 0.82rem;
@@ -362,6 +436,196 @@
       text-transform: uppercase;
       letter-spacing: 0.08em;
       margin-top: 4px;
+    }
+    @media (max-width: 991px) {
+      .hero-floating-card {
+        top: auto;
+        bottom: -24px;
+        right: 16px;
+      }
+    }
+
+    /* ================= DEDICATED SANCTUARY GROUNDS SECTION ================= */
+    .sanctuary-grounds-section {
+      background: var(--surface);
+      border-bottom: 1px solid var(--surface-border);
+      position: relative;
+    }
+    .sanctuary-widescreen-frame {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      aspect-ratio: 16/9;
+      background: #000;
+      margin-bottom: 40px;
+    }
+    .sanctuary-widescreen-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .sanctuary-controls-bar {
+      position: absolute;
+      bottom: 18px;
+      left: 18px;
+      right: 18px;
+      padding: 12px 20px;
+      background: rgba(20, 35, 28, 0.82);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      color: #FFFFFF;
+      z-index: 5;
+    }
+    .sanctuary-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.86rem;
+    }
+    .grounds-features-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    .ground-item {
+      background: var(--bg);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-md);
+      padding: 24px 20px;
+      transition: var(--transition);
+    }
+    .ground-item:hover {
+      transform: translateY(-3px);
+      border-color: var(--forest);
+      box-shadow: var(--shadow-sm);
+    }
+    .ground-icon {
+      font-size: 1.6rem;
+      margin-bottom: 12px;
+      display: inline-block;
+    }
+    .ground-item h4 {
+      font-size: 1.12rem;
+      margin-bottom: 8px;
+    }
+    .ground-item p {
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+    @media (max-width: 991px) {
+      .grounds-features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 600px) {
+      .grounds-features-grid {
+        grid-template-columns: 1fr;
+      }
+      .sanctuary-controls-bar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    /* ================= CINEMA LIGHTBOX ================= */
+    .cinema-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(14, 23, 19, 0.94);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .cinema-modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .cinema-box {
+      width: 100%;
+      max-width: 1100px;
+      background: #000000;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7);
+      position: relative;
+    }
+    .cinema-video-wrap {
+      position: relative;
+      aspect-ratio: 16/9;
+      background: #000;
+    }
+    .cinema-video-wrap video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .cinema-header {
+      position: absolute;
+      top: 16px;
+      left: 20px;
+      right: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+    }
+    .cinema-title-badge {
+      background: rgba(20, 35, 28, 0.85);
+      backdrop-filter: blur(10px);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+    .cinema-close-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(20, 35, 28, 0.85);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.22);
+      color: #fff;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: all 0.2s;
+    }
+    .cinema-close-btn:hover {
+      background: var(--terracotta);
+      transform: scale(1.08);
+    }
+    .cinema-footer {
+      padding: 18px 24px;
+      background: var(--forest-dark);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      color: #fff;
+    }
+    .cinema-footer p {
+      color: #E2E8F0;
+      font-size: 0.9rem;
+      margin: 0;
     }
 
     /* ================= SECTION SCAFFOLDING ================= */
@@ -986,6 +1250,7 @@
 
       <ul class="nav-links">
         <li><a href="#experience">The Experience</a></li>
+        <li><a href="#sanctuary">The Sanctuary</a></li>
         <li><a href="#accommodations">Accommodations</a></li>
         <li><a href="#included">What’s Included</a></li>
         <li><a href="#schedule">Schedule</a></li>
@@ -1037,8 +1302,43 @@
 
         <div class="hero-media">
           <div class="hero-image-card">
-            <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=1200&q=80" alt="DelveDeep retreat sanctuary nestled in lush tropical Costa Rican rainforest canopy" loading="eager" fetchpriority="high">
+            <video id="heroRetreatVid" class="hero-retreat-video" autoplay loop muted playsinline preload="auto" poster="assets/delvedeep/delvedeep-sanctuary-poster.jpg">
+              <source src="assets/delvedeep/delvedeep-retreat-sanctuary.mp4" type="video/mp4">
+            </video>
+
+            <!-- Video Glass Control Bar -->
+            <div class="video-glass-bar">
+              <div class="video-live-pill">
+                <span class="video-live-dot"></span>
+                <span>Live Sanctuary View</span>
+              </div>
+              <div class="video-actions">
+                <button type="button" class="vid-action-btn" id="heroSoundBtn" aria-label="Toggle Audio">
+                  <svg id="heroSoundIcon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <line x1="23" y1="9" x2="17" y2="15"></line>
+                    <line x1="17" y1="9" x2="23" y2="15"></line>
+                  </svg>
+                  <span id="heroSoundLabel">Sound</span>
+                </button>
+                <button type="button" class="vid-action-btn" id="heroPlayBtn" aria-label="Toggle Play Pause">
+                  <svg id="heroPlayIcon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="6" y="4" width="4" height="16"></rect>
+                    <rect x="14" y="4" width="4" height="16"></rect>
+                  </svg>
+                </button>
+                <button type="button" class="vid-action-btn" id="heroCinemaBtn" aria-label="Open Cinema Lightbox" title="Full Theater Mode">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <polyline points="9 21 3 21 3 15"></polyline>
+                    <line x1="21" y1="3" x2="14" y2="10"></line>
+                    <line x1="3" y1="21" x2="10" y2="14"></line>
+                  </svg>
+                </button>
+              </div>
+            </div>
           </div>
+
           <div class="hero-floating-card">
             <div class="badge badge-urgent" style="margin-bottom: 6px;">⚡ High Demand</div>
             <p>9 of 14 sanctuary accommodations have been confirmed.</p>
@@ -1086,6 +1386,79 @@
               <h3>Integration &amp; Fire Inquiry Circles</h3>
               <p>Evening council gatherings around sacred wood fires. Facilitated inquiry to bridge your retreat insights into your practical reality—your relationships, leadership, and personal creative sovereignty.</p>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= THE SANCTUARY GROUNDS SHOWCASE ================= -->
+    <section class="sanctuary-grounds-section" id="sanctuary">
+      <div class="container">
+        <div class="section-head">
+          <div class="eyebrow">The Private Coastal Grounds</div>
+          <h2>Where the Pacific Horizon Meets the Untamed Canopy</h2>
+          <p>Ten secluded oceanfront acres perched along the pristine coastline of Nosara, Costa Rica. Engineered to regulate the nervous system through 180° ocean horizons, saltwater infinity immersion, and untouched primary rainforest.</p>
+        </div>
+
+        <div class="sanctuary-widescreen-frame">
+          <video id="sanctuaryFeatureVid" class="sanctuary-widescreen-video" autoplay loop muted playsinline preload="auto" poster="assets/delvedeep/delvedeep-sanctuary-poster.jpg">
+            <source src="assets/delvedeep/delvedeep-retreat-sanctuary.mp4" type="video/mp4">
+          </video>
+          
+          <div class="sanctuary-controls-bar">
+            <div class="sanctuary-info">
+              <span class="video-live-dot"></span>
+              <strong>Nosara Oceanfront Bluff &amp; Heated Saltwater Infinity Pool</strong>
+            </div>
+            <div class="video-actions">
+              <button type="button" class="vid-action-btn" id="groundsSoundBtn">
+                <svg id="groundsSoundIcon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <line x1="23" y1="9" x2="17" y2="15"></line>
+                  <line x1="17" y1="9" x2="23" y2="15"></line>
+                </svg>
+                <span id="groundsSoundLabel">Unmute Ocean Waves</span>
+              </button>
+              <button type="button" class="vid-action-btn" id="groundsPlayBtn">
+                <svg id="groundsPlayIcon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="6" y="4" width="4" height="16"></rect>
+                  <rect x="14" y="4" width="4" height="16"></rect>
+                </svg>
+                <span id="groundsPlayLabel">Pause</span>
+              </button>
+              <button type="button" class="vid-action-btn" id="groundsCinemaBtn" title="Full Theater Mode">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <polyline points="9 21 3 21 3 15"></polyline>
+                  <line x1="21" y1="3" x2="14" y2="10"></line>
+                  <line x1="3" y1="21" x2="10" y2="14"></line>
+                </svg>
+                <span>Cinema View</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="grounds-features-grid">
+          <div class="ground-item">
+            <span class="ground-icon">🌊</span>
+            <h4>Saltwater Infinity Pool</h4>
+            <p>Naturally balanced infinity pool overlooking Pacific coastal reefs for post-breathwork somatic cellular grounding.</p>
+          </div>
+          <div class="ground-item">
+            <span class="ground-icon">🌴</span>
+            <h4>Secluded Beach Cove</h4>
+            <p>Direct private staircase down to an untouched golden sand cove for barefoot dawn meditation and ocean dips.</p>
+          </div>
+          <div class="ground-item">
+            <span class="ground-icon">🧘</span>
+            <h4>Open-Air Shala</h4>
+            <p>Elevated hand-hewn teak platform nestled beneath old-growth canopy, bathed in perpetual offshore breezes.</p>
+          </div>
+          <div class="ground-item">
+            <span class="ground-icon">✨</span>
+            <h4>100% Intimate Seclusion</h4>
+            <p>Zero public access. The entire 10-acre oceanfront estate is exclusively reserved for our intimate cohort of 14 guests.</p>
           </div>
         </div>
       </div>
@@ -1587,6 +1960,30 @@
     </div>
   </div>
 
+  <!-- ================= CINEMA LIGHTBOX THEATER MODAL ================= -->
+  <div class="cinema-modal" id="cinemaModal" role="dialog" aria-modal="true" aria-label="Sanctuary Cinema View">
+    <div class="cinema-box">
+      <div class="cinema-video-wrap">
+        <video id="cinemaModalVid" loop playsinline controls poster="assets/delvedeep/delvedeep-sanctuary-poster.jpg">
+          <source src="assets/delvedeep/delvedeep-retreat-sanctuary.mp4" type="video/mp4">
+        </video>
+        <div class="cinema-header">
+          <div class="cinema-title-badge">DelveDeep Sanctuary Grounds · 4K Film</div>
+          <button class="cinema-close-btn" id="closeCinemaBtn" aria-label="Close cinema view">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+      </div>
+      <div class="cinema-footer">
+        <div>
+          <strong style="display:block; font-size:1.05rem; font-family:var(--serif); color:#FAF8F5;">The Oceanfront Sanctuary, Nosara, Costa Rica</strong>
+          <p>October 14–19, 2026 · Exclusive to 14 Seekers · Limited accommodation remaining.</p>
+        </div>
+        <a href="#accommodations" class="btn btn-terracotta" onclick="closeCinemaModal()" style="padding:10px 22px; font-size:0.88rem;">Select Accommodation</a>
+      </div>
+    </div>
+  </div>
+
   <!-- ================= JAVASCRIPT LOGIC ================= -->
   <script>
     // State
@@ -1726,6 +2123,112 @@
     });
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && elements.modal.classList.contains('open')) closeConfirmationModal();
+    });
+
+    // ================= VIDEO & CINEMA INTERACTION ENGINE =================
+    const heroVid = document.getElementById('heroRetreatVid');
+    const heroSoundBtn = document.getElementById('heroSoundBtn');
+    const heroSoundIcon = document.getElementById('heroSoundIcon');
+    const heroSoundLabel = document.getElementById('heroSoundLabel');
+    const heroPlayBtn = document.getElementById('heroPlayBtn');
+    const heroPlayIcon = document.getElementById('heroPlayIcon');
+    const heroCinemaBtn = document.getElementById('heroCinemaBtn');
+
+    const groundsVid = document.getElementById('sanctuaryFeatureVid');
+    const groundsSoundBtn = document.getElementById('groundsSoundBtn');
+    const groundsSoundIcon = document.getElementById('groundsSoundIcon');
+    const groundsSoundLabel = document.getElementById('groundsSoundLabel');
+    const groundsPlayBtn = document.getElementById('groundsPlayBtn');
+    const groundsPlayIcon = document.getElementById('groundsPlayIcon');
+    const groundsPlayLabel = document.getElementById('groundsPlayLabel');
+    const groundsCinemaBtn = document.getElementById('groundsCinemaBtn');
+
+    const cinemaModal = document.getElementById('cinemaModal');
+    const cinemaModalVid = document.getElementById('cinemaModalVid');
+    const closeCinemaBtn = document.getElementById('closeCinemaBtn');
+
+    const soundOnSvg = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>';
+    const soundOffSvg = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line>';
+    const playSvg = '<polygon points="5 3 19 12 5 21 5 3"></polygon>';
+    const pauseSvg = '<rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect>';
+
+    function toggleVideoSound(vid, iconEl, labelEl) {
+      if (!vid) return;
+      vid.muted = !vid.muted;
+      if (!vid.muted) {
+        if (iconEl) iconEl.innerHTML = soundOnSvg;
+        if (labelEl) labelEl.textContent = 'Mute';
+        vid.volume = 0.8;
+      } else {
+        if (iconEl) iconEl.innerHTML = soundOffSvg;
+        if (labelEl) labelEl.textContent = (labelEl === groundsSoundLabel) ? 'Unmute Ocean Waves' : 'Sound';
+      }
+    }
+
+    function toggleVideoPlay(vid, iconEl, labelEl) {
+      if (!vid) return;
+      if (vid.paused) {
+        vid.play();
+        if (iconEl) iconEl.innerHTML = pauseSvg;
+        if (labelEl) labelEl.textContent = 'Pause';
+      } else {
+        vid.pause();
+        if (iconEl) iconEl.innerHTML = playSvg;
+        if (labelEl) labelEl.textContent = 'Play';
+      }
+    }
+
+    if (heroSoundBtn && heroVid) {
+      heroSoundBtn.addEventListener('click', () => toggleVideoSound(heroVid, heroSoundIcon, heroSoundLabel));
+    }
+    if (heroPlayBtn && heroVid) {
+      heroPlayBtn.addEventListener('click', () => toggleVideoPlay(heroVid, heroPlayIcon, null));
+    }
+
+    if (groundsSoundBtn && groundsVid) {
+      groundsSoundBtn.addEventListener('click', () => toggleVideoSound(groundsVid, groundsSoundIcon, groundsSoundLabel));
+    }
+    if (groundsPlayBtn && groundsVid) {
+      groundsPlayBtn.addEventListener('click', () => toggleVideoPlay(groundsVid, groundsPlayIcon, groundsPlayLabel));
+    }
+
+    function openCinemaModal() {
+      if (!cinemaModal) return;
+      cinemaModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      if (cinemaModalVid) {
+        cinemaModalVid.currentTime = (heroVid && !heroVid.paused) ? heroVid.currentTime : 0;
+        cinemaModalVid.muted = false;
+        cinemaModalVid.volume = 0.85;
+        cinemaModalVid.play().catch(() => {
+          cinemaModalVid.muted = true;
+          cinemaModalVid.play();
+        });
+      }
+    }
+
+    function closeCinemaModal() {
+      if (!cinemaModal) return;
+      cinemaModal.classList.remove('active');
+      document.body.style.overflow = '';
+      if (cinemaModalVid) {
+        cinemaModalVid.pause();
+      }
+    }
+
+    if (heroCinemaBtn) heroCinemaBtn.addEventListener('click', openCinemaModal);
+    if (groundsCinemaBtn) groundsCinemaBtn.addEventListener('click', openCinemaModal);
+    if (closeCinemaBtn) closeCinemaBtn.addEventListener('click', closeCinemaModal);
+    if (cinemaModal) {
+      cinemaModal.addEventListener('click', (e) => {
+        if (e.target === cinemaModal) closeCinemaModal();
+      });
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && cinemaModal && cinemaModal.classList.contains('active')) {
+        closeCinemaModal();
+      }
     });
 
     // Initialize
