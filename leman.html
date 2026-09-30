@@ -334,81 +334,6 @@ h2{font-size:clamp(38px,4.6vw,72px);line-height:1.02;font-weight:400;letter-spac
 @media(max-width:680px){.vitrine{grid-template-columns:1fr}}
 .vit-foot{margin-top:32px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
-/* ---------- TRENDING NOW & NEW ARRIVALS CAROUSEL / GRID (Option A) ---------- */
-.slider-section{
-  padding:clamp(70px,10vh,110px) 0;
-  border-bottom:1px solid var(--line);
-}
-.slider-nav-wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.slider-arrows{display:flex;align-items:center;gap:8px}
-.slider-arrow-btn{
-  width:40px;height:40px;border-radius:50%;
-  border:1px solid var(--line2);background:var(--paper);
-  color:var(--ink);display:flex;align-items:center;justify-content:center;
-  cursor:pointer;transition:all .3s ease;
-}
-.slider-arrow-btn:hover{background:var(--gold);border-color:var(--gold);color:var(--dark)}
-.slider-track-wrap{position:relative;overflow:hidden;margin-top:24px}
-.slider-track{
-  display:grid;grid-auto-flow:column;grid-auto-columns:min(320px,82vw);
-  gap:22px;overflow-x:auto;scroll-behavior:smooth;
-  scroll-snap-type:x mandatory;scrollbar-width:none;
-  padding:6px 2px 24px;
-}
-.slider-track::-webkit-scrollbar{display:none}
-.slider-card{
-  scroll-snap-align:start;background:#14100C;
-  border:1px solid rgba(140,109,59,.25);border-radius:8px;
-  overflow:hidden;display:flex;flex-direction:column;
-  box-shadow:0 12px 32px rgba(28,24,18,.08);
-  transition:transform .45s cubic-bezier(.16,1,.3,1),border-color .45s,box-shadow .45s;
-}
-.slider-card:hover{
-  transform:translateY(-8px);border-color:rgba(212,175,55,.7);
-  box-shadow:0 24px 54px rgba(140,109,59,.22);
-}
-.slider-plate-wrap{position:relative;aspect-ratio:1/1;overflow:hidden;background:#17130E}
-.slider-plate-wrap img{
-  width:100%;height:100%;object-fit:cover;
-  filter:saturate(1.18) contrast(1.06) brightness(1.02);
-  transition:transform 1.2s cubic-bezier(.16,1,.3,1);
-}
-.slider-card:hover .slider-plate-wrap img{transform:scale(1.08)}
-.slider-card-top{
-  position:absolute;top:14px;left:14px;right:14px;z-index:2;
-  display:flex;justify-content:space-between;align-items:center;gap:8px;
-}
-.slider-card-body{
-  padding:20px;display:flex;flex-direction:column;gap:8px;
-  background:#14100C;color:var(--ivory);flex:1;justify-content:space-between;
-}
-.slider-card-title{font:420 24px/1.1 var(--serif);color:var(--ivory);margin:4px 0}
-.slider-card-desc{font-size:13.5px;line-height:1.55;color:rgba(238,231,215,.68);font-weight:380}
-.slider-card-foot{
-  display:flex;justify-content:space-between;align-items:center;
-  margin-top:14px;padding-top:14px;border-top:1px solid rgba(238,231,215,.1);gap:10px;flex-wrap:wrap;
-}
-.slider-price{font:500 18px var(--serif);color:var(--gold-light)}
-
-/* New Arrivals 3-Column Luxury Feature Grid */
-.arrivals-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:28px}
-@media(max-width:980px){.arrivals-grid{grid-template-columns:1fr}}
-.arrival-card{
-  position:relative;background:#14100C;border:1px solid rgba(212,175,55,.3);
-  border-radius:8px;overflow:hidden;display:flex;flex-direction:column;
-  box-shadow:0 14px 40px rgba(0,0,0,.15);
-  transition:transform .45s cubic-bezier(.16,1,.3,1),border-color .45s,box-shadow .45s;
-}
-.arrival-card:hover{
-  transform:translateY(-8px);border-color:var(--gold);
-  box-shadow:0 24px 60px rgba(212,175,55,.2);
-}
-.arrival-badge-wrap{position:absolute;top:14px;left:14px;right:14px;z-index:3;display:flex;justify-content:space-between;align-items:center}
-.novelty-badge{
-  background:linear-gradient(135deg,rgba(212,175,55,.9),rgba(170,135,67,.9));
-  color:var(--dark);padding:4px 12px;border-radius:20px;
-  font:700 9px var(--sans);letter-spacing:.14em;text-transform:uppercase;box-shadow:0 2px 8px rgba(0,0,0,.3);
-}
 
 /* ---------- EXPRESS ACQUISITION & CHECKOUT MODAL (Option A & B) ---------- */
 .buy-modal{
@@ -643,8 +568,6 @@ footer{padding-top:clamp(90px,13vh,150px);overflow:hidden;content-visibility:aut
     <span class="brand-sub label">Maison d'horlogerie</span>
   </a>
   <nav>
-    <a href="#trending">Trending</a>
-    <a href="#arrivals">Nouveautés</a>
     <a href="#collections">Vitrine</a>
     <a href="#calibre">Calibre</a>
     <a href="#heritage">Héritage</a>
@@ -666,7 +589,7 @@ footer{padding-top:clamp(90px,13vh,150px);overflow:hidden;content-visibility:aut
       <div class="hero-copy">
         <p class="eyebrow label rv">Manufacture d'horlogerie — Genève, depuis 1874</p>
         <h1 class="rv" style="--d:.08s">Time, made<br><em>patiently.</em></h1>
-        <p class="lede rv" style="--d:.16s">Three hundred and twelve watches leave the Rue du Rhône each year. Each is assembled twice, taken apart once, and signed by the hand that finished it.</p>
+        <p class="lede rv" style="--d:.16s">Three hundred and twelve hand-finished timepieces leave our Geneva atelier each year.</p>
         <div class="hero-cta rv" style="--d:.24s">
           <a class="btn light" href="#collections">Enter the vitrine</a>
           <a class="link-arrow" href="#calibre">Inside the calibre
@@ -680,9 +603,9 @@ footer{padding-top:clamp(90px,13vh,150px);overflow:hidden;content-visibility:aut
           <div id="heroTilt"><div id="heroWatch" role="img" aria-label="Léman Calibre L-21 showing the current time"></div></div>
         </div>
         <div class="film-row">
-          <p class="fig-cap label" id="hint" style="margin-top:0;text-align:left">Fig. 1 — Calibre L-21, running. The crown is live: press &amp; hold to wind.</p>
+          <p class="fig-cap label" id="hint" style="margin-top:0;text-align:left">Calibre L-21 · Live winding crown</p>
           <div class="film-ctls" id="filmCtls">
-            <span class="label" id="filmMeta">— × —</span>
+            
             <button type="button" id="filmModeBtn" class="film-ctl active" data-cursor="Changer">
               <span>✦ Film 4K Atelier</span>
             </button>
@@ -699,84 +622,31 @@ footer{padding-top:clamp(90px,13vh,150px);overflow:hidden;content-visibility:aut
 
   <div class="hero-strip rv">
     <div class="wrap">
-      <span><b>Calibre L-21</b><i>Manufacture, manual</i></span>
-      <span><b>42 h</b><i>Réserve de marche</i></span>
-      <span><b>312</b><i>Pièces per year</i></span>
-      <span><b>1874</b><i>Est. Genève</i></span>
+      <span><b>Calibre L-21</b><i>Manufacture</i></span>
+      <span><b>42 h</b><i>Réserve</i></span>
+      <span><b>312 pcs</b><i>Édition annuelle</i></span>
+      <span><b>1874</b><i>Genève</i></span>
     </div>
   </div>
 
-  <!-- ================= SECTION 01: TRENDING NOW (CURATED CAROUSEL) ================= -->
-  <section class="slider-section" id="trending">
-    <div class="wrap">
-      <div class="kicker rv"><span class="label">N° 01 — Sélection · Trending Now</span></div>
-      <div class="sec-head rv" style="--d:.08s">
-        <div>
-          <h2>Trending Now,<br><em>Les Plus Convoitées.</em></h2>
-          <p class="sec-note" style="text-align:left;max-width:540px;margin-top:10px;">
-            Les quatre créations les plus sollicitées cette saison à Genève. Disponibilité immédiate en atelier ou sur allocation restreinte.
-          </p>
-        </div>
-        <div class="slider-nav-wrap">
-          <a href="#collections" class="btn" style="padding:10px 18px;font-size:10.5px;letter-spacing:.16em;">
-            Voir Tous les Modèles
-          </a>
-          <div class="slider-arrows">
-            <button type="button" class="slider-arrow-btn" id="trendPrev" aria-label="Précédent">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 2L4 7l5 5"/></svg>
-            </button>
-            <button type="button" class="slider-arrow-btn" id="trendNext" aria-label="Suivant">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 2l5 5-5 5"/></svg>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div class="slider-track-wrap">
-        <div class="slider-track" id="trendTrack"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= SECTION 02: NEW ARRIVALS & NOVELTIES 2026 ================= -->
-  <section class="slider-section" id="arrivals" style="background:rgba(235,229,216,.35);">
-    <div class="wrap">
-      <div class="kicker rv"><span class="label">N° 02 — Nouveautés · New Arrivals 2026</span></div>
-      <div class="sec-head rv" style="--d:.08s">
-        <div>
-          <h2>New Arrivals,<br><em>Complications &amp; Métiers Rares.</em></h2>
-          <p class="sec-note" style="text-align:left;max-width:540px;margin-top:10px;">
-            Trois nouvelles révélations de manufacture : astronomie miniature, acoustique cathédrale et texture givrée argentée.
-          </p>
-        </div>
-        <a href="#collections" class="link-arrow" style="font:600 11px var(--sans);letter-spacing:.16em;text-transform:uppercase;">
-          <span>Collection Complète</span>
-          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 12L12 2M4 2h8v8"/></svg>
-        </a>
-      </div>
-
-      <div class="arrivals-grid" id="arrivalsGrid"></div>
-    </div>
-  </section>
-
-  <!-- ================= SECTION 03: THE VITRINE (CATEGORY TABS & 3 × 3 GRID) ================= -->
+  <!-- ================= THE VITRINE (CATEGORY FILTER TABS & 3 × 3 GRID) ================= -->
   <section id="collections">
     <div class="wrap">
-      <div class="kicker rv"><span class="label">N° 03 — La Vitrine · Collection Complète</span></div>
+      <div class="kicker rv"><span class="label">N° 01 — La Vitrine</span></div>
       <div class="sec-head rv" style="--d:.08s">
         <div>
           <h2>Nine watches,<br><em>one conviction.</em></h2>
           
-          <!-- Category Filter Bar (Option B) -->
+          <!-- Category Filter Tabs -->
           <div class="cat-filter-bar" role="tablist" aria-label="Filtrer par catégorie">
             <button type="button" class="cat-filter-btn active" data-cat="all">
               <span>✦ Tous les Modèles</span> <span class="cat-cnt">9</span>
             </button>
             <button type="button" class="cat-filter-btn" data-cat="trending">
-              <span>🔥 Trending Now</span> <span class="cat-cnt">4</span>
+              <span>🔥 Trending</span> <span class="cat-cnt">4</span>
             </button>
             <button type="button" class="cat-filter-btn" data-cat="arrivals">
-              <span>✨ New Arrivals</span> <span class="cat-cnt">3</span>
+              <span>✨ Nouveautés</span> <span class="cat-cnt">3</span>
             </button>
             <button type="button" class="cat-filter-btn" data-cat="complication">
               <span>⚙️ Complications</span> <span class="cat-cnt">3</span>
@@ -788,17 +658,17 @@ footer{padding-top:clamp(90px,13vh,150px);overflow:hidden;content-visibility:aut
         </div>
 
         <div class="sec-side">
-          <p class="sec-note">Nine signature dials captured in true 4K atelier photography. Switch between full-color photography and mechanical movement vectors.</p>
+          <p class="sec-note">Nine dials. Pure handcraft. Toggle between studio photography and movement schematics.</p>
           
           <div class="vitrine-controls-bar">
             <!-- VIEW MODE TOGGLE -->
             <div class="vitrine-view-ctl" role="group" aria-label="Mode d'affichage">
-              <button type="button" class="view-btn on" data-mode="photo">✦ Photographie 4K</button>
-              <button type="button" class="view-btn" data-mode="vector">⟳ Schéma Calibre</button>
+              <button type="button" class="view-btn on" data-mode="photo">✦ Photo 4K</button>
+              <button type="button" class="view-btn" data-mode="vector">⟳ Schéma</button>
             </div>
 
             <!-- RESOLUTION TOGGLE -->
-            <div class="res-ctl" role="group" aria-label="Résolution photographique">
+            <div class="res-ctl" role="group" aria-label="Résolution">
               <button type="button" class="res-btn on" data-res="web">Web</button>
               <button type="button" class="res-btn" data-res="4k">4K Master</button>
             </div>
@@ -808,11 +678,6 @@ footer{padding-top:clamp(90px,13vh,150px);overflow:hidden;content-visibility:aut
 
       <!-- THE 9 WATCHES GRID -->
       <div class="vitrine mode-photo" id="vitrine"></div>
-
-      <div class="vit-foot">
-        <span class="label">Planche 01–09 — tirages photographiques 4K disponibles au salon.</span>
-        <span class="label">Every watch opposite is running. None of them are in a hurry.</span>
-      </div>
     </div>
   </section>
 
@@ -821,7 +686,7 @@ footer{padding-top:clamp(90px,13vh,150px);overflow:hidden;content-visibility:aut
     <img id="wideImg" alt="L'Établi à première lumière à Genève — Tirage 4K Master" loading="lazy" decoding="async">
     <figcaption class="plate-cap">
       <span class="label">✦ Planche 00 · Tirage 4K Master · 3840 × 2160 · Couleurs Réelles d'Atelier</span>
-      <p>L'établi, première lumière. The bench, at first light, before the first gear is set.</p>
+      <p>L'établi à première lumière. The workbench at dawn.</p>
     </figcaption>
   </figure>
 
@@ -831,7 +696,7 @@ footer{padding-top:clamp(90px,13vh,150px);overflow:hidden;content-visibility:aut
       <div class="kicker rv"><span class="label">N° 02 — Le Calibre</span></div>
       <div class="sec-head rv" style="--d:.08s">
         <h2>Two hundred and seven parts,<br><em>one heartbeat.</em></h2>
-        <p class="sec-note">Flame-blued screws, pigeon-blood ruby jewels in gold chatons, and hand-finished Geneva stripes.</p>
+        <p class="sec-note">207 hand-finished parts. 28,800 vph. Free-sprung balance.</p>
       </div>
       <div class="cal-grid">
         <div class="mov-wrap rv">
@@ -876,15 +741,15 @@ footer{padding-top:clamp(90px,13vh,150px);overflow:hidden;content-visibility:aut
           </div>
 
           <ul class="mov-legend">
-            <li><span class="mv-no">1</span>Balance &amp; hairspring — 28,800 vph, free-sprung, adjusted in six positions</li>
-            <li><span class="mv-no">2</span>Mainspring barrel — 42 hours of reserve, deliberately over-length</li>
-            <li><span class="mv-no">3</span>Swiss lever escapement — fifteen teeth, beating five times a second</li>
-            <li><span class="mv-no">4</span>Thirty-one rubies, set by hand in solid gold chatons</li>
-          </ul>
+    <li><span class="mv-no">1</span>Balancier libre &amp; spiral — 28 800 vph</li>
+    <li><span class="mv-no">2</span>Barillet de manufacture — 42 heures</li>
+    <li><span class="mv-no">3</span>Échappement à ancre suisse — 4 Hz</li>
+    <li><span class="mv-no">4</span>31 rubis en chatons or massif</li>
+  </ul>
         </div>
 
         <aside class="rv" style="--d:.12s">
-          <p class="cal-state">Two hundred and seven parts agree, morning after morning, to disagree with the battery.</p>
+          
           <dl class="specs">
             <div><dt>Calibre</dt><dd>L-21, manual wind</dd></div>
             <div><dt>Réserve</dt><dd>42 hours</dd></div>
@@ -893,7 +758,7 @@ footer{padding-top:clamp(90px,13vh,150px);overflow:hidden;content-visibility:aut
             <div><dt>Jewels</dt><dd>31, in gold chatons</dd></div>
             <div><dt>Height</dt><dd>3.9 mm</dd></div>
           </dl>
-          <p class="cal-note label">Hand-beveled mirror anglage, circular graining perlage, and Genevan stripes.</p>
+          <p class="cal-note label">Poinçon de Genève standards · Anglage main &amp; Côtes de Genève.</p>
         </aside>
       </div>
     </div>
@@ -916,20 +781,20 @@ footer{padding-top:clamp(90px,13vh,150px);overflow:hidden;content-visibility:aut
         </div>
         <div class="heritage-caption">
           <span class="label">Tirage d'Époque · Chambre Noire</span>
-          <p>“Émile Léman seated at the Rue du Rhône bench, where the very first movement was adjusted by the northern lake light.”</p>
+          <p>“Émile Léman à l'établi de la Rue du Rhône, 1874.”</p>
           <span class="label" style="font-size:10px; color:var(--bronze2);">Conservé aux archives de la manufacture.</span>
         </div>
       </div>
 
       <ol class="tl">
-        <li class="rv"><span class="tl-year">1874</span><p>Émile Léman, twenty-six, rents a bench above a bookbinder on the Rue du Rhône and finishes his first movement under another man's name.</p></li>
-        <li class="rv"><span class="tl-year">1903</span><p>The atelier releases its first calibre under its own signature. Eleven are made. Nine are known to survive; the house pretends not to know where the tenth went.</p></li>
-        <li class="rv"><span class="tl-year">1926</span><p>The Répétition strikes the hours on two gongs tuned to the bell of Saint-Pierre. It was said you could set your watch by the cathedral; now, the reverse.</p></li>
-        <li class="rv"><span class="tl-year">1948</span><p>The workshop reopens after the war with four hands where there had been forty. The waiting list begins and, in one sense, never ends.</p></li>
-        <li class="rv"><span class="tl-year">1969</span><p>Quartz arrives. The house declines, in a polite letter, to convert. The letter is framed; it hangs beside the lathe.</p></li>
-        <li class="rv"><span class="tl-year">1994</span><p>A Léman returns to the bench. The founder's great-granddaughter reopens the enamel workshop, and the kiln resumes its ancient habit of saying no.</p></li>
-        <li class="rv"><span class="tl-year">Today</span><p>312 watches a year. Never more. The waiting list is measured in years and, we find, rarely resented.</p></li>
-      </ol>
+    <li class="rv"><span class="tl-year">1874</span><p>Émile Léman fonde son premier atelier Rue du Rhône à Genève.</p></li>
+    <li class="rv"><span class="tl-year">1903</span><p>Création du premier calibre sous signature indépendante Léman.</p></li>
+    <li class="rv"><span class="tl-year">1926</span><p>Premier garde-temps à répétition minutes sur timbres cathédrale.</p></li>
+    <li class="rv"><span class="tl-year">1948</span><p>Atelier d'après-guerre dédié uniquement aux séries d'exception.</p></li>
+    <li class="rv"><span class="tl-year">1969</span><p>Engagement absolu et exclusif pour la haute horlogerie mécanique.</p></li>
+    <li class="rv"><span class="tl-year">1994</span><p>Renaissance des ateliers d'émail Grand Feu et de guillochage main.</p></li>
+    <li class="rv"><span class="tl-year">Aujourd'hui</span><p>312 montres par an. Finition intégrale à la main, sans compromis.</p></li>
+  </ol>
     </div>
   </section>
 
@@ -949,10 +814,10 @@ footer{padding-top:clamp(90px,13vh,150px);overflow:hidden;content-visibility:aut
       </div>
 
       <div>
-        <div class="bq-row rv"><h3>Genève</h3><p class="bq-addr">Rue du Rhône 24 — the salon downstairs and, upstairs, the atelier itself.</p><a class="link-arrow" href="mailto:salon@maison-leman.ch?subject=An%20audience">Write to the salon</a></div>
-        <div class="bq-row rv"><h3>Paris</h3><p class="bq-addr">8, Place Vendôme — a salon of two chairs, one long silence, and better coffee than advertised.</p><a class="link-arrow" href="mailto:vendome@maison-leman.ch?subject=An%20audience">Write to the salon</a></div>
-        <div class="bq-row rv"><h3>Tokyo</h3><p class="bq-addr">Ginza 6-Chōme, Chūō-ku — tea is served at three; the watches keep their own time.</p><a class="link-arrow" href="mailto:ginza@maison-leman.ch?subject=An%20audience">Write to the salon</a></div>
-        <div class="bq-row rv"><h3>New York</h3><p class="bq-addr">9 East 62nd Street — the newest room, furnished mostly with patience.</p><a class="link-arrow" href="mailto:newyork@maison-leman.ch?subject=An%20audience">Write to the salon</a></div>
+        <div class="bq-row rv"><h3>Genève</h3><p class="bq-addr">Rue du Rhône 24 — Salon privé &amp; Atelier de manufacture.</p><a class="link-arrow" href="mailto:salon@maison-leman.ch?subject=Audience%20Genève">Prendre rendez-vous</a></div>
+        <div class="bq-row rv"><h3>Paris</h3><p class="bq-addr">8, Place Vendôme — Salon privé sur rendez-vous.</p><a class="link-arrow" href="mailto:vendome@maison-leman.ch?subject=Audience%20Paris">Prendre rendez-vous</a></div>
+        <div class="bq-row rv"><h3>Tokyo</h3><p class="bq-addr">Ginza 6-Chōme, Chūō-ku — Salon de présentation privée.</p><a class="link-arrow" href="mailto:ginza@maison-leman.ch?subject=Audience%20Tokyo">Prendre rendez-vous</a></div>
+        <div class="bq-row rv"><h3>New York</h3><p class="bq-addr">9 East 62nd Street — Salon privé Madison &amp; 5th.</p><a class="link-arrow" href="mailto:newyork@maison-leman.ch?subject=Audience%20New%20York">Prendre rendez-vous</a></div>
       </div>
     </div>
   </section>
@@ -963,13 +828,13 @@ footer{padding-top:clamp(90px,13vh,150px);overflow:hidden;content-visibility:aut
   <div class="wrap">
     <div class="ft-top">
       <div class="ft-ledger rv">
-        <h3 class="label">The Private Ledger</h3>
-        <p>Four letters a year from the bench. Nothing more, nothing sooner. We write on paper, in ink, at length.</p>
+        <h3 class="label">La Gazette Privée</h3>
+        <p>Correspondance trimestrielle de la manufacture. Allocations et nouvelles planches.</p>
         <form id="ledgerForm" novalidate>
-          <input class="field" type="email" name="email" placeholder="Your address" aria-label="Email address" required>
-          <button class="btn light" type="submit">Subscribe</button>
+          <input class="field" type="email" name="email" placeholder="Votre adresse email" aria-label="Adresse email" required>
+          <button class="btn light" type="submit">S'inscrire</button>
         </form>
-        <p class="ft-ok" id="ledgerOk" hidden>Your name is in the ledger. Expect nothing until the season turns.</p>
+        <p class="ft-ok" id="ledgerOk" hidden>Votre adresse est enregistrée au registre privé.</p>
       </div>
       <div class="ft-nav rv" style="--d:.1s">
         <div>
@@ -1654,77 +1519,77 @@ new IntersectionObserver(es=>es.forEach(en=>filmVisible=en.isIntersecting)).obse
 /* ================= THE COLLECTION — NINE TIMEPIECES (VIVID COLOR ARTISTRY) ================= */
 const COLLECTION=[
  {no:'01',name:'Héritage',ref:'Réf. 1874-A',comp:'Grand feu enamel',price:'CHF 48 000',rawPrice:48000,
-  stockStatus:'in-stock',stockLabel:'● En Stock (2 pièces)',categories:['trending','classique','metiers'],
-  colorDot:'#1D457E',colorName:'Émail Grand Feu & Acier Bleui',
-  swatches:[{name:'Cadran',color:'#F1EADA',label:'Émail Fired 4×'},{name:'Boîtier',color:'#E2DFD8',label:'Platine 950'},{name:'Aiguilles',color:'#1D457E',label:'Acier Bleui Feu'}],
-  desc:'The founding watch, drawn in 1874 and deliberately unchanged since. Its dial is grand feu enamel — fired four times, and allowed, on the fourth firing, to fail as it always has. What survives the kiln is what you wear.',
-  specs:{'Calibre':'L-21, manual wind','Réserve':'42 hours','Case':'Platinum, 38.5 mm','Dial':'Grand feu enamel, ivory porcelain','Strap':'Havane alligator leather','Edition':'Numbered; the kiln decides'},
+  stockStatus:'in-stock',stockLabel:'● En Stock (2)',categories:['trending','classique','metiers'],
+  colorDot:'#1D457E',colorName:'Émail Grand Feu',
+  swatches:[{name:'Cadran',color:'#F1EADA',label:'Émail Grand Feu'},{name:'Boîtier',color:'#E2DFD8',label:'Platine 950'},{name:'Aiguilles',color:'#1D457E',label:'Acier Bleui'}],
+  desc:'Émail Grand Feu ivoire cuit 4 fois à 800°C. Aiguilles en acier bleui flamme sur platine 950.',
+  specs:{'Calibre':'L-21, manual wind','Réserve':'42 hours','Case':'Platinum, 38.5 mm','Dial':'Grand feu enamel porcelain','Strap':'Havane alligator','Edition':'Numbered annual series'},
   dial:{dial:'#F1EADA',mark:'#1D457E',onDark:false,accent:'#D4AF37',handFill:'#1D457E',facet:'rgba(255,255,255,.5)'},
-  plate:{base:'assets/leman/leman-plate-01-heritage',cap:'grand feu — porcelaine ivoire, cuisson au four & aiguilles bleuies'}},
+  plate:{base:'assets/leman/leman-plate-01-heritage',cap:'grand feu — porcelaine ivoire & aiguilles bleuies'}},
  {no:'02',name:'Nocturne',ref:'Réf. 1988-N',comp:'Anthracite',price:'CHF 61 000',rawPrice:61000,
-  stockStatus:'in-stock',stockLabel:'● En Stock (1 pièce)',categories:['trending','classique'],
-  colorDot:'#757169',colorName:'Anthracite & Grain de Fer',
+  stockStatus:'in-stock',stockLabel:'● En Stock (1)',categories:['trending','classique'],
+  colorDot:'#757169',colorName:'Anthracite Météore',
   swatches:[{name:'Cadran',color:'#2B2A2E',label:'Anthracite Météorite'},{name:'Boîtier',color:'#E9E5DD',label:'Or Blanc 18K'},{name:'Index',color:'#F4E2AA',label:'Or Facetté'}],
-  desc:'Anthracite with a grain of iron, made for evenings that begin late. The indices are milled, not stamped; you feel the difference before you can name it.',
-  specs:{'Calibre':'L-21, manual wind','Réserve':'42 hours','Case':'White gold, 39 mm','Dial':'Anthracite, vertical grain iron','Strap':'Black alligator leather','Edition':'Numbered, annual series'},
+  desc:'Anthracite brossé au grain de fer et or blanc 18 carats pour une lisibilité nocturne sans égale.',
+  specs:{'Calibre':'L-21, manual wind','Réserve':'42 hours','Case':'White gold, 39 mm','Dial':'Anthracite vertical grain','Strap':'Black alligator','Edition':'Numbered series'},
   dial:{dial:'#2B2A2E',mark:'#E9E2D0',onDark:true,accent:'#D4AF37',handFill:'#E9E2D0',facet:'rgba(0,0,0,.3)'},
-  plate:{base:'assets/leman/leman-plate-02-nocturne',cap:'anthracite — grain de fer & nuit étoilée de Genève'}},
+  plate:{base:'assets/leman/leman-plate-02-nocturne',cap:'anthracite — grain de fer & nuit étoilée'}},
  {no:'03',name:'Seconde Centrale',ref:'Réf. 1958-S',comp:'Salmon dial',price:'CHF 36 500',rawPrice:36500,
-  stockStatus:'in-stock',stockLabel:'● En Stock (3 pièces)',categories:['trending','classique'],
-  colorDot:'#D98A62',colorName:'Saumon Solaire du Léman',
+  stockStatus:'in-stock',stockLabel:'● En Stock (3)',categories:['trending','classique'],
+  colorDot:'#D98A62',colorName:'Saumon Solaire',
   swatches:[{name:'Cadran',color:'#E8C2A2',label:'Saumon Cuivré Brossé'},{name:'Boîtier',color:'#D1D5DB',label:'Acier Forgé 316L'},{name:'Trotteuse',color:'#1E447A',label:'Bleu Flamme'}],
-  desc:'A salmon dial the colour of the lake at seven in the morning. The seconds ride the centre pinion rather than a subdial — a small impertinence when it was drawn, a signature now.',
-  specs:{'Calibre':'L-21, manual wind','Réserve':'42 hours','Case':'Steel, 38.5 mm','Dial':'Salmon copper, sun-brushed reflection','Strap':'Suede, cognac patinated','Edition':'Numbered, annual series'},
+  desc:'Cadran saumon cuivré rayonnant évoquant l’aube sur le lac Léman. Trotteuse centrale bleuie.',
+  specs:{'Calibre':'L-21, manual wind','Réserve':'42 hours','Case':'Steel, 38.5 mm','Dial':'Salmon copper sun-brushed','Strap':'Suede cognac','Edition':'Numbered series'},
   dial:{dial:'#E8C2A2',mark:'#2A2018',onDark:false,accent:'#1E447A',handFill:'#2A2018',facet:'rgba(255,255,255,.4)'},
-  plate:{base:'assets/leman/leman-plate-03-saumon',cap:'saumon — soleil de sept heures sur les eaux du Léman'}},
+  plate:{base:'assets/leman/leman-plate-03-saumon',cap:'saumon — soleil levant sur les eaux du Léman'}},
  {no:'04',name:'Vert Empire',ref:'Réf. 1972-V',comp:'Empire green',price:'CHF 52 000',rawPrice:52000,
-  stockStatus:'allocation',stockLabel:'○ Sur Allocation (1 pièce)',categories:['trending','metiers'],
-  colorDot:'#1E7E44',colorName:'Vert Empire Guilloché Main',
+  stockStatus:'allocation',stockLabel:'○ Allocation (1)',categories:['trending','metiers'],
+  colorDot:'#1E7E44',colorName:'Vert Empire Guilloché',
   swatches:[{name:'Cadran',color:'#17482D',label:'Émeraude Guilloché'},{name:'Boîtier',color:'#E9E5DD',label:'Or Blanc 18K'},{name:'Bracelet',color:'#132E1E',label:'Alligator Forêt'}],
-  desc:'Empire green — the colour of the atelier door, which has been repainted exactly once since the war. Hand-turned guilloché rosette, Breguet numerals, and a certain reluctance to explain itself.',
-  specs:{'Calibre':'L-21, manual wind','Réserve':'42 hours','Case':'White gold, 39 mm','Dial':'Empire green, hand guilloché rosette','Strap':'Forest alligator leather','Edition':'Numbered, 88 pieces a year'},
+  desc:'Guillochage main en rosace au tour à guillocher. Boîtier en or blanc 18K et chiffres Breguet.',
+  specs:{'Calibre':'L-21, manual wind','Réserve':'42 hours','Case':'White gold, 39 mm','Dial':'Empire green hand-guilloché','Strap':'Forest alligator','Edition':'88 pieces per year'},
   dial:{dial:'#1B3D2B',mark:'#EFE7D3',onDark:true,accent:'#D4AF37',handFill:'#EFE7D3',facet:'rgba(0,0,0,.3)'},
-  plate:{base:'assets/leman/leman-plate-04-vert',cap:'vert empire — la porte de l’atelier, guilloché main en rosace'}},
+  plate:{base:'assets/leman/leman-plate-04-vert',cap:'vert empire — guilloché main en rosace'}},
  {no:'05',name:'Champagne',ref:'Réf. 1979-C',comp:'Gilt champagne',price:'CHF 44 000',rawPrice:44000,
-  stockStatus:'in-stock',stockLabel:'● En Stock (2 pièces)',categories:['classique','metiers'],
-  colorDot:'#E5C158',colorName:'Gilt Champagne & Or Rose',
-  swatches:[{name:'Cadran',color:'#E6D3A8',label:'Champagne Doré Soleil'},{name:'Boîtier',color:'#D99B77',label:'Or Rose 18K 4N'},{name:'Bracelet',color:'#8C481F',label:'Alligator Cognac Miel'}],
-  desc:'Gilt champagne — the dial of the workshop at four in the afternoon, when the light comes in low off the lake and every screw looks briefly like a decision. The print is gilt, the case pink gold, the restraint intact.',
-  specs:{'Calibre':'L-21, manual wind','Réserve':'42 hours','Case':'Pink gold, 38.5 mm','Dial':'Champagne, radial gilt sunray','Strap':'Cognac alligator leather','Edition':'Numbered, annual series'},
+  stockStatus:'in-stock',stockLabel:'● En Stock (2)',categories:['classique','metiers'],
+  colorDot:'#E5C158',colorName:'Gilt Champagne',
+  swatches:[{name:'Cadran',color:'#E6D3A8',label:'Champagne Doré'},{name:'Boîtier',color:'#D99B77',label:'Or Rose 18K'},{name:'Bracelet',color:'#8C481F',label:'Alligator Miel'}],
+  desc:'Cadran champagne doré aux reflets solaires chaleureux, rehaussé d’or rose 18K 4N.',
+  specs:{'Calibre':'L-21, manual wind','Réserve':'42 hours','Case':'Pink gold, 38.5 mm','Dial':'Champagne radial sunray','Strap':'Cognac alligator','Edition':'Annual series'},
   dial:{dial:'#E6D3A8',mark:'#3A2F1C',onDark:false,accent:'#8C6D3B',handFill:'#3A2F1C',facet:'rgba(255,255,255,.45)'},
-  plate:{base:'assets/leman/leman-plate-05-champagne',cap:'champagne — seize heures à l’atelier sous la lumière dorée'}},
+  plate:{base:'assets/leman/leman-plate-05-champagne',cap:'champagne — lumière dorée de fin d’après-midi'}},
  {no:'06',name:'Bleu Nuit',ref:'Réf. 1996-B',comp:'Bleu nuit',price:'CHF 56 000',rawPrice:56000,
-  stockStatus:'in-stock',stockLabel:'● En Stock (2 pièces)',categories:['trending','classique'],
-  colorDot:'#2563EB',colorName:'Bleu Nuit Solaire du Lac',
+  stockStatus:'in-stock',stockLabel:'● En Stock (2)',categories:['trending','classique'],
+  colorDot:'#2563EB',colorName:'Bleu Nuit Solaire',
   swatches:[{name:'Cadran',color:'#152B4D',label:'Bleu Nuit Rayonné'},{name:'Boîtier',color:'#E9E5DD',label:'Or Blanc 18K'},{name:'Index',color:'#F3F4F6',label:'Rhodium Miroir'}],
-  desc:'The blue of the lake ten minutes after the sun has gone — not the blue of anything synthetic. Rhodiumed indices over a sunray brush cut radially, one degree at a time, on the same wheel since 1961.',
-  specs:{'Calibre':'L-21, manual wind','Réserve':'42 hours','Case':'White gold, 39 mm','Dial':'Bleu nuit, sunray radial brush','Strap':'Marine alligator leather','Edition':'Numbered, annual series'},
+  desc:'Bleu nuit profond découpé au diamant rayon par rayon. Index appliques rhodiés miroir.',
+  specs:{'Calibre':'L-21, manual wind','Réserve':'42 hours','Case':'White gold, 39 mm','Dial':'Bleu nuit radial sunray','Strap':'Marine alligator','Edition':'Numbered series'},
   dial:{dial:'#152B4D',mark:'#E7E1D2',onDark:true,accent:'#D4AF37',handFill:'#E7E1D2',facet:'rgba(0,0,0,.3)'},
-  plate:{base:'assets/leman/leman-plate-06-bleunuit',cap:'bleu nuit — dix minutes après le coucher, eaux profondes'}},
+  plate:{base:'assets/leman/leman-plate-06-bleunuit',cap:'bleu nuit — eaux profondes du Léman'}},
  {no:'07',name:'Lune',ref:'Réf. 2001-L',comp:'Moonphase',price:'CHF 88 000',rawPrice:88000,
   stockStatus:'novelty',stockLabel:'✨ Nouveauté 2026',categories:['arrivals','complication','metiers'],
-  colorDot:'#F59E0B',colorName:'Lune d’Or & Ciel Étoilé',
+  colorDot:'#F59E0B',colorName:'Lune Astronomique',
   swatches:[{name:'Cadran',color:'#EFE7D3',label:'Ivoire Porcelaine'},{name:'Disque Lune',color:'#0D1A33',label:'Lapis Lazuli & Or'},{name:'Boîtier',color:'#D99B77',label:'Or Rose 18K'}],
-  desc:'A moon that accrues one day of error every 122 years — our grandmothers’ moon, drawn in enamel, patient as they were. The gear for it has 135 teeth. Each one is counted twice.',
-  specs:{'Calibre':'L-21-L, moonphase complication','Réserve':'42 hours','Case':'Pink gold, 40 mm','Dial':'Ivory, enamel moon & constellation','Strap':'Noisette alligator leather','Edition':'Numbered, annual series'},
+  desc:'Phase de lune astronomique exacte à un jour près en 122 ans. Disque miniature lapis-lazuli et or.',
+  specs:{'Calibre':'L-21-L, moonphase','Réserve':'42 hours','Case':'Pink gold, 40 mm','Dial':'Ivory enamel moon & stars','Strap':'Noisette alligator','Edition':'Numbered series'},
   dial:{dial:'#EFE7D3',mark:'#241E13',onDark:false,accent:'#1F4478',handFill:'#241E13',facet:'rgba(255,255,255,.4)',moon:true},
-  plate:{base:'assets/leman/leman-plate-07-lune',cap:'lune — disque céleste miniature, étoiles poudrées & patience'}},
+  plate:{base:'assets/leman/leman-plate-07-lune',cap:'lune — ciel de lapis-lazuli & disque d’or poli'}},
  {no:'08',name:'Répétition',ref:'Réf. 1926-R',comp:'Minute repeater',price:'CHF 320 000',rawPrice:320000,
-  stockStatus:'allocation',stockLabel:'✦ Série Limitée 8 Pcs',categories:['arrivals','complication','metiers'],
-  colorDot:'#DC2626',colorName:'Laque Noire & Timbres Cathédrale',
-  swatches:[{name:'Cadran',color:'#0D0B09',label:'Laque Noire Profonde'},{name:'Boîtier',color:'#E2DFD8',label:'Platine 950'},{name:'Timbres',color:'#8E8B82',label:'Acier Trempé Saint-Pierre'}],
-  desc:'Two gongs on steel wire, tuned — so the story goes — to the bell of Saint-Pierre. Slide the bolt and the watch tells you the time in the dark: courteously, in hours, quarters and minutes.',
-  specs:{'Calibre':'L-21-R, two cathedral gongs','Réserve':'38 hours','Case':'Platinum, 40 mm','Dial':'Deep black lacquer, mirror polished','Strap':'Noir alligator leather','Edition':'Eight pieces a year'},
+  stockStatus:'allocation',stockLabel:'✦ 8 Pièces / An',categories:['arrivals','complication','metiers'],
+  colorDot:'#DC2626',colorName:'Répétition Cathédrale',
+  swatches:[{name:'Cadran',color:'#0D0B09',label:'Laque Noire Profonde'},{name:'Boîtier',color:'#E2DFD8',label:'Platine 950'},{name:'Timbres',color:'#8E8B82',label:'Acier Saint-Pierre'}],
+  desc:'Deux timbres cathédrale enroulés accordés aux cloches de Genève. Boîtier d’exception en platine 950.',
+  specs:{'Calibre':'L-21-R, cathedral gongs','Réserve':'38 hours','Case':'Platinum, 40 mm','Dial':'Deep black mirror lacquer','Strap':'Noir alligator','Edition':'Eight pieces a year'},
   dial:{dial:'#181410',mark:'#E9E2D0',onDark:true,accent:'#D4AF37',handFill:'#E9E2D0',facet:'rgba(0,0,0,.3)'},
-  plate:{base:'assets/leman/leman-plate-08-repetition',cap:'laque noire — deux timbres d’acier, cloches de Saint-Pierre'}},
+  plate:{base:'assets/leman/leman-plate-08-repetition',cap:'laque noire — acoustique cathédrale en platine'}},
  {no:'09',name:'Opaline',ref:'Réf. 1962-O',comp:'Opaline silver',price:'CHF 31 000',rawPrice:31000,
   stockStatus:'novelty',stockLabel:'✨ Nouveauté 2026',categories:['arrivals','classique'],
-  colorDot:'#60A5FA',colorName:'Opaline Givrée & Aiguilles Bleues',
-  swatches:[{name:'Cadran',color:'#D9DACC',label:'Opaline Sablée Givrée'},{name:'Boîtier',color:'#D1D5DB',label:'Acier Pur 316L'},{name:'Aiguilles',color:'#1E447A',label:'Acier Bleui Flamme'}],
-  desc:'Opaline silver with printed marks only — no appliques, no tricks. It is the quietest dial the house makes, and the one the watchmakers choose for themselves.',
-  specs:{'Calibre':'L-21, manual wind','Réserve':'42 hours','Case':'Steel, 37.5 mm','Dial':'Opaline silver, matte frosted texture','Strap':'Graphite suede leather','Edition':'Numbered, annual series'},
+  colorDot:'#60A5FA',colorName:'Opaline Givrée',
+  swatches:[{name:'Cadran',color:'#D9DACC',label:'Opaline Sablée'},{name:'Boîtier',color:'#D1D5DB',label:'Acier Pur 316L'},{name:'Aiguilles',color:'#1E447A',label:'Acier Bleui'}],
+  desc:'Argent opaline sablé mat et aiguilles bleuies à la flamme. Le minimalisme horloger par excellence.',
+  specs:{'Calibre':'L-21, manual wind','Réserve':'42 hours','Case':'Steel, 37.5 mm','Dial':'Opaline silver frosted','Strap':'Graphite suede','Edition':'Numbered series'},
   dial:{dial:'#D9DACC',mark:'#26221A',onDark:false,accent:'#1E447A',handFill:'#26221A',facet:'rgba(255,255,255,.4)'},
-  plate:{base:'assets/leman/leman-plate-09-opaline',cap:'opaline — le silence de l’établi, texture givrée argent'}},
+  plate:{base:'assets/leman/leman-plate-09-opaline',cap:'opaline — texture givrée & pureté d’atelier'}},
 ];
 
 /* ================= MULTI-CURRENCY CONVERTER ================= */
@@ -1743,7 +1608,7 @@ function formatPrice(rawChf, curr) {
   return c.sym + val.toLocaleString('en-US') + (c.suf || '');
 }
 
-/* ================= VITRINE : 3 × 3 (VIVID 4K PHOTOGRAPHY & INTERACTION) ================= */
+/* ================= THE VITRINE (CLEAN & SPACIOUS 3 × 3 GRID) ================= */
 const ARROW='<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 12L12 2M4 2h8v8"/></svg>';
 const vit=$('#vitrine');
 const storeEl=$('#watchStore');
@@ -1764,17 +1629,14 @@ const cells=COLLECTION.map((c,i)=>{
   b.innerHTML=
     `<span class="plate" aria-hidden="true"><img alt="${c.name} ${c.comp}" loading="lazy" decoding="async"></span>`+
     `<div class="cell-top-row">`+
-      `<div class="cell-top-left">`+
-        `<span class="cell-no label">✦ Planche ${String(i+1).padStart(2,'0')}</span>`+
-        `<span class="stock-pill ${c.stockStatus}">${c.stockLabel}</span>`+
-      `</div>`+
-      `<span class="dial-color-pill"><span class="color-dot" style="background:${c.colorDot}"></span>${c.colorName}</span>`+
+      `<span class="cell-no label">✦ Planche ${String(i+1).padStart(2,'0')}</span>`+
+      `<span class="stock-pill ${c.stockStatus}">${c.stockLabel}</span>`+
     `</div>`+
     `<span class="cell-watch"></span>`+
     `<div class="cell-bottom">`+
       `<span class="cell-cap">`+
         `<b>${c.name}</b>`+
-        `<i>${c.ref} · ${c.specs.Case.split(',')[0]}</i>`+
+        `<i>${c.comp} · ${c.specs.Case.split(',')[0]}</i>`+
         `<span class="cell-price" data-i="${i}">${formatPrice(c.rawPrice, currentCurrency)}</span>`+
       `</span>`+
       `<div class="cell-actions">`+
@@ -1796,79 +1658,7 @@ const cellIO=new IntersectionObserver(es=>es.forEach(en=>{
 }),{rootMargin:'120px'});
 cells.forEach(c=>cellIO.observe(c));
 
-/* ================= SECTION 01: TRENDING NOW SLIDER ================= */
-const trendTrack=$('#trendTrack');
-const trendIndices=[0,2,3,5];
-if(trendTrack){
-  trendTrack.innerHTML=trendIndices.map(idx=>{
-    const c=COLLECTION[idx];
-    return `
-      <article class="slider-card" data-i="${idx}">
-        <div class="slider-plate-wrap">
-          <img src="${c.plate.base}-web.jpg" alt="${c.name}" loading="lazy">
-          <div class="slider-card-top">
-            <span class="stock-pill ${c.stockStatus}">${c.stockLabel}</span>
-            <span class="dial-color-pill"><span class="color-dot" style="background:${c.colorDot}"></span>${c.colorName}</span>
-          </div>
-        </div>
-        <div class="slider-card-body">
-          <div>
-            <span class="label" style="font-size:10px;color:var(--bronze2);">${c.ref} · ${c.specs.Case.split(',')[0]}</span>
-            <h3 class="slider-card-title">${c.name}</h3>
-            <p class="slider-card-desc">${c.desc.substring(0,92)}...</p>
-          </div>
-          <div class="slider-card-foot">
-            <span class="slider-price" data-i="${idx}">${formatPrice(c.rawPrice, currentCurrency)}</span>
-            <div class="cell-actions">
-              <button type="button" class="btn-dossier" data-i="${idx}">${ARROW}<span>Dossier</span></button>
-              <button type="button" class="btn-buynow" data-i="${idx}"><svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor"><path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg><span>Commander</span></button>
-            </div>
-          </div>
-        </div>
-      </article>
-    `;
-  }).join('');
-}
-
-const trendPrev=$('#trendPrev'),trendNext=$('#trendNext');
-trendPrev&&trendPrev.addEventListener('click',()=>trendTrack&&trendTrack.scrollBy({left:-340,behavior:'smooth'}));
-trendNext&&trendNext.addEventListener('click',()=>trendTrack&&trendTrack.scrollBy({left:340,behavior:'smooth'}));
-
-/* ================= SECTION 02: NEW ARRIVALS GRID ================= */
-const arrivalsGrid=$('#arrivalsGrid');
-const arrivalIndices=[6,7,8];
-if(arrivalsGrid){
-  arrivalsGrid.innerHTML=arrivalIndices.map(idx=>{
-    const c=COLLECTION[idx];
-    return `
-      <article class="arrival-card" data-i="${idx}">
-        <div class="slider-plate-wrap">
-          <img src="${c.plate.base}-web.jpg" alt="${c.name}" loading="lazy">
-          <div class="arrival-badge-wrap">
-            <span class="novelty-badge">${c.stockLabel}</span>
-            <span class="dial-color-pill"><span class="color-dot" style="background:${c.colorDot}"></span>${c.colorName}</span>
-          </div>
-        </div>
-        <div class="slider-card-body">
-          <div>
-            <span class="label" style="font-size:10px;color:var(--bronze2);">${c.ref} · ${c.specs.Case.split(',')[0]}</span>
-            <h3 class="slider-card-title">${c.name}</h3>
-            <p class="slider-card-desc">${c.desc.substring(0,105)}...</p>
-          </div>
-          <div class="slider-card-foot">
-            <span class="slider-price" data-i="${idx}">${formatPrice(c.rawPrice, currentCurrency)}</span>
-            <div class="cell-actions">
-              <button type="button" class="btn-dossier" data-i="${idx}">${ARROW}<span>Dossier</span></button>
-              <button type="button" class="btn-buynow" data-i="${idx}"><svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor"><path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg><span>Commander</span></button>
-            </div>
-          </div>
-        </div>
-      </article>
-    `;
-  }).join('');
-}
-
-/* ================= CATEGORY FILTER BUTTONS (Option B) ================= */
+/* ================= CATEGORY FILTER BUTTONS ================= */
 $$('.cat-filter-btn').forEach(btn=>{
   btn.addEventListener('click',()=>{
     $$('.cat-filter-btn').forEach(b=>b.classList.remove('active'));
@@ -1897,7 +1687,7 @@ $$('.view-btn').forEach(btn=>{
     const mode=btn.dataset.mode;
     vit.classList.toggle('mode-photo',mode==='photo');
     vit.classList.toggle('mode-vector',mode==='vector');
-    toast(mode==='photo'?'Photographie 4K Studio activée (Couleurs réelles).':'Schéma Calibre vectoriel en premier plan.');
+    toast(mode==='photo'?'Photographie 4K Studio activée.':'Schéma Calibre vectoriel activé.');
   });
 });
 
@@ -1920,13 +1710,6 @@ function setPlate(img,basePath,mode){
 
 function loadPlates(){
   cells.forEach((cell,i)=>setPlate(cell.querySelector('.plate img'),COLLECTION[i].plate.base));
-  $$('.slider-plate-wrap img').forEach(img=>{
-    const card=img.closest('[data-i]');
-    if(card){
-      const idx=+card.dataset.i;
-      if(COLLECTION[idx])setPlate(img,COLLECTION[idx].plate.base);
-    }
-  });
   setPlate(wideImg,'assets/leman/leman-bench-wide');
   setPlate(heritageImg,'assets/leman/leman-heritage-archive');
   setPlate(salonImg,'assets/leman/leman-salon-geneve');
@@ -1940,9 +1723,7 @@ $$('.res-btn').forEach(b=>b.addEventListener('click',()=>{
   b.classList.add('on');
   RES.mode=b.dataset.res;
   loadPlates();
-  toast(RES.mode==='4k'
-    ?'Plates reloaded at 3840 px UHD — full optical depth & natural dial pigments.'
-    :'Plates returned to optimized web weight.');
+  toast(RES.mode==='4k'?'Plates 3840 px UHD rechargées.':'Plates au format web optimisé.');
 }));
 
 /* ================= DOSSIER MODAL WITH FULL-COLOR 4K PLATE ================= */
@@ -1965,7 +1746,7 @@ function openDossier(i){
   ).join('');
 
   dossierInfo.innerHTML=`
-    <p class="label" style="color:var(--bronze2);">${c.ref} · Planche ${String(i+1).padStart(2,'0')} · Tirage 4K Master</p>
+    <p class="label" style="color:var(--bronze2);">${c.ref} · Planche ${String(i+1).padStart(2,'0')}</p>
     <h3>${c.name}</h3>
     <p class="dossier-desc">${c.desc}</p>
     
@@ -1974,9 +1755,9 @@ function openDossier(i){
     </div>
 
     <dl class="specs">${Object.entries(c.specs).map(([k,v])=>`<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>
-    <p class="dossier-price">${formatPrice(c.rawPrice, currentCurrency)} <span>— livraison 14 à 26 mois, comptée loyalement</span></p>
+    <p class="dossier-price">${formatPrice(c.rawPrice, currentCurrency)} <span>— livraison 14 à 26 mois</span></p>
     
-    <div style="display:flex;gap:12px;margin:22px 0 10px;flex-wrap:wrap;">
+    <div style="display:flex;gap:12px;margin:20px 0 10px;flex-wrap:wrap;">
       <button class="btn" id="dossierBuyBtn" type="button" style="background:var(--gold);border-color:var(--gold);color:var(--dark);font-weight:700;">
         Commander cette Pièce
       </button>
@@ -1985,12 +1766,12 @@ function openDossier(i){
     <form class="dossier-form" novalidate>
       <h4 class="label">Demande d'audience privée</h4>
       <div class="row2">
-        <input class="field" name="name" placeholder="Votre nom" aria-label="Votre nom" required>
-        <input class="field" type="email" name="email" placeholder="Adresse email" aria-label="Adresse email" required>
+        <input class="field" name="name" placeholder="Votre nom" required>
+        <input class="field" type="email" name="email" placeholder="Adresse email" required>
       </div>
       <button class="btn" type="submit">Prendre Audience</button>
     </form>
-    <p class="dossier-ok" hidden>Noté avec plaisir. Notre concierge vous écrit sous deux jours — depuis Genève, sur papier.</p>`;
+    <p class="dossier-ok" hidden>Votre demande a été transmise à notre concierge de Genève.</p>`;
 
   $('#dossierBuyBtn')?.addEventListener('click',()=>{
     closeDossier();
@@ -2004,7 +1785,7 @@ function openDossier(i){
     if(!/.+@.+\..+/.test(email)){form.email.classList.add('err');setTimeout(()=>form.email.classList.remove('err'),600);form.email.focus();return;}
     if(!name){form.name.classList.add('err');setTimeout(()=>form.name.classList.remove('err'),600);form.name.focus();return;}
     form.hidden=true;ok.hidden=false;
-    toast(`Votre demande pour la ${c.name} a été enregistrée, ${name.split(' ')[0]}.`);
+    toast(`Demande enregistrée pour la ${c.name}, ${name.split(' ')[0]}.`);
   });
 
   scrim.classList.add('open');scrim.setAttribute('aria-hidden','false');
@@ -2041,10 +1822,6 @@ function updateBuyPrice(){
 
 function updateAllPrices(){
   $$('.cell-price').forEach(el=>{
-    const idx=+el.dataset.i;
-    if(COLLECTION[idx])el.textContent=formatPrice(COLLECTION[idx].rawPrice, currentCurrency);
-  });
-  $$('.slider-price').forEach(el=>{
     const idx=+el.dataset.i;
     if(COLLECTION[idx])el.textContent=formatPrice(COLLECTION[idx].rawPrice, currentCurrency);
   });
@@ -2097,7 +1874,7 @@ buyForm?.addEventListener('submit',e=>{
   if(!name)return;
   buyForm.hidden=true;
   buyOk.hidden=false;
-  toast(`Réservation confirmée pour la ${COLLECTION[currentBuyIdx].name}. Notre concierge vous contacte immédiatement, ${name.split(' ')[0]}.`);
+  toast(`Réservation confirmée pour la ${COLLECTION[currentBuyIdx].name}, ${name.split(' ')[0]}.`);
 });
 
 document.addEventListener('keydown',e=>{
