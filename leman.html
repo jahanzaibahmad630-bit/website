@@ -82,16 +82,16 @@ body.cursor-on,body.cursor-on *{cursor:none}
 @media(max-width:820px){#hd nav{display:none}#hd{grid-template-columns:auto 1fr}.hd-clock{justify-self:end}}
 
 /* ---------- hero + 4K cinematic film & video ---------- */
-.hero{position:relative;background:#0A0704;color:var(--ivory);overflow:hidden;padding:clamp(150px,20vh,220px) 0 clamp(40px,6vh,70px)}
+.hero{position:relative;background:#08070A;color:var(--ivory);overflow:hidden;padding:clamp(150px,20vh,220px) 0 clamp(40px,6vh,70px)}
 .hero-film{position:absolute;inset:-16% 0;z-index:0;will-change:transform}
-.hero-bg-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55;
-  filter:saturate(1.22) contrast(1.08) brightness(.92);pointer-events:none;transition:opacity .8s ease}
+.hero-bg-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.72;
+  filter:saturate(1.1) contrast(1.06) brightness(.98);pointer-events:none;transition:opacity .8s ease}
 .hero-bg-video.hidden{opacity:0}
-#film{position:relative;width:100%;height:100%;display:block;mix-blend-mode:screen;opacity:.65}
+#film{position:relative;width:100%;height:100%;display:block;mix-blend-mode:screen;opacity:.25}
 .hero::after{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
-  background:radial-gradient(ellipse at 70% 45%, rgba(212,175,55,.14) 0%, transparent 60%),
-             linear-gradient(90deg, rgba(10,7,4,.85) 0%, rgba(10,7,4,.5) 45%, rgba(10,7,4,.3) 100%),
-             linear-gradient(0deg, #0A0704 0%, transparent 25%);}
+  background:radial-gradient(ellipse at 70% 45%, rgba(212,175,55,.06) 0%, transparent 60%),
+             linear-gradient(90deg, rgba(8,7,10,.88) 0%, rgba(8,7,10,.48) 45%, rgba(8,7,10,.18) 100%),
+             linear-gradient(0deg, #08070A 0%, transparent 25%);}
 .hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1.02fr .98fr;gap:clamp(30px,4vw,70px);align-items:center}
 .hero .label{color:rgba(239,232,214,.75)}
 .hero .eyebrow::after{background:linear-gradient(90deg, rgba(212,175,55,.6), transparent)}
@@ -615,7 +615,7 @@ footer{padding-top:clamp(90px,13vh,150px);overflow:hidden;content-visibility:aut
   <!-- ================= HERO + 4K CINEMATIC FILM ================= -->
   <section class="hero" id="top">
     <div class="hero-film" aria-hidden="true">
-      <video id="heroVid" class="hero-bg-video" autoplay loop muted playsinline preload="metadata" fetchpriority="high">
+      <video id="heroVid" class="hero-bg-video" autoplay loop muted playsinline preload="metadata" fetchpriority="high" poster="assets/leman/leman-hero-poster.jpg">
         <source src="assets/leman/leman-hero-atelier-4k.mp4" type="video/mp4">
       </video>
       <canvas id="film"></canvas>
@@ -1499,30 +1499,7 @@ const film=(()=>{
   function render(dt){
     t+=dt;
     const w=S.width,h=S.height,c=sc;
-    const bg=c.createLinearGradient(0,0,0,h);
-    bg.addColorStop(0,'#0B0804');bg.addColorStop(.55,'#171009');bg.addColorStop(1,'#090603');
-    c.fillStyle=bg;c.fillRect(0,0,w,h);
-    const kx=w*(.6+.1*Math.sin(t*.05)),ky=h*(.34+.06*Math.cos(t*.041));
-    let g=c.createRadialGradient(kx,ky,0,kx,ky,w*.75);
-    g.addColorStop(0,'rgba(235,206,140,.32)');g.addColorStop(.5,'rgba(180,140,65,.14)');g.addColorStop(1,'rgba(0,0,0,0)');
-    c.fillStyle=g;c.fillRect(0,0,w,h);
-    g=c.createRadialGradient(w*.12,h*.1,0,w*.12,h*.1,w*.5);
-    g.addColorStop(0,'rgba(160,160,150,.14)');g.addColorStop(1,'rgba(0,0,0,0)');
-    c.fillStyle=g;c.fillRect(0,0,w,h);
-    gear(c,w*.2,h*.86,h*.5,64,t*.12);
-    gear(c,w*.88,h*.14,h*.26,42,-t*.3);
-    c.save();c.translate(w*.7,h*.68);c.rotate(Math.sin(t*1.1)*.55);
-    c.strokeStyle='rgba(212,175,55,.26)';c.lineWidth=h*.02;
-    c.beginPath();c.arc(0,0,h*.13,0,TAU);c.stroke();
-    c.lineWidth=h*.012;
-    for(let i=0;i<3;i++){const a=i*TAU/3;
-      c.beginPath();c.moveTo(0,0);c.lineTo(Math.cos(a)*h*.13,Math.sin(a)*h*.13);c.stroke();}
-    c.restore();
-    const sw=(t*.045)%1.7-.35;
-    c.save();c.translate(sw*w,0);c.rotate(.18);
-    g=c.createLinearGradient(0,0,w*.22,0);
-    g.addColorStop(0,'rgba(246,226,165,0)');g.addColorStop(.5,'rgba(246,226,165,.09)');g.addColorStop(1,'rgba(246,226,165,0)');
-    c.fillStyle=g;c.fillRect(-w*.2,-h,w*.6,h*3);c.restore();
+    c.clearRect(0,0,w,h);
     c.globalCompositeOperation='lighter';
     for(const b of bokeh){
       b.x+=b.dx*dt;b.y+=b.dy*dt;
@@ -1530,22 +1507,19 @@ const film=(()=>{
       const bx=b.x*w,by=b.y*h,br=b.r*w*(1+.07*Math.sin(t*b.w+b.ph));
       const al=b.a*(.75+.25*Math.sin(t*.7+b.ph));
       const gb=c.createRadialGradient(bx,by,0,bx,by,br);
-      gb.addColorStop(0,`rgba(246,226,165,${al})`);gb.addColorStop(.75,`rgba(212,175,55,${al*.5})`);gb.addColorStop(1,'rgba(0,0,0,0)');
+      gb.addColorStop(0,`rgba(246,226,165,${(al*.45).toFixed(3)})`);gb.addColorStop(.75,`rgba(212,175,55,${(al*.15).toFixed(3)})`);gb.addColorStop(1,'rgba(0,0,0,0)');
       c.fillStyle=gb;c.beginPath();c.arc(bx,by,br,0,TAU);c.fill();
     }
     c.globalCompositeOperation='source-over';
     for(const d of dust){
       d.y-=d.v*dt;if(d.y<-.05)d.y=1.05;
-      c.fillStyle=`rgba(255,245,215,${.12+.12*Math.sin(t*2+d.ph)})`;
+      c.fillStyle=`rgba(245,240,230,${(.06+.06*Math.sin(t*2+d.ph)).toFixed(3)})`;
       c.beginPath();c.arc(d.x*w,d.y*h,d.s,0,TAU);c.fill();
     }
     ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
-    if(HASF){ctx.filter='blur('+(5+2.5*Math.sin(t*.17)).toFixed(1)+'px)';ctx.drawImage(S,0,0,W,H);ctx.filter='none';}
+    ctx.clearRect(0,0,W,H);
+    if(HASF){ctx.filter='blur('+(4+2*Math.sin(t*.17)).toFixed(1)+'px)';ctx.drawImage(S,0,0,W,H);ctx.filter='none';}
     else ctx.drawImage(S,0,0,W,H);
-    ctx.drawImage(OV,0,0);
-    ctx.save();ctx.globalCompositeOperation='overlay';ctx.globalAlpha=.45;
-    ctx.translate((Math.random()*140)|0,(Math.random()*140)|0);
-    ctx.fillStyle=N[(t*24|0)%3];ctx.fillRect(-140,-140,W+280,H+280);ctx.restore();
   }
   function resize(){
     const dpr=Math.min(window.devicePixelRatio||1,2);
