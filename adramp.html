@@ -89,6 +89,7 @@
       justify-content: center;
       padding: 0 20px;
       pointer-events: none;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .nav-bar {
@@ -109,14 +110,23 @@
       display: flex;
       align-items: center;
       gap: 4px;
+      padding: 8px 18px;
+      border-radius: var(--radius-full);
+      background: rgba(14, 18, 50, 0.6);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      transition: var(--transition);
     }
 
     .nav-logo span {
       color: rgba(255, 255, 255, 0.55);
+      transition: color 0.3s;
     }
 
     .nav-capsule {
-      background: rgba(30, 36, 85, 0.45);
+      background: rgba(30, 36, 85, 0.65);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.12);
@@ -126,6 +136,7 @@
       align-items: center;
       gap: 32px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      transition: var(--transition);
     }
 
     .nav-links {
@@ -141,10 +152,55 @@
       font-weight: 500;
       text-decoration: none;
       transition: color 0.2s;
+      position: relative;
     }
 
-    .nav-links a:hover {
+    .nav-links a:hover,
+    .nav-links a.active {
       color: #FFFFFF;
+      font-weight: 600;
+    }
+
+    .nav-links a.active::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #FFFFFF;
+      border-radius: var(--radius-full);
+    }
+
+    /* Adaptive Light Theme when scrolling over Light Sections */
+    .nav-wrap.nav-light-mode .nav-logo {
+      background: rgba(255, 255, 255, 0.88);
+      border-color: rgba(28, 25, 23, 0.1);
+      box-shadow: 0 10px 25px rgba(28, 25, 23, 0.08);
+      color: #12100E;
+    }
+
+    .nav-wrap.nav-light-mode .nav-logo span {
+      color: #8C8782;
+    }
+
+    .nav-wrap.nav-light-mode .nav-capsule {
+      background: rgba(255, 255, 255, 0.88);
+      border-color: rgba(28, 25, 23, 0.1);
+      box-shadow: 0 10px 30px rgba(28, 25, 23, 0.08);
+    }
+
+    .nav-wrap.nav-light-mode .nav-links a {
+      color: rgba(18, 16, 14, 0.7);
+    }
+
+    .nav-wrap.nav-light-mode .nav-links a:hover,
+    .nav-wrap.nav-light-mode .nav-links a.active {
+      color: #000000;
+    }
+
+    .nav-wrap.nav-light-mode .nav-links a.active::after {
+      background: #000000;
     }
 
     .btn-nav-signup {
@@ -346,12 +402,14 @@
 
     .product-orb-center {
       position: relative;
-      width: 380px;
-      height: 380px;
-      margin: 0 auto 30px;
+      width: 440px;
+      height: 400px;
+      margin: 0 auto -170px;
       display: flex;
       justify-content: center;
       align-items: center;
+      z-index: 1;
+      pointer-events: none;
     }
 
     .product-orb-center img {
@@ -365,13 +423,15 @@
     }
 
     .product-glass-card {
+      position: relative;
+      z-index: 2;
       background: rgba(26, 33, 84, 0.55);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid rgba(255, 255, 255, 0.16);
       border-radius: var(--radius-xl);
       padding: 48px;
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
       margin-bottom: 60px;
     }
 
@@ -700,8 +760,12 @@
     .future-section {
       background: var(--stone-bg);
       color: var(--text-dark);
-      padding: 100px 0;
-      border-top: 1px solid var(--stone-border);
+      padding: 120px 0 90px;
+      margin-top: -60px;
+      border-radius: 48px 48px 0 0;
+      position: relative;
+      z-index: 10;
+      box-shadow: 0 -24px 60px rgba(5, 8, 30, 0.4);
     }
 
     .future-header {
@@ -765,8 +829,10 @@
        FEATURES SECTION (SCREENSHOT 6 & 7)
        ════════════════════════════════════════════════════════════ */
     .features-section {
-      background: #FFFFFF;
-      padding: 110px 0;
+      background: var(--stone-bg);
+      padding: 60px 0 120px;
+      position: relative;
+      z-index: 10;
     }
 
     .features-section-head {
@@ -774,7 +840,7 @@
       justify-content: space-between;
       align-items: flex-end;
       gap: 40px;
-      margin-bottom: 60px;
+      margin-bottom: 50px;
     }
 
     .features-section-head .left {
@@ -794,6 +860,36 @@
       letter-spacing: -0.03em;
     }
 
+    .features-track {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      position: relative;
+    }
+
+    .feature-step-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(28, 25, 23, 0.06);
+      border: 1px solid rgba(28, 25, 23, 0.08);
+      padding: 5px 14px;
+      border-radius: var(--radius-full);
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--text-dark-muted);
+      margin-bottom: 16px;
+    }
+
+    .feature-step-pill .step-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #000000;
+    }
+
     .feature-card {
       background: var(--stone-card);
       border: 1px solid var(--stone-border);
@@ -803,13 +899,14 @@
       grid-template-columns: 1fr 1fr;
       gap: 48px;
       align-items: center;
-      margin-bottom: 36px;
       transition: var(--transition);
+      position: relative;
     }
 
     .feature-card:hover {
       background: var(--stone-card-hover);
-      box-shadow: 0 14px 34px rgba(28, 25, 23, 0.06);
+      box-shadow: 0 16px 40px rgba(28, 25, 23, 0.08);
+      transform: translateY(-2px);
     }
 
     .feature-card.reverse {
@@ -883,9 +980,13 @@
        ════════════════════════════════════════════════════════════ */
     .solutions-section {
       background: radial-gradient(circle at 25% 45%, #2E187C 0%, #1A0F52 45%, #0B0626 90%);
-      padding: 120px 0;
+      padding: 140px 0 130px;
+      margin-top: -50px;
+      border-radius: 48px 48px 0 0;
       position: relative;
+      z-index: 12;
       overflow: hidden;
+      box-shadow: 0 -24px 60px rgba(0, 0, 0, 0.35);
     }
 
     .solutions-grid {
@@ -982,7 +1083,12 @@
        ════════════════════════════════════════════════════════════ */
     .testimonials-section {
       background: var(--stone-bg);
-      padding: 110px 0;
+      padding: 130px 0 80px;
+      margin-top: -50px;
+      border-radius: 48px 48px 0 0;
+      position: relative;
+      z-index: 14;
+      box-shadow: 0 -24px 50px rgba(11, 6, 38, 0.35);
     }
 
     .testimonials-head {
@@ -1066,9 +1172,10 @@
        PRICING PLANS SECTION (SCREENSHOT 11)
        ════════════════════════════════════════════════════════════ */
     .pricing-section {
-      background: #FFFFFF;
-      padding: 110px 0;
-      border-top: 1px solid var(--stone-border);
+      background: var(--stone-bg);
+      padding: 80px 0 110px;
+      position: relative;
+      z-index: 14;
     }
 
     .pricing-head {
@@ -1097,6 +1204,12 @@
       border-radius: var(--radius-xl);
       padding: 48px;
       box-shadow: 0 16px 40px rgba(28, 25, 23, 0.05);
+      transition: var(--transition);
+    }
+
+    .pricing-card-box:hover {
+      box-shadow: 0 20px 50px rgba(28, 25, 23, 0.08);
+      transform: translateY(-2px);
     }
 
     .pricing-plan-name {
@@ -1201,7 +1314,9 @@
        ════════════════════════════════════════════════════════════ */
     .faq-section {
       background: var(--stone-bg);
-      padding: 110px 0;
+      padding: 80px 0 100px;
+      position: relative;
+      z-index: 14;
     }
 
     .faq-container {
@@ -1285,18 +1400,98 @@
     }
 
     /* ════════════════════════════════════════════════════════════
+       PRE-FOOTER CTA BANNER (BRIDGING FAQ TO FOOTER)
+       ════════════════════════════════════════════════════════════ */
+    .cta-banner-section {
+      background: var(--navy-900);
+      border-radius: 48px 48px 0 0;
+      margin-top: -60px;
+      padding: 100px 0 50px;
+      position: relative;
+      z-index: 14;
+      box-shadow: 0 -24px 60px rgba(5, 8, 30, 0.4);
+    }
+
+    .cta-banner-card {
+      background: radial-gradient(circle at 75% 35%, #251B68 0%, #11103E 50%, #060924 100%);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-xl);
+      padding: 68px 50px;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+    }
+
+    .cta-banner-orb {
+      position: absolute;
+      top: -120px;
+      right: -80px;
+      width: 440px;
+      height: 440px;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.45) 0%, rgba(59, 130, 246, 0.18) 50%, transparent 70%);
+      pointer-events: none;
+      filter: blur(50px);
+    }
+
+    .cta-banner-card h2 {
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      font-weight: 800;
+      color: #FFFFFF;
+      letter-spacing: -0.035em;
+      line-height: 1.12;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .cta-banner-card p {
+      color: var(--text-white-muted);
+      font-size: 1.15rem;
+      max-width: 620px;
+      margin: 0 auto 36px;
+      line-height: 1.65;
+      position: relative;
+      z-index: 2;
+    }
+
+    .cta-banner-btns {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ════════════════════════════════════════════════════════════
        SITE FOOTER (DARK MIDNIGHT AESTHETIC)
        ════════════════════════════════════════════════════════════ */
     footer {
-      background: #05081E;
+      background: var(--navy-900);
       color: #FFFFFF;
-      padding: 80px 0 36px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 20px 0 60px;
+      position: relative;
+      z-index: 15;
+    }
+
+    .footer-logo {
+      font-size: 1.45rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: #FFFFFF;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .footer-logo span {
+      color: rgba(255, 255, 255, 0.45);
     }
 
     .footer-grid {
       display: grid;
-      grid-template-columns: 1.5fr 1fr 1fr;
+      grid-template-columns: 1.6fr 1fr 1fr;
       gap: 60px;
       padding-bottom: 50px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -1621,63 +1816,65 @@
         </div>
       </div>
 
-      <!-- Feature Card 1 (Analyze) -->
-      <div class="feature-card">
-        <div class="feature-info">
-          <div class="eyebrow-mono">FEATURE 1</div>
-          <h3>Simplify complex workflow.</h3>
-          <p>
-            Dive into campaign performance, keyword efficiency, and budget allocation — all through a natural language chat. No dashboards to learn, no reports to build.
-          </p>
-          <a href="https://app.adramp.ai/accounts/signup/" class="btn-pill-black">
-            Sign Up
-            <div class="arrow-icon-circle">
-              <svg viewBox="0 0 24 24"><polygon points="7.5 4 17.5 12 7.5 20"></polygon></svg>
-            </div>
-          </a>
+      <div class="features-track">
+        <!-- Feature Card 1 (Analyze) -->
+        <div class="feature-card">
+          <div class="feature-info">
+            <div class="feature-step-pill"><span class="step-dot"></span>01 / ANALYZE</div>
+            <h3>Simplify complex workflow.</h3>
+            <p>
+              Dive into campaign performance, keyword efficiency, and budget allocation — all through a natural language chat. No dashboards to learn, no reports to build.
+            </p>
+            <a href="https://app.adramp.ai/accounts/signup/" class="btn-pill-black">
+              Sign Up
+              <div class="arrow-icon-circle">
+                <svg viewBox="0 0 24 24"><polygon points="7.5 4 17.5 12 7.5 20"></polygon></svg>
+              </div>
+            </a>
+          </div>
+          <div class="feature-visual">
+            <img src="assets/adramp_design/feature1-tile.png" alt="Analyze Feature Visual">
+          </div>
         </div>
-        <div class="feature-visual">
-          <img src="assets/adramp_design/feature1-tile.png" alt="Analyze Feature Visual">
-        </div>
-      </div>
 
-      <!-- Feature Card 2 (Optimize - Alternating Reverse) -->
-      <div class="feature-card reverse">
-        <div class="feature-visual">
-          <img src="assets/adramp_design/feature2-tile.png" alt="Optimize Feature Visual">
+        <!-- Feature Card 2 (Optimize - Alternating Reverse) -->
+        <div class="feature-card reverse">
+          <div class="feature-visual">
+            <img src="assets/adramp_design/feature2-tile.png" alt="Optimize Feature Visual">
+          </div>
+          <div class="feature-info">
+            <div class="feature-step-pill"><span class="step-dot"></span>02 / OPTIMIZE</div>
+            <h3>Unlock actionable business intelligence.</h3>
+            <p>
+              AdRamp surfaces wasteful search terms, underperforming keywords, and budget drains — then lets you add negative keywords and pause bleeders with a single click.
+            </p>
+            <a href="https://app.adramp.ai/accounts/signup/" class="btn-pill-black">
+              Sign Up
+              <div class="arrow-icon-circle">
+                <svg viewBox="0 0 24 24"><polygon points="7.5 4 17.5 12 7.5 20"></polygon></svg>
+              </div>
+            </a>
+          </div>
         </div>
-        <div class="feature-info">
-          <div class="eyebrow-mono">FEATURE 2</div>
-          <h3>Unlock actionable business intelligence.</h3>
-          <p>
-            AdRamp surfaces wasteful search terms, underperforming keywords, and budget drains — then lets you add negative keywords and pause bleeders with a single click.
-          </p>
-          <a href="https://app.adramp.ai/accounts/signup/" class="btn-pill-black">
-            Sign Up
-            <div class="arrow-icon-circle">
-              <svg viewBox="0 0 24 24"><polygon points="7.5 4 17.5 12 7.5 20"></polygon></svg>
-            </div>
-          </a>
-        </div>
-      </div>
 
-      <!-- Feature Card 3 (Execute) -->
-      <div class="feature-card">
-        <div class="feature-info">
-          <div class="eyebrow-mono">FEATURE 3</div>
-          <h3>Connect your favourite tools.</h3>
-          <p>
-            Pause underperformers, add negative keywords, reallocate budgets — AdRamp doesn't just recommend, it executes changes directly in your Google Ads and Meta accounts.
-          </p>
-          <a href="https://app.adramp.ai/accounts/signup/" class="btn-pill-black">
-            Sign Up
-            <div class="arrow-icon-circle">
-              <svg viewBox="0 0 24 24"><polygon points="7.5 4 17.5 12 7.5 20"></polygon></svg>
-            </div>
-          </a>
-        </div>
-        <div class="feature-visual">
-          <img src="assets/adramp_design/workflow-diagram.png" alt="Execute Feature Visual">
+        <!-- Feature Card 3 (Execute) -->
+        <div class="feature-card">
+          <div class="feature-info">
+            <div class="feature-step-pill"><span class="step-dot"></span>03 / EXECUTE</div>
+            <h3>Connect your favourite tools.</h3>
+            <p>
+              Pause underperformers, add negative keywords, reallocate budgets — AdRamp doesn't just recommend, it executes changes directly in your Google Ads and Meta accounts.
+            </p>
+            <a href="https://app.adramp.ai/accounts/signup/" class="btn-pill-black">
+              Sign Up
+              <div class="arrow-icon-circle">
+                <svg viewBox="0 0 24 24"><polygon points="7.5 4 17.5 12 7.5 20"></polygon></svg>
+              </div>
+            </a>
+          </div>
+          <div class="feature-visual">
+            <img src="assets/adramp_design/workflow-diagram.png" alt="Execute Feature Visual">
+          </div>
         </div>
       </div>
     </div>
@@ -1926,13 +2123,39 @@
   </section>
 
   <!-- ════════════════════════════════════════════════════════════
+       PRE-FOOTER CTA BANNER (BRIDGING FAQ TO FOOTER)
+       ════════════════════════════════════════════════════════════ -->
+  <section class="cta-banner-section">
+    <div class="container">
+      <div class="cta-banner-card">
+        <div class="cta-banner-orb"></div>
+        <h2>Stop Wasting Ad Spend.<br>Start Acting on Your Data.</h2>
+        <p>
+          Join performance marketers who optimize campaigns, eliminate waste, and execute verified changes in seconds.
+        </p>
+        <div class="cta-banner-btns">
+          <a href="https://app.adramp.ai/accounts/signup/" class="btn-pill-white">
+            Start Free Early Access
+            <div class="arrow-icon-circle">
+              <svg viewBox="0 0 24 24"><polygon points="7.5 4 17.5 12 7.5 20"></polygon></svg>
+            </div>
+          </a>
+          <a href="#product-demo" id="cta-watch-demo" class="btn-pill-translucent">
+            ▶ Watch Live Demo
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════
        SITE FOOTER (DARK MIDNIGHT AESTHETIC)
        ════════════════════════════════════════════════════════════ -->
   <footer>
     <div class="container">
       <div class="footer-grid">
         <div>
-          <a href="#" class="nav-logo" style="font-size:1.35rem;">
+          <a href="#" class="footer-logo">
             AdRamp<span>.ai</span>
           </a>
           <p class="footer-desc">
@@ -2043,8 +2266,67 @@
       }
     }
 
+    /* ════════════════════════════════════════════════════════════
+       ADAPTIVE NAVBAR (LIGHT / DARK THEME & ACTIVE SCROLLSPY)
+       ════════════════════════════════════════════════════════════ */
+    const navWrap = document.querySelector('.nav-wrap');
+    const lightSections = document.querySelectorAll('.future-section, .features-section, .testimonials-section, .pricing-section, .faq-section');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const spySections = [
+      { id: 'pricing', el: document.getElementById('pricing') },
+      { id: 'solutions', el: document.getElementById('solutions') },
+      { id: 'features', el: document.getElementById('features') },
+      { id: 'product', el: document.getElementById('product') }
+    ];
+
+    function updateNavbar() {
+      // 1. Check if navbar is over a light section
+      const checkY = 60; // Approximate vertical center of fixed navbar
+      let isOverLight = false;
+
+      for (const sec of lightSections) {
+        const rect = sec.getBoundingClientRect();
+        if (rect.top <= checkY && rect.bottom >= checkY) {
+          isOverLight = true;
+          break;
+        }
+      }
+
+      if (navWrap) {
+        if (isOverLight) {
+          navWrap.classList.add('nav-light-mode');
+        } else {
+          navWrap.classList.remove('nav-light-mode');
+        }
+      }
+
+      // 2. Active section scrollspy
+      let currentSectionId = '';
+      for (const item of spySections) {
+        if (item.el) {
+          const rect = item.el.getBoundingClientRect();
+          if (rect.top <= 200) {
+            currentSectionId = item.id;
+            break;
+          }
+        }
+      }
+
+      navLinks.forEach(link => {
+        if (currentSectionId && link.getAttribute('href') === `#${currentSectionId}`) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', updateNavbar, { passive: true });
+    window.addEventListener('resize', updateNavbar, { passive: true });
+    updateNavbar();
+
     // Connect all "Watch Demo" buttons
-    document.querySelectorAll('#hero-watch-demo, #product-watch-demo').forEach(btn => {
+    document.querySelectorAll('#hero-watch-demo, #product-watch-demo, #cta-watch-demo').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
         switchMediaTab('video');
