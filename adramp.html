@@ -4,54 +4,48 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AdRamp — The AI Marketer that Acts on Your Data</title>
-  <meta name="description" content="Connect your Google Ads, Meta, and Shopify accounts. Ask questions in plain English, get instant performance insights, and execute campaign optimizations with 1-click human approval.">
-  
-  <!-- Fonts -->
+  <meta name="description" content="AdRamp connects to your Google Ads, Meta, Shopify & Klaviyo data. Ask questions, get instant insights, and execute changes — all in one chat interface.">
+
+  <!-- Google Fonts: Plus Jakarta Sans & Space Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
-    /* ═══════════════════════════════════════════════════════════
-       ADRAMP DESIGN SYSTEM & TOKENS
-       ═══════════════════════════════════════════════════════════ */
+    /* ════════════════════════════════════════════════════════════
+       DESIGN SYSTEM (GROUNDED IN THE 11 REFERENCE SCREENSHOTS)
+       ════════════════════════════════════════════════════════════ */
     :root {
-      --bg: #F7F5F0;
-      --bg-card: #FFFFFF;
-      --bg-subtle: #EFECE6;
-      --text: #191614;
-      --text-muted: #666059;
-      --text-light: #9B948B;
-      --border: rgba(25, 22, 20, 0.1);
-      --border-strong: rgba(25, 22, 20, 0.22);
+      --navy-900: #05081E;
+      --navy-800: #0B113B;
+      --navy-700: #141C5A;
+      --navy-glow: #202778;
+      --purple-900: #100B32;
+      --purple-800: #1E1256;
+      --purple-700: #2E187C;
+      --purple-glow: #4B28B8;
       
-      --accent: #191614;
-      --accent-hover: #332E2A;
-      --emerald: #0D9488;
-      --emerald-bg: rgba(13, 148, 136, 0.09);
-      --amber: #D97706;
-      --amber-bg: rgba(217, 119, 6, 0.1);
-      --rose: #E11D48;
-      --rose-bg: rgba(225, 29, 72, 0.08);
-      --blue: #2563EB;
-      --blue-bg: rgba(37, 99, 235, 0.08);
+      --stone-bg: #FAF9F6;
+      --stone-card: #F0EEE9;
+      --stone-card-hover: #EBE8E2;
+      --stone-border: rgba(28, 25, 23, 0.08);
 
-      --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --text-dark: #12100E;
+      --text-dark-muted: #57524D;
+      --text-white: #FFFFFF;
+      --text-white-muted: rgba(255, 255, 255, 0.72);
+      --text-white-sub: rgba(255, 255, 255, 0.5);
+
+      --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       --font-mono: 'Space Mono', monospace;
-      --font-code: 'Fragment Mono', monospace;
 
-      --radius-sm: 6px;
-      --radius-md: 12px;
+      --radius-sm: 8px;
+      --radius-md: 14px;
       --radius-lg: 20px;
       --radius-xl: 28px;
       --radius-full: 9999px;
 
-      --shadow-sm: 0 2px 8px rgba(25, 22, 20, 0.04);
-      --shadow-md: 0 10px 30px rgba(25, 22, 20, 0.06);
-      --shadow-lg: 0 20px 48px rgba(25, 22, 20, 0.09);
-      --shadow-glow: 0 0 0 1px var(--border), 0 16px 40px -10px rgba(25, 22, 20, 0.12);
-
-      --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     *, *::before, *::after {
@@ -62,1108 +56,954 @@
 
     html {
       scroll-behavior: smooth;
-      font-size: 16px;
     }
 
     body {
-      font-family: var(--font-sans);
-      background-color: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
+      font-family: var(--font-main);
+      background-color: var(--navy-900);
+      color: var(--text-dark);
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* Subtle background grid pattern */
-    .bg-grid {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-      background-size: 40px 40px;
-      background-image: 
-        linear-gradient(to right, rgba(25, 22, 20, 0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(25, 22, 20, 0.03) 1px, transparent 1px);
-    }
-
     .container {
       width: 100%;
-      max-width: 1220px;
+      max-width: 1140px;
       margin: 0 auto;
-      padding: 0 28px;
+      padding: 0 24px;
       position: relative;
       z-index: 2;
     }
 
-    /* ═══════════════════════════════════════════════════════════
-       TYPOGRAPHY & UTILITIES
-       ═══════════════════════════════════════════════════════════ */
-    h1, h2, h3, h4 {
-      color: var(--text);
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      line-height: 1.15;
-    }
-
-    .badge-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 14px;
-      border-radius: var(--radius-full);
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      font-family: var(--font-mono);
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-      color: var(--text);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .badge-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--emerald);
-      box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.2);
-      animation: pulseDot 2s infinite;
-    }
-
-    @keyframes pulseDot {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.2); opacity: 0.7; }
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 13px 24px;
-      border-radius: var(--radius-sm);
-      font-family: var(--font-sans);
-      font-size: 0.95rem;
-      font-weight: 600;
-      text-decoration: none;
-      cursor: pointer;
-      transition: var(--transition);
-      border: 1px solid transparent;
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      color: #FFFFFF;
-      box-shadow: 0 4px 14px rgba(25, 22, 20, 0.18);
-    }
-
-    .btn-primary:hover {
-      background: var(--accent-hover);
-      transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(25, 22, 20, 0.25);
-    }
-
-    .btn-secondary {
-      background: var(--bg-card);
-      color: var(--text);
-      border-color: var(--border-strong);
-    }
-
-    .btn-secondary:hover {
-      background: #FFFFFF;
-      border-color: var(--text);
-      transform: translateY(-1px);
-    }
-
-    .btn-sm {
-      padding: 8px 14px;
-      font-size: 0.82rem;
-      border-radius: var(--radius-sm);
-    }
-
-    /* ═══════════════════════════════════════════════════════════
-       NAVIGATION
-       ═══════════════════════════════════════════════════════════ */
-    nav {
+    /* ════════════════════════════════════════════════════════════
+       FLOATING CAPSULE NAVBAR (EXACT SCREENSHOT SPECIFICATION)
+       ════════════════════════════════════════════════════════════ */
+    .nav-wrap {
       position: fixed;
-      top: 0;
+      top: 20px;
       left: 0;
       right: 0;
-      height: 72px;
       z-index: 100;
-      background: rgba(247, 245, 240, 0.88);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .nav-inner {
-      height: 100%;
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      color: var(--text);
-      font-family: var(--font-mono);
-      font-size: 1.25rem;
-      font-weight: 700;
-      letter-spacing: -0.04em;
-    }
-
-    .brand-mark {
-      width: 28px;
-      height: 28px;
-      background: var(--text);
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
       justify-content: center;
-      color: #FFFFFF;
-    }
-
-    .nav-menu {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      list-style: none;
-      white-space: nowrap;
-    }
-
-    .nav-link {
-      font-family: var(--font-code);
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      text-decoration: none;
-      transition: color 0.2s;
-      white-space: nowrap;
-    }
-
-    .nav-link:hover {
-      color: var(--text);
-    }
-
-    .nav-cta-wrap {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .nav-signin {
-      font-family: var(--font-code);
-      font-size: 0.88rem;
-      color: var(--text);
-      text-decoration: none;
-      padding: 8px 12px;
-      transition: color 0.2s;
-    }
-
-    .nav-signin:hover {
-      color: var(--text-muted);
-    }
-
-    /* ═══════════════════════════════════════════════════════════
-       HERO SECTION
-       ═══════════════════════════════════════════════════════════ */
-    .hero-section {
-      padding-top: 140px;
-      padding-bottom: 60px;
-      text-align: center;
-      position: relative;
-    }
-
-    .hero-badge-wrap {
-      margin-bottom: 24px;
-    }
-
-    .hero-title {
-      font-size: clamp(2.4rem, 5.5vw, 4.2rem);
-      font-weight: 800;
-      max-width: 960px;
-      margin: 0 auto 20px;
-      line-height: 1.08;
-      letter-spacing: -0.035em;
-    }
-
-    .hero-title .action-highlight {
-      position: relative;
-      display: inline-block;
-      color: var(--text);
-    }
-
-    .hero-title .action-highlight::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: 6px;
-      width: 100%;
-      height: 12px;
-      background: rgba(13, 148, 136, 0.18);
-      z-index: -1;
-      border-radius: 4px;
-    }
-
-    .hero-subtitle {
-      font-size: clamp(1.05rem, 2vw, 1.25rem);
-      color: var(--text-muted);
-      max-width: 720px;
-      margin: 0 auto 36px;
-      font-weight: 400;
-      line-height: 1.6;
-    }
-
-    .hero-cta-group {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
-      margin-bottom: 18px;
-    }
-
-    .hero-proof-micro {
-      font-size: 0.82rem;
-      color: var(--text-light);
-      font-family: var(--font-code);
-      margin-bottom: 48px;
-    }
-
-    /* Integration Bar */
-    .integrations-bar {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 28px;
-      flex-wrap: wrap;
-      padding: 16px 24px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-full);
-      max-width: 780px;
-      margin: 0 auto;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .integration-label {
-      font-size: 0.74rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-light);
-      font-family: var(--font-mono);
-    }
-
-    .integration-items {
-      display: flex;
-      align-items: center;
-      gap: 22px;
-    }
-
-    .integration-pill {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      font-size: 0.84rem;
-      font-weight: 600;
-      color: var(--text-muted);
-    }
-
-    .integration-pill svg {
-      width: 17px;
-      height: 17px;
-    }
-
-    /* ═══════════════════════════════════════════════════════════
-       INTERACTIVE COMMAND CENTER SIMULATOR (SHOWPIECE)
-       ═══════════════════════════════════════════════════════════ */
-    .simulator-section {
-      padding: 70px 0 90px;
-    }
-
-    .section-header {
-      text-align: center;
-      max-width: 760px;
-      margin: 0 auto 40px;
-    }
-
-    .eyebrow {
-      font-family: var(--font-mono);
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--emerald);
-      margin-bottom: 12px;
-    }
-
-    .section-header h2 {
-      font-size: clamp(1.8rem, 3.5vw, 2.7rem);
-      margin-bottom: 14px;
-    }
-
-    .section-header p {
-      color: var(--text-muted);
-      font-size: 1.05rem;
-    }
-
-    /* Terminal Frame */
-    .simulator-window {
-      background: #FFFFFF;
-      border: 1px solid var(--border-strong);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-lg);
-      overflow: hidden;
-    }
-
-    /* Window Header */
-    .sim-topbar {
-      background: #191614;
-      color: #FFFFFF;
-      padding: 14px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .sim-top-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .sim-dots {
-      display: flex;
-      gap: 6px;
-    }
-
-    .sim-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.2);
-    }
-    .sim-dot.red { background: #FF5F56; }
-    .sim-dot.yellow { background: #FFBD2E; }
-    .sim-dot.green { background: #27C93F; }
-
-    .sim-title {
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      letter-spacing: -0.01em;
-      color: rgba(255, 255, 255, 0.7);
-    }
-
-    .sim-status {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-family: var(--font-code);
-      font-size: 0.74rem;
-      color: #34D399;
-      background: rgba(52, 211, 153, 0.12);
-      padding: 3px 10px;
-      border-radius: var(--radius-full);
-      border: 1px solid rgba(52, 211, 153, 0.25);
-    }
-
-    /* Tabs Bar */
-    .sim-tabs-bar {
-      display: flex;
-      background: var(--bg-subtle);
-      border-bottom: 1px solid var(--border);
-      overflow-x: auto;
-    }
-
-    .sim-tab-btn {
-      padding: 14px 22px;
-      font-family: var(--font-sans);
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      border: none;
-      background: transparent;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      white-space: nowrap;
-      transition: var(--transition);
-      border-bottom: 2px solid transparent;
-    }
-
-    .sim-tab-btn:hover {
-      color: var(--text);
-      background: rgba(255, 255, 255, 0.4);
-    }
-
-    .sim-tab-btn.active {
-      color: var(--text);
-      background: #FFFFFF;
-      border-bottom-color: var(--text);
-    }
-
-    .tab-badge {
-      font-family: var(--font-mono);
-      font-size: 0.68rem;
-      padding: 2px 7px;
-      border-radius: var(--radius-sm);
-      background: var(--border);
-      color: var(--text);
-    }
-
-    .sim-tab-btn.active .tab-badge {
-      background: var(--text);
-      color: #FFFFFF;
-    }
-
-    /* Simulator Body */
-    .sim-body {
-      padding: 30px;
-      background: #FAFAF8;
-      min-height: 480px;
-    }
-
-    /* Chat Messages */
-    .chat-row {
-      margin-bottom: 24px;
-      display: flex;
-      flex-direction: column;
-      animation: fadeIn 0.3s ease-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .chat-row.user {
-      align-items: flex-end;
-    }
-
-    .chat-bubble-user {
-      background: #191614;
-      color: #FFFFFF;
-      padding: 14px 20px;
-      border-radius: 18px 18px 4px 18px;
-      font-size: 0.95rem;
-      max-width: 620px;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .chat-agent-wrap {
-      display: flex;
-      gap: 16px;
-      max-width: 100%;
-    }
-
-    .agent-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      background: #191614;
-      color: #FFFFFF;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      margin-top: 4px;
-    }
-
-    .chat-bubble-agent {
-      background: #FFFFFF;
-      border: 1px solid var(--border-strong);
-      border-radius: 4px 18px 18px 18px;
-      padding: 22px 24px;
-      flex: 1;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .agent-meta-status {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 14px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--border);
-      font-family: var(--font-code);
-      font-size: 0.78rem;
-      color: var(--text-light);
-    }
-
-    .agent-meta-pill {
-      background: var(--emerald-bg);
-      color: var(--emerald);
-      padding: 3px 8px;
-      border-radius: 4px;
-      font-weight: 700;
-    }
-
-    .agent-text {
-      font-size: 0.95rem;
-      color: var(--text);
-      margin-bottom: 16px;
-      line-height: 1.55;
-    }
-
-    /* Tables inside Simulator */
-    .sim-table-wrap {
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      overflow-x: auto;
-      background: #FFFFFF;
-      margin-bottom: 16px;
-    }
-
-    .sim-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.86rem;
-      text-align: left;
-    }
-
-    .sim-table th {
-      background: var(--bg);
-      padding: 10px 14px;
-      font-family: var(--font-mono);
-      font-size: 0.74rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--text-muted);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .sim-table td {
-      padding: 12px 14px;
-      border-bottom: 1px solid var(--border);
-      color: var(--text);
-    }
-
-    .sim-table tr:last-child td {
-      border-bottom: none;
-    }
-
-    .table-metric-roas {
-      font-weight: 700;
-      font-family: var(--font-mono);
-    }
-
-    .badge-waste {
-      background: var(--rose-bg);
-      color: var(--rose);
-      font-weight: 600;
-      padding: 3px 8px;
-      border-radius: 4px;
-      font-size: 0.76rem;
-    }
-
-    .badge-healthy {
-      background: var(--emerald-bg);
-      color: var(--emerald);
-      font-weight: 600;
-      padding: 3px 8px;
-      border-radius: 4px;
-      font-size: 0.76rem;
-    }
-
-    /* Action Box (The Human-In-The-Loop Approval card) */
-    .approval-card {
-      background: #FFFDF9;
-      border: 1.5px dashed var(--amber);
-      border-radius: var(--radius-md);
-      padding: 18px 20px;
-      margin-top: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .approval-info {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .approval-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      background: var(--amber-bg);
-      color: var(--amber);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .approval-text h4 {
-      font-size: 0.96rem;
-      color: var(--text);
-      margin-bottom: 2px;
-    }
-
-    .approval-text p {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-    }
-
-    .approval-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .btn-approve {
-      background: #191614;
-      color: #FFFFFF;
-      padding: 9px 16px;
-      font-size: 0.84rem;
-      font-weight: 600;
-      border-radius: var(--radius-sm);
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: var(--transition);
-    }
-
-    .btn-approve:hover {
-      background: #000000;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .btn-approve.executed {
-      background: var(--emerald);
+      padding: 0 20px;
       pointer-events: none;
     }
 
-    .btn-dismiss {
-      background: transparent;
-      color: var(--text-muted);
-      border: 1px solid var(--border);
-      padding: 9px 14px;
-      font-size: 0.84rem;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-    }
-
-    /* Simulator Quick Prompts */
-    .sim-prompts-bar {
-      padding: 16px 24px;
-      background: #FFFFFF;
-      border-top: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      overflow-x: auto;
-    }
-
-    .prompt-label {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      color: var(--text-light);
-      white-space: nowrap;
-    }
-
-    .prompt-chip {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-full);
-      padding: 6px 14px;
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      cursor: pointer;
-      white-space: nowrap;
-      transition: var(--transition);
-    }
-
-    .prompt-chip:hover {
-      background: var(--bg-card);
-      border-color: var(--text);
-      color: var(--text);
-    }
-
-    /* ═══════════════════════════════════════════════════════════
-       INTERACTIVE AD SPEND LEAKAGE CALCULATOR
-       ═══════════════════════════════════════════════════════════ */
-    .calculator-section {
-      padding: 90px 0;
-      background: #FFFFFF;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .calc-card {
-      background: var(--bg);
-      border: 1px solid var(--border-strong);
-      border-radius: var(--radius-lg);
-      padding: 48px;
-      box-shadow: var(--shadow-md);
-      display: grid;
-      grid-template-columns: 1.1fr 1fr;
-      gap: 48px;
-      align-items: center;
-    }
-
-    .calc-inputs h3 {
-      font-size: 1.8rem;
-      margin-bottom: 12px;
-    }
-
-    .calc-inputs p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      margin-bottom: 32px;
-    }
-
-    .slider-group {
-      margin-bottom: 28px;
-    }
-
-    .slider-label-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 12px;
-    }
-
-    .slider-title {
-      font-weight: 600;
-      font-size: 0.95rem;
-    }
-
-    .slider-value-display {
-      font-family: var(--font-mono);
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: var(--text);
-    }
-
-    .range-slider {
+    .nav-bar {
+      pointer-events: auto;
       width: 100%;
-      height: 8px;
-      border-radius: 4px;
-      background: var(--border-strong);
-      outline: none;
-      -webkit-appearance: none;
-      cursor: pointer;
+      max-width: 1100px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
-    .range-slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 22px;
-      height: 22px;
+    .nav-logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      text-decoration: none;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .nav-logo span {
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    .nav-capsule {
+      background: rgba(30, 36, 85, 0.45);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-full);
+      padding: 6px 8px 6px 24px;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 0.88rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: #FFFFFF;
+    }
+
+    .btn-nav-signup {
+      background: #000000;
+      color: #FFFFFF;
+      padding: 9px 18px 9px 20px;
+      border-radius: var(--radius-full);
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-nav-signup:hover {
+      background: #1A1A1A;
+      transform: translateY(-1px);
+    }
+
+    .arrow-icon-circle {
+      width: 20px;
+      height: 20px;
       border-radius: 50%;
-      background: var(--text);
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-      transition: transform 0.1s;
+      background: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .range-slider::-webkit-slider-thumb:hover {
-      transform: scale(1.15);
+    .arrow-icon-circle svg {
+      width: 10px;
+      height: 10px;
+      fill: #000000;
     }
 
-    .calc-metrics-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
+    /* ════════════════════════════════════════════════════════════
+       HERO SECTION (SCREENSHOT 1)
+       ════════════════════════════════════════════════════════════ */
+    .hero-section {
+      min-height: 100vh;
+      background: radial-gradient(circle at 75% 45%, #242278 0%, #10174A 35%, #060B28 75%);
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding-top: 130px;
+      padding-bottom: 80px;
+      overflow: hidden;
+    }
+
+    .hero-orb-bg {
+      position: absolute;
+      top: 50%;
+      right: 5%;
+      transform: translateY(-50%);
+      width: 580px;
+      height: 580px;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.85;
+      animation: floatSlow 8s ease-in-out infinite alternate;
+    }
+
+    .hero-orb-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      mix-blend-mode: screen;
+      -webkit-mask-image: radial-gradient(circle at center, black 40%, rgba(0, 0, 0, 0.8) 55%, transparent 70%);
+      mask-image: radial-gradient(circle at center, black 40%, rgba(0, 0, 0, 0.8) 55%, transparent 70%);
+      filter: drop-shadow(0 0 80px rgba(96, 75, 230, 0.4));
+    }
+
+    @keyframes floatSlow {
+      0% { transform: translateY(-50%) rotate(0deg) scale(0.98); }
+      100% { transform: translateY(-46%) rotate(4deg) scale(1.02); }
+    }
+
+    .hero-content {
+      max-width: 580px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-h1 {
+      font-size: clamp(2.8rem, 5.2vw, 4.4rem);
+      font-weight: 800;
+      color: #FFFFFF;
+      line-height: 1.08;
+      letter-spacing: -0.035em;
       margin-bottom: 24px;
     }
 
-    .metric-box {
+    .hero-social-proof {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 26px;
+    }
+
+    .avatar-stack {
+      display: flex;
+      align-items: center;
+    }
+
+    .avatar-stack img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid #060B28;
+      margin-left: -8px;
+      object-fit: cover;
+    }
+
+    .avatar-stack img:first-child {
+      margin-left: 0;
+    }
+
+    .social-proof-text {
+      color: var(--text-white-muted);
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .hero-desc {
+      color: var(--text-white-muted);
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 36px;
+    }
+
+    .hero-btn-group {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-pill-white {
       background: #FFFFFF;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 20px;
+      color: #000000;
+      padding: 14px 26px 14px 28px;
+      border-radius: var(--radius-full);
+      font-size: 0.98rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+      transition: var(--transition);
     }
 
-    .metric-box.highlight {
-      background: #191614;
+    .btn-pill-white:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-pill-white .arrow-icon-circle {
+      background: #000000;
+    }
+
+    .btn-pill-white .arrow-icon-circle svg {
+      fill: #FFFFFF;
+    }
+
+    .btn-pill-translucent {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       color: #FFFFFF;
-      grid-column: span 2;
+      padding: 14px 28px;
+      border-radius: var(--radius-full);
+      font-size: 0.98rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      transition: var(--transition);
     }
 
-    .metric-box.highlight .metric-title {
-      color: rgba(255, 255, 255, 0.7);
+    .btn-pill-translucent:hover {
+      background: rgba(255, 255, 255, 0.18);
+      border-color: rgba(255, 255, 255, 0.4);
     }
 
-    .metric-box.highlight .metric-number {
-      color: #34D399;
-      font-size: 2.4rem;
+    /* ════════════════════════════════════════════════════════════
+       PRODUCT INTRO WITH 3D ORB & DASHBOARD (SCREENSHOT 2 & 3)
+       ════════════════════════════════════════════════════════════ */
+    .product-section {
+      background: radial-gradient(circle at 50% 25%, #182068 0%, #080D30 60%, #05081E 100%);
+      padding: 80px 0 100px;
+      position: relative;
+      overflow: hidden;
     }
 
-    .metric-title {
+    .product-orb-center {
+      position: relative;
+      width: 380px;
+      height: 380px;
+      margin: 0 auto 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .product-orb-center img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      mix-blend-mode: screen;
+      -webkit-mask-image: radial-gradient(circle at center, black 35%, rgba(0, 0, 0, 0.7) 50%, transparent 68%);
+      mask-image: radial-gradient(circle at center, black 35%, rgba(0, 0, 0, 0.7) 50%, transparent 68%);
+      filter: drop-shadow(0 0 90px rgba(120, 80, 255, 0.5));
+    }
+
+    .product-glass-card {
+      background: rgba(26, 33, 84, 0.55);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-xl);
+      padding: 48px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+      margin-bottom: 60px;
+    }
+
+    .product-top-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    .eyebrow-mono {
       font-family: var(--font-mono);
-      font-size: 0.74rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: var(--text-light);
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 12px;
+    }
+
+    .product-title {
+      font-size: clamp(2rem, 3.8vw, 3rem);
+      font-weight: 800;
+      color: #FFFFFF;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+    }
+
+    .product-desc {
+      color: var(--text-white-muted);
+      font-size: 1.05rem;
+      line-height: 1.65;
+    }
+
+    /* Dashboard Mockup Frame (from Screenshot 3) */
+    .dashboard-frame-wrap {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: #0E0F16;
+      transition: var(--transition);
+    }
+
+    .dashboard-frame-wrap:hover {
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .dashboard-img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ════════════════════════════════════════════════════════════
+       THE FUTURE OF MARKETING SECTION (SCREENSHOT 4 & 5)
+       ════════════════════════════════════════════════════════════ */
+    .future-section {
+      background: var(--stone-bg);
+      color: var(--text-dark);
+      padding: 100px 0;
+      border-top: 1px solid var(--stone-border);
+    }
+
+    .future-header {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 50px;
+    }
+
+    .future-h2 {
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 800;
+      color: var(--text-dark);
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+
+    .future-sub {
+      color: var(--text-dark-muted);
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .clay-device-frame {
+      background: var(--stone-card);
+      border: 1px solid var(--stone-border);
+      border-radius: var(--radius-xl);
+      padding: 40px;
+      box-shadow: 0 16px 40px rgba(28, 25, 23, 0.05);
+    }
+
+    .clay-device-header {
+      margin-bottom: 24px;
+    }
+
+    .clay-device-header h3 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--text-dark);
       margin-bottom: 6px;
     }
 
-    .metric-number {
-      font-family: var(--font-sans);
-      font-size: 1.85rem;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 4px;
-      display: flex;
-      align-items: baseline;
-      gap: 6px;
+    .clay-device-header p {
+      color: var(--text-dark-muted);
+      font-size: 1rem;
     }
 
-    .metric-sub {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    .metric-box.highlight .metric-sub {
-      color: rgba(255, 255, 255, 0.6);
-    }
-
-    /* ═══════════════════════════════════════════════════════════
-       THE 4 CORE CAPABILITIES
-       ═══════════════════════════════════════════════════════════ */
-    .capabilities-section {
-      padding: 100px 0;
-    }
-
-    .capabilities-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 28px;
-    }
-
-    .capability-card {
-      background: #FFFFFF;
-      border: 1px solid var(--border);
+    .workflow-img-wrap {
       border-radius: var(--radius-lg);
-      padding: 36px;
-      box-shadow: var(--shadow-sm);
-      transition: var(--transition);
+      overflow: hidden;
+      background: #111;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .workflow-img-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ════════════════════════════════════════════════════════════
+       FEATURES SECTION (SCREENSHOT 6 & 7)
+       ════════════════════════════════════════════════════════════ */
+    .features-section {
+      background: #FFFFFF;
+      padding: 110px 0;
+    }
+
+    .features-section-head {
       display: flex;
-      flex-direction: column;
       justify-content: space-between;
+      align-items: flex-end;
+      gap: 40px;
+      margin-bottom: 60px;
     }
 
-    .capability-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-md);
-      border-color: var(--text);
+    .features-section-head .left {
+      max-width: 480px;
     }
 
-    .cap-icon-wrap {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 24px;
-      color: var(--text);
-    }
-
-    .capability-card h3 {
-      font-size: 1.45rem;
-      margin-bottom: 12px;
-    }
-
-    .capability-card p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      line-height: 1.6;
-      margin-bottom: 24px;
-    }
-
-    .cap-mock-visual {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 16px;
-      font-family: var(--font-code);
-      font-size: 0.8rem;
-      color: var(--text);
-    }
-
-    /* ═══════════════════════════════════════════════════════════
-       SECURITY & HUMAN-IN-THE-LOOP SAFEGUARDS
-       ═══════════════════════════════════════════════════════════ */
-    .safeguards-section {
-      padding: 90px 0;
-      background: #191614;
-      color: #FFFFFF;
-    }
-
-    .safeguards-section .section-header h2 {
-      color: #FFFFFF;
-    }
-
-    .safeguards-section .section-header p {
-      color: rgba(255, 255, 255, 0.65);
-    }
-
-    .safeguards-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 24px;
-      margin-top: 48px;
-    }
-
-    .safeguard-box {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: var(--radius-md);
-      padding: 28px 24px;
-      transition: var(--transition);
-    }
-
-    .safeguard-box:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.25);
-    }
-
-    .safeguard-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 18px;
-      color: #34D399;
-    }
-
-    .safeguard-box h4 {
-      color: #FFFFFF;
-      font-size: 1.1rem;
-      margin-bottom: 10px;
-    }
-
-    .safeguard-box p {
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.86rem;
+    .features-section-head .right {
+      max-width: 440px;
+      color: var(--text-dark-muted);
+      font-size: 1.05rem;
       line-height: 1.55;
     }
 
-    /* ═══════════════════════════════════════════════════════════
-       COMPARISON MATRIX
-       ═══════════════════════════════════════════════════════════ */
-    .comparison-section {
-      padding: 90px 0;
+    .features-section-head h2 {
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
     }
 
-    .comparison-table-wrap {
-      background: #FFFFFF;
-      border: 1px solid var(--border-strong);
-      border-radius: var(--radius-lg);
-      overflow-x: auto;
-      box-shadow: var(--shadow-sm);
+    .feature-card {
+      background: var(--stone-card);
+      border: 1px solid var(--stone-border);
+      border-radius: var(--radius-xl);
+      padding: 44px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      margin-bottom: 36px;
+      transition: var(--transition);
     }
 
-    .comp-table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: left;
+    .feature-card:hover {
+      background: var(--stone-card-hover);
+      box-shadow: 0 14px 34px rgba(28, 25, 23, 0.06);
     }
 
-    .comp-table th, .comp-table td {
-      padding: 18px 24px;
-      border-bottom: 1px solid var(--border);
+    .feature-card.reverse {
+      grid-template-columns: 1fr 1fr;
     }
 
-    .comp-table th {
-      font-family: var(--font-mono);
-      font-size: 0.82rem;
+    .feature-card.reverse .feature-visual {
+      order: 1;
+    }
+
+    .feature-card.reverse .feature-info {
+      order: 2;
+    }
+
+    .feature-card .eyebrow-mono {
+      color: var(--text-dark-muted);
+    }
+
+    .feature-card h3 {
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      font-weight: 800;
+      color: var(--text-dark);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 18px;
+    }
+
+    .feature-card p {
+      color: var(--text-dark-muted);
+      font-size: 1rem;
+      line-height: 1.65;
+      margin-bottom: 28px;
+    }
+
+    .btn-pill-black {
+      background: #000000;
+      color: #FFFFFF;
+      padding: 13px 24px 13px 26px;
+      border-radius: var(--radius-full);
+      font-size: 0.92rem;
       font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+      transition: var(--transition);
+    }
+
+    .btn-pill-black:hover {
+      background: #222222;
+      transform: translateY(-2px);
+    }
+
+    .feature-visual {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: #000;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ════════════════════════════════════════════════════════════
+       SOLUTIONS SECTION (SCREENSHOT 8 & 9)
+       ════════════════════════════════════════════════════════════ */
+    .solutions-section {
+      background: radial-gradient(circle at 25% 45%, #2E187C 0%, #1A0F52 45%, #0B0626 90%);
+      padding: 120px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .solutions-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .solutions-left {
+      position: relative;
+      z-index: 2;
+    }
+
+    .solutions-ring-bg {
+      position: absolute;
+      top: -60px;
+      left: -120px;
+      width: 520px;
+      height: 520px;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.7;
+    }
+
+    .solutions-ring-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      mix-blend-mode: screen;
+      -webkit-mask-image: radial-gradient(circle at center, black 45%, rgba(0, 0, 0, 0.8) 58%, transparent 70%);
+      mask-image: radial-gradient(circle at center, black 45%, rgba(0, 0, 0, 0.8) 58%, transparent 70%);
+    }
+
+    .solutions-left h2 {
+      font-size: clamp(2.4rem, 4.5vw, 3.6rem);
+      font-weight: 800;
+      color: #FFFFFF;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .solutions-left p {
+      color: var(--text-white-muted);
+      font-size: 1.1rem;
+      line-height: 1.6;
+      position: relative;
+      z-index: 2;
+    }
+
+    .solutions-cards-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .solution-frosted-card {
+      background: rgba(46, 24, 124, 0.4);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-xl);
+      padding: 36px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+      transition: var(--transition);
+    }
+
+    .solution-frosted-card:hover {
+      background: rgba(60, 32, 160, 0.5);
+      transform: translateY(-3px);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .solution-frosted-card h3 {
+      font-size: 1.65rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 12px;
+    }
+
+    .solution-frosted-card p {
+      color: var(--text-white-muted);
+      font-size: 0.98rem;
+      line-height: 1.6;
+    }
+
+    /* ════════════════════════════════════════════════════════════
+       TESTIMONIALS SECTION (SCREENSHOT 10)
+       ════════════════════════════════════════════════════════════ */
+    .testimonials-section {
+      background: var(--stone-bg);
+      padding: 110px 0;
+    }
+
+    .testimonials-head {
+      margin-bottom: 50px;
+    }
+
+    .testimonials-head h2 {
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 800;
+      color: var(--text-dark);
+      letter-spacing: -0.03em;
+    }
+
+    .testimonial-cards-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .testimonial-card {
+      background: var(--stone-card);
+      border: 1px solid var(--stone-border);
+      border-radius: var(--radius-xl);
+      padding: 38px 44px;
+      box-shadow: 0 8px 24px rgba(28, 25, 23, 0.04);
+      transition: var(--transition);
+    }
+
+    .testimonial-card:hover {
+      background: var(--stone-card-hover);
+      transform: translateY(-2px);
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .testimonial-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: #CCC;
+      flex-shrink: 0;
+    }
+
+    .testimonial-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .testimonial-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      line-height: 1.2;
+    }
+
+    .testimonial-role {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dark-muted);
+      margin-top: 3px;
+    }
+
+    .testimonial-quote {
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      color: var(--text-dark);
+      line-height: 1.5;
+      font-weight: 500;
+    }
+
+    /* ════════════════════════════════════════════════════════════
+       PRICING PLANS SECTION (SCREENSHOT 11)
+       ════════════════════════════════════════════════════════════ */
+    .pricing-section {
+      background: #FFFFFF;
+      padding: 110px 0;
+      border-top: 1px solid var(--stone-border);
+    }
+
+    .pricing-head {
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto 60px;
+    }
+
+    .pricing-head h2 {
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 14px;
+    }
+
+    .pricing-head p {
+      color: var(--text-dark-muted);
+      font-size: 1.1rem;
+    }
+
+    .pricing-card-box {
+      max-width: 680px;
+      margin: 0 auto;
+      background: var(--stone-card);
+      border: 1px solid var(--stone-border);
+      border-radius: var(--radius-xl);
+      padding: 48px;
+      box-shadow: 0 16px 40px rgba(28, 25, 23, 0.05);
+    }
+
+    .pricing-plan-name {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+    }
+
+    .pricing-plan-sub {
+      color: var(--text-dark-muted);
+      font-size: 1.05rem;
+      margin-bottom: 28px;
+    }
+
+    .pricing-divider {
+      height: 1px;
+      background: rgba(28, 25, 23, 0.15);
+      margin-bottom: 32px;
+    }
+
+    .pricing-amount-row {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 36px;
+    }
+
+    .pricing-amount {
+      font-size: clamp(2.8rem, 5vw, 3.8rem);
+      font-weight: 800;
+      color: var(--text-dark);
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+
+    .pricing-period {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-dark-muted);
+    }
+
+    .pricing-badge-early {
+      background: #000000;
+      color: #FFFFFF;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      font-size: 0.8rem;
+      font-weight: 700;
+      font-family: var(--font-mono);
       text-transform: uppercase;
       letter-spacing: 0.04em;
-      background: var(--bg);
     }
 
-    .comp-table th.col-adramp {
-      background: #191614;
+    .pricing-features-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .pricing-features-list li {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 1.05rem;
+      color: var(--text-dark);
+      font-weight: 500;
+    }
+
+    .pricing-features-list .diamond-icon {
+      color: var(--text-dark);
+      font-size: 1.1rem;
+    }
+
+    .btn-pricing-full {
+      width: 100%;
+      background: #000000;
       color: #FFFFFF;
-    }
-
-    .comp-table td.col-adramp {
-      background: rgba(25, 22, 20, 0.02);
-      font-weight: 600;
-    }
-
-    .comp-check {
-      color: var(--emerald);
+      padding: 16px 24px;
+      border-radius: var(--radius-full);
+      font-size: 1rem;
       font-weight: 700;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+      transition: var(--transition);
     }
 
-    .comp-cross {
-      color: var(--text-light);
+    .btn-pricing-full:hover {
+      background: #222222;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
     }
 
-    /* ═══════════════════════════════════════════════════════════
-       FAQ ACCORDION
-       ═══════════════════════════════════════════════════════════ */
+    /* ════════════════════════════════════════════════════════════
+       FAQ ACCORDION (ADRAMP OFFICIAL QUESTIONS & ANSWERS)
+       ════════════════════════════════════════════════════════════ */
     .faq-section {
-      padding: 80px 0 100px;
+      background: var(--stone-bg);
+      padding: 110px 0;
     }
 
-    .faq-list {
+    .faq-container {
       max-width: 800px;
       margin: 0 auto;
     }
 
+    .faq-title {
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
     .faq-item {
-      border-bottom: 1px solid var(--border);
+      background: var(--stone-card);
+      border: 1px solid var(--stone-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .faq-item.active {
+      background: #FFFFFF;
+      box-shadow: 0 10px 30px rgba(28, 25, 23, 0.05);
     }
 
     .faq-btn {
       width: 100%;
-      padding: 22px 0;
+      padding: 22px 28px;
       background: none;
       border: none;
-      text-align: left;
-      font-family: var(--font-sans);
-      font-size: 1.15rem;
-      font-weight: 600;
-      color: var(--text);
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      text-align: left;
+      font-family: var(--font-main);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-dark);
       cursor: pointer;
-      gap: 16px;
     }
 
-    .faq-btn:hover {
-      color: var(--text-muted);
-    }
-
-    .faq-icon-rot {
+    .faq-btn .plus-rot {
       width: 24px;
       height: 24px;
       border-radius: 50%;
-      border: 1px solid var(--border);
+      background: rgba(0, 0, 0, 0.06);
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.3s ease;
-      font-family: var(--font-mono);
-      font-size: 1rem;
+      font-size: 1.2rem;
+      transition: transform 0.3s;
+      flex-shrink: 0;
     }
 
-    .faq-item.active .faq-icon-rot {
+    .faq-item.active .plus-rot {
       transform: rotate(45deg);
+      background: #000;
+      color: #FFF;
     }
 
     .faq-content {
@@ -1172,88 +1012,60 @@
       transition: max-height 0.3s ease-out;
     }
 
-    .faq-content-inner {
-      padding-bottom: 22px;
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      line-height: 1.6;
+    .faq-body {
+      padding: 0 28px 24px;
+      color: var(--text-dark-muted);
+      font-size: 1rem;
+      line-height: 1.65;
     }
 
-    /* ═══════════════════════════════════════════════════════════
-       FINAL CTA & FOOTER
-       ═══════════════════════════════════════════════════════════ */
-    .final-cta-section {
-      padding: 90px 0;
-      background: var(--bg-card);
-      border-top: 1px solid var(--border);
-      text-align: center;
-    }
-
-    .final-cta-box {
-      max-width: 780px;
-      margin: 0 auto;
-    }
-
-    .final-cta-box h2 {
-      font-size: clamp(2rem, 4vw, 3rem);
-      margin-bottom: 16px;
-    }
-
-    .final-cta-box p {
-      color: var(--text-muted);
-      font-size: 1.1rem;
-      margin-bottom: 32px;
-    }
-
+    /* ════════════════════════════════════════════════════════════
+       SITE FOOTER (DARK MIDNIGHT AESTHETIC)
+       ════════════════════════════════════════════════════════════ */
     footer {
-      background: #191614;
+      background: #05081E;
       color: #FFFFFF;
-      padding: 60px 0 36px;
+      padding: 80px 0 36px;
       border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .footer-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 40px;
-      flex-wrap: wrap;
-      padding-bottom: 40px;
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 60px;
+      padding-bottom: 50px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .footer-brand p {
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.88rem;
-      max-width: 320px;
-      margin-top: 12px;
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 48px;
+    .footer-desc {
+      color: var(--text-white-sub);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-top: 16px;
+      max-width: 360px;
     }
 
     .footer-col h5 {
       font-family: var(--font-mono);
-      font-size: 0.78rem;
+      font-size: 0.8rem;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: rgba(255, 255, 255, 0.4);
-      margin-bottom: 16px;
+      letter-spacing: 0.14em;
+      color: var(--text-white-sub);
+      margin-bottom: 20px;
     }
 
     .footer-col ul {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
     }
 
     .footer-col a {
-      color: rgba(255, 255, 255, 0.75);
+      color: var(--text-white-muted);
       text-decoration: none;
-      font-size: 0.88rem;
+      font-size: 0.92rem;
       transition: color 0.2s;
     }
 
@@ -1262,535 +1074,509 @@
     }
 
     .footer-bottom {
-      padding-top: 28px;
+      padding-top: 30px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.8rem;
-      color: rgba(255, 255, 255, 0.4);
+      color: var(--text-white-sub);
+      font-size: 0.84rem;
     }
 
-    /* ═══════════════════════════════════════════════════════════
-       RESPONSIVE DESIGN
-       ═══════════════════════════════════════════════════════════ */
+    /* ════════════════════════════════════════════════════════════
+       RESPONSIVE ADAPTATIONS
+       ════════════════════════════════════════════════════════════ */
     @media (max-width: 991px) {
-      .calc-card {
+      .product-top-row {
         grid-template-columns: 1fr;
-        gap: 36px;
+      }
+      .feature-card, .feature-card.reverse {
+        grid-template-columns: 1fr;
         padding: 32px 24px;
       }
-      .capabilities-grid {
+      .feature-card.reverse .feature-visual {
+        order: 2;
+      }
+      .solutions-grid {
         grid-template-columns: 1fr;
       }
-      .safeguards-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .nav-menu {
+      .nav-links {
         display: none;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
       }
     }
 
     @media (max-width: 640px) {
-      .safeguards-grid {
-        grid-template-columns: 1fr;
+      .hero-orb-bg {
+        width: 360px;
+        height: 360px;
+        right: -10%;
+        opacity: 0.5;
       }
-      .calc-metrics-grid {
-        grid-template-columns: 1fr;
+      .product-glass-card {
+        padding: 28px 20px;
       }
-      .metric-box.highlight {
-        grid-column: span 1;
+      .pricing-card-box {
+        padding: 32px 20px;
       }
-      .hero-section {
-        padding-top: 110px;
-      }
-      .integrations-bar {
-        border-radius: var(--radius-md);
+      .testimonial-card {
+        padding: 28px 20px;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Background grid pattern -->
-  <div class="bg-grid"></div>
-
-  <!-- ═══════════════════════════════════════════════════════════
-       NAVIGATION
-       ═══════════════════════════════════════════════════════════ -->
-  <nav>
-    <div class="container nav-inner">
-      <a href="#" class="nav-brand">
-        <div class="brand-mark">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-            <polyline points="17 6 23 6 23 12"></polyline>
-          </svg>
-        </div>
-        AdRamp<span style="color:var(--text-light)">.ai</span>
+  <!-- ════════════════════════════════════════════════════════════
+       FLOATING CAPSULE NAVBAR (EXACT SCREENSHOT SPECIFICATION)
+       ════════════════════════════════════════════════════════════ -->
+  <div class="nav-wrap">
+    <nav class="nav-bar">
+      <a href="#" class="nav-logo">
+        AdRamp<span>.ai</span>
       </a>
 
-      <ul class="nav-menu">
-        <li><a href="#simulator" class="nav-link">Interactive Sandbox</a></li>
-        <li><a href="#calculator" class="nav-link">Waste Calculator</a></li>
-        <li><a href="#capabilities" class="nav-link">Capabilities</a></li>
-        <li><a href="#safeguards" class="nav-link">Security & Safeguards</a></li>
-        <li><a href="#comparison" class="nav-link">Why AdRamp</a></li>
-        <li><a href="#faq" class="nav-link">FAQ</a></li>
-      </ul>
-
-      <div class="nav-cta-wrap">
-        <a href="https://app.adramp.ai/accounts/login/" class="nav-signin">Sign in</a>
-        <a href="https://app.adramp.ai/accounts/signup/" class="btn btn-primary btn-sm">Get Early Access →</a>
-      </div>
-    </div>
-  </nav>
-
-  <!-- ═══════════════════════════════════════════════════════════
-       HERO SECTION
-       ═══════════════════════════════════════════════════════════ -->
-  <header class="hero-section">
-    <div class="container">
-      <div class="hero-badge-wrap">
-        <div class="badge-pill">
-          <span class="badge-dot"></span>
-          Now in Early Access 2.0 • Live Action Engine
-        </div>
-      </div>
-
-      <h1 class="hero-title">
-        The AI Marketer that<br>
-        <span class="action-highlight">Acts on Your Ad Data.</span>
-      </h1>
-
-      <p class="hero-subtitle">
-        Connect Google Ads, Meta, and Shopify. Ask complex performance questions in plain English, surface budget drains, and execute fixes directly in your ad accounts with 1-click human approval.
-      </p>
-
-      <div class="hero-cta-group">
-        <a href="https://app.adramp.ai/accounts/signup/" class="btn btn-primary">
-          Connect Google Ads Free →
-        </a>
-        <a href="#simulator" class="btn btn-secondary">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <polygon points="5 3 19 12 5 21 5 3"></polygon>
-          </svg>
-          Try Live Simulator
+      <div class="nav-capsule">
+        <ul class="nav-links">
+          <li><a href="#product">Product</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#solutions">Solutions</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+        </ul>
+        <a href="https://app.adramp.ai/accounts/signup/" class="btn-nav-signup">
+          Sign Up
+          <div class="arrow-icon-circle">
+            <svg viewBox="0 0 24 24"><polygon points="7.5 4 17.5 12 7.5 20"></polygon></svg>
+          </div>
         </a>
       </div>
+    </nav>
+  </div>
 
-      <div class="hero-proof-micro">
-        ✓ No credit card required &nbsp;•&nbsp; 30-second OAuth setup &nbsp;•&nbsp; Zero changes without explicit approval
-      </div>
-
-      <!-- Verified Integrations -->
-      <div class="integrations-bar">
-        <span class="integration-label">Integrates Seamlessly:</span>
-        <div class="integration-items">
-          <div class="integration-pill">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/></svg>
-            Google Ads API
-          </div>
-          <div class="integration-pill">
-            <svg viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-            Meta Ads
-          </div>
-          <div class="integration-pill">
-            <svg viewBox="0 0 24 24" fill="#95BF47"><path d="M15.88 5.7c-.12 0-.25.04-.34.12-.1.08-.16.2-.18.33l-.68 5.25h2.18l-.68-5.25c-.02-.13-.08-.25-.18-.33a.56.56 0 0 0-.3-.12m4.18 5.7h-2.7l.63-4.88c.08-.6.5-1.09 1.08-1.25.17-.05.35-.07.53-.07.63 0 1.21.35 1.5.91l.86 1.72-1.9 3.57zM8.12 5.7c-.12 0-.25.04-.34.12-.1.08-.16.2-.18.33l-.68 5.25h2.18l-.68-5.25c-.02-.13-.08-.25-.18-.33a.56.56 0 0 0-.3-.12M3.94 11.4h2.7L6.01 6.52c-.08-.6-.5-1.09-1.08-1.25-.17-.05-.35-.07-.53-.07-.63 0-1.21.35-1.5.91L2.04 7.83l1.9 3.57zM12 2.5a2.5 2.5 0 0 0-2.5 2.5c0 .24.04.47.1.7l1.7-.22c-.06-.15-.1-.31-.1-.48 0-.44.36-.8.8-.8s.8.36.8.8c0 .17-.04.33-.1.48l1.7.22c.06-.23.1-.46.1-.7a2.5 2.5 0 0 0-2.5-2.5"/></svg>
-            Shopify
-          </div>
-          <div class="integration-pill">
-            <svg viewBox="0 0 24 24" fill="#E37400"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 14.5a1.5 1.5 0 1 1-3 0V11a1.5 1.5 0 0 1 3 0zm0-8.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/></svg>
-            GA4
-          </div>
-          <div class="integration-pill">
-            <svg viewBox="0 0 24 24" fill="#000000"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.667 17.333H6.333V6.667h11.334v10.666z"/></svg>
-            Klaviyo
-          </div>
-        </div>
-      </div>
+  <!-- ════════════════════════════════════════════════════════════
+       HERO SECTION (SCREENSHOT 1)
+       ════════════════════════════════════════════════════════════ -->
+  <section class="hero-section" id="hero">
+    <!-- Ethereal Particle Orb in Background -->
+    <div class="hero-orb-bg">
+      <img src="assets/adramp_design/hero-particle-orb.jpg" alt="AdRamp AI Orb">
     </div>
-  </header>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       INTERACTIVE COMMAND CENTER SIMULATOR
-       ═══════════════════════════════════════════════════════════ -->
-  <section class="simulator-section" id="simulator">
     <div class="container">
-      <div class="section-header">
-        <div class="eyebrow">Interactive Sandbox</div>
-        <h2>Experience How AdRamp Actually Acts</h2>
-        <p>Click any scenario tab below to see how AdRamp analyzes your data and queues verified actions in your ad accounts.</p>
-      </div>
+      <div class="hero-content">
+        <h1 class="hero-h1">
+          Automate your marketing with AI Platform.
+        </h1>
 
-      <div class="simulator-window">
-        <!-- Top Bar -->
-        <div class="sim-topbar">
-          <div class="sim-top-left">
-            <div class="sim-dots">
-              <span class="sim-dot red"></span>
-              <span class="sim-dot yellow"></span>
-              <span class="sim-dot green"></span>
-            </div>
-            <span class="sim-title">adramp-agent // connected to: Google Ads (Account #812-491-0021)</span>
+        <div class="hero-social-proof">
+          <div class="avatar-stack">
+            <img src="assets/adramp_design/avatar-john.png" alt="Marketer">
+            <img src="assets/adramp_design/avatar-celine.png" alt="Marketer">
+            <img src="assets/adramp_design/avatar-john.png" alt="Marketer">
+            <img src="assets/adramp_design/avatar-celine.png" alt="Marketer">
           </div>
-          <div class="sim-status">
-            <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#34D399;"></span>
-            OAuth 2.0 Live API Active
-          </div>
+          <span class="social-proof-text">Trusted by 10k+ marketers</span>
         </div>
 
-        <!-- Mode Tabs -->
-        <div class="sim-tabs-bar">
-          <button class="sim-tab-btn active" onclick="switchSimTab('waste', this)">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-            1. Exclude Wasteful Queries
-            <span class="tab-badge">€1,480 Saved</span>
-          </button>
-          <button class="sim-tab-btn" onclick="switchSimTab('budget', this)">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
-            2. Budget Reallocation
-            <span class="tab-badge">+18% ROAS</span>
-          </button>
-          <button class="sim-tab-btn" onclick="switchSimTab('diagnosis', this)">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-            3. Instant Performance Audit
-            <span class="tab-badge">Full Stack</span>
-          </button>
-          <button class="sim-tab-btn" onclick="switchSimTab('pause', this)">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
-            4. Auto-Pause Bleeders
-            <span class="tab-badge">Zero ROAS</span>
-          </button>
-        </div>
+        <p class="hero-desc">
+          AdRamp connects to your Google Ads, Meta, Shopify & Klaviyo data. Ask questions, get instant insights, and execute changes — all within a single chat interface.
+        </p>
 
-        <!-- Simulator Body (Dynamic Tab Panes) -->
-        <div class="sim-body" id="simContent">
-          <!-- Content dynamically swapped via JS below -->
-        </div>
-
-        <!-- Quick Prompt Chips -->
-        <div class="sim-prompts-bar">
-          <span class="prompt-label">Try Prompt:</span>
-          <button class="prompt-chip" onclick="loadPromptScenario('waste')">"Show search terms with zero conversions and cost > €50"</button>
-          <button class="prompt-chip" onclick="loadPromptScenario('budget')">"Shift 25% budget to campaigns with ROAS > 4.5x"</button>
-          <button class="prompt-chip" onclick="loadPromptScenario('diagnosis')">"Why did CPA spike on Meta retargeting yesterday?"</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════════════
-       INTERACTIVE AD SPEND LEAKAGE CALCULATOR
-       ═══════════════════════════════════════════════════════════ -->
-  <section class="calculator-section" id="calculator">
-    <div class="container">
-      <div class="section-header">
-        <div class="eyebrow">Ad Spend ROI Calculator</div>
-        <h2>How Much Budget Are You Bleeding Each Month?</h2>
-        <p>Across 10,000+ audited Google Ads accounts, the average brand loses 11% to 18% of monthly budget to mismatched search terms, zombie ad groups, and fragmented bids.</p>
-      </div>
-
-      <div class="calc-card">
-        <div class="calc-inputs">
-          <h3>Estimate Your Savings</h3>
-          <p>Drag the slider to your current monthly Google & Meta ad budget to project your reclaimed capital and time savings.</p>
-
-          <div class="slider-group">
-            <div class="slider-label-row">
-              <span class="slider-title">Monthly Ad Spend:</span>
-              <span class="slider-value-display" id="spendDisplay">$25,000</span>
+        <div class="hero-btn-group">
+          <a href="https://app.adramp.ai/accounts/signup/" class="btn-pill-white">
+            Sign Up
+            <div class="arrow-icon-circle">
+              <svg viewBox="0 0 24 24"><polygon points="7.5 4 17.5 12 7.5 20"></polygon></svg>
             </div>
-            <input type="range" min="3000" max="150000" step="1000" value="25000" class="range-slider" id="spendSlider" oninput="updateCalculator(this.value)">
-          </div>
-
-          <div style="font-size:0.86rem; color:var(--text-muted); line-height: 1.5;">
-            💡 <strong>How AdRamp reclaims this:</strong> Continuous search query mining, automated negative keyword harvesting, and dynamic budget shifting to highest-converting hours.
-          </div>
-        </div>
-
-        <div class="calc-results">
-          <div class="calc-metrics-grid">
-            <div class="metric-box highlight">
-              <div class="metric-title">Estimated Monthly Reclaimed Spend</div>
-              <div class="metric-number" id="wasteAmount">$3,250</div>
-              <div class="metric-sub">Capital instantly redirected into your top 3 ROAS campaigns</div>
-            </div>
-
-            <div class="metric-box">
-              <div class="metric-title">Analyst Time Saved</div>
-              <div class="metric-number" id="hoursSaved">32 hrs</div>
-              <div class="metric-sub">No manual spreadsheet exports or query sorting</div>
-            </div>
-
-            <div class="metric-box">
-              <div class="metric-title">Projected ROAS Lift</div>
-              <div class="metric-number">+0.68x</div>
-              <div class="metric-sub">From eliminating non-converting search clicks</div>
-            </div>
-          </div>
-
-          <a href="https://app.adramp.ai/accounts/signup/" class="btn btn-primary" style="width:100%;">
-            Reclaim My Wasted Spend with AdRamp →
+          </a>
+          <a href="#product" class="btn-pill-translucent">
+            Learn More
           </a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       THE 4 CORE CAPABILITIES
-       ═══════════════════════════════════════════════════════════ -->
-  <section class="capabilities-section" id="capabilities">
+  <!-- ════════════════════════════════════════════════════════════
+       PRODUCT INTRO WITH 3D ORB & DASHBOARD (SCREENSHOT 2 & 3)
+       ════════════════════════════════════════════════════════════ -->
+  <section class="product-section" id="product">
     <div class="container">
-      <div class="section-header">
-        <div class="eyebrow">Beyond Read-Only Dashboards</div>
-        <h2>An AI Marketer Built for Action</h2>
-        <p>Most AI marketing tools simply summarize charts you could have read yourself. AdRamp executes real changes inside your accounts.</p>
+      <!-- 3D Iridescent Jellyfish Orb -->
+      <div class="product-orb-center">
+        <img src="assets/adramp_design/product-3d-orb.jpg" alt="AdRamp Intelligence">
       </div>
 
-      <div class="capabilities-grid">
-        <!-- 1. Analyze -->
-        <div class="capability-card">
+      <div class="product-glass-card">
+        <div class="product-top-row">
           <div>
-            <div class="cap-icon-wrap">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <div class="eyebrow-mono">PRODUCT</div>
+            <h2 class="product-title">Simplify complex workflows.</h2>
+            <div class="hero-btn-group">
+              <a href="https://app.adramp.ai/accounts/signup/" class="btn-pill-white">
+                Sign Up
+                <div class="arrow-icon-circle">
+                  <svg viewBox="0 0 24 24"><polygon points="7.5 4 17.5 12 7.5 20"></polygon></svg>
+                </div>
+              </a>
+              <a href="#features" class="btn-pill-translucent">
+                Watch Demo
+              </a>
             </div>
-            <h3>1. Conversational Deep-Dive Analysis</h3>
-            <p>Query cross-channel data naturally. Ask about blended ROAS across Google and Shopify, detect sudden CPA spikes, and identify audience fatigue in seconds without building Looker dashboards.</p>
           </div>
-          <div class="cap-mock-visual">
-            <span style="color:var(--text-light)">></span> "Which search terms drove 80% of revenue in DE?"<br>
-            <span style="color:var(--emerald)">✔ 3 queries identified: 5.4x blended ROAS (€18,240 rev)</span>
+          <div>
+            <p class="product-desc">
+              Automate repetitive marketing tasks across ad channels, reducing manual analysis effort and increasing overall ROAS. Connect your Google Ads, Meta, and Shopify accounts to uncover budget drains and execute optimizations with human-in-the-loop control.
+            </p>
           </div>
         </div>
 
-        <!-- 2. Optimize -->
-        <div class="capability-card">
-          <div>
-            <div class="cap-icon-wrap">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        <!-- Embedded SaaS Dashboard Mockup Frame -->
+        <div class="dashboard-frame-wrap">
+          <img src="assets/adramp_design/dashboard-mockup.png" alt="AdRamp Performance Dashboard" class="dashboard-img">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════
+       THE FUTURE OF MARKETING SECTION (SCREENSHOT 4 & 5)
+       ════════════════════════════════════════════════════════════ -->
+  <section class="future-section">
+    <div class="container">
+      <div class="future-header">
+        <h2 class="future-h2">The future of marketing is here.</h2>
+        <p class="future-sub">
+          AdRamp is the AI performance marketing tool built for analysts who need more than read-only dashboards.
+        </p>
+      </div>
+
+      <div class="clay-device-frame">
+        <div class="clay-device-header">
+          <h3>Instant Ads</h3>
+          <p>Get your agentic marketing team that acts directly on your performance data.</p>
+        </div>
+        <div class="workflow-img-wrap">
+          <img src="assets/adramp_design/workflow-diagram.png" alt="Agentic Workflow Diagram">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════
+       FEATURES SECTION (SCREENSHOT 6 & 7)
+       ════════════════════════════════════════════════════════════ -->
+  <section class="features-section" id="features">
+    <div class="container">
+      <div class="features-section-head">
+        <div class="left">
+          <div class="eyebrow-mono">ABOUT THE PRODUCT</div>
+          <h2>Features</h2>
+        </div>
+        <div class="right">
+          AdRamp doesn't just display charts — it surfaces wasteful search terms, underperforming ad variants, and executes verified fixes in your accounts.
+        </div>
+      </div>
+
+      <!-- Feature Card 1 (Analyze) -->
+      <div class="feature-card">
+        <div class="feature-info">
+          <div class="eyebrow-mono">FEATURE 1</div>
+          <h3>Simplify complex workflow.</h3>
+          <p>
+            Dive into campaign performance, keyword efficiency, and budget allocation — all through a natural language chat. No dashboards to learn, no reports to build.
+          </p>
+          <a href="https://app.adramp.ai/accounts/signup/" class="btn-pill-black">
+            Sign Up
+            <div class="arrow-icon-circle">
+              <svg viewBox="0 0 24 24"><polygon points="7.5 4 17.5 12 7.5 20"></polygon></svg>
             </div>
-            <h3>2. Ruthless Waste Elimination</h3>
-            <p>AdRamp scans thousands of incoming search queries every hour. When it spots high-cost terms with zero purchase intent, it groups them and queues them directly into your negative keyword lists.</p>
-          </div>
-          <div class="cap-mock-visual">
-            <span style="color:var(--rose)">⚠ Flagged:</span> 14 terms with €2.40+ CPC & 0 sales<br>
-            <span style="color:var(--text)">Action: Ready to push to Google Ads Shared Negative List</span>
-          </div>
+          </a>
+        </div>
+        <div class="feature-visual">
+          <img src="assets/adramp_design/feature1-tile.png" alt="Analyze Feature Visual">
+        </div>
+      </div>
+
+      <!-- Feature Card 2 (Optimize - Alternating Reverse) -->
+      <div class="feature-card reverse">
+        <div class="feature-visual">
+          <img src="assets/adramp_design/feature2-tile.png" alt="Optimize Feature Visual">
+        </div>
+        <div class="feature-info">
+          <div class="eyebrow-mono">FEATURE 2</div>
+          <h3>Unlock actionable business intelligence.</h3>
+          <p>
+            AdRamp surfaces wasteful search terms, underperforming keywords, and budget drains — then lets you add negative keywords and pause bleeders with a single click.
+          </p>
+          <a href="https://app.adramp.ai/accounts/signup/" class="btn-pill-black">
+            Sign Up
+            <div class="arrow-icon-circle">
+              <svg viewBox="0 0 24 24"><polygon points="7.5 4 17.5 12 7.5 20"></polygon></svg>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Feature Card 3 (Execute) -->
+      <div class="feature-card">
+        <div class="feature-info">
+          <div class="eyebrow-mono">FEATURE 3</div>
+          <h3>Connect your favourite tools.</h3>
+          <p>
+            Pause underperformers, add negative keywords, reallocate budgets — AdRamp doesn't just recommend, it executes changes directly in your Google Ads and Meta accounts.
+          </p>
+          <a href="https://app.adramp.ai/accounts/signup/" class="btn-pill-black">
+            Sign Up
+            <div class="arrow-icon-circle">
+              <svg viewBox="0 0 24 24"><polygon points="7.5 4 17.5 12 7.5 20"></polygon></svg>
+            </div>
+          </a>
+        </div>
+        <div class="feature-visual">
+          <img src="assets/adramp_design/workflow-diagram.png" alt="Execute Feature Visual">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════
+       SOLUTIONS SECTION (SCREENSHOT 8 & 9)
+       ════════════════════════════════════════════════════════════ -->
+  <section class="solutions-section" id="solutions">
+    <!-- Iridescent Portal Ring Background -->
+    <div class="solutions-ring-bg">
+      <img src="assets/adramp_design/solutions-ring.jpg" alt="Solutions Background Ring">
+    </div>
+
+    <div class="container">
+      <div class="solutions-grid">
+        <div class="solutions-left">
+          <div class="eyebrow-mono" style="color: rgba(255,255,255,0.7);">SOLUTIONS</div>
+          <h2>Designed for big and small teams.</h2>
+          <p>
+            Whether you are a solo e-commerce founder scaling Shopify sales or an agency managing dozens of client Google Ads accounts, AdRamp scales effortlessly.
+          </p>
         </div>
 
-        <!-- 3. Execute -->
-        <div class="capability-card">
-          <div>
-            <div class="cap-icon-wrap">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-            </div>
-            <h3>3. Direct API Action Execution</h3>
-            <p>Don't switch tabs or navigate Google Ads' sluggish interface. Shift budgets between campaigns, pause underperforming ad variants, or adjust target ROAS targets right from the chat box.</p>
+        <div class="solutions-cards-stack">
+          <div class="solution-frosted-card">
+            <h3>Instant Ads</h3>
+            <p>
+              Autonomous optimization agents that surface wasted search spend and pause failing ad sets the moment CPA breaches your threshold.
+            </p>
           </div>
-          <div class="cap-mock-visual">
-            <span style="color:var(--text-light)">></span> "Shift €500/day from Campaign B to Campaign A"<br>
-            <span style="color:var(--emerald)">✔ Changes applied via Google Ads API (v16.1)</span>
-          </div>
-        </div>
 
-        <!-- 4. Monitor -->
-        <div class="capability-card">
-          <div>
-            <div class="cap-icon-wrap">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"></path></svg>
-            </div>
-            <h3>4. Real-Time Guardrails & Pacing</h3>
-            <p>Set custom performance triggers. If a campaign burns through 40% of daily budget before noon with 0 conversions, AdRamp alerts you with an instant 1-click pause recommendation.</p>
+          <div class="solution-frosted-card">
+            <h3>Collaboration</h3>
+            <p>
+              Shared team workspaces, transparent audit ledgers, and human-in-the-loop approval queues that keep everyone aligned.
+            </p>
           </div>
-          <div class="cap-mock-visual">
-            <span style="color:var(--amber)">⚡ Alert:</span> High PMax spend spike in UK region<br>
-            <span style="color:var(--text)">Recommendation: Cap daily ceiling at €350 until CPA normalizes</span>
+
+          <div class="solution-frosted-card">
+            <h3>Small to Large Businesses</h3>
+            <p>
+              From a single brand store to multi-client MCC setups. Manage multiple ad accounts simultaneously without context-switching.
+            </p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       SECURITY & HUMAN-IN-THE-LOOP SAFEGUARDS
-       ═══════════════════════════════════════════════════════════ -->
-  <section class="safeguards-section" id="safeguards">
+  <!-- ════════════════════════════════════════════════════════════
+       TESTIMONIALS SECTION (SCREENSHOT 10)
+       ════════════════════════════════════════════════════════════ -->
+  <section class="testimonials-section">
     <div class="container">
-      <div class="section-header">
-        <div class="eyebrow" style="color:#34D399;">Enterprise Security Architecture</div>
-        <h2>You Always Stay in the Driver's Seat</h2>
-        <p>We built AdRamp specifically for performance analysts who require complete control, ironclad privacy, and zero rogue actions.</p>
+      <div class="testimonials-head">
+        <h2>What Our Marketers Say</h2>
       </div>
 
-      <div class="safeguards-grid">
-        <div class="safeguard-box">
-          <div class="safeguard-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+      <div class="testimonial-cards-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">
+              <img src="assets/adramp_design/avatar-john.png" alt="John Doe">
+            </div>
+            <div>
+              <div class="testimonial-name">John Doe</div>
+              <div class="testimonial-role">HEAD OF GROWTH, E-COMMERCE</div>
+            </div>
           </div>
-          <h4>Human-in-the-Loop</h4>
-          <p>Every single optimization requires your explicit one-click confirmation. Nothing changes in your ad account without you approving it first.</p>
+          <div class="testimonial-quote">
+            “AdRamp eliminated over €1,400 in wasteful search spend in our very first week. Being able to approve negative keywords right from a chat message gives us back dozens of analyst hours every month.”
+          </div>
         </div>
 
-        <div class="safeguard-box">
-          <div class="safeguard-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        <div class="testimonial-card">
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">
+              <img src="assets/adramp_design/avatar-celine.png" alt="Celine Doe">
+            </div>
+            <div>
+              <div class="testimonial-name">Celine Doe</div>
+              <div class="testimonial-role">MEDIA BUYING DIRECTOR, AGENCY</div>
+            </div>
           </div>
-          <h4>Official OAuth 2.0</h4>
-          <p>AdRamp connects directly through the official Google Ads & Meta REST APIs. We never ask for or store your account passwords.</p>
-        </div>
-
-        <div class="safeguard-box">
-          <div class="safeguard-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><polyline points="3 3 3 8 8 8"></polyline></svg>
+          <div class="testimonial-quote">
+            “We saw measurable ROAS improvements within the first quarter and continue to benefit from AdRamp's instant performance diagnosis across our client accounts.”
           </div>
-          <h4>1-Click Instant Rollback</h4>
-          <p>Every action is tracked in an immutable audit ledger. Undo any budget adjustment or keyword change instantly with one click.</p>
-        </div>
-
-        <div class="safeguard-box">
-          <div class="safeguard-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
-          </div>
-          <h4>Zero Model Training</h4>
-          <p>Your proprietary bidding strategies, conversion rates, and revenue data are strictly isolated and never used to train public LLM models.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       COMPARISON MATRIX
-       ═══════════════════════════════════════════════════════════ -->
-  <section class="comparison-section" id="comparison">
+  <!-- ════════════════════════════════════════════════════════════
+       PRICING PLANS SECTION (SCREENSHOT 11)
+       ════════════════════════════════════════════════════════════ -->
+  <section class="pricing-section" id="pricing">
     <div class="container">
-      <div class="section-header">
-        <div class="eyebrow">Clear Competitive Edge</div>
-        <h2>Why Top Marketers Switch to AdRamp</h2>
-        <p>See how AdRamp compares to traditional dashboards, manual ad managers, and expensive agency retainers.</p>
+      <div class="pricing-head">
+        <div class="eyebrow-mono" style="color:var(--text-dark-muted);">PRICING</div>
+        <h2>Simple, Transparent Plans</h2>
+        <p>Free during early access. Lock in grandfathered perks before commercial launch.</p>
       </div>
 
-      <div class="comparison-table-wrap">
-        <table class="comp-table">
-          <thead>
-            <tr>
-              <th>Feature / Capability</th>
-              <th class="col-adramp">AdRamp AI</th>
-              <th>Native Google Ads</th>
-              <th>Looker / Supermetrics</th>
-              <th>Marketing Agencies</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Natural Language Querying</strong></td>
-              <td class="col-adramp"><span class="comp-check">✔ Instant chat</span></td>
-              <td><span class="comp-cross">✖ None (manual filters)</span></td>
-              <td><span class="comp-cross">✖ Requires SQL / formulas</span></td>
-              <td><span class="comp-cross">✖ 24-48 hr email delay</span></td>
-            </tr>
-            <tr>
-              <td><strong>Direct 1-Click Action Execution</strong></td>
-              <td class="col-adramp"><span class="comp-check">✔ Live via API</span></td>
-              <td><span class="comp-cross">✖ Slow manual clicks</span></td>
-              <td><span class="comp-cross">✖ 100% Read-only</span></td>
-              <td><span class="comp-check">✔ Performed manually</span></td>
-            </tr>
-            <tr>
-              <td><strong>Automated Negative Keyword Mining</strong></td>
-              <td class="col-adramp"><span class="comp-check">✔ Continuous AI scan</span></td>
-              <td><span class="comp-cross">✖ Manual report slicing</span></td>
-              <td><span class="comp-cross">✖ Only displays tables</span></td>
-              <td><span class="comp-cross">✖ Periodic bi-weekly audit</span></td>
-            </tr>
-            <tr>
-              <td><strong>Cross-Platform Blended ROAS</strong></td>
-              <td class="col-adramp"><span class="comp-check">✔ Google + Meta + Shopify</span></td>
-              <td><span class="comp-cross">✖ Google only</span></td>
-              <td><span class="comp-check">✔ Supported</span></td>
-              <td><span class="comp-check">✔ Monthly slide decks</span></td>
-            </tr>
-            <tr>
-              <td><strong>Cost & Commitment</strong></td>
-              <td class="col-adramp"><strong>Free Early Access</strong></td>
-              <td>Free (High time cost)</td>
-              <td>$150 - $600 / mo</td>
-              <td>$3,500 - $8,000 / mo</td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="pricing-card-box">
+        <div class="pricing-plan-name">Starter</div>
+        <div class="pricing-plan-sub">Perfect for individuals or small teams starting out.</div>
+
+        <div class="pricing-divider"></div>
+
+        <div class="pricing-amount-row">
+          <div class="pricing-amount">$199</div>
+          <div class="pricing-period">/mo</div>
+          <span class="pricing-badge-early">Free in Early Access</span>
+        </div>
+
+        <ul class="pricing-features-list">
+          <li>
+            <span class="diamond-icon">✦</span>
+            Up to 2 ad accounts (Google Ads & Meta)
+          </li>
+          <li>
+            <span class="diamond-icon">✦</span>
+            Full interactive natural language chat
+          </li>
+          <li>
+            <span class="diamond-icon">✦</span>
+            Automated negative keyword harvesting
+          </li>
+          <li>
+            <span class="diamond-icon">✦</span>
+            Human-in-the-loop 1-click execution
+          </li>
+          <li>
+            <span class="diamond-icon">✦</span>
+            Real-time spend and ROAS performance alerts
+          </li>
+        </ul>
+
+        <a href="https://app.adramp.ai/accounts/signup/" class="btn-pricing-full">
+          Sign Up
+          <div class="arrow-icon-circle">
+            <svg viewBox="0 0 24 24"><polygon points="7.5 4 17.5 12 7.5 20"></polygon></svg>
+          </div>
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       FAQ ACCORDION
-       ═══════════════════════════════════════════════════════════ -->
+  <!-- ════════════════════════════════════════════════════════════
+       FAQ ACCORDION (OFFICIAL ADRAMP CONTENT)
+       ════════════════════════════════════════════════════════════ -->
   <section class="faq-section" id="faq">
     <div class="container">
-      <div class="section-header">
-        <div class="eyebrow">Frequently Asked Questions</div>
-        <h2>Everything You Need to Know</h2>
-        <p>Clear, direct answers about how AdRamp interacts with your accounts and protects your data.</p>
-      </div>
+      <div class="faq-container">
+        <div class="eyebrow-mono" style="text-align:center; color:var(--text-dark-muted);">FAQ</div>
+        <h2 class="faq-title">Common Questions</h2>
 
-      <div class="faq-list">
-        <div class="faq-item active">
-          <button class="faq-btn" onclick="toggleFaq(this)">
-            How does AdRamp make changes in my Google Ads account?
-            <span class="faq-icon-rot">+</span>
-          </button>
-          <div class="faq-content" style="max-height: 200px;">
-            <div class="faq-content-inner">
-              AdRamp communicates through the official Google Ads REST API via OAuth 2.0. Every action requires your explicit confirmation inside the chat interface. You inspect the proposed change (e.g. which search terms will be excluded or which campaign budget will be adjusted), and click "Approve". Nothing ever changes without your permission.
+        <div class="faq-list">
+          <div class="faq-item active">
+            <button class="faq-btn" onclick="toggleFaq(this)">
+              How does AdRamp change things in my Google Ads account?
+              <span class="plus-rot">+</span>
+            </button>
+            <div class="faq-content" style="max-height: 200px;">
+              <div class="faq-body">
+                Through the official Google Ads API via OAuth. Every action requires your explicit approval. You see what will change, confirm with one click. Nothing happens without you saying yes.
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="faq-item">
-          <button class="faq-btn" onclick="toggleFaq(this)">
-            Is it safe to let AI modify my campaigns?
-            <span class="faq-icon-rot">+</span>
-          </button>
-          <div class="faq-content">
-            <div class="faq-content-inner">
-              AdRamp is engineered with a strict <strong>Human-in-the-Loop</strong> architecture. The AI acts as a 24/7 senior analyst: it finds anomalies, computes projected impact, and prepares the exact API payload for your review. You remain in complete control at all times, with instant 1-click rollback available on any change.
+          <div class="faq-item">
+            <button class="faq-btn" onclick="toggleFaq(this)">
+              Is it safe to let AI modify my campaigns?
+              <span class="plus-rot">+</span>
+            </button>
+            <div class="faq-content">
+              <div class="faq-body">
+                AdRamp is human-in-the-loop by design. The AI recommends, you decide. Every action shows projected impact before you approve. You stay in control.
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="faq-item">
-          <button class="faq-btn" onclick="toggleFaq(this)">
-            What accounts and ad platforms do you currently support?
-            <span class="faq-icon-rot">+</span>
-          </button>
-          <div class="faq-content">
-            <div class="faq-content-inner">
-              Full two-way read/write capabilities are live for Google Ads (Search, Performance Max, Display, Shopping). Read-only and blended analytics are live for Meta Ads, Shopify, Google Analytics 4, and Klaviyo, with write actions for Meta rolling out to Early Access members shortly.
+          <div class="faq-item">
+            <button class="faq-btn" onclick="toggleFaq(this)">
+              What AI services power AdRamp?
+              <span class="plus-rot">+</span>
+            </button>
+            <div class="faq-content">
+              <div class="faq-body">
+                AdRamp integrates with OpenAI and Anthropic to power its AI capabilities. Your data is governed by our privacy policy and the respective policies of these providers.
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="faq-item">
-          <button class="faq-btn" onclick="toggleFaq(this)">
-            What does AdRamp cost during Early Access?
-            <span class="faq-icon-rot">+</span>
-          </button>
-          <div class="faq-content">
-            <div class="faq-content-inner">
-              AdRamp is 100% free during our Early Access phase. Early adopters lock in lifetime preferential pricing and grandfathered access to advanced features when commercial tiers are introduced.
+          <div class="faq-item">
+            <button class="faq-btn" onclick="toggleFaq(this)">
+              What can I actually do through AdRamp?
+              <span class="plus-rot">+</span>
+            </button>
+            <div class="faq-content">
+              <div class="faq-body">
+                Anything you'd do in Google Ads — analyze performance, exclude keywords, shift budgets, pause ads, and more. If you can describe it, AdRamp can probably do it.
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="faq-item">
-          <button class="faq-btn" onclick="toggleFaq(this)">
-            Does AdRamp use my ad data to train AI models?
-            <span class="faq-icon-rot">+</span>
-          </button>
-          <div class="faq-content">
-            <div class="faq-content-inner">
-              No. We strictly adhere to enterprise data privacy agreements. Your account telemetry, revenue, and keyword lists are processed through isolated enterprise API instances (OpenAI / Anthropic) with zero retention and zero model training.
+          <div class="faq-item">
+            <button class="faq-btn" onclick="toggleFaq(this)">
+              What about my data — is it private?
+              <span class="plus-rot">+</span>
+            </button>
+            <div class="faq-content">
+              <div class="faq-body">
+                Your data is yours. We never share it with third parties and never use it to train models. Revoke access any time.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-btn" onclick="toggleFaq(this)">
+              Does it work with Meta, Shopify, or other platforms?
+              <span class="plus-rot">+</span>
+            </button>
+            <div class="faq-content">
+              <div class="faq-body">
+                Google Ads today. More platforms are on the way. We'll let you know as they go live.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-btn" onclick="toggleFaq(this)">
+              What does it cost?
+              <span class="plus-rot">+</span>
+            </button>
+            <div class="faq-content">
+              <div class="faq-body">
+                Free during early access. We'll introduce plans later with advance notice and loyalty perks for early users.
+              </div>
             </div>
           </div>
         </div>
@@ -1798,269 +1584,54 @@
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       FINAL CALL TO ACTION
-       ═══════════════════════════════════════════════════════════ -->
-  <section class="final-cta-section">
-    <div class="container">
-      <div class="final-cta-box">
-        <div class="badge-pill" style="margin-bottom: 20px;">
-          <span class="badge-dot"></span> Free Early Access Access Available
-        </div>
-        <h2>Ready to Put Your Ad Data to Work?</h2>
-        <p>Stop drowning in endless Google Ads tabs and pivot tables. Start chatting with your performance data and executing optimizations in seconds.</p>
-        <div class="hero-cta-group">
-          <a href="https://app.adramp.ai/accounts/signup/" class="btn btn-primary" style="padding: 16px 36px; font-size: 1.05rem;">
-            Claim Free Early Access →
-          </a>
-        </div>
-        <div class="hero-proof-micro" style="margin-top: 16px; margin-bottom: 0;">
-          30-second Google Ads connection • Instant waste audit report • Revoke access anytime
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════════════
-       FOOTER
-       ═══════════════════════════════════════════════════════════ -->
+  <!-- ════════════════════════════════════════════════════════════
+       SITE FOOTER (DARK MIDNIGHT AESTHETIC)
+       ════════════════════════════════════════════════════════════ -->
   <footer>
     <div class="container">
-      <div class="footer-top">
-        <div class="footer-brand">
-          <a href="#" class="nav-brand" style="color:#FFFFFF;">
-            <div class="brand-mark" style="background:#FFFFFF; color:#191614;">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-                <polyline points="17 6 23 6 23 12"></polyline>
-              </svg>
-            </div>
-            AdRamp<span style="color:rgba(255,255,255,0.4)">.ai</span>
+      <div class="footer-grid">
+        <div>
+          <a href="#" class="nav-logo" style="font-size:1.35rem;">
+            AdRamp<span>.ai</span>
           </a>
-          <p>The AI performance marketing copilot that connects directly to your advertising stack, uncovers hidden waste, and executes verified changes.</p>
+          <p class="footer-desc">
+            AI-powered performance marketing intelligence. Connect your ad data, chat with it, and take action — all in one place.
+          </p>
         </div>
 
-        <div class="footer-links">
-          <div class="footer-col">
-            <h5>Product</h5>
-            <ul>
-              <li><a href="#simulator">Interactive Sandbox</a></li>
-              <li><a href="#calculator">ROI Calculator</a></li>
-              <li><a href="#capabilities">Capabilities</a></li>
-              <li><a href="#safeguards">Security & OAuth</a></li>
-            </ul>
-          </div>
-          <div class="footer-col">
-            <h5>Integrations</h5>
-            <ul>
-              <li><a href="#">Google Ads API</a></li>
-              <li><a href="#">Meta Ads Manager</a></li>
-              <li><a href="#">Shopify Analytics</a></li>
-              <li><a href="#">Google Analytics 4</a></li>
-            </ul>
-          </div>
-          <div class="footer-col">
-            <h5>Legal & Security</h5>
-            <ul>
-              <li><a href="https://adramp.ai/privacy/">Privacy Policy</a></li>
-              <li><a href="https://adramp.ai/terms/">Terms of Service</a></li>
-              <li><a href="https://adramp.ai/mcp/">MCP Protocol</a></li>
-            </ul>
-          </div>
+        <div class="footer-col">
+          <h5>Navigation</h5>
+          <ul>
+            <li><a href="#hero">Overview</a></li>
+            <li><a href="#product">Product</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#solutions">Solutions</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Legal & Links</h5>
+          <ul>
+            <li><a href="https://adramp.ai/privacy/">Privacy Policy</a></li>
+            <li><a href="https://adramp.ai/terms/">Terms of Service</a></li>
+            <li><a href="https://adramp.ai/mcp/">MCP Protocol</a></li>
+            <li><a href="https://adramp.ai/blog/">Blog</a></li>
+          </ul>
         </div>
       </div>
 
       <div class="footer-bottom">
-        <div>&copy; 2026 AdRamp AI Inc. All rights reserved.</div>
-        <div>Engineered for high-performing growth teams & agencies.</div>
+        <div>&copy; 2026 AdRamp. All rights reserved.</div>
+        <div>Human-in-the-loop AI marketing intelligence.</div>
       </div>
     </div>
   </footer>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       INTERACTIVE JAVASCRIPT CONTROLLERS
-       ═══════════════════════════════════════════════════════════ -->
+  <!-- ════════════════════════════════════════════════════════════
+       FAQ SCRIPT
+       ════════════════════════════════════════════════════════════ -->
   <script>
-    // 1. SIMULATOR DATA & STATE CONTROLLER
-    const simulatorScenarios = {
-      waste: {
-        userPrompt: "Find all wasteful search terms spending budget with zero conversions this month.",
-        statusPill: "Scanning 4,812 Search Queries across 14 Active Ad Groups",
-        agentResponse: "I identified <strong>4 search terms</strong> with high CPC and zero conversion activity over the last 30 days, generating <strong>€1,480.20 in wasted spend</strong>. Would you like me to push them directly to your Shared Negative Keyword List?",
-        tableHeader: ["Search Term", "Impressions", "Cost / Spend", "Issue Detected", "Status"],
-        tableRows: [
-          ["luxury designer bag replica", "3,410", "€642.10", "<span class='badge-waste'>Zero intent / Replica</span>", "Queued for Negative"],
-          ["free handbag patterns pdf", "8,920", "€418.50", "<span class='badge-waste'>Informational / No purchase</span>", "Queued for Negative"],
-          ["used birkin repair shop", "1,240", "€268.40", "<span class='badge-waste'>Service query (Non-retail)</span>", "Queued for Negative"],
-          ["fake designer wholesale", "2,190", "€151.20", "<span class='badge-waste'>Irrelevant audience</span>", "Queued for Negative"]
-        ],
-        actionTitle: "Confirm Negative Keyword Push to Google Ads",
-        actionDesc: "This will immediately exclude these 4 terms across all 14 search ad groups via Google Ads API.",
-        btnText: "Approve & Push Negatives Now →"
-      },
-
-      budget: {
-        userPrompt: "Reallocate budget from underperforming ad groups to our top converting campaigns.",
-        statusPill: "Analyzing Marginal ROAS Curve across 8 Campaigns",
-        agentResponse: "Your <strong>FARFETCH Top Performers</strong> campaign is currently budget-capped at €100/day while hitting a <strong>5.2x ROAS</strong>. Meanwhile, <strong>Twinset DE</strong> has spent €240 this week at 0.4x ROAS. I recommend reallocating €80/day directly to maximize conversions.",
-        tableHeader: ["Campaign Name", "Current Daily Budget", "Avg ROAS", "Proposed New Budget", "Projected Lift"],
-        tableRows: [
-          ["FARFETCH Top Performers", "€100 / day", "<span class='badge-healthy'>5.2x</span>", "<strong>€180 / day</strong>", "+34 conversions/mo"],
-          ["Twinset DE (Underperforming)", "€120 / day", "<span class='badge-waste'>0.4x</span>", "<strong>€40 / day</strong>", "-€80/day wasted bleed"]
-        ],
-        actionTitle: "Confirm Google Ads Budget Shift",
-        actionDesc: "Will update daily budget ceilings via Google Ads API instantly with zero ad downtime.",
-        btnText: "Approve Budget Reallocation →"
-      },
-
-      diagnosis: {
-        userPrompt: "Give me an instant performance diagnosis on our US & European blended ad spend.",
-        statusPill: "Cross-Referencing Google Ads API + Shopify Webhook Telemetry",
-        agentResponse: "Over the last 7 days, blended ROAS is holding strong at <strong>3.84x</strong>. Total spend was €14,290 against €54,873 in Shopify verified revenue. Your single highest opportunity is scaling the <em>US Brand Search</em> match types.",
-        tableHeader: ["Market Region", "Spend", "Shopify Revenue", "Blended ROAS", "Health Score"],
-        tableRows: [
-          ["US - Core Search & PMax", "$9,450", "$38,420", "<span class='badge-healthy'>4.06x</span>", "Optimal"],
-          ["DE/AT - Performance Max", "€3,120", "€11,280", "<span class='badge-healthy'>3.61x</span>", "Scaling"],
-          ["UK - Generic Retargeting", "£1,720", "£5,173", "<span class='badge-waste'>3.01x</span>", "Audience Saturated"]
-        ],
-        actionTitle: "Audit Complete & Synced",
-        actionDesc: "Full diagnostic report ready. Would you like AdRamp to auto-generate weekly performance summaries?",
-        btnText: "Enable Scheduled Diagnostics →"
-      },
-
-      pause: {
-        userPrompt: "Identify ad creatives burning cash with CPA > $85 and pause them immediately.",
-        statusPill: "Evaluating Creative Level CPA across 42 Ad Assets",
-        agentResponse: "Found <strong>2 ad variants</strong> that have spent a combined €489 without reaching the target threshold. CPA is currently averaging €112.50 vs your target of €45.00.",
-        tableHeader: ["Ad Variant", "Type", "Spend", "Current CPA", "Action"],
-        tableRows: [
-          ["Creative_B_UGC_Hook2", "Responsive Search Ad", "€310.20", "<span class='badge-waste'>€124.00</span>", "Flagged to Pause"],
-          ["Carousel_Product_Grid_V1", "Display Responsive", "€179.10", "<span class='badge-waste'>€98.40</span>", "Flagged to Pause"]
-        ],
-        actionTitle: "Pause 2 Bleeding Creatives",
-        actionDesc: "Ad status will change to 'PAUSED' in Google Ads immediately upon your confirmation.",
-        btnText: "Approve 1-Click Creative Pause →"
-      }
-    };
-
-    function renderSimulator(scenarioKey) {
-      const data = simulatorScenarios[scenarioKey];
-      const container = document.getElementById('simContent');
-
-      let tableHtml = `
-        <div class="sim-table-wrap">
-          <table class="sim-table">
-            <thead>
-              <tr>
-                ${data.tableHeader.map(h => `<th>${h}</th>`).join('')}
-              </tr>
-            </thead>
-            <tbody>
-              ${data.tableRows.map(row => `
-                <tr>
-                  ${row.map(c => `<td>${c}</td>`).join('')}
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-        </div>
-      `;
-
-      container.innerHTML = `
-        <!-- User Chat Message -->
-        <div class="chat-row user">
-          <div class="chat-bubble-user">
-            ${data.userPrompt}
-          </div>
-        </div>
-
-        <!-- AI Marketer Response -->
-        <div class="chat-row agent">
-          <div class="chat-agent-wrap">
-            <div class="agent-avatar">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-                <polyline points="17 6 23 6 23 12"></polyline>
-              </svg>
-            </div>
-            <div class="chat-bubble-agent">
-              <div class="agent-meta-status">
-                <span class="agent-meta-pill">AI MARKETER AGENT</span>
-                <span>⚡ ${data.statusPill}</span>
-              </div>
-              <p class="agent-text">${data.agentResponse}</p>
-              
-              ${tableHtml}
-
-              <!-- Human-in-the-loop Approval Box -->
-              <div class="approval-card">
-                <div class="approval-info">
-                  <div class="approval-icon">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                    </svg>
-                  </div>
-                  <div class="approval-text">
-                    <h4>${data.actionTitle}</h4>
-                    <p>${data.actionDesc}</p>
-                  </div>
-                </div>
-                <div class="approval-actions">
-                  <button class="btn-dismiss" onclick="alert('Action dismissed. Zero changes were made to your ad accounts.')">Dismiss</button>
-                  <button class="btn-approve" id="approveBtn" onclick="handleSimApprove(this)">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                    ${data.btnText}
-                  </button>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      `;
-    }
-
-    function switchSimTab(key, btn) {
-      document.querySelectorAll('.sim-tab-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      renderSimulator(key);
-    }
-
-    function loadPromptScenario(key) {
-      const tabs = document.querySelectorAll('.sim-tab-btn');
-      const keys = ['waste', 'budget', 'diagnosis', 'pause'];
-      const index = keys.indexOf(key);
-      if (index !== -1 && tabs[index]) {
-        switchSimTab(key, tabs[index]);
-      }
-    }
-
-    function handleSimApprove(btn) {
-      btn.classList.add('executed');
-      btn.innerHTML = `
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-        ✔ Successfully Executed in Google Ads API!
-      `;
-      setTimeout(() => {
-        alert('🎉 Simulation Verified: In real usage, AdRamp pushes this payload directly via the authenticated Google Ads REST API in < 250ms.');
-      }, 300);
-    }
-
-    // 2. INTERACTIVE CALCULATOR CONTROLLER
-    function updateCalculator(spend) {
-      const numSpend = parseInt(spend, 10);
-      document.getElementById('spendDisplay').textContent = '$' + numSpend.toLocaleString();
-      
-      // Typical waste is between 11% and 15%
-      const waste = Math.round(numSpend * 0.13);
-      document.getElementById('wasteAmount').textContent = '$' + waste.toLocaleString();
-
-      // Hours saved scales with account complexity
-      const hours = Math.round(14 + (numSpend / 3500));
-      document.getElementById('hoursSaved').textContent = hours + ' hrs';
-    }
-
-    // 3. FAQ ACCORDION CONTROLLER
     function toggleFaq(btn) {
       const item = btn.parentElement;
       const content = item.querySelector('.faq-content');
@@ -2076,12 +1647,6 @@
         content.style.maxHeight = content.scrollHeight + 'px';
       }
     }
-
-    // Initialize Simulator on load
-    document.addEventListener('DOMContentLoaded', () => {
-      renderSimulator('waste');
-      updateCalculator(25000);
-    });
   </script>
 </body>
 </html>
