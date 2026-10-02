@@ -1,1087 +1,1457 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AUREUM — Crafted Excellence</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-  <script type="importmap">
-  {
-    "imports": {
-      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jahanzaib Ahmad — Senior Freelance Designer & Creative Technologist</title>
+<meta name="description" content="Senior Freelance Designer & Creative Technologist based in Pakistan, working globally. Crafting award-winning brand identities, high-conversion web platforms, and mobile experiences.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,400&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ==========================================================================
+   DESIGN TOKENS & ROOT VARIABLES
+   Matching José Casal (zecasal.com) Luxury Editorial Dark Noir Aesthetic
+   ========================================================================== */
+:root {
+  --bg-primary: #08080a;
+  --bg-secondary: #101014;
+  --bg-card: #131317;
+  --text-primary: #fcfcfd;
+  --text-secondary: rgba(255, 255, 255, 0.62);
+  --text-tertiary: rgba(255, 255, 255, 0.42);
+  --text-subtle: rgba(255, 255, 255, 0.28);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-medium: rgba(255, 255, 255, 0.16);
+  --border-hover: rgba(255, 255, 255, 0.35);
+  --pill-bg: rgba(255, 255, 255, 0.07);
+  --pill-hover: rgba(255, 255, 255, 0.16);
+  --font-serif: 'Bodoni Moda', 'Playfair Display', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --container-max: 1360px;
+  --gutter: clamp(20px, 4vw, 56px);
+  --transition-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="light"] {
+  --bg-primary: #f6f5f1;
+  --bg-secondary: #ecebe6;
+  --bg-card: #e5e4de;
+  --text-primary: #121214;
+  --text-secondary: rgba(18, 18, 20, 0.68);
+  --text-tertiary: rgba(18, 18, 20, 0.48);
+  --text-subtle: rgba(18, 18, 20, 0.32);
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --border-medium: rgba(0, 0, 0, 0.16);
+  --border-hover: rgba(0, 0, 0, 0.35);
+  --pill-bg: rgba(0, 0, 0, 0.06);
+  --pill-hover: rgba(0, 0, 0, 0.12);
+}
+
+/* Base resets */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+  position: relative;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* Subtle editorial grain overlay */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  background: none;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  color: inherit;
+}
+
+/* ==========================================================================
+   NAVIGATION BAR
+   ========================================================================== */
+.site-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  padding: 24px var(--gutter);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(8, 8, 10, 0.45);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  transition: all 0.3s ease;
+}
+
+[data-theme="light"] .site-nav {
+  background: rgba(246, 245, 241, 0.65);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: #ffffff;
+  color: #08080a;
+  border-radius: 4px;
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: -0.02em;
+  transition: transform 0.2s ease;
+}
+
+.brand-badge:hover {
+  transform: scale(1.06);
+}
+
+.brand-title {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+
+.nav-center {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.nav-link {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  transition: color 0.2s ease, opacity 0.2s ease;
+  position: relative;
+  padding: 4px 0;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--text-primary);
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.nav-email {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  transition: opacity 0.2s ease;
+}
+
+.nav-email:hover {
+  opacity: 0.75;
+}
+
+.theme-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: var(--text-primary);
+  opacity: 0.85;
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+
+.theme-toggle-btn:hover {
+  transform: rotate(20deg);
+  opacity: 1;
+}
+
+.hero-section,
+.case-studies-section,
+.testimonials-section,
+.services-section,
+.site-footer {
+  scroll-margin-top: 90px;
+}
+
+.hero-section {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 130px var(--gutter) 60px;
+  background-image: url('assets/portfolio/black_silk_bg.jpg');
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+[data-theme="light"] .hero-section {
+  background-blend-mode: luminosity;
+  background-color: #f2f1ec;
+  filter: contrast(0.9) brightness(1.1);
+}
+
+/* Subtle dark gradient overlay to give depth and perfect contrast */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 45%, rgba(8, 8, 10, 0.2) 0%, rgba(8, 8, 10, 0.78) 85%);
+  pointer-events: none;
+}
+
+[data-theme="light"] .hero-overlay {
+  background: radial-gradient(circle at 50% 45%, rgba(246, 245, 241, 0.4) 0%, rgba(246, 245, 241, 0.85) 85%);
+}
+
+.hero-meta-row {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.profile-avatar {
+  width: 54px;
+  height: 54px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease;
+}
+
+.profile-card:hover .profile-avatar {
+  transform: scale(1.05);
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.profile-name {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.profile-tag {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.status-card {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.status-headline {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.status-folio {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+/* Giant Center Headline with Liquid Chrome J */
+.hero-center-typography {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 40px auto auto;
+  text-align: left;
+  user-select: none;
+}
+
+.headline-text {
+  font-family: var(--font-serif);
+  font-size: clamp(52px, 9.8vw, 138px);
+  font-weight: 400;
+  line-height: 0.94;
+  letter-spacing: -0.025em;
+  color: #ffffff;
+  display: block;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="light"] .headline-text {
+  color: #121214;
+  text-shadow: 0 4px 30px rgba(255, 255, 255, 0.4);
+}
+
+.headline-row-top {
+  display: block;
+  position: relative;
+  z-index: 12;
+}
+
+.headline-row-bottom {
+  display: block;
+  position: relative;
+  z-index: 12;
+  margin-top: -0.05em;
+}
+
+/* Chrome 'J' Sculptural Element */
+.chrome-j-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 49.5%;
+  transform: translate(-50%, -46%);
+  width: clamp(160px, 22vw, 310px);
+  height: clamp(220px, 30vw, 420px);
+  z-index: 11;
+  pointer-events: none;
+  transition: transform 0.2s ease-out;
+}
+
+.chrome-j-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 25px 45px rgba(0, 0, 0, 0.85));
+  animation: chromeFloat 6s ease-in-out infinite alternate;
+}
+
+[data-theme="light"] .chrome-j-img {
+  filter: drop-shadow(0 15px 30px rgba(0,0,0,0.15));
+}
+
+@keyframes chromeFloat {
+  0% {
+    transform: translateY(0px) rotate(0deg);
   }
-  </script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            bg: '#0a0a0a',
-            card: '#141210',
-            accent: '#c8956c',
-            cream: '#e8d5b7',
-            warm: '#f5f0eb',
-            muted: '#7a746e',
-            border: '#2a2520',
-            cool: '#6cb5c8',
-          },
-          fontFamily: {
-            display: ['Playfair Display', 'serif'],
-            body: ['DM Sans', 'sans-serif'],
-          }
-        }
-      }
-    }
-  </script>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'DM Sans', sans-serif; background: #0a0a0a; color: #f5f0eb; overflow-x: hidden; }
+  100% {
+    transform: translateY(-12px) rotate(0.6deg);
+  }
+}
 
-    /* Scroll progress bar */
-    #scroll-progress {
-      position: fixed; top: 0; left: 0; height: 3px; z-index: 9999;
-      background: linear-gradient(90deg, #c8956c, #e8d5b7);
-      width: 0%; transition: width 0.05s linear;
-    }
+.hero-scroll-indicator {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 30px auto 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
 
-    /* Nav */
-    #navbar { transition: background 0.4s ease, box-shadow 0.4s ease, backdrop-filter 0.4s ease; }
-    #navbar.scrolled { background: rgba(10,10,10,0.92); backdrop-filter: blur(16px); box-shadow: 0 1px 0 #2a2520; }
-    .nav-link { position: relative; }
-    .nav-link::after {
-      content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px;
-      background: #c8956c; transition: width 0.3s ease;
-    }
-    .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+.scroll-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: var(--pill-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  color: var(--text-secondary);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  transition: all 0.2s ease;
+}
 
-    /* Reveal animations */
-    .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-    .reveal-left { opacity: 0; transform: translateX(-50px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
-    .reveal-left.visible { opacity: 1; transform: translateX(0); }
-    .reveal-right { opacity: 0; transform: translateX(50px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
-    .reveal-right.visible { opacity: 1; transform: translateX(0); }
-    .reveal-scale { opacity: 0; transform: scale(0.9); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
-    .reveal-scale.visible { opacity: 1; transform: scale(1); }
+.scroll-pill:hover {
+  background: var(--pill-hover);
+  color: var(--text-primary);
+}
 
-    /* Stagger children */
-    .stagger-children > * { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
-    .stagger-children.visible > *:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0s; }
-    .stagger-children.visible > *:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.1s; }
-    .stagger-children.visible > *:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.2s; }
-    .stagger-children.visible > *:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
+/* ==========================================================================
+   SELECTED CASE STUDIES — ASYMMETRIC BENTO EDITORIAL GRID
+   ========================================================================== */
+.case-studies-section {
+  position: relative;
+  z-index: 20;
+  padding: 100px var(--gutter) 80px;
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
 
-    /* Hero */
-    #hero-canvas { position: absolute; inset: 0; z-index: 0; pointer-events: auto; }
-    .hero-gradient {
-      position: absolute; inset: 0; z-index: 1;
-      background: linear-gradient(105deg, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.75) 35%, rgba(10,10,10,0.25) 65%, rgba(10,10,10,0.1) 100%);
-      pointer-events: none;
-    }
+.section-headline {
+  font-family: var(--font-serif);
+  font-size: clamp(34px, 4.6vw, 62px);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin-bottom: 56px;
+}
 
-    /* Cards */
-    .project-card { transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s ease; }
-    .project-card:hover { transform: translateY(-8px); box-shadow: 0 24px 60px rgba(200,149,108,0.12); }
-    .project-card .card-img { transition: transform 0.7s cubic-bezier(0.16,1,0.3,1); }
-    .project-card:hover .card-img { transform: scale(1.08); }
-    .project-card .card-overlay { opacity: 0; transition: opacity 0.4s ease; }
-    .project-card:hover .card-overlay { opacity: 1; }
+.case-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
 
-    /* Team cards */
-    .team-card .team-img { transition: transform 0.6s cubic-bezier(0.16,1,0.3,1), filter 0.6s ease; }
-    .team-card:hover .team-img { transform: scale(1.06); filter: brightness(1.1); }
-    .team-card .team-bio { max-height: 0; opacity: 0; transition: max-height 0.5s ease, opacity 0.4s ease, margin 0.4s ease; margin-top: 0; }
-    .team-card:hover .team-bio { max-height: 100px; opacity: 1; margin-top: 8px; }
+.case-row {
+  display: grid;
+  gap: 36px;
+  align-items: start;
+}
 
-    /* Testimonial */
-    .testimonial-card { transition: transform 0.4s ease, border-color 0.4s ease; }
-    .testimonial-card:hover { transform: translateY(-4px); border-color: #c8956c; }
+/* Row 1: Left Wide (63%), Right Narrow (37%) */
+.case-row-1 {
+  grid-template-columns: 1.62fr 1fr;
+}
 
-    /* Buttons */
-    .btn-primary {
-      background: linear-gradient(135deg, #c8956c, #b07a50);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(200,149,108,0.35); }
-    .btn-primary:active { transform: translateY(0); }
-    .btn-outline {
-      border: 1.5px solid #c8956c; color: #c8956c;
-      transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
-    }
-    .btn-outline:hover { background: #c8956c; color: #0a0a0a; transform: translateY(-2px); }
+/* Row 2: Left Medium (46%), Right Medium-Wide (54%) */
+.case-row-2 {
+  grid-template-columns: 1fr 1.18fr;
+}
 
-    /* Form inputs */
-    .form-input {
-      background: #141210; border: 1px solid #2a2520; color: #f5f0eb;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    }
-    .form-input:focus { outline: none; border-color: #c8956c; box-shadow: 0 0 0 3px rgba(200,149,108,0.15); }
-    .form-input::placeholder { color: #7a746e; }
-    .form-input.error { border-color: #e05555; }
+/* Row 3: Left Narrow (37%), Right Wide (63%) */
+.case-row-3 {
+  grid-template-columns: 1fr 1.62fr;
+}
 
-    /* Toast */
-    .toast {
-      position: fixed; bottom: 32px; right: 32px; z-index: 10000;
-      padding: 16px 24px; border-radius: 12px;
-      background: #141210; border: 1px solid #2a2520;
-      color: #f5f0eb; font-size: 14px;
-      transform: translateY(120px); opacity: 0;
-      transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), opacity 0.5s ease;
-    }
-    .toast.show { transform: translateY(0); opacity: 1; }
-    .toast.success { border-color: #5cb85c; }
-    .toast.error { border-color: #e05555; }
+/* Row 4: Left Wide (60%), Right Narrow (40%) */
+.case-row-4 {
+  grid-template-columns: 1.5fr 1fr;
+}
 
-    /* Mobile menu */
-    #mobile-menu {
-      transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
-    }
-    #mobile-menu.open { transform: translateX(0); }
-    #menu-overlay { opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
-    #menu-overlay.open { opacity: 1; pointer-events: auto; }
+/* Project Card Structure */
+.project-card {
+  display: block;
+  group: true;
+  cursor: pointer;
+  text-decoration: none;
+}
 
-    /* Stat counter */
-    .stat-number { font-variant-numeric: tabular-nums; }
+.card-media-wrap {
+  position: relative;
+  width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  transition: transform 0.4s var(--transition-smooth), border-color 0.4s ease, box-shadow 0.4s ease;
+}
 
-    /* Scroll indicator */
-    @keyframes scrollBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
-    .scroll-indicator { animation: scrollBounce 2s ease-in-out infinite; }
+.project-card:hover .card-media-wrap {
+  transform: translateY(-4px);
+  border-color: var(--border-hover);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+}
 
-    /* Floating blobs */
-    @keyframes float1 { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -20px) scale(1.05); } 66% { transform: translate(-15px, 15px) scale(0.97); } }
-    @keyframes float2 { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(-25px, 25px) scale(0.95); } 66% { transform: translate(20px, -10px) scale(1.04); } }
-    .blob1 { animation: float1 12s ease-in-out infinite; }
-    .blob2 { animation: float2 15s ease-in-out infinite; }
+.card-media-wrap img,
+.card-media-wrap video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s var(--transition-smooth);
+}
 
-    /* Reduced motion */
-    @media (prefers-reduced-motion: reduce) {
-      .reveal, .reveal-left, .reveal-right, .reveal-scale { transition: none; opacity: 1; transform: none; }
-      .stagger-children > * { transition: none; opacity: 1; transform: none; }
-      .scroll-indicator { animation: none; }
-      .blob1, .blob2 { animation: none; }
-    }
-  </style>
+.project-card:hover .card-media-wrap img,
+.project-card:hover .card-media-wrap video {
+  transform: scale(1.025);
+}
+
+/* Specific Height Ratios to Match Reference */
+.height-tall {
+  height: clamp(380px, 38vw, 540px);
+}
+
+.height-medium {
+  height: clamp(320px, 32vw, 450px);
+}
+
+.height-compact {
+  height: clamp(280px, 28vw, 400px);
+}
+
+.height-square {
+  aspect-ratio: 1 / 1;
+}
+
+/* Badges on Cards */
+.badge-save {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #e60023;
+  color: #ffffff;
+  padding: 5px 12px;
+  border-radius: 18px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  box-shadow: 0 4px 14px rgba(230, 0, 35, 0.4);
+  transition: transform 0.2s ease;
+}
+
+.badge-save:hover {
+  transform: scale(1.05);
+}
+
+.badge-save svg {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
+}
+
+.badge-pill-right {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 5;
+  background: rgba(10, 10, 14, 0.7);
+  backdrop-filter: blur(8px);
+  color: #ffffff;
+  padding: 5px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Typography below Cards */
+.card-content {
+  margin-top: 18px;
+}
+
+.project-title {
+  font-family: var(--font-serif);
+  font-size: clamp(20px, 2vw, 27px);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  transition: color 0.2s ease;
+}
+
+.project-card:hover .project-title {
+  color: #ffffff;
+}
+
+.project-tags {
+  font-size: 13.5px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  letter-spacing: 0.01em;
+}
+
+/* ==========================================================================
+   WHAT CLIENTS SAY — TESTIMONIALS SLIDER SECTION
+   ========================================================================== */
+.testimonials-section {
+  position: relative;
+  z-index: 20;
+  max-width: var(--container-max);
+  margin: 100px auto 0;
+  padding: 80px var(--gutter) 100px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.35fr;
+  gap: clamp(36px, 6vw, 90px);
+  align-items: start;
+}
+
+.testimonials-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.testimonials-title {
+  font-family: var(--font-serif);
+  font-size: clamp(36px, 4.4vw, 56px);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+}
+
+.testimonials-desc {
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  max-width: 380px;
+}
+
+/* Right Testimonial Active Display */
+.testimonials-right {
+  display: flex;
+  flex-direction: column;
+}
+
+.client-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.client-photo-wrap {
+  width: 130px;
+  height: 130px;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+  background-color: var(--bg-card);
+}
+
+.client-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%);
+  transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+.client-meta-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.client-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.client-role {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.client-counter {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-top: 14px;
+  letter-spacing: 0.08em;
+}
+
+/* Carousel Arrow Controls */
+.testimonial-nav-arrows {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.arrow-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 38px;
+  border-radius: 19px;
+  background: var(--pill-bg);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  font-size: 17px;
+  transition: all 0.2s ease;
+}
+
+.arrow-btn:hover {
+  background: var(--pill-hover);
+  border-color: var(--border-medium);
+  transform: translateY(-1px);
+}
+
+.testimonial-quote-box {
+  position: relative;
+  min-height: 160px;
+}
+
+.testimonial-quote {
+  font-size: clamp(22px, 2.4vw, 32px);
+  font-weight: 500;
+  line-height: 1.38;
+  color: var(--text-primary);
+  letter-spacing: -0.015em;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* ==========================================================================
+   SERVICES & CAPABILITIES
+   ========================================================================== */
+.services-section {
+  position: relative;
+  z-index: 20;
+  max-width: var(--container-max);
+  margin: 60px auto 0;
+  padding: 80px var(--gutter) 60px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.services-list {
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+}
+
+.service-item {
+  display: grid;
+  grid-template-columns: 80px 1.4fr 2fr;
+  align-items: baseline;
+  padding: 32px 0;
+  border-bottom: 1px solid var(--border-subtle);
+  transition: border-color 0.2s ease;
+}
+
+.service-item:hover {
+  border-color: var(--border-medium);
+}
+
+.service-num {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+
+.service-name {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.service-desc {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   FOOTER & DIRECT CONTACT
+   ========================================================================== */
+.site-footer {
+  position: relative;
+  z-index: 20;
+  padding: 100px var(--gutter) 60px;
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.footer-inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+.footer-cta {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 70px;
+}
+
+.footer-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.footer-big-link {
+  font-family: var(--font-serif);
+  font-size: clamp(34px, 6.2vw, 84px);
+  font-weight: 400;
+  line-height: 1.05;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  transition: opacity 0.2s ease;
+  display: inline-block;
+}
+
+.footer-big-link:hover {
+  opacity: 0.7;
+}
+
+.footer-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.cta-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border-radius: 30px;
+  background: #ffffff;
+  color: #08080a;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cta-pill-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.25);
+}
+
+.secondary-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border-radius: 30px;
+  background: var(--pill-bg);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  transition: all 0.2s ease;
+}
+
+.secondary-pill-btn:hover {
+  background: var(--pill-hover);
+  border-color: var(--border-medium);
+  transform: translateY(-2px);
+}
+
+.footer-bottom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 50px;
+  border-top: 1px solid var(--border-subtle);
+  font-size: 12px;
+  color: var(--text-tertiary);
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-socials {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.footer-social-link {
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color 0.2s ease;
+}
+
+.footer-social-link:hover {
+  color: var(--text-primary);
+}
+
+/* ==========================================================================
+   RESPONSIVE MEDIA QUERIES
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .case-row-1,
+  .case-row-2,
+  .case-row-3,
+  .case-row-4 {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  
+  .height-tall,
+  .height-medium,
+  .height-compact {
+    height: 400px;
+  }
+
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .service-item {
+    grid-template-columns: 60px 1fr;
+    row-gap: 12px;
+  }
+
+  .service-desc {
+    grid-column: 2 / -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .site-nav {
+    padding: 16px 20px;
+  }
+
+  .nav-center {
+    display: none;
+  }
+
+  .hero-section {
+    padding: 110px 20px 40px;
+  }
+
+  .chrome-j-wrapper {
+    width: 160px;
+    height: 220px;
+    left: 55%;
+  }
+
+  .headline-text {
+    font-size: 58px;
+  }
+
+  .height-tall,
+  .height-medium,
+  .height-compact {
+    height: 290px;
+  }
+
+  .client-meta-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .testimonial-quote {
+    font-size: 20px;
+  }
+
+  .footer-bottom-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+</style>
 </head>
 <body>
-  <!-- Scroll Progress -->
-  <div id="scroll-progress"></div>
 
-  <!-- Toast -->
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+<div class="grain-overlay" aria-hidden="true"></div>
 
-  <!-- Mobile Menu Overlay -->
-  <div id="menu-overlay" class="fixed inset-0 bg-black/60 z-40" onclick="closeMobileMenu()"></div>
+<!-- ==========================================================================
+     NAVIGATION BAR
+     ========================================================================== -->
+<header class="site-nav">
+  <div class="nav-left">
+    <div class="brand-badge">J</div>
+    <span class="brand-title">BRANDING</span>
+  </div>
 
-  <!-- Mobile Menu -->
-  <nav id="mobile-menu" class="fixed top-0 right-0 h-full w-72 bg-card z-50 flex flex-col p-8 border-l border-border" aria-label="Mobile Navigation">
-    <button onclick="closeMobileMenu()" class="self-end mb-10 text-muted hover:text-warm transition-colors" aria-label="Close menu">
-      <i data-lucide="x" class="w-6 h-6"></i>
-    </button>
-    <a href="#hero" onclick="closeMobileMenu()" class="text-warm text-lg font-medium py-3 border-b border-border hover:text-accent transition-colors">Home</a>
-    <a href="#work" onclick="closeMobileMenu()" class="text-warm text-lg font-medium py-3 border-b border-border hover:text-accent transition-colors">Work</a>
-    <a href="#philosophy" onclick="closeMobileMenu()" class="text-warm text-lg font-medium py-3 border-b border-border hover:text-accent transition-colors">Philosophy</a>
-    <a href="#team" onclick="closeMobileMenu()" class="text-warm text-lg font-medium py-3 border-b border-border hover:text-accent transition-colors">Team</a>
-    <a href="#contact" onclick="closeMobileMenu()" class="text-warm text-lg font-medium py-3 border-b border-border hover:text-accent transition-colors">Contact</a>
+  <nav class="nav-center">
+    <a href="#hero" class="nav-link active">INDEX</a>
+    <a href="#work" class="nav-link">WORK</a>
+    <a href="#about" class="nav-link">ABOUT</a>
+    <a href="#services" class="nav-link">SERVICES</a>
   </nav>
 
-  <!-- Navigation -->
-  <header id="navbar" class="fixed top-0 left-0 w-full z-30">
-    <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
-      <a href="#hero" class="font-display text-2xl font-bold text-warm tracking-wide">AUREUM</a>
-      <div class="hidden md:flex items-center gap-10">
-        <a href="#hero" class="nav-link text-sm font-medium text-muted hover:text-warm transition-colors" data-section="hero">Home</a>
-        <a href="#work" class="nav-link text-sm font-medium text-muted hover:text-warm transition-colors" data-section="work">Work</a>
-        <a href="./portfolio.html" class="nav-link text-sm font-medium text-accent hover:text-warm transition-colors flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>Master Portfolio</a>
-        <a href="#philosophy" class="nav-link text-sm font-medium text-muted hover:text-warm transition-colors" data-section="philosophy">Philosophy</a>
-        <a href="#team" class="nav-link text-sm font-medium text-muted hover:text-warm transition-colors" data-section="team">Team</a>
-        <a href="#contact" class="btn-primary px-6 py-2.5 rounded-full text-sm font-semibold text-bg">Start a Project</a>
-      </div>
-      <button onclick="openMobileMenu()" class="md:hidden text-warm hover:text-accent transition-colors" aria-label="Open menu">
-        <i data-lucide="menu" class="w-6 h-6"></i>
-      </button>
-    </div>
-  </header>
+  <div class="nav-right">
+    <a href="mailto:ahmadjahanzaib313@gmail.com" class="nav-email">HELLO@JAHANZAIB.DESIGN</a>
+    <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle theme">
+      <svg id="themeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+    </button>
+  </div>
+</header>
 
-  <main>
-    <!-- Hero Section -->
-    <section id="hero" class="relative min-h-screen flex items-center overflow-hidden">
-      <div id="hero-canvas"></div>
-      <div class="hero-gradient"></div>
-      <!-- Decorative blobs -->
-      <div class="blob1 absolute top-20 left-10 w-72 h-72 rounded-full bg-accent/5 blur-3xl z-0 pointer-events-none"></div>
-      <div class="blob2 absolute bottom-20 right-20 w-96 h-96 rounded-full bg-cool/5 blur-3xl z-0 pointer-events-none"></div>
+<!-- ==========================================================================
+     HERO SECTION
+     ========================================================================== -->
+<section class="hero-section" id="hero">
+  <div class="hero-overlay" aria-hidden="true"></div>
 
-      <div class="relative z-10 max-w-7xl mx-auto px-6 w-full pt-24 pb-16">
-        <div class="max-w-2xl">
-          <p class="reveal text-accent font-body text-sm font-semibold tracking-[0.2em] uppercase mb-6">Design &middot; Engineering &middot; Strategy</p>
-          <h1 class="reveal font-display text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.08] mb-6">
-            Where Vision<br><span class="text-accent">Meets Craft</span>
-          </h1>
-          <p class="reveal text-muted text-lg leading-relaxed mb-10 max-w-lg">
-            We transform ambitious ideas into extraordinary digital experiences that captivate, inspire, and endure. Every detail serves the human on the other side.
-          </p>
-          <div class="reveal flex flex-wrap gap-4">
-            <a href="#work" class="btn-primary px-8 py-3.5 rounded-full font-semibold text-bg text-sm">Explore Our Work</a>
-            <a href="#contact" class="btn-outline px-8 py-3.5 rounded-full font-semibold text-sm">Start a Project</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Scroll indicator -->
-      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-muted pointer-events-none">
-        <span class="text-xs tracking-widest uppercase">Scroll</span>
-        <div class="scroll-indicator">
-          <i data-lucide="chevron-down" class="w-4 h-4"></i>
-        </div>
-      </div>
-    </section>
-
-    <!-- Work Section -->
-    <section id="work" class="py-28 lg:py-36 relative">
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="reveal flex items-end justify-between mb-16">
-          <div>
-            <p class="text-accent text-sm font-semibold tracking-[0.15em] uppercase mb-3">Selected Work</p>
-            <h2 class="font-display text-4xl lg:text-5xl font-bold">Crafted with Intent</h2>
-          </div>
-          <a href="./portfolio.html" class="hidden sm:flex items-center gap-2 text-muted hover:text-accent transition-colors text-sm font-medium group">
-            View all 11 masterpieces in Master Portfolio <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
-          </a>
-        </div>
-
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-7 stagger-children">
-          <!-- Featured Flagship: THE ANATOMY OF A SUIT -->
-          <article class="project-card md:col-span-2 lg:col-span-3 rounded-2xl overflow-hidden bg-card border border-accent/30 group">
-            <div class="grid lg:grid-cols-2">
-              <div class="relative overflow-hidden aspect-[16/10] lg:aspect-auto">
-                <img src="https://tailor-by-octaboot.vercel.app/assets/frames/frame_00380.webp" alt="The Anatomy of a Suit" class="card-img w-full h-full object-cover">
-                <div class="card-overlay absolute inset-0 bg-accent/20 flex items-center justify-center">
-                  <a href="./anatomy-suit.html" target="_blank" rel="noopener" class="bg-bg/90 border border-accent/40 backdrop-blur-sm px-6 py-3 rounded-full text-sm font-semibold text-accent hover:bg-accent hover:text-bg transition-colors flex items-center gap-2">
-                    Launch 535-Frame Experience <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
-                  </a>
-                </div>
-              </div>
-              <div class="p-8 lg:p-12 flex flex-col justify-between">
-                <div>
-                  <div class="flex items-center gap-3 mb-3">
-                    <span class="text-accent text-xs font-semibold tracking-wider uppercase">Photorealistic CGI Scrollytelling</span>
-                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-accent/15 text-accent border border-accent/30">Flagship</span>
-                  </div>
-                  <h3 class="font-display text-2xl lg:text-3xl font-bold mb-4">The Anatomy of a Suit — Bespoke Atelier</h3>
-                  <p class="text-muted text-sm leading-relaxed mb-6">
-                    A cinematic noir dissection of bespoke tailoring craftsmanship. Features 535 photorealistic CGI frames scrubbed at 60fps across seven architectural movements, procedural Web Audio cello soundscape, interactive Savile Row fitting drawer, and precision telemetry.
-                  </p>
-                  <div class="flex flex-wrap gap-2 mb-8">
-                    <span class="text-xs px-3 py-1 rounded-full bg-border text-cream/80">535-Frame WebP Scrub</span>
-                    <span class="text-xs px-3 py-1 rounded-full bg-border text-cream/80">GSAP ScrollTrigger</span>
-                    <span class="text-xs px-3 py-1 rounded-full bg-border text-cream/80">Lenis Momentum</span>
-                    <span class="text-xs px-3 py-1 rounded-full bg-border text-cream/80">Procedural Cello</span>
-                  </div>
-                </div>
-                <div class="flex items-center gap-4">
-                  <a href="./anatomy-suit.html" target="_blank" rel="noopener" class="btn-primary px-6 py-3 rounded-full text-xs font-semibold text-bg inline-flex items-center gap-2">
-                    Launch Experience <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-                  </a>
-                  <a href="./portfolio.html" class="text-muted hover:text-accent text-xs font-medium transition-colors inline-flex items-center gap-1.5">
-                    View in Master Portfolio <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </article>
-          <!-- Project 1 -->
-          <article class="project-card rounded-2xl overflow-hidden bg-card border border-border group">
-            <div class="relative overflow-hidden aspect-[4/3]">
-              <img src="https://picsum.photos/seed/meridian-lux/800/600.jpg" alt="Meridian Hotels brand identity" class="card-img w-full h-full object-cover">
-              <div class="card-overlay absolute inset-0 bg-accent/20 flex items-center justify-center">
-                <span class="bg-bg/80 backdrop-blur-sm px-5 py-2.5 rounded-full text-sm font-medium text-warm">View Case Study</span>
-              </div>
-            </div>
-            <div class="p-6">
-              <span class="text-accent text-xs font-semibold tracking-wider uppercase">Brand Identity</span>
-              <h3 class="font-display text-xl font-bold mt-2 mb-2">Meridian</h3>
-              <p class="text-muted text-sm leading-relaxed">A complete visual language for a luxury hospitality group spanning twelve properties across three continents.</p>
-            </div>
-          </article>
-
-          <!-- Project 2 -->
-          <article class="project-card rounded-2xl overflow-hidden bg-card border border-border group">
-            <div class="relative overflow-hidden aspect-[4/3]">
-              <img src="https://picsum.photos/seed/solaris-energy/800/600.jpg" alt="Solaris digital platform" class="card-img w-full h-full object-cover">
-              <div class="card-overlay absolute inset-0 bg-cool/20 flex items-center justify-center">
-                <span class="bg-bg/80 backdrop-blur-sm px-5 py-2.5 rounded-full text-sm font-medium text-warm">View Case Study</span>
-              </div>
-            </div>
-            <div class="p-6">
-              <span class="text-cool text-xs font-semibold tracking-wider uppercase">Digital Platform</span>
-              <h3 class="font-display text-xl font-bold mt-2 mb-2">Solaris</h3>
-              <p class="text-muted text-sm leading-relaxed">An immersive web experience for sustainable energy, turning complex data into compelling visual narratives.</p>
-            </div>
-          </article>
-
-          <!-- Project 3 -->
-          <article class="project-card rounded-2xl overflow-hidden bg-card border border-border group">
-            <div class="relative overflow-hidden aspect-[4/3]">
-              <img src="https://picsum.photos/seed/noctis-product/800/600.jpg" alt="Noctis product design" class="card-img w-full h-full object-cover">
-              <div class="card-overlay absolute inset-0 bg-cream/15 flex items-center justify-center">
-                <span class="bg-bg/80 backdrop-blur-sm px-5 py-2.5 rounded-full text-sm font-medium text-warm">View Case Study</span>
-              </div>
-            </div>
-            <div class="p-6">
-              <span class="text-cream text-xs font-semibold tracking-wider uppercase">Product Design</span>
-              <h3 class="font-display text-xl font-bold mt-2 mb-2">Noctis</h3>
-              <p class="text-muted text-sm leading-relaxed">Where elegant hardware meets intuitive software — an interface that disappears into the experience.</p>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- Philosophy Section -->
-    <section id="philosophy" class="py-28 lg:py-36 relative overflow-hidden">
-      <div class="blob2 absolute -top-40 -right-40 w-[500px] h-[500px] rounded-full bg-accent/4 blur-3xl pointer-events-none"></div>
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="grid lg:grid-cols-2 gap-16 items-center">
-          <div class="reveal-left">
-            <div class="relative rounded-2xl overflow-hidden aspect-[4/5]">
-              <img src="https://picsum.photos/seed/philosophy-craft/800/1000.jpg" alt="Design philosophy visual" class="w-full h-full object-cover">
-              <div class="absolute inset-0 bg-gradient-to-t from-bg/60 via-transparent to-transparent"></div>
-              <div class="absolute bottom-6 left-6 right-6">
-                <div class="flex items-center gap-3">
-                  <div class="w-2 h-2 rounded-full bg-accent animate-pulse"></div>
-                  <span class="text-cream/80 text-xs tracking-wider uppercase">Currently accepting projects</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="reveal-right">
-            <p class="text-accent text-sm font-semibold tracking-[0.15em] uppercase mb-3">Our Philosophy</p>
-            <h2 class="font-display text-4xl lg:text-5xl font-bold mb-8">Design with Purpose</h2>
-            <p class="text-muted text-lg leading-relaxed mb-8">
-              Great design is invisible. It doesn't demand attention — it earns it. Every pixel, every interaction, every transition serves the human on the other side of the screen. We don't decorate; we solve.
-            </p>
-            <div class="space-y-6 mb-10">
-              <div class="flex items-start gap-4">
-                <div class="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <i data-lucide="heart" class="w-5 h-5 text-accent"></i>
-                </div>
-                <div>
-                  <h4 class="font-semibold text-warm mb-1">Human-First</h4>
-                  <p class="text-muted text-sm leading-relaxed">Technology serves people, not the other way around. We start every project by understanding the humans who'll use it.</p>
-                </div>
-              </div>
-              <div class="flex items-start gap-4">
-                <div class="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <i data-lucide="scan-eye" class="w-5 h-5 text-accent"></i>
-                </div>
-                <div>
-                  <h4 class="font-semibold text-warm mb-1">Detail-Obsessed</h4>
-                  <p class="text-muted text-sm leading-relaxed">The difference between good and extraordinary lives in the details — the 2px adjustment that makes everything click.</p>
-                </div>
-              </div>
-              <div class="flex items-start gap-4">
-                <div class="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <i data-lucide="zap" class="w-5 h-5 text-accent"></i>
-                </div>
-                <div>
-                  <h4 class="font-semibold text-warm mb-1">Future-Ready</h4>
-                  <p class="text-muted text-sm leading-relaxed">We build for tomorrow's standards today. Scalable, accessible, and resilient — never just trendy.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Stats Section -->
-    <section id="stats" class="py-20 border-y border-border relative overflow-hidden">
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 stagger-children">
-          <div class="text-center">
-            <p class="stat-number font-display text-4xl lg:text-5xl font-bold text-accent" data-target="150" data-suffix="+">0</p>
-            <p class="text-muted text-sm mt-2">Projects Delivered</p>
-          </div>
-          <div class="text-center">
-            <p class="stat-number font-display text-4xl lg:text-5xl font-bold text-warm" data-target="12" data-suffix="">0</p>
-            <p class="text-muted text-sm mt-2">Years of Craft</p>
-          </div>
-          <div class="text-center">
-            <p class="stat-number font-display text-4xl lg:text-5xl font-bold text-accent" data-target="98" data-suffix="%">0</p>
-            <p class="text-muted text-sm mt-2">Client Retention</p>
-          </div>
-          <div class="text-center">
-            <p class="stat-number font-display text-4xl lg:text-5xl font-bold text-warm" data-target="40" data-suffix="">0</p>
-            <p class="text-muted text-sm mt-2">Team Members</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Team Section -->
-    <section id="team" class="py-28 lg:py-36 relative">
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="reveal text-center mb-16">
-          <p class="text-accent text-sm font-semibold tracking-[0.15em] uppercase mb-3">The Humans</p>
-          <h2 class="font-display text-4xl lg:text-5xl font-bold">Meet the Team</h2>
-          <p class="text-muted text-lg mt-4 max-w-xl mx-auto">The people behind the pixels — each one obsessed with their craft and united by purpose.</p>
-        </div>
-
-        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-7 stagger-children">
-          <article class="team-card text-center p-6 rounded-2xl bg-card border border-border transition-all hover:border-accent/30">
-            <div class="relative w-28 h-28 mx-auto mb-5 rounded-full overflow-hidden ring-2 ring-border">
-              <img src="https://picsum.photos/seed/elena-vasquez/200/200.jpg" alt="Elena Vasquez" class="team-img w-full h-full object-cover">
-            </div>
-            <h3 class="font-display text-lg font-bold text-warm">Elena Vasquez</h3>
-            <p class="text-accent text-sm font-medium mt-1">Creative Director</p>
-            <p class="team-bio text-muted text-xs leading-relaxed">Fifteen years shaping visual narratives for brands that refuse to blend in.</p>
-          </article>
-
-          <article class="team-card text-center p-6 rounded-2xl bg-card border border-border transition-all hover:border-accent/30">
-            <div class="relative w-28 h-28 mx-auto mb-5 rounded-full overflow-hidden ring-2 ring-border">
-              <img src="https://picsum.photos/seed/marcus-chen/200/200.jpg" alt="Marcus Chen" class="team-img w-full h-full object-cover">
-            </div>
-            <h3 class="font-display text-lg font-bold text-warm">Marcus Chen</h3>
-            <p class="text-accent text-sm font-medium mt-1">Lead Engineer</p>
-            <p class="team-bio text-muted text-xs leading-relaxed">Architect of systems that perform as beautifully as they're built.</p>
-          </article>
-
-          <article class="team-card text-center p-6 rounded-2xl bg-card border border-border transition-all hover:border-accent/30">
-            <div class="relative w-28 h-28 mx-auto mb-5 rounded-full overflow-hidden ring-2 ring-border">
-              <img src="https://picsum.photos/seed/sophia-kim/200/200.jpg" alt="Sophia Kim" class="team-img w-full h-full object-cover">
-            </div>
-            <h3 class="font-display text-lg font-bold text-warm">Sophia Kim</h3>
-            <p class="text-accent text-sm font-medium mt-1">Design Lead</p>
-            <p class="team-bio text-muted text-xs leading-relaxed">Transforms complexity into clarity with an obsessive eye for micro-interactions.</p>
-          </article>
-
-          <article class="team-card text-center p-6 rounded-2xl bg-card border border-border transition-all hover:border-accent/30">
-            <div class="relative w-28 h-28 mx-auto mb-5 rounded-full overflow-hidden ring-2 ring-border">
-              <img src="https://picsum.photos/seed/james-okafor/200/200.jpg" alt="James Okafor" class="team-img w-full h-full object-cover">
-            </div>
-            <h3 class="font-display text-lg font-bold text-warm">James Okafor</h3>
-            <p class="text-accent text-sm font-medium mt-1">Strategy Director</p>
-            <p class="team-bio text-muted text-xs leading-relaxed">Connects business ambition to human need, making strategy tangible.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section id="testimonials" class="py-28 lg:py-36 relative overflow-hidden">
-      <div class="blob1 absolute -bottom-40 -left-40 w-[400px] h-[400px] rounded-full bg-cool/4 blur-3xl pointer-events-none"></div>
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="reveal text-center mb-16">
-          <p class="text-accent text-sm font-semibold tracking-[0.15em] uppercase mb-3">Testimonials</p>
-          <h2 class="font-display text-4xl lg:text-5xl font-bold">Words from Our Partners</h2>
-        </div>
-
-        <div class="grid md:grid-cols-3 gap-7 stagger-children">
-          <article class="testimonial-card p-7 rounded-2xl bg-card border border-border">
-            <div class="flex items-center gap-1 mb-5">
-              <i data-lucide="star" class="w-4 h-4 text-accent fill-accent"></i>
-              <i data-lucide="star" class="w-4 h-4 text-accent fill-accent"></i>
-              <i data-lucide="star" class="w-4 h-4 text-accent fill-accent"></i>
-              <i data-lucide="star" class="w-4 h-4 text-accent fill-accent"></i>
-              <i data-lucide="star" class="w-4 h-4 text-accent fill-accent"></i>
-            </div>
-            <p class="text-warm/90 leading-relaxed mb-6 text-sm italic">
-              "Aureum didn't just build a website — they built an experience that our customers fall in love with every single day."
-            </p>
-            <div class="flex items-center gap-3">
-              <img src="https://picsum.photos/seed/sarah-mitchell/80/80.jpg" alt="Sarah Mitchell" class="w-10 h-10 rounded-full object-cover">
-              <div>
-                <p class="text-warm font-semibold text-sm">Sarah Mitchell</p>
-                <p class="text-muted text-xs">CEO, Meridian Hotels</p>
-              </div>
-            </div>
-          </article>
-
-          <article class="testimonial-card p-7 rounded-2xl bg-card border border-border">
-            <div class="flex items-center gap-1 mb-5">
-              <i data-lucide="star" class="w-4 h-4 text-accent fill-accent"></i>
-              <i data-lucide="star" class="w-4 h-4 text-accent fill-accent"></i>
-              <i data-lucide="star" class="w-4 h-4 text-accent fill-accent"></i>
-              <i data-lucide="star" class="w-4 h-4 text-accent fill-accent"></i>
-              <i data-lucide="star" class="w-4 h-4 text-accent fill-accent"></i>
-            </div>
-            <p class="text-warm/90 leading-relaxed mb-6 text-sm italic">
-              "Their attention to detail is unmatched. Every interaction feels intentional, every transition feels polished. They raised our standard."
-            </p>
-            <div class="flex items-center gap-3">
-              <img src="https://picsum.photos/seed/david-park/80/80.jpg" alt="David Park" class="w-10 h-10 rounded-full object-cover">
-              <div>
-                <p class="text-warm font-semibold text-sm">David Park</p>
-                <p class="text-muted text-xs">Founder, Solaris Energy</p>
-              </div>
-            </div>
-          </article>
-
-          <article class="testimonial-card p-7 rounded-2xl bg-card border border-border">
-            <div class="flex items-center gap-1 mb-5">
-              <i data-lucide="star" class="w-4 h-4 text-accent fill-accent"></i>
-              <i data-lucide="star" class="w-4 h-4 text-accent fill-accent"></i>
-              <i data-lucide="star" class="w-4 h-4 text-accent fill-accent"></i>
-              <i data-lucide="star" class="w-4 h-4 text-accent fill-accent"></i>
-              <i data-lucide="star" class="w-4 h-4 text-accent fill-accent"></i>
-            </div>
-            <p class="text-warm/90 leading-relaxed mb-6 text-sm italic">
-              "Working with Aureum felt like having an extension of our own team. They truly understood our vision and brought it to life beyond expectations."
-            </p>
-            <div class="flex items-center gap-3">
-              <img src="https://picsum.photos/seed/lisa-zhang/80/80.jpg" alt="Lisa Zhang" class="w-10 h-10 rounded-full object-cover">
-              <div>
-                <p class="text-warm font-semibold text-sm">Lisa Zhang</p>
-                <p class="text-muted text-xs">CPO, Noctis Labs</p>
-              </div>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="py-28 lg:py-36 relative overflow-hidden">
-      <div class="blob2 absolute top-10 right-10 w-[300px] h-[300px] rounded-full bg-accent/4 blur-3xl pointer-events-none"></div>
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="grid lg:grid-cols-2 gap-16">
-          <div class="reveal-left">
-            <p class="text-accent text-sm font-semibold tracking-[0.15em] uppercase mb-3">Get in Touch</p>
-            <h2 class="font-display text-4xl lg:text-5xl font-bold mb-6">Let's Create Something Extraordinary</h2>
-            <p class="text-muted text-lg leading-relaxed mb-10">
-              Whether you have a defined brief or just a spark of an idea, we'd love to hear from you. Every great project starts with a conversation.
-            </p>
-            <div class="space-y-5">
-              <div class="flex items-center gap-4">
-                <div class="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center">
-                  <i data-lucide="mail" class="w-5 h-5 text-accent"></i>
-                </div>
-                <div>
-                  <p class="text-muted text-xs">Email</p>
-                  <p class="text-warm text-sm font-medium">hello@aureum.studio</p>
-                </div>
-              </div>
-              <div class="flex items-center gap-4">
-                <div class="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center">
-                  <i data-lucide="map-pin" class="w-5 h-5 text-accent"></i>
-                </div>
-                <div>
-                  <p class="text-muted text-xs">Location</p>
-                  <p class="text-warm text-sm font-medium">San Francisco & London</p>
-                </div>
-              </div>
-              <div class="flex items-center gap-4">
-                <div class="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center">
-                  <i data-lucide="clock" class="w-5 h-5 text-accent"></i>
-                </div>
-                <div>
-                  <p class="text-muted text-xs">Response Time</p>
-                  <p class="text-warm text-sm font-medium">Within 24 hours</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <form id="contact-form" class="reveal-right space-y-5" onsubmit="handleSubmit(event)" novalidate>
-            <div>
-              <label for="name" class="text-sm font-medium text-warm mb-1.5 block">Full Name</label>
-              <input type="text" id="name" name="name" required placeholder="Your name" class="form-input w-full px-4 py-3 rounded-xl text-sm">
-              <p class="text-xs text-red-400 mt-1 hidden" id="name-error">Please enter your name</p>
-            </div>
-            <div>
-              <label for="email" class="text-sm font-medium text-warm mb-1.5 block">Email Address</label>
-              <input type="email" id="email" name="email" required placeholder="you@company.com" class="form-input w-full px-4 py-3 rounded-xl text-sm">
-              <p class="text-xs text-red-400 mt-1 hidden" id="email-error">Please enter a valid email</p>
-            </div>
-            <div>
-              <label for="project-type" class="text-sm font-medium text-warm mb-1.5 block">Project Type</label>
-              <select id="project-type" name="project-type" class="form-input w-full px-4 py-3 rounded-xl text-sm appearance-none cursor-pointer">
-                <option value="" disabled selected class="text-muted">Select a category</option>
-                <option value="brand">Brand Identity</option>
-                <option value="web">Web Platform</option>
-                <option value="product">Product Design</option>
-                <option value="strategy">Strategy & Consulting</option>
-                <option value="other">Something Else</option>
-              </select>
-            </div>
-            <div>
-              <label for="message" class="text-sm font-medium text-warm mb-1.5 block">Tell Us About Your Vision</label>
-              <textarea id="message" name="message" rows="5" required placeholder="Describe your project, goals, and timeline..." class="form-input w-full px-4 py-3 rounded-xl text-sm resize-none"></textarea>
-              <p class="text-xs text-red-400 mt-1 hidden" id="message-error">Please describe your project</p>
-            </div>
-            <button type="submit" class="btn-primary w-full px-8 py-3.5 rounded-xl font-semibold text-bg text-sm flex items-center justify-center gap-2">
-              Send Message <i data-lucide="send" class="w-4 h-4"></i>
-            </button>
-          </form>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- Footer -->
-  <footer class="border-t border-border py-16">
-    <div class="max-w-7xl mx-auto px-6">
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
-        <div class="lg:col-span-1">
-          <a href="#hero" class="font-display text-2xl font-bold text-warm tracking-wide">AUREUM</a>
-          <p class="text-muted text-sm mt-3 leading-relaxed">Crafting digital experiences that move people and drive results.</p>
-          <div class="flex gap-3 mt-5">
-            <a href="#" class="w-9 h-9 rounded-lg bg-card border border-border flex items-center justify-center text-muted hover:text-accent hover:border-accent/30 transition-all" aria-label="Twitter">
-              <i data-lucide="twitter" class="w-4 h-4"></i>
-            </a>
-            <a href="#" class="w-9 h-9 rounded-lg bg-card border border-border flex items-center justify-center text-muted hover:text-accent hover:border-accent/30 transition-all" aria-label="LinkedIn">
-              <i data-lucide="linkedin" class="w-4 h-4"></i>
-            </a>
-            <a href="#" class="w-9 h-9 rounded-lg bg-card border border-border flex items-center justify-center text-muted hover:text-accent hover:border-accent/30 transition-all" aria-label="Instagram">
-              <i data-lucide="instagram" class="w-4 h-4"></i>
-            </a>
-            <a href="#" class="w-9 h-9 rounded-lg bg-card border border-border flex items-center justify-center text-muted hover:text-accent hover:border-accent/30 transition-all" aria-label="Dribbble">
-              <i data-lucide="dribbble" class="w-4 h-4"></i>
-            </a>
-          </div>
-        </div>
-        <div>
-          <h4 class="font-semibold text-warm text-sm mb-4">Services</h4>
-          <ul class="space-y-2.5">
-            <li><a href="#" class="text-muted text-sm hover:text-accent transition-colors">Brand Identity</a></li>
-            <li><a href="#" class="text-muted text-sm hover:text-accent transition-colors">Web Development</a></li>
-            <li><a href="#" class="text-muted text-sm hover:text-accent transition-colors">Product Design</a></li>
-            <li><a href="#" class="text-muted text-sm hover:text-accent transition-colors">Strategy</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="font-semibold text-warm text-sm mb-4">Company</h4>
-          <ul class="space-y-2.5">
-            <li><a href="#philosophy" class="text-muted text-sm hover:text-accent transition-colors">Philosophy</a></li>
-            <li><a href="#team" class="text-muted text-sm hover:text-accent transition-colors">Team</a></li>
-            <li><a href="#" class="text-muted text-sm hover:text-accent transition-colors">Careers</a></li>
-            <li><a href="#contact" class="text-muted text-sm hover:text-accent transition-colors">Contact</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="font-semibold text-warm text-sm mb-4">Legal</h4>
-          <ul class="space-y-2.5">
-            <li><a href="#" class="text-muted text-sm hover:text-accent transition-colors">Privacy Policy</a></li>
-            <li><a href="#" class="text-muted text-sm hover:text-accent transition-colors">Terms of Service</a></li>
-            <li><a href="#" class="text-muted text-sm hover:text-accent transition-colors">Cookie Settings</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="border-t border-border pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <p class="text-muted text-xs">&copy; 2024 Aureum Studio. All rights reserved.</p>
-        <p class="text-muted text-xs">Designed & engineered with care in San Francisco & London.</p>
+  <!-- Top Hero Metadata Badges -->
+  <div class="hero-meta-row">
+    <div class="profile-card">
+      <img src="assets/portfolio/jahanzaib_avatar.jpg" alt="Jahanzaib Ahmad" class="profile-avatar">
+      <div class="profile-info">
+        <span class="profile-name">Jahanzaib Ahmad</span>
+        <span class="profile-tag">BASED IN PAKISTAN</span>
       </div>
     </div>
-  </footer>
 
-  <!-- Three.js 3D Scene -->
-  <script type="module">
-    import * as THREE from 'three';
-    import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+    <div class="status-card">
+      <span class="status-headline">Working Globally</span>
+      <span class="status-folio">FOLIO 26/27</span>
+    </div>
+  </div>
 
-    const container = document.getElementById('hero-canvas');
-    if (!container) throw new Error('Hero canvas container not found');
+  <!-- Center Typography with 3D Chrome Liquid 'J' -->
+  <div class="hero-center-typography">
+    <div class="chrome-j-wrapper" id="chromeJ">
+      <img src="assets/portfolio/chrome_liquid_j.png" alt="Sculptural Chrome J" class="chrome-j-img">
+    </div>
+    
+    <h1 class="headline-text">
+      <span class="headline-row-top">Senior Freelance</span>
+      <span class="headline-row-bottom">Designer</span>
+    </h1>
+  </div>
 
-    let width = container.clientWidth || window.innerWidth;
-    let height = container.clientHeight || window.innerHeight;
+  <!-- Hero Bottom Scroll Indicator -->
+  <div class="hero-scroll-indicator">
+    <span class="scroll-pill">
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <polyline points="19 12 12 19 5 12"></polyline>
+      </svg>
+      EXPLORE ARCHIVE
+    </span>
+    <span>CREATIVE TECHNOLOGIST & FOUNDER</span>
+  </div>
+</section>
 
-    // Determine responsive placement for 3D focus
-    function getResponsiveTargetX() {
-      return window.innerWidth < 768 ? 0 : (window.innerWidth < 1024 ? 1.2 : 2.2);
+<!-- ==========================================================================
+     SELECTED CASE STUDIES SECTION
+     ========================================================================== -->
+<section class="case-studies-section" id="work">
+  <h2 class="section-headline">Selected Case Studies</h2>
+
+  <div class="case-grid">
+
+    <!-- ================= ROW 1 ================= -->
+    <div class="case-row case-row-1">
+      
+      <!-- Card 1: ADRAMP (AI Marketing Platform) -->
+      <a href="adramp.html" class="project-card">
+        <div class="card-media-wrap height-tall">
+          <span class="badge-save">
+            <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345-.09.375-.291 1.199-.334 1.365-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.546.535 6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/></svg>
+            Save
+          </span>
+          <span class="badge-pill-right">Live System</span>
+          <img src="assets/portfolio/card_adramp_crest.jpg" alt="ADRAMP Cybernetic Division Brand & Platform" loading="lazy">
+        </div>
+        <div class="card-content">
+          <h3 class="project-title">ADRAMP</h3>
+          <p class="project-tags">Interactive, UX/UI, Information Design</p>
+        </div>
+      </a>
+
+      <!-- Card 2: OPTIONS FUNDING (Fintech Trading Platform) -->
+      <a href="options-funding.html" class="project-card">
+        <div class="card-media-wrap height-compact">
+          <span class="badge-pill-right">FinTech</span>
+          <img src="assets/portfolio/card_options_phone.jpg" alt="Options Funding Mobile Platform" loading="lazy">
+        </div>
+        <div class="card-content">
+          <h3 class="project-title">OPTIONS FUNDING</h3>
+          <p class="project-tags">Brand, Product, Web</p>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- ================= ROW 2 ================= -->
+    <div class="case-row case-row-2">
+      
+      <!-- Card 3: KATANAPAY (Fintech Identity) -->
+      <a href="delvedeep.html" class="project-card">
+        <div class="card-media-wrap height-medium">
+          <span class="badge-save">
+            <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345-.09.375-.291 1.199-.334 1.365-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.546.535 6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/></svg>
+            Save
+          </span>
+          <img src="assets/portfolio/card_waving_flag.jpg" alt="KatanaPay High-Performance Fabric Brand" loading="lazy">
+        </div>
+        <div class="card-content">
+          <h3 class="project-title">KATANAPAY</h3>
+          <p class="project-tags">Brand, Identity, Guidelines</p>
+        </div>
+      </a>
+
+      <!-- Card 4: JEMIMAH BARNETT / AURELINE (Luxury Atelier) -->
+      <a href="delvedeep.html" class="project-card">
+        <div class="card-media-wrap height-tall">
+          <span class="badge-pill-right">Editorial</span>
+          <img src="assets/portfolio/card_aureline_web.jpg" alt="Jemimah Barnett Luxury Editorial Web Platform" loading="lazy">
+        </div>
+        <div class="card-content">
+          <h3 class="project-title">JEMIMAH BARNETT</h3>
+          <p class="project-tags">Brand, Campaign, Web</p>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- ================= ROW 3 ================= -->
+    <div class="case-row case-row-3">
+      
+      <!-- Card 5: HINA SAFETY (Mobile App / Metallic Foil) -->
+      <a href="hina-prototype.html" class="project-card">
+        <div class="card-media-wrap height-compact">
+          <span class="badge-pill-right">Mobile App</span>
+          <img src="assets/portfolio/card_purple_foil.jpg" alt="HINA Nightlife Safety System" loading="lazy">
+        </div>
+        <div class="card-content">
+          <h3 class="project-title">HINA SAFETY</h3>
+          <p class="project-tags">Marketing, UI/UX, Web</p>
+        </div>
+      </a>
+
+      <!-- Card 6: BUFFET BOX (Artisan Gourmet E-Commerce) -->
+      <a href="meridian.html" class="project-card">
+        <div class="card-media-wrap height-tall">
+          <span class="badge-pill-right">E-Commerce</span>
+          <img src="assets/portfolio/card_buffet_box.jpg" alt="Buffet Box Artisan Packaging & Web Platform" loading="lazy">
+        </div>
+        <div class="card-content">
+          <h3 class="project-title">BUFFET BOX</h3>
+          <p class="project-tags">Marketing, Campaign, Web</p>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- ================= ROW 4 ================= -->
+    <div class="case-row case-row-4">
+      
+      <!-- Card 7: DELVEDEEP RETREAT SANCTUARY -->
+      <a href="delvedeep.html" class="project-card">
+        <div class="card-media-wrap height-medium">
+          <span class="badge-pill-right">Hospitality</span>
+          <img src="delvedeep_sanctuary_preview.png" alt="DelveDeep Sanctuary Luxury Retreat Platform" loading="lazy">
+        </div>
+        <div class="card-content">
+          <h3 class="project-title">DELVEDEEP SANCTUARY</h3>
+          <p class="project-tags">Brand, Identity, Kajabi Checkout</p>
+        </div>
+      </a>
+
+      <!-- Card 8: LÉMAN HAUTE HORLOGERIE -->
+      <a href="leman.html" class="project-card">
+        <div class="card-media-wrap height-compact">
+          <span class="badge-pill-right">Haute Horlogerie</span>
+          <img src="assets/leman/leman-modern-watch-hero-poster.jpg" alt="Léman Modern Watch Haute Horlogerie 3D Platform" loading="lazy">
+        </div>
+        <div class="card-content">
+          <h3 class="project-title">LÉMAN GENÈVE</h3>
+          <p class="project-tags">Digital Atelier, Interactive 3D, Web</p>
+        </div>
+      </a>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ==========================================================================
+     WHAT CLIENTS SAY — TESTIMONIALS SECTION
+     ========================================================================== -->
+<section class="testimonials-section" id="about">
+  <div class="testimonials-grid">
+    
+    <!-- Left Column: Title & Description -->
+    <div class="testimonials-left">
+      <h2 class="testimonials-title">What Clients Say</h2>
+      <p class="testimonials-desc">Honest feedback from clients who trusted the process and saw the results firsthand.</p>
+    </div>
+
+    <!-- Right Column: Interactive Testimonial Slider -->
+    <div class="testimonials-right">
+      
+      <div class="client-meta-row">
+        <div class="client-photo-wrap">
+          <img src="assets/portfolio/client_morten.jpg" alt="Client Portrait" class="client-photo" id="testimonialPhoto">
+        </div>
+        <div class="client-meta-info">
+          <span class="client-name" id="testimonialName">Morten Virik</span>
+          <span class="client-role" id="testimonialRole">FOUNDER , MEMENTOR AS</span>
+          <span class="client-counter" id="testimonialCounter">01 / 03</span>
+        </div>
+      </div>
+
+      <div class="testimonial-nav-arrows">
+        <button class="arrow-btn" id="prevTestimonial" aria-label="Previous Testimonial">←</button>
+        <button class="arrow-btn" id="nextTestimonial" aria-label="Next Testimonial">→</button>
+      </div>
+
+      <div class="testimonial-quote-box">
+        <blockquote class="testimonial-quote" id="testimonialQuote">
+          “Working with Jahanzaib felt less like commissioning a designer and more like gaining a creative partner. He understood not just how something should look, but how high-conversion platforms actually drive business value.”
+        </blockquote>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ==========================================================================
+     SERVICES SECTION
+     ========================================================================== -->
+<section class="services-section" id="services">
+  <h2 class="section-headline">Capabilities & Focus</h2>
+
+  <div class="services-list">
+    <div class="service-item">
+      <span class="service-num">01</span>
+      <h3 class="service-name">Design Systems</h3>
+      <p class="service-desc">Architecting robust design tokens, Figma component libraries, responsive grid topologies, and high-fidelity prototypes that scale effortlessly from startup to enterprise.</p>
+    </div>
+
+    <div class="service-item">
+      <span class="service-num">02</span>
+      <h3 class="service-name">High-Conversion Web</h3>
+      <p class="service-desc">Engineering bespoke editorial web applications, Kajabi custom checkouts, Webflow/Next.js architectures, and sub-second load time landing platforms tuned for ROI.</p>
+    </div>
+
+    <div class="service-item">
+      <span class="service-num">03</span>
+      <h3 class="service-name">Brand & 3D WebGL</h3>
+      <p class="service-desc">Sculpting distinctive brand positioning, custom typography, 3D CGI product renders, interactive Three.js/WebGL showcases, and memorable visual languages.</p>
+    </div>
+
+    <div class="service-item">
+      <span class="service-num">04</span>
+      <h3 class="service-name">Mobile Products</h3>
+      <p class="service-desc">End-to-end iOS & Android mobile product design, micro-interactions, haptic feedback design, and mission-critical safety companion platforms like HINA.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     FOOTER & CONTACT
+     ========================================================================== -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    
+    <div class="footer-cta">
+      <span class="footer-label">HAVE A VISION IN MIND?</span>
+      <a href="mailto:ahmadjahanzaib313@gmail.com" class="footer-big-link">Let’s build something extraordinary.</a>
+      
+      <div class="footer-action-row">
+        <a href="mailto:ahmadjahanzaib313@gmail.com" class="cta-pill-btn">
+          <span>Start a Project</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+        </a>
+        <a href="https://wa.me/923000000000" target="_blank" rel="noopener" class="secondary-pill-btn">
+          <span>WhatsApp Quick Chat</span>
+        </a>
+        <a href="Jahanzaib_Ahmad_CV.pdf" download class="secondary-pill-btn">
+          <span>Download CV / Resume</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-bottom-row">
+      <span>© 2026 Jahanzaib Ahmad. All rights reserved. Based in Pakistan — Working Globally.</span>
+      
+      <div class="footer-socials">
+        <a href="https://linkedin.com" target="_blank" rel="noopener" class="footer-social-link">LinkedIn</a>
+        <a href="https://github.com" target="_blank" rel="noopener" class="footer-social-link">GitHub</a>
+        <a href="https://x.com" target="_blank" rel="noopener" class="footer-social-link">X / Twitter</a>
+        <a href="adramp.html" class="footer-social-link">AdRamp</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- ==========================================================================
+     INTERACTIVE LOGIC (TESTIMONIALS SLIDER, PARALLAX, THEME TOGGLE)
+     ========================================================================== -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  // 1. TESTIMONIAL DATA & SLIDER
+  const testimonials = [
+    {
+      photo: 'assets/portfolio/client_morten.jpg',
+      name: 'Morten Virik',
+      role: 'FOUNDER , MEMENTOR AS',
+      quote: '“Working with Jahanzaib felt less like commissioning a designer and more like gaining a creative partner. He understood not just how something should look, but how high-conversion platforms actually drive business value.”',
+      counter: '01 / 03'
+    },
+    {
+      photo: 'assets/portfolio/client_sophia.jpg',
+      name: 'Sophia Moreau',
+      role: 'MANAGING DIRECTOR , L’ÉCRIN PARIS',
+      quote: '“The attention to craft, micro-interactions, and high-fashion typographic hierarchy exceeded our highest expectations. Jahanzaib delivers world-class luxury aesthetics with engineering precision.”',
+      counter: '02 / 03'
+    },
+    {
+      photo: 'assets/portfolio/client_liam.jpg',
+      name: 'Liam Thorne',
+      role: 'FOUNDER & CEO , HORIZON QUANT',
+      quote: '“Jahanzaib completely redefined our FinTech user experience. Our customer conversion jumped 42% in the first two weeks post-launch. He is simply among the sharpest product designers in the industry.”',
+      counter: '03 / 03'
     }
-    let targetX = getResponsiveTargetX();
+  ];
 
-    // Scene
-    const scene = new THREE.Scene();
+  let currentIdx = 0;
+  const photoEl = document.getElementById('testimonialPhoto');
+  const nameEl = document.getElementById('testimonialName');
+  const roleEl = document.getElementById('testimonialRole');
+  const counterEl = document.getElementById('testimonialCounter');
+  const quoteEl = document.getElementById('testimonialQuote');
+  const prevBtn = document.getElementById('prevTestimonial');
+  const nextBtn = document.getElementById('nextTestimonial');
 
-    // Camera
-    const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100);
-    const baseCamZ = window.innerWidth < 768 ? 9.5 : 8;
-    camera.position.set(0, 0, baseCamZ);
+  function renderTestimonial(idx) {
+    quoteEl.style.opacity = '0';
+    quoteEl.style.transform = 'translateY(10px)';
+    photoEl.style.opacity = '0';
 
-    // Renderer
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
-    renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.1;
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-    container.appendChild(renderer.domElement);
+    setTimeout(() => {
+      const item = testimonials[idx];
+      photoEl.src = item.photo;
+      nameEl.textContent = item.name;
+      roleEl.textContent = item.role;
+      counterEl.textContent = item.counter;
+      quoteEl.textContent = item.quote;
 
-    // Environment map for realistic reflections
-    const pmremGenerator = new THREE.PMREMGenerator(renderer);
-    const roomEnv = new RoomEnvironment();
-    const envTexture = pmremGenerator.fromScene(roomEnv).texture;
-    scene.environment = envTexture;
-    roomEnv.dispose();
-    pmremGenerator.dispose();
+      photoEl.style.opacity = '1';
+      quoteEl.style.opacity = '1';
+      quoteEl.style.transform = 'translateY(0)';
+    }, 200);
+  }
 
-    // Main object — Torus Knot with copper metallic material
-    const mainGeo = new THREE.TorusKnotGeometry(1.2, 0.35, 256, 32);
-    const mainMat = new THREE.MeshPhysicalMaterial({
-      color: new THREE.Color(0xc8956c),
-      metalness: 0.92,
-      roughness: 0.12,
-      clearcoat: 1.0,
-      clearcoatRoughness: 0.05,
-      envMapIntensity: 1.8,
-    });
-    const mainMesh = new THREE.Mesh(mainGeo, mainMat);
-    mainMesh.position.x = targetX;
-    scene.add(mainMesh);
+  prevBtn.addEventListener('click', () => {
+    currentIdx = (currentIdx - 1 + testimonials.length) % testimonials.length;
+    renderTestimonial(currentIdx);
+  });
 
-    // Floating orbs — small metallic and glass objects
-    const orbGroup = new THREE.Group();
-    orbGroup.position.x = targetX;
-    scene.add(orbGroup);
+  nextBtn.addEventListener('click', () => {
+    currentIdx = (currentIdx + 1) % testimonials.length;
+    renderTestimonial(currentIdx);
+  });
 
-    const orbMatMetallic = new THREE.MeshPhysicalMaterial({
-      color: new THREE.Color(0xe8d5b7),
-      metalness: 0.85,
-      roughness: 0.08,
-      clearcoat: 1.0,
-      envMapIntensity: 2.0,
-    });
+  // 2. CHROME 'J' SUBTLE MOUSE PARALLAX EFFECT
+  const chromeJ = document.getElementById('chromeJ');
+  const heroSection = document.getElementById('hero');
 
-    const orbMatGlass = new THREE.MeshPhysicalMaterial({
-      color: new THREE.Color(0xffffff),
-      metalness: 0.0,
-      roughness: 0.02,
-      transmission: 0.92,
-      thickness: 0.6,
-      ior: 1.45,
-      envMapIntensity: 1.0,
-    });
+  heroSection.addEventListener('mousemove', (e) => {
+    const rect = heroSection.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
 
-    const orbs = [];
-    for (let i = 0; i < 6; i++) {
-      const radius = Math.max(0.06, 0.06 + Math.random() * 0.14);
-      const geo = new THREE.IcosahedronGeometry(radius, 3);
-      const mat = i % 2 === 0 ? orbMatMetallic : orbMatGlass;
-      const mesh = new THREE.Mesh(geo, mat);
-      const angle = (i / 6) * Math.PI * 2;
-      const dist = 1.8 + Math.random() * 0.8;
-      mesh.userData = {
-        angle,
-        dist,
-        speed: 0.2 + Math.random() * 0.35,
-        yOff: (Math.random() - 0.5) * 1.6,
-        floatSpeed: 0.4 + Math.random() * 0.4,
-      };
-      orbGroup.add(mesh);
-      orbs.push(mesh);
+    if (chromeJ) {
+      chromeJ.style.transform = `translate(calc(-50% + ${x * 24}px), calc(-46% + ${y * 24}px)) rotate(${x * 4}deg)`;
     }
+  });
 
-    // Particle system — soft glowing dots
-    const particleCount = 400;
-    const pPositions = new Float32Array(particleCount * 3);
-    const pSizes = new Float32Array(particleCount);
-    for (let i = 0; i < particleCount; i++) {
-      pPositions[i * 3] = (Math.random() - 0.5) * 16;
-      pPositions[i * 3 + 1] = (Math.random() - 0.5) * 16;
-      pPositions[i * 3 + 2] = (Math.random() - 0.5) * 10;
-      pSizes[i] = 0.03 + Math.random() * 0.06;
+  heroSection.addEventListener('mouseleave', () => {
+    if (chromeJ) {
+      chromeJ.style.transform = 'translate(-50%, -46%) rotate(0deg)';
     }
-    const pGeo = new THREE.BufferGeometry();
-    pGeo.setAttribute('position', new THREE.BufferAttribute(pPositions, 3));
-    pGeo.setAttribute('size', new THREE.BufferAttribute(pSizes, 1));
+  });
 
-    // Create circular soft particle texture
-    const pCanvas = document.createElement('canvas');
-    pCanvas.width = 64;
-    pCanvas.height = 64;
-    const pCtx = pCanvas.getContext('2d');
-    const grad = pCtx.createRadialGradient(32, 32, 0, 32, 32, 32);
-    grad.addColorStop(0, 'rgba(255,255,255,1)');
-    grad.addColorStop(0.15, 'rgba(200,149,108,0.9)');
-    grad.addColorStop(0.5, 'rgba(200,149,108,0.2)');
-    grad.addColorStop(1, 'rgba(0,0,0,0)');
-    pCtx.fillStyle = grad;
-    pCtx.fillRect(0, 0, 64, 64);
-    const pTexture = new THREE.CanvasTexture(pCanvas);
+  // 3. THEME TOGGLE (DARK / LIGHT)
+  const themeToggle = document.getElementById('themeToggle');
+  const htmlRoot = document.documentElement;
 
-    const pMat = new THREE.PointsMaterial({
-      map: pTexture,
-      size: 0.14,
-      transparent: true,
-      opacity: 0.5,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
-      sizeAttenuation: true,
-    });
-    const particles = new THREE.Points(pGeo, pMat);
-    scene.add(particles);
+  themeToggle.addEventListener('click', () => {
+    const currentTheme = htmlRoot.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    htmlRoot.setAttribute('data-theme', newTheme);
+    localStorage.setItem('folio-theme', newTheme);
+  });
 
-    // Lighting — warm key + cool fill + rim
-    const keyLight = new THREE.PointLight(0xc8956c, 45);
-    keyLight.position.set(5, 4, 5);
-    scene.add(keyLight);
-
-    const fillLight = new THREE.PointLight(0x6cb5c8, 25);
-    fillLight.position.set(-5, -2, 4);
-    scene.add(fillLight);
-
-    const rimLight = new THREE.PointLight(0xe8d5b7, 20);
-    rimLight.position.set(0, 5, -4);
-    scene.add(rimLight);
-
-    const bottomLight = new THREE.PointLight(0x4a3525, 15);
-    bottomLight.position.set(0, -5, 2);
-    scene.add(bottomLight);
-
-    // Mouse tracking
-    let mouseX = 0, mouseY = 0;
-    let targetMouseX = 0, targetMouseY = 0;
-    document.addEventListener('mousemove', (e) => {
-      targetMouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-      targetMouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-    });
-
-    // Touch support
-    document.addEventListener('touchmove', (e) => {
-      if (e.touches.length > 0) {
-        targetMouseX = (e.touches[0].clientX / window.innerWidth - 0.5) * 2;
-        targetMouseY = (e.touches[0].clientY / window.innerHeight - 0.5) * 2;
-      }
-    }, { passive: true });
-
-    // Animation loop
-    const clock = new THREE.Clock();
-    let currentX = targetX;
-
-    function animate() {
-      requestAnimationFrame(animate);
-      const t = clock.getElapsedTime();
-
-      // Smooth mouse interpolation
-      mouseX += (targetMouseX - mouseX) * 0.05;
-      mouseY += (targetMouseY - mouseY) * 0.05;
-
-      // Smooth responsive position interpolation
-      currentX += (targetX - currentX) * 0.05;
-      mainMesh.position.x = currentX;
-      orbGroup.position.x = currentX;
-
-      // Main object — slow rotation + mouse influence + floating
-      mainMesh.rotation.y = t * 0.12 + mouseX * 0.4;
-      mainMesh.rotation.x = t * 0.06 + mouseY * 0.25;
-      mainMesh.position.y = Math.sin(t * 0.4) * 0.18;
-
-      // Orbs — orbital motion
-      orbs.forEach((orb) => {
-        const d = orb.userData;
-        const a = d.angle + t * d.speed;
-        orb.position.x = Math.cos(a) * d.dist;
-        orb.position.z = Math.sin(a) * d.dist;
-        orb.position.y = d.yOff + Math.sin(t * d.floatSpeed + d.angle) * 0.35;
-        orb.rotation.x = t * 0.6;
-        orb.rotation.y = t * 0.4;
-      });
-
-      // Particles — gentle drift
-      const posArr = pGeo.attributes.position.array;
-      for (let i = 0; i < particleCount; i++) {
-        posArr[i * 3 + 1] += 0.0015;
-        posArr[i * 3] += Math.sin(t * 0.1 + i) * 0.0003;
-        if (posArr[i * 3 + 1] > 8) posArr[i * 3 + 1] = -8;
-      }
-      pGeo.attributes.position.needsUpdate = true;
-
-      // Particles subtle rotation
-      particles.rotation.y = t * 0.015;
-
-      // Camera — subtle mouse tracking
-      camera.position.x += (mouseX * 0.6 - camera.position.x) * 0.02;
-      camera.position.y += (-mouseY * 0.35 - camera.position.y) * 0.02;
-      camera.lookAt(currentX, 0, 0);
-
-      renderer.render(scene, camera);
-    }
-    animate();
-
-    // Resize handler
-    window.addEventListener('resize', () => {
-      width = container.clientWidth || window.innerWidth;
-      height = container.clientHeight || window.innerHeight;
-      targetX = getResponsiveTargetX();
-      camera.aspect = width / height;
-      camera.position.z = window.innerWidth < 768 ? 9.5 : 8;
-      camera.updateProjectionMatrix();
-      renderer.setSize(width, height);
-    });
-  </script>
-
-  <!-- UI Interactions -->
-  <script>
-    // Initialize Lucide icons safely
-    function initIcons() {
-      if (window.lucide && typeof lucide.createIcons === 'function') {
-        lucide.createIcons();
-      }
-    }
-    initIcons();
-    window.addEventListener('DOMContentLoaded', initIcons);
-
-    // ---- Mobile Menu ----
-    function openMobileMenu() {
-      document.getElementById('mobile-menu').classList.add('open');
-      document.getElementById('menu-overlay').classList.add('open');
-      document.body.style.overflow = 'hidden';
-    }
-    function closeMobileMenu() {
-      document.getElementById('mobile-menu').classList.remove('open');
-      document.getElementById('menu-overlay').classList.remove('open');
-      document.body.style.overflow = '';
-    }
-
-    // ---- Navbar scroll state ----
-    const navbar = document.getElementById('navbar');
-    const scrollProgress = document.getElementById('scroll-progress');
-    const sections = ['hero', 'work', 'philosophy', 'team', 'contact'];
-
-    window.addEventListener('scroll', () => {
-      // Nav background
-      if (window.scrollY > 60) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
-      }
-
-      // Scroll progress
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const scrollPercent = Math.min(100, (window.scrollY / Math.max(1, docHeight)) * 100);
-      scrollProgress.style.width = scrollPercent + '%';
-
-      // Active nav link
-      let currentSection = 'hero';
-      sections.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= 200) currentSection = id;
-        }
-      });
-      document.querySelectorAll('.nav-link').forEach(link => {
-        link.classList.toggle('active', link.dataset.section === currentSection);
-      });
-    }, { passive: true });
-
-    // ---- Scroll Reveal (IntersectionObserver) ----
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
-    document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .stagger-children').forEach(el => {
-      revealObserver.observe(el);
-    });
-
-    // ---- Stat Counter Animation ----
-    let statsAnimated = false;
-    const statsObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting && !statsAnimated) {
-          statsAnimated = true;
-          animateCounters();
-        }
-      });
-    }, { threshold: 0.3 });
-
-    const statsSection = document.getElementById('stats');
-    if (statsSection) statsObserver.observe(statsSection);
-
-    function animateCounters() {
-      document.querySelectorAll('.stat-number').forEach(el => {
-        const target = parseInt(el.dataset.target, 10);
-        const suffix = el.dataset.suffix || '';
-        const duration = 2000;
-        const startTime = performance.now();
-
-        function update(now) {
-          const elapsed = now - startTime;
-          const progress = Math.min(1, elapsed / duration);
-          // Ease out cubic
-          const eased = 1 - Math.pow(1 - progress, 3);
-          const current = Math.round(eased * target);
-          el.textContent = current + suffix;
-          if (progress < 1) requestAnimationFrame(update);
-        }
-        requestAnimationFrame(update);
-      });
-    }
-
-    // ---- Form Validation & Submission ----
-    function handleSubmit(e) {
-      e.preventDefault();
-      let valid = true;
-
-      // Reset errors
-      document.querySelectorAll('.form-input').forEach(i => i.classList.remove('error'));
-      document.querySelectorAll('[id$="-error"]').forEach(p => p.classList.add('hidden'));
-
-      // Validate name
-      const name = document.getElementById('name');
-      if (!name.value.trim()) {
-        name.classList.add('error');
-        document.getElementById('name-error').classList.remove('hidden');
-        valid = false;
-      }
-
-      // Validate email
-      const email = document.getElementById('email');
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email.value.trim())) {
-        email.classList.add('error');
-        document.getElementById('email-error').classList.remove('hidden');
-        valid = false;
-      }
-
-      // Validate message
-      const message = document.getElementById('message');
-      if (!message.value.trim()) {
-        message.classList.add('error');
-        document.getElementById('message-error').classList.remove('hidden');
-        valid = false;
-      }
-
-      if (valid) {
-        showToast('Message sent successfully! We\'ll be in touch within 24 hours.', 'success');
-        e.target.reset();
-      } else {
-        showToast('Please fill in all required fields correctly.', 'error');
-      }
-    }
-
-    // ---- Toast Notification ----
-    let toastTimeout = null;
-    function showToast(msg, type) {
-      const toast = document.getElementById('toast');
-      toast.textContent = msg;
-      toast.className = 'toast ' + type;
-      // Force reflow
-      void toast.offsetWidth;
-      toast.classList.add('show');
-
-      if (toastTimeout) clearTimeout(toastTimeout);
-      toastTimeout = setTimeout(() => {
-        toast.classList.remove('show');
-      }, 4000);
-    }
-
-    // ---- Keyboard accessibility for mobile menu ----
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeMobileMenu();
-    });
-  </script>
+  const savedTheme = localStorage.getItem('folio-theme');
+  if (savedTheme) {
+    htmlRoot.setAttribute('data-theme', savedTheme);
+  }
+});
+</script>
 </body>
 </html>

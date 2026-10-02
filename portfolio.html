@@ -1,1753 +1,1457 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JAHANZAIB AHMAD — Senior UI/UX Designer & Product Craftsman</title>
-<meta name="description" content="Portfolio of Jahanzaib Ahmad — Senior UI/UX Designer, Product Designer, and Creative Technologist specializing in mobile apps, FinTech platforms, design systems, and high-performance web products.">
+<title>Jahanzaib Ahmad — Senior Freelance Designer & Creative Technologist</title>
+<meta name="description" content="Senior Freelance Designer & Creative Technologist based in Pakistan, working globally. Crafting award-winning brand identities, high-conversion web platforms, and mobile experiences.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,400&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
-/* ============ FOUNDATION & COLOR TOKENS ============ */
-:root{
-  --paper:#f4efe4;
-  --paper2:#ece5d3;
-  --paper3:#e4dcbe;
-  --ink:#191712;
-  --ink2:#5d5749;
-  --ink3:#8c8470;
-  --line:rgba(25,23,18,.16);
-  --line-strong:rgba(25,23,18,.32);
-  --verm:#c1391f;
-  --gold:#96772f;
-  --serif:'Shippori Mincho',serif;
-  --sans:'Zen Kaku Gothic New',sans-serif;
-  --gx:clamp(22px,5vw,76px);
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  background:var(--paper);
-  color:var(--ink);
-  font-family:var(--sans);
-  font-size:16px;
-  line-height:1.7;
-  overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
-}
-body.dragging{user-select:none;cursor:grabbing!important}
-body.can-grab{cursor:grab}
-::selection{background:var(--verm);color:var(--paper)}
-:focus-visible{outline:2px solid var(--verm);outline-offset:3px}
-
-/* paper grain overlay */
-body::after{
-  content:'';position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.4;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.16 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+/* ==========================================================================
+   DESIGN TOKENS & ROOT VARIABLES
+   Matching José Casal (zecasal.com) Luxury Editorial Dark Noir Aesthetic
+   ========================================================================== */
+:root {
+  --bg-primary: #08080a;
+  --bg-secondary: #101014;
+  --bg-card: #131317;
+  --text-primary: #fcfcfd;
+  --text-secondary: rgba(255, 255, 255, 0.62);
+  --text-tertiary: rgba(255, 255, 255, 0.42);
+  --text-subtle: rgba(255, 255, 255, 0.28);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-medium: rgba(255, 255, 255, 0.16);
+  --border-hover: rgba(255, 255, 255, 0.35);
+  --pill-bg: rgba(255, 255, 255, 0.07);
+  --pill-hover: rgba(255, 255, 255, 0.16);
+  --font-serif: 'Bodoni Moda', 'Playfair Display', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --container-max: 1360px;
+  --gutter: clamp(20px, 4vw, 56px);
+  --transition-smooth: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ============ LOADER ============ */
-.loader{
-  position:fixed;inset:0;z-index:100;
-  background:var(--paper);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
-  transition:opacity .7s ease,visibility .7s;
-}
-.loader .lk{
-  font-family:var(--sans);font-weight:800;
-  font-size:clamp(3.2rem,8.5vw,5.8rem);
-  letter-spacing:.2em;overflow:hidden;
-}
-.loader .lk span{
-  display:inline-block;transform:translateY(110%);
-  animation:lkup 1s cubic-bezier(.16,1,.3,1) .1s forwards;
-}
-@keyframes lkup{to{transform:none}}
-.loader .ln{width:130px;height:1px;background:var(--line);position:relative;overflow:hidden}
-.loader .ln i{
-  position:absolute;inset:0;background:var(--verm);
-  transform:translateX(-100%);
-  animation:lkbar 1.4s cubic-bezier(.6,0,.2,1) forwards;
-}
-@keyframes lkbar{to{transform:none}}
-.loader p{
-  font-size:10px;letter-spacing:.42em;color:var(--ink2);
-  text-transform:uppercase;font-weight:500;
-}
-body.ready .loader{opacity:0;visibility:hidden}
-
-/* ============ 3D STAGE ============ */
-#stage{position:fixed;inset:0;z-index:1;pointer-events:none}
-
-/* ============ NAV ============ */
-.nav{
-  position:fixed;top:0;left:0;right:0;z-index:50;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:16px var(--gx);
-  transition:background .4s,box-shadow .4s,backdrop-filter .4s;
-}
-.nav.scrolled{
-  background:rgba(244,239,228,.85);
-  backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--line);
-}
-.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
-.hanko{
-  width:36px;height:36px;background:var(--verm);color:var(--paper);
-  font-family:var(--sans);font-weight:800;font-size:14px;letter-spacing:.06em;
-  display:grid;place-items:center;border-radius:3px;
-  box-shadow:0 1px 0 rgba(0,0,0,.15);
-}
-.bname{
-  font-family:var(--serif);font-weight:700;font-size:18px;letter-spacing:.14em;
-  display:flex;flex-direction:column;line-height:1.1;
-}
-.bname small{
-  font-family:var(--sans);font-weight:500;font-size:9px;
-  letter-spacing:.34em;color:var(--ink2);
-}
-.nlinks{display:flex;gap:clamp(16px,2.8vw,36px);align-items:center}
-.nlinks a{
-  position:relative;text-decoration:none;color:var(--ink);
-  font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
-  padding:6px 0;display:inline-block;line-height:1.2;
-}
-.nlinks a::after{
-  content:'';position:absolute;left:0;right:0;bottom:-2px;height:2px;
-  background:var(--verm);transform:scaleX(0);transform-origin:left;
-  transition:transform .35s cubic-bezier(.16,1,.3,1);
-}
-.nlinks a:hover::after,.nlinks a.on::after{transform:scaleX(1)}
-.nlinks a.on{color:var(--verm)}
-.burger{display:none;background:none;border:0;width:40px;height:40px;cursor:pointer;position:relative;z-index:75}
-.burger span{position:absolute;left:8px;right:8px;height:2px;background:var(--ink);transition:.35s cubic-bezier(.16,1,.3,1)}
-.burger span:nth-child(1){top:15px}.burger span:nth-child(2){top:24px}
-.burger.open span:nth-child(1){top:19px;transform:rotate(45deg)}
-.burger.open span:nth-child(2){top:19px;transform:rotate(-45deg)}
-.mmenu{
-  position:fixed;inset:0;z-index:70;background:var(--paper);
-  display:flex;flex-direction:column;justify-content:center;
-  padding:0 var(--gx);gap:8px;opacity:0;visibility:hidden;transition:.45s ease;
-}
-.mmenu.open{opacity:1;visibility:visible}
-.mmenu a{
-  font-family:var(--serif);font-weight:700;font-size:clamp(2.1rem,8.5vw,3.2rem);
-  color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line);
-  padding:14px 0;display:flex;justify-content:space-between;align-items:baseline;
-  transform:translateY(24px);opacity:0;transition:.5s cubic-bezier(.16,1,.3,1);
-}
-.mmenu.open a{transform:none;opacity:1}
-.mmenu a i{font-style:normal;font-size:12px;letter-spacing:.3em;color:var(--verm)}
-.mmenu a:nth-child(2){transition-delay:.06s}
-.mmenu a:nth-child(3){transition-delay:.12s}
-.mmenu a:nth-child(4){transition-delay:.18s}
-.mmenu a:nth-child(5){transition-delay:.24s}
-.mmenu a:nth-child(6){transition-delay:.30s}
-
-/* ============ SHARED STYLES ============ */
-section{position:relative;z-index:10}
-.overline{
-  font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--ink2);
-  display:flex;align-items:center;gap:12px;font-weight:500;
-}
-.overline::before{content:'';width:8px;height:8px;background:var(--verm);flex:none}
-h2{
-  font-family:var(--serif);font-weight:700;font-size:clamp(2.3rem,4.6vw,4.2rem);
-  line-height:1.08;letter-spacing:-.01em;margin-top:20px;
-}
-.rv{
-  opacity:0;transform:translateY(28px);
-  transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);
-  transition-delay:var(--d,0s);
-}
-.rv.in{opacity:1;transform:none}
-.wm{
-  position:absolute;font-family:var(--serif);font-weight:800;
-  font-size:min(38vw,25rem);line-height:1;color:rgba(25,23,18,.04);
-  pointer-events:none;user-select:none;z-index:-1;
-}
-.btn{
-  display:inline-flex;align-items:center;gap:14px;background:var(--ink);color:var(--paper);
-  text-decoration:none;font-size:11.5px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;
-  padding:17px 28px;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,0 100%);
-  transition:background .35s;cursor:pointer;border:0;font-family:var(--sans);
-}
-.btn svg{transition:transform .35s cubic-bezier(.16,1,.3,1)}
-.btn:hover{background:var(--verm)}
-.btn:hover svg{transform:translateX(5px)}
-.tlink{
-  display:inline-flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none;
-  font-size:11.5px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;
-  border-bottom:1px solid var(--ink);padding-bottom:5px;transition:color .3s,border-color .3s;
-}
-.tlink svg{transition:transform .35s cubic-bezier(.16,1,.3,1)}
-.tlink:hover{color:var(--verm);border-color:var(--verm)}
-.tlink:hover svg{transform:translateX(5px)}
-
-/* ============ HERO ============ */
-.hero{min-height:100vh;display:flex;align-items:center;padding:120px var(--gx) 130px}
-.hero-copy{max-width:760px;pointer-events:none}
-.hero-copy .btn,.hero-copy .tlink{pointer-events:auto}
-.hero-title{
-  font-family:var(--serif);font-weight:700;font-size:clamp(3.1rem,8.4vw,7.4rem);
-  line-height:1.02;letter-spacing:-.015em;margin:26px 0 30px;
-}
-.rl{display:block;overflow:hidden}
-.rl>span{display:block;transform:translateY(112%);transition:transform 1.1s cubic-bezier(.16,1,.3,1)}
-body.ready .rl:nth-child(1)>span{transform:none;transition-delay:.25s}
-body.ready .rl:nth-child(2)>span{transform:none;transition-delay:.37s}
-body.ready .rl:nth-child(3)>span{transform:none;transition-delay:.49s}
-.hollow{color:transparent;-webkit-text-stroke:1.5px var(--ink);position:relative;display:inline-block}
-.hollow svg{position:absolute;left:-2%;bottom:-.14em;width:104%;height:.28em;overflow:visible}
-.hollow svg path{
-  stroke:var(--verm);stroke-width:6;fill:none;stroke-linecap:round;
-  stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1s cubic-bezier(.6,0,.2,1) 1.5s;
-}
-body.ready .hollow svg path{stroke-dashoffset:0}
-.hero-sub{max-width:500px;color:var(--ink2);font-size:15.5px}
-.hero-cta{display:flex;align-items:center;gap:32px;margin-top:42px;flex-wrap:wrap}
-.vside{
-  position:absolute;right:calc(var(--gx) - 6px);bottom:16vh;
-  writing-mode:vertical-rl;font-family:var(--serif);font-size:16px;
-  letter-spacing:.5em;color:var(--ink2);display:flex;align-items:center;gap:16px;
-}
-.vside .sq{width:8px;height:8px;background:var(--verm)}
-.scue{
-  position:absolute;left:var(--gx);bottom:86px;display:flex;
-  flex-direction:column;align-items:center;gap:12px;font-size:9.5px;
-  letter-spacing:.4em;text-transform:uppercase;color:var(--ink2);
-}
-.scue .line{width:1px;height:52px;background:var(--line);position:relative;overflow:hidden}
-.scue .line::after{
-  content:'';position:absolute;left:0;top:-100%;width:100%;height:100%;
-  background:var(--verm);animation:scue 2.2s cubic-bezier(.6,0,.3,1) infinite;
-}
-@keyframes scue{0%{top:-100%}55%{top:0}100%{top:100%}}
-.marquee{
-  position:absolute;left:0;right:0;bottom:0;border-top:1px solid var(--line);
-  padding:15px 0;overflow:hidden;background:rgba(244,239,228,.65);backdrop-filter:blur(5px);
-}
-.track{display:flex;gap:64px;width:max-content;animation:mq 32s linear infinite}
-.track:hover{animation-play-state:paused}
-.mi{display:flex;align-items:baseline;gap:14px;white-space:nowrap}
-.mi .jp{font-family:var(--serif);font-weight:600;font-size:15px}
-.mi .en{font-size:10px;letter-spacing:.26em;color:var(--ink2);text-transform:uppercase}
-@keyframes mq{to{transform:translateX(-50%)}}
-
-/* ============ WORKS (MASTERPIECES) ============ */
-.works{padding:140px var(--gx) 150px;background:linear-gradient(var(--paper),var(--paper2))}
-.w-head{max-width:880px;margin-bottom:60px}
-.w-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:32px;max-width:1300px;margin:0 auto}
-.card{
-  background:var(--paper);border:1px solid var(--line);padding:34px 30px;
-  display:flex;flex-direction:column;justify-content:space-between;
-  clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,0 100%);
-  position:relative;transition:transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s,border-color .4s;
-}
-.card:hover{
-  transform:translateY(-8px);
-  border-color:var(--ink);
-  box-shadow:0 24px 48px -18px rgba(25,23,18,.14);
-}
-.card.featured{
-  grid-column:1/-1;
-  background:linear-gradient(135deg,#fbf8f0,var(--paper2));
-  border-color:var(--line-strong);
-}
-.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px}
-.c-badge{
-  display:inline-flex;align-items:center;gap:8px;font-size:9.5px;
-  letter-spacing:.28em;text-transform:uppercase;color:var(--ink2);font-weight:500;
-}
-.c-badge::before{content:'';width:6px;height:6px;background:var(--verm)}
-.c-kanji{
-  font-family:var(--serif);font-weight:700;font-size:26px;color:var(--verm);line-height:1;
-}
-.card h3{
-  font-family:var(--serif);font-size:clamp(1.5rem,2.2vw,2rem);font-weight:700;
-  line-height:1.15;margin-bottom:12px;
-}
-.card p{
-  color:var(--ink2);font-size:14.5px;line-height:1.65;margin-bottom:24px;flex-grow:1;
-}
-.c-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px}
-.c-tag{
-  font-size:10px;letter-spacing:.14em;padding:4px 9px;
-  background:var(--paper2);border:1px solid var(--line);
-  color:var(--ink);text-transform:uppercase;
-}
-.card-actions{
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
-  width:100%;padding-top:16px;border-top:1px solid var(--line);margin-top:auto;
-}
-.card-btn{
-  display:inline-flex;align-items:center;justify-content:space-between;flex:1;
-  color:var(--ink);text-decoration:none;font-size:11px;
-  letter-spacing:.22em;text-transform:uppercase;font-weight:500;
-  transition:color .3s,border-color .3s;
-}
-.card-btn svg{transition:transform .35s cubic-bezier(.16,1,.3,1)}
-.card:hover .card-btn{color:var(--verm)}
-.card:hover .card-btn svg{transform:translate(4px,-4px)}
-.preview-btn{
-  display:inline-flex;align-items:center;gap:6px;padding:7px 14px;
-  background:var(--paper2);border:1px solid var(--line);color:var(--ink);
-  font-family:var(--sans);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;
-  cursor:pointer;transition:all .3s ease;white-space:nowrap;
-}
-.preview-btn svg{transition:transform .3s ease}
-.preview-btn:hover{background:var(--verm);color:var(--paper);border-color:var(--verm)}
-.preview-btn:hover svg{transform:scale(1.15)}
-
-/* ============ PREVIEW MODAL ============ */
-.preview-modal{
-  position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;
-  opacity:0;visibility:hidden;transition:opacity .4s ease,visibility .4s;
-}
-.preview-modal.open{opacity:1;visibility:visible}
-.p-backdrop{
-  position:absolute;inset:0;background:rgba(25,23,18,.75);backdrop-filter:blur(10px);
-}
-.p-box{
-  position:relative;z-index:1;width:min(1240px,94vw);height:min(860px,88vh);
-  background:var(--paper);border:1px solid var(--line-strong);
-  display:flex;flex-direction:column;box-shadow:0 30px 80px rgba(0,0,0,.45);
-  transform:scale(0.96);transition:transform .4s cubic-bezier(.16,1,.3,1);
-}
-.preview-modal.open .p-box{transform:scale(1)}
-.p-header{
-  display:flex;align-items:center;justify-content:space-between;padding:14px 22px;
-  border-bottom:1px solid var(--line);background:var(--paper2);
-}
-.p-title-wrap{display:flex;align-items:center;gap:14px}
-.p-badge{
-  font-size:8.5px;letter-spacing:.24em;text-transform:uppercase;background:var(--verm);
-  color:var(--paper);padding:3px 8px;font-weight:600;
-}
-.p-title-wrap h4{
-  font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink);letter-spacing:.05em;
-}
-.p-ctrls{display:flex;align-items:center;gap:12px}
-.p-ext-btn{
-  display:inline-flex;align-items:center;gap:6px;font-size:10px;letter-spacing:.18em;
-  text-transform:uppercase;color:var(--ink);text-decoration:none;padding:6px 14px;
-  border:1px solid var(--line);background:var(--paper);transition:all .3s;
-}
-.p-ext-btn:hover{background:var(--ink);color:var(--paper)}
-.p-x-btn{
-  background:none;border:none;cursor:pointer;color:var(--ink);padding:6px;display:grid;place-items:center;
-  opacity:.7;transition:opacity .3s,transform .3s;
-}
-.p-x-btn:hover{opacity:1;transform:rotate(90deg)}
-.p-frame-wrap{flex:1;position:relative;background:#0e0d0b}
-.p-frame-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
-
-/* ============ ANATOMY (DISCIPLINES) ============ */
-.anatomy{height:280vh}
-.anatomy .pin{
-  position:sticky;top:0;height:100vh;
-  display:grid;grid-template-columns:300px 1fr 360px;
-  align-items:center;padding:90px var(--gx) 60px;gap:20px;
-}
-.a-left h2{font-size:clamp(1.9rem,3vw,2.7rem);margin:16px 0 8px}
-.parts{margin-top:22px}
-.part{
-  display:grid;grid-template-columns:34px 44px 1fr;align-items:baseline;
-  gap:10px;width:100%;text-align:left;background:none;border:0;
-  border-bottom:1px solid var(--line);padding:14px 6px;
-  cursor:pointer;font-family:var(--sans);position:relative;transition:padding .3s;
-}
-.part::before{
-  content:'';position:absolute;left:0;top:50%;width:3px;height:0;
-  background:var(--verm);transform:translateY(-50%);transition:height .3s;
-}
-.part .p-num{font-size:11px;letter-spacing:.15em;font-weight:700;color:var(--ink2);transition:color .3s;width:24px}
-.part .p-en{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
-.part .p-en small{display:block;font-size:9.5px;letter-spacing:.16em;color:var(--ink2);text-transform:none;margin-top:2px}
-.part:hover{padding-left:14px}
-.part.on::before{height:60%}
-.part.on .p-num{color:var(--verm)}
-.part.on .p-en{color:var(--verm)}
-.a-right{align-self:center}
-.detail{
-  position:relative;min-height:380px;border-left:1px solid var(--line);
-  padding-left:32px;transition:opacity .22s ease,transform .22s ease;
-}
-.detail.swap{opacity:0;transform:translateY(10px)}
-.d-kanji{display:none}
-.d-name{display:flex;align-items:baseline;gap:14px;margin:10px 0 18px;flex-wrap:wrap}
-.d-name h3{font-family:var(--serif);font-size:1.6rem;font-weight:700}
-.d-romaji{font-size:10.5px;letter-spacing:.32em;text-transform:uppercase;color:var(--ink2)}
-.d-desc{color:var(--ink2);font-size:15px;max-width:340px}
-.d-nav{display:flex;align-items:center;gap:18px;margin-top:30px}
-.d-nav button{
-  width:42px;height:42px;border:1px solid var(--ink);background:none;
-  cursor:pointer;display:grid;place-items:center;transition:.3s;color:var(--ink);
-}
-.d-nav button:hover{background:var(--ink);color:var(--paper)}
-.d-nav span{font-size:11px;letter-spacing:.3em;color:var(--ink2)}
-
-/* ============ FORGE (THE PROCESS) ============ */
-.forge{padding:150px var(--gx) 170px;overflow:hidden}
-.forge .wm{top:60px;right:-2vw}
-.f-head{max-width:900px;margin-bottom:70px}
-.steps{max-width:900px;margin-left:auto}
-.step{
-  display:grid;grid-template-columns:150px 1fr;gap:clamp(20px,4vw,60px);
-  padding:52px 0;border-top:1px solid var(--line);align-items:start;
-}
-.step:nth-child(even){transform:translateX(clamp(0px,4vw,60px))}
-.step .s-num{
-  font-family:var(--serif);font-weight:800;font-size:clamp(3.4rem,6vw,5.4rem);
-  line-height:.9;color:transparent;-webkit-text-stroke:1px var(--ink2);
-}
-.step .s-jp{font-family:var(--serif);font-weight:700;font-size:clamp(1.5rem,2.4vw,2rem);color:var(--ink)}
-.step .s-en{
-  font-size:10.5px;letter-spacing:.32em;text-transform:uppercase;
-  color:var(--verm);margin:4px 0 12px;font-weight:500;
-}
-.step p{color:var(--ink2);font-size:15px;max-width:560px}
-.step.hot .s-num{-webkit-text-stroke:1px var(--verm);color:rgba(193,57,31,.12)}
-.step.hot{border-top-color:var(--verm)}
-.step.hot .s-en{color:var(--ink)}
-.step.hot .s-jp::after{
-  content:'CORE';font-size:10px;letter-spacing:.25em;color:var(--paper);
-  background:var(--verm);padding:3px 8px;margin-left:14px;vertical-align:middle;
-  font-family:var(--sans);font-weight:700;border-radius:2px;
+[data-theme="light"] {
+  --bg-primary: #f6f5f1;
+  --bg-secondary: #ecebe6;
+  --bg-card: #e5e4de;
+  --text-primary: #121214;
+  --text-secondary: rgba(18, 18, 20, 0.68);
+  --text-tertiary: rgba(18, 18, 20, 0.48);
+  --text-subtle: rgba(18, 18, 20, 0.32);
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --border-medium: rgba(0, 0, 0, 0.16);
+  --border-hover: rgba(0, 0, 0, 0.35);
+  --pill-bg: rgba(0, 0, 0, 0.06);
+  --pill-hover: rgba(0, 0, 0, 0.12);
 }
 
-/* ============ SPECS (THE LEDGER) ============ */
-.specs{padding:0 var(--gx) 150px}
-.specstage{height:46vh;position:relative}
-.ruler{
-  position:absolute;left:4%;right:4%;top:64%;height:1px;background:var(--ink);
-  opacity:0;transform:translateY(16px);
-  transition:opacity .8s ease,transform .8s cubic-bezier(.16,1,.3,1);
-}
-.ruler.on{opacity:1;transform:none}
-.ruler::before,.ruler::after{content:'';position:absolute;top:-9px;width:1px;height:19px;background:var(--ink)}
-.ruler::before{left:0}.ruler::after{right:0}
-.ruler span{
-  position:absolute;left:50%;top:-38px;transform:translateX(-50%);white-space:nowrap;
-  font-size:10.5px;letter-spacing:.32em;text-transform:uppercase;color:var(--ink2);
-  background:var(--paper);padding:0 18px;
-}
-.ruler span b{font-family:var(--serif);font-size:16px;color:var(--ink);letter-spacing:.06em;font-weight:700}
-.ledger{max-width:800px;margin:0 auto}
-.lrow{display:flex;align-items:baseline;gap:18px;padding:19px 0;border-bottom:1px solid var(--line)}
-.lrow .lt{font-family:var(--serif);font-weight:700;font-size:17px;white-space:nowrap}
-.lrow .lt i{
-  font-style:normal;display:block;font-family:var(--sans);font-weight:500;
-  font-size:9.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink2);
-}
-.lrow .ld{flex:1;border-bottom:1px dotted rgba(25,23,18,.35);transform:translateY(-5px)}
-.lrow .lv{font-family:var(--serif);font-size:18px;font-weight:600;white-space:nowrap}
-.snote{
-  max-width:800px;margin:36px auto 0;font-size:13px;color:var(--ink2);
-  font-style:normal;border-left:2px solid var(--verm);padding-left:18px;
+/* Base resets */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-/* ============ COMMISSION (INQUIRY) ============ */
-.commission{
-  padding:160px var(--gx) 120px;border-top:1px solid var(--line);
-  background:linear-gradient(var(--paper),var(--paper2));
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
-.c-grid{
-  display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,7vw,120px);
-  max-width:1200px;margin:0 auto;align-items:start;
-}
-.c-left p.pitch{color:var(--ink2);margin:26px 0 40px;max-width:440px}
-.c-facts{border-top:1px solid var(--line)}
-.c-facts div{
-  display:flex;justify-content:space-between;gap:20px;padding:14px 0;
-  border-bottom:1px solid var(--line);font-size:13px;
-}
-.c-facts dt{color:var(--ink2);letter-spacing:.14em;text-transform:uppercase;font-size:10px;padding-top:3px}
-.c-facts dd{font-family:var(--serif);font-weight:600;text-align:right}
-.c-form .fld{margin-bottom:28px;position:relative}
-.c-form label{display:block;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink2);margin-bottom:8px}
-.c-form input,.c-form select,.c-form textarea{
-  width:100%;background:transparent;border:0;border-bottom:1px solid var(--line);
-  padding:10px 2px;font-family:var(--serif);font-size:17px;color:var(--ink);
-  transition:border-color .3s;border-radius:0;
-}
-.c-form textarea{resize:vertical;min-height:96px}
-.c-form input:focus,.c-form select:focus,.c-form textarea:focus{outline:none;border-color:var(--ink)}
-.c-form .err{
-  position:absolute;right:0;top:0;font-size:10px;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--verm);opacity:0;transition:opacity .3s;
-}
-.c-form .fld.bad .err{opacity:1}
-.c-form .fld.bad input,.c-form .fld.bad textarea{border-color:var(--verm)}
-.selwrap{position:relative}
-.selwrap select{appearance:none;cursor:pointer}
-.selwrap::after{
-  content:'';position:absolute;right:6px;top:50%;width:8px;height:8px;
-  border-right:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);
-  transform:translateY(-70%) rotate(45deg);pointer-events:none;
-}
-.c-note{font-size:12px;color:var(--ink2);margin:6px 0 28px}
-.c-note b{color:var(--verm);font-weight:600}
 
-/* ============ FOOTER / TOAST ============ */
-footer{
-  position:relative;z-index:10;border-top:1px solid var(--line);padding:34px var(--gx);
-  display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;background:var(--paper2);
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+  position: relative;
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
-footer .fbrand{font-family:var(--serif);font-weight:700;letter-spacing:.12em}
-footer nav{display:flex;gap:26px}
-footer nav a{color:var(--ink2);text-decoration:none;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;transition:color .3s}
-footer nav a:hover{color:var(--verm)}
-footer .credit{font-size:10.5px;color:var(--ink2);letter-spacing:.08em}
-.toast{
-  position:fixed;left:50%;bottom:34px;transform:translate(-50%,80px);z-index:90;
-  background:var(--ink);color:var(--paper);padding:16px 26px;font-size:13px;
-  letter-spacing:.06em;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%);
-  opacity:0;transition:.5s cubic-bezier(.16,1,.3,1);pointer-events:none;max-width:90vw;
-}
-.toast.show{transform:translate(-50%,0);opacity:1}
-.toast b{color:#e8a795;font-family:var(--serif);margin-right:10px}
 
-/* ============ RESPONSIVE ============ */
-@media(max-width:1060px){
-  .anatomy .pin{grid-template-columns:260px 1fr 310px}
-  .nlinks{gap:18px}
+/* Subtle editorial grain overlay */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
-@media(max-width:920px){
-  .nlinks{display:none}
-  .burger{display:block}
-  .hero{align-items:flex-end;padding-bottom:150px}
-  .hero-copy{max-width:100%}
-  .vside{display:none}
-  .anatomy{height:auto;padding:110px var(--gx) 90px}
-  .anatomy .pin{position:static;height:auto;display:block;padding:0}
-  .a-mid{display:none}
-  .a-left h2{margin-bottom:26px}
-  .a-right{margin-top:44px}
-  .detail{border-left:0;border-top:1px solid var(--line);padding:26px 0 0;min-height:0}
-  .step{grid-template-columns:90px 1fr}
-  .step:nth-child(even){transform:none}
-  .c-grid{grid-template-columns:1fr}
-  .specstage{height:36vh}
+
+a {
+  color: inherit;
+  text-decoration: none;
 }
-@media(max-width:560px){
-  .step{grid-template-columns:1fr;gap:12px}
-  .lrow .lv{font-size:15px}
-  .lrow .lt{font-size:14px}
-  .w-grid{grid-template-columns:1fr}
+
+button {
+  background: none;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  color: inherit;
 }
-@media(prefers-reduced-motion:reduce){
-  .track{animation-duration:200s}
-  .scue .line::after{animation:none}
+
+/* ==========================================================================
+   NAVIGATION BAR
+   ========================================================================== */
+.site-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  padding: 24px var(--gutter);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(8, 8, 10, 0.45);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  transition: all 0.3s ease;
+}
+
+[data-theme="light"] .site-nav {
+  background: rgba(246, 245, 241, 0.65);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: #ffffff;
+  color: #08080a;
+  border-radius: 4px;
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: -0.02em;
+  transition: transform 0.2s ease;
+}
+
+.brand-badge:hover {
+  transform: scale(1.06);
+}
+
+.brand-title {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+
+.nav-center {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.nav-link {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  transition: color 0.2s ease, opacity 0.2s ease;
+  position: relative;
+  padding: 4px 0;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--text-primary);
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.nav-email {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  transition: opacity 0.2s ease;
+}
+
+.nav-email:hover {
+  opacity: 0.75;
+}
+
+.theme-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: var(--text-primary);
+  opacity: 0.85;
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+
+.theme-toggle-btn:hover {
+  transform: rotate(20deg);
+  opacity: 1;
+}
+
+.hero-section,
+.case-studies-section,
+.testimonials-section,
+.services-section,
+.site-footer {
+  scroll-margin-top: 90px;
+}
+
+.hero-section {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 130px var(--gutter) 60px;
+  background-image: url('assets/portfolio/black_silk_bg.jpg');
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+[data-theme="light"] .hero-section {
+  background-blend-mode: luminosity;
+  background-color: #f2f1ec;
+  filter: contrast(0.9) brightness(1.1);
+}
+
+/* Subtle dark gradient overlay to give depth and perfect contrast */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 45%, rgba(8, 8, 10, 0.2) 0%, rgba(8, 8, 10, 0.78) 85%);
+  pointer-events: none;
+}
+
+[data-theme="light"] .hero-overlay {
+  background: radial-gradient(circle at 50% 45%, rgba(246, 245, 241, 0.4) 0%, rgba(246, 245, 241, 0.85) 85%);
+}
+
+.hero-meta-row {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.profile-avatar {
+  width: 54px;
+  height: 54px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease;
+}
+
+.profile-card:hover .profile-avatar {
+  transform: scale(1.05);
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.profile-name {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.profile-tag {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.status-card {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.status-headline {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.status-folio {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+/* Giant Center Headline with Liquid Chrome J */
+.hero-center-typography {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 40px auto auto;
+  text-align: left;
+  user-select: none;
+}
+
+.headline-text {
+  font-family: var(--font-serif);
+  font-size: clamp(52px, 9.8vw, 138px);
+  font-weight: 400;
+  line-height: 0.94;
+  letter-spacing: -0.025em;
+  color: #ffffff;
+  display: block;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="light"] .headline-text {
+  color: #121214;
+  text-shadow: 0 4px 30px rgba(255, 255, 255, 0.4);
+}
+
+.headline-row-top {
+  display: block;
+  position: relative;
+  z-index: 12;
+}
+
+.headline-row-bottom {
+  display: block;
+  position: relative;
+  z-index: 12;
+  margin-top: -0.05em;
+}
+
+/* Chrome 'J' Sculptural Element */
+.chrome-j-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 49.5%;
+  transform: translate(-50%, -46%);
+  width: clamp(160px, 22vw, 310px);
+  height: clamp(220px, 30vw, 420px);
+  z-index: 11;
+  pointer-events: none;
+  transition: transform 0.2s ease-out;
+}
+
+.chrome-j-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 25px 45px rgba(0, 0, 0, 0.85));
+  animation: chromeFloat 6s ease-in-out infinite alternate;
+}
+
+[data-theme="light"] .chrome-j-img {
+  filter: drop-shadow(0 15px 30px rgba(0,0,0,0.15));
+}
+
+@keyframes chromeFloat {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-12px) rotate(0.6deg);
+  }
+}
+
+.hero-scroll-indicator {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 30px auto 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.scroll-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: var(--pill-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  color: var(--text-secondary);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  transition: all 0.2s ease;
+}
+
+.scroll-pill:hover {
+  background: var(--pill-hover);
+  color: var(--text-primary);
+}
+
+/* ==========================================================================
+   SELECTED CASE STUDIES — ASYMMETRIC BENTO EDITORIAL GRID
+   ========================================================================== */
+.case-studies-section {
+  position: relative;
+  z-index: 20;
+  padding: 100px var(--gutter) 80px;
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+.section-headline {
+  font-family: var(--font-serif);
+  font-size: clamp(34px, 4.6vw, 62px);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin-bottom: 56px;
+}
+
+.case-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+.case-row {
+  display: grid;
+  gap: 36px;
+  align-items: start;
+}
+
+/* Row 1: Left Wide (63%), Right Narrow (37%) */
+.case-row-1 {
+  grid-template-columns: 1.62fr 1fr;
+}
+
+/* Row 2: Left Medium (46%), Right Medium-Wide (54%) */
+.case-row-2 {
+  grid-template-columns: 1fr 1.18fr;
+}
+
+/* Row 3: Left Narrow (37%), Right Wide (63%) */
+.case-row-3 {
+  grid-template-columns: 1fr 1.62fr;
+}
+
+/* Row 4: Left Wide (60%), Right Narrow (40%) */
+.case-row-4 {
+  grid-template-columns: 1.5fr 1fr;
+}
+
+/* Project Card Structure */
+.project-card {
+  display: block;
+  group: true;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.card-media-wrap {
+  position: relative;
+  width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  transition: transform 0.4s var(--transition-smooth), border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.project-card:hover .card-media-wrap {
+  transform: translateY(-4px);
+  border-color: var(--border-hover);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+}
+
+.card-media-wrap img,
+.card-media-wrap video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s var(--transition-smooth);
+}
+
+.project-card:hover .card-media-wrap img,
+.project-card:hover .card-media-wrap video {
+  transform: scale(1.025);
+}
+
+/* Specific Height Ratios to Match Reference */
+.height-tall {
+  height: clamp(380px, 38vw, 540px);
+}
+
+.height-medium {
+  height: clamp(320px, 32vw, 450px);
+}
+
+.height-compact {
+  height: clamp(280px, 28vw, 400px);
+}
+
+.height-square {
+  aspect-ratio: 1 / 1;
+}
+
+/* Badges on Cards */
+.badge-save {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #e60023;
+  color: #ffffff;
+  padding: 5px 12px;
+  border-radius: 18px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  box-shadow: 0 4px 14px rgba(230, 0, 35, 0.4);
+  transition: transform 0.2s ease;
+}
+
+.badge-save:hover {
+  transform: scale(1.05);
+}
+
+.badge-save svg {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
+}
+
+.badge-pill-right {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 5;
+  background: rgba(10, 10, 14, 0.7);
+  backdrop-filter: blur(8px);
+  color: #ffffff;
+  padding: 5px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Typography below Cards */
+.card-content {
+  margin-top: 18px;
+}
+
+.project-title {
+  font-family: var(--font-serif);
+  font-size: clamp(20px, 2vw, 27px);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  transition: color 0.2s ease;
+}
+
+.project-card:hover .project-title {
+  color: #ffffff;
+}
+
+.project-tags {
+  font-size: 13.5px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  letter-spacing: 0.01em;
+}
+
+/* ==========================================================================
+   WHAT CLIENTS SAY — TESTIMONIALS SLIDER SECTION
+   ========================================================================== */
+.testimonials-section {
+  position: relative;
+  z-index: 20;
+  max-width: var(--container-max);
+  margin: 100px auto 0;
+  padding: 80px var(--gutter) 100px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.35fr;
+  gap: clamp(36px, 6vw, 90px);
+  align-items: start;
+}
+
+.testimonials-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.testimonials-title {
+  font-family: var(--font-serif);
+  font-size: clamp(36px, 4.4vw, 56px);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+}
+
+.testimonials-desc {
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  max-width: 380px;
+}
+
+/* Right Testimonial Active Display */
+.testimonials-right {
+  display: flex;
+  flex-direction: column;
+}
+
+.client-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.client-photo-wrap {
+  width: 130px;
+  height: 130px;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+  background-color: var(--bg-card);
+}
+
+.client-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%);
+  transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+.client-meta-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.client-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.client-role {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.client-counter {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-top: 14px;
+  letter-spacing: 0.08em;
+}
+
+/* Carousel Arrow Controls */
+.testimonial-nav-arrows {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.arrow-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 38px;
+  border-radius: 19px;
+  background: var(--pill-bg);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  font-size: 17px;
+  transition: all 0.2s ease;
+}
+
+.arrow-btn:hover {
+  background: var(--pill-hover);
+  border-color: var(--border-medium);
+  transform: translateY(-1px);
+}
+
+.testimonial-quote-box {
+  position: relative;
+  min-height: 160px;
+}
+
+.testimonial-quote {
+  font-size: clamp(22px, 2.4vw, 32px);
+  font-weight: 500;
+  line-height: 1.38;
+  color: var(--text-primary);
+  letter-spacing: -0.015em;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* ==========================================================================
+   SERVICES & CAPABILITIES
+   ========================================================================== */
+.services-section {
+  position: relative;
+  z-index: 20;
+  max-width: var(--container-max);
+  margin: 60px auto 0;
+  padding: 80px var(--gutter) 60px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.services-list {
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+}
+
+.service-item {
+  display: grid;
+  grid-template-columns: 80px 1.4fr 2fr;
+  align-items: baseline;
+  padding: 32px 0;
+  border-bottom: 1px solid var(--border-subtle);
+  transition: border-color 0.2s ease;
+}
+
+.service-item:hover {
+  border-color: var(--border-medium);
+}
+
+.service-num {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+
+.service-name {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.service-desc {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   FOOTER & DIRECT CONTACT
+   ========================================================================== */
+.site-footer {
+  position: relative;
+  z-index: 20;
+  padding: 100px var(--gutter) 60px;
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.footer-inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+.footer-cta {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 70px;
+}
+
+.footer-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.footer-big-link {
+  font-family: var(--font-serif);
+  font-size: clamp(34px, 6.2vw, 84px);
+  font-weight: 400;
+  line-height: 1.05;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  transition: opacity 0.2s ease;
+  display: inline-block;
+}
+
+.footer-big-link:hover {
+  opacity: 0.7;
+}
+
+.footer-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.cta-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border-radius: 30px;
+  background: #ffffff;
+  color: #08080a;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cta-pill-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.25);
+}
+
+.secondary-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border-radius: 30px;
+  background: var(--pill-bg);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  transition: all 0.2s ease;
+}
+
+.secondary-pill-btn:hover {
+  background: var(--pill-hover);
+  border-color: var(--border-medium);
+  transform: translateY(-2px);
+}
+
+.footer-bottom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 50px;
+  border-top: 1px solid var(--border-subtle);
+  font-size: 12px;
+  color: var(--text-tertiary);
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-socials {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.footer-social-link {
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color 0.2s ease;
+}
+
+.footer-social-link:hover {
+  color: var(--text-primary);
+}
+
+/* ==========================================================================
+   RESPONSIVE MEDIA QUERIES
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .case-row-1,
+  .case-row-2,
+  .case-row-3,
+  .case-row-4 {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  
+  .height-tall,
+  .height-medium,
+  .height-compact {
+    height: 400px;
+  }
+
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .service-item {
+    grid-template-columns: 60px 1fr;
+    row-gap: 12px;
+  }
+
+  .service-desc {
+    grid-column: 2 / -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .site-nav {
+    padding: 16px 20px;
+  }
+
+  .nav-center {
+    display: none;
+  }
+
+  .hero-section {
+    padding: 110px 20px 40px;
+  }
+
+  .chrome-j-wrapper {
+    width: 160px;
+    height: 220px;
+    left: 55%;
+  }
+
+  .headline-text {
+    font-size: 58px;
+  }
+
+  .height-tall,
+  .height-medium,
+  .height-compact {
+    height: 290px;
+  }
+
+  .client-meta-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .testimonial-quote {
+    font-size: 20px;
+  }
+
+  .footer-bottom-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 </style>
 </head>
 <body>
 
-<!-- LOADER -->
-<div class="loader" id="loader">
-  <div class="lk"><span>JA</span></div>
-  <div class="ln"><i></i></div>
-  <p>Jahanzaib Ahmad — UI/UX Designer & Product Craftsman</p>
-</div>
+<div class="grain-overlay" aria-hidden="true"></div>
 
-<!-- 3D STAGE -->
-<canvas id="stage"></canvas>
+<!-- ==========================================================================
+     NAVIGATION BAR
+     ========================================================================== -->
+<header class="site-nav">
+  <div class="nav-left">
+    <div class="brand-badge">J</div>
+    <span class="brand-title">BRANDING</span>
+  </div>
 
-<!-- NAV -->
-<header class="nav" id="nav">
-  <a class="brand" href="#top">
-    <span class="hanko">JA</span>
-    <span class="bname">JAHANZAIB<small>UI/UX & Product Designer</small></span>
-  </a>
-  <nav class="nlinks">
-    <a href="#works" data-spy="works">Works</a>
-    <a href="#disciplines" data-spy="disciplines">Craft</a>
-    <a href="#process" data-spy="process">Process</a>
-    <a href="#specs" data-spy="specs">Standards</a>
-    <a href="#commission" data-spy="commission">Inquiry</a>
-    <a href="./generator.html" target="_blank" rel="noopener" style="color:var(--verm);font-weight:700">AI Studio</a>
+  <nav class="nav-center">
+    <a href="#hero" class="nav-link active">INDEX</a>
+    <a href="#work" class="nav-link">WORK</a>
+    <a href="#about" class="nav-link">ABOUT</a>
+    <a href="#services" class="nav-link">SERVICES</a>
   </nav>
-  <button class="burger" id="burger" aria-label="Open menu"><span></span><span></span></button>
+
+  <div class="nav-right">
+    <a href="mailto:ahmadjahanzaib313@gmail.com" class="nav-email">HELLO@JAHANZAIB.DESIGN</a>
+    <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle theme">
+      <svg id="themeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+    </button>
+  </div>
 </header>
-<div class="mmenu" id="mmenu">
-  <a href="#works">Works</a>
-  <a href="#disciplines">Craft</a>
-  <a href="#process">Process</a>
-  <a href="#specs">Standards</a>
-  <a href="#commission">Inquiry</a>
-  <a href="./generator.html" target="_blank" rel="noopener" style="color:var(--verm)">AI Studio</a>
-</div>
 
-<main>
-<!-- ============ HERO ============ -->
-<section class="hero" id="top">
-  <div class="hero-copy">
-    <p class="overline rv">Senior UI/UX Designer & Product Craftsman · Available Worldwide</p>
-    <h1 class="hero-title">
-      <span class="rl"><span>interfaces forged with</span></span>
-      <span class="rl"><span>the precision of</span></span>
-      <span class="rl"><span class="hollow">folded steel<svg viewBox="0 0 300 24" preserveAspectRatio="none"><path pathLength="1" d="M4,18 C60,4 180,2 296,11"/></svg></span></span>
+<!-- ==========================================================================
+     HERO SECTION
+     ========================================================================== -->
+<section class="hero-section" id="hero">
+  <div class="hero-overlay" aria-hidden="true"></div>
+
+  <!-- Top Hero Metadata Badges -->
+  <div class="hero-meta-row">
+    <div class="profile-card">
+      <img src="assets/portfolio/jahanzaib_avatar.jpg" alt="Jahanzaib Ahmad" class="profile-avatar">
+      <div class="profile-info">
+        <span class="profile-name">Jahanzaib Ahmad</span>
+        <span class="profile-tag">BASED IN PAKISTAN</span>
+      </div>
+    </div>
+
+    <div class="status-card">
+      <span class="status-headline">Working Globally</span>
+      <span class="status-folio">FOLIO 26/27</span>
+    </div>
+  </div>
+
+  <!-- Center Typography with 3D Chrome Liquid 'J' -->
+  <div class="hero-center-typography">
+    <div class="chrome-j-wrapper" id="chromeJ">
+      <img src="assets/portfolio/chrome_liquid_j.png" alt="Sculptural Chrome J" class="chrome-j-img">
+    </div>
+    
+    <h1 class="headline-text">
+      <span class="headline-row-top">Senior Freelance</span>
+      <span class="headline-row-bottom">Designer</span>
     </h1>
-    <p class="hero-sub rv" style="--d:.55s">Senior UI/UX Designer and Product Craftsman specializing in mobile applications, FinTech platforms, design systems, and high-performance interactive web products. Translating complex business logic into intuitive, pixel-perfect digital experiences.</p>
-    <div class="hero-cta rv" style="--d:.7s">
-      <a class="btn" href="#works">Explore Selected Works
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M2 8l5 5 5-5" stroke="currentColor" stroke-width="1.5"/></svg>
+  </div>
+
+  <!-- Hero Bottom Scroll Indicator -->
+  <div class="hero-scroll-indicator">
+    <span class="scroll-pill">
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <polyline points="19 12 12 19 5 12"></polyline>
+      </svg>
+      EXPLORE ARCHIVE
+    </span>
+    <span>CREATIVE TECHNOLOGIST & FOUNDER</span>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     SELECTED CASE STUDIES SECTION
+     ========================================================================== -->
+<section class="case-studies-section" id="work">
+  <h2 class="section-headline">Selected Case Studies</h2>
+
+  <div class="case-grid">
+
+    <!-- ================= ROW 1 ================= -->
+    <div class="case-row case-row-1">
+      
+      <!-- Card 1: ADRAMP (AI Marketing Platform) -->
+      <a href="adramp.html" class="project-card">
+        <div class="card-media-wrap height-tall">
+          <span class="badge-save">
+            <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345-.09.375-.291 1.199-.334 1.365-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.546.535 6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/></svg>
+            Save
+          </span>
+          <span class="badge-pill-right">Live System</span>
+          <img src="assets/portfolio/card_adramp_crest.jpg" alt="ADRAMP Cybernetic Division Brand & Platform" loading="lazy">
+        </div>
+        <div class="card-content">
+          <h3 class="project-title">ADRAMP</h3>
+          <p class="project-tags">Interactive, UX/UI, Information Design</p>
+        </div>
       </a>
-      <a class="tlink" href="#commission">Commission a Project
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg>
+
+      <!-- Card 2: OPTIONS FUNDING (Fintech Trading Platform) -->
+      <a href="options-funding.html" class="project-card">
+        <div class="card-media-wrap height-compact">
+          <span class="badge-pill-right">FinTech</span>
+          <img src="assets/portfolio/card_options_phone.jpg" alt="Options Funding Mobile Platform" loading="lazy">
+        </div>
+        <div class="card-content">
+          <h3 class="project-title">OPTIONS FUNDING</h3>
+          <p class="project-tags">Brand, Product, Web</p>
+        </div>
       </a>
+
     </div>
-  </div>
-  <div class="vside">Design & Technical Precision<span class="sq"></span></div>
-  <div class="scue"><span class="line"></span>scroll</div>
-  <div class="marquee"><div class="track" id="mtrack">
-    <span class="mi"><span class="en">Mobile App UI/UX (iOS & Android)</span></span>
-    <span class="mi"><span class="en">FinTech & Prop Trading Platforms</span></span>
-    <span class="mi"><span class="en">Figma Auto-Layout & Design Tokens</span></span>
-    <span class="mi"><span class="en">Interactive Micro-Prototypes</span></span>
-    <span class="mi"><span class="en">60–120 FPS Fluid Motion</span></span>
-    <span class="mi"><span class="en">3D Glassmorphism & WebGL</span></span>
-    <span class="mi"><span class="en">High-Density SaaS Dashboards</span></span>
-    <span class="mi"><span class="en">Clean Production Web Engineering</span></span>
-  </div></div>
-</section>
 
-<!-- ============ WORKS (MASTERPIECES) ============ -->
-<section class="works" id="works">
-  <div class="w-head">
-    <p class="overline rv">Masterpieces & Selected Case Studies</p>
-    <h2 class="rv" style="--d:.1s">Forged in Figma.<br>Finished in code.</h2>
-    <p class="rv" style="--d:.18s;color:var(--ink2);margin-top:14px;max-width:560px">A curated collection of bespoke FinTech platforms, mobile applications, design systems, and high-performance interactive web products crafted for discerning international clients.</p>
-  </div>
-  <div class="w-grid">
+    <!-- ================= ROW 2 ================= -->
+    <div class="case-row case-row-2">
+      
+      <!-- Card 3: KATANAPAY (Fintech Identity) -->
+      <a href="delvedeep.html" class="project-card">
+        <div class="card-media-wrap height-medium">
+          <span class="badge-save">
+            <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345-.09.375-.291 1.199-.334 1.365-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.546.535 6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/></svg>
+            Save
+          </span>
+          <img src="assets/portfolio/card_waving_flag.jpg" alt="KatanaPay High-Performance Fabric Brand" loading="lazy">
+        </div>
+        <div class="card-content">
+          <h3 class="project-title">KATANAPAY</h3>
+          <p class="project-tags">Brand, Identity, Guidelines</p>
+        </div>
+      </a>
 
-    <!-- Card 1: OPTIONS FUNDING (Featured Co-Hero Flagship) -->
-    <article class="card featured rv">
-      <div>
-        <div class="card-top">
-          <span class="c-badge">Featured Flagship · FinTech Platform</span>
+      <!-- Card 4: JEMIMAH BARNETT / AURELINE (Luxury Atelier) -->
+      <a href="delvedeep.html" class="project-card">
+        <div class="card-media-wrap height-tall">
+          <span class="badge-pill-right">Editorial</span>
+          <img src="assets/portfolio/card_aureline_web.jpg" alt="Jemimah Barnett Luxury Editorial Web Platform" loading="lazy">
         </div>
-        <h3>OPTIONS FUNDING — Institutional Prop Trading Firm</h3>
-        <p>Comprehensive institutional options funding and evaluation firm platform. Engineered with dynamic founding trader programs, interactive capital tier calculator, real-time consistency rule engine, dark-mode Bloomberg-grade trading terminal aesthetic, and instant payout metrics.</p>
-        <div class="c-tags">
-          <span class="c-tag">Figma UI/UX</span>
-          <span class="c-tag">FinTech Platform</span>
-          <span class="c-tag">Interactive Calculator</span>
-          <span class="c-tag">Rules Engine</span>
-          <span class="c-tag">Tailwind CSS</span>
-          <span class="c-tag">Responsive Web</span>
+        <div class="card-content">
+          <h3 class="project-title">JEMIMAH BARNETT</h3>
+          <p class="project-tags">Brand, Campaign, Web</p>
         </div>
-      </div>
-      <div class="card-actions">
-        <a class="card-btn" href="./options-funding.html" target="_blank" rel="noopener">
-          <span>Launch Experience</span>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/></svg>
-        </a>
-        <button class="preview-btn" type="button" data-preview="./options-funding.html" data-title="OPTIONS FUNDING — Institutional Prop Trading Firm">
-          <span>Preview</span>
-          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.3"/><polygon points="6,5 10,7 6,9" fill="currentColor"/></svg>
-        </button>
-      </div>
-    </article>
+      </a>
 
-    <!-- Card 2: HINA NIGHTLIFE & SAFETY COMPANION (20-Screen Interactive Prototype) -->
-    <article class="card featured rv">
-      <div>
-        <div class="card-top">
-          <span class="c-badge" style="background:rgba(47,99,85,0.14);color:#2F6355;border:1px solid rgba(47,99,85,0.35);font-weight:700;">Featured Mobile UX · 20-Screen Interactive Prototype</span>
-        </div>
-        <h3>HINA — Nightlife Companion & Safety Buddy System</h3>
-        <p>Comprehensive 20-screen mobile application and interactive prototype covering the complete Happy Path and every edge-case detour. Features a live dual-mode simulator (single-phone interactive player + full architectural 20-screen grid), working 4-digit verification keypad, live SVG countdown grace timer, QR buddy pairing, club partner discovery, and simulated emergency response.</p>
-        <div class="c-tags">
-          <span class="c-tag">20-Screen Prototype</span>
-          <span class="c-tag">Interactive Phone Simulator</span>
-          <span class="c-tag">Mobile UI/UX (iOS & Android)</span>
-          <span class="c-tag">State Machine</span>
-          <span class="c-tag">Tactile Web Audio</span>
-          <span class="c-tag">Design System Tokens</span>
-        </div>
-      </div>
-      <div class="card-actions">
-        <a class="card-btn" href="./hina-prototype.html" target="_blank" rel="noopener">
-          <span>Launch Experience</span>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/></svg>
-        </a>
-        <button class="preview-btn" type="button" data-preview="./hina-prototype.html" data-title="HINA — 20-Screen Interactive Mobile Prototype">
-          <span>Preview</span>
-          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.3"/><polygon points="6,5 10,7 6,9" fill="currentColor"/></svg>
-        </button>
-      </div>
-    </article>
+    </div>
 
-    <!-- Card: KLAVIYO EMAIL DESIGN STUDIO (Agency Deliverable) -->
-    <article class="card rv">
-      <div>
-        <div class="card-top">
-          <span class="c-badge" style="background:rgba(212,175,55,0.14);color:#b08d4b;border:1px solid rgba(212,175,55,0.35);font-weight:700;">Agency Showcase · Klaviyo Email System</span>
+    <!-- ================= ROW 3 ================= -->
+    <div class="case-row case-row-3">
+      
+      <!-- Card 5: HINA SAFETY (Mobile App / Metallic Foil) -->
+      <a href="hina-prototype.html" class="project-card">
+        <div class="card-media-wrap height-compact">
+          <span class="badge-pill-right">Mobile App</span>
+          <img src="assets/portfolio/card_purple_foil.jpg" alt="HINA Nightlife Safety System" loading="lazy">
         </div>
-        <h3>VERDANT BOTANICALS — Klaviyo Email Design Studio</h3>
-        <p>A production-ready e-commerce newsletter design system and interactive workbench built to strict 600px desktop grid and 390px mobile wrap standards. Features live device viewport switcher, Apple Mail vs. Gmail dark-mode contrast simulator, Figma auto-layout spec overlays, and dynamic Klaviyo merge tag logic.</p>
-        <div class="c-tags">
-          <span class="c-tag">Klaviyo Architecture</span>
-          <span class="c-tag">600px Responsive Grid</span>
-          <span class="c-tag">Dark Mode Simulator</span>
-          <span class="c-tag">Figma Spec Overlays</span>
-          <span class="c-tag">Dynamic Merge Tags</span>
-          <span class="c-tag">Zero-Asset Design</span>
+        <div class="card-content">
+          <h3 class="project-title">HINA SAFETY</h3>
+          <p class="project-tags">Marketing, UI/UX, Web</p>
         </div>
-      </div>
-      <div class="card-actions">
-        <a class="card-btn" href="./email-template-demo.html" target="_blank" rel="noopener">
-          <span>Launch Experience</span>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/></svg>
-        </a>
-        <button class="preview-btn" type="button" data-preview="./email-template-demo.html" data-title="KLAVIYO EMAIL STUDIO — Verdant Botanicals">
-          <span>Preview</span>
-          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.3"/><polygon points="6,5 10,7 6,9" fill="currentColor"/></svg>
-        </button>
-      </div>
-    </article>
+      </a>
 
-    <!-- Card 5: THE ANATOMY OF A SUIT (Co-Flagship Scrollytelling) -->
-    <article class="card featured rv">
-      <div>
-        <div class="card-top">
-          <span class="c-badge" style="background:rgba(198,163,92,0.18);color:#96772f;border:1px solid rgba(198,163,92,0.45);font-weight:600;">Co-Flagship Masterwork · 535-Frame Photorealistic CGI</span>
+      <!-- Card 6: BUFFET BOX (Artisan Gourmet E-Commerce) -->
+      <a href="meridian.html" class="project-card">
+        <div class="card-media-wrap height-tall">
+          <span class="badge-pill-right">E-Commerce</span>
+          <img src="assets/portfolio/card_buffet_box.jpg" alt="Buffet Box Artisan Packaging & Web Platform" loading="lazy">
         </div>
-        <h3>The Anatomy of a Suit — Bespoke Atelier</h3>
-        <p>An ultra-luxury cinematic scrollytelling masterwork inspired by Savile Row ateliers. Features a 535-frame photorealistic CGI sequence scrubbed via GSAP ScrollTrigger and Lenis across seven anatomical movements: Egyptian poplin foundation, Como silk waistcoat, hand-padded full horsehair canvas, sharp architectural cut, living drape, 4-man Mayfair colour procession, and macro working surgeon's cuffs. Includes procedural Web Audio cello soundscape and private fitting booking drawer.</p>
-        <div class="c-tags">
-          <span class="c-tag">535-Frame CGI Sequence</span>
-          <span class="c-tag">GSAP ScrollTrigger Scrub</span>
-          <span class="c-tag">Lenis Momentum</span>
-          <span class="c-tag">Web Audio Cello Drone</span>
-          <span class="c-tag">Interactive Booking Drawer</span>
-          <span class="c-tag">Savile Row Noir</span>
+        <div class="card-content">
+          <h3 class="project-title">BUFFET BOX</h3>
+          <p class="project-tags">Marketing, Campaign, Web</p>
         </div>
-      </div>
-      <div class="card-actions">
-        <a class="card-btn" href="./anatomy-suit.html" target="_blank" rel="noopener">
-          <span>Launch Experience</span>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/></svg>
-        </a>
-        <button class="preview-btn" type="button" data-preview="./anatomy-suit.html" data-title="THE ANATOMY OF A SUIT — Bespoke Atelier">
-          <span>Preview</span>
-          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.3"/><polygon points="6,5 10,7 6,9" fill="currentColor"/></svg>
-        </button>
-      </div>
-    </article>
+      </a>
 
-    <!-- Card 6: AURELINE (Co-Flagship Haute Horlogerie) -->
-    <article class="card rv">
-      <div>
-        <div class="card-top">
-          <span class="c-badge">Haute Horlogerie · Flying Tourbillon 3D</span>
-        </div>
-        <h3>AURELINE — Méridienne · Calibre AL-01</h3>
-        <p>The Méridienne — a flying-tourbillon wristwatch told in five scroll-driven acts. Features custom procedural studio HDRi lighting via PMREM, Geneva-striped mainplate with 6h tourbillon aperture, continuous hairspring tube geometry, live local-time Dauphine hands, 208-part exploded view with dynamically projected SVG leader lines, and dramatic daylight-to-obsidian cinematic transitions.</p>
-        <div class="c-tags">
-          <span class="c-tag">Three.js</span>
-          <span class="c-tag">Flying Tourbillon</span>
-          <span class="c-tag">GSAP ScrollTrigger</span>
-          <span class="c-tag">Lenis Smooth Scroll</span>
-          <span class="c-tag">208-Part Exploded View</span>
-        </div>
-      </div>
-      <div class="card-actions">
-        <a class="card-btn" href="./aureline.html" target="_blank" rel="noopener">
-          <span>Launch Experience</span>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/></svg>
-        </a>
-        <button class="preview-btn" type="button" data-preview="./aureline.html" data-title="AURELINE — Méridienne · Calibre AL-01">
-          <span>Preview</span>
-          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.3"/><polygon points="6,5 10,7 6,9" fill="currentColor"/></svg>
-        </button>
-      </div>
-    </article>
+    </div>
 
-    <!-- Card: LORÉN (Haute Parfumerie Paris) -->
-    <article class="card rv">
-      <div>
-        <div class="card-top">
-          <span class="c-badge" style="background:rgba(201,170,118,0.18);color:#b89d6e;border:1px solid rgba(201,170,118,0.45);font-weight:700;">Haute Parfumerie · Quiet Luxury E-Commerce</span>
+    <!-- ================= ROW 4 ================= -->
+    <div class="case-row case-row-4">
+      
+      <!-- Card 7: DELVEDEEP RETREAT SANCTUARY -->
+      <a href="delvedeep.html" class="project-card">
+        <div class="card-media-wrap height-medium">
+          <span class="badge-pill-right">Hospitality</span>
+          <img src="delvedeep_sanctuary_preview.png" alt="DelveDeep Sanctuary Luxury Retreat Platform" loading="lazy">
         </div>
-        <h3>LORÉN — Haute Parfumerie Paris</h3>
-        <p>A masterclass in quiet luxury, olfactory atmosphere, and digital restraint inspired by French artisanal perfumery in Grasse. Features the "Iris Noir" editorial chapter, tactile brand manifesto, 5-fragrance permanent collection with notes hierarchy, and an interactive "Ritual" micro-mist guide with slide-over private bag drawer.</p>
-        <div class="c-tags">
-          <span class="c-tag">Quiet Luxury</span>
-          <span class="c-tag">Haute Parfumerie</span>
-          <span class="c-tag">Editorial Typography</span>
-          <span class="c-tag">Interactive Scent Finder</span>
-          <span class="c-tag">Slide-Over Cart Drawer</span>
-          <span class="c-tag">DTC E-Commerce</span>
+        <div class="card-content">
+          <h3 class="project-title">DELVEDEEP SANCTUARY</h3>
+          <p class="project-tags">Brand, Identity, Kajabi Checkout</p>
         </div>
-      </div>
-      <div class="card-actions">
-        <a class="card-btn" href="./loren.html" target="_blank" rel="noopener">
-          <span>Launch Experience</span>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/></svg>
-        </a>
-        <button class="preview-btn" type="button" data-preview="./loren.html" data-title="LORÉN — Haute Parfumerie Paris">
-          <span>Preview</span>
-          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.3"/><polygon points="6,5 10,7 6,9" fill="currentColor"/></svg>
-        </button>
-      </div>
-    </article>
+      </a>
 
-    <!-- Card: PRYSMCLOUD -->
-    <article class="card rv">
-      <div>
-        <div class="card-top">
-          <span class="c-badge">Tokenized Markets & Web3 Platform</span>
+      <!-- Card 8: LÉMAN HAUTE HORLOGERIE -->
+      <a href="leman.html" class="project-card">
+        <div class="card-media-wrap height-compact">
+          <span class="badge-pill-right">Haute Horlogerie</span>
+          <img src="assets/leman/leman-modern-watch-hero-poster.jpg" alt="Léman Modern Watch Haute Horlogerie 3D Platform" loading="lazy">
         </div>
-        <h3>PrysmCloud — Tokenized Markets & Launchpad</h3>
-        <p>Institutional Web3 workspace and Pons V2 launchpad on Robinhood Chain. Features real-time tokenized-stock liquidity pool inspection, registered asset quote-pair verification, simulated launch choreography, and verified receipt provenance.</p>
-        <div class="c-tags">
-          <span class="c-tag">Web3 UI/UX</span>
-          <span class="c-tag">Robinhood Chain</span>
-          <span class="c-tag">Pons V2 Protocol</span>
-          <span class="c-tag">Tokenized Markets</span>
-          <span class="c-tag">Interactive Platform</span>
+        <div class="card-content">
+          <h3 class="project-title">LÉMAN GENÈVE</h3>
+          <p class="project-tags">Digital Atelier, Interactive 3D, Web</p>
         </div>
-      </div>
-      <div class="card-actions">
-        <a class="card-btn" href="./prysmcloud.html" target="_blank" rel="noopener">
-          <span>Launch Experience</span>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/></svg>
-        </a>
-        <button class="preview-btn" type="button" data-preview="./prysmcloud.html" data-title="PrysmCloud — Tokenized Markets & Launchpad">
-          <span>Preview</span>
-          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.3"/><polygon points="6,5 10,7 6,9" fill="currentColor"/></svg>
-        </button>
-      </div>
-    </article>
+      </a>
 
-    <!-- Card 8: ASAGIRI -->
-    <article class="card rv">
-      <div>
-        <div class="card-top">
-          <span class="c-badge">Flagship 3D Showcase</span>
-        </div>
-        <h3>ASAGIRI — Hand-Forged Katana 3D</h3>
-        <p>A daylight WebGL single-file masterpiece. Features 100% procedural katana geometry (sori, shinogi, kissaki), live GPU martensite crystal hamon shader injected via onBeforeCompile, instanced aerodynamic sakura physics, and interactive anatomy inspection.</p>
-        <div class="c-tags">
-          <span class="c-tag">Three.js</span>
-          <span class="c-tag">Procedural Katana</span>
-          <span class="c-tag">Live Hamon Shader</span>
-          <span class="c-tag">Sakura Particles</span>
-        </div>
-      </div>
-      <div class="card-actions">
-        <a class="card-btn" href="./asagiri.html" target="_blank" rel="noopener">
-          <span>Launch Experience</span>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/></svg>
-        </a>
-        <button class="preview-btn" type="button" data-preview="./asagiri.html" data-title="ASAGIRI — Hand-Forged Katana 3D">
-          <span>Preview</span>
-          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.3"/><polygon points="6,5 10,7 6,9" fill="currentColor"/></svg>
-        </button>
-      </div>
-    </article>
-
-    <!-- Card 9: MIDDAY -->
-    <article class="card rv">
-      <div>
-        <div class="card-top">
-          <span class="c-badge">Editorial Studio</span>
-        </div>
-        <h3>MIDDAY® — Human-Centred Design</h3>
-        <p>Warm editorial agency platform featuring interactive 3D still-life in Three.js, GSAP ScrollTrigger, Lenis smooth scrolling, pinned velocity-skew gallery, and accessible case study modal.</p>
-        <div class="c-tags">
-          <span class="c-tag">GSAP</span>
-          <span class="c-tag">Lenis</span>
-          <span class="c-tag">3D Still-Life</span>
-          <span class="c-tag">Editorial Typography</span>
-        </div>
-      </div>
-      <div class="card-actions">
-        <a class="card-btn" href="./midday.html" target="_blank" rel="noopener">
-          <span>Launch Experience</span>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/></svg>
-        </a>
-        <button class="preview-btn" type="button" data-preview="./midday.html" data-title="MIDDAY® — Human-Centred Design">
-          <span>Preview</span>
-          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.3"/><polygon points="6,5 10,7 6,9" fill="currentColor"/></svg>
-        </button>
-      </div>
-    </article>
-
-    <!-- Card 10: VELA ARMON -->
-    <article class="card rv">
-      <div>
-        <div class="card-top">
-          <span class="c-badge">Cinematic Web Agency</span>
-        </div>
-        <h3>VELA ARMON — A Web Agency for Luxury Spaces</h3>
-        <p>Exclusive digital spaces for residences, horology, yachts and aviation. Features five procedural canvas atmospheres (overture cloud descent, golden penthouse, living mechanical horology movement, sunset yacht marina, and runway jet departure), generative Web Audio soundscape, inquiry drawer, and 13.9vh GSAP scrub timeline.</p>
-        <div class="c-tags">
-          <span class="c-tag">Procedural Canvas Engines</span>
-          <span class="c-tag">GSAP ScrollTrigger</span>
-          <span class="c-tag">Lenis Momentum</span>
-          <span class="c-tag">Web Audio Soundscape</span>
-        </div>
-      </div>
-      <div class="card-actions">
-        <a class="card-btn" href="./vela-armon.html" target="_blank" rel="noopener">
-          <span>Launch Experience</span>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/></svg>
-        </a>
-        <button class="preview-btn" type="button" data-preview="./vela-armon.html" data-title="VELA ARMON — A Web Agency for Luxury Spaces">
-          <span>Preview</span>
-          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.3"/><polygon points="6,5 10,7 6,9" fill="currentColor"/></svg>
-        </button>
-      </div>
-    </article>
-
-    <!-- Card: USEPAID -->
-    <article class="card rv">
-      <div>
-        <div class="card-top">
-          <span class="c-badge">FinTech & Creator Monetization</span>
-        </div>
-        <h3>UsePaid — Route Token Creator Fees Through X Money</h3>
-        <p>Next-generation creator fee settlement and payout routing platform. Automatically claims on-chain token fees from protocols, converts them to USD, and routes transparent creator payouts directly through X Money with public on-chain verification.</p>
-        <div class="c-tags">
-          <span class="c-tag">FinTech UI/UX</span>
-          <span class="c-tag">X Money Integration</span>
-          <span class="c-tag">Creator Economy</span>
-          <span class="c-tag">Dark Mode UI</span>
-          <span class="c-tag">Real-Time Payouts</span>
-        </div>
-      </div>
-      <div class="card-actions">
-        <a class="card-btn" href="./usepaid.html" target="_blank" rel="noopener">
-          <span>Launch Experience</span>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/></svg>
-        </a>
-        <button class="preview-btn" type="button" data-preview="./usepaid.html" data-title="UsePaid — Route Token Creator Fees Through X Money">
-          <span>Preview</span>
-          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.3"/><polygon points="6,5 10,7 6,9" fill="currentColor"/></svg>
-        </button>
-      </div>
-    </article>
-
-    <!-- Card 12: AUREUM -->
-    <article class="card rv">
-      <div>
-        <div class="card-top">
-          <span class="c-badge">Luxury Atelier</span>
-        </div>
-        <h3>AUREUM — Crafted Excellence</h3>
-        <p>Ultra-luxury design studio site with interactive copper torus knot in Three.js, floating celestial orbs, RoomEnvironment PBR, particle field, and Lucide iconography.</p>
-        <div class="c-tags">
-          <span class="c-tag">Three.js</span>
-          <span class="c-tag">PBR Copper</span>
-          <span class="c-tag">Tailwind CSS</span>
-          <span class="c-tag">Lucide</span>
-        </div>
-      </div>
-      <div class="card-actions">
-        <a class="card-btn" href="./index.html" target="_blank" rel="noopener">
-          <span>Launch Experience</span>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/></svg>
-        </a>
-        <button class="preview-btn" type="button" data-preview="./index.html" data-title="AUREUM — Crafted Excellence">
-          <span>Preview</span>
-          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.3"/><polygon points="6,5 10,7 6,9" fill="currentColor"/></svg>
-        </button>
-      </div>
-    </article>
-
-    <!-- Card: DELVEDEEP -->
-    <article class="card rv">
-      <div>
-        <div class="card-top">
-          <span class="c-badge">Wellness & Hospitality · Kajabi E-Commerce</span>
-        </div>
-        <h3>DelveDeep — Luxury Wellness Retreat & Kajabi Checkout</h3>
-        <p>Polished luxury retreat landing page for DelveDeep.com featuring an intimate 6-day transformative wellness journey in Costa Rica. Engineered with dynamic room selection (Private Master Suites, Shared Haven, Solo Casitas), real-time availability counters, deposit vs. pay-in-full calculator, guest registration form, pre-filled Kajabi checkout routing, and instant booking confirmation preview.</p>
-        <div class="c-tags">
-          <span class="c-tag">Kajabi Integration</span>
-          <span class="c-tag">Room Selector</span>
-          <span class="c-tag">High-Converting UX</span>
-          <span class="c-tag">Booking Engine</span>
-          <span class="c-tag">Mobile Responsive</span>
-        </div>
-      </div>
-      <div class="card-actions">
-        <a class="card-btn" href="./delvedeep.html" target="_blank" rel="noopener">
-          <span>Launch Experience</span>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/></svg>
-        </a>
-        <button class="preview-btn" type="button" data-preview="./delvedeep.html" data-title="DelveDeep — Luxury Wellness Retreat & Kajabi Checkout">
-          <span>Preview</span>
-          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.3"/><polygon points="6,5 10,7 6,9" fill="currentColor"/></svg>
-        </button>
-      </div>
-    </article>
+    </div>
 
   </div>
 </section>
 
-<!-- ============ ANATOMY (DISCIPLINES) ============ -->
-<section class="anatomy" id="disciplines">
-  <div class="pin">
-    <div class="a-left">
-      <p class="overline rv">Core Disciplines & Technical Capabilities</p>
-      <h2 class="rv" style="--d:.1s">Anatomy of<br>modern craft.</h2>
-      <p class="rv" style="--d:.18s;font-size:12.5px;color:var(--ink2);margin-top:6px">Select a discipline — the artisan sculpture will rotate to reveal its dimension.</p>
-      <div class="parts rv" id="parts" style="--d:.25s"></div>
+<!-- ==========================================================================
+     WHAT CLIENTS SAY — TESTIMONIALS SECTION
+     ========================================================================== -->
+<section class="testimonials-section" id="about">
+  <div class="testimonials-grid">
+    
+    <!-- Left Column: Title & Description -->
+    <div class="testimonials-left">
+      <h2 class="testimonials-title">What Clients Say</h2>
+      <p class="testimonials-desc">Honest feedback from clients who trusted the process and saw the results firsthand.</p>
     </div>
-    <div class="a-mid"></div>
-    <div class="a-right">
-      <div class="detail" id="detail">
-        <div class="d-name"><h3 id="dName">Mobile & Web UI/UX</h3><span class="d-romaji" id="dRomaji">Product Architecture</span></div>
-        <p class="d-desc" id="dDesc">Crafting intuitive user journeys, wireframes, and high-fidelity mobile (iOS & Android) and web interfaces. Grounded in human cognitive patterns, ergonomic touch targets, and conversion-focused UX design.</p>
-        <div class="d-nav">
-          <button id="dPrev" aria-label="Previous discipline"><svg width="15" height="15" viewBox="0 0 14 14" fill="none"><path d="M13 7H1M6 2 1 7l5 5" stroke="currentColor" stroke-width="1.5"/></svg></button>
-          <span id="dIdx">01 / 06</span>
-          <button id="dNext" aria-label="Next discipline"><svg width="15" height="15" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg></button>
+
+    <!-- Right Column: Interactive Testimonial Slider -->
+    <div class="testimonials-right">
+      
+      <div class="client-meta-row">
+        <div class="client-photo-wrap">
+          <img src="assets/portfolio/client_morten.jpg" alt="Client Portrait" class="client-photo" id="testimonialPhoto">
+        </div>
+        <div class="client-meta-info">
+          <span class="client-name" id="testimonialName">Morten Virik</span>
+          <span class="client-role" id="testimonialRole">FOUNDER , MEMENTOR AS</span>
+          <span class="client-counter" id="testimonialCounter">01 / 03</span>
         </div>
       </div>
+
+      <div class="testimonial-nav-arrows">
+        <button class="arrow-btn" id="prevTestimonial" aria-label="Previous Testimonial">←</button>
+        <button class="arrow-btn" id="nextTestimonial" aria-label="Next Testimonial">→</button>
+      </div>
+
+      <div class="testimonial-quote-box">
+        <blockquote class="testimonial-quote" id="testimonialQuote">
+          “Working with Jahanzaib felt less like commissioning a designer and more like gaining a creative partner. He understood not just how something should look, but how high-conversion platforms actually drive business value.”
+        </blockquote>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ==========================================================================
+     SERVICES SECTION
+     ========================================================================== -->
+<section class="services-section" id="services">
+  <h2 class="section-headline">Capabilities & Focus</h2>
+
+  <div class="services-list">
+    <div class="service-item">
+      <span class="service-num">01</span>
+      <h3 class="service-name">Design Systems</h3>
+      <p class="service-desc">Architecting robust design tokens, Figma component libraries, responsive grid topologies, and high-fidelity prototypes that scale effortlessly from startup to enterprise.</p>
+    </div>
+
+    <div class="service-item">
+      <span class="service-num">02</span>
+      <h3 class="service-name">High-Conversion Web</h3>
+      <p class="service-desc">Engineering bespoke editorial web applications, Kajabi custom checkouts, Webflow/Next.js architectures, and sub-second load time landing platforms tuned for ROI.</p>
+    </div>
+
+    <div class="service-item">
+      <span class="service-num">03</span>
+      <h3 class="service-name">Brand & 3D WebGL</h3>
+      <p class="service-desc">Sculpting distinctive brand positioning, custom typography, 3D CGI product renders, interactive Three.js/WebGL showcases, and memorable visual languages.</p>
+    </div>
+
+    <div class="service-item">
+      <span class="service-num">04</span>
+      <h3 class="service-name">Mobile Products</h3>
+      <p class="service-desc">End-to-end iOS & Android mobile product design, micro-interactions, haptic feedback design, and mission-critical safety companion platforms like HINA.</p>
     </div>
   </div>
 </section>
 
-<!-- ============ FORGE (THE PROCESS) ============ -->
-<section class="forge" id="process">
-  <span class="wm">UX</span>
-  <div class="f-head">
-    <p class="overline rv">Design Methodology & Engineering Process</p>
-    <h2 class="rv" style="--d:.1s">Conceived in research,<br>forged in Figma & code.</h2>
-  </div>
-  <div class="steps">
-    <article class="step rv"><div class="s-num">01</div><div>
-      <h3 class="s-jp">Discovery & Product Strategy</h3>
-      <p>Every breakthrough digital product begins with deep exploration. Unearthing business requirements, user mental models, competitive positioning, and core conversion metrics before moving a single pixel.</p>
-    </div></article>
-    <article class="step rv"><div class="s-num">02</div><div>
-      <h3 class="s-jp">Wireframing & Information Architecture</h3>
-      <p>Structuring intuitive user flows, interaction hierarchies, and low-fidelity prototypes. Validating core ergonomics and eliminating cognitive friction across mobile and desktop viewport sizes.</p>
-    </div></article>
-    <article class="step rv"><div class="s-num">03</div><div>
-      <h3 class="s-jp">High-Fidelity UI & Design Systems</h3>
-      <p>Crafting pixel-perfect interface screens in Figma. Building reusable tokens, atomic components with Auto-Layout, variant states, dark & light themes, and rich responsive typography.</p>
-    </div></article>
-    <article class="step hot rv"><div class="s-num">04</div><div>
-      <h3 class="s-jp">Interactive Prototyping & Motion</h3>
-      <p>Stress-testing flows with tactile micro-interactions, spring damping curves, and multi-device usability testing. Plunging the design into real hardware limits to guarantee sub-16ms fluid response.</p>
-    </div></article>
-    <article class="step rv"><div class="s-num">05</div><div>
-      <h3 class="s-jp">Engineering Handoff & Production Polish</h3>
-      <p>Delivering meticulous developer documentation, design token exports, or production-ready frontend code (HTML5, Tailwind CSS, JS) ready for global deployment without visual regression.</p>
-    </div></article>
-  </div>
-</section>
-
-<!-- ============ SPECS (THE LEDGER) ============ -->
-<section class="specs" id="specs">
-  <div class="specstage" id="specstage">
-    <div class="ruler" id="ruler"><span>Design Standard — <b>8pt Atomic Grid</b> · 60 to 120 FPS Fluid Motion</span></div>
-  </div>
-  <p class="overline rv" style="max-width:800px;margin:0 auto 26px">Design & Technical Standards</p>
-  <div class="ledger">
-    <div class="lrow rv"><div class="lt">Design Tooling<i>Ecosystem & Software</i></div><div class="ld"></div><div class="lv">Figma (Auto-Layout 5.0, Tokens, FigJam)</div></div>
-    <div class="lrow rv"><div class="lt">Target Platforms<i>Supported Viewports</i></div><div class="ld"></div><div class="lv">iOS HIG, Android Material & Responsive Web</div></div>
-    <div class="lrow rv"><div class="lt">Grid Architecture<i>System Layout</i></div><div class="ld"></div><div class="lv">8pt Atomic Grid & Fluid Typography</div></div>
-    <div class="lrow rv"><div class="lt">Frontend Stack<i>Production Engineering</i></div><div class="ld"></div><div class="lv">Clean HTML5, Tailwind CSS, JavaScript ES6+</div></div>
-    <div class="lrow rv"><div class="lt">3D & Spatial UI<i>Aesthetics & Lighting</i></div><div class="ld"></div><div class="lv">Three.js, WebGL & Frosted Glassmorphism</div></div>
-    <div class="lrow rv"><div class="lt">Motion Standards<i>Frame Budget & Physics</i></div><div class="ld"></div><div class="lv">60–120 FPS / &lt;16.6ms Spring Damping</div></div>
-    <div class="lrow rv"><div class="lt">Accessibility<i>Compliance & Ergonomics</i></div><div class="ld"></div><div class="lv">WCAG 2.1 AA Compliant & Touch Ergonomics</div></div>
-    <div class="lrow rv"><div class="lt">Handoff Deliverables<i>Production Output</i></div><div class="ld"></div><div class="lv">Figma Component Libraries & Clean Code</div></div>
-  </div>
-  <p class="snote rv">Every interface is benchmarked across real mobile devices and high-refresh desktop displays. Software should feel deliberate, intuitive, and as refined as hand-forged steel.</p>
-</section>
-
-<!-- ============ COMMISSION (INQUIRY) ============ -->
-<section class="commission" id="commission">
-  <div class="c-grid">
-    <div class="c-left">
-      <p class="overline rv">Project Inquiry & Commission</p>
-      <h2 class="rv" style="--d:.1s">Let's build<br>something iconic.</h2>
-      <p class="pitch rv" style="--d:.18s">I partner with forward-thinking founders, FinTech companies, and international design teams looking for world-class mobile apps, design systems, and high-performance web products that stand out in crowded markets.</p>
-      <dl class="c-facts rv" style="--d:.26s">
-        <div><dt>Designer</dt><dd>Jahanzaib Ahmad</dd></div>
-        <div><dt>Location</dt><dd>Worldwide Remote</dd></div>
-        <div><dt>Response time</dt><dd>Within 24 hours</dd></div>
-        <div><dt>Core focus</dt><dd>Mobile UI/UX · FinTech · Design Systems</dd></div>
-        <div><dt>Status</dt><dd>Available for International Projects</dd></div>
-      </dl>
+<!-- ==========================================================================
+     FOOTER & CONTACT
+     ========================================================================== -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    
+    <div class="footer-cta">
+      <span class="footer-label">HAVE A VISION IN MIND?</span>
+      <a href="mailto:ahmadjahanzaib313@gmail.com" class="footer-big-link">Let’s build something extraordinary.</a>
+      
+      <div class="footer-action-row">
+        <a href="mailto:ahmadjahanzaib313@gmail.com" class="cta-pill-btn">
+          <span>Start a Project</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+        </a>
+        <a href="https://wa.me/923000000000" target="_blank" rel="noopener" class="secondary-pill-btn">
+          <span>WhatsApp Quick Chat</span>
+        </a>
+        <a href="Jahanzaib_Ahmad_CV.pdf" download class="secondary-pill-btn">
+          <span>Download CV / Resume</span>
+        </a>
+      </div>
     </div>
-    <form class="c-form rv" id="cform" novalidate style="--d:.2s">
-      <div class="fld" id="fName">
-        <label for="inName">Your name or company</label>
-        <input id="inName" type="text" autocomplete="name" placeholder="—">
-        <span class="err">Required</span>
-      </div>
-      <div class="fld" id="fMail">
-        <label for="inMail">Email address</label>
-        <input id="inMail" type="email" autocomplete="email" placeholder="—">
-        <span class="err">A valid address, please</span>
-      </div>
-      <div class="fld">
-        <label for="inIntent">Project Scope</label>
-        <div class="selwrap">
-          <select id="inIntent">
-            <option>Mobile App UI/UX Design (iOS & Android)</option>
-            <option>FinTech / SaaS Platform & Dashboard Design</option>
-            <option>Complete Figma Design System Architecture</option>
-            <option>Interactive Web Development & 3D Prototyping</option>
-            <option>End-to-End Product Design & Frontend Build</option>
-          </select>
-        </div>
-      </div>
-      <div class="fld" id="fMsg">
-        <label for="inMsg">Project brief / goals</label>
-        <textarea id="inMsg" placeholder="Describe your vision, target audience, timeline, or key deliverables…"></textarea>
-        <span class="err">A few words at least</span>
-      </div>
-      <p class="c-note">Direct consultations can be scheduled via video call. Inquiries receive an initial architecture review within 24 hours.</p>
-      <button class="btn" type="submit">Send Inquiry to Jahanzaib
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg>
-      </button>
-    </form>
-  </div>
-</section>
-</main>
 
-<footer>
-  <span class="fbrand">JAHANZAIB AHMAD <span style="color:var(--verm)">·</span> Senior UI/UX</span>
-  <nav>
-    <a href="#top">Top</a>
-    <a href="#works">Works</a>
-    <a href="#disciplines">Craft</a>
-    <a href="#process">Process</a>
-    <a href="#specs">Standards</a>
-    <a href="#commission">Inquiry</a>
-    <a href="https://github.com/jahanzaibahmad630-bit" target="_blank" rel="noopener">GitHub</a>
-  </nav>
-  <span class="credit">© 2026 Jahanzaib Ahmad · Senior UI/UX Designer & Product Craftsman</span>
+    <div class="footer-bottom-row">
+      <span>© 2026 Jahanzaib Ahmad. All rights reserved. Based in Pakistan — Working Globally.</span>
+      
+      <div class="footer-socials">
+        <a href="https://linkedin.com" target="_blank" rel="noopener" class="footer-social-link">LinkedIn</a>
+        <a href="https://github.com" target="_blank" rel="noopener" class="footer-social-link">GitHub</a>
+        <a href="https://x.com" target="_blank" rel="noopener" class="footer-social-link">X / Twitter</a>
+        <a href="adramp.html" class="footer-social-link">AdRamp</a>
+      </div>
+    </div>
+
+  </div>
 </footer>
 
-<div class="toast" id="toast" role="status"></div>
+<!-- ==========================================================================
+     INTERACTIVE LOGIC (TESTIMONIALS SLIDER, PARALLAX, THEME TOGGLE)
+     ========================================================================== -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
 
-<!-- ============ PROJECT PREVIEW MODAL ============ -->
-<div class="preview-modal" id="pModal" aria-hidden="true">
-  <div class="p-backdrop" id="pClose"></div>
-  <div class="p-box">
-    <header class="p-header">
-      <div class="p-title-wrap">
-        <span class="p-badge">Live Experience</span>
-        <h4 id="pModalTitle">AURELINE — Méridienne · Calibre AL-01</h4>
-      </div>
-      <div class="p-ctrls">
-        <a class="p-ext-btn" id="pExtLink" href="./aureline.html" target="_blank" rel="noopener" title="Open in new window">
-          <span>New Tab</span>
-          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/></svg>
-        </a>
-        <button class="p-x-btn" id="pModalClose" type="button" aria-label="Close Preview">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.5"/></svg>
-        </button>
-      </div>
-    </header>
-    <div class="p-frame-wrap">
-      <iframe id="pIframe" src="" title="Project Live Preview" loading="lazy" allow="accelerometer; autoplay; encrypted-media; gyroscope"></iframe>
-    </div>
-  </div>
-</div>
-
-<script type="module">
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
-
-/* ================================================================
-   UTILITIES
-================================================================ */
-const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
-const lerp=(a,b,t)=>a+(b-a)*t;
-const sstep=(a,b,x)=>{x=clamp((x-a)/(b-a),0,1);return x*x*(3-2*x)};
-const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-/* ================================================================
-   PROCEDURAL TEXTURES (Zero External Asset Overhead)
-================================================================ */
-function skyTexture(){
-  const c=document.createElement('canvas');c.width=32;c.height=256;const x=c.getContext('2d');
-  const g=x.createLinearGradient(0,0,0,256);
-  g.addColorStop(0,'#9ebfdc');
-  g.addColorStop(.38,'#e7ebd8');
-  g.addColorStop(.70,'#f3ebd4');
-  g.addColorStop(1,'#ccbd99');
-  x.fillStyle=g;x.fillRect(0,0,32,256);
-  const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t;
-}
-
-function washiTexture(){
-  const c=document.createElement('canvas');c.width=256;c.height=256;const x=c.getContext('2d');
-  x.fillStyle='#f5f1e7';x.fillRect(0,0,256,256);
-  for(let i=0;i<600;i++){
-    const gx=Math.random()*256, gy=Math.random()*256;
-    const len=Math.random()*16+4, ang=Math.random()*Math.PI;
-    x.strokeStyle=`rgba(160,140,110,${Math.random()*.12})`;
-    x.lineWidth=Math.random()*1.2+.3;
-    x.beginPath();x.moveTo(gx,gy);
-    x.lineTo(gx+Math.cos(ang)*len,gy+Math.sin(ang)*len);
-    x.stroke();
-  }
-  const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.colorSpace=THREE.SRGBColorSpace;return t;
-}
-
-function petalTexture(){
-  const c=document.createElement('canvas');c.width=64;c.height=64;const x=c.getContext('2d');
-  x.translate(32,30);
-  const g=x.createRadialGradient(0,-4,2,0,0,30);
-  g.addColorStop(0,'rgba(250,212,220,1)');
-  g.addColorStop(.65,'rgba(244,182,196,.95)');
-  g.addColorStop(1,'rgba(240,168,186,0)');
-  x.fillStyle=g;x.beginPath();
-  x.moveTo(0,-26);
-  x.bezierCurveTo(16,-24,22,-4,16,10);x.bezierCurveTo(13,17,7,22,3,24);
-  x.lineTo(0,19);x.lineTo(-3,24);
-  x.bezierCurveTo(-7,22,-13,17,-16,10);x.bezierCurveTo(-22,-4,-16,-24,0,-26);
-  x.fill();
-  const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t;
-}
-
-/* ================================================================
-   THREE.JS — RENDERER, DAYLIGHT SCENE & ENVIRONMENT
-================================================================ */
-const canvas=document.getElementById('stage');
-let renderer;
-try{
-  renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference:'high-performance'});
-}catch(e){ canvas.style.display='none'; }
-
-const scene=new THREE.Scene();
-const camera=new THREE.PerspectiveCamera(38,innerWidth/innerHeight,.1,60);
-camera.position.set(0,0,3.6);
-
-if(renderer){
-  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
-  renderer.setSize(innerWidth,innerHeight);
-  renderer.setClearColor(0x000000,0);
-  renderer.outputColorSpace=THREE.SRGBColorSpace;
-  renderer.toneMapping=THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure=1.04;
-
-  /* Daylight Environment Map (PMREM) */
-  (function buildEnv(){
-    const es=new THREE.Scene();
-    es.add(new THREE.Mesh(new THREE.SphereGeometry(30,24,16),
-      new THREE.MeshBasicMaterial({map:skyTexture(),side:THREE.BackSide})));
-    const sun=new THREE.Mesh(new THREE.SphereGeometry(3.2,16,16),
-      new THREE.MeshBasicMaterial({color:new THREE.Color(9.2,7.8,5.6)}));
-    sun.position.set(9,12,-8);es.add(sun);
-    const panel=(w,h,col,pos)=>{
-      const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({color:col,side:THREE.DoubleSide}));
-      m.position.copy(pos);m.lookAt(0,0,0);es.add(m);
-    };
-    panel(12,8,new THREE.Color(2.4,2.5,2.7),new THREE.Vector3(-12,6,6));
-    panel(10,6,new THREE.Color(1.7,1.45,1.1),new THREE.Vector3(11,3,7));
-    panel(16,16,new THREE.Color(.75,.62,.45),new THREE.Vector3(0,-11,0));
-    const pm=new THREE.PMREMGenerator(renderer);
-    scene.environment=pm.fromScene(es,.06).texture;
-    pm.dispose();
-  })();
-
-  const sunL=new THREE.DirectionalLight(0xfff3e0,2.4);sunL.position.set(2.4,3.6,2.8);scene.add(sunL);
-  scene.add(new THREE.HemisphereLight(0xdde8f2,0xc8be9f,.85));
-}
-
-/* ================================================================
-   PROCEDURAL 3D SCULPTURE — THE ORIGAMI CRANE OF STEEL & WASHI
-================================================================ */
-function buildOrigamiGeometry(){
-  const V = [
-    [0, 0.05, 0.48],     // 0: chest top
-    [0, -0.38, 0],       // 1: keel bottom
-    [0, 0.38, 0.88],     // 2: neck base
-    [0, 0.65, 1.24],     // 3: head/beak
-    [0, 0.28, -0.68],    // 4: tail base
-    [0, 0.68, -1.14],    // 5: tail tip
-    [-0.42, 0.12, 0],    // 6: left fold inner
-    [0.42, 0.12, 0],     // 7: right fold inner
-    [-1.42, 0.76, 0.1],  // 8: left wing tip
-    [1.42, 0.76, 0.1],   // 9: right wing tip
-    [-0.76, 0.48, 0.42], // 10: left wing shoulder
-    [0.76, 0.48, 0.42],  // 11: right wing shoulder
-    [-0.70, 0.36, -0.4], // 12: left wing rear
-    [0.70, 0.36, -0.4]   // 13: right wing rear
+  // 1. TESTIMONIAL DATA & SLIDER
+  const testimonials = [
+    {
+      photo: 'assets/portfolio/client_morten.jpg',
+      name: 'Morten Virik',
+      role: 'FOUNDER , MEMENTOR AS',
+      quote: '“Working with Jahanzaib felt less like commissioning a designer and more like gaining a creative partner. He understood not just how something should look, but how high-conversion platforms actually drive business value.”',
+      counter: '01 / 03'
+    },
+    {
+      photo: 'assets/portfolio/client_sophia.jpg',
+      name: 'Sophia Moreau',
+      role: 'MANAGING DIRECTOR , L’ÉCRIN PARIS',
+      quote: '“The attention to craft, micro-interactions, and high-fashion typographic hierarchy exceeded our highest expectations. Jahanzaib delivers world-class luxury aesthetics with engineering precision.”',
+      counter: '02 / 03'
+    },
+    {
+      photo: 'assets/portfolio/client_liam.jpg',
+      name: 'Liam Thorne',
+      role: 'FOUNDER & CEO , HORIZON QUANT',
+      quote: '“Jahanzaib completely redefined our FinTech user experience. Our customer conversion jumped 42% in the first two weeks post-launch. He is simply among the sharpest product designers in the industry.”',
+      counter: '03 / 03'
+    }
   ];
 
-  const F = [
-    // Chest
-    [0, 6, 2], [0, 2, 7], [0, 1, 6], [0, 7, 1],
-    // Neck & Head
-    [2, 6, 3], [2, 3, 7],
-    // Tail
-    [6, 4, 5], [7, 5, 4], [6, 1, 4], [7, 4, 1],
-    // Left Wing Top
-    [6, 10, 8], [6, 8, 12],
-    // Right Wing Top
-    [7, 9, 11], [7, 13, 9],
-    // Left Wing Bottom
-    [1, 8, 10], [1, 12, 8],
-    // Right Wing Bottom
-    [1, 11, 9], [1, 9, 13]
-  ];
+  let currentIdx = 0;
+  const photoEl = document.getElementById('testimonialPhoto');
+  const nameEl = document.getElementById('testimonialName');
+  const roleEl = document.getElementById('testimonialRole');
+  const counterEl = document.getElementById('testimonialCounter');
+  const quoteEl = document.getElementById('testimonialQuote');
+  const prevBtn = document.getElementById('prevTestimonial');
+  const nextBtn = document.getElementById('nextTestimonial');
 
-  const pos = [];
-  for (let i = 0; i < F.length; i++) {
-    const f = F[i];
-    for (let j = 0; j < 3; j++) {
-      pos.push(V[f[j]][0], V[f[j]][1], V[f[j]][2]);
+  function renderTestimonial(idx) {
+    quoteEl.style.opacity = '0';
+    quoteEl.style.transform = 'translateY(10px)';
+    photoEl.style.opacity = '0';
+
+    setTimeout(() => {
+      const item = testimonials[idx];
+      photoEl.src = item.photo;
+      nameEl.textContent = item.name;
+      roleEl.textContent = item.role;
+      counterEl.textContent = item.counter;
+      quoteEl.textContent = item.quote;
+
+      photoEl.style.opacity = '1';
+      quoteEl.style.opacity = '1';
+      quoteEl.style.transform = 'translateY(0)';
+    }, 200);
+  }
+
+  prevBtn.addEventListener('click', () => {
+    currentIdx = (currentIdx - 1 + testimonials.length) % testimonials.length;
+    renderTestimonial(currentIdx);
+  });
+
+  nextBtn.addEventListener('click', () => {
+    currentIdx = (currentIdx + 1) % testimonials.length;
+    renderTestimonial(currentIdx);
+  });
+
+  // 2. CHROME 'J' SUBTLE MOUSE PARALLAX EFFECT
+  const chromeJ = document.getElementById('chromeJ');
+  const heroSection = document.getElementById('hero');
+
+  heroSection.addEventListener('mousemove', (e) => {
+    const rect = heroSection.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+    if (chromeJ) {
+      chromeJ.style.transform = `translate(calc(-50% + ${x * 24}px), calc(-46% + ${y * 24}px)) rotate(${x * 4}deg)`;
     }
-  }
-
-  const geo = new THREE.BufferGeometry();
-  geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
-  geo.computeVertexNormals();
-  return geo;
-}
-
-const artifact = new THREE.Group();
-let craneMesh = null;
-let ring1 = null, ring2 = null, coreGem = null;
-const partMats = {};
-
-if(renderer){
-  const washi = washiTexture();
-
-  /* Origami Crane Wings & Body - Washi & Polished Steel */
-  partMats.crane = new THREE.MeshPhysicalMaterial({
-    color: 0xf6f3ea,
-    bumpMap: washi,
-    bumpScale: 0.25,
-    metalness: 0.35,
-    roughness: 0.38,
-    clearcoat: 0.65,
-    clearcoatRoughness: 0.3,
-    reflectivity: 0.8,
-    side: THREE.DoubleSide
   });
-  partMats.crane.emissive = new THREE.Color(0.85, 0.28, 0.15);
-  partMats.crane.emissiveIntensity = 0;
 
-  craneMesh = new THREE.Mesh(buildOrigamiGeometry(), partMats.crane);
-  artifact.add(craneMesh);
-
-  /* Gyroscopic Celestial Rings - Brushed Brass & Tamahagane */
-  const brassMat = new THREE.MeshStandardMaterial({
-    color: 0xcaa14e,
-    metalness: 0.95,
-    roughness: 0.28
-  });
-  partMats.brass = brassMat.clone();
-  partMats.brass.emissive = new THREE.Color(0.9, 0.35, 0.16);
-  partMats.brass.emissiveIntensity = 0;
-
-  ring1 = new THREE.Mesh(new THREE.TorusGeometry(1.68, 0.016, 16, 80), partMats.brass);
-  ring1.rotation.x = Math.PI / 3;
-  artifact.add(ring1);
-
-  const ironMat = new THREE.MeshStandardMaterial({
-    color: 0x2e3038,
-    metalness: 0.88,
-    roughness: 0.45
-  });
-  partMats.iron = ironMat.clone();
-  partMats.iron.emissive = new THREE.Color(0.9, 0.35, 0.16);
-  partMats.iron.emissiveIntensity = 0;
-
-  ring2 = new THREE.Mesh(new THREE.TorusGeometry(1.42, 0.012, 16, 80), partMats.iron);
-  ring2.rotation.y = Math.PI / 4;
-  ring2.rotation.x = -Math.PI / 6;
-  artifact.add(ring2);
-
-  /* Floating Cinnabar Core Seal */
-  const coreMat = new THREE.MeshPhysicalMaterial({
-    color: 0xc1391f,
-    metalness: 0.2,
-    roughness: 0.18,
-    clearcoat: 0.9,
-    clearcoatRoughness: 0.1
-  });
-  partMats.core = coreMat;
-  coreGem = new THREE.Mesh(new THREE.OctahedronGeometry(0.18, 0), coreMat);
-  coreGem.position.set(0, 0.05, 0);
-  artifact.add(coreGem);
-}
-scene.add(artifact);
-
-/* ================================================================
-   SAKURA PETALS — INSTANCED WIND-DRIFT PHYSICS
-================================================================ */
-const PETN = RM ? 0 : 26;
-let petals = null, petalData = [];
-if(renderer && PETN){
-  petals = new THREE.InstancedMesh(
-    new THREE.PlaneGeometry(.055, .055),
-    new THREE.MeshBasicMaterial({map:petalTexture(),transparent:true,depthWrite:false,side:THREE.DoubleSide,opacity:.85}),
-    PETN
-  );
-  petals.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
-  for(let i=0; i<PETN; i++){
-    petalData.push({
-      x: lerp(-1.7, 1.7, Math.random()),
-      y: lerp(-1.5, 1.6, Math.random()),
-      z: lerp(-0.6, 0.7, Math.random()),
-      ph: Math.random() * Math.PI * 2,
-      sp: lerp(0.05, 0.11, Math.random()),
-      f1: lerp(0.5, 1.1, Math.random()),
-      f2: lerp(0.6, 1.4, Math.random())
-    });
-  }
-  scene.add(petals);
-}
-const dummy = new THREE.Object3D();
-
-/* ================================================================
-   SCROLL CHOREOGRAPHY & POSITION TIMELINE
-================================================================ */
-const HERO  = { px:  1.02, py:  0.02, rx: -0.15, ry: -0.65, rz: -0.12, sc: 0.92, spin: 1 };
-const WORKS = { px: -0.75, py: -0.10, rx:  0.22, ry:  0.85, rz:  0.08, sc: 0.78, spin: 0.5 };
-const DISC1 = { px: -0.65, py:  0.00, rx:  0.05, ry: -0.45, rz:  0.02, sc: 1.15, spin: 0 };
-const DISC2 = { px: -0.65, py:  0.00, rx:  0.05, ry:  0.35, rz:  0.02, sc: 1.15, spin: 0 };
-const FORGE = { px: -0.70, py: -0.38, rx:  0.15, ry:  1.90, rz:  0.95, sc: 0.65, spin: 0.8 };
-const SPECS = { px:  0.00, py:  0.42, rx:  0.02, ry:  0.32, rz: -1.54, sc: 0.90, spin: 0 };
-const SPEC2 = { px:  0.00, py:  0.42, rx:  0.02, ry: -0.30, rz: -1.60, sc: 0.90, spin: 0 };
-const COMM  = { px:  0.00, py: -0.85, rx:  0.25, ry:  0.80, rz:  0.06, sc: 0.88, spin: 0 };
-
-let KEYS = [];
-const $ = id => document.getElementById(id);
-
-function computeKeys(){
-  const vh = innerHeight;
-  const works = $('works'), disc = $('disciplines'), forge = $('process'), specs = $('specs'), comm = $('commission');
-  if(!works || !disc || !forge || !specs || !comm) return;
-  KEYS = [
-    { y: 0, s: HERO },
-    { y: works.offsetTop, s: WORKS },
-    { y: disc.offsetTop, s: DISC1 },
-    { y: disc.offsetTop + disc.offsetHeight - vh, s: DISC2 },
-    { y: forge.offsetTop, s: FORGE },
-    { y: specs.offsetTop, s: SPECS },
-    { y: specs.offsetTop + specs.offsetHeight - vh, s: SPEC2 },
-    { y: comm.offsetTop, s: COMM }
-  ];
-}
-computeKeys();
-
-let scrollYNow = 0, spinAngle = 0, dragY = 0, dragX = 0, dragging = false;
-addEventListener('scroll', () => { scrollYNow = window.scrollY; }, { passive: true });
-
-function stateAt(sc){
-  if(!KEYS.length) return HERO;
-  if(sc <= KEYS[0].y) return KEYS[0].s;
-  if(sc >= KEYS[KEYS.length - 1].y) return KEYS[KEYS.length - 1].s;
-  let i = 0; while(i < KEYS.length - 2 && sc > KEYS[i + 1].y) i++;
-  const a = KEYS[i], b = KEYS[i + 1], t = sstep(0, 1, (sc - a.y) / Math.max(1, b.y - a.y)), o = {};
-  for(const k in a.s) o[k] = k === 'spin' ? lerp(a.s[k], b.s[k], t) : lerp(a.s[k], b.s[k], t);
-  return o;
-}
-
-/* Discipline Part Focus */
-let focusCur = { rx: 0, ry: 0, py: 0 }, focusTgt = { rx: 0, ry: 0, py: 0 };
-const matTgt = { crane: 0, brass: 0, iron: 0 };
-
-/* ================================================================
-   POINTER INTERACTIVITY — RAYCAST DRAG & INERTIA
-================================================================ */
-const ray = new THREE.Raycaster(), ndc = new THREE.Vector2(), sphere = new THREE.Sphere();
-let mx = 0, my = 0, camX = 0, camY = 0, lastX = 0, lastY = 0;
-
-addEventListener('pointermove', e => {
-  mx = (e.clientX / innerWidth) * 2 - 1;
-  my = (e.clientY / innerHeight) * 2 - 1;
-  if(dragging){
-    dragY = clamp(dragY + (e.clientX - lastX) * 0.006, -1.4, 1.4);
-    dragX = clamp(dragX + (e.clientY - lastY) * 0.004, -0.5, 0.6);
-    lastX = e.clientX; lastY = e.clientY;
-    return;
-  }
-  if(e.pointerType === 'mouse' && renderer){
-    ndc.set(mx, -my); ray.setFromCamera(ndc, camera);
-    sphere.set(artifact.position, 1.2 * artifact.scale.x);
-    document.body.classList.toggle('can-grab', ray.ray.intersectsSphere(sphere));
-  }
-});
-
-addEventListener('pointerdown', e => {
-  if(e.pointerType !== 'mouse' || e.button !== 0) return;
-  if(e.target.closest('button, a, input, select, textarea, label')) return;
-  ndc.set((e.clientX / innerWidth) * 2 - 1, -((e.clientY / innerHeight) * 2 - 1));
-  ray.setFromCamera(ndc, camera);
-  sphere.set(artifact.position, 1.2 * artifact.scale.x);
-  if(ray.ray.intersectsSphere(sphere)){
-    dragging = true; lastX = e.clientX; lastY = e.clientY;
-    document.body.classList.add('dragging');
-    e.preventDefault();
-  }
-});
-
-addEventListener('pointerup', () => {
-  dragging = false;
-  document.body.classList.remove('dragging');
-});
-
-/* ================================================================
-   ANIMATION & RENDER LOOP
-================================================================ */
-const clock = new THREE.Clock();
-const cur = { px: 1.02, py: 0.02, rx: 0, ry: 0, rz: 0, sc: 0.92 };
-
-if(renderer){
-  renderer.setAnimationLoop(() => {
-    const dt = Math.min(clock.getDelta(), 0.05);
-    const T = clock.elapsedTime;
-    const st = stateAt(scrollYNow);
-
-    spinAngle += st.spin * 0.28 * dt * (RM ? 0 : 1);
-    if(!dragging){ dragY *= 0.975; dragX *= 0.97; }
-
-    const narrow = camera.aspect < 0.85;
-    const xf = 0.45 + 0.55 * Math.min(1, camera.aspect / 1.5);
-    cur.px = lerp(cur.px, st.px * xf, 0.08);
-    cur.py = lerp(cur.py, st.py + (narrow ? 0.22 : 0), 0.08);
-    cur.rx = lerp(cur.rx, st.rx, 0.08);
-    cur.ry = lerp(cur.ry, st.ry, 0.08);
-    cur.rz = lerp(cur.rz, st.rz, 0.08);
-    cur.sc = lerp(cur.sc, st.sc * (narrow ? 0.86 : 1), 0.08);
-
-    focusCur.rx = lerp(focusCur.rx, focusTgt.rx, 0.06);
-    focusCur.ry = lerp(focusCur.ry, focusTgt.ry, 0.06);
-    focusCur.py = lerp(focusCur.py, focusTgt.py, 0.06);
-
-    artifact.position.set(cur.px, cur.py + focusCur.py + Math.sin(T * 1.2) * 0.02, 0);
-    artifact.rotation.set(cur.rx + focusCur.rx + dragX, cur.ry + focusCur.ry + spinAngle + dragY, cur.rz);
-    artifact.scale.setScalar(cur.sc);
-
-    if(ring1) { ring1.rotation.z = T * 0.35; ring1.rotation.x = Math.PI / 3 + Math.sin(T * 0.5) * 0.15; }
-    if(ring2) { ring2.rotation.z = -T * 0.45; ring2.rotation.y = Math.PI / 4 + Math.cos(T * 0.6) * 0.15; }
-    if(coreGem) { coreGem.rotation.y = T * 0.8; coreGem.rotation.x = T * 0.5; }
-
-    for(const k in matTgt){
-      const m = partMats[k];
-      if(m) m.emissiveIntensity = lerp(m.emissiveIntensity, matTgt[k], 0.08);
+  heroSection.addEventListener('mouseleave', () => {
+    if (chromeJ) {
+      chromeJ.style.transform = 'translate(-50%, -46%) rotate(0deg)';
     }
-
-    if(petals){
-      for(let i=0; i<PETN; i++){
-        const p = petalData[i];
-        p.y -= p.sp * dt;
-        if(p.y < -1.5){ p.y = 1.6; p.x = lerp(-1.7, 1.7, Math.random()); p.z = lerp(-0.6, 0.7, Math.random()); }
-        dummy.position.set(p.x + Math.sin(T * p.f1 + p.ph) * 0.09, p.y, p.z);
-        dummy.rotation.set(T * p.f1 + p.ph, T * p.f2 + p.ph * 0.7, Math.sin(T * 0.7 + p.ph) * 0.8);
-        dummy.updateMatrix();
-        petals.setMatrixAt(i, dummy.matrix);
-      }
-      petals.instanceMatrix.needsUpdate = true;
-    }
-
-    camX = lerp(camX, mx * 0.07, 0.04);
-    camY = lerp(camY, -my * 0.05, 0.04);
-    camera.position.set(camX, camY, 3.6);
-    camera.lookAt(0, 0, 0);
-    renderer.render(scene, camera);
   });
-}
 
-addEventListener('resize', () => {
-  if(!renderer) return;
-  camera.aspect = innerWidth / innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(innerWidth, innerHeight);
-  computeKeys();
-});
+  // 3. THEME TOGGLE (DARK / LIGHT)
+  const themeToggle = document.getElementById('themeToggle');
+  const htmlRoot = document.documentElement;
 
-/* ================================================================
-   DISCIPLINES — DATA & INTERACTION
-================================================================ */
-const DISCIPLINES = [
-  { en: 'Mobile & Web UI/UX', gl: 'Product Architecture',
-    desc: 'Crafting intuitive user journeys, wireframes, and high-fidelity mobile (iOS & Android) and web interfaces. Grounded in human cognitive patterns, ergonomic touch targets, and conversion-focused UX design.',
-    focus: { rx: 0.35, ry: -0.45, py: -0.15 }, mat: 'crane' },
-  { en: 'Design Systems & Figma', gl: 'Atomic Foundations',
-    desc: 'Building scalable Figma component ecosystems with Auto-Layout 5.0, design tokens, nested variant states, typography hierarchies, and bulletproof specs for seamless developer handoff.',
-    focus: { rx: 0.15, ry: 1.15, py: -0.05 }, mat: 'brass' },
-  { en: 'FinTech & Trading Terminals', gl: 'Data Density & Rules Engines',
-    desc: 'Designing institutional prop trading platforms, real-time analytics, leverage calculators, rule verification matrices, and dark-mode financial cockpits that demand zero latency and instant clarity.',
-    focus: { rx: -0.15, ry: 0.35, py: 0.1 }, mat: 'iron' },
-  { en: 'Frontend Engineering', gl: 'Production Web Craft',
-    desc: 'Translating Figma designs into pixel-faithful, responsive code using clean HTML5, modern Tailwind CSS, and vanilla ES6+. Zero asset bloat, lightning load speeds, and rock-solid cross-browser stability.',
-    focus: { rx: 0.45, ry: 0.75, py: -0.2 }, mat: 'crane' },
-  { en: '3D WebGL & Glassmorphism', gl: 'Spatial Aesthetics',
-    desc: 'Integrating Three.js procedural stages, luminous frosted glassmorphic card systems, custom 3D character iconography, and WebGL shaders that give brands an unmistakable competitive edge.',
-    focus: { rx: -0.25, ry: 1.45, py: 0.25 }, mat: 'brass' },
-  { en: 'Micro-Interactions & Motion', gl: 'Kinetic Choreography',
-    desc: 'Choreographing spring damping, haptic feedback curves, GSAP ScrollTrigger timelines, and buttery 120 FPS transitions that make every button click and scroll feel delightfully tactile.',
-    focus: { rx: 0.05, ry: -0.85, py: 0 }, mat: 'iron' }
-];
-
-const partsEl = $('parts');
-DISCIPLINES.forEach((p, i) => {
-  const b = document.createElement('button');
-  b.className = 'part';
-  b.type = 'button';
-  b.innerHTML = `<span class="p-num">0${i+1}</span><span class="p-en">${p.en}<small>${p.gl}</small></span>`;
-  b.addEventListener('click', () => selectDiscipline(i));
-  partsEl.appendChild(b);
-});
-
-let curPart = -1, discInit = false;
-const detail = $('detail');
-
-function selectDiscipline(i){
-  if(i === curPart) return;
-  curPart = i;
-  const P = DISCIPLINES[i];
-  [...partsEl.children].forEach((b, j) => b.classList.toggle('on', j === i));
-  detail.classList.add('swap');
-  setTimeout(() => {
-    if($('dKanji')) $('dKanji').textContent = '';
-    $('dName').textContent = P.en;
-    $('dRomaji').textContent = P.gl;
-    $('dDesc').textContent = P.desc;
-    $('dIdx').textContent = `0${i+1} / 0${DISCIPLINES.length}`;
-    detail.classList.remove('swap');
-  }, 200);
-
-  focusTgt = { ...P.focus };
-  for(const k in matTgt) matTgt[k] = P.mat === k ? 0.75 : 0;
-}
-
-$('dPrev').addEventListener('click', () => selectDiscipline((Math.max(0, curPart) + DISCIPLINES.length - 1) % DISCIPLINES.length));
-$('dNext').addEventListener('click', () => selectDiscipline((Math.max(-1, curPart) + 1) % DISCIPLINES.length));
-
-/* ================================================================
-   UI — NAV, SCROLL-SPY, MOBILE MENU, REVEALS, RULER, FORM, TOAST
-================================================================ */
-const nav = $('nav');
-const spyIds = ['works', 'disciplines', 'process', 'specs', 'commission'];
-const spyLinks = [...document.querySelectorAll('.nlinks a')];
-
-function spy(){
-  nav.classList.toggle('scrolled', scrollYNow > 40);
-  let act = null;
-  for(const id of spyIds){
-    const el = document.getElementById(id);
-    if(el && scrollYNow >= el.offsetTop - innerHeight * 0.45) act = id;
-  }
-  spyLinks.forEach(a => a.classList.toggle('on', a.dataset.spy === act));
-  if(act === 'disciplines' && !discInit){
-    discInit = true;
-    setTimeout(() => selectDiscipline(0), 350);
-  }
-}
-addEventListener('scroll', spy, { passive: true });
-spy();
-
-/* Mobile Menu */
-const burger = $('burger'), mmenu = $('mmenu');
-burger.addEventListener('click', () => {
-  const open = mmenu.classList.toggle('open');
-  burger.classList.toggle('open', open);
-  document.body.style.overflow = open ? 'hidden' : '';
-});
-mmenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-  mmenu.classList.remove('open');
-  burger.classList.remove('open');
-  document.body.style.overflow = '';
-}));
-
-/* Scroll Reveals */
-const ro = new IntersectionObserver(es => es.forEach(e => {
-  if(e.isIntersecting){ e.target.classList.add('in'); ro.unobserve(e.target); }
-}), { threshold: 0.15 });
-document.querySelectorAll('.rv').forEach(el => ro.observe(el));
-
-/* Ledger Ruler Observer */
-new IntersectionObserver(es => es.forEach(e => $('ruler').classList.toggle('on', e.isIntersecting)), { threshold: 0.35 })
-  .observe($('specstage'));
-
-/* Marquee Duplication for Seamless Loop */
-const mt = $('mtrack');
-if(mt) mt.innerHTML += mt.innerHTML;
-
-/* Toast System */
-let toastT;
-function toast(msg){
-  const t = $('toast');
-  t.innerHTML = msg;
-  t.classList.add('show');
-  clearTimeout(toastT);
-  toastT = setTimeout(() => t.classList.remove('show'), 4200);
-}
-
-/* Commission Form Handling */
-$('cform').addEventListener('submit', e => {
-  e.preventDefault();
-  const name = $('inName'), mail = $('inMail'), msg = $('inMsg');
-  let ok = true;
-  const mark = (fld, bad) => { $(fld).classList.toggle('bad', bad); if(bad) ok = false; };
-  mark('fName', name.value.trim().length < 2);
-  mark('fMail', !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail.value.trim()));
-  mark('fMsg', msg.value.trim().length < 5);
-  if(!ok){
-    toast('<b>Please verify: </b>Please provide your name, valid email, and a few words about your project goals.');
-    return;
-  }
-  toast('<b>Inquiry Received: </b>Your message has been received — Jahanzaib will review and reply within 24 hours.');
-  e.target.reset();
-});
-['inName', 'inMail', 'inMsg'].forEach(id => $(id).addEventListener('input', e => e.target.closest('.fld').classList.remove('bad')));
-
-/* Project Live Preview Modal */
-const pModal = $('pModal'), pIframe = $('pIframe'), pModalTitle = $('pModalTitle'), pExtLink = $('pExtLink');
-function openPreview(url, title){
-  if(!pModal || !pIframe) return;
-  pIframe.src = url;
-  if(pModalTitle) pModalTitle.textContent = title || 'Live Experience';
-  if(pExtLink) pExtLink.href = url;
-  pModal.classList.add('open');
-  pModal.setAttribute('aria-hidden', 'false');
-  document.body.style.overflow = 'hidden';
-}
-function closePreview(){
-  if(!pModal || !pIframe) return;
-  pModal.classList.remove('open');
-  pModal.setAttribute('aria-hidden', 'true');
-  document.body.style.overflow = '';
-  setTimeout(() => { if(!pModal.classList.contains('open')) pIframe.src = ''; }, 320);
-}
-document.querySelectorAll('[data-preview]').forEach(btn => {
-  btn.addEventListener('click', e => {
-    e.preventDefault();
-    openPreview(btn.dataset.preview, btn.dataset.title);
+  themeToggle.addEventListener('click', () => {
+    const currentTheme = htmlRoot.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    htmlRoot.setAttribute('data-theme', newTheme);
+    localStorage.setItem('folio-theme', newTheme);
   });
-});
-const pCloseBtn = $('pModalClose'), pBackdrop = $('pClose');
-if(pCloseBtn) pCloseBtn.addEventListener('click', closePreview);
-if(pBackdrop) pBackdrop.addEventListener('click', closePreview);
-window.addEventListener('keydown', e => {
-  if(e.key === 'Escape' && pModal && pModal.classList.contains('open')) closePreview();
-});
 
-/* Initialize first discipline */
-selectDiscipline(0);
-
-/* Loader Dismissal */
-const ready = () => {
-  computeKeys();
-  document.body.classList.add('ready');
-};
-if(document.readyState === 'complete'){
-  setTimeout(ready, 650);
-} else {
-  addEventListener('load', () => setTimeout(ready, 650));
-}
-setTimeout(ready, 2600); // safety fallback
+  const savedTheme = localStorage.getItem('folio-theme');
+  if (savedTheme) {
+    htmlRoot.setAttribute('data-theme', savedTheme);
+  }
+});
 </script>
 </body>
 </html>
