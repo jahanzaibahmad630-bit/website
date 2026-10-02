@@ -502,110 +502,6 @@
       background: #000000;
     }
 
-    .video-play-overlay {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at center, rgba(14, 18, 50, 0.4) 0%, rgba(5, 8, 30, 0.75) 100%);
-      backdrop-filter: blur(3px);
-      -webkit-backdrop-filter: blur(3px);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: opacity 0.3s ease, visibility 0.3s;
-      z-index: 5;
-    }
-
-    .video-play-overlay.hidden {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-
-    .play-circle-btn {
-      width: 86px;
-      height: 86px;
-      border-radius: 50%;
-      background: #FFFFFF;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5), 0 0 60px rgba(255, 255, 255, 0.45);
-      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s;
-      position: relative;
-    }
-
-    .play-circle-btn::before {
-      content: '';
-      position: absolute;
-      inset: -12px;
-      border-radius: 50%;
-      border: 2px solid rgba(255, 255, 255, 0.45);
-      animation: ringPulse 2.5s infinite;
-    }
-
-    @keyframes ringPulse {
-      0% { transform: scale(0.9); opacity: 0.85; }
-      50% { transform: scale(1.18); opacity: 0.15; }
-      100% { transform: scale(0.9); opacity: 0.85; }
-    }
-
-    .video-play-overlay:hover .play-circle-btn {
-      transform: scale(1.08);
-      box-shadow: 0 16px 45px rgba(0, 0, 0, 0.6), 0 0 80px rgba(255, 255, 255, 0.7);
-    }
-
-    .play-circle-btn svg {
-      width: 30px;
-      height: 30px;
-      fill: #000000;
-      margin-left: 5px;
-    }
-
-    .play-overlay-text {
-      margin-top: 20px;
-      color: #FFFFFF;
-      font-weight: 700;
-      font-size: 1.05rem;
-      letter-spacing: -0.01em;
-      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
-      background: rgba(14, 18, 50, 0.7);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      padding: 8px 20px;
-      border-radius: var(--radius-full);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .play-overlay-text .duration-tag {
-      font-family: var(--font-mono);
-      font-size: 0.82rem;
-      color: rgba(255, 255, 255, 0.7);
-      background: rgba(255, 255, 255, 0.12);
-      padding: 2px 8px;
-      border-radius: var(--radius-full);
-    }
-
-    /* Dashboard View */
-    .dashboard-view-wrap {
-      width: 100%;
-      background: #0E0F16;
-    }
-
-    .dashboard-view-wrap img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .tab-content-panel.hidden {
-      display: none !important;
-    }
-
     /* ════════════════════════════════════════════════════════════
        THE FUTURE OF MARKETING SECTION (SCREENSHOT 4 & 5)
        ════════════════════════════════════════════════════════════ */
@@ -1436,18 +1332,6 @@
       .testimonial-card {
         padding: 28px 20px;
       }
-      .play-circle-btn {
-        width: 64px;
-        height: 64px;
-      }
-      .play-circle-btn svg {
-        width: 22px;
-        height: 22px;
-      }
-      .play-overlay-text {
-        font-size: 0.88rem;
-        padding: 6px 14px;
-      }
     }
   </style>
 </head>
@@ -1560,26 +1444,19 @@
         <!-- Product Video Showcase -->
         <div id="product-demo">
           <div class="demo-window-frame">
-            <!-- Video Player View -->
+            <!-- Video Player View (Always Playing on Loop) -->
             <div class="video-view-wrap" id="panel-video">
               <video id="adramp-demo-video"
+                     autoplay
+                     loop
+                     muted
                      playsinline
-                     controls
-                     preload="metadata"
+                     preload="auto"
                      poster="assets/adramp_design/adramp-demo-poster.jpg">
                 <source src="assets/adramp_design/adramp-demo-web.mp4" type="video/mp4">
                 <source src="assets/adramp_design/adramp-demo.mp4" type="video/mp4">
                 Your browser does not support HTML5 video.
               </video>
-              <div class="video-play-overlay" id="video-play-overlay" onclick="playAdrampVideo()">
-                <div class="play-circle-btn">
-                  <svg viewBox="0 0 24 24"><polygon points="8 5 19 12 8 19 8 5"></polygon></svg>
-                </div>
-                <div class="play-overlay-text">
-                  <span>Watch AdRamp in Action</span>
-                  <span class="duration-tag">0:41</span>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -2023,30 +1900,39 @@
     }
 
     /* ════════════════════════════════════════════════════════════
-       VIDEO & DEMO INTERACTION SCRIPT
+       VIDEO AUTOPLAY & CONTINUOUS LOOP SCRIPT
        ════════════════════════════════════════════════════════════ */
     const demoVideo = document.getElementById('adramp-demo-video');
-    const demoOverlay = document.getElementById('video-play-overlay');
 
-    function playAdrampVideo() {
+    function initVideoAutoloop() {
       if (demoVideo) {
-        demoVideo.play().then(() => {
-          if (demoOverlay) demoOverlay.classList.add('hidden');
-        }).catch(err => {
-          console.warn('Playback error:', err);
-        });
+        demoVideo.muted = true;
+        demoVideo.loop = true;
+        demoVideo.playsInline = true;
+        const playPromise = demoVideo.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            // Autoplay fallback: start looping on first scroll/touch/click
+            const startPlay = () => {
+              demoVideo.play().catch(() => {});
+              window.removeEventListener('scroll', startPlay);
+              window.removeEventListener('click', startPlay);
+              window.removeEventListener('touchstart', startPlay);
+            };
+            window.addEventListener('scroll', startPlay, { once: true, passive: true });
+            window.addEventListener('click', startPlay, { once: true });
+            window.addEventListener('touchstart', startPlay, { once: true });
+          });
+        }
       }
     }
 
-    if (demoVideo && demoOverlay) {
-      demoVideo.addEventListener('play', () => demoOverlay.classList.add('hidden'));
-      demoVideo.addEventListener('pause', () => {
-        if (demoVideo.currentTime === 0 || demoVideo.ended) {
-          demoOverlay.classList.remove('hidden');
-        }
-      });
-      demoVideo.addEventListener('ended', () => demoOverlay.classList.remove('hidden'));
-    }
+    initVideoAutoloop();
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && demoVideo) {
+        demoVideo.play().catch(() => {});
+      }
+    });
 
     /* ════════════════════════════════════════════════════════════
        ADAPTIVE NAVBAR (LIGHT / DARK THEME & ACTIVE SCROLLSPY)
@@ -2114,7 +2000,10 @@
         const target = document.getElementById('product-demo');
         if (target) {
           target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          setTimeout(() => playAdrampVideo(), 600);
+          if (demoVideo) {
+            demoVideo.currentTime = 0;
+            demoVideo.play().catch(() => {});
+          }
         }
       });
     });
