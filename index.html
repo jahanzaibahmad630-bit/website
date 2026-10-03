@@ -237,29 +237,35 @@ button {
   flex-direction: column;
   justify-content: space-between;
   padding: 130px var(--gutter) 60px;
-  background-image: url('assets/portfolio/black_silk_bg.jpg');
-  background-size: cover;
-  background-position: center top;
-  background-repeat: no-repeat;
+  background: #060608;
   overflow: hidden;
 }
 
 [data-theme="light"] .hero-section {
-  background-blend-mode: luminosity;
-  background-color: #f2f1ec;
-  filter: contrast(0.9) brightness(1.1);
+  background: #f7f6f2;
+}
+
+/* Interactive WebGL Liquid Dark Silk Shader Canvas */
+.hero-liquid-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
 }
 
 /* Subtle dark gradient overlay to give depth and perfect contrast */
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 45%, rgba(8, 8, 10, 0.2) 0%, rgba(8, 8, 10, 0.78) 85%);
+  z-index: 2;
+  background: radial-gradient(circle at 50% 50%, rgba(6, 6, 8, 0.1) 0%, rgba(6, 6, 8, 0.65) 75%, rgba(6, 6, 8, 0.95) 100%);
   pointer-events: none;
 }
 
 [data-theme="light"] .hero-overlay {
-  background: radial-gradient(circle at 50% 45%, rgba(246, 245, 241, 0.4) 0%, rgba(246, 245, 241, 0.85) 85%);
+  background: radial-gradient(circle at 50% 50%, rgba(246, 245, 241, 0.15) 0%, rgba(246, 245, 241, 0.7) 75%, rgba(246, 245, 241, 0.95) 100%);
 }
 
 .hero-meta-row {
@@ -338,77 +344,137 @@ button {
   color: var(--text-tertiary);
 }
 
-/* Giant Center Headline with Liquid Chrome J */
+/* Giant Center Headline with Dynamic 3D Chrome J */
 .hero-center-typography {
   position: relative;
   z-index: 10;
   width: 100%;
   max-width: var(--container-max);
-  margin: 40px auto auto;
-  text-align: left;
+  margin: 30px auto auto;
+  text-align: center;
   user-select: none;
+  perspective: 1200px;
 }
 
 .headline-text {
   font-family: var(--font-serif);
-  font-size: clamp(52px, 9.8vw, 138px);
+  font-size: clamp(48px, 8.4vw, 126px);
   font-weight: 400;
-  line-height: 0.94;
-  letter-spacing: -0.025em;
+  line-height: 1.02;
+  letter-spacing: -0.015em;
   color: #ffffff;
-  display: block;
-  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-shadow: 0 4px 40px rgba(0, 0, 0, 0.7);
 }
 
 [data-theme="light"] .headline-text {
   color: #121214;
-  text-shadow: 0 4px 30px rgba(255, 255, 255, 0.4);
+  text-shadow: 0 4px 30px rgba(255, 255, 255, 0.5);
 }
 
 .headline-row-top {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
-  z-index: 12;
+  letter-spacing: -0.015em;
+  z-index: 10;
+}
+
+.headline-row-top span:first-child {
+  margin-right: clamp(20px, 3vw, 45px);
+}
+
+.headline-row-top span:last-child {
+  margin-left: clamp(120px, 14vw, 200px);
 }
 
 .headline-row-bottom {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
-  z-index: 12;
-  margin-top: -0.05em;
+  margin-top: -0.1em;
+  z-index: 10;
 }
 
-/* Chrome 'J' Sculptural Element */
-.chrome-j-wrapper {
+.headline-row-bottom span:first-child {
+  margin-right: clamp(35px, 4.5vw, 65px);
+}
+
+.headline-row-bottom span:last-child {
+  margin-left: clamp(100px, 12vw, 175px);
+}
+
+/* Chrome 'J' 3D Container with Mouse Physics */
+.chrome-j-container {
   position: absolute;
   top: 50%;
-  left: 49.5%;
-  transform: translate(-50%, -46%);
-  width: clamp(160px, 22vw, 310px);
-  height: clamp(220px, 30vw, 420px);
-  z-index: 11;
+  left: 50%;
+  transform: translate(-50%, -48%);
+  width: clamp(220px, 28vw, 380px);
+  height: clamp(320px, 40vw, 540px);
+  z-index: 15;
   pointer-events: none;
-  transition: transform 0.2s ease-out;
+  transform-style: preserve-3d;
+}
+
+.chrome-j-3d {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform, filter;
 }
 
 .chrome-j-img {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 25px 45px rgba(0, 0, 0, 0.85));
-  animation: chromeFloat 6s ease-in-out infinite alternate;
+  display: block;
+  filter: drop-shadow(0 30px 50px rgba(0, 0, 0, 0.95)) drop-shadow(0 10px 20px rgba(0, 0, 0, 0.7));
+  transition: filter 0.15s ease-out;
 }
 
 [data-theme="light"] .chrome-j-img {
-  filter: drop-shadow(0 15px 30px rgba(0,0,0,0.15));
+  filter: drop-shadow(0 20px 35px rgba(0, 0, 0, 0.25)) drop-shadow(0 6px 15px rgba(0, 0, 0, 0.15));
 }
 
-@keyframes chromeFloat {
-  0% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  100% {
-    transform: translateY(-12px) rotate(0.6deg);
+/* Minimalist Interactive Cursor Follower */
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background: #ffffff;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s, background-color 0.2s;
+  mix-blend-mode: difference;
+}
+
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+}
+
+@media (pointer: coarse) {
+  .cursor-dot, .cursor-ring {
+    display: none !important;
   }
 }
 
@@ -1146,6 +1212,8 @@ button {
 <body>
 
 <div class="grain-overlay" aria-hidden="true"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
 
 <!-- ==========================================================================
      NAVIGATION BAR
@@ -1177,6 +1245,8 @@ button {
      HERO SECTION
      ========================================================================== -->
 <section class="hero-section" id="hero">
+  <!-- Interactive WebGL Liquid Dark Silk Canvas -->
+  <canvas class="hero-liquid-canvas" id="heroLiquidCanvas"></canvas>
   <div class="hero-overlay" aria-hidden="true"></div>
 
   <!-- Top Hero Metadata Badges -->
@@ -1195,27 +1265,35 @@ button {
     </div>
   </div>
 
-  <!-- Center Typography with 3D Chrome Liquid 'J' -->
-  <div class="hero-center-typography">
-    <div class="chrome-j-wrapper" id="chromeJ">
-      <img src="assets/portfolio/chrome_liquid_j.png" alt="Sculptural Chrome J" class="chrome-j-img">
+  <!-- Center Typography with Dynamic 3D Chrome Liquid 'J' -->
+  <div class="hero-center-typography" id="heroTypography">
+    <div class="chrome-j-container" id="chromeJContainer">
+      <div class="chrome-j-3d" id="chromeJ3D">
+        <img src="assets/portfolio/chrome_liquid_j.png" alt="Sculptural 3D Chrome J" class="chrome-j-img" id="chromeJImg">
+      </div>
     </div>
     
     <h1 class="headline-text">
-      <span class="headline-row-top">Senior Freelance</span>
-      <span class="headline-row-bottom">Designer</span>
+      <span class="headline-row-top">
+        <span>Senior</span>
+        <span>Freelance</span>
+      </span>
+      <span class="headline-row-bottom">
+        <span>Desi</span>
+        <span>ner</span>
+      </span>
     </h1>
   </div>
 
   <!-- Hero Bottom Scroll Indicator -->
   <div class="hero-scroll-indicator">
-    <span class="scroll-pill">
-      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <a href="#work" class="scroll-pill">
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
         <line x1="12" y1="5" x2="12" y2="19"></line>
         <polyline points="19 12 12 19 5 12"></polyline>
       </svg>
       EXPLORE ARCHIVE
-    </span>
+    </a>
     <span>CREATIVE TECHNOLOGIST & FOUNDER</span>
   </div>
 </section>
@@ -1611,25 +1689,332 @@ document.addEventListener('DOMContentLoaded', () => {
     renderTestimonial(currentIdx);
   });
 
-  // 2. CHROME 'J' SUBTLE MOUSE PARALLAX EFFECT
-  const chromeJ = document.getElementById('chromeJ');
-  const heroSection = document.getElementById('hero');
+  // 2. INTERACTIVE WEBGL LIQUID DARK SILK SHADER
+  let setShaderTheme = null;
+  (function initLiquidSilkShader() {
+    const canvas = document.getElementById('heroLiquidCanvas');
+    if (!canvas) return;
+    const gl = canvas.getContext('webgl', { antialias: true, alpha: false, powerPreference: 'high-performance' });
+    if (!gl) return;
 
-  heroSection.addEventListener('mousemove', (e) => {
-    const rect = heroSection.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    const vsSource = `
+      attribute vec2 position;
+      varying vec2 vUv;
+      void main() {
+        vUv = (position + 1.0) * 0.5;
+        gl_Position = vec4(position, 0.0, 1.0);
+      }
+    `;
 
-    if (chromeJ) {
-      chromeJ.style.transform = `translate(calc(-50% + ${x * 24}px), calc(-46% + ${y * 24}px)) rotate(${x * 4}deg)`;
+    const fsSource = `
+      precision highp float;
+      uniform float uTime;
+      uniform vec2 uResolution;
+      uniform vec2 uMouse;
+      uniform vec2 uMouseVelocity;
+      uniform float uTheme; // 0.0 = dark, 1.0 = light
+      varying vec2 vUv;
+
+      float hash(vec2 p) {
+        p = fract(p * vec2(123.34, 456.21));
+        p += dot(p, p + 34.345);
+        return fract(p.x * p.y);
+      }
+
+      float noise(vec2 p) {
+        vec2 i = floor(p);
+        vec2 f = fract(p);
+        float a = hash(i);
+        float b = hash(i + vec2(1.0, 0.0));
+        float c = hash(i + vec2(0.0, 1.0));
+        float d = hash(i + vec2(1.0, 1.0));
+        vec2 u = f * f * (3.0 - 2.0 * f);
+        return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
+      }
+
+      float fbm(vec2 p) {
+        float v = 0.0;
+        float a = 0.5;
+        for (int i = 0; i < 4; i++) {
+          v += a * noise(p);
+          p *= 2.04;
+          a *= 0.5;
+        }
+        return v;
+      }
+
+      void main() {
+        vec2 uv = vUv;
+        float aspect = uResolution.x / max(1.0, uResolution.y);
+        vec2 p = (uv - 0.5) * vec2(aspect, 1.0);
+        vec2 m = (uMouse - 0.5) * vec2(aspect, 1.0);
+
+        float distToMouse = length(p - m);
+        float mouseInfluence = smoothstep(0.65, 0.0, distToMouse);
+        float mouseSpeed = length(uMouseVelocity) * 2.5;
+
+        float t = uTime * 0.18;
+        vec2 mouseRipple = (p - m) * mouseInfluence * (0.15 + mouseSpeed * 0.4);
+
+        vec2 q = vec2(
+          fbm(p * 1.8 + vec2(0.0, t * 0.8) + mouseRipple),
+          fbm(p * 1.8 + vec2(t * 0.6, 0.0) - mouseRipple)
+        );
+
+        vec2 r = vec2(
+          fbm(p * 2.2 + 2.0 * q + vec2(1.7, 9.2) + 0.15 * t),
+          fbm(p * 2.2 + 2.0 * q + vec2(8.3, 2.8) + 0.126 * t)
+        );
+
+        float f = fbm(p + 2.4 * r);
+
+        float foldHighlight = pow(clamp(f, 0.0, 1.0), 1.6) * 1.8;
+        float specularSheen = pow(clamp(fbm(p * 2.8 + r * 1.8), 0.0, 1.0), 2.2) * 1.1;
+
+        // Dark Palette
+        vec3 darkDeepVoid = vec3(0.018, 0.018, 0.024);
+        vec3 darkSilk = vec3(0.08, 0.085, 0.11);
+        vec3 darkFold = vec3(0.20, 0.21, 0.26);
+        vec3 darkSheen = vec3(0.48, 0.50, 0.58);
+        vec3 darkGlint = vec3(0.60, 0.65, 0.75) * mouseInfluence * (0.35 + mouseSpeed * 0.8);
+
+        vec3 colDark = mix(darkDeepVoid, darkSilk, clamp(f * 1.3, 0.0, 1.0));
+        colDark = mix(colDark, darkFold, clamp(foldHighlight * 0.75, 0.0, 1.0));
+        colDark += darkSheen * specularSheen * 0.45;
+        colDark += darkGlint;
+
+        // Light Palette
+        vec3 lightDeep = vec3(0.97, 0.96, 0.94);
+        vec3 lightSilk = vec3(0.92, 0.91, 0.88);
+        vec3 lightFold = vec3(0.83, 0.82, 0.78);
+        vec3 lightSheen = vec3(0.72, 0.71, 0.67);
+        vec3 lightGlint = vec3(0.60, 0.58, 0.54) * mouseInfluence * (0.3 + mouseSpeed * 0.6);
+
+        vec3 colLight = mix(lightDeep, lightSilk, clamp(f * 1.2, 0.0, 1.0));
+        colLight = mix(colLight, lightFold, clamp(foldHighlight * 0.65, 0.0, 1.0));
+        colLight -= lightSheen * specularSheen * 0.2;
+        colLight -= lightGlint;
+
+        vec3 col = mix(colDark, colLight, uTheme);
+
+        float vignette = smoothstep(1.3, 0.3, length(p));
+        if (uTheme < 0.5) {
+          col *= vignette * 0.95 + 0.05;
+        } else {
+          col = mix(col, vec3(0.97, 0.96, 0.94), (1.0 - vignette) * 0.35);
+        }
+
+        float grain = (hash(uv * uResolution.xy + uTime) - 0.5) * 0.02;
+        col += grain;
+
+        gl_FragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
+      }
+    `;
+
+    function createShader(type, src) {
+      const s = gl.createShader(type);
+      gl.shaderSource(s, src);
+      gl.compileShader(s);
+      return s;
     }
-  });
 
-  heroSection.addEventListener('mouseleave', () => {
-    if (chromeJ) {
-      chromeJ.style.transform = 'translate(-50%, -46%) rotate(0deg)';
+    const program = gl.createProgram();
+    gl.attachShader(program, createShader(gl.VERTEX_SHADER, vsSource));
+    gl.attachShader(program, createShader(gl.FRAGMENT_SHADER, fsSource));
+    gl.linkProgram(program);
+    gl.useProgram(program);
+
+    const quad = new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]);
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, quad, gl.STATIC_DRAW);
+
+    const posLoc = gl.getAttribLocation(program, 'position');
+    gl.enableVertexAttribArray(posLoc);
+    gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+
+    const uTimeLoc = gl.getUniformLocation(program, 'uTime');
+    const uResLoc = gl.getUniformLocation(program, 'uResolution');
+    const uMouseLoc = gl.getUniformLocation(program, 'uMouse');
+    const uMouseVelLoc = gl.getUniformLocation(program, 'uMouseVelocity');
+    const uThemeLoc = gl.getUniformLocation(program, 'uTheme');
+
+    let mouseX = 0.5, mouseY = 0.5;
+    let targetMouseX = 0.5, targetMouseY = 0.5;
+    let mouseVelX = 0, mouseVelY = 0;
+    let lastMouseX = 0.5, lastMouseY = 0.5;
+    let currentThemeVal = document.documentElement.getAttribute('data-theme') === 'light' ? 1.0 : 0.0;
+    let targetThemeVal = currentThemeVal;
+
+    setShaderTheme = function(isLight) {
+      targetThemeVal = isLight ? 1.0 : 0.0;
+    };
+
+    function resize() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      const w = canvas.clientWidth;
+      const h = canvas.clientHeight;
+      if (canvas.width !== Math.floor(w * dpr) || canvas.height !== Math.floor(h * dpr)) {
+        canvas.width = Math.floor(w * dpr);
+        canvas.height = Math.floor(h * dpr);
+        gl.viewport(0, 0, canvas.width, canvas.height);
+        gl.uniform2f(uResLoc, canvas.width, canvas.height);
+      }
     }
-  });
+
+    window.addEventListener('resize', resize);
+    resize();
+
+    window.addEventListener('mousemove', (e) => {
+      targetMouseX = e.clientX / window.innerWidth;
+      targetMouseY = 1.0 - (e.clientY / window.innerHeight);
+    });
+
+    let isVisible = true;
+    const observer = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+    }, { threshold: 0.05 });
+    observer.observe(document.getElementById('hero') || canvas);
+
+    let startTime = performance.now();
+    function render(now) {
+      if (!isVisible) {
+        requestAnimationFrame(render);
+        return;
+      }
+      mouseX += (targetMouseX - mouseX) * 0.08;
+      mouseY += (targetMouseY - mouseY) * 0.08;
+      mouseVelX = (mouseX - lastMouseX);
+      mouseVelY = (mouseY - lastMouseY);
+      lastMouseX = mouseX;
+      lastMouseY = mouseY;
+
+      currentThemeVal += (targetThemeVal - currentThemeVal) * 0.08;
+
+      gl.uniform1f(uTimeLoc, (now - startTime) * 0.001);
+      gl.uniform2f(uMouseLoc, mouseX, mouseY);
+      gl.uniform2f(uMouseVelLoc, mouseVelX * 30.0, mouseVelY * 30.0);
+      gl.uniform1f(uThemeLoc, currentThemeVal);
+
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
+      requestAnimationFrame(render);
+    }
+    requestAnimationFrame(render);
+  })();
+
+  // 3. DYNAMIC 3D CHROME 'J' MOUSE PHYSICS & REALISTIC REFLECTIONS
+  (function initChrome3DPhysics() {
+    const chrome3D = document.getElementById('chromeJ3D');
+    const chromeImg = document.getElementById('chromeJImg');
+    const heroSection = document.getElementById('hero');
+    if (!chrome3D || !chromeImg || !heroSection) return;
+
+    let targetRotX = 0, targetRotY = 0, targetRotZ = 0;
+    let currentRotX = 0, currentRotY = 0, currentRotZ = 0;
+
+    let targetTransX = 0, targetTransY = 0;
+    let currentTransX = 0, currentTransY = 0;
+
+    window.addEventListener('mousemove', (e) => {
+      const heroRect = heroSection.getBoundingClientRect();
+      const centerX = heroRect.left + heroRect.width * 0.5;
+      const centerY = heroRect.top + heroRect.height * 0.5;
+
+      const normX = (e.clientX - centerX) / (heroRect.width * 0.5);
+      const normY = (e.clientY - centerY) / (heroRect.height * 0.5);
+
+      // 3D Rotational physics response
+      targetRotY = normX * 24;          // Yaw: turns toward cursor
+      targetRotX = -normY * 18;         // Pitch: tilts with vertical cursor
+      targetRotZ = normX * 6.0;         // Natural roll
+
+      // Translation parallax
+      targetTransX = normX * 36;
+      targetTransY = normY * 26;
+    });
+
+    window.addEventListener('mouseleave', () => {
+      targetRotX = 0;
+      targetRotY = 0;
+      targetRotZ = 0;
+      targetTransX = 0;
+      targetTransY = 0;
+    });
+
+    let time = 0;
+    function updatePhysics() {
+      time += 0.02;
+
+      // Organic idle floating oscillation
+      const idleRotX = Math.sin(time * 0.8) * 2.5;
+      const idleRotY = Math.cos(time * 0.7) * 3.0;
+      const idleTransY = Math.sin(time * 1.2) * 8.0;
+
+      // Spring damping lerp (0.08 factor provides weighted metallic inertia)
+      currentRotX += ((targetRotX + idleRotX) - currentRotX) * 0.08;
+      currentRotY += ((targetRotY + idleRotY) - currentRotY) * 0.08;
+      currentRotZ += (targetRotZ - currentRotZ) * 0.08;
+
+      currentTransX += (targetTransX - currentTransX) * 0.08;
+      currentTransY += ((targetTransY + idleTransY) - currentTransY) * 0.08;
+
+      // Apply full 3D transform matrix
+      chrome3D.style.transform = `
+        translate3d(${currentTransX}px, ${currentTransY}px, 20px)
+        rotateX(${currentRotX}deg)
+        rotateY(${currentRotY}deg)
+        rotateZ(${currentRotZ}deg)
+      `;
+
+      // Dynamic drop shadow shifting opposite to cursor / virtual light source
+      const shadowX = -currentRotY * 1.6;
+      const shadowY = 28 + currentRotX * 1.4;
+      const shadowBlur = 45 + Math.abs(currentRotX) * 0.5;
+      chromeImg.style.filter = `
+        drop-shadow(${shadowX}px ${shadowY}px ${shadowBlur}px rgba(0, 0, 0, 0.95))
+        drop-shadow(0 12px 25px rgba(0, 0, 0, 0.7))
+      `;
+
+      requestAnimationFrame(updatePhysics);
+    }
+    requestAnimationFrame(updatePhysics);
+  })();
+
+  // 4. MINIMALIST INTERACTIVE CURSOR FOLLOWER
+  (function initCursorFollower() {
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    if (!dot || !ring) return;
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let ringX = mouseX, ringY = mouseY;
+
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      dot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+    });
+
+    // Expand cursor ring over clickable interactive targets
+    document.querySelectorAll('a, button, .project-card, .profile-card, .filter-pill').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%) scale(1.6)`;
+        ring.style.borderColor = 'rgba(255, 255, 255, 0.7)';
+      });
+      el.addEventListener('mouseleave', () => {
+        ring.style.borderColor = 'rgba(255, 255, 255, 0.4)';
+      });
+    });
+
+    function updateCursor() {
+      ringX += (mouseX - ringX) * 0.15;
+      ringY += (mouseY - ringY) * 0.15;
+      ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
+      requestAnimationFrame(updateCursor);
+    }
+    requestAnimationFrame(updateCursor);
+  })();
 
   // 3. THEME TOGGLE (DARK / LIGHT)
   const themeToggle = document.getElementById('themeToggle');
@@ -1640,11 +2025,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const newTheme = currentTheme === 'light' ? 'dark' : 'light';
     htmlRoot.setAttribute('data-theme', newTheme);
     localStorage.setItem('folio-theme', newTheme);
+    if (setShaderTheme) setShaderTheme(newTheme === 'light');
   });
 
   const savedTheme = localStorage.getItem('folio-theme');
   if (savedTheme) {
     htmlRoot.setAttribute('data-theme', savedTheme);
+    if (setShaderTheme) setShaderTheme(savedTheme === 'light');
   }
 
   // 4. CATEGORY FILTER (ALL / LUXURY / FINTECH / PRODUCT)
