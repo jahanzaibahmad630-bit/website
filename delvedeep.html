@@ -164,45 +164,18 @@
       transform: translateY(-2px);
     }
 
-    /* ================= NOTIFICATION BANNER ================= */
-    .top-banner {
-      background: var(--forest-dark);
-      color: #F7F5F0;
-      padding: 10px 16px;
-      font-size: 0.84rem;
-      text-align: center;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-      position: relative;
-      z-index: 60;
-    }
-    .top-banner span.pulse-dot {
-      width: 8px;
-      height: 8px;
-      background: var(--terracotta);
-      border-radius: 50%;
-      box-shadow: 0 0 0 0 rgba(194,99,70,0.7);
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(194,99,70,0.7); }
-      70% { transform: scale(1.05); box-shadow: 0 0 0 8px rgba(194,99,70,0); }
-      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(194,99,70,0); }
-    }
-
     /* ================= NAVIGATION ================= */
     .nav {
-      position: sticky;
+      position: fixed;
       top: 0;
+      left: 0;
+      width: 100%;
       z-index: 50;
       background: transparent;
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
       border-bottom: 1px solid rgba(255, 255, 255, 0.14);
-      margin-bottom: -83px;
-      padding: 18px 0;
+      padding: 20px 0;
       transition: background 0.35s ease, backdrop-filter 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, padding 0.35s ease;
     }
     .nav.scrolled {
@@ -1372,12 +1345,6 @@
   </style>
 </head>
 <body>
-
-  <!-- ================= TOP ANNOUNCEMENT BANNER ================= -->
-  <div class="top-banner">
-    <span class="pulse-dot"></span>
-    <span><strong>October 14–19, 2026</strong> · Intimate Sanctuary Capacity Strictly Capped at 14 Guests · <strong>5 Spots Remaining</strong> · <a href="delvedeep-stillwood.html" style="color:#E08064; text-decoration:underline; font-weight:600; margin-left:8px;">View Catskills, NY Retreat &rarr;</a></span>
-  </div>
 
   <!-- ================= STICKY HEADER ================= -->
   <header class="nav" id="siteNav">
