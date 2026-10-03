@@ -498,12 +498,64 @@ button {
   grid-template-columns: 1.5fr 1fr;
 }
 
+/* Row 5: Left Medium (46%), Right Medium-Wide (54%) */
+.case-row-5 {
+  grid-template-columns: 1fr 1.18fr;
+}
+
+/* Row 6: Left Narrow (37%), Right Wide (63%) */
+.case-row-6 {
+  grid-template-columns: 1fr 1.62fr;
+}
+
+/* Category Filter Pills */
+.case-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 52px;
+}
+
+.filter-pill {
+  padding: 8px 20px;
+  border-radius: 22px;
+  background: var(--pill-bg);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.filter-pill:hover,
+.filter-pill.active {
+  background: #ffffff;
+  color: #08080a;
+  border-color: #ffffff;
+  box-shadow: 0 4px 18px rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="light"] .filter-pill.active {
+  background: #121214;
+  color: #ffffff;
+  border-color: #121214;
+}
+
+.project-card.is-hidden {
+  display: none !important;
+}
+
 /* Project Card Structure */
 .project-card {
   display: block;
   group: true;
   cursor: pointer;
   text-decoration: none;
+  transition: opacity 0.35s ease, transform 0.35s ease;
 }
 
 .card-media-wrap {
@@ -952,7 +1004,9 @@ button {
   .case-row-1,
   .case-row-2,
   .case-row-3,
-  .case-row-4 {
+  .case-row-4,
+  .case-row-5,
+  .case-row-6 {
     grid-template-columns: 1fr;
     gap: 48px;
   }
@@ -1106,36 +1160,44 @@ button {
 <section class="case-studies-section" id="work">
   <h2 class="section-headline">Selected Case Studies</h2>
 
+  <!-- Interactive Category Filter -->
+  <div class="case-filter-row">
+    <button class="filter-pill active" data-filter="all">All Projects (12)</button>
+    <button class="filter-pill" data-filter="luxury">Luxury & Editorial (6)</button>
+    <button class="filter-pill" data-filter="fintech">FinTech & Web3 (3)</button>
+    <button class="filter-pill" data-filter="product">Mobile & Systems (3)</button>
+  </div>
+
   <div class="case-grid">
 
     <!-- ================= ROW 1 ================= -->
     <div class="case-row case-row-1">
       
       <!-- Card 1: ADRAMP (AI Marketing Platform) -->
-      <a href="adramp.html" class="project-card">
+      <a href="adramp.html" class="project-card" data-category="fintech">
         <div class="card-media-wrap height-tall">
           <span class="badge-save">
             <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345-.09.375-.291 1.199-.334 1.365-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.546.535 6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/></svg>
             Save
           </span>
-          <span class="badge-pill-right">Live System</span>
-          <img src="assets/portfolio/card_adramp_crest.jpg" alt="ADRAMP Cybernetic Division Brand & Platform" loading="lazy">
+          <span class="badge-pill-right">AI Marketing</span>
+          <img src="assets/portfolio/card_adramp_crest.jpg" alt="ADRAMP Cybernetic Division Platform" loading="lazy">
         </div>
         <div class="card-content">
           <h3 class="project-title">ADRAMP</h3>
-          <p class="project-tags">Interactive, UX/UI, Information Design</p>
+          <p class="project-tags">AI Performance Marketing, UI/UX, Information Architecture</p>
         </div>
       </a>
 
       <!-- Card 2: OPTIONS FUNDING (Fintech Trading Platform) -->
-      <a href="options-funding.html" class="project-card">
+      <a href="options-funding.html" class="project-card" data-category="fintech">
         <div class="card-media-wrap height-compact">
-          <span class="badge-pill-right">FinTech</span>
+          <span class="badge-pill-right">FinTech Prop</span>
           <img src="assets/portfolio/card_options_phone.jpg" alt="Options Funding Mobile Platform" loading="lazy">
         </div>
         <div class="card-content">
           <h3 class="project-title">OPTIONS FUNDING</h3>
-          <p class="project-tags">Brand, Product, Web</p>
+          <p class="project-tags">Founding 50 Partner Seat, Real-Time P&L, Trading Ecosystem</p>
         </div>
       </a>
 
@@ -1144,30 +1206,31 @@ button {
     <!-- ================= ROW 2 ================= -->
     <div class="case-row case-row-2">
       
-      <!-- Card 3: KATANAPAY (Fintech Identity) -->
-      <a href="delvedeep.html" class="project-card">
+      <!-- Card 3: THE ANATOMY OF A SUIT (Savile Row Atelier) -->
+      <a href="anatomy-suit.html" class="project-card" data-category="luxury">
         <div class="card-media-wrap height-medium">
           <span class="badge-save">
             <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345-.09.375-.291 1.199-.334 1.365-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.546.535 6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/></svg>
             Save
           </span>
-          <img src="assets/portfolio/card_waving_flag.jpg" alt="KatanaPay High-Performance Fabric Brand" loading="lazy">
+          <span class="badge-pill-right">Savile Row Atelier</span>
+          <img src="assets/portfolio/card_anatomy_suit.jpg" alt="The Anatomy of a Suit Vandenberg Bespoke Atelier" loading="lazy">
         </div>
         <div class="card-content">
-          <h3 class="project-title">KATANAPAY</h3>
-          <p class="project-tags">Brand, Identity, Guidelines</p>
+          <h3 class="project-title">THE ANATOMY OF A SUIT</h3>
+          <p class="project-tags">Vandenberg & Co. Bespoke Atelier, Scrollytelling, Craftsmanship</p>
         </div>
       </a>
 
-      <!-- Card 4: JEMIMAH BARNETT / AURELINE (Luxury Atelier) -->
-      <a href="delvedeep.html" class="project-card">
+      <!-- Card 4: LÉMAN GENÈVE (Haute Horlogerie) -->
+      <a href="leman.html" class="project-card" data-category="luxury">
         <div class="card-media-wrap height-tall">
-          <span class="badge-pill-right">Editorial</span>
-          <img src="assets/portfolio/card_aureline_web.jpg" alt="Jemimah Barnett Luxury Editorial Web Platform" loading="lazy">
+          <span class="badge-pill-right">Haute Horlogerie</span>
+          <img src="assets/leman/leman-modern-watch-hero-poster.jpg" alt="Maison Léman Manufacture d'Horlogerie Genève" loading="lazy">
         </div>
         <div class="card-content">
-          <h3 class="project-title">JEMIMAH BARNETT</h3>
-          <p class="project-tags">Brand, Campaign, Web</p>
+          <h3 class="project-title">LÉMAN GENÈVE</h3>
+          <p class="project-tags">Manufacture d'Horlogerie, 3D Calibre AL-01, Interactive Atelier</p>
         </div>
       </a>
 
@@ -1176,27 +1239,27 @@ button {
     <!-- ================= ROW 3 ================= -->
     <div class="case-row case-row-3">
       
-      <!-- Card 5: HINA SAFETY (Mobile App / Metallic Foil) -->
-      <a href="hina-prototype.html" class="project-card">
+      <!-- Card 5: HINA SAFETY (Mobile Product) -->
+      <a href="hina-prototype.html" class="project-card" data-category="product">
         <div class="card-media-wrap height-compact">
-          <span class="badge-pill-right">Mobile App</span>
+          <span class="badge-pill-right">Mobile Product</span>
           <img src="assets/portfolio/card_purple_foil.jpg" alt="HINA Nightlife Safety System" loading="lazy">
         </div>
         <div class="card-content">
           <h3 class="project-title">HINA SAFETY</h3>
-          <p class="project-tags">Marketing, UI/UX, Web</p>
+          <p class="project-tags">Nightlife Companion, Full Mobile UX Prototype, 20 Screens</p>
         </div>
       </a>
 
-      <!-- Card 6: BUFFET BOX (Artisan Gourmet E-Commerce) -->
-      <a href="meridian.html" class="project-card">
+      <!-- Card 6: LORÈN PARIS (Haute Parfumerie) -->
+      <a href="loren.html" class="project-card" data-category="luxury">
         <div class="card-media-wrap height-tall">
-          <span class="badge-pill-right">E-Commerce</span>
-          <img src="assets/portfolio/card_buffet_box.jpg" alt="Buffet Box Artisan Packaging & Web Platform" loading="lazy">
+          <span class="badge-pill-right">Haute Parfumerie</span>
+          <img src="assets/loren/ritual-scene-4k.jpg" alt="Lorèn Haute Parfumerie Paris Maison E-Boutique" loading="lazy">
         </div>
         <div class="card-content">
-          <h3 class="project-title">BUFFET BOX</h3>
-          <p class="project-tags">Marketing, Campaign, Web</p>
+          <h3 class="project-title">LORÈN PARIS</h3>
+          <p class="project-tags">Parisian Luxury Fragrance, E-Boutique, Digital Scent Experience</p>
         </div>
       </a>
 
@@ -1205,27 +1268,93 @@ button {
     <!-- ================= ROW 4 ================= -->
     <div class="case-row case-row-4">
       
-      <!-- Card 7: DELVEDEEP RETREAT SANCTUARY -->
-      <a href="delvedeep.html" class="project-card">
+      <!-- Card 7: PRYSMCLOUD (Web3 & Tokenized Markets) -->
+      <a href="prysmcloud.html" class="project-card" data-category="fintech">
         <div class="card-media-wrap height-medium">
+          <span class="badge-save">
+            <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345-.09.375-.291 1.199-.334 1.365-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.546.535 6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/></svg>
+            Save
+          </span>
+          <span class="badge-pill-right">Web3 & DeFi</span>
+          <img src="assets/portfolio/card_prysmcloud.jpg" alt="PrysmCloud Tokenized Markets on Robinhood Chain" loading="lazy">
+        </div>
+        <div class="card-content">
+          <h3 class="project-title">PRYSMCLOUD</h3>
+          <p class="project-tags">Tokenized Markets, Robinhood Chain, Pons Launchpad Terminal</p>
+        </div>
+      </a>
+
+      <!-- Card 8: AURELINE (Swiss Horology) -->
+      <a href="aureline.html" class="project-card" data-category="luxury">
+        <div class="card-media-wrap height-compact">
+          <span class="badge-pill-right">Swiss Horology</span>
+          <img src="assets/portfolio/card_aureline_web.jpg" alt="Aureline Méridienne Calibre AL-01" loading="lazy">
+        </div>
+        <div class="card-content">
+          <h3 class="project-title">AURELINE</h3>
+          <p class="project-tags">Méridienne • Calibre AL-01, Swiss Luxury Timepiece</p>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- ================= ROW 5 ================= -->
+    <div class="case-row case-row-5">
+      
+      <!-- Card 9: MERIDIAN GMT (Aero Horology) -->
+      <a href="meridian.html" class="project-card" data-category="luxury">
+        <div class="card-media-wrap height-medium">
+          <span class="badge-pill-right">Technical Horology</span>
+          <img src="assets/portfolio/card_buffet_box.jpg" alt="Meridian S-300 GMT Haute Horlogerie" loading="lazy">
+        </div>
+        <div class="card-content">
+          <h3 class="project-title">MERIDIAN S-300 GMT</h3>
+          <p class="project-tags">Aero Horology, Dual-Timezone Platform, Interactive Mechanics</p>
+        </div>
+      </a>
+
+      <!-- Card 10: MIDDAY STUDIO (Design Agency) -->
+      <a href="midday.html" class="project-card" data-category="product">
+        <div class="card-media-wrap height-tall">
+          <span class="badge-save">
+            <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345-.09.375-.291 1.199-.334 1.365-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.546.535 6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/></svg>
+            Save
+          </span>
+          <span class="badge-pill-right">Design Studio</span>
+          <img src="assets/portfolio/card_midday_studio.jpg" alt="Midday Human-Centred Design Studio" loading="lazy">
+        </div>
+        <div class="card-content">
+          <h3 class="project-title">MIDDAY STUDIO</h3>
+          <p class="project-tags">Human-Centred Design Studio, Spaces & Brand Systems</p>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- ================= ROW 6 ================= -->
+    <div class="case-row case-row-6">
+      
+      <!-- Card 11: CHRONOS LUXE (Luxury Chronograph) -->
+      <a href="chronos.html" class="project-card" data-category="luxury">
+        <div class="card-media-wrap height-compact">
+          <span class="badge-pill-right">Luxury Timepieces</span>
+          <img src="assets/portfolio/card_chronos_dial.jpg" alt="Chronos Luxe Premium Timepieces" loading="lazy">
+        </div>
+        <div class="card-content">
+          <h3 class="project-title">CHRONOS LUXE</h3>
+          <p class="project-tags">Titanium & Rose Gold Tourbillon Chronograph, Luxury Catalog</p>
+        </div>
+      </a>
+
+      <!-- Card 12: DELVEDEEP SANCTUARY (Wellness Retreat) -->
+      <a href="delvedeep.html" class="project-card" data-category="luxury">
+        <div class="card-media-wrap height-tall">
           <span class="badge-pill-right">Hospitality</span>
           <img src="delvedeep_sanctuary_preview.png" alt="DelveDeep Sanctuary Luxury Retreat Platform" loading="lazy">
         </div>
         <div class="card-content">
           <h3 class="project-title">DELVEDEEP SANCTUARY</h3>
-          <p class="project-tags">Brand, Identity, Kajabi Checkout</p>
-        </div>
-      </a>
-
-      <!-- Card 8: LÉMAN HAUTE HORLOGERIE -->
-      <a href="leman.html" class="project-card">
-        <div class="card-media-wrap height-compact">
-          <span class="badge-pill-right">Haute Horlogerie</span>
-          <img src="assets/leman/leman-modern-watch-hero-poster.jpg" alt="Léman Modern Watch Haute Horlogerie 3D Platform" loading="lazy">
-        </div>
-        <div class="card-content">
-          <h3 class="project-title">LÉMAN GENÈVE</h3>
-          <p class="project-tags">Digital Atelier, Interactive 3D, Web</p>
+          <p class="project-tags">Luxury Wellness Sanctuary, Kajabi Custom Checkout Architecture</p>
         </div>
       </a>
 
@@ -1451,6 +1580,27 @@ document.addEventListener('DOMContentLoaded', () => {
   if (savedTheme) {
     htmlRoot.setAttribute('data-theme', savedTheme);
   }
+
+  // 4. CATEGORY FILTER (ALL / LUXURY / FINTECH / PRODUCT)
+  const filterPills = document.querySelectorAll('.filter-pill');
+  const projectCards = document.querySelectorAll('.project-card');
+
+  filterPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      filterPills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      const filter = pill.getAttribute('data-filter');
+
+      projectCards.forEach(card => {
+        const category = card.getAttribute('data-category');
+        if (filter === 'all' || category === filter) {
+          card.classList.remove('is-hidden');
+        } else {
+          card.classList.add('is-hidden');
+        }
+      });
+    });
+  });
 });
 </script>
 </body>
