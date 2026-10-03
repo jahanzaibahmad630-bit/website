@@ -1345,7 +1345,7 @@ function update(t,dt){
     u.uy+=u.vy;u.vy*=.93;
     u.uy*=Math.exp(-.10*dt);u.ux*=Math.exp(-1.1*dt);
     const idle=(w===wHero?-.55:-.4)+Math.sin(t*(w===wHero?.28:.22))*.08;
-    w.rotation.y=idle+u.uy-(w===wHero?(1-introK)*2.6:0);
+    w.rotation.y=idle+u.uy-(w===wHero?(1-introK)*2.6:0) + Math.PI;
     w.rotation.x=(w===wHero?.06:.04)+u.ux+Math.sin(t*.19)*.03;
   }
   /* camera per chapter */
@@ -1418,6 +1418,13 @@ function loop(t){
 requestAnimationFrame(loop);
 
 let ld=0;const ldBar=$('#ldBar');
+if(new URLSearchParams(location.search).has('ready')){
+  ld=100;
+  $('#loader').classList.add('done');
+  document.body.classList.add('is-ready');
+  introT0=performance.now()/1000-10;
+  initReveals();measure();
+}else{
 const ldIv=setInterval(()=>{
   ld=Math.min(100,ld+Math.random()*16+6);
   ldBar.style.transform=`scaleX(${ld/100})`;
@@ -1431,6 +1438,7 @@ const ldIv=setInterval(()=>{
 },110);
 setTimeout(()=>{if(ld<100){clearInterval(ldIv);$('#loader').classList.add('done');
   document.body.classList.add('is-ready');introT0=performance.now()/1000;initReveals();}},6000);
+}
 
 /* crisp canvas type once fonts arrive */
 document.fonts.ready.then(()=>{
