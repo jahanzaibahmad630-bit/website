@@ -549,6 +549,73 @@ button {
   display: none !important;
 }
 
+/* ==========================================================================
+   LUSION-STYLE EXPANDING CARD ZOOM TRANSITION
+   ========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+
+.project-transition-curtain {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-primary);
+  z-index: 9998;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.45s ease;
+}
+
+.project-transition-curtain.active {
+  opacity: 0.92;
+  pointer-events: all;
+}
+
+.project-transition-overlay {
+  position: fixed;
+  z-index: 9999;
+  overflow: hidden;
+  pointer-events: none;
+  border-radius: 18px;
+  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.85);
+  transition: top 0.62s cubic-bezier(0.85, 0, 0.15, 1),
+              left 0.62s cubic-bezier(0.85, 0, 0.15, 1),
+              width 0.62s cubic-bezier(0.85, 0, 0.15, 1),
+              height 0.62s cubic-bezier(0.85, 0, 0.15, 1),
+              border-radius 0.62s cubic-bezier(0.85, 0, 0.15, 1);
+  will-change: top, left, width, height, border-radius;
+}
+
+.project-transition-overlay img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.project-transition-overlay .transition-title-badge {
+  position: absolute;
+  bottom: clamp(32px, 5vw, 64px);
+  left: clamp(24px, 5vw, 64px);
+  z-index: 10;
+  font-family: var(--font-serif);
+  font-size: clamp(32px, 5.5vw, 72px);
+  font-weight: 400;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.4s ease 0.22s, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.22s;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
+}
+
+.project-transition-overlay.expanded .transition-title-badge {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* Project Card Structure */
 .project-card {
   display: block;
@@ -1599,6 +1666,81 @@ document.addEventListener('DOMContentLoaded', () => {
           card.classList.add('is-hidden');
         }
       });
+    });
+  });
+
+  // 5. LUSION-STYLE EXPANDING CARD ZOOM TRANSITION
+  let isNavigating = false;
+
+  window.addEventListener('pageshow', () => {
+    isNavigating = false;
+    document.querySelectorAll('.project-transition-overlay, .project-transition-curtain').forEach(el => el.remove());
+  });
+
+  document.querySelectorAll('.project-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+      const href = card.getAttribute('href');
+      if (!href || href.startsWith('#')) return;
+      if (e.metaKey || e.ctrlKey || e.shiftKey) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      const mediaWrap = card.querySelector('.card-media-wrap');
+      const img = card.querySelector('img');
+      const titleEl = card.querySelector('.project-title');
+      const titleText = titleEl ? titleEl.textContent.trim() : '';
+
+      if (!mediaWrap || !img) return;
+
+      e.preventDefault();
+      if (isNavigating) return;
+      isNavigating = true;
+
+      const rect = mediaWrap.getBoundingClientRect();
+      const computedRadius = window.getComputedStyle(mediaWrap).borderRadius || '18px';
+
+      // 1. Dark backdrop curtain
+      const curtain = document.createElement('div');
+      curtain.className = 'project-transition-curtain';
+      document.body.appendChild(curtain);
+
+      // 2. Expanding clone element
+      const overlay = document.createElement('div');
+      overlay.className = 'project-transition-overlay';
+      overlay.style.top = `${rect.top}px`;
+      overlay.style.left = `${rect.left}px`;
+      overlay.style.width = `${rect.width}px`;
+      overlay.style.height = `${rect.height}px`;
+      overlay.style.borderRadius = computedRadius;
+
+      const cloneImg = document.createElement('img');
+      cloneImg.src = img.src;
+      cloneImg.alt = img.alt || '';
+      overlay.appendChild(cloneImg);
+
+      if (titleText) {
+        const badge = document.createElement('div');
+        badge.className = 'transition-title-badge';
+        badge.textContent = titleText;
+        overlay.appendChild(badge);
+      }
+
+      document.body.appendChild(overlay);
+
+      // Trigger animation on next frame
+      requestAnimationFrame(() => {
+        curtain.classList.add('active');
+        overlay.classList.add('expanded');
+        overlay.style.top = '0px';
+        overlay.style.left = '0px';
+        overlay.style.width = '100vw';
+        overlay.style.height = '100vh';
+        overlay.style.borderRadius = '0px';
+      });
+
+      // Complete navigation right as zoom finishes
+      setTimeout(() => {
+        window.location.href = href;
+      }, 580);
     });
   });
 });
