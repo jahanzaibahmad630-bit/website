@@ -23,9 +23,9 @@
       --forest-light: #2D483B;
       --sage: #507160;
       --sage-soft: #EDF3EF;
-      --terracotta: #C26346;
-      --terracotta-dark: #A44F35;
-      --terracotta-soft: #FAF0EC;
+      --terracotta: #059669;
+      --terracotta-dark: #047857;
+      --terracotta-soft: #ECFDF5;
       --sand: #D9CEBE;
       --text: #1C221E;
       --text-muted: #525C55;
@@ -145,14 +145,18 @@
       box-shadow: 0 8px 24px rgba(31,51,42,0.24);
     }
     .btn-terracotta {
-      background: var(--terracotta);
-      color: #FFFFFF;
-      box-shadow: 0 4px 18px rgba(194,99,70,0.22);
+      background: linear-gradient(135deg, #10B981 0%, #059669 50%, #047857 100%);
+      color: #FFFFFF !important;
+      border: 1px solid rgba(110, 231, 183, 0.45);
+      box-shadow: 0 8px 24px rgba(4, 120, 87, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      font-weight: 600;
+      letter-spacing: 0.01em;
     }
     .btn-terracotta:hover {
-      background: var(--terracotta-dark);
+      background: linear-gradient(135deg, #34D399 0%, #10B981 50%, #059669 100%);
+      border-color: rgba(167, 243, 208, 0.65);
       transform: translateY(-2px);
-      box-shadow: 0 8px 26px rgba(194,99,70,0.32);
+      box-shadow: 0 12px 32px rgba(16, 185, 129, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.4);
     }
     .btn-outline {
       background: transparent;
@@ -224,7 +228,7 @@
       text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
     }
     .brand-text span {
-      color: #E68A6E;
+      color: #34D399;
       font-style: italic;
     }
     .nav-links {
@@ -249,16 +253,17 @@
     .nav-cta {
       padding: 10px 24px;
       font-size: 0.88rem;
-      background: var(--terracotta);
+      background: linear-gradient(135deg, #10B981 0%, #059669 50%, #047857 100%);
       color: #FFFFFF !important;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 4px 16px rgba(194, 99, 70, 0.4);
-      transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+      border: 1px solid rgba(110, 231, 183, 0.45);
+      box-shadow: 0 4px 18px rgba(4, 120, 87, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
     }
     .nav-cta:hover {
-      background: #B5583B;
+      background: linear-gradient(135deg, #34D399 0%, #10B981 50%, #059669 100%);
+      border-color: rgba(167, 243, 208, 0.7);
       transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(194, 99, 70, 0.5);
+      box-shadow: 0 6px 24px rgba(16, 185, 129, 0.5);
     }
 
     /* ================= FULL CINEMATIC HERO SECTION ================= */
@@ -338,7 +343,7 @@
       margin-bottom: 24px;
     }
     .eyebrow-light {
-      color: #E68A6E !important;
+      color: #34D399 !important;
       margin-bottom: 0 !important;
       font-size: 0.78rem;
       letter-spacing: 0.16em;
@@ -352,7 +357,7 @@
       content: '';
       width: 24px;
       height: 1.5px;
-      background: #E68A6E !important;
+      background: #34D399 !important;
     }
     .badge-urgent-glass {
       background: rgba(217, 119, 6, 0.28);
@@ -493,8 +498,8 @@
       transition: all 0.25s ease;
     }
     .vid-glass-btn:hover {
-      background: rgba(194, 99, 70, 0.9);
-      border-color: rgba(255, 255, 255, 0.45);
+      background: rgba(5, 150, 105, 0.9);
+      border-color: rgba(110, 231, 183, 0.6);
       transform: translateY(-2px);
     }
     @media (max-width: 1100px) {
