@@ -887,6 +887,7 @@ button {
 .case-row-4 { grid-template-columns: 1.5fr 1fr; }
 .case-row-5 { grid-template-columns: 1fr 1.18fr; }
 .case-row-6 { grid-template-columns: 1fr 1.62fr; }
+.case-row-7 { grid-template-columns: 1fr; }
 
 .project-card.is-hidden {
   display: none !important;
@@ -939,6 +940,10 @@ button {
 .height-medium,
 .height-compact {
   height: clamp(380px, 35vw, 480px);
+}
+
+.height-heroic {
+  height: clamp(400px, 38vw, 540px);
 }
 
 /* Luxury Card Metadata Badges (Replaced Pinterest Buttons) */
@@ -1792,7 +1797,8 @@ button {
   .case-row-3,
   .case-row-4,
   .case-row-5,
-  .case-row-6 {
+  .case-row-6,
+  .case-row-7 {
     grid-template-columns: 1fr;
     gap: 48px;
   }
@@ -2024,6 +2030,7 @@ button {
       <span>SCROLLYTELLING &amp; 3D WEBGL</span> <span class="marquee-dot">◆</span>
       <span>MOBILE PRODUCT ECOSYSTEMS</span> <span class="marquee-dot">◆</span>
       <span>HIGH-CONVERSION ARCHITECTURE</span> <span class="marquee-dot">◆</span>
+      <span>AGRO-AI &amp; COMPUTER VISION</span> <span class="marquee-dot">◆</span>
       <span>SAVILE ROW LUXURY</span> <span class="marquee-dot">◆</span>
       <span>INTERACTIVE SHADERS</span> <span class="marquee-dot">◆</span>
     </div>
@@ -2034,6 +2041,7 @@ button {
       <span>SCROLLYTELLING &amp; 3D WEBGL</span> <span class="marquee-dot">◆</span>
       <span>MOBILE PRODUCT ECOSYSTEMS</span> <span class="marquee-dot">◆</span>
       <span>HIGH-CONVERSION ARCHITECTURE</span> <span class="marquee-dot">◆</span>
+      <span>AGRO-AI &amp; COMPUTER VISION</span> <span class="marquee-dot">◆</span>
       <span>SAVILE ROW LUXURY</span> <span class="marquee-dot">◆</span>
       <span>INTERACTIVE SHADERS</span> <span class="marquee-dot">◆</span>
     </div>
@@ -2052,10 +2060,10 @@ button {
 
     <!-- Interactive Category Filter -->
     <div class="case-filter-row">
-      <button class="filter-pill active" data-filter="all">All Projects (12)</button>
+      <button class="filter-pill active" data-filter="all">All Projects (13)</button>
       <button class="filter-pill" data-filter="luxury">Luxury &amp; Editorial (6)</button>
       <button class="filter-pill" data-filter="fintech">FinTech &amp; Web3 (4)</button>
-      <button class="filter-pill" data-filter="product">Mobile &amp; Systems (2)</button>
+      <button class="filter-pill" data-filter="product">Mobile &amp; AI Systems (3)</button>
     </div>
   </div>
 
@@ -2355,6 +2363,33 @@ button {
 
     </div>
 
+    <!-- ================= ROW 7 ================= -->
+    <div class="case-row case-row-7">
+      
+      <!-- Card 13: DEHATI-AI (Agro-AI & Computer Vision) -->
+      <a href="dehati-ai.html" class="project-card" data-category="product">
+        <div class="card-media-wrap height-heroic">
+          <span class="badge-meta-left">13 / AGRI-TECH &amp; CV</span>
+          <span class="badge-pill-right">PWA &amp; Computer Vision</span>
+          <div class="card-hover-overlay">
+            <span class="explore-pill">
+              <span>Explore Platform</span>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+            </span>
+          </div>
+          <img src="assets/portfolio/hero_dehati.png" alt="Dehati-AI Agricultural Platform with ResNet50 Vision &amp; Voice PWA" loading="lazy">
+        </div>
+        <div class="card-content">
+          <div class="card-title-row">
+            <h3 class="project-title">DEHATI-AI — کسان کا ذہین ساتھی</h3>
+            <span class="card-arrow-icon">↗</span>
+          </div>
+          <p class="project-tags">AI Agro-Advisory, ResNet50-CBAM Crop Pathology Vision, Urdu/Punjabi Voice PWA (50,000+ Farmers)</p>
+        </div>
+      </a>
+
+    </div>
+
   </div>
 </section>
 
@@ -2608,6 +2643,7 @@ button {
         <a href="https://contra.com/jahanzaib_ahmad_49mo9t8e" target="_blank" rel="noopener" class="footer-social-link">Contra</a>
         <a href="https://github.com/jahanzaibahmad630-bit" target="_blank" rel="noopener" class="footer-social-link">GitHub</a>
         <a href="https://wa.me/923187635856" target="_blank" rel="noopener" class="footer-social-link">WhatsApp</a>
+        <a href="dehati-ai.html" class="footer-social-link">Dehati-AI</a>
         <a href="resume.html" target="_blank" rel="noopener" class="footer-social-link">Curriculum Vitae</a>
       </div>
     </div>
