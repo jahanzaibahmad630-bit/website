@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MediFlow AI — Pharmacy WhatsApp Automation Demo</title>
+  <title>MediFlow AI — Pharmacy WhatsApp Voice & Prescription Automation Demo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Nastaliq+Urdu:wght@500;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Nastaliq+Urdu:wght@500;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --wa-teal: #008069;
@@ -18,9 +18,9 @@
       --wa-text: #111B21;
       --wa-timestamp: #667781;
       
-      --dash-bg: #0F172A;
-      --dash-card: #1E293B;
-      --dash-border: #334155;
+      --dash-bg: #0B0F19;
+      --dash-card: #151D2E;
+      --dash-border: #243048;
       --dash-text: #F8FAFC;
       --dash-accent: #10B981;
       --dash-amber: #F59E0B;
@@ -35,16 +35,16 @@
     }
 
     body {
-      background: #090D16;
+      background: #070B14;
       color: #E2E8F0;
       min-height: 100vh;
       overflow-x: hidden;
     }
 
-    /* Top Control Bar */
+    /* Top Navigation / Director Control Bar */
     header.control-bar {
-      background: rgba(15, 23, 42, 0.85);
-      backdrop-filter: blur(12px);
+      background: rgba(11, 15, 25, 0.92);
+      backdrop-filter: blur(14px);
       border-bottom: 1px solid #1E293B;
       padding: 12px 28px;
       display: flex;
@@ -52,7 +52,7 @@
       justify-content: space-between;
       position: sticky;
       top: 0;
-      z-index: 50;
+      z-index: 100;
     }
 
     .brand-group {
@@ -65,7 +65,7 @@
       background: linear-gradient(135deg, #059669, #10B981);
       color: white;
       font-weight: 800;
-      font-size: 14px;
+      font-size: 13.5px;
       padding: 6px 12px;
       border-radius: 8px;
       display: flex;
@@ -76,19 +76,20 @@
 
     .brand-title {
       font-size: 16px;
-      font-weight: 700;
+      font-weight: 800;
       color: #FFFFFF;
+      letter-spacing: -0.2px;
     }
 
     .brand-sub {
-      font-size: 12px;
+      font-size: 11.5px;
       color: #94A3B8;
     }
 
     .controls-group {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
     .btn-action {
@@ -116,9 +117,9 @@
       background: #1E293B;
       color: #CBD5E1;
       border: 1px solid #334155;
-      padding: 9px 16px;
+      padding: 9px 15px;
       border-radius: 8px;
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 600;
       cursor: pointer;
       display: flex;
@@ -132,15 +133,15 @@
       color: white;
     }
 
-    /* Subtitle Banner for Recording */
+    /* Subtitle Banner for Screen Recording */
     .director-banner {
       background: linear-gradient(90deg, #1E1B4B, #0F172A, #1E1B4B);
       border-bottom: 1px solid #312E81;
-      padding: 8px 24px;
+      padding: 9px 24px;
       text-align: center;
       font-size: 13px;
       font-weight: 600;
-      color: #A5B4FC;
+      color: #C7D2FE;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -151,13 +152,14 @@
       background: #4338CA;
       color: #EEF2FF;
       font-size: 11px;
-      padding: 2px 8px;
+      font-weight: 800;
+      padding: 2px 9px;
       border-radius: 12px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
-    /* Main Grid Layout */
+    /* Main Stage */
     .stage-container {
       max-width: 1540px;
       margin: 0 auto;
@@ -173,19 +175,19 @@
     ======================================================== */
     .phone-mockup {
       background: #000000;
-      border-radius: 46px;
+      border-radius: 50px;
       padding: 12px;
-      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 0 1px #334155;
+      box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.8), 0 0 0 1px #334155;
       position: relative;
     }
 
     .phone-screen {
       background: var(--wa-chat-bg);
-      border-radius: 36px;
+      border-radius: 40px;
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      height: 780px;
+      height: 800px;
       position: relative;
     }
 
@@ -200,24 +202,36 @@
       pointer-events: none;
     }
 
-    /* Phone Status Bar */
+    /* Phone Status Bar + Dynamic Island */
     .phone-status-bar {
       background: var(--wa-teal);
       color: white;
-      padding: 8px 18px 4px 18px;
+      padding: 8px 22px 6px 22px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-size: 12px;
       font-weight: 600;
       letter-spacing: 0.2px;
+      position: relative;
+    }
+
+    .dynamic-island {
+      width: 86px;
+      height: 20px;
+      background: #000000;
+      border-radius: 14px;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 6px;
     }
 
     /* WhatsApp App Bar */
     .wa-app-bar {
       background: var(--wa-teal);
       color: white;
-      padding: 8px 12px 10px 12px;
+      padding: 8px 14px 10px 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -232,14 +246,14 @@
     }
 
     .wa-avatar {
-      width: 38px;
-      height: 38px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       background: white;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
+      font-size: 22px;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     }
 
@@ -258,10 +272,10 @@
 
     .wa-name-group p {
       font-size: 11px;
-      opacity: 0.85;
+      opacity: 0.9;
     }
 
-    /* Chat Messages Canvas */
+    /* Chat Messages Box */
     .wa-messages-box {
       flex: 1;
       overflow-y: auto;
@@ -280,7 +294,6 @@
       border-radius: 4px;
     }
 
-    /* Date Divider */
     .wa-date-pill {
       align-self: center;
       background: #FFFFFF;
@@ -337,6 +350,207 @@
     .wa-ticks {
       color: #53BDEB;
       font-size: 12px;
+      font-weight: 700;
+    }
+
+    /* ========================================================
+       VOICE MESSAGE PLAYER COMPONENT
+    ======================================================== */
+    .voice-note-bubble {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 4px 2px;
+      width: 250px;
+    }
+
+    .vn-avatar {
+      position: relative;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #008069;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .vn-mic-badge {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      background: #25D366;
+      border: 1.5px solid white;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+    }
+
+    .vn-play-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #008069;
+      color: white;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: transform 0.15s;
+    }
+
+    .vn-play-btn:hover {
+      transform: scale(1.08);
+    }
+
+    .vn-waveform {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      height: 24px;
+    }
+
+    .wave-bar {
+      width: 3px;
+      background: #54656F;
+      border-radius: 3px;
+      transition: all 0.15s ease;
+    }
+
+    .waveform-active .wave-bar {
+      background: #008069;
+      animation: waveDance 0.6s infinite ease-in-out alternate;
+    }
+
+    @keyframes waveDance {
+      0% { height: 4px; }
+      100% { height: 22px; }
+    }
+
+    .vn-duration {
+      font-size: 10.5px;
+      color: #667781;
+      margin-left: 2px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .ai-transcription-box {
+      background: #F0FDF4;
+      border: 1px dashed #86EFAC;
+      border-radius: 6px;
+      padding: 6px 8px;
+      margin-top: 6px;
+      font-size: 11.5px;
+      color: #14532D;
+    }
+
+    .ai-transcription-header {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+      font-weight: 800;
+      color: #166534;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-bottom: 2px;
+    }
+
+    /* ========================================================
+       PRESCRIPTION CARD WITH REALISTIC DOCTOR SLIP
+    ======================================================== */
+    .prescription-image-wrapper {
+      border-radius: 8px;
+      overflow: hidden;
+      margin-top: 4px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      position: relative;
+    }
+
+    .prescription-image-wrapper img {
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+      display: block;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .prescription-image-wrapper img:hover {
+      transform: scale(1.02);
+    }
+
+    .ocr-scan-banner {
+      background: #064E3B;
+      color: #D1FAE5;
+      padding: 6px 10px;
+      font-size: 11px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .ocr-verified-pill {
+      background: #10B981;
+      color: #022C22;
+      font-weight: 800;
+      font-size: 9.5px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    /* Location Card Preview */
+    .location-card {
+      background: #E2E8F0;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-top: 4px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .map-preview {
+      height: 90px;
+      background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=400&q=80') center/cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #EF4444;
+      font-size: 28px;
+      position: relative;
+    }
+
+    .map-preview::after {
+      content: "Google Maps Verified";
+      position: absolute;
+      bottom: 4px;
+      right: 6px;
+      background: rgba(0,0,0,0.6);
+      color: white;
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .location-details {
+      padding: 8px 10px;
+      background: white;
+      font-size: 11.5px;
+      color: #334155;
     }
 
     /* Interactive Buttons */
@@ -376,56 +590,7 @@
       border-color: #008069;
     }
 
-    /* Location Card Preview */
-    .location-card {
-      background: #E2E8F0;
-      border-radius: 6px;
-      overflow: hidden;
-      margin-top: 4px;
-      margin-bottom: 4px;
-    }
-
-    .map-preview {
-      height: 80px;
-      background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=400&q=80') center/cover;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #DC2626;
-      font-size: 26px;
-    }
-
-    .location-details {
-      padding: 6px 8px;
-      background: white;
-      font-size: 11px;
-      color: #334155;
-    }
-
-    /* Prescription Card Preview */
-    .prescription-card {
-      background: #F1F5F9;
-      border-left: 3px solid #10B981;
-      padding: 6px 10px;
-      border-radius: 4px;
-      margin: 6px 0;
-      font-size: 11.5px;
-    }
-
-    .ocr-tag {
-      display: inline-block;
-      background: #065F46;
-      color: #A7F3D0;
-      font-size: 9.5px;
-      font-weight: 700;
-      padding: 2px 6px;
-      border-radius: 4px;
-      margin-bottom: 4px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    /* Input Footer */
+    /* WhatsApp Input Bar */
     .wa-input-bar {
       background: #F0F2F5;
       padding: 8px 10px;
@@ -448,15 +613,22 @@
     }
 
     .wa-mic-btn {
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       background: #008069;
       color: white;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 15px;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0, 128, 105, 0.3);
+      transition: transform 0.1s;
+    }
+
+    .wa-mic-btn:active {
+      transform: scale(0.92);
     }
 
     /* ========================================================
@@ -465,14 +637,14 @@
     .dash-panel {
       background: var(--dash-card);
       border: 1px solid var(--dash-border);
-      border-radius: 20px;
+      border-radius: 24px;
       overflow: hidden;
-      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.6);
     }
 
     .dash-header {
-      background: #111827;
-      padding: 18px 24px;
+      background: #0E1524;
+      padding: 18px 26px;
       border-bottom: 1px solid var(--dash-border);
       display: flex;
       align-items: center;
@@ -483,7 +655,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 13px;
+      font-size: 12.5px;
       color: #94A3B8;
     }
 
@@ -507,14 +679,14 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 14px;
-      padding: 18px 24px;
-      background: #0B0F19;
+      padding: 16px 26px;
+      background: #090E1A;
       border-bottom: 1px solid var(--dash-border);
     }
 
     .metric-card {
-      background: #1E293B;
-      border: 1px solid #334155;
+      background: #151F33;
+      border: 1px solid #23314B;
       padding: 12px 16px;
       border-radius: 12px;
     }
@@ -536,7 +708,7 @@
 
     /* Active Order Section */
     .order-feed-section {
-      padding: 24px;
+      padding: 24px 26px;
     }
 
     .section-title-bar {
@@ -557,24 +729,17 @@
 
     /* Highlighted Real-time Order Card */
     .live-order-card {
-      background: #0B1120;
-      border: 2px solid #1E293B;
-      border-radius: 16px;
-      padding: 20px;
+      background: #0C1220;
+      border: 2px solid #222E46;
+      border-radius: 18px;
+      padding: 22px;
       transition: all 0.3s ease;
       position: relative;
     }
 
     .live-order-card.highlight {
       border-color: #10B981;
-      box-shadow: 0 0 30px rgba(16, 185, 129, 0.25);
-      animation: orderGlow 1s ease-in-out;
-    }
-
-    @keyframes orderGlow {
-      0% { transform: scale(0.99); border-color: #F59E0B; }
-      50% { transform: scale(1.01); border-color: #10B981; }
-      100% { transform: scale(1); border-color: #10B981; }
+      box-shadow: 0 0 35px rgba(16, 185, 129, 0.25);
     }
 
     .order-top {
@@ -639,9 +804,10 @@
 
     .items-table {
       width: 100%;
-      background: #111827;
-      border-radius: 8px;
-      padding: 10px 14px;
+      background: #101726;
+      border: 1px solid #1E293B;
+      border-radius: 10px;
+      padding: 12px 16px;
       margin-bottom: 18px;
       font-size: 12.5px;
     }
@@ -649,26 +815,27 @@
     .items-row {
       display: flex;
       justify-content: space-between;
-      padding: 4px 0;
+      padding: 5px 0;
       color: #CBD5E1;
     }
 
     .items-row.total {
       border-top: 1px dashed #334155;
-      margin-top: 6px;
-      padding-top: 6px;
+      margin-top: 8px;
+      padding-top: 8px;
       font-weight: 800;
       color: #10B981;
-      font-size: 14px;
+      font-size: 14.5px;
     }
 
     /* Dispatch Action Buttons */
     .dispatch-actions {
       display: flex;
       gap: 10px;
-      background: #111827;
+      background: #101726;
       padding: 12px;
       border-radius: 12px;
+      border: 1px solid #1E293B;
     }
 
     .dispatch-btn {
@@ -692,7 +859,7 @@
       background: #10B981;
       color: #022C22;
       border-color: #10B981;
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
       cursor: pointer;
     }
 
@@ -702,20 +869,20 @@
       border-color: #065F46;
     }
 
-    /* Step Subtitle / Narration Box */
+    /* Pitch Card for Video */
     .narration-box {
-      margin-top: 24px;
-      background: #0F172A;
-      border: 1px solid #334155;
+      margin-top: 22px;
+      background: #0C1220;
+      border: 1px solid #23314B;
       padding: 16px 20px;
-      border-radius: 12px;
+      border-radius: 14px;
       display: flex;
       align-items: center;
       gap: 14px;
     }
 
     .narration-icon {
-      font-size: 24px;
+      font-size: 26px;
     }
 
     .narration-text h4 {
@@ -727,7 +894,7 @@
     .narration-text p {
       font-size: 12.5px;
       color: #94A3B8;
-      margin-top: 2px;
+      margin-top: 3px;
     }
   </style>
 </head>
@@ -741,7 +908,7 @@
       </div>
       <div>
         <div class="brand-title">Pharmacy WhatsApp Automation System</div>
-        <div class="brand-sub">Meta WhatsApp Cloud API + Gemini Flash Vision + Dispatch Hub</div>
+        <div class="brand-sub">Urdu Voice Notes + Gemini Vision Prescription OCR + Dispatch Hub</div>
       </div>
     </div>
 
@@ -758,7 +925,7 @@
   <!-- Live Director Step Narration Banner -->
   <div class="director-banner" id="directorBanner">
     <span class="director-step-badge" id="stepBadge">Ready</span>
-    <span id="stepNarrative">Press "Play Demo Video" above to watch the end-to-end customer order & delivery alert in action!</span>
+    <span id="stepNarrative">Press "Play Demo Video" above to watch Voice Notes, Doctor Prescription Scan, and Rider Alerts in action!</span>
   </div>
 
   <!-- Main Stage Layout -->
@@ -773,10 +940,11 @@
         <!-- Status Bar -->
         <div class="phone-status-bar">
           <span>12:45 PM</span>
+          <div class="dynamic-island"></div>
           <div style="display: flex; gap: 6px;">
             <span>LTE</span>
             <span>📶</span>
-            <span>🔋 94%</span>
+            <span>🔋 96%</span>
           </div>
         </div>
 
@@ -786,7 +954,7 @@
             <div class="wa-avatar">💊</div>
             <div class="wa-name-group">
               <h4>MediCare Pharmacy <span class="wa-verified">✓</span></h4>
-              <p>Official Business Account</p>
+              <p>Official Business Account · online</p>
             </div>
           </div>
           <div style="display: flex; gap: 14px; font-size: 16px;">
@@ -798,7 +966,7 @@
         <!-- Chat Messages Canvas -->
         <div class="wa-messages-box" id="chatBox">
           <div class="wa-date-pill">TODAY</div>
-          <!-- Bubbles injected dynamically by script -->
+          <!-- Bubbles injected dynamically -->
         </div>
 
         <!-- WhatsApp Input Bar -->
@@ -807,7 +975,7 @@
             <span id="fakeInputText">Type a message...</span>
             <span style="opacity: 0.6;">📎</span>
           </div>
-          <div class="wa-mic-btn" id="sendBtnIcon">🎙️</div>
+          <div class="wa-mic-btn" id="sendBtnIcon" onclick="manualVoiceNoteTrigger()">🎙️</div>
         </div>
 
       </div>
@@ -824,13 +992,13 @@
           <h2 style="font-size: 18px; font-weight: 800; color: white;">Order Dispatch & Rider Management</h2>
           <div class="dash-branch-badge" style="margin-top: 4px;">
             <div class="live-pulse"></div>
-            <span>Branch #04: Sector F-10/2, Islamabad · WhatsApp API Connected</span>
+            <span>Branch #04: Sector F-10/2, Islamabad · WhatsApp API & Gemini AI Connected</span>
           </div>
         </div>
 
         <div style="display: flex; gap: 10px;">
           <span style="font-size: 12px; background: #064E3B; color: #A7F3D0; font-weight: 700; padding: 6px 12px; border-radius: 8px;">
-            ● WhatsApp Service: 100% ONLINE
+            ● Meta Cloud API: ACTIVE
           </span>
         </div>
       </div>
@@ -873,7 +1041,7 @@
               <h3>Order #1042</h3>
               <span class="status-badge badge-incoming" id="orderStatusBadge">RECEIVED</span>
             </div>
-            <div style="font-size: 12px; color: #94A3B8;">Just now via WhatsApp</div>
+            <div style="font-size: 12px; color: #94A3B8;">Just now via WhatsApp Voice & OCR</div>
           </div>
 
           <div class="order-grid-info">
@@ -899,11 +1067,11 @@
           <!-- Items Table -->
           <div class="items-table">
             <div class="items-row">
-              <span>• Augmentin 625mg (1 Pack)</span>
+              <span>• Augmentin 625mg (1 Pack - 21 Tablets)</span>
               <span>Rs. 890.00</span>
             </div>
             <div class="items-row">
-              <span>• Panadol Extend 665mg (1 Pack - 24s)</span>
+              <span>• Panadol Extend 665mg (1 Pack - 48 Tablets)</span>
               <span>Rs. 350.00</span>
             </div>
             <div class="items-row">
@@ -934,9 +1102,9 @@
 
         </div>
 
-        <div id="noOrderPlaceholder" style="text-align: center; padding: 48px; border: 2px dashed #334155; border-radius: 12px; color: #64748B;">
+        <div id="noOrderPlaceholder" style="text-align: center; padding: 48px; border: 2px dashed #23314B; border-radius: 12px; color: #64748B;">
           <div style="font-size: 32px; margin-bottom: 8px;">⏳</div>
-          <p>Waiting for incoming WhatsApp order... Press <strong>"Play Demo Video"</strong> above to trigger live flow.</p>
+          <p>Waiting for incoming WhatsApp order... Press <strong>"Play Demo Video"</strong> above to start.</p>
         </div>
 
         <!-- Video Narration Card -->
@@ -944,7 +1112,7 @@
           <div class="narration-icon">🎙️</div>
           <div class="narration-text">
             <h4 id="narrationTitle">Client Pitch Point</h4>
-            <p id="narrationDesc">Explain to the client: "Customer WhatsApp par aam Roman Urdu mein likhta hai, hamara AI doctor ka nuskha aur delivery location process karke direct aapke counter par order generate karta hai."</p>
+            <p id="narrationDesc">Explain to client: "Customer WhatsApp par Urdu mein voice note bhejta hai ya doctor ka nuskha bhejta hai, hamara AI automatically medicine extract karke counter par order generate kar deta hai."</p>
           </div>
         </div>
 
@@ -954,9 +1122,10 @@
 
   </div>
 
-  <!-- Audio Synthesizer for Zero-Asset Sound Effects -->
+  <!-- Audio Synthesizer for Realistic Sound Effects -->
   <script>
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    
     function playBeep(freq = 600, duration = 0.1, type = 'sine') {
       try {
         if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -964,7 +1133,7 @@
         const gain = audioCtx.createGain();
         osc.type = type;
         osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
         osc.connect(gain);
         gain.connect(audioCtx.destination);
@@ -974,18 +1143,26 @@
     }
 
     function soundWhatsAppSend() {
-      playBeep(800, 0.08, 'sine');
+      playBeep(850, 0.07, 'sine');
     }
 
     function soundWhatsAppReceive() {
       playBeep(987, 0.09, 'sine');
-      setTimeout(() => playBeep(1318, 0.12, 'sine'), 90);
+      setTimeout(() => playBeep(1318, 0.12, 'sine'), 85);
+    }
+
+    function soundVoiceNoteAudio() {
+      // Warm human-like voice simulation tones
+      playBeep(320, 0.25, 'triangle');
+      setTimeout(() => playBeep(380, 0.3, 'triangle'), 150);
+      setTimeout(() => playBeep(290, 0.35, 'triangle'), 350);
+      setTimeout(() => playBeep(340, 0.3, 'triangle'), 550);
     }
 
     function soundOrderBell() {
       playBeep(523, 0.1, 'triangle');
-      setTimeout(() => playBeep(659, 0.1, 'triangle'), 100);
-      setTimeout(() => playBeep(783, 0.2, 'triangle'), 200);
+      setTimeout(() => playBeep(659, 0.1, 'triangle'), 90);
+      setTimeout(() => playBeep(783, 0.22, 'triangle'), 180);
     }
   </script>
 
@@ -1040,24 +1217,6 @@
       if (pitchDesc) narrationDesc.textContent = pitchDesc;
     }
 
-    function typeInFakeInput(text, callback) {
-      fakeInputText.textContent = '';
-      sendBtnIcon.textContent = '✈️';
-      let i = 0;
-      const interval = setInterval(() => {
-        fakeInputText.textContent += text[i];
-        i++;
-        if (i >= text.length) {
-          clearInterval(interval);
-          setTimeout(() => {
-            fakeInputText.textContent = 'Type a message...';
-            sendBtnIcon.textContent = '🎙️';
-            if (callback) callback();
-          }, 400);
-        }
-      }, 35);
-    }
-
     function resetDemo() {
       isPlaying = false;
       timerQueue.forEach(t => clearTimeout(t));
@@ -1075,8 +1234,8 @@
         b.className = 'dispatch-btn';
       });
 
-      setNarrative('Ready', 'Press "Play Demo Video" above to watch the end-to-end customer order & delivery alert in action!', 
-        'Client Pitch Point', 'Explain: "Yeh demo dikhayein ke customer WhatsApp par aata hai aur rider alert tak sab kuch automate ho jata hai."');
+      setNarrative('Ready', 'Press "Play Demo Video" above to watch Voice Notes, Doctor Prescription Scan, and Rider Alerts in action!', 
+        'Client Pitch Point', 'Explain: "Pakistani customers aam tor par voice notes bhejte hain ya doctor ke nuskhe ki photo bhejte hain — hamara AI dono ko 100% handle karta hai."');
     }
 
     function toggleAutoplay() {
@@ -1093,68 +1252,104 @@
       document.getElementById('playIcon').textContent = '⏹';
       document.getElementById('playText').textContent = 'Stop Demo';
 
-      // TIMELINE ORCHESTRATION:
-      
-      // Step 1: Customer Types Medicine Request (0s)
-      setNarrative('Step 1 / 6', 'Customer asks for medicines in Roman Urdu on WhatsApp',
-        'Natural Language Understanding', 'Customer can type in Roman Urdu, English, or send voice notes. Bot handles spelling variations.');
-      
-      typeInFakeInput('Mujhe Panadol Extend aur Augmentin 625mg chahiye', () => {
-        appendUserMessage('Mujhe Panadol Extend aur Augmentin 625mg chahiye');
-      });
+      // ========================================================
+      // TIMELINE ORCHESTRATION WITH VOICE NOTES + PRESCRIPTION OCR
+      // ========================================================
 
-      // Step 2: Bot clarifies & requests prescription (3.5s)
+      // Step 1: Customer sends Urdu Voice Note (0.5s)
+      setNarrative('Step 1 / 6: Urdu Voice Note', 'Customer records a 6-second Voice Note in Urdu asking for medicines',
+        'Urdu Speech-to-Text AI', 'In Pakistan, 40%+ customers send voice messages. Gemini 1.5 Flash transcribes Roman Urdu & Punjabi with 98% accuracy.');
+
       timerQueue.push(setTimeout(() => {
-        setNarrative('Step 2 / 6', 'Bot verifies DRAP regulations & asks for prescription slip photo',
-          'Medical Regulation & Safety', 'By law (DRAP), antibiotics require prescription. Bot requests a camera photo automatically.');
-        
-        appendBotMessage(`
-          Walaikum Assalam! 🌸<br><br>
-          • <strong>Panadol Extend 665mg</strong> (Pack of 24) is available: <strong>Rs. 350</strong><br>
-          • <strong>Augmentin 625mg</strong> is an antibiotic and requires a doctor's prescription slip.<br><br>
-          📷 <em>Please send a photo of your doctor's prescription slip to proceed.</em>
-        `);
-      }, 3500));
-
-      // Step 3: Customer Uploads Prescription Slip (6.5s)
-      timerQueue.push(setTimeout(() => {
-        setNarrative('Step 3 / 6', 'Customer uploads prescription photo; AI Vision scans handwriting',
-          'Gemini Vision OCR', 'Gemini Flash reads messy doctor handwriting instantly and extracts verified medicines.');
-
         soundWhatsAppSend();
-        const slip = document.createElement('div');
-        slip.className = 'bubble user';
-        slip.innerHTML = `
-          <div style="background: #E2E8F0; border-radius: 6px; padding: 6px; margin-bottom: 4px;">
-            <div style="height: 90px; background: url('https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=350&q=80') center/cover; border-radius: 4px;"></div>
-            <div style="font-size: 11px; color: #475569; margin-top: 4px;">📷 Prescription_Slip.jpg</div>
+        const vnBubble = document.createElement('div');
+        vnBubble.className = 'bubble user';
+        vnBubble.id = 'demoVoiceNoteBubble';
+        vnBubble.innerHTML = `
+          <div class="voice-note-bubble">
+            <div class="vn-avatar">
+              US
+              <div class="vn-mic-badge">🎤</div>
+            </div>
+            <button class="vn-play-btn" id="vnPlayBtn" onclick="playVoiceNoteEffect()">▶</button>
+            <div class="vn-waveform" id="vnWaveform">
+              <div class="wave-bar" style="height: 10px;"></div>
+              <div class="wave-bar" style="height: 18px;"></div>
+              <div class="wave-bar" style="height: 8px;"></div>
+              <div class="wave-bar" style="height: 22px;"></div>
+              <div class="wave-bar" style="height: 14px;"></div>
+              <div class="wave-bar" style="height: 20px;"></div>
+              <div class="wave-bar" style="height: 6px;"></div>
+              <div class="wave-bar" style="height: 16px;"></div>
+              <div class="wave-bar" style="height: 12px;"></div>
+              <div class="wave-bar" style="height: 19px;"></div>
+              <div class="wave-bar" style="height: 7px;"></div>
+            </div>
+            <span class="vn-duration" id="vnDuration">0:06</span>
           </div>
+
+          <div class="ai-transcription-box">
+            <div class="ai-transcription-header">
+              <span>🤖</span> Gemini Urdu Voice Transcription
+            </div>
+            <em>"Assalam-o-Alaikum, mujhe Panadol Extend aur Augmentin 625mg chahiye F-10 Islamabad ke liye, doctor ka nuskha sath bhej raha hoon."</em>
+          </div>
+
           <div class="bubble-meta">
-            <span>12:47 PM</span>
+            <span>12:46 PM</span>
             <span class="wa-ticks">✓✓</span>
           </div>
         `;
-        chatBox.appendChild(slip);
+        chatBox.appendChild(vnBubble);
         chatBox.scrollTop = chatBox.scrollHeight;
-      }, 6500));
 
-      // Step 4: Bot confirms OCR & requests location (9.5s)
+        // Auto-play sound simulation
+        playVoiceNoteEffect();
+      }, 500));
+
+      // Step 2: Customer uploads the REAL Doctor Prescription Slip (4.5s)
       timerQueue.push(setTimeout(() => {
-        appendBotMessage(`
-          <div class="prescription-card">
-            <span class="ocr-tag">✓ AI Vision Verified</span><br>
-            <strong>Prescription Verified:</strong><br>
-            • Augmentin 625mg (1 tab TDS x 5 days)<br>
-            • Doctor: Dr. Asim Malik (PIMS Islamabad)
+        setNarrative('Step 2 / 6: Prescription OCR', 'Customer uploads photo of handwritten doctor prescription pad',
+          'Gemini Vision OCR', 'Gemini extracts: "Tab Augmentin 625mg (TDS)" and "Tab Panadol Extend 665mg" directly from paper slip.');
+
+        soundWhatsAppSend();
+        const rxBubble = document.createElement('div');
+        rxBubble.className = 'bubble user';
+        rxBubble.innerHTML = `
+          <div class="prescription-image-wrapper">
+            <img src="assets/prescription_slip.jpg" alt="Doctor Prescription Slip" onerror="this.src='https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=400&q=80'">
+            <div class="ocr-scan-banner">
+              <span>📋 Dr. Eliza Reed, MD (Prescription)</span>
+              <span class="ocr-verified-pill">✓ Scanned</span>
+            </div>
           </div>
-          📍 Please share your <strong>Delivery Address</strong> or send your <strong>WhatsApp Live Location Pin</strong>.
-        `);
-      }, 9500));
+          <div class="bubble-meta">
+            <span>12:46 PM</span>
+            <span class="wa-ticks">✓✓</span>
+          </div>
+        `;
+        chatBox.appendChild(rxBubble);
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }, 4500));
 
-      // Step 5: Customer sends location pin (12.5s)
+      // Step 3: Bot responds with extracted medicines & location prompt (8s)
       timerQueue.push(setTimeout(() => {
-        setNarrative('Step 4 / 6', 'Customer shares WhatsApp Location Pin for instant distance calculation',
-          'Smart Geofencing', 'Bot calculates exact road distance (3.2 km) and applies the correct delivery fee (Rs. 150).');
+        setNarrative('Step 3 / 6: Medicine Verification', 'Bot confirms medicines from prescription and requests Delivery Pin',
+          'Automated Compliance', 'Bot checks inventory, displays verified prescription items, and asks for location.');
+
+        appendBotMessage(`
+          Walaikum Assalam Usman Bhai! 🌸<br><br>
+          ✅ <strong>Doctor's Prescription Verified:</strong><br>
+          • <strong>Augmentin 625mg</strong> (Pack of 21s) — <strong>Rs. 890</strong><br>
+          • <strong>Panadol Extend 665mg</strong> (Pack of 48s) — <strong>Rs. 350</strong><br><br>
+          📍 Please share your <strong>Delivery Location Pin</strong> or address on WhatsApp.
+        `);
+      }, 8000));
+
+      // Step 4: Customer sends WhatsApp Location Pin (11.5s)
+      timerQueue.push(setTimeout(() => {
+        setNarrative('Step 4 / 6: WhatsApp Pin Geofencing', 'Customer sends WhatsApp pin; distance calculated instantly',
+          'Automated Delivery Calculation', 'Bot calculates exact distance (3.2 km from F-10 branch) and quotes flat Rs. 150 delivery.');
 
         soundWhatsAppSend();
         const loc = document.createElement('div');
@@ -1164,7 +1359,7 @@
             <div class="map-preview">📍</div>
             <div class="location-details">
               <strong>House 42, St 14, F-10/2</strong><br>
-              Islamabad, Pakistan
+              Islamabad, Pakistan · <em>3.2 km from Pharmacy</em>
             </div>
           </div>
           <div class="bubble-meta">
@@ -1174,16 +1369,16 @@
         `;
         chatBox.appendChild(loc);
         chatBox.scrollTop = chatBox.scrollHeight;
-      }, 12500));
+      }, 11500));
 
-      // Step 6: Bot sends Bill & Interactive Payment Buttons (15s)
+      // Step 5: Bot sends Bill & Interactive Payment Buttons (14s)
       timerQueue.push(setTimeout(() => {
         appendBotMessage(`
           📋 <strong>Order Summary:</strong><br>
           • Augmentin 625mg: Rs. 890<br>
-          • Panadol Extend: Rs. 350<br>
-          • Delivery Fee (3.2 km): Rs. 150<br>
-          ──────────────────<br>
+          • Panadol Extend 665mg: Rs. 350<br>
+          • Express Rider Delivery (3.2 km): Rs. 150<br>
+          ───────────────────────<br>
           💰 <strong>Total Payable: Rs. 1,390</strong><br><br>
           Please select your payment method:
           <div class="interactive-buttons">
@@ -1191,18 +1386,18 @@
             <div class="wa-button">📱 JazzCash / EasyPaisa</div>
           </div>
         `);
-      }, 15000));
+      }, 14000));
 
-      // Step 7: Customer clicks Cash on Delivery (18s)
+      // Step 6: Customer clicks Cash on Delivery (17s)
       timerQueue.push(setTimeout(() => {
         document.getElementById('btnCod')?.classList.add('selected');
         soundWhatsAppSend();
         appendUserMessage('💵 Cash on Delivery (COD)');
-      }, 18000));
+      }, 17000));
 
-      // Step 8: Bot confirms order & DASHBOARD RINGS! (20s)
+      // Step 7: Bot confirms order & DASHBOARD RINGS! (19.5s)
       timerQueue.push(setTimeout(() => {
-        setNarrative('Step 5 / 6', 'Order confirmed on WhatsApp ➔ Order instantly pops up on Pharmacy Counter!',
+        setNarrative('Step 5 / 6: Counter Alert', 'Order confirmed on WhatsApp ➔ Order instantly chimes on Pharmacy Counter!',
           'Zero Human Delay', 'Pharmacy staff does not need to answer phone calls. Order appears on their counter computer with audio alert.');
 
         appendBotMessage(`
@@ -1219,69 +1414,76 @@
         document.getElementById('metricOrders').textContent = '49';
         document.getElementById('metricRev').textContent = 'Rs. 66,240';
         document.getElementById('stepPackBtn').classList.add('active-step');
-      }, 20000));
+      }, 19500));
 
-      // Step 9: Staff Packs Order (24s)
+      // Step 8: Staff Packs Order (23.5s)
       timerQueue.push(setTimeout(() => {
         manualStep(1);
-      }, 24000));
+      }, 23500));
 
-      // Step 10: Staff Dispatches Rider Ali (27s)
+      // Step 9: Staff Dispatches Rider Ali (26.5s)
       timerQueue.push(setTimeout(() => {
         manualStep(2);
-      }, 27000));
+      }, 26500));
 
-      // Step 11: Rider is 5 Mins Away Alert (31s)
+      // Step 10: Rider is 5 Mins Away Alert (30.5s)
       timerQueue.push(setTimeout(() => {
         manualStep(3);
-      }, 31000));
+      }, 30500));
 
-      // Step 12: Delivered & Completed (35s)
+      // Step 11: Delivered & Completed (34.5s)
       timerQueue.push(setTimeout(() => {
         manualStep(4);
-        setNarrative('Completed', '🎉 Order complete! Fast, reliable, and 100% automated via WhatsApp.',
+        setNarrative('Completed', '🎉 Order complete! Voice note, prescription OCR, and live rider alert all automated.',
           'Ready to Close Deal', 'Ask the client: "Is tarah ka system aapki pharmacy ko Pakistan ki top online delivery brand bana dega."');
         isPlaying = false;
         document.getElementById('playIcon').textContent = '▶';
         document.getElementById('playText').textContent = 'Play Demo Video Again';
-      }, 35000));
+      }, 34500));
     }
 
-    // Manual or Automated Step Handler for Pharmacy Dashboard
+    function playVoiceNoteEffect() {
+      const btn = document.getElementById('vnPlayBtn');
+      const wave = document.getElementById('vnWaveform');
+      if (btn) btn.textContent = '⏸';
+      if (wave) wave.classList.add('waveform-active');
+      soundVoiceNoteAudio();
+
+      setTimeout(() => {
+        if (btn) btn.textContent = '▶';
+        if (wave) wave.classList.remove('waveform-active');
+      }, 2000);
+    }
+
+    // Manual Step Handler for Pharmacy Dashboard
     function manualStep(step) {
       if (step === 1) {
-        // PACKED
         statusBadge.className = 'status-badge badge-packed';
         statusBadge.textContent = 'PACKED & CHECKED';
         document.getElementById('stepPackBtn').className = 'dispatch-btn completed-step';
         document.getElementById('stepRiderBtn').className = 'dispatch-btn active-step';
       } else if (step === 2) {
-        // DISPATCHED
         statusBadge.className = 'status-badge badge-dispatched';
         statusBadge.textContent = 'OUT FOR DELIVERY';
         document.getElementById('stepRiderBtn').className = 'dispatch-btn completed-step';
         document.getElementById('stepAlertBtn').className = 'dispatch-btn active-step';
 
-        // Send WhatsApp alert to customer
         appendBotMessage(`
           🛵 <strong>Order Dispatched!</strong><br><br>
-          Your rider <strong>Ali (0302-5551234)</strong> has collected your package from our F-10 branch and is on the way.
+          Your rider <strong>Ali (0302-5551234)</strong> has collected your medicine package and is on the way.
         `);
       } else if (step === 3) {
-        // 5 MINS AWAY
         statusBadge.className = 'status-badge badge-nearby';
         statusBadge.textContent = 'RIDER 5 MINS AWAY';
         document.getElementById('stepAlertBtn').className = 'dispatch-btn completed-step';
         document.getElementById('stepDoneBtn').className = 'dispatch-btn active-step';
 
-        // Send WhatsApp NEARBY alert to customer
         appendBotMessage(`
           🚨 <strong>Delivery Alert!</strong><br><br>
-          Assalam-o-Alaikum Usman! Your rider Ali is <strong>about 5 minutes away</strong> from your doorstep.<br><br>
+          Assalam-o-Alaikum Usman Bhai! Your rider Ali is <strong>about 5 minutes away</strong> from your doorstep.<br><br>
           💵 <em>Please keep exact cash ready: <strong>Rs. 1,390</strong>.</em>
         `);
       } else if (step === 4) {
-        // DELIVERED
         statusBadge.className = 'status-badge badge-delivered';
         statusBadge.textContent = 'DELIVERED & PAID';
         document.getElementById('stepDoneBtn').className = 'dispatch-btn completed-step';
