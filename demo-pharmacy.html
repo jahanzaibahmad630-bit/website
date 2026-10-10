@@ -3,67 +3,75 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MediFlow AI — Pharmacy WhatsApp Voice & Prescription Automation Demo</title>
+  <title>MediFlow AI — Pharmacy WhatsApp Automation & Dispatch Hub</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Nastaliq+Urdu:wght@500;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
   <style>
     :root {
+      /* Clean Clinical Healthcare Palette */
+      --bg-page: #F1F5F9;
+      --card-bg: #FFFFFF;
+      --border-subtle: #E2E8F0;
+      --border-strong: #CBD5E1;
+      --text-main: #0F172A;
+      --text-muted: #64748B;
+      --text-sub: #475569;
+      
+      --med-teal: #0D9488;
+      --med-emerald: #059669;
+      --med-blue: #0284C7;
+      --excel-green: #107C41;
+      
+      /* WhatsApp Native Colors */
       --wa-teal: #008069;
-      --wa-dark-teal: #075E54;
-      --wa-light-green: #25D366;
       --wa-chat-bg: #EFEAE2;
       --wa-user-bubble: #E7FFDB;
       --wa-bot-bubble: #FFFFFF;
       --wa-text: #111B21;
       --wa-timestamp: #667781;
-      
-      --dash-bg: #0B0F19;
-      --dash-card: #151D2E;
-      --dash-border: #243048;
-      --dash-text: #F8FAFC;
-      --dash-accent: #10B981;
-      --dash-amber: #F59E0B;
-      --dash-blue: #3B82F6;
     }
 
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
     body {
-      background: #070B14;
-      color: #E2E8F0;
+      background: var(--bg-page);
+      color: var(--text-main);
       min-height: 100vh;
       overflow-x: hidden;
     }
 
-    /* Top Navigation / Director Control Bar */
+    /* ========================================================
+       TOP HEADER (Clean Professional Clinical Navigation)
+    ======================================================== */
     header.control-bar {
-      background: rgba(11, 15, 25, 0.92);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid #1E293B;
-      padding: 12px 28px;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 12px 32px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       position: sticky;
       top: 0;
       z-index: 100;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     }
 
     .brand-group {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
     }
 
     .brand-badge {
-      background: linear-gradient(135deg, #059669, #10B981);
-      color: white;
+      background: #E6F4EA;
+      color: #065F46;
+      border: 1px solid #A7F3D0;
       font-weight: 800;
       font-size: 13.5px;
       padding: 6px 12px;
@@ -71,19 +79,19 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.3px;
     }
 
     .brand-title {
       font-size: 16px;
       font-weight: 800;
-      color: #FFFFFF;
+      color: #0F172A;
       letter-spacing: -0.2px;
     }
 
     .brand-sub {
-      font-size: 11.5px;
-      color: #94A3B8;
+      font-size: 12px;
+      color: var(--text-muted);
     }
 
     .controls-group {
@@ -93,8 +101,8 @@
     }
 
     .btn-action {
-      background: #10B981;
-      color: #042F2E;
+      background: #059669;
+      color: #FFFFFF;
       border: none;
       padding: 9px 18px;
       border-radius: 8px;
@@ -105,19 +113,19 @@
       align-items: center;
       gap: 8px;
       transition: all 0.2s ease;
-      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
+      box-shadow: 0 2px 6px rgba(5, 150, 105, 0.2);
     }
 
     .btn-action:hover {
-      background: #34D399;
+      background: #047857;
       transform: translateY(-1px);
     }
 
     .btn-secondary {
-      background: #1E293B;
-      color: #CBD5E1;
-      border: 1px solid #334155;
-      padding: 9px 15px;
+      background: #FFFFFF;
+      color: #334155;
+      border: 1px solid var(--border-strong);
+      padding: 9px 16px;
       border-radius: 8px;
       font-size: 12.5px;
       font-weight: 600;
@@ -129,19 +137,19 @@
     }
 
     .btn-secondary:hover {
-      background: #334155;
-      color: white;
+      background: #F8FAFC;
+      border-color: #94A3B8;
     }
 
     /* Subtitle Banner for Screen Recording */
     .director-banner {
-      background: linear-gradient(90deg, #1E1B4B, #0F172A, #1E1B4B);
-      border-bottom: 1px solid #312E81;
-      padding: 9px 24px;
+      background: #F8FAFC;
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 10px 24px;
       text-align: center;
       font-size: 13px;
       font-weight: 600;
-      color: #C7D2FE;
+      color: #334155;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -149,17 +157,17 @@
     }
 
     .director-step-badge {
-      background: #4338CA;
-      color: #EEF2FF;
+      background: #0284C7;
+      color: #FFFFFF;
       font-size: 11px;
       font-weight: 800;
-      padding: 2px 9px;
+      padding: 3px 10px;
       border-radius: 12px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
-    /* Main Stage */
+    /* Main Stage Layout */
     .stage-container {
       max-width: 1540px;
       margin: 0 auto;
@@ -174,10 +182,10 @@
        LEFT COLUMN: REALISTIC WHATSAPP PHONE SIMULATOR
     ======================================================== */
     .phone-mockup {
-      background: #000000;
+      background: #1E293B;
       border-radius: 50px;
       padding: 12px;
-      box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.8), 0 0 0 1px #334155;
+      box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.2), 0 0 0 1px #CBD5E1;
       position: relative;
     }
 
@@ -191,7 +199,7 @@
       position: relative;
     }
 
-    /* WhatsApp Wallpaper Pattern */
+    /* Subtle WhatsApp Wallpaper Pattern */
     .phone-screen::before {
       content: "";
       position: absolute;
@@ -353,9 +361,7 @@
       font-weight: 700;
     }
 
-    /* ========================================================
-       VOICE MESSAGE PLAYER COMPONENT
-    ======================================================== */
+    /* Voice Note Bubble Component */
     .voice-note-bubble {
       display: flex;
       align-items: center;
@@ -468,14 +474,12 @@
       margin-bottom: 2px;
     }
 
-    /* ========================================================
-       PRESCRIPTION CARD WITH REALISTIC DOCTOR SLIP
-    ======================================================== */
+    /* Prescription Image Card */
     .prescription-image-wrapper {
       border-radius: 8px;
       overflow: hidden;
       margin-top: 4px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
       background: #FFFFFF;
       border: 1px solid #CBD5E1;
       position: relative;
@@ -520,7 +524,7 @@
       border-radius: 8px;
       overflow: hidden;
       margin-top: 4px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.08);
     }
 
     .map-preview {
@@ -539,7 +543,7 @@
       position: absolute;
       bottom: 4px;
       right: 6px;
-      background: rgba(0,0,0,0.6);
+      background: rgba(0,0,0,0.65);
       color: white;
       font-size: 9px;
       padding: 2px 6px;
@@ -627,25 +631,21 @@
       transition: transform 0.1s;
     }
 
-    .wa-mic-btn:active {
-      transform: scale(0.92);
-    }
-
     /* ========================================================
-       RIGHT COLUMN: PHARMACY DISPATCH DASHBOARD
+       RIGHT COLUMN: CLEAN MEDICAL PHARMACY PORTAL
     ======================================================== */
     .dash-panel {
-      background: var(--dash-card);
-      border: 1px solid var(--dash-border);
-      border-radius: 24px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
     }
 
     .dash-header {
-      background: #0E1524;
-      padding: 18px 26px;
-      border-bottom: 1px solid var(--dash-border);
+      background: #FFFFFF;
+      padding: 20px 28px;
+      border-bottom: 1px solid var(--border-subtle);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -656,7 +656,8 @@
       align-items: center;
       gap: 8px;
       font-size: 12.5px;
-      color: #94A3B8;
+      color: var(--text-muted);
+      margin-top: 4px;
     }
 
     .live-pulse {
@@ -674,41 +675,83 @@
       100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
     }
 
+    /* Excel Action & Status Group */
+    .excel-action-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-excel {
+      background: #107C41;
+      color: white;
+      border: none;
+      padding: 9px 16px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(16, 124, 65, 0.25);
+    }
+
+    .btn-excel:hover {
+      background: #0E6836;
+      transform: translateY(-1px);
+    }
+
+    .sync-chip {
+      background: #F0FDF4;
+      color: #166534;
+      border: 1px solid #BBF7D0;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 7px 12px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
     /* Metrics Grid */
     .metrics-row {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 14px;
-      padding: 16px 26px;
-      background: #090E1A;
-      border-bottom: 1px solid var(--dash-border);
+      padding: 18px 28px;
+      background: #F8FAFC;
+      border-bottom: 1px solid var(--border-subtle);
     }
 
     .metric-card {
-      background: #151F33;
-      border: 1px solid #23314B;
-      padding: 12px 16px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      padding: 14px 18px;
       border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
     }
 
     .metric-label {
       font-size: 11px;
-      color: #94A3B8;
+      color: var(--text-muted);
       text-transform: uppercase;
       font-weight: 700;
       letter-spacing: 0.5px;
     }
 
     .metric-val {
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 800;
-      color: #FFFFFF;
+      color: #0F172A;
       margin-top: 4px;
     }
 
     /* Active Order Section */
     .order-feed-section {
-      padding: 24px 26px;
+      padding: 24px 28px;
     }
 
     .section-title-bar {
@@ -721,25 +764,21 @@
     .section-title {
       font-size: 15px;
       font-weight: 700;
-      color: #F8FAFC;
+      color: #0F172A;
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
-    /* Highlighted Real-time Order Card */
+    /* Clean Clinical Order Card */
     .live-order-card {
-      background: #0C1220;
-      border: 2px solid #222E46;
-      border-radius: 18px;
+      background: #FFFFFF;
+      border: 2px solid #059669;
+      border-radius: 16px;
       padding: 22px;
+      box-shadow: 0 8px 24px -4px rgba(5, 150, 105, 0.12);
       transition: all 0.3s ease;
       position: relative;
-    }
-
-    .live-order-card.highlight {
-      border-color: #10B981;
-      box-shadow: 0 0 35px rgba(16, 185, 129, 0.25);
     }
 
     .order-top {
@@ -747,14 +786,14 @@
       justify-content: space-between;
       align-items: flex-start;
       margin-bottom: 16px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid #1E293B;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-subtle);
     }
 
     .order-id-group h3 {
       font-size: 18px;
       font-weight: 800;
-      color: #FFFFFF;
+      color: #0F172A;
       display: flex;
       align-items: center;
       gap: 10px;
@@ -763,21 +802,21 @@
     .status-badge {
       font-size: 11px;
       font-weight: 800;
-      padding: 4px 10px;
+      padding: 4px 12px;
       border-radius: 20px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
-    .badge-incoming { background: #3B82F6; color: white; }
-    .badge-packed { background: #F59E0B; color: #78350F; }
-    .badge-dispatched { background: #8B5CF6; color: white; }
-    .badge-nearby { background: #EC4899; color: white; animation: pulseNearby 1s infinite; }
-    .badge-delivered { background: #10B981; color: white; }
+    .badge-incoming { background: #E0F2FE; color: #0369A1; }
+    .badge-packed { background: #FEF3C7; color: #92400E; }
+    .badge-dispatched { background: #F3E8FF; color: #6B21A8; }
+    .badge-nearby { background: #FCE7F3; color: #9D174D; animation: pulseNearby 1s infinite; }
+    .badge-delivered { background: #DCFCE7; color: #166534; }
 
     @keyframes pulseNearby {
       0%, 100% { opacity: 1; }
-      50% { opacity: 0.6; }
+      50% { opacity: 0.65; }
     }
 
     .order-grid-info {
@@ -791,51 +830,52 @@
     .info-block label {
       display: block;
       font-size: 11px;
-      color: #64748B;
+      color: var(--text-muted);
       font-weight: 700;
       text-transform: uppercase;
       margin-bottom: 4px;
     }
 
     .info-block p {
-      color: #CBD5E1;
-      font-weight: 500;
+      color: #1E293B;
+      font-weight: 600;
     }
 
+    /* Items Table */
     .items-table {
       width: 100%;
-      background: #101726;
-      border: 1px solid #1E293B;
+      background: #F8FAFC;
+      border: 1px solid var(--border-subtle);
       border-radius: 10px;
-      padding: 12px 16px;
-      margin-bottom: 18px;
-      font-size: 12.5px;
+      padding: 12px 18px;
+      margin-bottom: 20px;
+      font-size: 13px;
     }
 
     .items-row {
       display: flex;
       justify-content: space-between;
-      padding: 5px 0;
-      color: #CBD5E1;
+      padding: 6px 0;
+      color: #334155;
     }
 
     .items-row.total {
-      border-top: 1px dashed #334155;
+      border-top: 1px dashed var(--border-strong);
       margin-top: 8px;
       padding-top: 8px;
       font-weight: 800;
-      color: #10B981;
-      font-size: 14.5px;
+      color: #059669;
+      font-size: 15px;
     }
 
-    /* Dispatch Action Buttons */
+    /* 4-Stage Dispatch Buttons */
     .dispatch-actions {
       display: flex;
       gap: 10px;
-      background: #101726;
+      background: #F8FAFC;
       padding: 12px;
       border-radius: 12px;
-      border: 1px solid #1E293B;
+      border: 1px solid var(--border-subtle);
     }
 
     .dispatch-btn {
@@ -844,9 +884,9 @@
       border-radius: 8px;
       font-size: 12.5px;
       font-weight: 700;
-      border: 1px solid #334155;
-      background: #1E293B;
-      color: #94A3B8;
+      border: 1px solid var(--border-strong);
+      background: #FFFFFF;
+      color: var(--text-muted);
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -856,26 +896,26 @@
     }
 
     .dispatch-btn.active-step {
-      background: #10B981;
-      color: #022C22;
-      border-color: #10B981;
-      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+      background: #059669;
+      color: #FFFFFF;
+      border-color: #059669;
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);
       cursor: pointer;
     }
 
     .dispatch-btn.completed-step {
-      background: #064E3B;
-      color: #6EE7B7;
-      border-color: #065F46;
+      background: #ECFDF5;
+      color: #065F46;
+      border-color: #A7F3D0;
     }
 
-    /* Pitch Card for Video */
+    /* Video Narration / Pitch Note Card */
     .narration-box {
-      margin-top: 22px;
-      background: #0C1220;
-      border: 1px solid #23314B;
+      margin-top: 24px;
+      background: #F8FAFC;
+      border: 1px solid var(--border-subtle);
       padding: 16px 20px;
-      border-radius: 14px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       gap: 14px;
@@ -888,13 +928,13 @@
     .narration-text h4 {
       font-size: 14px;
       font-weight: 700;
-      color: #F8FAFC;
+      color: #0F172A;
     }
 
     .narration-text p {
       font-size: 12.5px;
-      color: #94A3B8;
-      margin-top: 3px;
+      color: var(--text-muted);
+      margin-top: 2px;
     }
   </style>
 </head>
@@ -907,8 +947,8 @@
         <span>💊</span> MEDIFLOW AI
       </div>
       <div>
-        <div class="brand-title">Pharmacy WhatsApp Automation System</div>
-        <div class="brand-sub">Urdu Voice Notes + Gemini Vision Prescription OCR + Dispatch Hub</div>
+        <div class="brand-title">MediCare Pharmacy — Automation & Dispatch System</div>
+        <div class="brand-sub">Meta WhatsApp Cloud API · Gemini Flash Vision · Excel/Google Sheets Sync</div>
       </div>
     </div>
 
@@ -975,31 +1015,34 @@
             <span id="fakeInputText">Type a message...</span>
             <span style="opacity: 0.6;">📎</span>
           </div>
-          <div class="wa-mic-btn" id="sendBtnIcon" onclick="manualVoiceNoteTrigger()">🎙️</div>
+          <div class="wa-mic-btn" id="sendBtnIcon">🎙️</div>
         </div>
 
       </div>
     </div>
 
     <!-- ========================================================
-         RIGHT: PHARMACY DISPATCH DASHBOARD
+         RIGHT: CLEAN MEDICAL DISPATCH & EXCEL DASHBOARD
     ======================================================== -->
     <div class="dash-panel">
       
       <!-- Dashboard Header -->
       <div class="dash-header">
         <div>
-          <h2 style="font-size: 18px; font-weight: 800; color: white;">Order Dispatch & Rider Management</h2>
-          <div class="dash-branch-badge" style="margin-top: 4px;">
+          <h2 style="font-size: 18px; font-weight: 800; color: #0F172A;">Order Dispatch & Pharmacy Management</h2>
+          <div class="dash-branch-badge">
             <div class="live-pulse"></div>
-            <span>Branch #04: Sector F-10/2, Islamabad · WhatsApp API & Gemini AI Connected</span>
+            <span>Branch #04: Sector F-10/2, Islamabad · WhatsApp API & Google Sheets Connected</span>
           </div>
         </div>
 
-        <div style="display: flex; gap: 10px;">
-          <span style="font-size: 12px; background: #064E3B; color: #A7F3D0; font-weight: 700; padding: 6px 12px; border-radius: 8px;">
-            ● Meta Cloud API: ACTIVE
-          </span>
+        <div class="excel-action-group">
+          <button class="btn-excel" onclick="downloadExcelReport()">
+            <span>📥</span> Export to Excel (.xlsx)
+          </button>
+          <div class="sync-chip">
+            <span>📊</span> Google Sheets: Live Synced
+          </div>
         </div>
       </div>
 
@@ -1019,7 +1062,7 @@
         </div>
         <div class="metric-card">
           <div class="metric-label">Avg Delivery Time</div>
-          <div class="metric-val" style="color: #10B981;">32 Mins</div>
+          <div class="metric-val" style="color: #059669;">32 Mins</div>
         </div>
       </div>
 
@@ -1030,7 +1073,7 @@
           <div class="section-title">
             <span>📦</span> Real-Time Incoming Order Feed
           </div>
-          <span style="font-size: 12px; color: #94A3B8;">Auto-syncing via WhatsApp Webhook</span>
+          <span style="font-size: 12px; color: var(--text-muted);">Auto-updating via WhatsApp Webhook & Excel</span>
         </div>
 
         <!-- The Order Card -->
@@ -1041,26 +1084,26 @@
               <h3>Order #1042</h3>
               <span class="status-badge badge-incoming" id="orderStatusBadge">RECEIVED</span>
             </div>
-            <div style="font-size: 12px; color: #94A3B8;">Just now via WhatsApp Voice & OCR</div>
+            <div style="font-size: 12px; color: var(--text-muted);">Just now via WhatsApp Voice & OCR</div>
           </div>
 
           <div class="order-grid-info">
             <div class="info-block">
               <label>Customer Details</label>
-              <p><strong>Muhammad Usman</strong></p>
-              <p>0300-1234567</p>
+              <p>Muhammad Usman</p>
+              <p style="color: #64748B; font-size: 12px; font-weight: 500;">0300-1234567</p>
             </div>
 
             <div class="info-block">
               <label>Delivery Address</label>
               <p>House 42, St 14, F-10/2, Islamabad</p>
-              <p style="color: #10B981; font-size: 11px;">📍 3.2 km away · Geo-verified</p>
+              <p style="color: #059669; font-size: 11px; font-weight: 700;">📍 3.2 km away · Geo-verified</p>
             </div>
 
             <div class="info-block">
               <label>Payment Mode</label>
-              <p><strong>Cash on Delivery (COD)</strong></p>
-              <p style="color: #F59E0B; font-size: 11px;">Collect at doorstep</p>
+              <p>Cash on Delivery (COD)</p>
+              <p style="color: #D97706; font-size: 11px; font-weight: 700;">Collect at doorstep</p>
             </div>
           </div>
 
@@ -1068,15 +1111,15 @@
           <div class="items-table">
             <div class="items-row">
               <span>• Augmentin 625mg (1 Pack - 21 Tablets)</span>
-              <span>Rs. 890.00</span>
+              <span style="font-weight: 600;">Rs. 890.00</span>
             </div>
             <div class="items-row">
               <span>• Panadol Extend 665mg (1 Pack - 48 Tablets)</span>
-              <span>Rs. 350.00</span>
+              <span style="font-weight: 600;">Rs. 350.00</span>
             </div>
             <div class="items-row">
               <span>• Standard Rider Delivery (3.2 km)</span>
-              <span>Rs. 150.00</span>
+              <span style="font-weight: 600;">Rs. 150.00</span>
             </div>
             <div class="items-row total">
               <span>TOTAL PAYABLE</span>
@@ -1102,7 +1145,7 @@
 
         </div>
 
-        <div id="noOrderPlaceholder" style="text-align: center; padding: 48px; border: 2px dashed #23314B; border-radius: 12px; color: #64748B;">
+        <div id="noOrderPlaceholder" style="text-align: center; padding: 48px; border: 2px dashed var(--border-strong); border-radius: 12px; color: var(--text-muted); background: #F8FAFC;">
           <div style="font-size: 32px; margin-bottom: 8px;">⏳</div>
           <p>Waiting for incoming WhatsApp order... Press <strong>"Play Demo Video"</strong> above to start.</p>
         </div>
@@ -1112,7 +1155,7 @@
           <div class="narration-icon">🎙️</div>
           <div class="narration-text">
             <h4 id="narrationTitle">Client Pitch Point</h4>
-            <p id="narrationDesc">Explain to client: "Customer WhatsApp par Urdu mein voice note bhejta hai ya doctor ka nuskha bhejta hai, hamara AI automatically medicine extract karke counter par order generate kar deta hai."</p>
+            <p id="narrationDesc">Explain to client: "Customer WhatsApp par Urdu mein voice note bhejta hai ya doctor ka nuskha bhejta hai, hamara AI automatically medicine extract karke counter aur Excel sheet mein order generate kar deta hai."</p>
           </div>
         </div>
 
@@ -1152,7 +1195,6 @@
     }
 
     function soundVoiceNoteAudio() {
-      // Warm human-like voice simulation tones
       playBeep(320, 0.25, 'triangle');
       setTimeout(() => playBeep(380, 0.3, 'triangle'), 150);
       setTimeout(() => playBeep(290, 0.35, 'triangle'), 350);
@@ -1163,6 +1205,24 @@
       playBeep(523, 0.1, 'triangle');
       setTimeout(() => playBeep(659, 0.1, 'triangle'), 90);
       setTimeout(() => playBeep(783, 0.22, 'triangle'), 180);
+    }
+
+    // 1-Click Excel CSV Export
+    function downloadExcelReport() {
+      const csvContent = "data:text/csv;charset=utf-8," 
+        + "Order ID,Date Time,Customer Name,Phone,Address,Medicines,Total (PKR),Payment Mode,Status\n"
+        + "#1040,10-Oct 10:15 AM,Ahmed Raza,0321-9876543,G-9/1 Islamabad,Panadol (2x) Disprin (1x),450,COD,Delivered\n"
+        + "#1041,10-Oct 11:20 AM,Sara Khan,0333-5551212,F-11 Markaz,Risek 40mg (1x),420,JazzCash,Delivered\n"
+        + "#1042,10-Oct 12:47 PM,Muhammad Usman,0300-1234567,H 42 St 14 F-10/2 Islamabad,Augmentin 625mg Panadol Extend,1390,COD,Dispatched\n";
+      
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "MediCare_Orders_Report_10Oct2026.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      alert("📥 Downloaded MediCare_Orders_Report_10Oct2026.csv successfully! Ready to open in Microsoft Excel.");
     }
   </script>
 
@@ -1235,7 +1295,7 @@
       });
 
       setNarrative('Ready', 'Press "Play Demo Video" above to watch Voice Notes, Doctor Prescription Scan, and Rider Alerts in action!', 
-        'Client Pitch Point', 'Explain: "Pakistani customers aam tor par voice notes bhejte hain ya doctor ke nuskhe ki photo bhejte hain — hamara AI dono ko 100% handle karta hai."');
+        'Client Pitch Point', 'Explain: "Pakistani customers aam tor par voice notes bhejte hain ya doctor ke nuskhe ki photo bhejte hain — hamara AI dono ko automatically handle karta hai."');
     }
 
     function toggleAutoplay() {
@@ -1251,10 +1311,6 @@
       isPlaying = true;
       document.getElementById('playIcon').textContent = '⏹';
       document.getElementById('playText').textContent = 'Stop Demo';
-
-      // ========================================================
-      // TIMELINE ORCHESTRATION WITH VOICE NOTES + PRESCRIPTION OCR
-      // ========================================================
 
       // Step 1: Customer sends Urdu Voice Note (0.5s)
       setNarrative('Step 1 / 6: Urdu Voice Note', 'Customer records a 6-second Voice Note in Urdu asking for medicines',
@@ -1303,11 +1359,10 @@
         chatBox.appendChild(vnBubble);
         chatBox.scrollTop = chatBox.scrollHeight;
 
-        // Auto-play sound simulation
         playVoiceNoteEffect();
       }, 500));
 
-      // Step 2: Customer uploads the REAL Doctor Prescription Slip (4.5s)
+      // Step 2: Customer uploads Doctor Prescription Slip (4.5s)
       timerQueue.push(setTimeout(() => {
         setNarrative('Step 2 / 6: Prescription OCR', 'Customer uploads photo of handwritten doctor prescription pad',
           'Gemini Vision OCR', 'Gemini extracts: "Tab Augmentin 625mg (TDS)" and "Tab Panadol Extend 665mg" directly from paper slip.');
@@ -1397,7 +1452,7 @@
 
       // Step 7: Bot confirms order & DASHBOARD RINGS! (19.5s)
       timerQueue.push(setTimeout(() => {
-        setNarrative('Step 5 / 6: Counter Alert', 'Order confirmed on WhatsApp ➔ Order instantly chimes on Pharmacy Counter!',
+        setNarrative('Step 5 / 6: Counter & Excel Alert', 'Order confirmed on WhatsApp ➔ Order instantly syncs to Counter & Excel!',
           'Zero Human Delay', 'Pharmacy staff does not need to answer phone calls. Order appears on their counter computer with audio alert.');
 
         appendBotMessage(`
@@ -1406,11 +1461,9 @@
           🛵 You will receive a live notification once the rider is dispatched!
         `);
 
-        // Trigger Dashboard Display
         soundOrderBell();
         noOrderPlaceholder.style.display = 'none';
         orderCard.style.display = 'block';
-        orderCard.classList.add('highlight');
         document.getElementById('metricOrders').textContent = '49';
         document.getElementById('metricRev').textContent = 'Rs. 66,240';
         document.getElementById('stepPackBtn').classList.add('active-step');
@@ -1434,8 +1487,8 @@
       // Step 11: Delivered & Completed (34.5s)
       timerQueue.push(setTimeout(() => {
         manualStep(4);
-        setNarrative('Completed', '🎉 Order complete! Voice note, prescription OCR, and live rider alert all automated.',
-          'Ready to Close Deal', 'Ask the client: "Is tarah ka system aapki pharmacy ko Pakistan ki top online delivery brand bana dega."');
+        setNarrative('Completed', '🎉 Order complete! Voice note, prescription OCR, Excel sync, and live rider alert all automated.',
+          'Ready to Close Deal', 'Ask the client: "Is tarah ka clean system aapki pharmacy ko Pakistan ki top online delivery brand bana dega."');
         isPlaying = false;
         document.getElementById('playIcon').textContent = '▶';
         document.getElementById('playText').textContent = 'Play Demo Video Again';
