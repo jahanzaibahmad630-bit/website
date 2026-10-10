@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MediFlow AI — Pharmacy WhatsApp Automation & Dispatch Hub</title>
+  <title>MediFlow AI — Pharmacy WhatsApp Automation & Management Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
@@ -92,6 +92,37 @@
     .brand-sub {
       font-size: 12px;
       color: var(--text-muted);
+    }
+
+    /* Tab Switcher in Center */
+    .view-switcher {
+      display: flex;
+      background: #F1F5F9;
+      padding: 4px;
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+      gap: 4px;
+    }
+
+    .view-btn {
+      background: transparent;
+      border: none;
+      padding: 7px 16px;
+      border-radius: 7px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text-sub);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .view-btn.active {
+      background: #FFFFFF;
+      color: #0F172A;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
     }
 
     .controls-group {
@@ -199,7 +230,6 @@
       position: relative;
     }
 
-    /* Subtle WhatsApp Wallpaper Pattern */
     .phone-screen::before {
       content: "";
       position: absolute;
@@ -210,7 +240,6 @@
       pointer-events: none;
     }
 
-    /* Phone Status Bar + Dynamic Island */
     .phone-status-bar {
       background: var(--wa-teal);
       color: white;
@@ -235,7 +264,6 @@
       top: 6px;
     }
 
-    /* WhatsApp App Bar */
     .wa-app-bar {
       background: var(--wa-teal);
       color: white;
@@ -283,7 +311,6 @@
       opacity: 0.9;
     }
 
-    /* Chat Messages Box */
     .wa-messages-box {
       flex: 1;
       overflow-y: auto;
@@ -314,7 +341,6 @@
       margin-bottom: 4px;
     }
 
-    /* Message Bubbles */
     .bubble {
       max-width: 86%;
       padding: 8px 10px 6px 11px;
@@ -361,7 +387,7 @@
       font-weight: 700;
     }
 
-    /* Voice Note Bubble Component */
+    /* Voice Note Bubble */
     .voice-note-bubble {
       display: flex;
       align-items: center;
@@ -414,10 +440,6 @@
       cursor: pointer;
       flex-shrink: 0;
       transition: transform 0.15s;
-    }
-
-    .vn-play-btn:hover {
-      transform: scale(1.08);
     }
 
     .vn-waveform {
@@ -474,7 +496,7 @@
       margin-bottom: 2px;
     }
 
-    /* Prescription Image Card */
+    /* Prescription Card */
     .prescription-image-wrapper {
       border-radius: 8px;
       overflow: hidden;
@@ -490,12 +512,6 @@
       height: 210px;
       object-fit: cover;
       display: block;
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-
-    .prescription-image-wrapper img:hover {
-      transform: scale(1.02);
     }
 
     .ocr-scan-banner {
@@ -518,7 +534,7 @@
       text-transform: uppercase;
     }
 
-    /* Location Card Preview */
+    /* Location Card */
     .location-card {
       background: #E2E8F0;
       border-radius: 8px;
@@ -557,7 +573,7 @@
       color: #334155;
     }
 
-    /* Interactive Buttons */
+    /* Buttons */
     .interactive-buttons {
       display: flex;
       flex-direction: column;
@@ -594,7 +610,6 @@
       border-color: #008069;
     }
 
-    /* WhatsApp Input Bar */
     .wa-input-bar {
       background: #F0F2F5;
       padding: 8px 10px;
@@ -628,11 +643,10 @@
       font-size: 16px;
       cursor: pointer;
       box-shadow: 0 2px 6px rgba(0, 128, 105, 0.3);
-      transition: transform 0.1s;
     }
 
     /* ========================================================
-       RIGHT COLUMN: CLEAN MEDICAL PHARMACY PORTAL
+       RIGHT COLUMN: CLEAN MEDICAL DISPATCH FEED
     ======================================================== */
     .dash-panel {
       background: var(--card-bg);
@@ -675,7 +689,6 @@
       100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
     }
 
-    /* Excel Action & Status Group */
     .excel-action-group {
       display: flex;
       align-items: center;
@@ -716,7 +729,6 @@
       gap: 6px;
     }
 
-    /* Metrics Grid */
     .metrics-row {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -749,7 +761,6 @@
       margin-top: 4px;
     }
 
-    /* Active Order Section */
     .order-feed-section {
       padding: 24px 28px;
     }
@@ -770,7 +781,6 @@
       gap: 8px;
     }
 
-    /* Clean Clinical Order Card */
     .live-order-card {
       background: #FFFFFF;
       border: 2px solid #059669;
@@ -814,11 +824,6 @@
     .badge-nearby { background: #FCE7F3; color: #9D174D; animation: pulseNearby 1s infinite; }
     .badge-delivered { background: #DCFCE7; color: #166534; }
 
-    @keyframes pulseNearby {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.65; }
-    }
-
     .order-grid-info {
       display: grid;
       grid-template-columns: 1.2fr 1.5fr 1fr;
@@ -841,7 +846,6 @@
       font-weight: 600;
     }
 
-    /* Items Table */
     .items-table {
       width: 100%;
       background: #F8FAFC;
@@ -868,7 +872,6 @@
       font-size: 15px;
     }
 
-    /* 4-Stage Dispatch Buttons */
     .dispatch-actions {
       display: flex;
       gap: 10px;
@@ -909,7 +912,6 @@
       border-color: #A7F3D0;
     }
 
-    /* Video Narration / Pitch Note Card */
     .narration-box {
       margin-top: 24px;
       background: #F8FAFC;
@@ -936,20 +938,225 @@
       color: var(--text-muted);
       margin-top: 2px;
     }
+
+    /* ========================================================
+       FULL PHARMACY MANAGEMENT & ANALYTICS DASHBOARD VIEW
+    ======================================================== */
+    .dashboard-view-container {
+      max-width: 1540px;
+      margin: 0 auto;
+      padding: 24px 32px;
+    }
+
+    .dash-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .kpi-box {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+    }
+
+    .kpi-box-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .kpi-box-val {
+      font-size: 28px;
+      font-weight: 800;
+      color: #0F172A;
+      margin-top: 8px;
+    }
+
+    .kpi-trend {
+      font-size: 12px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 6px;
+    }
+    .trend-up { color: #059669; }
+
+    /* Dashboard 2-Column Split */
+    .dash-columns {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .dash-card-box {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+    }
+
+    .dash-card-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #0F172A;
+      margin-bottom: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Revenue SVG Chart */
+    .chart-svg-box {
+      width: 100%;
+      height: 200px;
+      background: #F8FAFC;
+      border-radius: 12px;
+      padding: 12px;
+      display: flex;
+      align-items: flex-end;
+      gap: 16px;
+      justify-content: space-between;
+    }
+
+    .chart-bar-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+      justify-content: flex-end;
+      gap: 6px;
+    }
+
+    .chart-bar {
+      width: 100%;
+      background: linear-gradient(180deg, #10B981, #059669);
+      border-radius: 6px 6px 0 0;
+      transition: height 0.5s ease;
+    }
+
+    .chart-bar-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* Inventory Stock Alert Table */
+    .stock-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .stock-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 12px;
+      background: #F8FAFC;
+      border-radius: 8px;
+      border: 1px solid var(--border-subtle);
+      font-size: 13px;
+    }
+
+    .stock-pill {
+      font-size: 10.5px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 6px;
+      text-transform: uppercase;
+    }
+    .stock-normal { background: #DCFCE7; color: #166534; }
+    .stock-low { background: #FEF3C7; color: #92400E; }
+    .stock-alert { background: #FEE2E2; color: #991B1B; }
+
+    /* Orders Master Table */
+    .orders-table-container {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+    }
+
+    .table-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .search-input {
+      padding: 8px 14px;
+      border: 1px solid var(--border-strong);
+      border-radius: 8px;
+      font-size: 12.5px;
+      width: 280px;
+      outline: none;
+    }
+
+    .master-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+
+    .master-table th {
+      background: #F8FAFC;
+      padding: 12px 14px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .master-table td {
+      padding: 14px 14px;
+      border-bottom: 1px solid var(--border-subtle);
+      color: #334155;
+    }
+
+    .master-table tr:hover {
+      background: #F8FAFC;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Top Controls -->
+  <!-- Top Controls & View Switcher -->
   <header class="control-bar">
     <div class="brand-group">
       <div class="brand-badge">
         <span>💊</span> MEDIFLOW AI
       </div>
       <div>
-        <div class="brand-title">MediCare Pharmacy — Automation & Dispatch System</div>
+        <div class="brand-title">MediCare Pharmacy — Automation & Management Hub</div>
         <div class="brand-sub">Meta WhatsApp Cloud API · Gemini Flash Vision · Excel/Google Sheets Sync</div>
       </div>
+    </div>
+
+    <!-- Center Tab Switcher -->
+    <div class="view-switcher">
+      <button class="view-btn active" id="tabDispatchBtn" onclick="switchView('dispatch')">
+        <span>🛵</span> Live Dispatch & WhatsApp
+      </button>
+      <button class="view-btn" id="tabDashboardBtn" onclick="switchView('dashboard')">
+        <span>📊</span> Pharmacy Admin Dashboard
+      </button>
     </div>
 
     <div class="controls-group">
@@ -968,12 +1175,12 @@
     <span id="stepNarrative">Press "Play Demo Video" above to watch Voice Notes, Doctor Prescription Scan, and Rider Alerts in action!</span>
   </div>
 
-  <!-- Main Stage Layout -->
-  <div class="stage-container">
+  <!-- ========================================================
+       VIEW 1: DISPATCH FEED & WHATSAPP SIMULATOR (DEFAULT)
+  ======================================================== -->
+  <div class="stage-container" id="viewDispatchSection">
 
-    <!-- ========================================================
-         LEFT: PHONE SIMULATOR
-    ======================================================== -->
+    <!-- LEFT: PHONE SIMULATOR -->
     <div class="phone-mockup">
       <div class="phone-screen">
         
@@ -1021,9 +1228,7 @@
       </div>
     </div>
 
-    <!-- ========================================================
-         RIGHT: CLEAN MEDICAL DISPATCH & EXCEL DASHBOARD
-    ======================================================== -->
+    <!-- RIGHT: CLEAN MEDICAL DISPATCH FEED -->
     <div class="dash-panel">
       
       <!-- Dashboard Header -->
@@ -1165,7 +1370,227 @@
 
   </div>
 
-  <!-- Audio Synthesizer for Realistic Sound Effects -->
+  <!-- ========================================================
+       VIEW 2: FULL PHARMACY MANAGEMENT & ANALYTICS DASHBOARD
+  ======================================================== -->
+  <div class="dashboard-view-container" id="viewDashboardSection" style="display: none;">
+    
+    <!-- KPI Overview Cards -->
+    <div class="dash-kpi-grid">
+      <div class="kpi-box">
+        <div class="kpi-box-header">
+          <span>Today's Total Revenue</span>
+          <span>💰</span>
+        </div>
+        <div class="kpi-box-val" id="dashKpiRev">PKR 66,240</div>
+        <div class="kpi-trend trend-up">↑ +14.8% vs yesterday</div>
+      </div>
+
+      <div class="kpi-box">
+        <div class="kpi-box-header">
+          <span>Orders Processed</span>
+          <span>📦</span>
+        </div>
+        <div class="kpi-box-val" id="dashKpiOrders">49 Orders</div>
+        <div class="kpi-trend trend-up">↑ 42 Delivered · 7 In Transit</div>
+      </div>
+
+      <div class="kpi-box">
+        <div class="kpi-box-header">
+          <span>Avg Delivery Time</span>
+          <span>⚡</span>
+        </div>
+        <div class="kpi-box-val" style="color: #059669;">31.4 Mins</div>
+        <div class="kpi-trend trend-up">98.2% on-time delivery</div>
+      </div>
+
+      <div class="kpi-box">
+        <div class="kpi-box-header">
+          <span>Prescription Verification</span>
+          <span>📋</span>
+        </div>
+        <div class="kpi-box-val" style="color: #0284C7;">99.4% AI Match</div>
+        <div class="kpi-trend trend-up">Gemini Multimodal OCR</div>
+      </div>
+    </div>
+
+    <!-- 2-Column Split: Sales Chart + Inventory Monitor -->
+    <div class="dash-columns">
+      
+      <!-- Weekly Revenue Chart -->
+      <div class="dash-card-box">
+        <div class="dash-card-title">
+          <span>📈 Weekly Revenue Trend (Islamabad Branches)</span>
+          <span style="font-size: 12px; font-weight: 600; color: #059669;">PKR 412,800 Total This Week</span>
+        </div>
+        
+        <div class="chart-svg-box">
+          <div class="chart-bar-col">
+            <div class="chart-bar" style="height: 55%;"></div>
+            <span class="chart-bar-label">Mon</span>
+          </div>
+          <div class="chart-bar-col">
+            <div class="chart-bar" style="height: 68%;"></div>
+            <span class="chart-bar-label">Tue</span>
+          </div>
+          <div class="chart-bar-col">
+            <div class="chart-bar" style="height: 60%;"></div>
+            <span class="chart-bar-label">Wed</span>
+          </div>
+          <div class="chart-bar-col">
+            <div class="chart-bar" style="height: 75%;"></div>
+            <span class="chart-bar-label">Thu</span>
+          </div>
+          <div class="chart-bar-col">
+            <div class="chart-bar" style="height: 88%;"></div>
+            <span class="chart-bar-label">Fri</span>
+          </div>
+          <div class="chart-bar-col">
+            <div class="chart-bar" style="height: 94%;"></div>
+            <span class="chart-bar-label">Sat</span>
+          </div>
+          <div class="chart-bar-col">
+            <div class="chart-bar" style="height: 98%;"></div>
+            <span class="chart-bar-label">Today</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Inventory Stock Monitor -->
+      <div class="dash-card-box">
+        <div class="dash-card-title">
+          <span>💊 Fast-Moving Stock Monitor</span>
+          <span style="font-size: 11px; color: var(--text-muted);">Real-Time Sync</span>
+        </div>
+
+        <div class="stock-list">
+          <div class="stock-item">
+            <div>
+              <strong>Augmentin 625mg</strong>
+              <div style="font-size: 11px; color: var(--text-muted);">GlaxoSmithKline (GSK)</div>
+            </div>
+            <div style="text-align: right;">
+              <span class="stock-pill stock-normal">42 in stock</span>
+              <div style="font-size: 11px; color: #059669; font-weight: 700; margin-top: 2px;">Rs. 890</div>
+            </div>
+          </div>
+
+          <div class="stock-item">
+            <div>
+              <strong>Panadol Extend 665mg</strong>
+              <div style="font-size: 11px; color: var(--text-muted);">Haleon / GSK</div>
+            </div>
+            <div style="text-align: right;">
+              <span class="stock-pill stock-low">18 in stock (Low)</span>
+              <div style="font-size: 11px; color: #059669; font-weight: 700; margin-top: 2px;">Rs. 350</div>
+            </div>
+          </div>
+
+          <div class="stock-item">
+            <div>
+              <strong>Risek 40mg</strong>
+              <div style="font-size: 11px; color: var(--text-muted);">Getz Pharma</div>
+            </div>
+            <div style="text-align: right;">
+              <span class="stock-pill stock-normal">64 in stock</span>
+              <div style="font-size: 11px; color: #059669; font-weight: 700; margin-top: 2px;">Rs. 420</div>
+            </div>
+          </div>
+
+          <div class="stock-item">
+            <div>
+              <strong>Brufen 400mg</strong>
+              <div style="font-size: 11px; color: var(--text-muted);">Abbott Laboratories</div>
+            </div>
+            <div style="text-align: right;">
+              <span class="stock-pill stock-alert">8 in stock (Reorder)</span>
+              <div style="font-size: 11px; color: #059669; font-weight: 700; margin-top: 2px;">Rs. 180</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Master Customer Orders Table -->
+    <div class="orders-table-container">
+      <div class="table-toolbar">
+        <div>
+          <h3 style="font-size: 16px; font-weight: 800; color: #0F172A;">Recent WhatsApp Orders Master Register</h3>
+          <p style="font-size: 12px; color: var(--text-muted);">Auto-synced with Supabase Database & Microsoft Excel (.xlsx)</p>
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+          <input type="text" class="search-input" placeholder="🔍 Search customer, medicine, order ID...">
+          <button class="btn-excel" onclick="downloadExcelReport()">
+            <span>📥</span> Download Excel (.xlsx)
+          </button>
+        </div>
+      </div>
+
+      <table class="master-table">
+        <thead>
+          <tr>
+            <th>Order #</th>
+            <th>Date & Time</th>
+            <th>Customer</th>
+            <th>Sector / Address</th>
+            <th>Medicines Ordered</th>
+            <th>Total Amount</th>
+            <th>Payment</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="tableRow1042">
+            <td><strong>#1042</strong></td>
+            <td>10-Oct 12:47 PM</td>
+            <td><strong>Muhammad Usman</strong><br><span style="font-size: 11px; color: var(--text-muted);">0300-1234567</span></td>
+            <td>H 42, St 14, F-10/2<br><span style="font-size: 11px; color: #059669;">3.2 km away</span></td>
+            <td>Augmentin 625mg (1x), Panadol Extend (1x)</td>
+            <td><strong style="color: #059669;">PKR 1,390</strong></td>
+            <td><span style="font-size: 11px; font-weight: 700; color: #D97706;">COD</span></td>
+            <td><span class="status-badge badge-incoming" id="dashRowBadge1042">RECEIVED</span></td>
+          </tr>
+          <tr>
+            <td><strong>#1041</strong></td>
+            <td>10-Oct 11:20 AM</td>
+            <td><strong>Sara Khan</strong><br><span style="font-size: 11px; color: var(--text-muted);">0333-5551212</span></td>
+            <td>F-11 Markaz, Islamabad</td>
+            <td>Risek 40mg (1x), Surbex-Z (1x)</td>
+            <td><strong style="color: #059669;">PKR 820</strong></td>
+            <td><span style="font-size: 11px; font-weight: 700; color: #0284C7;">JazzCash</span></td>
+            <td><span class="status-badge badge-delivered">DELIVERED</span></td>
+          </tr>
+          <tr>
+            <td><strong>#1040</strong></td>
+            <td>10-Oct 10:15 AM</td>
+            <td><strong>Ahmed Raza</strong><br><span style="font-size: 11px; color: var(--text-muted);">0321-9876543</span></td>
+            <td>G-9/1, Islamabad</td>
+            <td>Panadol 500mg (2x), Disprin (1x)</td>
+            <td><strong style="color: #059669;">PKR 450</strong></td>
+            <td><span style="font-size: 11px; font-weight: 700; color: #D97706;">COD</span></td>
+            <td><span class="status-badge badge-delivered">DELIVERED</span></td>
+          </tr>
+          <tr>
+            <td><strong>#1039</strong></td>
+            <td>10-Oct 09:30 AM</td>
+            <td><strong>Bilal Tariq</strong><br><span style="font-size: 11px; color: var(--text-muted);">0301-4447788</span></td>
+            <td>F-10/4, Islamabad</td>
+            <td>Lantus Solostar Insulin (1x Cold Pack)</td>
+            <td><strong style="color: #059669;">PKR 2,450</strong></td>
+            <td><span style="font-size: 11px; font-weight: 700; color: #0284C7;">EasyPaisa</span></td>
+            <td><span class="status-badge badge-delivered">DELIVERED</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+  </div>
+
+  <!-- Audio Synthesizer -->
   <script>
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     
@@ -1185,22 +1610,17 @@
       } catch (e) {}
     }
 
-    function soundWhatsAppSend() {
-      playBeep(850, 0.07, 'sine');
-    }
-
+    function soundWhatsAppSend() { playBeep(850, 0.07, 'sine'); }
     function soundWhatsAppReceive() {
       playBeep(987, 0.09, 'sine');
       setTimeout(() => playBeep(1318, 0.12, 'sine'), 85);
     }
-
     function soundVoiceNoteAudio() {
       playBeep(320, 0.25, 'triangle');
       setTimeout(() => playBeep(380, 0.3, 'triangle'), 150);
       setTimeout(() => playBeep(290, 0.35, 'triangle'), 350);
       setTimeout(() => playBeep(340, 0.3, 'triangle'), 550);
     }
-
     function soundOrderBell() {
       playBeep(523, 0.1, 'triangle');
       setTimeout(() => playBeep(659, 0.1, 'triangle'), 90);
@@ -1211,22 +1631,43 @@
     function downloadExcelReport() {
       const csvContent = "data:text/csv;charset=utf-8," 
         + "Order ID,Date Time,Customer Name,Phone,Address,Medicines,Total (PKR),Payment Mode,Status\n"
+        + "#1039,10-Oct 09:30 AM,Bilal Tariq,0301-4447788,F-10/4 Islamabad,Lantus Solostar Insulin,2450,EasyPaisa,Delivered\n"
         + "#1040,10-Oct 10:15 AM,Ahmed Raza,0321-9876543,G-9/1 Islamabad,Panadol (2x) Disprin (1x),450,COD,Delivered\n"
-        + "#1041,10-Oct 11:20 AM,Sara Khan,0333-5551212,F-11 Markaz,Risek 40mg (1x),420,JazzCash,Delivered\n"
+        + "#1041,10-Oct 11:20 AM,Sara Khan,0333-5551212,F-11 Markaz,Risek 40mg (1x),820,JazzCash,Delivered\n"
         + "#1042,10-Oct 12:47 PM,Muhammad Usman,0300-1234567,H 42 St 14 F-10/2 Islamabad,Augmentin 625mg Panadol Extend,1390,COD,Dispatched\n";
       
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");
       link.setAttribute("href", encodedUri);
-      link.setAttribute("download", "MediCare_Orders_Report_10Oct2026.csv");
+      link.setAttribute("download", "MediCare_Pharmacy_Orders_10Oct2026.csv");
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      alert("📥 Downloaded MediCare_Orders_Report_10Oct2026.csv successfully! Ready to open in Microsoft Excel.");
+      alert("📥 Downloaded MediCare_Pharmacy_Orders_10Oct2026.csv successfully! Ready to open in Microsoft Excel.");
+    }
+
+    // View Switcher: Dispatch Counter vs Full Admin Dashboard
+    function switchView(view) {
+      const dispatchView = document.getElementById('viewDispatchSection');
+      const dashboardView = document.getElementById('viewDashboardSection');
+      const tabDispatchBtn = document.getElementById('tabDispatchBtn');
+      const tabDashboardBtn = document.getElementById('tabDashboardBtn');
+
+      if (view === 'dispatch') {
+        dispatchView.style.display = 'grid';
+        dashboardView.style.display = 'none';
+        tabDispatchBtn.classList.add('active');
+        tabDashboardBtn.classList.remove('active');
+      } else {
+        dispatchView.style.display = 'none';
+        dashboardView.style.display = 'block';
+        tabDispatchBtn.classList.remove('active');
+        tabDashboardBtn.classList.add('active');
+      }
     }
   </script>
 
-  <!-- Interactive Storyboard Engine -->
+  <!-- Storyboard Script Engine -->
   <script>
     let isPlaying = false;
     let timerQueue = [];
@@ -1302,6 +1743,7 @@
       if (isPlaying) {
         resetDemo();
       } else {
+        switchView('dispatch'); // ensure dispatch view is active
         startAutoplay();
       }
     }
@@ -1467,6 +1909,13 @@
         document.getElementById('metricOrders').textContent = '49';
         document.getElementById('metricRev').textContent = 'Rs. 66,240';
         document.getElementById('stepPackBtn').classList.add('active-step');
+        
+        // Also update master table badge in view 2
+        const dashBadge = document.getElementById('dashRowBadge1042');
+        if (dashBadge) {
+          dashBadge.className = 'status-badge badge-incoming';
+          dashBadge.textContent = 'RECEIVED';
+        }
       }, 19500));
 
       // Step 8: Staff Packs Order (23.5s)
@@ -1488,7 +1937,7 @@
       timerQueue.push(setTimeout(() => {
         manualStep(4);
         setNarrative('Completed', '🎉 Order complete! Voice note, prescription OCR, Excel sync, and live rider alert all automated.',
-          'Ready to Close Deal', 'Ask the client: "Is tarah ka clean system aapki pharmacy ko Pakistan ki top online delivery brand bana dega."');
+          'Ready to Close Deal', 'Click "Pharmacy Admin Dashboard" tab at the top to show the owner their full sales & stock analytics!');
         isPlaying = false;
         document.getElementById('playIcon').textContent = '▶';
         document.getElementById('playText').textContent = 'Play Demo Video Again';
@@ -1508,18 +1957,26 @@
       }, 2000);
     }
 
-    // Manual Step Handler for Pharmacy Dashboard
     function manualStep(step) {
+      const dashBadge = document.getElementById('dashRowBadge1042');
       if (step === 1) {
         statusBadge.className = 'status-badge badge-packed';
         statusBadge.textContent = 'PACKED & CHECKED';
         document.getElementById('stepPackBtn').className = 'dispatch-btn completed-step';
         document.getElementById('stepRiderBtn').className = 'dispatch-btn active-step';
+        if (dashBadge) {
+          dashBadge.className = 'status-badge badge-packed';
+          dashBadge.textContent = 'PACKED';
+        }
       } else if (step === 2) {
         statusBadge.className = 'status-badge badge-dispatched';
         statusBadge.textContent = 'OUT FOR DELIVERY';
         document.getElementById('stepRiderBtn').className = 'dispatch-btn completed-step';
         document.getElementById('stepAlertBtn').className = 'dispatch-btn active-step';
+        if (dashBadge) {
+          dashBadge.className = 'status-badge badge-dispatched';
+          dashBadge.textContent = 'DISPATCHED';
+        }
 
         appendBotMessage(`
           🛵 <strong>Order Dispatched!</strong><br><br>
@@ -1530,6 +1987,10 @@
         statusBadge.textContent = 'RIDER 5 MINS AWAY';
         document.getElementById('stepAlertBtn').className = 'dispatch-btn completed-step';
         document.getElementById('stepDoneBtn').className = 'dispatch-btn active-step';
+        if (dashBadge) {
+          dashBadge.className = 'status-badge badge-nearby';
+          dashBadge.textContent = 'NEARBY';
+        }
 
         appendBotMessage(`
           🚨 <strong>Delivery Alert!</strong><br><br>
@@ -1540,6 +2001,10 @@
         statusBadge.className = 'status-badge badge-delivered';
         statusBadge.textContent = 'DELIVERED & PAID';
         document.getElementById('stepDoneBtn').className = 'dispatch-btn completed-step';
+        if (dashBadge) {
+          dashBadge.className = 'status-badge badge-delivered';
+          dashBadge.textContent = 'DELIVERED';
+        }
 
         appendBotMessage(`
           🎉 <strong>Delivered!</strong><br><br>
