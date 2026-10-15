@@ -2505,6 +2505,7 @@
         <div class="eda-subnav">
           <button class="eda-subbtn active" onclick="App.filterEDA('all', this)">🌟 All EDA Views</button>
           <button class="eda-subbtn" onclick="App.filterEDA('timeseries', this)">📅 Time Series &amp; Trends</button>
+          <button class="eda-subbtn" onclick="App.filterEDA('cohort', this)">👥 Cohort Retention</button>
           <button class="eda-subbtn" onclick="App.filterEDA('histograms', this)">📊 Distribution Histograms</button>
           <button class="eda-subbtn" onclick="App.filterEDA('correlation', this)">📉 Correlation Heatmap</button>
           <button class="eda-subbtn" onclick="App.filterEDA('categories', this)">🏷️ Top Categories</button>
@@ -2602,6 +2603,62 @@
 
           <!-- Period Breakdown Table Container -->
           <div id="ts-table-container">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- Section: Customer Lifecycle & Cohort Retention Analysis -->
+        <div class="card eda-section-block" id="eda-cohort-section" style="padding: 24px; border-radius: 20px; background: #FFFFFF; border: 1px solid #E2E8F0; box-shadow: var(--shadow-card); margin-bottom: 24px;">
+          <!-- Card Header & Badge -->
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 18px; flex-wrap: wrap; gap: 14px;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 1.35rem;">👥</span>
+                <h3 style="margin: 0; font-size: 1.2rem; font-weight: 800; color: #0F172A;">Customer Lifecycle &amp; Cohort Retention Matrix</h3>
+                <span class="badge" style="background: #ECFDF5; color: #047857; font-size: 0.68rem; font-weight: 800; border: 1px solid #A7F3D0;">LIFECYCLE RETENTION</span>
+              </div>
+              <p style="margin: 4px 0 0 0; font-size: 0.82rem; color: #64748B;">
+                Analyze monthly customer acquisition cohorts and track retention decay over time (Month 0 to Month 6+).
+              </p>
+            </div>
+            <!-- Toggle Display Mode (Percentage vs User Count) -->
+            <div style="display: flex; background: #F1F5F9; padding: 4px; border-radius: 12px; gap: 4px;" id="cohort-mode-pills">
+              <button class="cohort-mode-btn" id="cohort-btn-pct" onclick="App.setCohortMode('pct')" style="border: none; background: #1B3538; padding: 6px 14px; border-radius: 8px; font-size: 0.78rem; font-weight: 700; color: #FFFFFF; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif;">% Retention Rate</button>
+              <button class="cohort-mode-btn" id="cohort-btn-count" onclick="App.setCohortMode('count')" style="border: none; background: transparent; padding: 6px 14px; border-radius: 8px; font-size: 0.78rem; font-weight: 700; color: #64748B; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif;">Active Users (Count)</button>
+            </div>
+          </div>
+
+          <!-- Controls Bar -->
+          <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 20px; padding: 12px 16px; background: #F8FAFA; border: 1px solid #E2E8F0; border-radius: 14px;">
+            <div class="eda-select-group" style="flex: 1 1 140px; min-width: 130px;">
+              <label for="cohort-user-col" style="font-size: 0.73rem; font-weight: 700; color: #0F172A; margin-bottom: 3px; display: block;">User / Customer ID:</label>
+              <select id="cohort-user-col" class="select-input" onchange="App.renderCohortAnalysis()" style="padding: 6px 10px; border-radius: 10px; font-weight: 600; width: 100%; font-size: 0.78rem;"></select>
+            </div>
+            <div class="eda-select-group" style="flex: 1 1 140px; min-width: 130px;">
+              <label for="cohort-date-col" style="font-size: 0.73rem; font-weight: 700; color: #0F172A; margin-bottom: 3px; display: block;">Date Dimension:</label>
+              <select id="cohort-date-col" class="select-input" onchange="App.renderCohortAnalysis()" style="padding: 6px 10px; border-radius: 10px; font-weight: 600; width: 100%; font-size: 0.78rem;"></select>
+            </div>
+            <div class="eda-select-group" style="flex: 1 1 140px; min-width: 130px;">
+              <label for="cohort-metric-col" style="font-size: 0.73rem; font-weight: 700; color: #0F172A; margin-bottom: 3px; display: block;">Track Metric:</label>
+              <select id="cohort-metric-col" class="select-input" onchange="App.renderCohortAnalysis()" style="padding: 6px 10px; border-radius: 10px; font-weight: 600; width: 100%; font-size: 0.78rem;">
+                <option value="users">Active Users</option>
+                <option value="revenue">Cumulative Revenue</option>
+              </select>
+            </div>
+            <div style="margin-left: auto;">
+              <button class="btn btn-secondary btn-sm" onclick="App.exportCohortCSV()" style="font-weight: 700; font-size: 0.75rem; border-radius: 10px; padding: 7px 12px; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;">
+                <span>📥</span> Export Cohort CSV
+              </button>
+            </div>
+          </div>
+
+          <!-- Dynamic Cohort Retention KPI Cards (3 Cards) -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 20px;" id="cohort-kpi-strip">
+            <!-- Dynamically populated -->
+          </div>
+
+          <!-- Heatmap Matrix Table Container -->
+          <div id="cohort-matrix-container">
             <!-- Dynamically populated -->
           </div>
         </div>
@@ -3315,8 +3372,10 @@
           const orderDate = new Date(baseDate.getTime() + Math.random() * 380 * 86400000)
             .toISOString().split('T')[0];
 
+          const customerNum = 100 + (i % 55 + 1);
           rows.push({
             OrderID: `ORD-${1000 + i}`,
+            CustomerID: `CUST-${customerNum}`,
             Date: orderDate,
             Product: prodObj.name,
             Category: prodObj.cat,
@@ -3829,6 +3888,9 @@
           { key: 'scatter', id: 'tab-eda' },
           { key: 'year', id: 'tab-eda' },
           { key: 'month', id: 'tab-eda' },
+          { key: 'cohort', id: 'tab-eda' },
+          { key: 'retention', id: 'tab-eda' },
+          { key: 'lifecycle', id: 'tab-eda' },
           { key: 'day', id: 'tab-eda' },
           { key: 'trend', id: 'tab-eda' },
           { key: 'time', id: 'tab-eda' },
@@ -4501,6 +4563,7 @@
       renderVisualEDA() {
         this.populateEDADropdowns();
         this.renderTimeSeries();
+        if (App.renderCohortAnalysis) App.renderCohortAnalysis();
         this.renderScatterPlot();
         this.renderCorrelationHeatmap();
         this.renderHistograms();
@@ -4514,6 +4577,7 @@
 
         const sections = {
           timeseries: document.getElementById('eda-timeseries-section'),
+          cohort: document.getElementById('eda-cohort-section'),
           scatter: document.getElementById('eda-scatter-controls'),
           correlation: document.getElementById('eda-correlation-section'),
           histograms: document.getElementById('eda-histograms-section'),
@@ -4534,6 +4598,24 @@
         const numCols = Object.keys(DataStore.stats);
         const catCols = Object.keys(DataStore.categories);
         const allCols = DataStore.columns || [];
+
+        // Cohort Dropdowns
+        const cohortUser = document.getElementById('cohort-user-col');
+        const cohortDate = document.getElementById('cohort-date-col');
+        if (cohortUser) {
+          const idCols = allCols.filter(c => /id|user|customer|client|account|email|member/i.test(c));
+          const candidates = idCols.length > 0 ? idCols : (catCols.length > 0 ? catCols : allCols);
+          const defaultUserCol = candidates.find(c => /customer.*id|user.*id|client.*id/i.test(c)) || candidates.find(c => /customer|user|client|member|account/i.test(c)) || candidates[0];
+          cohortUser.innerHTML = candidates.map(c => `<option value="${c}" ${c === defaultUserCol ? 'selected' : ''}>${c}</option>`).join('');
+        }
+        if (cohortDate) {
+          const dateCols = allCols.filter(c => {
+            const t = DataStore.columnTypes ? DataStore.columnTypes[c] : '';
+            return t === 'datetime' || /date|time|timestamp|created/i.test(c);
+          });
+          const candidateDates = dateCols.length > 0 ? dateCols : allCols;
+          cohortDate.innerHTML = candidateDates.map(c => `<option value="${c}">${c}</option>`).join('');
+        }
 
         // Time Series Dropdowns
         const tsDate = document.getElementById('ts-date-col');
@@ -7976,6 +8058,251 @@ Generated by DataLens AI Studio.
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
       App.showToast('📥 Time series data exported as CSV!', 'success');
+    };
+
+        // ---------------------------------------------------------
+    // COHORT RETENTION & CUSTOMER LIFECYCLE ENGINE
+    // ---------------------------------------------------------
+    App.cohortDisplayMode = 'pct'; // 'pct' or 'count'
+
+    App.setCohortMode = function(mode) {
+      App.cohortDisplayMode = mode;
+      const btnPct = document.getElementById('cohort-btn-pct');
+      const btnCount = document.getElementById('cohort-btn-count');
+      if (btnPct && btnCount) {
+        if (mode === 'pct') {
+          btnPct.style.background = '#1B3538';
+          btnPct.style.color = '#FFFFFF';
+          btnCount.style.background = 'transparent';
+          btnCount.style.color = '#64748B';
+        } else {
+          btnCount.style.background = '#1B3538';
+          btnCount.style.color = '#FFFFFF';
+          btnPct.style.background = 'transparent';
+          btnPct.style.color = '#64748B';
+        }
+      }
+      App.renderCohortAnalysis();
+    };
+
+    App.renderCohortAnalysis = function() {
+      const rows = DataStore.rawRows || DataStore.data || [];
+      const userSelect = document.getElementById('cohort-user-col');
+      const dateSelect = document.getElementById('cohort-date-col');
+      const metricSelect = document.getElementById('cohort-metric-col');
+      const container = document.getElementById('cohort-matrix-container');
+      const kpiContainer = document.getElementById('cohort-kpi-strip');
+
+      if (!rows || rows.length === 0 || !container || !userSelect || !dateSelect) return;
+
+      const userCol = userSelect.value;
+      const dateCol = dateSelect.value;
+      const metric = metricSelect ? metricSelect.value : 'users';
+      const mode = App.cohortDisplayMode || 'pct';
+
+      if (!userCol || !dateCol) {
+        container.innerHTML = '<p style="color:#64748B; padding:20px; text-align:center;">Please select a Customer/User ID and Date dimension.</p>';
+        return;
+      }
+
+      // Step 1: Find first transaction date (acquisition cohort) for each user
+      const userFirstDate = {};
+      const userActivity = {}; // user -> array of { date, revenue }
+
+      rows.forEach(r => {
+        const uid = String(r[userCol] || '').trim();
+        if (!uid || uid === 'undefined' || uid === 'null') return;
+        const d = App.parseDateValue(r[dateCol]);
+        if (!d) return;
+
+        if (!userFirstDate[uid] || d < userFirstDate[uid]) {
+          userFirstDate[uid] = d;
+        }
+
+        if (!userActivity[uid]) userActivity[uid] = [];
+        const rev = parseFloat(r.Revenue !== undefined ? r.Revenue : (r.revenue || 0)) || 0;
+        userActivity[uid].push({ date: d, revenue: rev });
+      });
+
+      const uniqueUsers = Object.keys(userFirstDate);
+      if (uniqueUsers.length === 0) {
+        container.innerHTML = '<div style="padding:24px; text-align:center; background:#F8FAFC; border-radius:12px; color:#64748B;">No valid customer IDs and dates found in the selected columns.</div>';
+        return;
+      }
+
+      // Step 2: Build monthly cohorts
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const cohorts = {}; // 'YYYY-MM' -> { label, sortKey, userIds: Set, months: { 0: Set(userIds), 1: Set, ... }, revenue: { 0: sum, ... } }
+      let maxMonthDiff = 0;
+
+      uniqueUsers.forEach(uid => {
+        const first = userFirstDate[uid];
+        const cohortKey = first.getFullYear() + '-' + String(first.getMonth() + 1).padStart(2, '0');
+        const cohortLabel = monthNames[first.getMonth()] + ' ' + first.getFullYear();
+        const sortKey = first.getFullYear() * 100 + (first.getMonth() + 1);
+
+        if (!cohorts[cohortKey]) {
+          cohorts[cohortKey] = {
+            key: cohortKey,
+            label: cohortLabel,
+            sortKey,
+            userIds: new Set(),
+            months: {},
+            revenue: {}
+          };
+        }
+        cohorts[cohortKey].userIds.add(uid);
+
+        // Map all activities for this user into relative month buckets
+        const activities = userActivity[uid] || [];
+        activities.forEach(act => {
+          const actDate = act.date;
+          const diffYears = actDate.getFullYear() - first.getFullYear();
+          const diffMonths = diffYears * 12 + (actDate.getMonth() - first.getMonth());
+          if (diffMonths >= 0) {
+            if (diffMonths > maxMonthDiff) maxMonthDiff = diffMonths;
+            if (!cohorts[cohortKey].months[diffMonths]) cohorts[cohortKey].months[diffMonths] = new Set();
+            cohorts[cohortKey].months[diffMonths].add(uid);
+
+            if (!cohorts[cohortKey].revenue[diffMonths]) cohorts[cohortKey].revenue[diffMonths] = 0;
+            cohorts[cohortKey].revenue[diffMonths] += act.revenue;
+          }
+        });
+      });
+
+      const sortedCohorts = Object.values(cohorts).sort((a, b) => a.sortKey - b.sortKey);
+      maxMonthDiff = Math.min(maxMonthDiff, 8); // Cap at Month 8 for table layout
+
+      // Calculate Retention KPIs
+      let m1TotalPct = 0;
+      let m1Count = 0;
+      let m2TotalPct = 0;
+      let m2Count = 0;
+
+      sortedCohorts.forEach(c => {
+        const base = c.userIds.size;
+        if (base > 0 && c.months[1]) {
+          m1TotalPct += (c.months[1].size / base) * 100;
+          m1Count++;
+        }
+        if (base > 0 && c.months[2]) {
+          m2TotalPct += (c.months[2].size / base) * 100;
+          m2Count++;
+        }
+      });
+
+      const avgM1 = m1Count > 0 ? (m1TotalPct / m1Count).toFixed(1) : '0.0';
+      const avgM2 = m2Count > 0 ? (m2TotalPct / m2Count).toFixed(1) : '0.0';
+
+      // Repeat customer ratio
+      const repeatUsers = uniqueUsers.filter(uid => (userActivity[uid] || []).length > 1).length;
+      const repeatPct = uniqueUsers.length > 0 ? ((repeatUsers / uniqueUsers.length) * 100).toFixed(1) : '0.0';
+
+      // Populate KPI Strip
+      if (kpiContainer) {
+        kpiContainer.innerHTML = `
+          <div style="background:#F0FDFA; border:1px solid #CCFBF1; border-radius:14px; padding:14px;">
+            <div style="font-size:0.68rem; color:#0F766E; font-weight:700; text-transform:uppercase;">📅 30-Day Retention (Month 1)</div>
+            <div style="font-size:1.35rem; font-weight:800; color:#0F766E; margin:2px 0;">${avgM1}%</div>
+            <div style="font-size:0.75rem; color:#115E59; font-weight:600;">Average 30-day cohort return rate</div>
+          </div>
+          <div style="background:#EFF6FF; border:1px solid #DBEAFE; border-radius:14px; padding:14px;">
+            <div style="font-size:0.68rem; color:#1D4ED8; font-weight:700; text-transform:uppercase;">⏳ 60-Day Retention (Month 2)</div>
+            <div style="font-size:1.35rem; font-weight:800; color:#1E40AF; margin:2px 0;">${avgM2}%</div>
+            <div style="font-size:0.75rem; color:#1D4ED8; font-weight:600;">Average 60-day lifecycle stability</div>
+          </div>
+          <div style="background:#FAF5FF; border:1px solid #F3E8FF; border-radius:14px; padding:14px;">
+            <div style="font-size:0.68rem; color:#7E22CE; font-weight:700; text-transform:uppercase;">🔄 Repeat Buyer Velocity</div>
+            <div style="font-size:1.35rem; font-weight:800; color:#6B21A8; margin:2px 0;">${repeatPct}%</div>
+            <div style="font-size:0.75rem; color:#7E22CE; font-weight:600;">${repeatUsers} of ${uniqueUsers.length} users with multiple orders</div>
+          </div>
+        `;
+      }
+
+      // Build Heatmap Matrix Table
+      let tableHtml = `
+        <div style="overflow-x:auto; border:1px solid #E2E8F0; border-radius:14px; max-height:420px;">
+          <table class="data-table" style="width:100%; font-size:0.78rem; margin:0; border-collapse:separate; border-spacing:0;">
+            <thead style="position:sticky; top:0; background:#F8FAFC; z-index:5;">
+              <tr>
+                <th style="padding:10px 14px; text-align:left; min-width:110px;">Cohort</th>
+                <th style="padding:10px 14px; text-align:center; min-width:80px;">Users</th>
+      `;
+
+      for (let m = 0; m <= maxMonthDiff; m++) {
+        tableHtml += '<th style="padding:10px 10px; text-align:center; min-width:70px;">Month ' + m + '</th>';
+      }
+      tableHtml += '</tr></thead><tbody>';
+
+      sortedCohorts.forEach((c, idx) => {
+        const baseCount = c.userIds.size;
+        tableHtml += `
+          <tr>
+            <td style="padding:10px 14px; font-weight:800; color:#0F172A; border-bottom:1px solid #F1F5F9; background:#FFFFFF;">${c.label}</td>
+            <td style="padding:10px 14px; text-align:center; font-weight:700; color:#475569; border-bottom:1px solid #F1F5F9; background:#F8FAFC;">${baseCount}</td>
+        `;
+
+        for (let m = 0; m <= maxMonthDiff; m++) {
+          const userSet = c.months[m];
+          if (m === 0) {
+            tableHtml += '<td style="padding:8px 10px; text-align:center; font-weight:800; background:#0F766E; color:#FFFFFF; border-bottom:1px solid #E2E8F0;">100%</td>';
+          } else if (userSet && userSet.size > 0) {
+            const activeCount = userSet.size;
+            const pct = Math.round((activeCount / baseCount) * 100);
+            
+            // Heatmap color scaling based on retention percentage
+            let bg = '#F0FDFA';
+            let fg = '#0F172A';
+            if (pct >= 50) { bg = '#14B8A6'; fg = '#FFFFFF'; }
+            else if (pct >= 35) { bg = '#5EEAD4'; fg = '#0F172A'; }
+            else if (pct >= 20) { bg = '#99F6E4'; fg = '#0F172A'; }
+            else if (pct >= 10) { bg = '#CCFBF1'; fg = '#0F172A'; }
+
+            const displayVal = mode === 'count' ? activeCount : pct + '%';
+            tableHtml += `<td style="padding:8px 10px; text-align:center; font-weight:700; background:${bg}; color:${fg}; border-bottom:1px solid #E2E8F0;">${displayVal}</td>`;
+          } else {
+            tableHtml += '<td style="padding:8px 10px; text-align:center; color:#CBD5E1; background:#F8FAFC; border-bottom:1px solid #E2E8F0;">—</td>';
+          }
+        }
+        tableHtml += '</tr>';
+      });
+
+      tableHtml += '</tbody></table></div>';
+      container.innerHTML = tableHtml;
+
+      App.currentCohortData = { sortedCohorts, maxMonthDiff };
+    };
+
+    App.exportCohortCSV = function() {
+      if (!App.currentCohortData) {
+        App.showToast('No cohort data available to export', 'warning');
+        return;
+      }
+      const { sortedCohorts, maxMonthDiff } = App.currentCohortData;
+      const rows = sortedCohorts.map(c => {
+        const row = {
+          Cohort: c.label,
+          TotalUsers: c.userIds.size,
+          Month_0: '100%'
+        };
+        for (let m = 1; m <= maxMonthDiff; m++) {
+          const userSet = c.months[m];
+          row['Month_' + m] = userSet ? Math.round((userSet.size / c.userIds.size) * 100) + '%' : '';
+        }
+        return row;
+      });
+
+      const csv = Papa.unparse(rows);
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = (DataStore.datasetName || 'dataset').toLowerCase().replace(/[^a-z0-9]/g, '_') + '_cohort_retention.csv';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      App.showToast('📥 Cohort retention matrix exported as CSV!', 'success');
     };
 
     App.mlModelState = {
