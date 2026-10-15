@@ -2499,11 +2499,90 @@
         <!-- Sub-nav Filter -->
         <div class="eda-subnav">
           <button class="eda-subbtn active" onclick="App.filterEDA('all', this)">🌟 All EDA Views</button>
+          <button class="eda-subbtn" onclick="App.filterEDA('timeseries', this)">📅 Time Series &amp; Trends</button>
           <button class="eda-subbtn" onclick="App.filterEDA('histograms', this)">📊 Distribution Histograms</button>
           <button class="eda-subbtn" onclick="App.filterEDA('correlation', this)">📉 Correlation Heatmap</button>
           <button class="eda-subbtn" onclick="App.filterEDA('categories', this)">🏷️ Top Categories</button>
           <button class="eda-subbtn" onclick="App.filterEDA('scatter', this)">⚬ Interactive Scatter Plot</button>
-          <button class="eda-subbtn" onclick="App.filterEDA('boxplot', this)">📦 Distribution Comparison</button>
+          <button class="eda-subbtn" onclick="App.filterEDA('boxplot', this)">📦 Tukey Boxplots</button>
+        </div>
+
+        <!-- Section: Time-Series & Temporal Analysis (Year / Month / Day / Day of Week) -->
+        <div class="card eda-section-block" id="eda-timeseries-section" style="padding: 24px; border-radius: 20px; background: #FFFFFF; border: 1px solid #E2E8F0; box-shadow: var(--shadow-card); margin-bottom: 24px;">
+          <!-- Card Header & Granularity Toggles -->
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 18px; flex-wrap: wrap; gap: 14px;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 1.35rem;">📅</span>
+                <h3 style="margin: 0; font-size: 1.2rem; font-weight: 800; color: #0F172A;">Time-Series &amp; Temporal Analysis</h3>
+                <span class="badge" style="background: #E0F2FE; color: #0369A1; font-size: 0.68rem; font-weight: 800; border: 1px solid #BAE6FD;">SALES &amp; PROFIT OVER TIME</span>
+              </div>
+              <p style="margin: 4px 0 0 0; font-size: 0.82rem; color: #64748B;">
+                Analyze performance per year, per month, per day, or by day-of-week seasonality with dynamic dual-metric comparisons.
+              </p>
+            </div>
+            
+            <!-- Granularity Pill Toggles -->
+            <div style="display: flex; background: #F1F5F9; padding: 4px; border-radius: 12px; gap: 4px;" id="ts-granularity-pills">
+              <button class="ts-gran-btn" id="ts-btn-year" onclick="App.setTimeSeriesGranularity('year')" style="border: none; background: transparent; padding: 6px 14px; border-radius: 8px; font-size: 0.78rem; font-weight: 700; color: #64748B; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif;">📆 Per Year</button>
+              <button class="ts-gran-btn active" id="ts-btn-month" onclick="App.setTimeSeriesGranularity('month')" style="border: none; background: #1B3538; padding: 6px 14px; border-radius: 8px; font-size: 0.78rem; font-weight: 700; color: #FFFFFF; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif;">🗓️ Per Month</button>
+              <button class="ts-gran-btn" id="ts-btn-day" onclick="App.setTimeSeriesGranularity('day')" style="border: none; background: transparent; padding: 6px 14px; border-radius: 8px; font-size: 0.78rem; font-weight: 700; color: #64748B; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif;">📅 Per Day</button>
+              <button class="ts-gran-btn" id="ts-btn-dow" onclick="App.setTimeSeriesGranularity('dow')" style="border: none; background: transparent; padding: 6px 14px; border-radius: 8px; font-size: 0.78rem; font-weight: 700; color: #64748B; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif;">🔄 Day of Week</button>
+            </div>
+          </div>
+
+          <!-- Controls Bar -->
+          <div style="display: flex; gap: 14px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 20px; padding: 14px 18px; background: #F8FAFA; border: 1px solid #E2E8F0; border-radius: 14px;">
+            <!-- Date Column -->
+            <div class="eda-select-group" style="min-width: 160px;">
+              <label for="ts-date-col" style="font-size: 0.75rem; font-weight: 700; color: #0F172A; margin-bottom: 4px; display: block;">Date Dimension:</label>
+              <select id="ts-date-col" class="select-input" onchange="App.renderTimeSeries()" style="padding: 6px 12px; border-radius: 10px; font-weight: 600; width: 100%;"></select>
+            </div>
+
+            <!-- Primary Metric -->
+            <div class="eda-select-group" style="min-width: 160px;">
+              <label for="ts-primary-metric" style="font-size: 0.75rem; font-weight: 700; color: #0F172A; margin-bottom: 4px; display: block;">Primary Metric:</label>
+              <select id="ts-primary-metric" class="select-input" onchange="App.renderTimeSeries()" style="padding: 6px 12px; border-radius: 10px; font-weight: 600; width: 100%;"></select>
+            </div>
+
+            <!-- Secondary Overlay Metric -->
+            <div class="eda-select-group" style="min-width: 170px;">
+              <label for="ts-secondary-metric" style="font-size: 0.75rem; font-weight: 700; color: #0F172A; margin-bottom: 4px; display: block;">Secondary Overlay (Dual Y-Axis):</label>
+              <select id="ts-secondary-metric" class="select-input" onchange="App.renderTimeSeries()" style="padding: 6px 12px; border-radius: 10px; font-weight: 600; width: 100%;"></select>
+            </div>
+
+            <!-- Aggregation Mode -->
+            <div class="eda-select-group" style="min-width: 150px;">
+              <label for="ts-agg-mode" style="font-size: 0.75rem; font-weight: 700; color: #0F172A; margin-bottom: 4px; display: block;">Aggregation Mode:</label>
+              <select id="ts-agg-mode" class="select-input" onchange="App.renderTimeSeries()" style="padding: 6px 12px; border-radius: 10px; font-weight: 600; width: 100%;">
+                <option value="sum" selected>SUM (Total Volume)</option>
+                <option value="avg">AVG (Per Transaction)</option>
+                <option value="count">COUNT (Transaction Frequency)</option>
+              </select>
+            </div>
+
+            <!-- Export Button -->
+            <div style="margin-left: auto;">
+              <button class="btn btn-secondary btn-sm" onclick="App.exportTimeSeriesCSV()" style="font-weight: 700; font-size: 0.75rem; border-radius: 10px; padding: 8px 14px; display: inline-flex; align-items: center; gap: 6px;">
+                <span>📥</span> Export Time Series CSV
+              </button>
+            </div>
+          </div>
+
+          <!-- Dynamic Temporal KPI Highlight Cards (4 Cards) -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-bottom: 22px;" id="ts-kpi-strip">
+            <!-- Dynamically populated -->
+          </div>
+
+          <!-- Timeline Chart Canvas -->
+          <div style="height: 380px; position: relative; margin-bottom: 24px; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; padding: 14px;">
+            <canvas id="timeseries-chart-canvas"></canvas>
+          </div>
+
+          <!-- Period Breakdown Table Container -->
+          <div id="ts-table-container">
+            <!-- Dynamically populated -->
+          </div>
         </div>
 
         <!-- Section: Interactive Scatter Plot Controls -->
@@ -3727,6 +3806,13 @@
           { key: 'visual', id: 'tab-eda' },
           { key: 'chart', id: 'tab-eda' },
           { key: 'scatter', id: 'tab-eda' },
+          { key: 'year', id: 'tab-eda' },
+          { key: 'month', id: 'tab-eda' },
+          { key: 'day', id: 'tab-eda' },
+          { key: 'trend', id: 'tab-eda' },
+          { key: 'time', id: 'tab-eda' },
+          { key: 'sales', id: 'tab-eda' },
+          { key: 'profit', id: 'tab-eda' },
           { key: 'heatmap', id: 'tab-eda' },
           { key: 'copilot', id: 'tab-copilot' },
           { key: 'ai', id: 'tab-copilot' },
@@ -4388,6 +4474,7 @@
          ======================================================================== */
       renderVisualEDA() {
         this.populateEDADropdowns();
+        this.renderTimeSeries();
         this.renderScatterPlot();
         this.renderCorrelationHeatmap();
         this.renderHistograms();
@@ -4400,6 +4487,7 @@
         btn.classList.add('active');
 
         const sections = {
+          timeseries: document.getElementById('eda-timeseries-section'),
           scatter: document.getElementById('eda-scatter-controls'),
           correlation: document.getElementById('eda-correlation-section'),
           histograms: document.getElementById('eda-histograms-section'),
@@ -4419,6 +4507,36 @@
       populateEDADropdowns() {
         const numCols = Object.keys(DataStore.stats);
         const catCols = Object.keys(DataStore.categories);
+        const allCols = DataStore.columns || [];
+
+        // Time Series Dropdowns
+        const tsDate = document.getElementById('ts-date-col');
+        const tsPrimary = document.getElementById('ts-primary-metric');
+        const tsSecondary = document.getElementById('ts-secondary-metric');
+
+        if (tsDate) {
+          // Find datetime columns or date-like columns
+          const dateCols = allCols.filter(c => {
+            const t = DataStore.columnTypes ? DataStore.columnTypes[c] : '';
+            return t === 'datetime' || /date|time|timestamp|year|month|day|period|created/i.test(c);
+          });
+          const candidateDates = dateCols.length > 0 ? dateCols : allCols;
+          tsDate.innerHTML = candidateDates.map(c => `<option value="${c}">${c}</option>`).join('');
+        }
+
+        if (tsPrimary) {
+          const primDefault = numCols.find(c => /revenue|sales|charges|price|amount/i.test(c)) || numCols[0];
+          tsPrimary.innerHTML = numCols.map(c => `<option value="${c}" ${c === primDefault ? 'selected' : ''}>${c}</option>`).join('');
+        }
+
+        if (tsSecondary) {
+          const secDefault = numCols.find(c => /profit|margin|quantity/i.test(c)) || 'none';
+          let secHtml = '<option value="none">None (Single Curve)</option>';
+          numCols.forEach(c => {
+            secHtml += `<option value="${c}" ${c === secDefault ? 'selected' : ''}>${c}</option>`;
+          });
+          tsSecondary.innerHTML = secHtml;
+        }
 
         const scatterX = document.getElementById('scatter-x');
         const scatterY = document.getElementById('scatter-y');
@@ -4426,14 +4544,16 @@
         const groupMetric = document.getElementById('group-metric');
         const groupCategory = document.getElementById('group-category');
 
-        scatterX.innerHTML = numCols.map((c, i) => `<option value="${c}" ${i === 0 ? 'selected' : ''}>${c}</option>`).join('');
-        scatterY.innerHTML = numCols.map((c, i) => `<option value="${c}" ${i === 1 ? 'selected' : ''}>${c}</option>`).join('');
+        if (scatterX) scatterX.innerHTML = numCols.map((c, i) => `<option value="${c}" ${i === 0 ? 'selected' : ''}>${c}</option>`).join('');
+        if (scatterY) scatterY.innerHTML = numCols.map((c, i) => `<option value="${c}" ${i === 1 ? 'selected' : ''}>${c}</option>`).join('');
         
-        scatterGroup.innerHTML = `<option value="">None (Single Color)</option>` + 
-          catCols.map(c => `<option value="${c}">${c}</option>`).join('');
+        if (scatterGroup) {
+          scatterGroup.innerHTML = `<option value="">None (Single Color)</option>` + 
+            catCols.map(c => `<option value="${c}">${c}</option>`).join('');
+        }
 
-        groupMetric.innerHTML = numCols.map(c => `<option value="${c}">${c}</option>`).join('');
-        groupCategory.innerHTML = catCols.map(c => `<option value="${c}">${c}</option>`).join('');
+        if (groupMetric) groupMetric.innerHTML = numCols.map(c => `<option value="${c}">${c}</option>`).join('');
+        if (groupCategory) groupCategory.innerHTML = catCols.map(c => `<option value="${c}">${c}</option>`).join('');
       },
 
       renderScatterPlot() {
@@ -7149,6 +7269,370 @@ Generated by DataLens AI Studio.
         // ---------------------------------------------------------
     // FEATURE 4: IN-BROWSER MACHINE LEARNING BASELINE & FEATURE IMPORTANCE
     // ---------------------------------------------------------
+        // ---------------------------------------------------------
+    // TIME SERIES & TEMPORAL ANALYTICS ENGINE
+    // ---------------------------------------------------------
+    App.timeSeriesGranularity = 'month'; // 'year', 'month', 'day', 'dow'
+
+    App.setTimeSeriesGranularity = function(gran) {
+      App.timeSeriesGranularity = gran;
+      const buttons = document.querySelectorAll('#ts-granularity-pills .ts-gran-btn');
+      buttons.forEach(btn => {
+        btn.style.background = 'transparent';
+        btn.style.color = '#64748B';
+      });
+      const activeBtn = document.getElementById('ts-btn-' + gran);
+      if (activeBtn) {
+        activeBtn.style.background = '#1B3538';
+        activeBtn.style.color = '#FFFFFF';
+      }
+      App.renderTimeSeries();
+    };
+
+    App.parseDateValue = function(val) {
+      if (val === null || val === undefined || val === '') return null;
+      if (val instanceof Date && !isNaN(val.getTime())) return val;
+      if (typeof val === 'number' && val > 20000 && val < 60000) {
+        // Excel serial date number
+        return new Date(Math.round((val - 25569) * 86400 * 1000));
+      }
+      const str = String(val).trim();
+      const d = new Date(str);
+      if (!isNaN(d.getTime()) && d.getFullYear() > 1970 && d.getFullYear() < 2100) return d;
+      const parts = str.split(/[-/]/);
+      if (parts.length === 3) {
+        if (parts[0].length === 4) {
+          return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+        }
+        const p1 = parseInt(parts[0]);
+        const p2 = parseInt(parts[1]);
+        const p3 = parseInt(parts[2].length === 2 ? '20' + parts[2] : parts[2]);
+        if (p1 > 12) return new Date(p3, p2 - 1, p1);
+        return new Date(p3, p1 - 1, p2);
+      }
+      return null;
+    };
+
+    App.renderTimeSeries = function() {
+      const rows = DataStore.rawRows || DataStore.data || [];
+      if (!rows || rows.length === 0) return;
+
+      const dateSelect = document.getElementById('ts-date-col');
+      const primSelect = document.getElementById('ts-primary-metric');
+      const secSelect = document.getElementById('ts-secondary-metric');
+      const aggSelect = document.getElementById('ts-agg-mode');
+
+      if (!dateSelect || !primSelect) return;
+
+      const dateCol = dateSelect.value;
+      const primMetric = primSelect.value;
+      const secMetric = secSelect.value;
+      const aggMode = aggSelect ? aggSelect.value : 'sum';
+      const gran = App.timeSeriesGranularity || 'month';
+
+      if (!dateCol || !primMetric) return;
+
+      const isCurrency = /revenue|price|charges|profit|cost|amount/i.test(primMetric);
+      const prefix = isCurrency ? String.fromCharCode(36) : '';
+
+      // Aggregate rows into chronological buckets
+      const buckets = {};
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+      rows.forEach(r => {
+        const rawDate = r[dateCol];
+        const d = App.parseDateValue(rawDate);
+        if (!d) return;
+
+        let key = '';
+        let label = '';
+        let sortKey = 0;
+
+        if (gran === 'year') {
+          const yr = d.getFullYear();
+          key = yr.toString();
+          label = yr.toString();
+          sortKey = yr;
+        } else if (gran === 'month') {
+          const yr = d.getFullYear();
+          const mo = d.getMonth() + 1;
+          key = yr + '-' + String(mo).padStart(2, '0');
+          label = monthNames[d.getMonth()] + ' ' + yr;
+          sortKey = yr * 100 + mo;
+        } else if (gran === 'day') {
+          key = d.toISOString().split('T')[0];
+          label = key;
+          sortKey = d.getTime();
+        } else if (gran === 'dow') {
+          const dayIdx = d.getDay();
+          key = String(dayIdx);
+          label = dayNames[dayIdx];
+          sortKey = dayIdx;
+        }
+
+        if (!buckets[key]) {
+          buckets[key] = {
+            key,
+            label,
+            sortKey,
+            count: 0,
+            primValues: [],
+            secValues: [],
+            profitValues: []
+          };
+        }
+
+        const primVal = parseFloat(r[primMetric]);
+        if (!isNaN(primVal)) buckets[key].primValues.push(primVal);
+
+        if (secMetric && secMetric !== 'none') {
+          const secVal = parseFloat(r[secMetric]);
+          if (!isNaN(secVal)) buckets[key].secValues.push(secVal);
+        }
+
+        const profitVal = parseFloat(r.Profit !== undefined ? r.Profit : r.profit);
+        if (!isNaN(profitVal)) buckets[key].profitValues.push(profitVal);
+
+        buckets[key].count++;
+      });
+
+      const sortedBuckets = Object.values(buckets).sort((a, b) => a.sortKey - b.sortKey);
+      if (sortedBuckets.length === 0) return;
+
+      // Calculate totals, averages, margins, and period-over-period growth
+      let prevPrimTotal = null;
+      sortedBuckets.forEach(b => {
+        const pSum = b.primValues.reduce((acc, v) => acc + v, 0);
+        const pAvg = b.primValues.length > 0 ? pSum / b.primValues.length : 0;
+        b.primSum = Number(pSum.toFixed(2));
+        b.primAvg = Number(pAvg.toFixed(2));
+        b.primDisplay = aggMode === 'avg' ? b.primAvg : (aggMode === 'count' ? b.count : b.primSum);
+
+        const sSum = b.secValues.reduce((acc, v) => acc + v, 0);
+        const sAvg = b.secValues.length > 0 ? sSum / b.secValues.length : 0;
+        b.secSum = Number(sSum.toFixed(2));
+        b.secAvg = Number(sAvg.toFixed(2));
+        b.secDisplay = aggMode === 'avg' ? b.secAvg : (aggMode === 'count' ? b.count : b.secSum);
+
+        const profSum = b.profitValues.reduce((acc, v) => acc + v, 0);
+        b.profitSum = Number(profSum.toFixed(2));
+        b.profitMargin = b.primSum > 0 ? Number(((b.profitSum / b.primSum) * 100).toFixed(1)) : 0;
+
+        if (prevPrimTotal !== null && prevPrimTotal > 0) {
+          b.growthRate = Number((((b.primDisplay - prevPrimTotal) / prevPrimTotal) * 100).toFixed(1));
+        } else {
+          b.growthRate = null;
+        }
+        prevPrimTotal = b.primDisplay;
+      });
+
+      App.currentTimeSeriesData = sortedBuckets;
+
+      // Update Highlight KPI Cards
+      const peakPeriod = sortedBuckets.slice().sort((a, b) => b.primDisplay - a.primDisplay)[0];
+      const lowestPeriod = sortedBuckets.slice().sort((a, b) => a.primDisplay - b.primDisplay)[0];
+      const validGrowths = sortedBuckets.map(b => b.growthRate).filter(g => g !== null && !isNaN(g));
+      const avgGrowth = validGrowths.length > 0 ? (validGrowths.reduce((s, g) => s + g, 0) / validGrowths.length).toFixed(1) : '0.0';
+      const totalPrimSum = sortedBuckets.reduce((s, b) => s + b.primDisplay, 0);
+      const avgVelocity = Math.round(totalPrimSum / sortedBuckets.length);
+
+      const kpiContainer = document.getElementById('ts-kpi-strip');
+      if (kpiContainer) {
+        kpiContainer.innerHTML = `
+          <div style="background:#F0FDFA; border:1px solid #CCFBF1; border-radius:14px; padding:14px;">
+            <div style="font-size:0.68rem; color:#0F766E; font-weight:700; text-transform:uppercase;">🌟 Peak Period</div>
+            <div style="font-size:1.25rem; font-weight:800; color:#0F766E; margin:2px 0;">${peakPeriod.label}</div>
+            <div style="font-size:0.75rem; color:#115E59; font-weight:700;">${prefix}${peakPeriod.primDisplay.toLocaleString()} ${primMetric}</div>
+          </div>
+          <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:14px; padding:14px;">
+            <div style="font-size:0.68rem; color:#64748B; font-weight:700; text-transform:uppercase;">📉 Lowest Period</div>
+            <div style="font-size:1.25rem; font-weight:800; color:#334155; margin:2px 0;">${lowestPeriod.label}</div>
+            <div style="font-size:0.75rem; color:#64748B;">${prefix}${lowestPeriod.primDisplay.toLocaleString()} ${primMetric}</div>
+          </div>
+          <div style="background:#F0FDF4; border:1px solid #DCFCE7; border-radius:14px; padding:14px;">
+            <div style="font-size:0.68rem; color:#15803D; font-weight:700; text-transform:uppercase;">📈 Period-over-Period Momentum</div>
+            <div style="font-size:1.25rem; font-weight:800; color:${Number(avgGrowth) >= 0 ? '#15803D' : '#DC2626'}; margin:2px 0;">${Number(avgGrowth) >= 0 ? '+' : ''}${avgGrowth}%</div>
+            <div style="font-size:0.75rem; color:#15803D;">Average Growth Rate</div>
+          </div>
+          <div style="background:#EFF6FF; border:1px solid #DBEAFE; border-radius:14px; padding:14px;">
+            <div style="font-size:0.68rem; color:#1D4ED8; font-weight:700; text-transform:uppercase;">⚡ Average Period Velocity</div>
+            <div style="font-size:1.25rem; font-weight:800; color:#1E40AF; margin:2px 0;">${prefix}${avgVelocity.toLocaleString()}</div>
+            <div style="font-size:0.75rem; color:#1D4ED8;">per ${gran} (${sortedBuckets.length} total periods)</div>
+          </div>
+        `;
+      }
+
+      // Draw Chart.js Line / Area Chart
+      const canvas = document.getElementById('timeseries-chart-canvas');
+      if (canvas) {
+        if (window.timeSeriesChartInstance) {
+          try { window.timeSeriesChartInstance.destroy(); } catch(e){}
+        }
+
+        const labels = sortedBuckets.map(b => b.label);
+        const primData = sortedBuckets.map(b => b.primDisplay);
+        const hasSecondary = secMetric && secMetric !== 'none';
+        const secData = hasSecondary ? sortedBuckets.map(b => b.secDisplay) : [];
+
+        const datasets = [
+          {
+            label: primMetric + (aggMode === 'avg' ? ' (Avg)' : ' (Total)'),
+            data: primData,
+            borderColor: '#0F766E',
+            backgroundColor: 'rgba(15, 118, 110, 0.12)',
+            fill: true,
+            tension: 0.35,
+            borderWidth: 2.5,
+            pointBackgroundColor: '#0F766E',
+            pointRadius: sortedBuckets.length > 40 ? 0 : 4,
+            pointHoverRadius: 6,
+            yAxisID: 'y'
+          }
+        ];
+
+        if (hasSecondary) {
+          datasets.push({
+            label: secMetric + (aggMode === 'avg' ? ' (Avg)' : ' (Total)'),
+            data: secData,
+            borderColor: '#8B5CF6',
+            backgroundColor: 'rgba(139, 92, 246, 0.08)',
+            fill: false,
+            tension: 0.35,
+            borderWidth: 2,
+            borderDash: [5, 5],
+            pointBackgroundColor: '#8B5CF6',
+            pointRadius: sortedBuckets.length > 40 ? 0 : 4,
+            pointHoverRadius: 6,
+            yAxisID: 'y1'
+          });
+        }
+
+        window.timeSeriesChartInstance = new Chart(canvas.getContext('2d'), {
+          type: 'line',
+          data: { labels, datasets },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+              legend: {
+                position: 'top',
+                labels: { font: { family: 'Plus Jakarta Sans', size: 10, weight: '700' }, boxWidth: 12 }
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(ctx) {
+                    const b = sortedBuckets[ctx.dataIndex];
+                    let text = ctx.dataset.label + ': ' + prefix + ctx.raw.toLocaleString();
+                    if (ctx.datasetIndex === 0 && b.growthRate !== null) {
+                      text += ' (' + (b.growthRate >= 0 ? '+' : '') + b.growthRate + '% vs prior)';
+                    }
+                    return text;
+                  }
+                }
+              }
+            },
+            scales: {
+              x: {
+                grid: { display: false },
+                ticks: { font: { family: 'Plus Jakarta Sans', size: 10 }, maxRotation: 45 }
+              },
+              y: {
+                position: 'left',
+                grid: { color: '#F1F5F9' },
+                ticks: { font: { family: 'Plus Jakarta Sans', size: 10 }, callback: v => prefix + v.toLocaleString() },
+                title: { display: true, text: primMetric, font: { weight: '700', size: 10 } }
+              },
+              ...(hasSecondary ? {
+                y1: {
+                  position: 'right',
+                  grid: { drawOnChartArea: false },
+                  ticks: { font: { family: 'Plus Jakarta Sans', size: 10 } },
+                  title: { display: true, text: secMetric, font: { weight: '700', size: 10 } }
+                }
+              } : {})
+            }
+          }
+        });
+      }
+
+      // Populate Period Breakdown Table
+      const tableContainer = document.getElementById('ts-table-container');
+      if (tableContainer) {
+        let tableHtml = `
+          <div style="overflow-x:auto; border:1px solid #E2E8F0; border-radius:14px; max-height:360px;">
+            <table class="data-table" style="width:100%; font-size:0.78rem; margin:0; border-collapse:separate; border-spacing:0;">
+              <thead style="position:sticky; top:0; background:#F8FAFC; z-index:5;">
+                <tr>
+                  <th style="padding:10px 14px; text-align:left;">Period (${gran.toUpperCase()})</th>
+                  <th style="padding:10px 14px; text-align:right;">Orders / Count</th>
+                  <th style="padding:10px 14px; text-align:right; font-weight:800; color:#0F766E;">${primMetric} (${aggMode.toUpperCase()})</th>
+                  <th style="padding:10px 14px; text-align:right;">Profit Total</th>
+                  <th style="padding:10px 14px; text-align:right;">Profit Margin</th>
+                  <th style="padding:10px 14px; text-align:center;">Period Growth</th>
+                </tr>
+              </thead>
+              <tbody>
+        `;
+
+        sortedBuckets.forEach((b, idx) => {
+          const bg = idx % 2 === 0 ? '#FFFFFF' : '#FBFDFD';
+          let growthBadge = '<span style="color:#94A3B8;">—</span>';
+          if (b.growthRate !== null) {
+            const isPos = b.growthRate >= 0;
+            const bBg = isPos ? '#DCFCE7' : '#FEE2E2';
+            const bCol = isPos ? '#15803D' : '#B91C1C';
+            const arrow = isPos ? '▲' : '▼';
+            growthBadge = '<span class="badge" style="background:' + bBg + '; color:' + bCol + '; font-weight:800; font-size:0.68rem; padding:2px 8px;">' + arrow + ' ' + Math.abs(b.growthRate) + '%</span>';
+          }
+
+          tableHtml += `
+            <tr style="background:${bg};">
+              <td style="padding:8px 14px; font-weight:700; color:#0F172A; border-bottom:1px solid #F1F5F9;">${b.label}</td>
+              <td style="padding:8px 14px; text-align:right; color:#64748B; border-bottom:1px solid #F1F5F9;">${b.count.toLocaleString()}</td>
+              <td style="padding:8px 14px; text-align:right; font-family:monospace; font-weight:800; color:#0F766E; border-bottom:1px solid #F1F5F9;">${prefix}${b.primDisplay.toLocaleString()}</td>
+              <td style="padding:8px 14px; text-align:right; font-family:monospace; color:#334155; border-bottom:1px solid #F1F5F9;">${b.profitSum.toLocaleString()}</td>
+              <td style="padding:8px 14px; text-align:right; font-family:monospace; font-weight:700; color:#0F172A; border-bottom:1px solid #F1F5F9;">${b.profitMargin}%</td>
+              <td style="padding:8px 14px; text-align:center; border-bottom:1px solid #F1F5F9;">${growthBadge}</td>
+            </tr>
+          `;
+        });
+
+        tableHtml += '</tbody></table></div>';
+        tableContainer.innerHTML = tableHtml;
+      }
+    };
+
+    App.exportTimeSeriesCSV = function() {
+      const data = App.currentTimeSeriesData;
+      if (!data || data.length === 0) {
+        App.showToast('No time series data available to export', 'warning');
+        return;
+      }
+
+      const rows = data.map(b => ({
+        Period: b.label,
+        TransactionCount: b.count,
+        PrimaryMetric: b.primDisplay,
+        ProfitTotal: b.profitSum,
+        ProfitMarginPct: b.profitMargin,
+        GrowthRatePct: b.growthRate !== null ? b.growthRate : ''
+      }));
+
+      const csv = Papa.unparse(rows);
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = (DataStore.datasetName || 'dataset').toLowerCase().replace(/[^a-z0-9]/g, '_') + '_timeseries_' + (App.timeSeriesGranularity || 'month') + '.csv';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      App.showToast('📥 Time series data exported as CSV!', 'success');
+    };
+
     App.mlModelState = {
       target: null,
       features: [],
