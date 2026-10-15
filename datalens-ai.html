@@ -2532,39 +2532,50 @@
           </div>
 
           <!-- Controls Bar -->
-          <div style="display: flex; gap: 14px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 20px; padding: 14px 18px; background: #F8FAFA; border: 1px solid #E2E8F0; border-radius: 14px;">
+          <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 20px; padding: 12px 16px; background: #F8FAFA; border: 1px solid #E2E8F0; border-radius: 14px;">
             <!-- Date Column -->
-            <div class="eda-select-group" style="min-width: 160px;">
-              <label for="ts-date-col" style="font-size: 0.75rem; font-weight: 700; color: #0F172A; margin-bottom: 4px; display: block;">Date Dimension:</label>
-              <select id="ts-date-col" class="select-input" onchange="App.renderTimeSeries()" style="padding: 6px 12px; border-radius: 10px; font-weight: 600; width: 100%;"></select>
+            <div class="eda-select-group" style="flex: 1 1 130px; min-width: 125px;">
+              <label for="ts-date-col" style="font-size: 0.73rem; font-weight: 700; color: #0F172A; margin-bottom: 3px; display: block;">Date Dimension:</label>
+              <select id="ts-date-col" class="select-input" onchange="App.renderTimeSeries()" style="padding: 6px 10px; border-radius: 10px; font-weight: 600; width: 100%; font-size: 0.78rem;"></select>
             </div>
 
             <!-- Primary Metric -->
-            <div class="eda-select-group" style="min-width: 160px;">
-              <label for="ts-primary-metric" style="font-size: 0.75rem; font-weight: 700; color: #0F172A; margin-bottom: 4px; display: block;">Primary Metric:</label>
-              <select id="ts-primary-metric" class="select-input" onchange="App.renderTimeSeries()" style="padding: 6px 12px; border-radius: 10px; font-weight: 600; width: 100%;"></select>
+            <div class="eda-select-group" style="flex: 1 1 130px; min-width: 125px;">
+              <label for="ts-primary-metric" style="font-size: 0.73rem; font-weight: 700; color: #0F172A; margin-bottom: 3px; display: block;">Primary Metric:</label>
+              <select id="ts-primary-metric" class="select-input" onchange="App.renderTimeSeries()" style="padding: 6px 10px; border-radius: 10px; font-weight: 600; width: 100%; font-size: 0.78rem;"></select>
             </div>
 
             <!-- Secondary Overlay Metric -->
-            <div class="eda-select-group" style="min-width: 170px;">
-              <label for="ts-secondary-metric" style="font-size: 0.75rem; font-weight: 700; color: #0F172A; margin-bottom: 4px; display: block;">Secondary Overlay (Dual Y-Axis):</label>
-              <select id="ts-secondary-metric" class="select-input" onchange="App.renderTimeSeries()" style="padding: 6px 12px; border-radius: 10px; font-weight: 600; width: 100%;"></select>
+            <div class="eda-select-group" style="flex: 1 1 140px; min-width: 135px;">
+              <label for="ts-secondary-metric" style="font-size: 0.73rem; font-weight: 700; color: #0F172A; margin-bottom: 3px; display: block;">Secondary Overlay (Dual Y):</label>
+              <select id="ts-secondary-metric" class="select-input" onchange="App.renderTimeSeries()" style="padding: 6px 10px; border-radius: 10px; font-weight: 600; width: 100%; font-size: 0.78rem;"></select>
             </div>
 
             <!-- Aggregation Mode -->
-            <div class="eda-select-group" style="min-width: 150px;">
-              <label for="ts-agg-mode" style="font-size: 0.75rem; font-weight: 700; color: #0F172A; margin-bottom: 4px; display: block;">Aggregation Mode:</label>
-              <select id="ts-agg-mode" class="select-input" onchange="App.renderTimeSeries()" style="padding: 6px 12px; border-radius: 10px; font-weight: 600; width: 100%;">
+            <div class="eda-select-group" style="flex: 1 1 130px; min-width: 125px;">
+              <label for="ts-agg-mode" style="font-size: 0.73rem; font-weight: 700; color: #0F172A; margin-bottom: 3px; display: block;">Aggregation Mode:</label>
+              <select id="ts-agg-mode" class="select-input" onchange="App.renderTimeSeries()" style="padding: 6px 10px; border-radius: 10px; font-weight: 600; width: 100%; font-size: 0.78rem;">
                 <option value="sum" selected>SUM (Total Volume)</option>
                 <option value="avg">AVG (Per Transaction)</option>
-                <option value="count">COUNT (Transaction Frequency)</option>
+                <option value="count">COUNT (Frequency)</option>
+              </select>
+            </div>
+
+            <!-- Rolling Moving Average (SMA) -->
+            <div class="eda-select-group" style="flex: 1 1 135px; min-width: 130px;">
+              <label for="ts-sma-window" style="font-size: 0.73rem; font-weight: 700; color: #0F172A; margin-bottom: 3px; display: block;">📈 Trend Smoothing:</label>
+              <select id="ts-sma-window" class="select-input" onchange="App.renderTimeSeries()" style="padding: 6px 10px; border-radius: 10px; font-weight: 600; width: 100%; font-size: 0.78rem;">
+                <option value="none">None (Raw Curve)</option>
+                <option value="3" selected>3-Period Moving Avg</option>
+                <option value="7">7-Period Moving Avg</option>
+                <option value="14">14-Period Moving Avg</option>
               </select>
             </div>
 
             <!-- Export Button -->
             <div style="margin-left: auto;">
-              <button class="btn btn-secondary btn-sm" onclick="App.exportTimeSeriesCSV()" style="font-weight: 700; font-size: 0.75rem; border-radius: 10px; padding: 8px 14px; display: inline-flex; align-items: center; gap: 6px;">
-                <span>📥</span> Export Time Series CSV
+              <button class="btn btn-secondary btn-sm" onclick="App.exportTimeSeriesCSV()" style="font-weight: 700; font-size: 0.75rem; border-radius: 10px; padding: 7px 12px; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;">
+                <span>📥</span> Export CSV
               </button>
             </div>
           </div>
@@ -7279,6 +7290,36 @@ Generated by DataLens AI Studio.
     // ---------------------------------------------------------
     App.timeSeriesGranularity = 'month'; // 'year', 'month', 'day', 'dow'
 
+    App.updateSMAOptions = function(gran) {
+      const smaSelect = document.getElementById('ts-sma-window');
+      if (!smaSelect) return;
+      const prevVal = smaSelect.value;
+      if (gran === 'day') {
+        smaSelect.innerHTML = `
+          <option value="none">None (Raw Curve)</option>
+          <option value="3">3-Day Moving Avg</option>
+          <option value="7" selected>7-Day Moving Avg</option>
+          <option value="14">14-Day Moving Avg</option>
+          <option value="30">30-Day Moving Avg</option>
+        `;
+      } else if (gran === 'month') {
+        smaSelect.innerHTML = `
+          <option value="none">None (Raw Curve)</option>
+          <option value="3" selected>3-Month Moving Avg</option>
+          <option value="6">6-Month Moving Avg</option>
+        `;
+      } else {
+        smaSelect.innerHTML = `
+          <option value="none">None (Raw Curve)</option>
+          <option value="2">2-Period Moving Avg</option>
+          <option value="3" selected>3-Period Moving Avg</option>
+        `;
+      }
+      if (prevVal && Array.from(smaSelect.options).some(o => o.value === prevVal)) {
+        smaSelect.value = prevVal;
+      }
+    };
+
     App.setTimeSeriesGranularity = function(gran) {
       App.timeSeriesGranularity = gran;
       const buttons = document.querySelectorAll('#ts-granularity-pills .ts-gran-btn');
@@ -7291,6 +7332,7 @@ Generated by DataLens AI Studio.
         activeBtn.style.background = '#1B3538';
         activeBtn.style.color = '#FFFFFF';
       }
+      if (App.updateSMAOptions) App.updateSMAOptions(gran);
       App.renderTimeSeries();
     };
 
@@ -7577,6 +7619,20 @@ Generated by DataLens AI Studio.
         `;
       }
 
+      // Compute Moving Average Trendline (SMA)
+      const smaSelect = document.getElementById('ts-sma-window');
+      const smaWindow = smaSelect ? smaSelect.value : 'none';
+      let smaValues = [];
+      if (smaWindow && smaWindow !== 'none' && sortedBuckets.length >= 2) {
+        const k = parseInt(smaWindow);
+        smaValues = sortedBuckets.map((b, idx) => {
+          const start = Math.max(0, idx - k + 1);
+          const slice = sortedBuckets.slice(start, idx + 1);
+          const sum = slice.reduce((acc, curr) => acc + curr.primDisplay, 0);
+          return Number((sum / slice.length).toFixed(2));
+        });
+      }
+
       // Draw Chart.js Line / Area Chart
       const canvas = document.getElementById('timeseries-chart-canvas');
       if (canvas) {
@@ -7619,6 +7675,24 @@ Generated by DataLens AI Studio.
             pointRadius: sortedBuckets.length > 40 ? 0 : 4,
             pointHoverRadius: 6,
             yAxisID: 'y1'
+          });
+        }
+
+        // Add Moving Average Trendline to datasets if active
+        if (smaWindow && smaWindow !== 'none' && smaValues.length > 0) {
+          const k = parseInt(smaWindow);
+          datasets.push({
+            label: k + '-Period Moving Avg (SMA)',
+            data: smaValues,
+            borderColor: '#D97706',
+            backgroundColor: 'transparent',
+            borderWidth: 2.5,
+            borderDash: [4, 4],
+            pointRadius: 0,
+            pointHoverRadius: 5,
+            pointBackgroundColor: '#D97706',
+            tension: 0.35,
+            yAxisID: 'y'
           });
         }
 
@@ -7682,6 +7756,7 @@ Generated by DataLens AI Studio.
                   <th style="padding:10px 14px; text-align:left;">Period (${gran.toUpperCase()})</th>
                   <th style="padding:10px 14px; text-align:right;">Orders / Count</th>
                   <th style="padding:10px 14px; text-align:right; font-weight:800; color:#0F766E;">${primMetric} (${aggMode.toUpperCase()})</th>
+                  ${smaWindow !== 'none' ? '<th style="padding:10px 14px; text-align:right; font-weight:700; color:#D97706;">' + smaWindow + '-Period SMA</th>' : ''}
                   <th style="padding:10px 14px; text-align:right;">Profit Total</th>
                   <th style="padding:10px 14px; text-align:right;">Profit Margin</th>
                   <th style="padding:10px 14px; text-align:center;">Period Growth</th>
@@ -7706,7 +7781,8 @@ Generated by DataLens AI Studio.
               <td style="padding:8px 14px; font-weight:700; color:#0F172A; border-bottom:1px solid #F1F5F9;">${b.label}</td>
               <td style="padding:8px 14px; text-align:right; color:#64748B; border-bottom:1px solid #F1F5F9;">${b.count.toLocaleString()}</td>
               <td style="padding:8px 14px; text-align:right; font-family:monospace; font-weight:800; color:#0F766E; border-bottom:1px solid #F1F5F9;">${prefix}${b.primDisplay.toLocaleString()}</td>
-              <td style="padding:8px 14px; text-align:right; font-family:monospace; color:#334155; border-bottom:1px solid #F1F5F9;">${b.profitSum.toLocaleString()}</td>
+              ${smaWindow !== 'none' && smaValues[idx] !== undefined ? '<td style="padding:8px 14px; text-align:right; font-family:monospace; font-weight:700; color:#D97706; border-bottom:1px solid #F1F5F9;">' + prefix + smaValues[idx].toLocaleString() + '</td>' : ''}
+              <td style="padding:8px 14px; text-align:right; font-family:monospace; color:#334155; border-bottom:1px solid #F1F5F9;">$${b.profitSum.toLocaleString()}</td>
               <td style="padding:8px 14px; text-align:right; font-family:monospace; font-weight:700; color:#0F172A; border-bottom:1px solid #F1F5F9;">${b.profitMargin}%</td>
               <td style="padding:8px 14px; text-align:center; border-bottom:1px solid #F1F5F9;">${growthBadge}</td>
             </tr>
