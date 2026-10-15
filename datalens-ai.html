@@ -2573,25 +2573,45 @@
         </div>
 
         <!-- Section: Box / Range Distribution Comparison -->
-        <div class="card eda-section-block" id="eda-boxplot-section">
-          <div class="card-header">
+        <div class="card eda-section-block" id="eda-boxplot-section" style="padding: 24px; border-radius: 20px; background: #FFFFFF; border: 1px solid #E2E8F0; box-shadow: var(--shadow-card);">
+          <div class="card-header" style="margin-bottom: 16px;">
             <div class="card-title-group">
-              <h3>Distribution by Category Group</h3>
-              <p>Compare median and spread of numeric values across groups</p>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 1.3rem;">📦</span>
+                <h3 style="margin: 0; font-size: 1.18rem; font-weight: 800; color: #0F172A;">Tukey Box &amp; Whisker Category Comparison</h3>
+                <span class="badge" style="background: #E0F2FE; color: #0369A1; font-size: 0.68rem; font-weight: 800; border: 1px solid #BAE6FD;">1.5 × IQR METHOD</span>
+              </div>
+              <p style="margin: 4px 0 0 0; font-size: 0.82rem; color: #64748B;">
+                Compare median, 25%-75% interquartile range boxes, Tukey whiskers, and isolated outlier points across dimensions.
+              </p>
             </div>
           </div>
-          <div class="eda-controls-bar">
+
+          <!-- Controls Bar -->
+          <div class="eda-controls-bar" style="display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; padding: 14px; background: #F8FAFA; border: 1px solid #E2E8F0; border-radius: 14px;">
             <div class="eda-select-group">
-              <label for="group-metric">Numeric Metric:</label>
-              <select id="group-metric" class="select-input" onchange="App.renderGroupComparison()"></select>
+              <label for="group-metric" style="font-size: 0.75rem; font-weight: 700; color: #0F172A; margin-bottom: 4px;">Continuous Metric:</label>
+              <select id="group-metric" class="select-input" onchange="App.renderGroupComparison()" style="padding: 6px 12px; border-radius: 10px; font-weight: 600;"></select>
             </div>
             <div class="eda-select-group">
-              <label for="group-category">Grouping Category:</label>
-              <select id="group-category" class="select-input" onchange="App.renderGroupComparison()"></select>
+              <label for="group-category" style="font-size: 0.75rem; font-weight: 700; color: #0F172A; margin-bottom: 4px;">Categorical Dimension:</label>
+              <select id="group-category" class="select-input" onchange="App.renderGroupComparison()" style="padding: 6px 12px; border-radius: 10px; font-weight: 600;"></select>
+            </div>
+            <div style="margin-left: auto; display: flex; align-items: center; gap: 12px; font-size: 0.75rem; color: #64748B;">
+              <span style="display: inline-flex; align-items: center; gap: 5px;"><span style="width: 10px; height: 10px; background: #2DD4BF; border-radius: 2px;"></span> IQR Box (Q1-Q3)</span>
+              <span style="display: inline-flex; align-items: center; gap: 5px;"><span style="width: 10px; height: 10px; background: rgba(45,212,191,0.2); border: 1px dashed #14B8A6; border-radius: 2px;"></span> Whiskers</span>
+              <span style="display: inline-flex; align-items: center; gap: 5px;"><span style="width: 8px; height: 8px; background: #EF4444; border-radius: 50%;"></span> Outliers</span>
             </div>
           </div>
-          <div style="height: 380px; position: relative;">
+
+          <!-- Chart Canvas -->
+          <div style="height: 380px; position: relative; margin-bottom: 20px;">
             <canvas id="group-comparison-chart"></canvas>
+          </div>
+
+          <!-- Dynamic Tukey Category Summary Cards -->
+          <div id="tukey-summary-container">
+            <!-- Dynamically populated -->
           </div>
         </div>
       </section>
@@ -4618,17 +4638,21 @@
       },
 
       renderGroupComparison() {
-        const metric = document.getElementById('group-metric').value;
-        const category = document.getElementById('group-category').value;
+        const metric = document.getElementById('group-metric') ? document.getElementById('group-metric').value : null;
+        const category = document.getElementById('group-category') ? document.getElementById('group-category').value : null;
 
         if (!metric || !category) return;
 
-        const ctx = document.getElementById('group-comparison-chart').getContext('2d');
-        if (DataStore.charts.groupCompChart) DataStore.charts.groupCompChart.destroy();
+        const canvas = document.getElementById('group-comparison-chart');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        if (DataStore.charts.groupCompChart) {
+          try { DataStore.charts.groupCompChart.destroy(); } catch(e){}
+        }
 
-        // Group values
+        const rows = DataStore.rawRows || DataStore.data || [];
         const groups = {};
-        DataStore.rawRows.forEach(r => {
+        rows.forEach(r => {
           const g = String(r[category] || 'Unknown');
           const val = Number(r[metric]);
           if (!isNaN(val)) {
@@ -4637,14 +4661,19 @@
           }
         });
 
-        const labels = Object.keys(groups).slice(0, 8);
-        const iqrRanges = []; // [q1, q3]
-        const fullRanges = []; // [min, max]
+        // Take top 6 categories by frequency
+        const groupEntries = Object.entries(groups).sort((a, b) => b[1].length - a[1].length).slice(0, 6);
+        const labels = groupEntries.map(e => e[0]);
+
+        const iqrBoxes = [];
+        const whiskerRanges = [];
         const medians = [];
         const means = [];
+        const outlierPoints = [];
+        const summaryStats = [];
 
-        labels.forEach(g => {
-          const arr = groups[g].sort((a, b) => a - b);
+        labels.forEach((g, gIdx) => {
+          const arr = groups[g].slice().sort((a, b) => a - b);
           const count = arr.length;
           const min = arr[0];
           const max = arr[count - 1];
@@ -4661,33 +4690,60 @@
           const q1 = Number(getP(0.25).toFixed(2));
           const median = Number(getP(0.50).toFixed(2));
           const q3 = Number(getP(0.75).toFixed(2));
+          const iqr = Number((q3 - q1).toFixed(2));
 
-          iqrRanges.push([q1, q3]);
-          fullRanges.push([min, max]);
+          // True Tukey Whiskers: Q1 - 1.5*IQR to Q3 + 1.5*IQR clamped to sample extremes
+          const lowerWhisker = Math.max(min, Number((q1 - 1.5 * iqr).toFixed(2)));
+          const upperWhisker = Math.min(max, Number((q3 + 1.5 * iqr).toFixed(2)));
+
+          // Detect Outliers
+          const outliers = arr.filter(v => v < lowerWhisker || v > upperWhisker);
+          outliers.forEach(v => {
+            outlierPoints.push({ x: gIdx, y: v, category: g });
+          });
+
+          iqrBoxes.push([q1, q3]);
+          whiskerRanges.push([lowerWhisker, upperWhisker]);
           medians.push(median);
           means.push(mean);
+
+          summaryStats.push({
+            category: g,
+            count,
+            min,
+            q1,
+            median,
+            q3,
+            max,
+            iqr,
+            lowerWhisker,
+            upperWhisker,
+            outlierCount: outliers.length
+          });
         });
 
+        // Draw Chart with Chart.js
         DataStore.charts.groupCompChart = new Chart(ctx, {
           type: 'bar',
           data: {
             labels,
             datasets: [
               {
-                label: 'Interquartile Range (Q1 - Q3)',
-                data: iqrRanges,
-                backgroundColor: 'rgba(232, 168, 56, 0.75)',
-                borderColor: '#E8A838',
+                label: 'IQR Box (Q1 - Q3)',
+                data: iqrBoxes,
+                backgroundColor: 'rgba(45, 212, 191, 0.75)',
+                borderColor: '#0F766E',
                 borderWidth: 1.5,
-                borderRadius: 4,
+                borderRadius: 6,
                 order: 2
               },
               {
-                label: 'Full Spread (Min - Max)',
-                data: fullRanges,
-                backgroundColor: 'rgba(91, 141, 239, 0.25)',
-                borderColor: '#5B8DEF',
+                label: 'Tukey Whiskers (1.5 × IQR)',
+                data: whiskerRanges,
+                backgroundColor: 'rgba(45, 212, 191, 0.15)',
+                borderColor: '#14B8A6',
                 borderWidth: 1,
+                borderDash: [4, 4],
                 borderRadius: 4,
                 order: 3
               },
@@ -4695,11 +4751,10 @@
                 type: 'line',
                 label: 'Median',
                 data: medians,
-                borderColor: '#EAEDF3',
-                backgroundColor: '#EAEDF3',
+                borderColor: '#1B3538',
+                backgroundColor: '#1B3538',
                 pointStyle: 'rectRot',
-                pointRadius: 6,
-                borderWidth: 0,
+                pointRadius: 7,
                 showLine: false,
                 order: 1
               },
@@ -4707,13 +4762,22 @@
                 type: 'line',
                 label: 'Mean',
                 data: means,
-                borderColor: '#EF4444',
-                backgroundColor: '#EF4444',
+                borderColor: '#F59E0B',
+                backgroundColor: '#F59E0B',
                 pointStyle: 'circle',
                 pointRadius: 5,
-                borderWidth: 0,
                 showLine: false,
                 order: 1
+              },
+              {
+                type: 'scatter',
+                label: 'Tukey Outliers',
+                data: outlierPoints,
+                backgroundColor: '#EF4444',
+                borderColor: '#FFFFFF',
+                borderWidth: 1.5,
+                pointRadius: 6,
+                order: 0
               }
             ]
           },
@@ -4721,38 +4785,115 @@
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-              legend: { position: 'top' },
-              title: {
-                display: true,
-                text: `${metric} Box & Range Distribution across ${category}`,
-                font: { weight: '700', size: 13 }
+              legend: {
+                position: 'top',
+                labels: { font: { family: 'Plus Jakarta Sans', size: 10, weight: '600' }, boxWidth: 12 }
               },
               tooltip: {
                 callbacks: {
                   label: function(c) {
-                    if (c.dataset.label.includes('Interquartile')) {
-                      return `IQR (Q1-Q3): [${c.raw[0]} to ${c.raw[1]}]`;
+                    if (c.dataset.label.includes('IQR Box')) {
+                      return 'IQR Box (Q1-Q3): [' + c.raw[0] + ' to ' + c.raw[1] + ']';
                     }
-                    if (c.dataset.label.includes('Full Spread')) {
-                      return `Full Range (Min-Max): [${c.raw[0]} to ${c.raw[1]}]`;
+                    if (c.dataset.label.includes('Whiskers')) {
+                      return 'Tukey Whiskers: [' + c.raw[0] + ' to ' + c.raw[1] + ']';
                     }
-                    return `${c.dataset.label}: ${c.raw}`;
+                    if (c.dataset.label.includes('Outliers')) {
+                      return '⚠️ Outlier: ' + c.raw.y + ' (' + c.raw.category + ')';
+                    }
+                    return c.dataset.label + ': ' + c.raw;
                   }
                 }
               }
             },
             scales: {
-              y: {
-                grid: { color: '#2A2D3E' },
-                title: { display: true, text: metric, font: { weight: '600' } }
-              },
               x: {
                 grid: { display: false },
-                title: { display: true, text: category, font: { weight: '600' } }
+                ticks: { font: { family: 'Plus Jakarta Sans', size: 10 } }
+              },
+              y: {
+                grid: { color: '#F1F5F9' },
+                ticks: { font: { family: 'Plus Jakarta Sans', size: 10 } },
+                title: { display: true, text: metric, font: { weight: '700', size: 11, family: 'Plus Jakarta Sans' } }
               }
             }
           }
         });
+
+        // Render Dynamic Tukey Summary Cards
+        App.renderTukeySummary(summaryStats, metric, category);
+      },
+
+      renderTukeySummary(stats, metric, category) {
+        const container = document.getElementById('tukey-summary-container');
+        if (!container || stats.length === 0) return;
+
+        const isCurr = /revenue|price|charges|profit|cost|amount/i.test(metric);
+        const pfx = isCurr ? String.fromCharCode(36) : '';
+
+        // Find key highlights
+        const highestMedian = stats.slice().sort((a, b) => b.median - a.median)[0];
+        const widestIqr = stats.slice().sort((a, b) => b.iqr - a.iqr)[0];
+        const totalOutliers = stats.reduce((sum, s) => sum + s.outlierCount, 0);
+
+        let html = '<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:14px; margin-bottom:16px;">';
+        
+        // Card 1: Top Median
+        html += '<div style="background:#F0FDFA; border:1px solid #CCFBF1; border-radius:14px; padding:14px;">';
+        html += '<div style="font-size:0.68rem; color:#0F766E; font-weight:700; text-transform:uppercase;">Highest Median ' + metric + '</div>';
+        html += '<div style="font-size:1.25rem; font-weight:800; color:#0F766E; margin:2px 0;">' + highestMedian.category + '</div>';
+        html += '<div style="font-size:0.75rem; color:#115E59; font-weight:700;">Median: ' + pfx + highestMedian.median.toLocaleString() + '</div>';
+        html += '</div>';
+
+        // Card 2: Widest Spread (IQR)
+        html += '<div style="background:#FFFBEB; border:1px solid #FEF3C7; border-radius:14px; padding:14px;">';
+        html += '<div style="font-size:0.68rem; color:#B45309; font-weight:700; text-transform:uppercase;">Highest Volatility / Dispersion</div>';
+        html += '<div style="font-size:1.25rem; font-weight:800; color:#92400E; margin:2px 0;">' + widestIqr.category + '</div>';
+        html += '<div style="font-size:0.75rem; color:#78350F; font-weight:700;">IQR Spread: ' + pfx + widestIqr.iqr.toLocaleString() + '</div>';
+        html += '</div>';
+
+        // Card 3: Outlier Count
+        html += '<div style="background:#FEF2F2; border:1px solid #FEE2E2; border-radius:14px; padding:14px;">';
+        html += '<div style="font-size:0.68rem; color:#B91C1C; font-weight:700; text-transform:uppercase;">Tukey Outliers Flagged</div>';
+        html += '<div style="font-size:1.25rem; font-weight:800; color:#991B1B; margin:2px 0;">' + totalOutliers + ' Outliers</div>';
+        html += '<div style="font-size:0.75rem; color:#7F1D1D;">Beyond 1.5× IQR Whiskers</div>';
+        html += '</div>';
+
+        html += '</div>';
+
+        // Compact Breakdown Table
+        html += '<div style="overflow-x:auto; border:1px solid #E2E8F0; border-radius:12px;">';
+        html += '<table class="data-table" style="width:100%; font-size:0.78rem; margin:0;">';
+        html += '<thead style="background:#F8FAFC;"><tr>';
+        html += '<th style="padding:8px 12px; text-align:left;">Category</th>';
+        html += '<th style="padding:8px 12px; text-align:right;">Count</th>';
+        html += '<th style="padding:8px 12px; text-align:right;">Min</th>';
+        html += '<th style="padding:8px 12px; text-align:right;">Q1 (25%)</th>';
+        html += '<th style="padding:8px 12px; text-align:right; font-weight:800; color:#0F766E;">Median</th>';
+        html += '<th style="padding:8px 12px; text-align:right;">Q3 (75%)</th>';
+        html += '<th style="padding:8px 12px; text-align:right;">Max</th>';
+        html += '<th style="padding:8px 12px; text-align:right;">IQR</th>';
+        html += '<th style="padding:8px 12px; text-align:center;">Outliers</th>';
+        html += '</tr></thead><tbody>';
+
+        stats.forEach((s, idx) => {
+          const bg = idx % 2 === 0 ? '#FFFFFF' : '#F8FAFC';
+          html += '<tr style="background:' + bg + ';">';
+          html += '<td style="padding:6px 12px; font-weight:700; color:#0F172A;">' + s.category + '</td>';
+          html += '<td style="padding:6px 12px; text-align:right; color:#64748B;">' + s.count + '</td>';
+          html += '<td style="padding:6px 12px; text-align:right; font-family:monospace;">' + pfx + s.min.toLocaleString() + '</td>';
+          html += '<td style="padding:6px 12px; text-align:right; font-family:monospace;">' + pfx + s.q1.toLocaleString() + '</td>';
+          html += '<td style="padding:6px 12px; text-align:right; font-family:monospace; font-weight:800; color:#0F766E;">' + pfx + s.median.toLocaleString() + '</td>';
+          html += '<td style="padding:6px 12px; text-align:right; font-family:monospace;">' + pfx + s.q3.toLocaleString() + '</td>';
+          html += '<td style="padding:6px 12px; text-align:right; font-family:monospace;">' + pfx + s.max.toLocaleString() + '</td>';
+          html += '<td style="padding:6px 12px; text-align:right; font-family:monospace; color:#64748B;">' + pfx + s.iqr.toLocaleString() + '</td>';
+          const outBadge = s.outlierCount > 0 ? '<span class="badge" style="background:#FEE2E2; color:#DC2626; font-size:0.65rem;">' + s.outlierCount + '</span>' : '<span style="color:#94A3B8;">0</span>';
+          html += '<td style="padding:6px 12px; text-align:center;">' + outBadge + '</td>';
+          html += '</tr>';
+        });
+
+        html += '</tbody></table></div>';
+        container.innerHTML = html;
       },
 
       /* ========================================================================
