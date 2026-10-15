@@ -4038,16 +4038,70 @@ Do not hallucinate columns not in the dataset.
 
         this.removeTypingIndicator(typingId);
 
-        // Parse JSON response
-        let parsed = null;
+        // Robust response parser: handle JSON, mixed text+JSON, and plain text
+        let answerText = '';
+        let chartConfig = null;
+
         try {
-          const cleanText = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
-          parsed = JSON.parse(cleanText);
+          // Step 1: Try to find JSON block in response (with or without markdown fences)
+          let jsonStr = '';
+          const jsonFenceMatch = rawText.match(/```(?:json)?\s*\n?([\s\S]*?)\n?```/);
+          if (jsonFenceMatch) {
+            jsonStr = jsonFenceMatch[1].trim();
+          } else {
+            // Try parsing the entire response as JSON
+            const trimmed = rawText.trim();
+            if (trimmed.startsWith('{')) {
+              jsonStr = trimmed;
+            }
+          }
+
+          if (jsonStr) {
+            // Remove JS function strings that JSON.parse can't handle
+            const sanitized = jsonStr.replace(/"function\s*\([^)]*\)\s*\{[^}]*\}"/g, 'null')
+                                     .replace(/,\s*"callbacks"\s*:\s*\{[^}]*\}/g, '');
+            const parsed = JSON.parse(sanitized);
+            answerText = parsed.answer || parsed.text || parsed.response || rawText;
+            
+            if (parsed.chartConfig && typeof parsed.chartConfig === 'object' && parsed.chartConfig.type) {
+              chartConfig = parsed.chartConfig;
+              // Ensure chartConfig has proper structure
+              if (!chartConfig.options) chartConfig.options = {};
+              if (!chartConfig.options.responsive) chartConfig.options.responsive = true;
+              if (!chartConfig.options.plugins) chartConfig.options.plugins = {};
+              chartConfig.options.plugins.legend = chartConfig.options.plugins.legend || { display: true };
+            }
+          } else {
+            answerText = rawText;
+          }
+
+          // Step 2: If we got answer text with embedded chartConfig JSON at the end, try extracting it
+          if (!chartConfig && answerText) {
+            const chartMatch = answerText.match(/"chartConfig"\s*:\s*(\{[\s\S]*\})\s*\}?\s*$/);
+            if (chartMatch) {
+              try {
+                const cleanChart = chartMatch[1].replace(/"function\s*\([^)]*\)\s*\{[^}]*\}"/g, 'null');
+                chartConfig = JSON.parse(cleanChart);
+                // Remove the JSON part from the displayed answer
+                answerText = answerText.substring(0, chartMatch.index).replace(/[",}\s]+$/, '').trim();
+              } catch (ce) { /* ignore parse failures for chart extraction */ }
+            }
+          }
         } catch (e) {
-          parsed = { answer: rawText, chartConfig: null };
+          // Total fallback: just show the raw text
+          answerText = rawText;
+          chartConfig = null;
         }
 
-        this.appendChatMessage('ai', parsed.answer, parsed.chartConfig);
+        // Clean up any remaining JSON artifacts from the displayed text
+        answerText = answerText.replace(/^\s*\{\s*"answer"\s*:\s*"?/i, '')
+                               .replace(/"\s*,?\s*"chartConfig"\s*:.*$/s, '')
+                               .replace(/^"|"$/g, '')
+                               .replace(/\\n/g, '\n')
+                               .replace(/\\"/g, '"')
+                               .trim();
+
+        this.appendChatMessage('ai', answerText, chartConfig);
       },
 
       // Intelligent Local Heuristic Engine for instant zero-key testing
