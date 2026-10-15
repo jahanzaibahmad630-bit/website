@@ -3421,8 +3421,14 @@
           if (techCalls > 3) churnProb += 0.20;
           const churn = Math.random() < churnProb ? 'Yes' : 'No';
 
+          const signupYear = tenure > 12 ? 2023 : 2024;
+          const signupMonth = Math.floor(Math.random() * 12) + 1;
+          const signupDay = Math.floor(Math.random() * 28) + 1;
+          const signupDate = `${signupYear}-${String(signupMonth).padStart(2, '0')}-${String(signupDay).padStart(2, '0')}`;
+
           rows.push({
             CustomerID: `CUST-${3000 + i}`,
+            SignupDate: signupDate,
             Tenure: tenure,
             MonthlyCharges: monthly,
             TotalCharges: totalCharges,
@@ -3442,8 +3448,10 @@
         const diagnoses = ['Hypertension', 'Type 2 Diabetes', 'Asthma', 'Coronary Disease', 'Healthy'];
 
         const rows = [];
+        const baseHealthDate = new Date(2024, 0, 10);
         for (let i = 1; i <= 100; i++) {
           const age = Math.floor(Math.random() * 62) + 20;
+          const admitDate = new Date(baseHealthDate.getTime() + Math.random() * 350 * 86400000).toISOString().split('T')[0];
           const gender = genders[Math.floor(Math.random() * genders.length)];
           const bmi = Number((18.5 + Math.random() * 18).toFixed(1));
           
@@ -3462,6 +3470,7 @@
 
           rows.push({
             PatientID: `PT-${5000 + i}`,
+            AdmissionDate: admitDate,
             Age: age,
             Gender: gender,
             BMI: bmi,
@@ -4220,9 +4229,18 @@
         this.renderPreviewTable();
         this.showToast(`Loaded ${rows.length} rows from "${datasetName}"!`, 'success');
 
+        // Reset ML target to adapt to uploaded dataset
+        DataStore.selectedTarget = null;
+
         // Refresh views
         if (typeof this.renderDashboard === 'function') this.renderDashboard();
+        this.populateEDADropdowns();
         this.renderHealthAudit();
+        if (typeof App.renderDataGrid === 'function') App.renderDataGrid();
+        if (typeof App.renderTimeSeries === 'function') App.renderTimeSeries();
+        if (typeof App.renderCohortAnalysis === 'function') App.renderCohortAnalysis();
+        if (typeof App.renderKeyDrivers === 'function') App.renderKeyDrivers();
+        if (typeof App.runSimulator === 'function') App.runSimulator();
       },
 
       loadPreloaded(type) {
@@ -4254,8 +4272,18 @@
         this.renderPreviewTable();
         this.showToast(`Active dataset switched to "${name}" (${rows.length} rows)`, 'info');
 
+        // Reset ML target to adapt to new dataset schema
+        DataStore.selectedTarget = null;
+
         // Always render dashboard for active dataset
         if (typeof this.renderDashboard === 'function') this.renderDashboard();
+        this.populateEDADropdowns();
+        this.renderHealthAudit();
+        if (typeof App.renderDataGrid === 'function') App.renderDataGrid();
+        if (typeof App.renderTimeSeries === 'function') App.renderTimeSeries();
+        if (typeof App.renderCohortAnalysis === 'function') App.renderCohortAnalysis();
+        if (typeof App.renderKeyDrivers === 'function') App.renderKeyDrivers();
+        if (typeof App.runSimulator === 'function') App.runSimulator();
 
         // Re-render other tabs if already open
         const activeLink = document.querySelector('.carenest-nav-btn.active, .sidebar-link.active, .tab-btn.active');
@@ -4572,8 +4600,18 @@
       },
 
       filterEDA(filterType, btn) {
-        document.querySelectorAll('.eda-subbtn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+        const subBtns = document.querySelectorAll('.eda-subbtn');
+        subBtns.forEach(b => b.classList.remove('active'));
+        if (btn && btn.classList) {
+          btn.classList.add('active');
+        } else {
+          subBtns.forEach(b => {
+            const onclickAttr = b.getAttribute('onclick') || '';
+            if (onclickAttr.includes("'" + filterType + "'")) {
+              b.classList.add('active');
+            }
+          });
+        }
 
         const sections = {
           timeseries: document.getElementById('eda-timeseries-section'),
@@ -4586,10 +4624,10 @@
         };
 
         if (filterType === 'all') {
-          Object.values(sections).forEach(s => s.style.display = 'block');
+          Object.values(sections).forEach(s => { if (s) s.style.display = 'block'; });
         } else {
           Object.entries(sections).forEach(([key, sec]) => {
-            sec.style.display = (key === filterType) ? 'block' : 'none';
+            if (sec) sec.style.display = (key === filterType) ? 'block' : 'none';
           });
         }
       },
@@ -4599,22 +4637,31 @@
         const catCols = Object.keys(DataStore.categories);
         const allCols = DataStore.columns || [];
 
+        // Find genuine datetime columns (excluding numeric columns like MonthlyCharges or Tenure)
+        const dateCols = allCols.filter(c => {
+          const t = DataStore.columnTypes ? DataStore.columnTypes[c] : '';
+          if (t === 'datetime') return true;
+          if (t === 'numeric') return false;
+          return /^(date|order_?date|timestamp|created_?at|signup_?date|admission_?date|trans_?date)$/i.test(c.trim()) ||
+                 /(date|timestamp)/i.test(c.trim());
+        });
+
         // Cohort Dropdowns
         const cohortUser = document.getElementById('cohort-user-col');
         const cohortDate = document.getElementById('cohort-date-col');
         if (cohortUser) {
-          const idCols = allCols.filter(c => /id|user|customer|client|account|email|member/i.test(c));
+          const idCols = allCols.filter(c => /id|user|customer|patient|client|account|email|member/i.test(c));
           const candidates = idCols.length > 0 ? idCols : (catCols.length > 0 ? catCols : allCols);
-          const defaultUserCol = candidates.find(c => /customer.*id|user.*id|client.*id/i.test(c)) || candidates.find(c => /customer|user|client|member|account/i.test(c)) || candidates[0];
+          const defaultUserCol = candidates.find(c => /customer.*id|user.*id|patient.*id|client.*id/i.test(c)) ||
+                                 candidates.find(c => /customer|user|patient|client/i.test(c)) || candidates[0];
           cohortUser.innerHTML = candidates.map(c => `<option value="${c}" ${c === defaultUserCol ? 'selected' : ''}>${c}</option>`).join('');
         }
         if (cohortDate) {
-          const dateCols = allCols.filter(c => {
-            const t = DataStore.columnTypes ? DataStore.columnTypes[c] : '';
-            return t === 'datetime' || /date|time|timestamp|created/i.test(c);
-          });
-          const candidateDates = dateCols.length > 0 ? dateCols : allCols;
-          cohortDate.innerHTML = candidateDates.map(c => `<option value="${c}">${c}</option>`).join('');
+          if (dateCols.length > 0) {
+            cohortDate.innerHTML = dateCols.map((c, i) => `<option value="${c}" ${i === 0 ? 'selected' : ''}>${c}</option>`).join('');
+          } else {
+            cohortDate.innerHTML = '<option value="">No Date Column Detected</option>';
+          }
         }
 
         // Time Series Dropdowns
@@ -4623,13 +4670,11 @@
         const tsSecondary = document.getElementById('ts-secondary-metric');
 
         if (tsDate) {
-          // Find datetime columns or date-like columns
-          const dateCols = allCols.filter(c => {
-            const t = DataStore.columnTypes ? DataStore.columnTypes[c] : '';
-            return t === 'datetime' || /date|time|timestamp|year|month|day|period|created/i.test(c);
-          });
-          const candidateDates = dateCols.length > 0 ? dateCols : allCols;
-          tsDate.innerHTML = candidateDates.map(c => `<option value="${c}">${c}</option>`).join('');
+          if (dateCols.length > 0) {
+            tsDate.innerHTML = dateCols.map((c, i) => `<option value="${c}" ${i === 0 ? 'selected' : ''}>${c}</option>`).join('');
+          } else {
+            tsDate.innerHTML = '<option value="">No Date Column Detected</option>';
+          }
         }
 
         if (tsPrimary) {
@@ -7706,7 +7751,21 @@ Generated by DataLens AI Studio.
       const aggMode = aggSelect ? aggSelect.value : 'sum';
       const gran = App.timeSeriesGranularity || 'month';
 
-      if (!dateCol || !primMetric) return;
+      const narrativeEmptyEl = document.getElementById('ts-executive-narrative');
+      const kpiEmptyContainer = document.getElementById('ts-kpi-strip');
+      const tableEmptyContainer = document.getElementById('ts-table-container');
+
+      if (!dateCol || dateCol === '' || !primMetric) {
+        if (narrativeEmptyEl) {
+          narrativeEmptyEl.innerHTML = '<div style="display:flex; gap:12px; align-items:center; padding:6px 0;"><span style="font-size:1.3rem;">ℹ️</span><div style="font-size:0.85rem; color:#475569;"><strong>No Date Dimension Detected:</strong> The active dataset ("' + (DataStore.datasetName || 'Current') + '") does not contain an auto-detected date column. Select a timestamp column from the dropdown above, or switch to <strong>E-Commerce Sales</strong> to explore temporal trends.</div></div>';
+        }
+        if (kpiEmptyContainer) kpiEmptyContainer.innerHTML = '';
+        if (tableEmptyContainer) tableEmptyContainer.innerHTML = '';
+        if (window.timeSeriesChartInstance) {
+          try { window.timeSeriesChartInstance.destroy(); } catch(e){}
+        }
+        return;
+      }
 
       const isCurrency = /revenue|price|charges|profit|cost|amount/i.test(primMetric);
       const prefix = isCurrency ? String.fromCharCode(36) : '';
