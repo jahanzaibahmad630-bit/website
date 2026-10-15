@@ -10,10 +10,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- CDN Libraries -->
+  <!-- Core Data & Visualization Libraries (Local Primary + Multi-CDN Redundancy) -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <!-- PapaParse for CSV (Local first, CDN fallback) -->
+  <script src="assets/papaparse.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-  <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+  <!-- SheetJS / XLSX for Excel (Local first, Cloudflare + jsDelivr fallbacks) -->
+  <script src="assets/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jstat@1.9.6/dist/jstat.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
@@ -3764,11 +3769,43 @@
         });
 
         fileInput.addEventListener('change', (e) => {
-          if (e.target.files.length > 0) this.handleIncomingFile(e.target.files[0]);
+          if (e.target.files.length > 0) {
+            const f = e.target.files[0];
+            fileInput.value = '';
+            this.handleIncomingFile(f);
+          }
         });
       },
 
-      handleIncomingFile(file) {
+      async ensureXLSX() {
+        if (typeof XLSX !== 'undefined') return true;
+        const mirrors = [
+          'assets/xlsx.full.min.js',
+          'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js',
+          'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js',
+          'https://unpkg.com/xlsx@0.18.5/dist/xlsx.full.min.js',
+          'https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js'
+        ];
+        for (const url of mirrors) {
+          try {
+            await new Promise((resolve, reject) => {
+              const script = document.createElement('script');
+              script.src = url;
+              script.onload = () => resolve();
+              script.onerror = () => reject();
+              document.head.appendChild(script);
+            });
+            if (typeof XLSX !== 'undefined') {
+              console.log('Successfully loaded XLSX from:', url);
+              return true;
+            }
+          } catch(e) {}
+        }
+        return typeof XLSX !== 'undefined';
+      },
+
+      async handleIncomingFile(file) {
+        if (!file) return;
         const name = file.name;
         const ext = name.split('.').pop().toLowerCase();
         const progressContainer = document.getElementById('upload-progress-container');
@@ -3780,46 +3817,87 @@
             : (file.size / 1024).toFixed(1) + ' KB';
         }
 
-        progressContainer.style.display = 'block';
-        progressBar.style.width = '35%';
+        if (progressContainer) progressContainer.style.display = 'block';
+        if (progressBar) progressBar.style.width = '35%';
 
         const reader = new FileReader();
 
         if (ext === 'csv') {
-          Papa.parse(file, {
-            header: true,
-            dynamicTyping: true,
-            skipEmptyLines: true,
-            complete: (results) => {
-              progressBar.style.width = '100%';
-              setTimeout(() => {
-                progressContainer.style.display = 'none';
-                progressBar.style.width = '0%';
-                this.loadCustomData(name, results.data);
-              }, 400);
-            },
-            error: (err) => {
-              this.showToast('CSV Parsing failed: ' + err.message, 'error');
-              progressContainer.style.display = 'none';
-            }
-          });
+          // If Papa is loaded, use it; otherwise fallback to manual CSV parse
+          if (typeof Papa !== 'undefined') {
+            Papa.parse(file, {
+              header: true,
+              dynamicTyping: true,
+              skipEmptyLines: true,
+              complete: (results) => {
+                if (progressBar) progressBar.style.width = '100%';
+                setTimeout(() => {
+                  if (progressContainer) progressContainer.style.display = 'none';
+                  if (progressBar) progressBar.style.width = '0%';
+                  this.loadCustomData(name, results.data);
+                }, 400);
+              },
+              error: (err) => {
+                this.showToast('CSV Parsing failed: ' + err.message, 'error');
+                if (progressContainer) progressContainer.style.display = 'none';
+              }
+            });
+          } else {
+            reader.onload = (e) => {
+              try {
+                const text = e.target.result;
+                const lines = text.split(/\r?\n/).filter(l => l.trim());
+                if (lines.length < 2) throw new Error('File has no data rows');
+                const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+                const rows = lines.slice(1).map(line => {
+                  const vals = line.split(',').map(v => v.trim().replace(/^"|"$/g, ''));
+                  const row = {};
+                  headers.forEach((h, idx) => {
+                    const v = vals[idx];
+                    row[h] = !isNaN(Number(v)) && v !== '' ? Number(v) : v;
+                  });
+                  return row;
+                });
+                if (progressContainer) progressContainer.style.display = 'none';
+                this.loadCustomData(name, rows);
+              } catch(err) {
+                this.showToast('CSV Parsing failed: ' + err.message, 'error');
+                if (progressContainer) progressContainer.style.display = 'none';
+              }
+            };
+            reader.readAsText(file);
+          }
         } else if (ext === 'xlsx' || ext === 'xls') {
+          // Multi-mirror dynamic loader check
+          const xlsxReady = await this.ensureXLSX();
+          if (!xlsxReady || typeof XLSX === 'undefined') {
+            this.showToast('⚠️ Excel parser library could not be loaded. Please ensure internet access or convert file to CSV.', 'error');
+            if (progressContainer) progressContainer.style.display = 'none';
+            return;
+          }
+
           reader.onload = (e) => {
             try {
               const data = new Uint8Array(e.target.result);
               const workbook = XLSX.read(data, { type: 'array' });
+              if (!workbook || !workbook.SheetNames || workbook.SheetNames.length === 0) {
+                throw new Error('Workbook contains no sheets.');
+              }
               const firstSheetName = workbook.SheetNames[0];
               const worksheet = workbook.Sheets[firstSheetName];
               const json = XLSX.utils.sheet_to_json(worksheet);
-              progressBar.style.width = '100%';
+              if (!json || json.length === 0) {
+                throw new Error('Sheet is empty or has no readable tabular rows.');
+              }
+              if (progressBar) progressBar.style.width = '100%';
               setTimeout(() => {
-                progressContainer.style.display = 'none';
-                progressBar.style.width = '0%';
+                if (progressContainer) progressContainer.style.display = 'none';
+                if (progressBar) progressBar.style.width = '0%';
                 this.loadCustomData(name, json);
               }, 400);
             } catch (err) {
               this.showToast('Excel Parsing failed: ' + err.message, 'error');
-              progressContainer.style.display = 'none';
+              if (progressContainer) progressContainer.style.display = 'none';
             }
           };
           reader.readAsArrayBuffer(file);
@@ -3853,21 +3931,21 @@
               // Flatten nested objects (1 level deep)
               parsed = parsed.map(row => this.flattenObject(row));
 
-              progressBar.style.width = '100%';
+              if (progressBar) progressBar.style.width = '100%';
               setTimeout(() => {
-                progressContainer.style.display = 'none';
-                progressBar.style.width = '0%';
+                if (progressContainer) progressContainer.style.display = 'none';
+                if (progressBar) progressBar.style.width = '0%';
                 this.loadCustomData(name, parsed);
               }, 400);
             } catch (err) {
               this.showToast('JSON Parsing failed: ' + err.message, 'error');
-              progressContainer.style.display = 'none';
+              if (progressContainer) progressContainer.style.display = 'none';
             }
           };
           reader.readAsText(file);
         } else {
-          this.showToast('Unsupported format. Please upload CSV, Excel, JSON, or JSONL.', 'error');
-          progressContainer.style.display = 'none';
+          this.showToast('Unsupported format. Please upload CSV, Excel (.xlsx, .xls), JSON, or JSONL.', 'error');
+          if (progressContainer) progressContainer.style.display = 'none';
         }
       },
 
