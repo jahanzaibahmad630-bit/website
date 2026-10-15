@@ -2032,13 +2032,18 @@
         <!-- Drag & Drop Zone -->
         <div class="card">
           <div class="upload-dropzone" id="dropzone" onclick="document.getElementById('file-input').click()">
-            <input type="file" id="file-input" style="display: none" accept=".csv, .xlsx, .xls, .json">
+            <input type="file" id="file-input" style="display: none" accept=".csv, .xlsx, .xls, .json, .jsonl, .ndjson">
             <div class="dropzone-icon">📁</div>
-            <h3 class="dropzone-title">Drop CSV, Excel, or JSON files here</h3>
-            <p class="dropzone-desc">Drag and drop your dataset file, or click to browse from your computer</p>
-            <button class="btn btn-primary" onclick="event.stopPropagation(); document.getElementById('file-input').click()">
-              Browse Files
-            </button>
+            <h3 class="dropzone-title">Drop CSV, Excel, JSON, or JSONL files here</h3>
+            <p class="dropzone-desc">Drag and drop your dataset file, or click to browse. Also supports nested JSON, API responses, and JSONL/NDJSON.</p>
+            <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center; align-items:center;">
+              <button class="btn btn-primary" onclick="event.stopPropagation(); document.getElementById('file-input').click()">
+                📁 Browse Files
+              </button>
+              <button class="btn btn-secondary" onclick="event.stopPropagation(); document.getElementById('url-import-modal').style.display='flex';" style="background:#1B3538; color:#fff; border:none;">
+                🌐 Import from URL
+              </button>
+            </div>
             <div class="progress-bar-container" id="upload-progress-container">
               <div class="progress-bar-fill" id="upload-progress-bar"></div>
             </div>
@@ -3415,14 +3420,36 @@
             }
           };
           reader.readAsArrayBuffer(file);
-        } else if (ext === 'json') {
+        } else if (ext === 'json' || ext === 'jsonl' || ext === 'ndjson') {
           reader.onload = (e) => {
             try {
-              let parsed = JSON.parse(e.target.result);
-              if (!Array.isArray(parsed) && parsed.data && Array.isArray(parsed.data)) {
-                parsed = parsed.data;
+              const text = e.target.result.trim();
+              let parsed;
+
+              // Try JSONL / NDJSON first (one JSON object per line)
+              if (ext === 'jsonl' || ext === 'ndjson' || (text.includes('\n') && text.startsWith('{') && !text.startsWith('{\n'))) {
+                const lines = text.split('\n').filter(l => l.trim());
+                const isJsonLines = lines.length > 1 && lines.every(l => {
+                  try { const o = JSON.parse(l.trim()); return typeof o === 'object' && !Array.isArray(o); } catch(e) { return false; }
+                });
+                if (isJsonLines) {
+                  parsed = lines.map(l => JSON.parse(l.trim()));
+                }
               }
-              if (!Array.isArray(parsed)) throw new Error('JSON must be an array of objects');
+
+              // Standard JSON parse
+              if (!parsed) {
+                const raw = JSON.parse(text);
+                parsed = this.extractJsonArray(raw);
+              }
+
+              if (!parsed || !Array.isArray(parsed) || parsed.length === 0) {
+                throw new Error('Could not find an array of objects in this JSON file. Supported formats: [{},...], {data:[{},..]}, {results:[{},..]}, or JSONL (one object per line).');
+              }
+
+              // Flatten nested objects (1 level deep)
+              parsed = parsed.map(row => this.flattenObject(row));
+
               progressBar.style.width = '100%';
               setTimeout(() => {
                 progressContainer.style.display = 'none';
@@ -3436,8 +3463,91 @@
           };
           reader.readAsText(file);
         } else {
-          this.showToast('Unsupported format. Please upload CSV, Excel, or JSON.', 'error');
+          this.showToast('Unsupported format. Please upload CSV, Excel, JSON, or JSONL.', 'error');
           progressContainer.style.display = 'none';
+        }
+      },
+
+      // --- JSON Helper: Extract array from various wrapper patterns ---
+      extractJsonArray(obj) {
+        if (Array.isArray(obj)) return obj;
+        // Common wrapper keys
+        const arrayKeys = ['data', 'results', 'records', 'rows', 'items', 'entries', 'values', 'hits', 'documents', 'objects', 'response', 'payload'];
+        for (const key of arrayKeys) {
+          if (obj[key] && Array.isArray(obj[key])) return obj[key];
+        }
+        // Nested wrappers like {response: {data: [...]}}
+        for (const key of Object.keys(obj)) {
+          if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
+            for (const innerKey of arrayKeys) {
+              if (obj[key][innerKey] && Array.isArray(obj[key][innerKey])) return obj[key][innerKey];
+            }
+          }
+        }
+        // Single object -> wrap in array
+        if (typeof obj === 'object' && Object.keys(obj).length > 0 && !Array.isArray(obj)) {
+          // Check if all values are primitives (it's a single row)
+          const vals = Object.values(obj);
+          if (vals.every(v => v === null || typeof v !== 'object')) return [obj];
+        }
+        return null;
+      },
+
+      // --- JSON Helper: Flatten nested objects 1 level ---
+      flattenObject(obj, prefix = '') {
+        const result = {};
+        for (const [key, value] of Object.entries(obj)) {
+          const newKey = prefix ? `${prefix}.${key}` : key;
+          if (value && typeof value === 'object' && !Array.isArray(value) && !(value instanceof Date)) {
+            Object.assign(result, this.flattenObject(value, newKey));
+          } else if (Array.isArray(value)) {
+            result[newKey] = value.length <= 3 ? value.join(', ') : `[${value.length} items]`;
+          } else {
+            result[newKey] = value;
+          }
+        }
+        return result;
+      },
+
+      // --- URL Import: Fetch JSON from a remote API endpoint ---
+      async importFromURL(url) {
+        const progressContainer = document.getElementById('upload-progress-container');
+        const progressBar = document.getElementById('upload-progress-bar');
+        try {
+          progressContainer.style.display = 'block';
+          progressBar.style.width = '25%';
+          this.showToast('Fetching data from URL...', 'info');
+
+          const response = await fetch(url);
+          if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+
+          progressBar.style.width = '60%';
+          const contentType = response.headers.get('content-type') || '';
+
+          let rows;
+          if (contentType.includes('text/csv') || url.endsWith('.csv')) {
+            const text = await response.text();
+            const result = Papa.parse(text, { header: true, dynamicTyping: true, skipEmptyLines: true });
+            rows = result.data;
+          } else {
+            const raw = await response.json();
+            rows = this.extractJsonArray(raw);
+            if (rows) rows = rows.map(r => this.flattenObject(r));
+          }
+
+          if (!rows || rows.length === 0) throw new Error('No tabular data found at this URL.');
+
+          progressBar.style.width = '100%';
+          const urlName = new URL(url).pathname.split('/').pop() || 'api-data';
+          setTimeout(() => {
+            progressContainer.style.display = 'none';
+            progressBar.style.width = '0%';
+            this.loadCustomData(urlName, rows);
+          }, 400);
+        } catch (err) {
+          this.showToast('URL Import failed: ' + err.message, 'error');
+          progressContainer.style.display = 'none';
+          progressBar.style.width = '0%';
         }
       },
 
@@ -4984,7 +5094,342 @@ Do not hallucinate columns not in the dataset.
             }
           };
         }
-        // 4. CORRELATIONS / ANOMALIES
+        // 4. TOP N / RANKING / BEST / WORST / HIGHEST / LOWEST
+        else if (q.includes('top') || q.includes('best') || q.includes('worst') || q.includes('highest') || q.includes('lowest') || q.includes('rank') || q.includes('most') || q.includes('least')) {
+          const sortCol = numCols.find(c => q.includes(c.toLowerCase())) || primNum;
+          const wantBottom = q.includes('worst') || q.includes('lowest') || q.includes('least') || q.includes('bottom');
+          const n = parseInt((q.match(/top\s*(\d+)/i) || q.match(/(\d+)/i) || [,10])[1]) || 10;
+          const sortedRows = [...DataStore.rawRows].sort((a, b) => {
+            const va = Number(a[sortCol]) || 0, vb = Number(b[sortCol]) || 0;
+            return wantBottom ? va - vb : vb - va;
+          }).slice(0, n);
+
+          const displayCols = [catCols[0] || cols[0], sortCol].filter(Boolean);
+          const tableRows = sortedRows.map((r, i) => `<tr><td style="padding:4px 10px; font-size:0.82rem; color:#64748B;">${i + 1}</td>${displayCols.map(c => `<td style="padding:4px 10px; font-size:0.82rem; font-weight:600; color:#0F172A;">${r[c] ?? '-'}</td>`).join('')}</tr>`).join('');
+
+          answer = `
+            ${bannerNotice || ''}
+            <h4 style="margin:0 0 8px 0; color:#0F172A; font-weight:800;">${wantBottom ? 'Bottom' : 'Top'} ${n} Records by ${sortCol}</h4>
+            <p style="font-size:0.85rem; color:#64748B; margin-bottom:10px;">Ranked ${wantBottom ? 'ascending' : 'descending'} across ${DataStore.rawRows.length} observations.</p>
+            <div style="overflow-x:auto; border:1px solid #E2E8F0; border-radius:12px;">
+              <table style="width:100%; border-collapse:collapse;">
+                <thead><tr style="background:#F8FAFA;"><th style="padding:6px 10px; font-size:0.75rem; color:#64748B; font-weight:700; text-align:left;">#</th>${displayCols.map(c => `<th style="padding:6px 10px; font-size:0.75rem; color:#64748B; font-weight:700; text-align:left;">${c}</th>`).join('')}</tr></thead>
+                <tbody>${tableRows}</tbody>
+              </table>
+            </div>
+            <div style="background:#F0FDFA; border:1px solid #CCFBF1; border-radius:12px; padding:10px 14px; margin-top:12px;">
+              <strong style="color:#0F766E; font-size:0.82rem;">🎓 Tip:</strong>
+              <span style="font-size:0.8rem; color:#115E59;"> Use Top-N analysis to focus on high-impact segments. Pareto's 80/20 principle often applies — 20% of categories drive 80% of outcomes.</span>
+            </div>
+          `;
+
+          chartConfig = {
+            type: 'bar',
+            data: {
+              labels: sortedRows.map(r => String(r[displayCols[0]] || '').substring(0, 15)),
+              datasets: [{
+                label: sortCol,
+                data: sortedRows.map(r => Number(r[sortCol]) || 0),
+                backgroundColor: wantBottom ? '#EF4444' : '#2DD4BF',
+                borderRadius: 6
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: { legend: { display: false } },
+              scales: { y: { beginAtZero: true } }
+            }
+          };
+        }
+        // 5. COMPARE / VS / VERSUS / DIFFERENCE
+        else if (q.includes('compare') || q.includes(' vs ') || q.includes('versus') || q.includes('difference') || q.includes('group by')) {
+          const groupCol = catCols.find(c => q.includes(c.toLowerCase())) || catCols[0] || primCat;
+          const metricCol = numCols.find(c => q.includes(c.toLowerCase())) || primNum;
+          const groups = {};
+          DataStore.rawRows.forEach(r => {
+            const g = String(r[groupCol] || 'Other');
+            if (!groups[g]) groups[g] = [];
+            groups[g].push(Number(r[metricCol]) || 0);
+          });
+          const groupStats = Object.entries(groups).map(([g, vals]) => ({
+            group: g,
+            count: vals.length,
+            mean: (vals.reduce((a,b) => a+b, 0) / vals.length).toFixed(2),
+            min: Math.min(...vals).toFixed(2),
+            max: Math.max(...vals).toFixed(2)
+          }));
+
+          const compTable = groupStats.map(g => `
+            <div style="background:#F8FAFA; border:1px solid #E2E8F0; border-radius:12px; padding:10px 14px;">
+              <div style="font-weight:700; color:#0F172A; font-size:0.9rem;">${g.group}</div>
+              <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:6px; margin-top:6px;">
+                <div><span style="font-size:0.68rem; color:#64748B; display:block;">Count</span><strong style="font-size:0.95rem;">${g.count}</strong></div>
+                <div><span style="font-size:0.68rem; color:#64748B; display:block;">Avg ${metricCol}</span><strong style="font-size:0.95rem;">${g.mean}</strong></div>
+                <div><span style="font-size:0.68rem; color:#64748B; display:block;">Range</span><strong style="font-size:0.95rem;">${g.min} – ${g.max}</strong></div>
+              </div>
+            </div>
+          `).join('');
+
+          answer = `
+            ${bannerNotice || ''}
+            <h4 style="margin:0 0 8px 0; color:#0F172A; font-weight:800;">Comparison: ${metricCol} by ${groupCol}</h4>
+            <p style="font-size:0.85rem; color:#64748B; margin-bottom:10px;">Group-level statistics across ${groupStats.length} segments.</p>
+            <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:12px;">${compTable}</div>
+            <div style="background:#F0FDFA; border:1px solid #CCFBF1; border-radius:12px; padding:10px 14px;">
+              <strong style="color:#0F766E; font-size:0.82rem;">🎓 Tip:</strong>
+              <span style="font-size:0.8rem; color:#115E59;"> Use ANOVA (Analysis of Variance) to test if differences between groups are statistically significant (p < 0.05), not just random variation.</span>
+            </div>
+          `;
+
+          chartConfig = {
+            type: 'bar',
+            data: {
+              labels: groupStats.map(g => g.group),
+              datasets: [{
+                label: `Avg ${metricCol}`,
+                data: groupStats.map(g => Number(g.mean)),
+                backgroundColor: ['#2DD4BF', '#38BDF8', '#818CF8', '#C084FC', '#F472B6', '#FB923C', '#A3E635', '#FBBF24'],
+                borderRadius: 6
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: { legend: { display: false } },
+              scales: { y: { beginAtZero: true } }
+            }
+          };
+        }
+        // 6. DISTRIBUTION / HISTOGRAM / SPREAD / SHAPE
+        else if (q.includes('distribut') || q.includes('histogram') || q.includes('spread') || q.includes('shape') || q.includes('skew') || q.includes('normal')) {
+          const distCol = numCols.find(c => q.includes(c.toLowerCase())) || primNum;
+          const distVals = DataStore.rawRows.map(r => Number(r[distCol])).filter(v => !isNaN(v));
+          const distStat = DataStore.stats[distCol] || {};
+
+          // Build histogram bins
+          const binCount = Math.min(15, Math.max(5, Math.ceil(Math.sqrt(distVals.length))));
+          const minVal = Math.min(...distVals);
+          const maxVal = Math.max(...distVals);
+          const binWidth = (maxVal - minVal) / binCount || 1;
+          const bins = Array(binCount).fill(0);
+          const binLabels = [];
+          for (let i = 0; i < binCount; i++) {
+            const lo = minVal + i * binWidth;
+            binLabels.push(lo.toFixed(1));
+            distVals.forEach(v => {
+              if (v >= lo && (i === binCount - 1 ? v <= lo + binWidth : v < lo + binWidth)) bins[i]++;
+            });
+          }
+
+          const skewDir = distStat.skewness > 0.5 ? 'right-skewed (long right tail)' : distStat.skewness < -0.5 ? 'left-skewed (long left tail)' : 'approximately symmetric';
+          const kurtDesc = (distStat.kurtosis || 0) > 3 ? 'leptokurtic (heavy tails, peaked)' : (distStat.kurtosis || 0) < 3 ? 'platykurtic (light tails, flat)' : 'mesokurtic (normal-like)';
+
+          answer = `
+            ${bannerNotice || ''}
+            <h4 style="margin:0 0 8px 0; color:#0F172A; font-weight:800;">Distribution Analysis: ${distCol}</h4>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(120px, 1fr)); gap:8px; margin-bottom:14px;">
+              <div style="background:#F8FAFA; border:1px solid #E2E8F0; border-radius:10px; padding:8px 12px;">
+                <div style="font-size:0.68rem; color:#64748B; font-weight:700;">MEAN</div>
+                <div style="font-size:1.1rem; font-weight:800; color:#0F172A;">${(distStat.mean || 0).toFixed(2)}</div>
+              </div>
+              <div style="background:#F8FAFA; border:1px solid #E2E8F0; border-radius:10px; padding:8px 12px;">
+                <div style="font-size:0.68rem; color:#64748B; font-weight:700;">MEDIAN</div>
+                <div style="font-size:1.1rem; font-weight:800; color:#0F172A;">${(distStat.median || 0).toFixed(2)}</div>
+              </div>
+              <div style="background:#F8FAFA; border:1px solid #E2E8F0; border-radius:10px; padding:8px 12px;">
+                <div style="font-size:0.68rem; color:#64748B; font-weight:700;">STD DEV</div>
+                <div style="font-size:1.1rem; font-weight:800; color:#0F172A;">${(distStat.std || 0).toFixed(2)}</div>
+              </div>
+              <div style="background:#F8FAFA; border:1px solid #E2E8F0; border-radius:10px; padding:8px 12px;">
+                <div style="font-size:0.68rem; color:#64748B; font-weight:700;">SKEWNESS</div>
+                <div style="font-size:1.1rem; font-weight:800; color:${Math.abs(distStat.skewness || 0) > 1 ? '#EF4444' : '#10B981'};">${(distStat.skewness || 0).toFixed(3)}</div>
+              </div>
+            </div>
+            <p style="font-size:0.85rem; color:#334155; margin-bottom:6px;">The distribution is <strong>${skewDir}</strong> and <strong>${kurtDesc}</strong>.</p>
+            <p style="font-size:0.85rem; color:#334155;">IQR (Interquartile Range): <strong>${(distStat.iqr || 0).toFixed(2)}</strong> | Range: [${(distStat.min || 0)} to ${(distStat.max || 0)}]</p>
+            <div style="background:#F0FDFA; border:1px solid #CCFBF1; border-radius:12px; padding:10px 14px; margin-top:12px;">
+              <strong style="color:#0F766E; font-size:0.82rem;">🎓 Tip:</strong>
+              <span style="font-size:0.8rem; color:#115E59;"> If |skewness| > 1, consider applying <code>log1p()</code> or Box-Cox transformation before using this feature in regression models. Normality tests like Shapiro-Wilk can formally verify if the data follows a bell curve.</span>
+            </div>
+          `;
+
+          chartConfig = {
+            type: 'bar',
+            data: {
+              labels: binLabels,
+              datasets: [{
+                label: `Frequency (${distCol})`,
+                data: bins,
+                backgroundColor: 'rgba(45, 212, 191, 0.6)',
+                borderColor: '#2DD4BF',
+                borderWidth: 1,
+                borderRadius: 3
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: { legend: { display: false }, title: { display: true, text: `Histogram: ${distCol}`, font: { size: 12, weight: 'bold' } } },
+              scales: { x: { grid: { display: false }, title: { display: true, text: distCol, font: { size: 10 } } }, y: { beginAtZero: true, title: { display: true, text: 'Frequency', font: { size: 10 } } } }
+            }
+          };
+        }
+        // 7. TREND / TIME / DATE / MONTHLY / WEEKLY / GROWTH
+        else if (q.includes('trend') || q.includes('time') || q.includes('month') || q.includes('growth') || q.includes('over time') || q.includes('weekly') || q.includes('daily') || q.includes('forecast')) {
+          const dateCol = DataStore.columns.find(c => /date|time|day|month|year|week|period|timestamp/i.test(c));
+          const valCol = numCols.find(c => q.includes(c.toLowerCase())) || primNum;
+
+          if (dateCol) {
+            // Group by date values
+            const dateGroups = {};
+            DataStore.rawRows.forEach(r => {
+              const d = String(r[dateCol] || '').substring(0, 10);
+              if (!dateGroups[d]) dateGroups[d] = [];
+              dateGroups[d].push(Number(r[valCol]) || 0);
+            });
+            const sortedDates = Object.keys(dateGroups).sort();
+            const aggregated = sortedDates.map(d => ({
+              date: d,
+              total: dateGroups[d].reduce((a,b) => a+b, 0),
+              avg: dateGroups[d].reduce((a,b) => a+b, 0) / dateGroups[d].length,
+              count: dateGroups[d].length
+            }));
+
+            // Simple growth calculation
+            const firstVal = aggregated[0]?.total || 1;
+            const lastVal = aggregated[aggregated.length - 1]?.total || 1;
+            const growthPct = ((lastVal - firstVal) / Math.abs(firstVal) * 100).toFixed(1);
+
+            answer = `
+              ${bannerNotice || ''}
+              <h4 style="margin:0 0 8px 0; color:#0F172A; font-weight:800;">Trend Analysis: ${valCol} over ${dateCol}</h4>
+              <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin-bottom:14px;">
+                <div style="background:#F8FAFA; border:1px solid #E2E8F0; border-radius:10px; padding:8px 12px;">
+                  <div style="font-size:0.68rem; color:#64748B; font-weight:700;">TIME PERIODS</div>
+                  <div style="font-size:1.1rem; font-weight:800; color:#0F172A;">${sortedDates.length}</div>
+                </div>
+                <div style="background:#F8FAFA; border:1px solid #E2E8F0; border-radius:10px; padding:8px 12px;">
+                  <div style="font-size:0.68rem; color:#64748B; font-weight:700;">TOTAL ${valCol.toUpperCase()}</div>
+                  <div style="font-size:1.1rem; font-weight:800; color:#0F172A;">${aggregated.reduce((a,b) => a + b.total, 0).toLocaleString()}</div>
+                </div>
+                <div style="background:#F8FAFA; border:1px solid #E2E8F0; border-radius:10px; padding:8px 12px;">
+                  <div style="font-size:0.68rem; color:#64748B; font-weight:700;">GROWTH</div>
+                  <div style="font-size:1.1rem; font-weight:800; color:${Number(growthPct) >= 0 ? '#10B981' : '#EF4444'};">${Number(growthPct) >= 0 ? '+' : ''}${growthPct}%</div>
+                </div>
+              </div>
+              <div style="background:#F0FDFA; border:1px solid #CCFBF1; border-radius:12px; padding:10px 14px; margin-top:12px;">
+                <strong style="color:#0F766E; font-size:0.82rem;">🎓 Tip:</strong>
+                <span style="font-size:0.8rem; color:#115E59;"> For forecasting, use Moving Average (MA) to smooth noise, or apply Exponential Smoothing (ETS) for weighted recent trends. ARIMA models are the gold standard for time-series prediction with seasonality.</span>
+              </div>
+            `;
+
+            chartConfig = {
+              type: 'line',
+              data: {
+                labels: aggregated.map(a => a.date).slice(-30),
+                datasets: [{
+                  label: `${valCol} (Total)`,
+                  data: aggregated.map(a => a.total).slice(-30),
+                  borderColor: '#2DD4BF',
+                  backgroundColor: 'rgba(45, 212, 191, 0.1)',
+                  fill: true,
+                  tension: 0.3,
+                  pointRadius: 3
+                }]
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { x: { grid: { display: false }, ticks: { maxRotation: 45, font: { size: 9 } } }, y: { beginAtZero: true } }
+              }
+            };
+          } else {
+            // No date column — show sequential trend
+            answer = `
+              ${bannerNotice || ''}
+              <h4 style="margin:0 0 8px 0; color:#0F172A; font-weight:800;">Sequential Trend: ${valCol}</h4>
+              <p style="font-size:0.85rem; color:#64748B;">No date/time column detected. Showing ${valCol} values in row order as a sequential trend.</p>
+              <div style="background:#FEF3C7; border:1px solid #FDE68A; border-radius:12px; padding:10px 14px; margin-top:8px;">
+                <strong style="color:#92400E; font-size:0.82rem;">💡 Tip:</strong>
+                <span style="font-size:0.8rem; color:#78350F;"> Add a date/timestamp column to your dataset for proper time-series analysis. Columns named "Date", "Timestamp", "Month", or "Year" are automatically detected.</span>
+              </div>
+            `;
+
+            chartConfig = {
+              type: 'line',
+              data: {
+                labels: DataStore.rawRows.slice(0, 50).map((_, i) => `Row ${i+1}`),
+                datasets: [{
+                  label: valCol,
+                  data: DataStore.rawRows.slice(0, 50).map(r => Number(r[valCol]) || 0),
+                  borderColor: '#2DD4BF',
+                  backgroundColor: 'rgba(45, 212, 191, 0.1)',
+                  fill: true,
+                  tension: 0.3,
+                  pointRadius: 2
+                }]
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { x: { display: false }, y: { beginAtZero: true } }
+              }
+            };
+          }
+        }
+        // 8. COUNT / HOW MANY / UNIQUE / BREAKDOWN / FREQUENCY
+        else if (q.includes('count') || q.includes('how many') || q.includes('unique') || q.includes('breakdown') || q.includes('frequency') || q.includes('proportion')) {
+          const countCol = [...catCols, ...cols].find(c => q.includes(c.toLowerCase())) || primCat;
+          const freqs = {};
+          DataStore.rawRows.forEach(r => {
+            const v = String(r[countCol] || 'Unknown');
+            freqs[v] = (freqs[v] || 0) + 1;
+          });
+          const sorted = Object.entries(freqs).sort((a,b) => b[1] - a[1]);
+          const total = DataStore.rawRows.length;
+
+          answer = `
+            ${bannerNotice || ''}
+            <h4 style="margin:0 0 8px 0; color:#0F172A; font-weight:800;">Frequency Breakdown: ${countCol}</h4>
+            <p style="font-size:0.85rem; color:#64748B; margin-bottom:10px;">${sorted.length} unique values across ${total} rows.</p>
+            <div style="display:flex; flex-direction:column; gap:6px; margin-bottom:12px;">
+              ${sorted.slice(0, 8).map(([val, cnt]) => {
+                const pct = (cnt / total * 100).toFixed(1);
+                return `<div style="display:flex; align-items:center; gap:10px;">
+                  <div style="flex:0 0 120px; font-size:0.82rem; font-weight:600; color:#0F172A; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${val}</div>
+                  <div style="flex:1; background:#E2E8F0; border-radius:6px; height:18px; overflow:hidden;">
+                    <div style="width:${pct}%; background:#2DD4BF; height:100%; border-radius:6px; min-width:4px;"></div>
+                  </div>
+                  <div style="flex:0 0 70px; font-size:0.78rem; color:#64748B; text-align:right;">${cnt} (${pct}%)</div>
+                </div>`;
+              }).join('')}
+            </div>
+            <div style="background:#F0FDFA; border:1px solid #CCFBF1; border-radius:12px; padding:10px 14px;">
+              <strong style="color:#0F766E; font-size:0.82rem;">🎓 Tip:</strong>
+              <span style="font-size:0.8rem; color:#115E59;"> High cardinality (${sorted.length > 20 ? '⚠️ detected here — ' : ''}many unique values) may need encoding (Label/One-Hot) before machine learning. Consider target encoding for high-cardinality features.</span>
+            </div>
+          `;
+
+          chartConfig = {
+            type: 'doughnut',
+            data: {
+              labels: sorted.slice(0, 8).map(s => s[0]),
+              datasets: [{
+                data: sorted.slice(0, 8).map(s => s[1]),
+                backgroundColor: ['#2DD4BF', '#38BDF8', '#818CF8', '#C084FC', '#F472B6', '#FB923C', '#A3E635', '#FBBF24']
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } }
+            }
+          };
+        }
+        // 9. CORRELATIONS / ANOMALIES
         else if (q.includes('correlation') || q.includes('anomal') || q.includes('outlier')) {
           answer = `
             ${bannerNotice || ''}
@@ -4998,14 +5443,67 @@ Do not hallucinate columns not in the dataset.
             <p style="font-size:0.85rem; color:#64748B;">Explore pairwise Pearson correlations in the <strong>Key Drivers</strong> tab.</p>
           `;
         }
-        // 5. DEFAULT FALLBACK
+        // 10. DEFAULT FALLBACK — Smart contextual answer
         else {
-          answer = `
-            ${bannerNotice || ''}
-            <h4 style="margin:0 0 8px 0; color:#0F172A; font-weight:800;">Analysis on "${DataStore.datasetName}"</h4>
-            <p style="font-size:0.87rem; color:#334155;">Dataset contains <strong>${DataStore.rawRows.length} rows</strong> across <strong>${DataStore.columns.length} columns</strong> (${numCols.length} continuous metrics, ${catCols.length} categorical factors).</p>
-            <p style="font-size:0.87rem; color:#334155;">Quality Rating: <strong>${health.score}%</strong>. No critical blockers detected for exploratory modeling.</p>
-          `;
+          // Try to find a column name match in the query
+          const matchedCol = cols.find(c => q.includes(c.toLowerCase()));
+
+          if (matchedCol && DataStore.stats[matchedCol]) {
+            const ms = DataStore.stats[matchedCol];
+            answer = `
+              ${bannerNotice || ''}
+              <h4 style="margin:0 0 8px 0; color:#0F172A; font-weight:800;">Column Profile: ${matchedCol}</h4>
+              <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(100px, 1fr)); gap:8px; margin-bottom:12px;">
+                <div style="background:#F8FAFA; border:1px solid #E2E8F0; border-radius:10px; padding:8px 12px;">
+                  <div style="font-size:0.68rem; color:#64748B; font-weight:700;">MEAN</div>
+                  <div style="font-size:1rem; font-weight:800; color:#0F172A;">${(ms.mean || 0).toFixed(2)}</div>
+                </div>
+                <div style="background:#F8FAFA; border:1px solid #E2E8F0; border-radius:10px; padding:8px 12px;">
+                  <div style="font-size:0.68rem; color:#64748B; font-weight:700;">MEDIAN</div>
+                  <div style="font-size:1rem; font-weight:800; color:#0F172A;">${(ms.median || 0).toFixed(2)}</div>
+                </div>
+                <div style="background:#F8FAFA; border:1px solid #E2E8F0; border-radius:10px; padding:8px 12px;">
+                  <div style="font-size:0.68rem; color:#64748B; font-weight:700;">MIN</div>
+                  <div style="font-size:1rem; font-weight:800; color:#0F172A;">${ms.min}</div>
+                </div>
+                <div style="background:#F8FAFA; border:1px solid #E2E8F0; border-radius:10px; padding:8px 12px;">
+                  <div style="font-size:0.68rem; color:#64748B; font-weight:700;">MAX</div>
+                  <div style="font-size:1rem; font-weight:800; color:#0F172A;">${ms.max}</div>
+                </div>
+                <div style="background:#F8FAFA; border:1px solid #E2E8F0; border-radius:10px; padding:8px 12px;">
+                  <div style="font-size:0.68rem; color:#64748B; font-weight:700;">STD DEV</div>
+                  <div style="font-size:1rem; font-weight:800; color:#0F172A;">${(ms.std || 0).toFixed(2)}</div>
+                </div>
+                <div style="background:#F8FAFA; border:1px solid #E2E8F0; border-radius:10px; padding:8px 12px;">
+                  <div style="font-size:0.68rem; color:#64748B; font-weight:700;">IQR</div>
+                  <div style="font-size:1rem; font-weight:800; color:#0F172A;">${(ms.iqr || 0).toFixed(2)}</div>
+                </div>
+              </div>
+            `;
+          } else if (matchedCol && DataStore.categories[matchedCol]) {
+            const cats = Object.entries(DataStore.categories[matchedCol]).sort((a,b) => b[1] - a[1]);
+            answer = `
+              ${bannerNotice || ''}
+              <h4 style="margin:0 0 8px 0; color:#0F172A; font-weight:800;">Category Breakdown: ${matchedCol}</h4>
+              <p style="font-size:0.85rem; color:#64748B; margin-bottom:8px;">${cats.length} unique values found.</p>
+              <ul style="margin:0 0 8px 18px; padding:0; font-size:0.85rem; line-height:1.65;">
+                ${cats.slice(0, 10).map(([k, v]) => `<li><strong>${k}</strong>: ${v} records (${(v / DataStore.rawRows.length * 100).toFixed(1)}%)</li>`).join('')}
+              </ul>
+            `;
+          } else {
+            answer = `
+              ${bannerNotice || ''}
+              <h4 style="margin:0 0 8px 0; color:#0F172A; font-weight:800;">Analysis on "${DataStore.datasetName}"</h4>
+              <p style="font-size:0.87rem; color:#334155;">Dataset contains <strong>${DataStore.rawRows.length} rows</strong> across <strong>${DataStore.columns.length} columns</strong> (${numCols.length} continuous metrics, ${catCols.length} categorical factors).</p>
+              <p style="font-size:0.87rem; color:#334155;">Quality Rating: <strong>${health.score}%</strong>. No critical blockers detected for exploratory modeling.</p>
+              <div style="background:#F8FAFA; border:1px solid #E2E8F0; border-radius:12px; padding:12px 16px; margin-top:10px;">
+                <div style="font-size:0.78rem; font-weight:700; color:#64748B; margin-bottom:6px;">💡 TRY THESE QUERIES</div>
+                <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                  ${['show distribution of ' + (primNum || 'values'), 'top 10 by ' + (primNum || 'values'), 'compare ' + (primCat || 'groups'), 'show trend', 'give me suggestions', 'breakdown by ' + (primCat || 'category')].map(q => `<span onclick="document.getElementById('chat-input').value='${q}'; App.handleChatSubmit(new Event('submit'));" style="background:#E2E8F0; color:#334155; padding:4px 10px; border-radius:20px; font-size:0.75rem; cursor:pointer; font-weight:600; transition:background 0.2s;" onmouseover="this.style.background='#2DD4BF'" onmouseout="this.style.background='#E2E8F0'">${q}</span>`).join('')}
+                </div>
+              </div>
+            `;
+          }
 
           if (numCols.length > 0) {
             const firstCol = numCols[0];
@@ -6209,6 +6707,36 @@ Generated by DataLens AI Studio.
       <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:20px; padding-top:16px; border-top:1px solid #F1F5F9;">
         <button class="btn btn-secondary btn-sm" onclick="document.getElementById('column-inspector-modal').style.display='none'">Close</button>
         <button class="btn btn-primary btn-sm" onclick="App.switchTab('tab-eda'); document.getElementById('column-inspector-modal').style.display='none';">Visual EDA ↗</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- URL Import Modal -->
+  <div id="url-import-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:10000; justify-content:center; align-items:center; backdrop-filter:blur(4px);">
+    <div style="background:#fff; border-radius:20px; padding:28px 32px; max-width:520px; width:90%; box-shadow:0 20px 60px rgba(0,0,0,0.2);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h3 style="margin:0; font-size:1.1rem; font-weight:800; color:#0F172A;">🌐 Import Data from URL</h3>
+        <button onclick="document.getElementById('url-import-modal').style.display='none'" style="background:none; border:none; font-size:1.4rem; cursor:pointer; color:#94A3B8;">&times;</button>
+      </div>
+      <p style="font-size:0.82rem; color:#64748B; margin:0 0 14px 0;">Paste a URL to a JSON API endpoint, CSV file, or any public dataset URL. Supports REST APIs returning arrays or wrapped objects.</p>
+      <input type="text" id="url-import-input" placeholder="https://api.example.com/data.json" style="width:100%; padding:12px 16px; border:1.5px solid #CBD5E1; border-radius:12px; font-size:0.9rem; font-family:'Plus Jakarta Sans',sans-serif; box-sizing:border-box; outline:none; transition:border-color 0.2s;" onfocus="this.style.borderColor='#2DD4BF'" onblur="this.style.borderColor='#CBD5E1'">
+      <div style="display:flex; gap:8px; margin-top:14px;">
+        <button onclick="const url=document.getElementById('url-import-input').value.trim(); if(url){App.importFromURL(url); document.getElementById('url-import-modal').style.display='none';} else {App.showToast('Please enter a URL','error');}" style="flex:1; padding:10px; background:#1B3538; color:#fff; border:none; border-radius:12px; font-weight:700; font-size:0.88rem; cursor:pointer; font-family:'Plus Jakarta Sans',sans-serif;">
+          🚀 Fetch & Import
+        </button>
+        <button onclick="document.getElementById('url-import-modal').style.display='none'" style="padding:10px 20px; background:#F1F5F9; color:#475569; border:none; border-radius:12px; font-weight:600; font-size:0.88rem; cursor:pointer; font-family:'Plus Jakarta Sans',sans-serif;">
+          Cancel
+        </button>
+      </div>
+      <div style="margin-top:12px; padding:10px 14px; background:#F8FAFA; border-radius:10px; border:1px solid #E2E8F0;">
+        <div style="font-size:0.72rem; font-weight:700; color:#64748B; margin-bottom:4px;">SUPPORTED FORMATS</div>
+        <div style="font-size:0.78rem; color:#475569; line-height:1.5;">
+          • JSON Array: <code>[{"col":"val"}, ...]</code><br>
+          • Wrapped JSON: <code>{"data": [...]}</code>, <code>{"results": [...]}</code><br>
+          • CSV files: Any .csv URL<br>
+          • JSONL/NDJSON: One object per line
+        </div>
       </div>
     </div>
   </div>
