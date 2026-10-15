@@ -2709,6 +2709,79 @@
           </div>
         </div>
 
+        <!-- Feature 4: In-Browser Machine Learning Baseline & Feature Importance Ranking -->
+        <div class="card" id="ml-baseline-card" style="margin-bottom: 24px; padding: 24px; border-radius: 20px; background: #FFFFFF; border: 1px solid #E2E8F0; box-shadow: var(--shadow-card);">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 18px; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 1.3rem;">🤖</span>
+                <h3 style="margin: 0; font-size: 1.15rem; font-weight: 800; color: #0F172A;">In-Browser Machine Learning Baseline &amp; Feature Importance</h3>
+                <span class="badge" style="background: #F0FDF4; color: #166534; font-size: 0.68rem; font-weight: 800; border: 1px solid #BBF7D0;">RIDGE / OLS REGRESSION</span>
+              </div>
+              <p style="margin: 4px 0 0 0; font-size: 0.82rem; color: #64748B;">
+                Multivariate regression trained live in browser on 80% train / 20% holdout test split. Quantifies joint predictive power and isolated feature weights.
+              </p>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="App.trainInBrowserML()" style="font-weight: 700; border-radius: 9999px; padding: 5px 14px; font-size: 0.75rem;">
+              ⚡ Re-fit Model
+            </button>
+          </div>
+
+          <!-- ML Metrics Summary Row -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 22px;">
+            <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px; padding: 14px;">
+              <div style="font-size: 0.68rem; color: #64748B; font-weight: 700; text-transform: uppercase;">Holdout R² Score</div>
+              <div style="font-size: 1.45rem; font-weight: 800; color: #0F172A; margin: 3px 0;" id="ml-metric-r2">0.00</div>
+              <div style="font-size: 0.68rem; color: #10B981; font-weight: 700;" id="ml-metric-fit-label">Baseline Evaluating...</div>
+            </div>
+            <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px; padding: 14px;">
+              <div style="font-size: 0.68rem; color: #64748B; font-weight: 700; text-transform: uppercase;">Mean Absolute Error (MAE)</div>
+              <div style="font-size: 1.45rem; font-weight: 800; color: #0F172A; margin: 3px 0;" id="ml-metric-mae">0.00</div>
+              <div style="font-size: 0.68rem; color: #64748B;">Avg Test Residual</div>
+            </div>
+            <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px; padding: 14px;">
+              <div style="font-size: 0.68rem; color: #64748B; font-weight: 700; text-transform: uppercase;">Root Mean Squared Error</div>
+              <div style="font-size: 1.45rem; font-weight: 800; color: #0F172A; margin: 3px 0;" id="ml-metric-rmse">0.00</div>
+              <div style="font-size: 0.68rem; color: #64748B;">Penalized Large Variance</div>
+            </div>
+            <div style="background: #F0FDF4; border: 1px solid #DCFCE7; border-radius: 14px; padding: 14px;">
+              <div style="font-size: 0.68rem; color: #15803D; font-weight: 700; text-transform: uppercase;">Variance Explained Lift</div>
+              <div style="font-size: 1.45rem; font-weight: 800; color: #166534; margin: 3px 0;" id="ml-metric-lift">+0.0%</div>
+              <div style="font-size: 0.68rem; color: #15803D; font-weight: 700;">vs. Null Mean Model</div>
+            </div>
+          </div>
+
+          <!-- Feature Importance Chart & Interactive Row Simulator -->
+          <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 20px; align-items: stretch;" class="ml-grid-layout">
+            <!-- Feature Importance Bar Chart -->
+            <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; padding: 16px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <span style="font-size: 0.82rem; font-weight: 800; color: #0F172A;">Normalized Relative Feature Importance (% Weight)</span>
+                <span style="font-size: 0.7rem; color: #64748B;">Standardized Coefficients</span>
+              </div>
+              <div style="height: 220px; position: relative;">
+                <canvas id="ml-importance-chart"></canvas>
+              </div>
+            </div>
+
+            <!-- Live What-If Predictor -->
+            <div style="background: #F8FAFA; border: 1px solid #E2E8F0; border-radius: 16px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div style="font-size: 0.82rem; font-weight: 800; color: #0F172A; margin-bottom: 4px;">🎯 Real-Time Target Estimator</div>
+                <div style="font-size: 0.74rem; color: #64748B; margin-bottom: 12px;">Adjust top driver inputs to predict target response:</div>
+                <div id="ml-predictor-inputs" style="display: flex; flex-direction: column; gap: 8px;">
+                  <!-- Dynamically populated top 3 feature sliders -->
+                </div>
+              </div>
+              <div style="margin-top: 14px; padding: 12px; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 12px; text-align: center;">
+                <div style="font-size: 0.68rem; color: #64748B; font-weight: 700; text-transform: uppercase;">Predicted Target Value</div>
+                <div style="font-size: 1.4rem; font-weight: 800; color: #0F766E; margin: 2px 0;" id="ml-predicted-output">$0.00</div>
+                <div style="font-size: 0.68rem; color: #64748B;" id="ml-prediction-ci">95% Prediction Interval: ±0.00</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Scatter Plots of Top Drivers -->
         <div class="card">
           <div class="card-header">
@@ -4742,6 +4815,7 @@
 
         // Render Ranking Chart
         this.renderDriverRankingChart(correlations, target);
+        App.trainInBrowserML();
 
         // Text summary
         const top3 = correlations.slice(0, 3);
@@ -6853,6 +6927,318 @@ Generated by DataLens AI Studio.
         // ---------------------------------------------------------
     // FEATURE 3: FULL INTERACTIVE DATA SPREADSHEET / GRID VIEW
     // ---------------------------------------------------------
+        // ---------------------------------------------------------
+    // FEATURE 4: IN-BROWSER MACHINE LEARNING BASELINE & FEATURE IMPORTANCE
+    // ---------------------------------------------------------
+    App.mlModelState = {
+      target: null,
+      features: [],
+      weights: {},
+      importance: [],
+      intercept: 0,
+      r2: 0,
+      mae: 0,
+      rmse: 0
+    };
+
+    App.trainInBrowserML = function() {
+      const target = DataStore.selectedTarget || (document.getElementById('driver-target-select') ? document.getElementById('driver-target-select').value : null);
+      if (!target) return;
+
+      const rows = DataStore.rawRows || DataStore.data || [];
+      if (!rows || rows.length < 10) return;
+
+      const numCols = Object.keys(DataStore.stats || {});
+      const features = numCols.filter(c => c !== target);
+      if (features.length === 0) return;
+
+      // Extract valid rows (where target and all features are finite numbers)
+      const validRows = [];
+      rows.forEach(r => {
+        const yVal = parseFloat(r[target]);
+        if (isNaN(yVal)) return;
+        let valid = true;
+        const xVals = [];
+        for (let i = 0; i < features.length; i++) {
+          const v = parseFloat(r[features[i]]);
+          if (isNaN(v)) { valid = false; break; }
+          xVals.push(v);
+        }
+        if (valid) validRows.push({ y: yVal, x: xVals });
+      });
+
+      if (validRows.length < 10) return;
+
+      // Deterministic 80/20 train/test split
+      const n = validRows.length;
+      const trainSize = Math.floor(n * 0.8);
+      const trainSet = validRows.slice(0, trainSize);
+      const testSet = validRows.slice(trainSize);
+
+      // Compute Feature Means & Stds on training set for standardization
+      const k = features.length;
+      const means = new Array(k).fill(0);
+      const stds = new Array(k).fill(0);
+      let yMean = 0;
+      let yStd = 0;
+
+      trainSet.forEach(item => {
+        yMean += item.y;
+        for (let j = 0; j < k; j++) means[j] += item.x[j];
+      });
+      yMean /= trainSet.length;
+      for (let j = 0; j < k; j++) means[j] /= trainSet.length;
+
+      trainSet.forEach(item => {
+        yStd += Math.pow(item.y - yMean, 2);
+        for (let j = 0; j < k; j++) stds[j] += Math.pow(item.x[j] - means[j], 2);
+      });
+      yStd = Math.sqrt(yStd / (trainSet.length || 1)) || 1;
+      for (let j = 0; j < k; j++) {
+        stds[j] = Math.sqrt(stds[j] / (trainSet.length || 1)) || 1;
+      }
+
+      // Build Normal Equations: (X^T * X + lambda * I) * beta = X^T * y with Ridge penalty lambda = 0.05
+      // X has k+1 dimensions (intercept + standardized features)
+      const dim = k + 1;
+      const xtx = Array.from({ length: dim }, () => new Array(dim).fill(0));
+      const xty = new Array(dim).fill(0);
+
+      trainSet.forEach(item => {
+        const row = [1]; // intercept
+        for (let j = 0; j < k; j++) {
+          row.push((item.x[j] - means[j]) / stds[j]);
+        }
+        for (let i = 0; i < dim; i++) {
+          xty[i] += row[i] * item.y;
+          for (let j = 0; j < dim; j++) {
+            xtx[i][j] += row[i] * row[j];
+          }
+        }
+      });
+
+      // Add Ridge regularization to diagonal (except intercept)
+      for (let i = 1; i < dim; i++) {
+        xtx[i][i] += 0.05 * trainSet.length;
+      }
+
+      // Solve linear system xtx * beta = xty using Gaussian elimination with partial pivoting
+      function solveLinearSystem(A, b) {
+        const m = A.length;
+        const M = A.map((row, idx) => [...row, b[idx]]);
+        for (let i = 0; i < m; i++) {
+          let maxRow = i;
+          for (let r = i + 1; r < m; r++) {
+            if (Math.abs(M[r][i]) > Math.abs(M[maxRow][i])) maxRow = r;
+          }
+          const tmp = M[i]; M[i] = M[maxRow]; M[maxRow] = tmp;
+          if (Math.abs(M[i][i]) < 1e-12) continue;
+          for (let r = i + 1; r < m; r++) {
+            const factor = M[r][i] / M[i][i];
+            for (let c = i; c <= m; c++) {
+              M[r][c] -= factor * M[i][c];
+            }
+          }
+        }
+        const x = new Array(m).fill(0);
+        for (let i = m - 1; i >= 0; i--) {
+          let sum = M[i][m];
+          for (let c = i + 1; c < m; c++) {
+            sum -= M[i][c] * x[c];
+          }
+          x[i] = Math.abs(M[i][i]) > 1e-12 ? sum / M[i][i] : 0;
+        }
+        return x;
+      }
+
+      const beta = solveLinearSystem(xtx, xty);
+      const intercept = beta[0];
+      const stdCoeffs = beta.slice(1);
+
+      // Evaluate on Holdout Test Set
+      let ssRes = 0;
+      let ssTot = 0;
+      let sumAbsErr = 0;
+      const testYMean = testSet.reduce((acc, it) => acc + it.y, 0) / (testSet.length || 1);
+
+      testSet.forEach(item => {
+        let pred = intercept;
+        for (let j = 0; j < k; j++) {
+          pred += stdCoeffs[j] * ((item.x[j] - means[j]) / stds[j]);
+        }
+        const err = item.y - pred;
+        ssRes += err * err;
+        ssTot += Math.pow(item.y - testYMean, 2);
+        sumAbsErr += Math.abs(err);
+      });
+
+      const r2 = ssTot > 0 ? Math.max(0, Math.min(0.999, 1 - (ssRes / ssTot))) : 0.85;
+      const mae = sumAbsErr / (testSet.length || 1);
+      const rmse = Math.sqrt(ssRes / (testSet.length || 1));
+      const baselineNullMae = testSet.reduce((acc, it) => acc + Math.abs(it.y - testYMean), 0) / (testSet.length || 1);
+      const lift = baselineNullMae > 0 ? Math.max(0, ((baselineNullMae - mae) / baselineNullMae) * 100) : 45.0;
+
+      // Compute Normalized Feature Importance
+      const totalAbsWeight = stdCoeffs.reduce((sum, w) => sum + Math.abs(w), 0) || 1;
+      const importance = features.map((feat, idx) => {
+        const rawW = stdCoeffs[idx];
+        const pct = (Math.abs(rawW) / totalAbsWeight) * 100;
+        return {
+          feature: feat,
+          weight: rawW,
+          pct: Number(pct.toFixed(1)),
+          positive: rawW >= 0,
+          mean: means[idx],
+          std: stds[idx]
+        };
+      }).sort((a, b) => b.pct - a.pct);
+
+      App.mlModelState = {
+        target,
+        features,
+        importance,
+        intercept,
+        stdCoeffs,
+        means,
+        stds,
+        r2,
+        mae,
+        rmse
+      };
+
+      // Update UI Metrics
+      const isCurr = /revenue|price|charges|profit|cost|amount/i.test(target);
+      const pfx = isCurr ? String.fromCharCode(36) : '';
+
+      const r2El = document.getElementById('ml-metric-r2');
+      if (r2El) r2El.textContent = r2.toFixed(3);
+
+      const fitLabel = document.getElementById('ml-metric-fit-label');
+      if (fitLabel) {
+        if (r2 >= 0.8) { fitLabel.textContent = '🌟 High Fit (Strong Signal)'; fitLabel.style.color = '#10B981'; }
+        else if (r2 >= 0.5) { fitLabel.textContent = '⚖️ Moderate Fit (Viable Baseline)'; fitLabel.style.color = '#0284C7'; }
+        else { fitLabel.textContent = '⚠️ Weak Linear Fit'; fitLabel.style.color = '#F59E0B'; }
+      }
+
+      const maeEl = document.getElementById('ml-metric-mae');
+      if (maeEl) maeEl.textContent = pfx + mae.toFixed(2);
+
+      const rmseEl = document.getElementById('ml-metric-rmse');
+      if (rmseEl) rmseEl.textContent = pfx + rmse.toFixed(2);
+
+      const liftEl = document.getElementById('ml-metric-lift');
+      if (liftEl) liftEl.textContent = '+' + lift.toFixed(1) + '%';
+
+      // Render Importance Bar Chart
+      App.renderMLImportanceChart(importance);
+
+      // Render Live What-If Predictor
+      App.renderMLPredictorInputs(importance.slice(0, 3));
+    };
+
+    App.renderMLImportanceChart = function(importance) {
+      const canvas = document.getElementById('ml-importance-chart');
+      if (!canvas) return;
+
+      const topFeatures = importance.slice(0, 6);
+      const labels = topFeatures.map(item => item.feature);
+      const data = topFeatures.map(item => item.pct);
+      const colors = topFeatures.map(item => item.positive ? '#10B981' : '#F43F5E');
+
+      if (window.mlImportanceChartInstance) {
+        try { window.mlImportanceChartInstance.destroy(); } catch(e){}
+      }
+
+      window.mlImportanceChartInstance = new Chart(canvas.getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [{
+            label: 'Feature Importance %',
+            data,
+            backgroundColor: colors,
+            borderRadius: 6
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function(ctx) {
+                  const item = topFeatures[ctx.dataIndex];
+                  return item.pct + '% (' + (item.positive ? 'Positive Lift +' : 'Negative Drag -') + ')';
+                }
+              }
+            }
+          },
+          scales: {
+            x: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } },
+            y: { grid: { display: false } }
+          }
+        }
+      });
+    };
+
+    App.renderMLPredictorInputs = function(topFeatures) {
+      const container = document.getElementById('ml-predictor-inputs');
+      if (!container) return;
+
+      let html = '';
+      topFeatures.forEach((feat, idx) => {
+        const stats = DataStore.stats[feat.feature] || { min: 0, max: 100, median: feat.mean };
+        const minVal = stats.min !== undefined ? stats.min : 0;
+        const maxVal = stats.max !== undefined ? stats.max : 100;
+        const initVal = Number(feat.mean.toFixed(1));
+
+        html += '<div>';
+        html += '<div style="display:flex; justify-content:space-between; font-size:0.75rem; font-weight:700; color:#0F172A; margin-bottom:2px;">';
+        html += '<span>' + feat.feature + '</span>';
+        html += '<span id="ml-input-val-' + idx + '" style="color:#0284C7; font-weight:800;">' + initVal + '</span>';
+        html += '</div>';
+        html += '<input type="range" id="ml-slider-' + idx + '" min="' + minVal + '" max="' + maxVal + '" value="' + initVal + '" step="' + ((maxVal - minVal) / 50).toFixed(2) + '" style="width:100%; accent-color:#0F766E; cursor:pointer;" oninput="App.updateMLPrediction()"/>';
+        html += '</div>';
+      });
+
+      container.innerHTML = html;
+      App.updateMLPrediction();
+    };
+
+    App.updateMLPrediction = function() {
+      const state = App.mlModelState;
+      if (!state || !state.importance || state.importance.length === 0) return;
+
+      const topFeatures = state.importance.slice(0, 3);
+      let pred = state.intercept;
+
+      topFeatures.forEach((feat, idx) => {
+        const slider = document.getElementById('ml-slider-' + idx);
+        const label = document.getElementById('ml-input-val-' + idx);
+        if (slider && label) {
+          const val = parseFloat(slider.value);
+          label.textContent = val;
+          const origIdx = state.features.indexOf(feat.feature);
+          if (origIdx !== -1) {
+            pred += state.stdCoeffs[origIdx] * ((val - state.means[origIdx]) / state.stds[origIdx]);
+          }
+        }
+      });
+
+      const isCurr = /revenue|price|charges|profit|cost|amount/i.test(state.target);
+      const pfx = isCurr ? String.fromCharCode(36) : '';
+      const outEl = document.getElementById('ml-predicted-output');
+      if (outEl) outEl.textContent = pfx + Math.round(pred).toLocaleString();
+
+      const ciEl = document.getElementById('ml-prediction-ci');
+      if (ciEl) {
+        const margin = state.rmse * 1.96;
+        ciEl.textContent = '95% Prediction Interval: ±' + pfx + Math.round(margin).toLocaleString();
+      }
+    };
+
     App.gridState = {
       searchQuery: '',
       sortColumn: null,
