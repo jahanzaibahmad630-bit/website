@@ -1778,6 +1778,9 @@
         <button class="carenest-nav-btn" data-tab="upload">
           <span>📂</span> Upload
         </button>
+        <button class="carenest-nav-btn" data-tab="grid">
+          <span>📑</span> Grid View
+        </button>
         <button class="carenest-nav-btn" data-tab="health">
           <span>🔬</span> Health
         </button>
@@ -2071,6 +2074,7 @@
             <div style="display:flex; align-items:center; gap:8px;">
               <button class="carenest-icon-btn" style="background:#F1F5F9; color:#64748B; width:30px; height:30px;" onclick="App.switchTab('tab-upload')" title="Manage Ingestion">🔍</button>
               <button class="btn btn-secondary btn-sm" style="font-size:0.75rem; padding:4px 12px;" onclick="App.switchTab('tab-eda')">⚙️ Explore</button>
+            <button class="btn btn-primary btn-sm" style="font-size:0.75rem; padding:4px 12px; background:#1B3538; color:#fff;" onclick="App.switchTab('tab-grid')">📑 Full Grid ↗</button>
             </div>
           </div>
 
@@ -2263,6 +2267,94 @@
             <table class="data-table" id="preview-table">
               <!-- Dynamically generated -->
             </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB: FULL INTERACTIVE DATA SPREADSHEET / GRID VIEW -->
+      <section id="tab-grid" class="tab-pane">
+        <div class="card" style="padding: 24px; border-radius: 20px; background: #FFFFFF; border: 1px solid #E2E8F0; box-shadow: var(--shadow-card); margin-bottom: 24px;">
+          <!-- Grid Header & Global Controls Bar -->
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 20px;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 1.4rem;">📑</span>
+                <h2 style="margin: 0; font-size: 1.25rem; font-weight: 800; color: #0F172A;">Interactive Data Spreadsheet &amp; Grid View</h2>
+                <span class="badge" style="background: #E0F2FE; color: #0369A1; font-size: 0.72rem; font-weight: 800;" id="grid-dataset-badge">E-Commerce Sales</span>
+              </div>
+              <p style="margin: 4px 0 0 0; font-size: 0.82rem; color: #64748B;">
+                Click any column header to sort (ASC/DESC), search records across all fields in real time, and export filtered subsets.
+              </p>
+            </div>
+
+            <!-- Action Controls -->
+            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+              <!-- Instant Search Input -->
+              <div style="position: relative; width: 260px;">
+                <input 
+                  type="text" 
+                  id="grid-search-input" 
+                  placeholder="🔍 Search all cells..." 
+                  oninput="App.filterDataGrid(this.value)" 
+                  style="width: 100%; padding: 8px 14px; padding-right: 30px; border-radius: 9999px; border: 1.5px solid #CBD5E1; font-size: 0.84rem; font-family: 'Plus Jakarta Sans', sans-serif; outline: none; transition: border-color 0.2s; box-sizing: border-box;"
+                  onfocus="this.style.borderColor='#2DD4BF'"
+                  onblur="this.style.borderColor='#CBD5E1'"
+                />
+                <button 
+                  onclick="const inp=document.getElementById('grid-search-input'); inp.value=''; App.filterDataGrid(''); inp.focus();" 
+                  style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); border: none; background: transparent; color: #94A3B8; cursor: pointer; font-size: 0.8rem; font-weight: 700;"
+                  title="Clear search"
+                >✕</button>
+              </div>
+
+              <!-- Page Size Selector -->
+              <div style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: #64748B; font-weight: 600;">
+                <span>Show:</span>
+                <select id="grid-page-size" onchange="App.changeGridPageSize(this.value)" style="padding: 6px 10px; border-radius: 10px; border: 1.5px solid #CBD5E1; font-size: 0.8rem; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; color: #0F172A; background: #fff; cursor: pointer;">
+                  <option value="25" selected>25 rows</option>
+                  <option value="50">50 rows</option>
+                  <option value="100">100 rows</option>
+                  <option value="all">All rows</option>
+                </select>
+              </div>
+
+              <!-- Export Filtered CSV -->
+              <button class="btn btn-secondary btn-sm" onclick="App.downloadFilteredCSV()" style="font-weight: 700; display: inline-flex; align-items: center; gap: 6px; border-radius: 10px; padding: 7px 14px;">
+                <span>📥</span> Export Filtered CSV
+              </button>
+            </div>
+          </div>
+
+          <!-- Dynamic Info Strip: Count & Active Sort Filter -->
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 14px; background: #F8FAFA; border: 1px solid #E2E8F0; border-radius: 12px; margin-bottom: 14px; font-size: 0.78rem; color: #64748B;">
+            <div id="grid-records-count">
+              Showing <strong>0</strong> to <strong>0</strong> of <strong>0</strong> records
+            </div>
+            <div id="grid-active-filter-indicator" style="font-weight: 600; color: #0F766E;">
+              Sorting: Default (Original order)
+            </div>
+          </div>
+
+          <!-- Spreadsheet Scrollable Container -->
+          <div style="overflow-x: auto; max-height: 580px; border: 1px solid #E2E8F0; border-radius: 14px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); position: relative;">
+            <table class="data-table" id="interactive-grid-table" style="width: 100%; border-collapse: separate; border-spacing: 0; font-size: 0.82rem; margin: 0;">
+              <thead id="grid-thead" style="position: sticky; top: 0; z-index: 10; background: #F8FAFC;">
+                <!-- Dynamically generated with sort handlers -->
+              </thead>
+              <tbody id="grid-tbody">
+                <!-- Dynamically generated rows -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination Bar -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 18px; flex-wrap: wrap; gap: 10px;">
+            <div style="font-size: 0.78rem; color: #94A3B8;" id="grid-pagination-info">
+              Page 1 of 1
+            </div>
+            <div style="display: flex; gap: 6px; align-items: center;" id="grid-pagination-controls">
+              <!-- Dynamically populated buttons -->
+            </div>
           </div>
         </div>
       </section>
@@ -2918,19 +3010,7 @@
         </div>
       </div>
 
-      <!-- FOOTER -->
-      <footer class="app-footer">
-        <div class="container footer-content">
-          <div>
-            Built by <strong>Jahanzaib Ahmad</strong> · DataLens AI v1.0 · Powered by Gemini API
-          </div>
-          <div class="footer-links">
-            <a href="#" onclick="alert('Portfolio link: Jahanzaib Ahmad'); return false;">GitHub</a>
-            <a href="#" onclick="alert('LinkedIn profile: Jahanzaib Ahmad'); return false;">LinkedIn</a>
-            <a href="#" onclick="App.exportFullJSON(); return false;">Export Schema JSON</a>
-          </div>
-        </div>
-      </footer>
+
     </main>
   </div>
 
@@ -3517,6 +3597,7 @@
 
         // Trigger specific tab re-render if necessary
         if (targetId === 'tab-dashboard') App.renderDashboard();
+        if (targetId === 'tab-grid' || targetId === 'grid') App.renderDataGrid();
         if (targetId === 'tab-health') App.renderHealthAudit();
         if (targetId === 'tab-eda') App.renderVisualEDA();
         if (targetId === 'tab-drivers') App.renderKeyDrivers();
@@ -6768,6 +6849,234 @@ Generated by DataLens AI Studio.
     // FEATURE 2: AUTOMATED PYTHON & SQL CODE GENERATOR
     // ---------------------------------------------------------
     App.currentCodeType = 'python';
+
+        // ---------------------------------------------------------
+    // FEATURE 3: FULL INTERACTIVE DATA SPREADSHEET / GRID VIEW
+    // ---------------------------------------------------------
+    App.gridState = {
+      searchQuery: '',
+      sortColumn: null,
+      sortDirection: 'asc', // 'asc' or 'desc'
+      currentPage: 1,
+      pageSize: 25,
+      filteredRows: []
+    };
+
+    App.renderDataGrid = function() {
+      const rows = DataStore.rawRows || DataStore.data || [];
+      const cols = DataStore.columns || [];
+      const dsName = DataStore.datasetName || 'Dataset';
+
+      const badgeEl = document.getElementById('grid-dataset-badge');
+      if (badgeEl) badgeEl.textContent = dsName + ' (' + rows.length + ' rows × ' + cols.length + ' cols)';
+
+      // 1. Filter rows based on search query
+      let filtered = rows;
+      const q = (App.gridState.searchQuery || '').trim().toLowerCase();
+      if (q) {
+        filtered = rows.filter(function(r) {
+          for (let i = 0; i < cols.length; i++) {
+            const val = r[cols[i]];
+            if (val !== null && val !== undefined && String(val).toLowerCase().includes(q)) {
+              return true;
+            }
+          }
+          return false;
+        });
+      }
+      App.gridState.filteredRows = filtered;
+
+      // 2. Sort rows if sortColumn is active
+      const sortCol = App.gridState.sortColumn;
+      const sortDir = App.gridState.sortDirection;
+      if (sortCol) {
+        const isNum = DataStore.columnTypes && DataStore.columnTypes[sortCol] === 'numeric';
+        filtered.sort(function(a, b) {
+          const valA = a[sortCol];
+          const valB = b[sortCol];
+          if (valA === null || valA === undefined || valA === '') return 1;
+          if (valB === null || valB === undefined || valB === '') return -1;
+          if (isNum) {
+            const numA = parseFloat(valA);
+            const numB = parseFloat(valB);
+            if (!isNaN(numA) && !isNaN(numB)) {
+              return sortDir === 'asc' ? numA - numB : numB - numA;
+            }
+          }
+          const strA = String(valA).toLowerCase();
+          const strB = String(valB).toLowerCase();
+          return sortDir === 'asc' ? strA.localeCompare(strB) : strB.localeCompare(strA);
+        });
+      }
+
+      // 3. Update info strip
+      const filterIndicator = document.getElementById('grid-active-filter-indicator');
+      if (filterIndicator) {
+        if (sortCol) {
+          filterIndicator.innerHTML = 'Sorted by: <strong style="color:#0F172A;">' + sortCol + '</strong> (' + (sortDir === 'asc' ? '▲ Ascending' : '▼ Descending') + ')';
+        } else {
+          filterIndicator.textContent = 'Sorting: Default (Original order)';
+        }
+      }
+
+      // 4. Pagination slicing
+      const totalFiltered = filtered.length;
+      const pageSize = App.gridState.pageSize;
+      const totalPages = Math.max(1, Math.ceil(totalFiltered / pageSize));
+      if (App.gridState.currentPage > totalPages) App.gridState.currentPage = totalPages;
+      const curPage = App.gridState.currentPage;
+
+      const startIndex = (curPage - 1) * pageSize;
+      const endIndex = Math.min(startIndex + pageSize, totalFiltered);
+      const pageRows = filtered.slice(startIndex, endIndex);
+
+      const recordsCountEl = document.getElementById('grid-records-count');
+      if (recordsCountEl) {
+        if (totalFiltered === 0) {
+          recordsCountEl.innerHTML = 'Showing <strong>0</strong> records';
+        } else {
+          recordsCountEl.innerHTML = 'Showing <strong>' + (startIndex + 1) + '</strong> to <strong>' + endIndex + '</strong> of <strong>' + totalFiltered + '</strong> records' + (totalFiltered < rows.length ? ' (filtered from ' + rows.length + ' total)' : '');
+        }
+      }
+
+      // 5. Render Table Head with Clickable Sorts
+      const thead = document.getElementById('grid-thead');
+      if (thead) {
+        let thHtml = '<tr><th style="padding:10px 14px; text-align:center; width:48px; border-bottom:2px solid #E2E8F0; color:#64748B; font-size:0.75rem;">#</th>';
+        cols.forEach(function(col) {
+          const type = (DataStore.columnTypes && DataStore.columnTypes[col]) || 'categorical';
+          let typeIcon = '#';
+          if (type === 'categorical') typeIcon = 'Aa';
+          if (type === 'datetime') typeIcon = '📅';
+          if (type === 'id') typeIcon = '🔑';
+
+          const isCurrentSort = App.gridState.sortColumn === col;
+          const sortArrow = isCurrentSort ? (App.gridState.sortDirection === 'asc' ? ' ▲' : ' ▼') : ' <span style="opacity:0.35;">⇅</span>';
+          const headerBg = isCurrentSort ? '#EFF6FF' : '#F8FAFC';
+          const headerColor = isCurrentSort ? '#1D4ED8' : '#0F172A';
+
+          thHtml += '<th onclick="App.sortDataGrid(\'' + col.replace(/'/g, "\\'") + '\')" style="padding:10px 14px; cursor:pointer; user-select:none; background:' + headerBg + '; color:' + headerColor + '; border-bottom:2px solid #E2E8F0; text-align:left; font-weight:700; white-space:nowrap; transition:background 0.2s;" title="Click to sort by ' + col + '">';
+          thHtml += '<div style="display:flex; align-items:center; gap:6px;">';
+          thHtml += '<span style="font-size:0.65rem; background:#E2E8F0; color:#475569; padding:2px 5px; border-radius:4px; font-weight:800;">' + typeIcon + '</span>';
+          thHtml += '<span>' + col + '</span>';
+          thHtml += '<span style="font-size:0.75rem; color:#0284C7;">' + sortArrow + '</span>';
+          thHtml += '</div></th>';
+        });
+        thHtml += '</tr>';
+        thead.innerHTML = thHtml;
+      }
+
+      // 6. Render Table Body Rows
+      const tbody = document.getElementById('grid-tbody');
+      if (tbody) {
+        if (pageRows.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="' + (cols.length + 1) + '" style="text-align:center; padding:36px; color:#94A3B8;">🔍 No matching records found for query "<strong>' + q + '</strong>"</td></tr>';
+        } else {
+          let rowsHtml = '';
+          pageRows.forEach(function(row, idx) {
+            const rowNum = startIndex + idx + 1;
+            const bg = idx % 2 === 0 ? '#FFFFFF' : '#FBFDFD';
+            rowsHtml += '<tr style="background:' + bg + '; transition:background 0.15s;" onmouseover="this.style.background=\'#F0FDFA\'" onmouseout="this.style.background=\'' + bg + '\'">';
+            rowsHtml += '<td style="padding:8px 14px; text-align:center; color:#94A3B8; font-family:monospace; font-size:0.75rem; border-bottom:1px solid #F1F5F9;">' + rowNum + '</td>';
+            cols.forEach(function(col) {
+              const val = row[col];
+              const type = (DataStore.columnTypes && DataStore.columnTypes[col]) || 'categorical';
+              let cellContent = '';
+              let align = 'left';
+
+              if (val === null || val === undefined || val === '') {
+                cellContent = '<span class="badge" style="background:#FEE2E2; color:#DC2626; font-size:0.65rem; padding:2px 6px;">NULL</span>';
+              } else if (type === 'numeric') {
+                align = 'right';
+                const n = parseFloat(val);
+                cellContent = !isNaN(n) ? (Number.isInteger(n) ? n.toLocaleString() : n.toFixed(2)) : val;
+                cellContent = '<span style="font-family:monospace; font-weight:600; color:#0F172A;">' + cellContent + '</span>';
+              } else {
+                cellContent = String(val);
+                if (cellContent.length > 35) cellContent = cellContent.slice(0, 32) + '...';
+              }
+
+              rowsHtml += '<td style="padding:8px 14px; text-align:' + align + '; border-bottom:1px solid #F1F5F9; color:#334155; white-space:nowrap;">' + cellContent + '</td>';
+            });
+            rowsHtml += '</tr>';
+          });
+          tbody.innerHTML = rowsHtml;
+        }
+      }
+
+      // 7. Render Pagination Controls
+      const paginationInfo = document.getElementById('grid-pagination-info');
+      if (paginationInfo) paginationInfo.textContent = 'Page ' + curPage + ' of ' + totalPages + ' (' + totalFiltered + ' total items)';
+
+      const paginationControls = document.getElementById('grid-pagination-controls');
+      if (paginationControls) {
+        let btns = '';
+        const prevDisabled = curPage <= 1 ? 'disabled style="opacity:0.4; cursor:not-allowed;"' : 'onclick="App.changeGridPage(' + (curPage - 1) + ')"';
+        const nextDisabled = curPage >= totalPages ? 'disabled style="opacity:0.4; cursor:not-allowed;"' : 'onclick="App.changeGridPage(' + (curPage + 1) + ')"';
+
+        btns += '<button class="btn btn-secondary btn-sm" ' + prevDisabled + ' style="padding:4px 10px; font-size:0.75rem;">‹ Prev</button>';
+
+        // Up to 5 page pills
+        const startP = Math.max(1, curPage - 2);
+        const endP = Math.min(totalPages, startP + 4);
+        for (let p = startP; p <= endP; p++) {
+          const isAct = p === curPage;
+          const bg = isAct ? '#1B3538' : '#F1F5F9';
+          const col = isAct ? '#FFFFFF' : '#475569';
+          btns += '<button onclick="App.changeGridPage(' + p + ')" style="border:none; background:' + bg + '; color:' + col + '; padding:4px 10px; border-radius:8px; font-weight:700; font-size:0.75rem; cursor:pointer;">' + p + '</button>';
+        }
+
+        btns += '<button class="btn btn-secondary btn-sm" ' + nextDisabled + ' style="padding:4px 10px; font-size:0.75rem;">Next ›</button>';
+        paginationControls.innerHTML = btns;
+      }
+    };
+
+    App.sortDataGrid = function(col) {
+      if (App.gridState.sortColumn === col) {
+        App.gridState.sortDirection = App.gridState.sortDirection === 'asc' ? 'desc' : 'asc';
+      } else {
+        App.gridState.sortColumn = col;
+        App.gridState.sortDirection = 'asc';
+      }
+      App.renderDataGrid();
+    };
+
+    App.filterDataGrid = function(query) {
+      App.gridState.searchQuery = query || '';
+      App.gridState.currentPage = 1;
+      App.renderDataGrid();
+    };
+
+    App.changeGridPage = function(page) {
+      App.gridState.currentPage = page;
+      App.renderDataGrid();
+    };
+
+    App.changeGridPageSize = function(size) {
+      App.gridState.pageSize = size === 'all' ? 999999 : parseInt(size);
+      App.gridState.currentPage = 1;
+      App.renderDataGrid();
+    };
+
+    App.downloadFilteredCSV = function() {
+      const rowsToExport = App.gridState.filteredRows && App.gridState.filteredRows.length > 0 ? App.gridState.filteredRows : (DataStore.rawRows || []);
+      if (rowsToExport.length === 0) {
+        App.showToast('No records available to export', 'warning');
+        return;
+      }
+      const csv = Papa.unparse(rowsToExport);
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      const cleanName = (DataStore.datasetName || 'dataset').toLowerCase().replace(/[^a-z0-9]/g, '_');
+      a.download = cleanName + '_filtered_' + rowsToExport.length + '_rows.csv';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      App.showToast('📥 Exported ' + rowsToExport.length + ' filtered rows to CSV!', 'success');
+    };
 
     App.openCodeExportModal = function(type) {
       const modal = document.getElementById('code-export-modal');
