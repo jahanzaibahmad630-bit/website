@@ -1419,6 +1419,104 @@
     }
 
     /* ==========================================================================
+       TAB 7: SMART ADVISOR STYLES
+       ========================================================================== */
+    .advisor-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 24px; flex-wrap: wrap; gap: 12px;
+    }
+    .advisor-header h2 { font-size: 1.4rem; font-weight: 800; color: var(--text-main); }
+    .advisor-header p { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; }
+    .advisor-generate-btn {
+      padding: 10px 24px; border-radius: var(--radius-full); border: none;
+      background: var(--primary); color: var(--bg-main); font-weight: 700;
+      font-size: 0.9rem; cursor: pointer; transition: all var(--transition-normal);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .advisor-generate-btn:hover { filter: brightness(1.15); transform: translateY(-1px); box-shadow: 0 4px 15px rgba(232,168,56,0.3); }
+
+    .advisor-score-banner {
+      background: var(--bg-card); border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg); padding: 24px 28px;
+      display: flex; align-items: center; gap: 24px; margin-bottom: 24px;
+    }
+    .advisor-score-ring { position: relative; width: 80px; height: 80px; flex-shrink: 0; }
+    .advisor-score-ring svg { width: 80px; height: 80px; transform: rotate(-90deg); }
+    .advisor-score-ring .score-track { fill: none; stroke: var(--border-color); stroke-width: 6; }
+    .advisor-score-ring .score-fill { fill: none; stroke: var(--primary); stroke-width: 6; stroke-linecap: round; transition: stroke-dashoffset 1s ease; }
+    .advisor-score-value { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 800; color: var(--text-main); }
+    .advisor-score-meta h3 { font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
+    .advisor-score-meta p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+
+    .advisor-sections { display: flex; flex-direction: column; gap: 20px; }
+
+    .advisor-section-card {
+      background: var(--bg-card); border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg); overflow: hidden;
+    }
+    .advisor-section-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 24px; cursor: pointer; user-select: none;
+      transition: background var(--transition-fast);
+    }
+    .advisor-section-header:hover { background: var(--bg-card-hover); }
+    .advisor-section-header h3 { font-size: 1rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 10px; }
+    .advisor-section-count { font-size: 0.75rem; font-weight: 700; padding: 2px 10px; border-radius: var(--radius-full); background: var(--primary-subtle); color: var(--primary); }
+    .advisor-section-toggle { font-size: 1.2rem; color: var(--text-muted); transition: transform 0.3s ease; }
+    .advisor-section-card.open .advisor-section-toggle { transform: rotate(180deg); }
+    .advisor-section-body { padding: 0 24px 20px; display: none; }
+    .advisor-section-card.open .advisor-section-body { display: block; }
+
+    .advisor-item {
+      display: flex; gap: 14px; padding: 14px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .advisor-item:last-child { border-bottom: none; }
+    .advisor-item-icon {
+      width: 40px; height: 40px; border-radius: var(--radius-md); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+    }
+    .advisor-item-icon.priority-high { background: rgba(239,68,68,0.12); }
+    .advisor-item-icon.priority-medium { background: rgba(245,158,11,0.12); }
+    .advisor-item-icon.priority-low { background: rgba(16,185,129,0.12); }
+    .advisor-item-content { flex: 1; }
+    .advisor-item-title { font-size: 0.9rem; font-weight: 700; color: var(--text-main); margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+    .advisor-item-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.55; }
+    .advisor-item-action {
+      margin-top: 8px; display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.78rem; font-weight: 600; color: var(--primary);
+      cursor: pointer; padding: 4px 12px; border-radius: var(--radius-full);
+      background: var(--primary-subtle); border: none; transition: all var(--transition-fast);
+    }
+    .advisor-item-action:hover { background: var(--primary); color: var(--bg-main); }
+
+    .priority-badge {
+      font-size: 0.65rem; font-weight: 700; padding: 2px 8px;
+      border-radius: var(--radius-full); text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .priority-badge.high { background: rgba(239,68,68,0.15); color: #EF4444; }
+    .priority-badge.medium { background: rgba(245,158,11,0.15); color: #F59E0B; }
+    .priority-badge.low { background: rgba(16,185,129,0.15); color: #10B981; }
+
+    .learning-tip-card {
+      background: var(--bg-card-hover); border: 1px solid var(--border-color);
+      border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 12px;
+    }
+    .learning-tip-card:last-child { margin-bottom: 0; }
+    .learning-tip-card h4 { font-size: 0.88rem; font-weight: 700; color: var(--primary); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+    .learning-tip-card p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
+    .learning-tip-card code { background: rgba(232,168,56,0.1); color: var(--primary); padding: 1px 6px; border-radius: 4px; font-size: 0.8rem; }
+    .learning-tip-card .steps-list { margin: 8px 0 0 0; padding-left: 20px; }
+    .learning-tip-card .steps-list li { font-size: 0.82rem; color: var(--text-muted); line-height: 1.7; }
+
+    .advisor-empty {
+      text-align: center; padding: 60px 20px; color: var(--text-muted);
+    }
+    .advisor-empty .empty-icon { font-size: 3rem; margin-bottom: 16px; }
+    .advisor-empty h3 { font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px; }
+    .advisor-empty p { font-size: 0.88rem; }
+
+    /* ==========================================================================
        TAB 6: EXPORT REPORT STYLES
        ========================================================================== */
     .report-actions-bar {
@@ -1720,6 +1818,7 @@
         <a class="sidebar-link" data-tab="eda"><span class="nav-icon">📊</span> Visual EDA</a>
         <a class="sidebar-link" data-tab="copilot"><span class="nav-icon">🤖</span> AI Copilot</a>
         <a class="sidebar-link" data-tab="drivers"><span class="nav-icon">🎯</span> Key Drivers</a>
+        <a class="sidebar-link" data-tab="advisor"><span class="nav-icon">💡</span> Smart Advisor</a>
         <a class="sidebar-link" data-tab="export"><span class="nav-icon">📋</span> Export Report</a>
 
         <div class="nav-section-label">Account</div>
@@ -2402,6 +2501,46 @@
           </div>
         </div>
       </section>
+
+      <!-- ================================================================
+           TAB 7: SMART ADVISOR
+           ================================================================ -->
+      <section id="tab-advisor" class="tab-pane">
+        <div class="advisor-header">
+          <div>
+            <h2>💡 Smart Business Advisor</h2>
+            <p>AI-powered recommendations, actionable insights, and learning tips based on your data</p>
+          </div>
+          <button class="advisor-generate-btn" onclick="App.generateAdvisorInsights()">
+            ⚡ Generate Insights
+          </button>
+        </div>
+
+        <!-- Business Readiness Score -->
+        <div class="advisor-score-banner" id="advisor-score-banner" style="display:none;">
+          <div class="advisor-score-ring">
+            <svg viewBox="0 0 80 80">
+              <circle class="score-track" cx="40" cy="40" r="34"></circle>
+              <circle class="score-fill" id="advisor-score-circle" cx="40" cy="40" r="34" stroke-dasharray="213.6" stroke-dashoffset="213.6"></circle>
+            </svg>
+            <div class="advisor-score-value" id="advisor-score-num">0</div>
+          </div>
+          <div class="advisor-score-meta">
+            <h3 id="advisor-score-title">Business Readiness Score</h3>
+            <p id="advisor-score-desc">Analyzing your dataset to generate personalized recommendations...</p>
+          </div>
+        </div>
+
+        <!-- Advisor Sections Container -->
+        <div class="advisor-sections" id="advisor-sections">
+          <div class="advisor-empty" id="advisor-empty-state">
+            <div class="empty-icon">🧠</div>
+            <h3>Ready to Analyze Your Data</h3>
+            <p>Load a dataset and click "Generate Insights" to get personalized business recommendations, improvement suggestions, and learning tips.</p>
+          </div>
+        </div>
+      </section>
+
         </div>
       </div>
 
@@ -4718,6 +4857,364 @@ Generated by DataLens AI Studio.
         a.click();
         URL.revokeObjectURL(url);
       }
+    };
+
+
+    // ====================================================================
+    // SMART ADVISOR ENGINE
+    // ====================================================================
+    App.generateAdvisorInsights = function() {
+      if (!DataStore.data || DataStore.data.length === 0) {
+        App.showToast('⚠️ Load a dataset first to generate insights.', 'warning');
+        return;
+      }
+
+      const data = DataStore.data;
+      const cols = DataStore.columns;
+      const numCols = cols.filter(c => DataStore.columnTypes[c] === 'numeric');
+      const catCols = cols.filter(c => DataStore.columnTypes[c] === 'categorical');
+      const totalRows = data.length;
+
+      // Calculate metrics for analysis
+      const missingTotal = cols.reduce((sum, c) => sum + data.filter(r => r[c] === null || r[c] === undefined || r[c] === '').length, 0);
+      const missingPct = (missingTotal / (totalRows * cols.length)) * 100;
+      const duplicates = totalRows - new Set(data.map(r => JSON.stringify(r))).size;
+      const dupPct = (duplicates / totalRows) * 100;
+
+      // Compute stats for numeric columns
+      const numStats = {};
+      numCols.forEach(col => {
+        const vals = data.map(r => parseFloat(r[col])).filter(v => !isNaN(v));
+        if (vals.length === 0) return;
+        vals.sort((a, b) => a - b);
+        const mean = vals.reduce((s, v) => s + v, 0) / vals.length;
+        const std = Math.sqrt(vals.reduce((s, v) => s + (v - mean) ** 2, 0) / vals.length);
+        const cv = mean !== 0 ? (std / Math.abs(mean)) * 100 : 0;
+        const q1 = vals[Math.floor(vals.length * 0.25)];
+        const q3 = vals[Math.floor(vals.length * 0.75)];
+        const iqr = q3 - q1;
+        const outliers = vals.filter(v => v < q1 - 1.5 * iqr || v > q3 + 1.5 * iqr).length;
+        const skew = vals.length > 2 ? (vals.reduce((s, v) => s + ((v - mean) / (std || 1)) ** 3, 0) * vals.length) / ((vals.length - 1) * (vals.length - 2)) : 0;
+        numStats[col] = { mean, std, cv, min: vals[0], max: vals[vals.length - 1], q1, q3, iqr, outliers, skew, count: vals.length };
+      });
+
+      // Category analysis
+      const catStats = {};
+      catCols.forEach(col => {
+        const freq = {};
+        data.forEach(r => { const v = String(r[col] || ''); freq[v] = (freq[v] || 0) + 1; });
+        const entries = Object.entries(freq).sort((a, b) => b[1] - a[1]);
+        const topPct = entries.length > 0 ? (entries[0][1] / totalRows) * 100 : 0;
+        catStats[col] = { unique: entries.length, topValue: entries[0]?.[0], topPct, entries };
+      });
+
+      // ---- Generate Business Action Recommendations ----
+      const businessActions = [];
+      
+      // Revenue/sales analysis
+      const revCols = numCols.filter(c => /revenue|sales|amount|price|total|income|profit/i.test(c));
+      revCols.forEach(col => {
+        const s = numStats[col];
+        if (!s) return;
+        if (s.cv > 80) {
+          businessActions.push({
+            priority: 'high', icon: '📈',
+            title: `High revenue volatility detected in "${col}"`,
+            desc: `Your ${col} has a coefficient of variation of ${s.cv.toFixed(1)}%, indicating highly inconsistent performance. This creates forecasting risk and may signal unstable product-market fit.`,
+            action: 'Recommended: Segment customers by purchase behavior, identify your top 20% revenue drivers, and create retention programs for high-value segments.',
+            steps: ['Run a Pareto analysis (80/20 rule) on your revenue sources', 'Identify which products/segments drive consistent revenue', 'Create targeted loyalty programs for top customers', 'Diversify revenue streams to reduce dependency on volatile segments']
+          });
+        }
+        if (s.outliers > s.count * 0.05) {
+          businessActions.push({
+            priority: 'medium', icon: '🎯',
+            title: `Revenue outliers need investigation in "${col}"`,
+            desc: `${s.outliers} outlier transactions found (${((s.outliers/s.count)*100).toFixed(1)}% of data). These could be either high-value deals to replicate or data errors to fix.`,
+            action: 'Investigate outliers: Are they bulk orders? Premium customers? Or data entry errors?',
+            steps: ['Filter and export outlier transactions', 'Categorize as: legitimate high-value, seasonal spike, or error', 'For legitimate outliers: create a playbook to replicate them', 'For errors: implement validation rules in your data pipeline']
+          });
+        }
+        if (s.skew > 1.5) {
+          businessActions.push({
+            priority: 'medium', icon: '💰',
+            title: `Right-skewed "${col}" — most transactions are low-value`,
+            desc: `The distribution is heavily right-skewed (skewness: ${s.skew.toFixed(2)}), meaning most transactions are small with a few large ones pulling the average up. Median (${s.q1 ? ((s.q1+s.q3)/2).toFixed(0) : 'N/A'}) is much lower than mean (${s.mean.toFixed(0)}).`,
+            action: 'Consider upselling strategies, bundle offers, or minimum order thresholds to shift more transactions toward higher values.',
+            steps: ['Analyze what makes high-value transactions different', 'Create bundle offers that increase average order value', 'Implement "frequently bought together" recommendations', 'Test minimum order thresholds with free shipping incentives']
+          });
+        }
+      });
+
+      // Discount/cost analysis
+      const discCols = numCols.filter(c => /discount|cost|expense|loss/i.test(c));
+      discCols.forEach(col => {
+        const s = numStats[col];
+        if (!s) return;
+        if (s.mean > 15) {
+          businessActions.push({
+            priority: 'high', icon: '⚠️',
+            title: `High average discount rate: ${s.mean.toFixed(1)}% on "${col}"`,
+            desc: `A ${s.mean.toFixed(1)}% average discount is above the healthy threshold (10-12%). This erodes margins and can create discount dependency among customers.`,
+            action: 'Reduce blanket discounting. Use targeted promotions for at-risk customers only.',
+            steps: ['Audit which segments receive the most discounts', 'Replace percentage discounts with value-add bundles', 'Implement tiered loyalty rewards instead of direct discounts', 'A/B test pricing strategies: Does reducing discounts hurt volume?']
+          });
+        }
+      });
+
+      // Customer churn/retention
+      const churnCols = catCols.filter(c => /churn|cancel|attrition|leave|retain/i.test(c));
+      churnCols.forEach(col => {
+        const yesValues = data.filter(r => /yes|true|1|churned/i.test(String(r[col]))).length;
+        const churnRate = (yesValues / totalRows) * 100;
+        if (churnRate > 20) {
+          businessActions.push({
+            priority: 'high', icon: '🚨',
+            title: `Critical churn rate: ${churnRate.toFixed(1)}% in "${col}"`,
+            desc: `More than 1 in 5 customers are churning. Acquiring new customers costs 5-7x more than retaining existing ones. This needs immediate attention.`,
+            action: 'Launch a customer retention program immediately.',
+            steps: ['Survey churned customers to understand top 3 reasons', 'Implement an early warning system for at-risk customers', 'Create a win-back campaign with personalized offers', 'Improve onboarding to increase activation rates', 'Build a Net Promoter Score (NPS) tracking system']
+          });
+        } else if (churnRate > 0) {
+          businessActions.push({
+            priority: 'low', icon: '📊',
+            title: `Churn rate is ${churnRate.toFixed(1)}% — monitor closely`,
+            desc: `Your churn rate is manageable but should be tracked monthly. Industry benchmarks vary, but aim for <5% monthly churn.`,
+            action: 'Set up automated churn monitoring dashboards.',
+            steps: ['Track churn by cohort (month of acquisition)', 'Monitor leading indicators: login frequency, support tickets, feature usage', 'Create automated email sequences for re-engagement']
+          });
+        }
+      });
+
+      // Category concentration risk
+      catCols.forEach(col => {
+        if (catStats[col] && catStats[col].topPct > 60) {
+          businessActions.push({
+            priority: 'medium', icon: '⚖️',
+            title: `High concentration in "${col}": "${catStats[col].topValue}" = ${catStats[col].topPct.toFixed(0)}%`,
+            desc: `Over-reliance on a single ${col.toLowerCase()} category creates business risk. If "${catStats[col].topValue}" underperforms, it impacts your entire operation.`,
+            action: 'Diversify your portfolio to reduce single-category dependency.',
+            steps: ['Analyze growth potential of underrepresented categories', 'Invest in marketing for 2-3 alternative categories', 'Survey customers about unmet needs in other categories', 'Set quarterly targets to grow non-dominant categories by 10-15%']
+          });
+        }
+      });
+
+      // General recommendations if dataset has few insights
+      if (businessActions.length === 0) {
+        businessActions.push({
+          priority: 'low', icon: '✅',
+          title: 'Your data looks healthy — focus on growth',
+          desc: 'No critical issues detected. Consider expanding your analysis with more detailed data points like customer demographics, acquisition channels, or time-series trends.',
+          action: 'Focus on growth optimization and competitive positioning.',
+          steps: ['Enrich your dataset with demographic or behavioral data', 'Add time dimensions to track trends over weeks/months', 'Benchmark your metrics against industry standards', 'Run A/B tests to optimize conversion funnels']
+        });
+      }
+
+      // ---- Data Quality Improvements ----
+      const dataQuality = [];
+      
+      if (missingPct > 5) {
+        dataQuality.push({
+          priority: 'high', icon: '🔴',
+          title: `${missingPct.toFixed(1)}% missing values across your dataset`,
+          desc: `Missing data reduces the reliability of your analysis. Columns with >20% missing should be investigated — they may indicate data collection issues.`,
+          action: 'Clean missing data: impute or remove based on the pattern.',
+          steps: ['Check if missing values are random or systematic (MCAR vs MNAR)', 'For numeric columns: impute with median (robust to outliers)', 'For categorical: use mode or create an "Unknown" category', 'If a column has >50% missing, consider dropping it entirely', 'Document all imputation decisions for reproducibility']
+        });
+      } else if (missingPct > 0) {
+        dataQuality.push({
+          priority: 'low', icon: '🟡',
+          title: `Minor missing data: ${missingPct.toFixed(1)}% — easy fix`,
+          desc: `Small amounts of missing data are normal. A quick cleanup will make your analysis more robust.`,
+          action: 'Apply simple imputation and proceed with analysis.',
+          steps: ['Use median imputation for numeric columns', 'Use mode imputation for categorical columns', 'Flag imputed values to maintain data lineage']
+        });
+      }
+
+      if (dupPct > 2) {
+        dataQuality.push({
+          priority: 'medium', icon: '📋',
+          title: `${duplicates} duplicate rows found (${dupPct.toFixed(1)}%)`,
+          desc: `Duplicates can inflate metrics and bias your analysis. They often come from data merge errors or repeated data imports.`,
+          action: 'Deduplicate your data before running analysis.',
+          steps: ['Identify the source of duplicates (ETL bug? manual entry?)', 'Define a primary key strategy for deduplication', 'Keep the most recent or most complete record', 'Add data validation rules to prevent future duplicates']
+        });
+      }
+
+      numCols.forEach(col => {
+        const s = numStats[col];
+        if (s && s.outliers > s.count * 0.1) {
+          dataQuality.push({
+            priority: 'medium', icon: '📊',
+            title: `${s.outliers} outliers in "${col}" (${((s.outliers/s.count)*100).toFixed(0)}%)`,
+            desc: `Significant number of outliers detected using the IQR method. Values below ${(s.q1 - 1.5*s.iqr).toFixed(1)} or above ${(s.q3 + 1.5*s.iqr).toFixed(1)} are flagged.`,
+            action: 'Investigate and decide: cap, transform, or keep.',
+            steps: ['Visualize outliers with box plots to understand the pattern', 'Decide: are these valid extreme values or errors?', 'Options: Winsorize (cap at 5th/95th percentile), log-transform, or remove', 'Document your outlier treatment decision']
+          });
+        }
+      });
+
+      if (dataQuality.length === 0) {
+        dataQuality.push({ priority: 'low', icon: '✅', title: 'Excellent data quality!', desc: 'No significant quality issues detected. Your data is analysis-ready.', action: 'Maintain this standard with automated data validation.', steps: ['Set up data quality checks in your ETL pipeline', 'Monitor for schema drift over time'] });
+      }
+
+      // ---- Growth Opportunities ----
+      const growth = [];
+
+      // Find correlations between numeric columns
+      if (numCols.length >= 2) {
+        let strongestCorr = { cols: [], r: 0 };
+        for (let i = 0; i < Math.min(numCols.length, 8); i++) {
+          for (let j = i + 1; j < Math.min(numCols.length, 8); j++) {
+            const pairs = data.map(row => [parseFloat(row[numCols[i]]), parseFloat(row[numCols[j]])]).filter(p => !isNaN(p[0]) && !isNaN(p[1]));
+            if (pairs.length < 10) continue;
+            const mx = pairs.reduce((s, p) => s + p[0], 0) / pairs.length;
+            const my = pairs.reduce((s, p) => s + p[1], 0) / pairs.length;
+            const num = pairs.reduce((s, p) => s + (p[0] - mx) * (p[1] - my), 0);
+            const d1 = Math.sqrt(pairs.reduce((s, p) => s + (p[0] - mx) ** 2, 0));
+            const d2 = Math.sqrt(pairs.reduce((s, p) => s + (p[1] - my) ** 2, 0));
+            const r = d1 && d2 ? num / (d1 * d2) : 0;
+            if (Math.abs(r) > Math.abs(strongestCorr.r)) strongestCorr = { cols: [numCols[i], numCols[j]], r };
+          }
+        }
+        if (Math.abs(strongestCorr.r) > 0.5) {
+          const dir = strongestCorr.r > 0 ? 'positively' : 'negatively';
+          growth.push({
+            priority: 'medium', icon: '🔗',
+            title: `Strong ${dir} correlated: "${strongestCorr.cols[0]}" ↔ "${strongestCorr.cols[1]}" (r=${strongestCorr.r.toFixed(2)})`,
+            desc: `These two variables move together ${dir}. This could be a causal relationship worth exploiting or a confounding variable to control for.`,
+            action: `If improving "${strongestCorr.cols[0]}" is your goal, consider strategies that affect "${strongestCorr.cols[1]}" as a lever.`,
+            steps: ['Validate causation vs correlation — test with controlled experiments', 'If causal: create action plans that leverage this relationship', 'If confounding: add control variables to your analysis', 'Build a predictive model using these correlated features']
+          });
+        }
+      }
+
+      growth.push({
+        priority: 'low', icon: '📈',
+        title: 'Add time-series tracking for trend analysis',
+        desc: `Your dataset has ${totalRows} records. Adding a time dimension (daily/weekly/monthly) would unlock trend analysis, seasonality detection, and forecasting capabilities.`,
+        action: 'Enrich your data with timestamps to enable time-series insights.',
+        steps: ['Add date/timestamp columns to your data collection', 'Use moving averages to identify trends', 'Apply seasonal decomposition to find recurring patterns', 'Build ARIMA or Prophet models for forecasting']
+      });
+
+      growth.push({
+        priority: 'low', icon: '🧪',
+        title: 'Run A/B tests to validate insights',
+        desc: 'Data analysis reveals correlations, but business decisions need validated causation. Set up controlled experiments before making large investments.',
+        action: 'Design A/B tests for your top 2-3 recommendations.',
+        steps: ['Define a clear hypothesis for each test', 'Calculate required sample size for statistical significance', 'Run test for at least 2 business cycles (typically 2-4 weeks)', 'Measure primary metric + 2-3 guardrail metrics', 'Use chi-squared or t-test to validate results']
+      });
+
+      // ---- Learning & Skill-Building Tips ----
+      const learning = [
+        {
+          title: '📐 Master the Art of Segmentation',
+          desc: 'Group your data by meaningful categories (customer type, region, product line) and compare metrics across groups. This reveals WHERE to focus efforts.',
+          steps: ['Learn GROUP BY and PIVOT TABLE operations', 'Use RFM analysis (Recency, Frequency, Monetary) for customer segmentation', 'Apply K-Means clustering for automatic segment discovery', 'Present segments with clear personas and action plans']
+        },
+        {
+          title: '📊 Tell Stories with Data Visualization',
+          desc: 'Charts should answer a specific question, not just display data. Use the right chart type: bars for comparison, lines for trends, scatter for relationships.',
+          steps: ['Follow the 5-second rule: can someone understand your chart in 5 seconds?', 'Use color intentionally — highlight, don\'t decorate', 'Add context: benchmarks, targets, and trend annotations', 'Master tools: Matplotlib, Plotly, Tableau, or Power BI']
+        },
+        {
+          title: '🧮 Statistical Thinking for Better Decisions',
+          desc: 'Don\'t just report averages — understand distributions, confidence intervals, and hypothesis testing. These skills separate analysts from data scientists.',
+          steps: ['Learn: mean vs median (when to use which)', 'Understand p-values and confidence intervals', 'Practice: t-tests, chi-squared tests, ANOVA', 'Apply: A/B testing frameworks for real-world decisions']
+        },
+        {
+          title: '🤖 Level Up with Predictive Analytics',
+          desc: 'Move beyond descriptive analytics ("what happened") to predictive ("what will happen") and prescriptive ("what should we do").',
+          steps: ['Start with linear regression for forecasting', 'Learn decision trees and random forests for classification', 'Practice feature engineering — the #1 skill in ML', 'Use scikit-learn in Python or BigQuery ML for implementation']
+        },
+        {
+          title: '🗣️ Present Insights Like a Consultant',
+          desc: 'The best analysis is useless if stakeholders don\'t understand it. Structure your presentations using the Pyramid Principle: lead with the conclusion.',
+          steps: ['Start with the "So What?" — what should the audience DO?', 'Use the MECE framework: Mutually Exclusive, Collectively Exhaustive', 'Create a one-page executive summary with 3-5 key findings', 'Practice the "elevator pitch": explain your findings in 30 seconds']
+        },
+        {
+          title: '🔄 Build Automated Data Pipelines',
+          desc: 'Stop doing manual data work. Learn ETL (Extract, Transform, Load) to automate repetitive analysis tasks and ensure data freshness.',
+          steps: ['Learn SQL for data transformation and cleaning', 'Use Python pandas for complex data wrangling', 'Explore tools: dbt, Apache Airflow, or Google Dataform', 'Schedule automated reports with Google Sheets + Apps Script']
+        }
+      ];
+
+      // ---- Calculate Business Readiness Score ----
+      let score = 50; // Base score
+      score += missingPct < 2 ? 15 : missingPct < 10 ? 8 : 0;
+      score += dupPct < 1 ? 10 : dupPct < 5 ? 5 : 0;
+      score += numCols.length >= 3 ? 10 : numCols.length >= 1 ? 5 : 0;
+      score += catCols.length >= 2 ? 5 : 0;
+      score += totalRows >= 100 ? 10 : totalRows >= 50 ? 5 : 0;
+      score -= businessActions.filter(a => a.priority === 'high').length * 8;
+      score -= businessActions.filter(a => a.priority === 'medium').length * 3;
+      score = Math.max(10, Math.min(95, Math.round(score)));
+
+      // ---- Render UI ----
+      // Show score banner
+      const scoreBanner = document.getElementById('advisor-score-banner');
+      scoreBanner.style.display = 'flex';
+      const circle = document.getElementById('advisor-score-circle');
+      const circumference = 2 * Math.PI * 34;
+      const offset = circumference * (1 - score / 100);
+      setTimeout(() => {
+        circle.style.strokeDashoffset = offset;
+        circle.style.stroke = score >= 75 ? '#10B981' : score >= 50 ? '#F59E0B' : '#EF4444';
+      }, 100);
+      document.getElementById('advisor-score-num').textContent = score;
+      document.getElementById('advisor-score-title').textContent = score >= 75 ? '✅ Strong Business Readiness' : score >= 50 ? '⚠️ Needs Improvement' : '🚨 Critical Issues Found';
+      document.getElementById('advisor-score-desc').textContent = `Based on ${totalRows} records across ${cols.length} columns. ${businessActions.filter(a=>a.priority==='high').length} high-priority, ${businessActions.filter(a=>a.priority==='medium').length} medium-priority actions identified.`;
+
+      // Build sections HTML
+      const sectionsContainer = document.getElementById('advisor-sections');
+      const emptyState = document.getElementById('advisor-empty-state');
+      if (emptyState) emptyState.style.display = 'none';
+
+      const buildItemsHtml = (items) => items.map(item => `
+        <div class="advisor-item">
+          <div class="advisor-item-icon priority-${item.priority}">${item.icon}</div>
+          <div class="advisor-item-content">
+            <div class="advisor-item-title">${item.title} <span class="priority-badge ${item.priority}">${item.priority}</span></div>
+            <div class="advisor-item-desc">${item.desc}</div>
+            <div class="advisor-item-desc" style="margin-top:6px;"><strong style="color:var(--primary);">→ Action:</strong> ${item.action}</div>
+            ${item.steps ? `<div style="margin-top:8px;"><strong style="font-size:0.78rem;color:var(--text-muted);">Step-by-step:</strong><ol style="margin:4px 0 0 18px;padding:0;">${item.steps.map(s=>`<li style="font-size:0.8rem;color:var(--text-muted);line-height:1.65;">${s}</li>`).join('')}</ol></div>` : ''}
+          </div>
+        </div>
+      `).join('');
+
+      const buildLearningHtml = (tips) => tips.map(tip => `
+        <div class="learning-tip-card">
+          <h4>${tip.title}</h4>
+          <p>${tip.desc}</p>
+          <ol class="steps-list">${tip.steps.map(s => `<li>${s}</li>`).join('')}</ol>
+        </div>
+      `).join('');
+
+      const sections = [
+        { icon: '🎯', title: 'Business Action Recommendations', items: businessActions, type: 'actions' },
+        { icon: '🔧', title: 'Data Quality Improvements', items: dataQuality, type: 'actions' },
+        { icon: '🚀', title: 'Growth Opportunities', items: growth, type: 'actions' },
+        { icon: '📚', title: 'Learning & Skill-Building Tips', items: learning, type: 'learning' }
+      ];
+
+      // Remove old advisor cards (not the empty state)
+      sectionsContainer.querySelectorAll('.advisor-section-card').forEach(el => el.remove());
+
+      sections.forEach((section, idx) => {
+        const card = document.createElement('div');
+        card.className = `advisor-section-card ${idx === 0 ? 'open' : ''}`;
+        card.innerHTML = `
+          <div class="advisor-section-header" onclick="this.parentElement.classList.toggle('open')">
+            <h3>${section.icon} ${section.title} <span class="advisor-section-count">${section.items.length}</span></h3>
+            <span class="advisor-section-toggle">▼</span>
+          </div>
+          <div class="advisor-section-body">
+            ${section.type === 'learning' ? buildLearningHtml(section.items) : buildItemsHtml(section.items)}
+          </div>
+        `;
+        sectionsContainer.appendChild(card);
+      });
+
+      App.showToast('💡 Smart Advisor generated ' + (businessActions.length + dataQuality.length + growth.length + learning.length) + ' insights!', 'success');
     };
 
     // Initialize application when DOM is ready
