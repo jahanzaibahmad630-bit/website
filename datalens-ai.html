@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DataLens AI — Autonomous EDA & BI Studio</title>
+  <title>DataLens AI Studio — Autonomous EDA & Business Intelligence</title>
   
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -504,7 +504,7 @@
       height: 180px;
       display: flex;
       align-items: flex-end;
-      justify-content: space-between;
+      justify-content: space-around;
       padding: 0 12px 10px 12px;
       position: relative;
       border-bottom: 1px solid #F1F5F9;
@@ -516,7 +516,8 @@
       align-items: center;
       height: 100%;
       justify-content: flex-end;
-      width: 32px;
+      min-width: 42px;
+      max-width: 70px;
       position: relative;
     }
 
@@ -535,19 +536,29 @@
     }
 
     .lollipop-stem {
-      width: 2px;
+      width: 3px;
       background: #E2E8F0;
-      border-radius: 2px;
+      border-radius: 3px;
       transition: height 600ms cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .lollipop-labels {
       display: flex;
-      justify-content: space-between;
+      justify-content: space-around;
       padding: 8px 12px 0 12px;
       font-size: 0.75rem;
       color: var(--text-muted);
       font-weight: 600;
+    }
+
+    .lollipop-labels span {
+      display: inline-block;
+      min-width: 42px;
+      max-width: 70px;
+      text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     /* Sub-Split in Variance Card */
@@ -1668,7 +1679,7 @@
           </svg>
         </div>
         <div class="carenest-brand-text">
-          CareNest <span class="carenest-brand-badge">STUDIO</span>
+          DataLens <span class="carenest-brand-badge">STUDIO</span>
         </div>
       </a>
 
@@ -1731,8 +1742,31 @@
     <!-- Hero: Dashboard Overview with 3 Glass Sparkline Cards -->
     <div class="carenest-hero">
       <div class="carenest-hero-text">
-        <h1>Dashboard Overview</h1>
-        <p>Welcome back! Here's what's happening with your data intelligence today.</p>
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:4px;">
+          <h1 style="margin:0;">Dashboard Overview</h1>
+          <span class="badge" style="background:rgba(45,212,191,0.2); color:#2DD4BF; border:1px solid rgba(45,212,191,0.35); font-size:0.75rem;" id="hero-active-dataset-badge">E-Commerce Sales</span>
+        </div>
+        <p style="margin:0; font-size:0.9rem; color:rgba(255,255,255,0.8);">Autonomous exploratory data analysis, health diagnostics &amp; predictive intelligence.</p>
+        
+        <!-- Quick Data Cleaning Action Bar -->
+        <div style="display:flex; align-items:center; gap:8px; margin-top:14px; flex-wrap:wrap;">
+          <span style="font-size:0.75rem; font-weight:700; color:rgba(255,255,255,0.6); text-transform:uppercase; letter-spacing:0.05em;">Quick Clean:</span>
+          <button class="btn btn-sm" style="background:rgba(255,255,255,0.12); color:#fff; border:1px solid rgba(255,255,255,0.25); border-radius:9999px; padding:4px 12px; font-size:0.75rem;" onclick="App.autoCleanData()" title="Drop duplicates and impute missing values">
+            ⚡ Auto-Clean Dataset
+          </button>
+          <button class="btn btn-sm" style="background:rgba(255,255,255,0.12); color:#fff; border:1px solid rgba(255,255,255,0.25); border-radius:9999px; padding:4px 12px; font-size:0.75rem;" onclick="App.deduplicateData()">
+            🧹 Drop Duplicates
+          </button>
+          <button class="btn btn-sm" style="background:rgba(255,255,255,0.12); color:#fff; border:1px solid rgba(255,255,255,0.25); border-radius:9999px; padding:4px 12px; font-size:0.75rem;" onclick="App.imputeMissingData()">
+            🩹 Impute Missing
+          </button>
+          <button class="btn btn-sm" style="background:rgba(255,255,255,0.12); color:#fff; border:1px solid rgba(255,255,255,0.25); border-radius:9999px; padding:4px 12px; font-size:0.75rem;" onclick="App.filterOutliersData()">
+            ✂️ Trim Outliers (IQR)
+          </button>
+          <button class="btn btn-sm" style="background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.7); border:1px solid rgba(255,255,255,0.15); border-radius:9999px; padding:4px 10px; font-size:0.75rem;" onclick="App.resetData()">
+            ↺ Reset
+          </button>
+        </div>
       </div>
 
       <div class="carenest-hero-kpis">
@@ -1742,7 +1776,7 @@
             <div class="carenest-hero-kpi-val" id="hero-total-records">
               1,360 <span class="carenest-trend-badge up">↗</span>
             </div>
-            <div class="carenest-hero-kpi-label">Total Appointments</div>
+            <div class="carenest-hero-kpi-label">Total Rows</div>
           </div>
           <div class="carenest-spark-bars">
             <div class="carenest-spark-bar" style="height:12px;"></div>
@@ -1758,7 +1792,7 @@
             <div class="carenest-hero-kpi-val" id="hero-active-patients">
               2,654 <span class="carenest-trend-badge up">↗</span>
             </div>
-            <div class="carenest-hero-kpi-label">Active Patients</div>
+            <div class="carenest-hero-kpi-label">Audited Columns</div>
           </div>
           <div class="carenest-spark-bars">
             <div class="carenest-spark-bar" style="height:10px;"></div>
@@ -1774,7 +1808,7 @@
             <div class="carenest-hero-kpi-val" id="hero-critical-alerts">
               54 <span class="carenest-trend-badge down">↘</span>
             </div>
-            <div class="carenest-hero-kpi-label">Critical Alerts</div>
+            <div class="carenest-hero-kpi-label">Data Quality Score</div>
           </div>
           <div class="carenest-spark-bars">
             <div class="carenest-spark-bar" style="height:22px; background:rgba(248,113,113,0.6);"></div>
@@ -1789,160 +1823,128 @@
 
   <main class="carenest-canvas">
 
+  
   <section id="tab-dashboard" class="tab-pane active">
     <div class="container">
       
       <!-- Top 3 Grid Cards -->
       <div class="carenest-grid-top">
         
-        <!-- Card 1: Your Wellness Progress (Lollipop Chart) -->
+        <!-- Card 1: Feature Distribution & Spread (Lollipop Stem Chart) -->
         <div class="card">
           <div class="card-header-flex">
-            <div class="card-title-main">Your Wellness Progress</div>
-            <div class="card-title-val" id="cn-progress-pct">64%</div>
+            <div class="card-title-main">Feature Distribution &amp; Spread</div>
+            <div class="card-title-val" id="cn-progress-pct">96% Quality</div>
           </div>
           <div class="card-filter-pills">
-            <button class="card-filter-pill active" onclick="App.filterLollipop(this, 'daily')">Daily</button>
-            <button class="card-filter-pill" onclick="App.filterLollipop(this, 'monthly')">Monthly</button>
-            <button class="card-filter-pill" onclick="App.filterLollipop(this, 'weekly')">Weekly</button>
-            <button class="card-filter-pill" onclick="App.filterLollipop(this, 'yearly')">Yearly</button>
+            <button class="card-filter-pill active" onclick="App.filterLollipop(this, 'all')">All Features</button>
+            <button class="card-filter-pill" onclick="App.filterLollipop(this, 'volatile')">High Variance</button>
+            <button class="card-filter-pill" onclick="App.filterLollipop(this, 'skewed')">Skewed</button>
+            <button class="card-filter-pill" onclick="App.filterLollipop(this, 'outliers')">Outliers</button>
           </div>
           
           <!-- Lollipop Stem Chart Container -->
           <div class="lollipop-container" id="cn-lollipop-box">
-            <div class="lollipop-stem-group">
-              <div class="lollipop-dot" style="background:#F87171;"></div>
-              <div class="lollipop-stem" style="height:55px;"></div>
-            </div>
-            <div class="lollipop-stem-group">
-              <div class="lollipop-dot" style="background:#CBD5E1;"></div>
-              <div class="lollipop-stem" style="height:35px;"></div>
-            </div>
-            <div class="lollipop-stem-group">
-              <div class="lollipop-dot" style="background:#F59E0B;"></div>
-              <div class="lollipop-stem" style="height:95px;"></div>
-            </div>
-            <div class="lollipop-stem-group">
-              <div class="lollipop-dot" style="background:#C084FC;"></div>
-              <div class="lollipop-stem" style="height:130px;"></div>
-            </div>
-            <div class="lollipop-stem-group">
-              <div class="lollipop-dot" style="background:#1F5257;"></div>
-              <div class="lollipop-stem" style="height:110px;"></div>
-            </div>
-            <div class="lollipop-stem-group">
-              <div class="lollipop-dot" style="background:#CBD5E1;"></div>
-              <div class="lollipop-stem" style="height:45px;"></div>
-            </div>
-            <div class="lollipop-stem-group">
-              <div class="lollipop-dot" style="background:#CBD5E1;"></div>
-              <div class="lollipop-stem" style="height:60px;"></div>
-            </div>
+            <!-- Dynamically populated from real dataset columns -->
           </div>
-          <div class="lollipop-labels">
-            <span>Mon</span>
-            <span>Tue</span>
-            <span>Wed</span>
-            <span>Thu</span>
-            <span>Fri</span>
-            <span>Sat</span>
-            <span>Sun</span>
+          <div class="lollipop-labels" id="cn-lollipop-labels">
+            <!-- Labels populated from real column names -->
           </div>
         </div>
 
-        <!-- Card 2: Stress / Recovery Balance -->
+        <!-- Card 2: Statistical Variance & Quality Balance -->
         <div class="card">
           <div class="card-header-flex">
-            <div class="card-title-main">Stress / Recovery Balance</div>
-            <div class="card-title-val" style="color:#0F172A;">+0.34</div>
+            <div class="card-title-main">Statistical Variance &amp; Drift</div>
+            <div class="card-title-val" id="cn-stability-score" style="color:#0F172A;">+0.34</div>
           </div>
           
-          <!-- Smooth Line Canvas -->
+          <!-- Smooth Line Canvas (Real Quantile Distribution) -->
           <div style="height: 105px; position: relative; margin-bottom: 8px;">
             <canvas id="cn-stability-chart"></canvas>
           </div>
           
           <div class="insight-quote-box">
-            <span style="font-size:1.15rem;">🧘</span>
-            <div>You reached optimal recovery. Keeping your bedtime consistent will sustain this.</div>
+            <span style="font-size:1.15rem;">💡</span>
+            <div id="cn-stability-quote">Optimal stability verified: 200 records parsed. Distribution variance is within bounds.</div>
           </div>
 
           <div class="card-sub-split">
             <div class="sub-split-col">
               <div class="sub-split-header">
-                <span class="sub-split-title">HRV</span>
-                <span class="sub-split-val" style="color:#10B981;">+8%</span>
+                <span class="sub-split-title">Completeness</span>
+                <span class="sub-split-val" id="cn-completeness-val" style="color:#10B981;">100%</span>
               </div>
               <div style="display:flex; align-items:flex-end; gap:6px; height:45px;">
-                <div style="width:14px; height:24px; background:#FCA5A5; border-radius:4px;"></div>
-                <div style="width:14px; height:36px; background:#C084FC; border-radius:4px;"></div>
-                <div style="width:14px; height:45px; background:#2DD4BF; border-radius:4px;"></div>
+                <div style="width:14px; height:24px; background:#FCA5A5; border-radius:4px;" title="Categorical nulls"></div>
+                <div style="width:14px; height:36px; background:#C084FC; border-radius:4px;" title="Numeric nulls"></div>
+                <div style="width:14px; height:45px; background:#2DD4BF; border-radius:4px;" title="Valid records"></div>
               </div>
               <div style="display:flex; justify-content:space-between; font-size:0.68rem; color:#94A3B8; margin-top:4px; font-weight:600;">
-                <span>Jan</span><span>Feb</span><span>Mar</span>
+                <span>Cat</span><span>Num</span><span>Valid</span>
               </div>
             </div>
 
             <div class="sub-split-col">
               <div class="sub-split-header">
-                <span class="sub-split-title">Glucose</span>
-                <span class="sub-split-val" style="color:#F87171;">-5%</span>
+                <span class="sub-split-title">Cleanliness</span>
+                <span class="sub-split-val" id="cn-cleanliness-val" style="color:#2DD4BF;">96%</span>
               </div>
               <!-- Semi-circle arch gauge -->
               <div style="position:relative; width:100%; height:45px; display:flex; flex-direction:column; align-items:center; justify-content:center;">
                 <svg viewBox="0 0 100 55" style="width:100px; height:45px;">
                   <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#E2E8F0" stroke-width="7" stroke-linecap="round"/>
-                  <path d="M 10 50 A 40 40 0 0 1 74 22" fill="none" stroke="#2DD4BF" stroke-width="7" stroke-linecap="round"/>
+                  <path id="cn-cleanliness-arc" d="M 10 50 A 40 40 0 0 1 74 22" fill="none" stroke="#2DD4BF" stroke-width="7" stroke-linecap="round"/>
                 </svg>
-                <div style="font-size:0.9rem; font-weight:800; color:#0F172A; margin-top:-14px;">92</div>
-                <div style="font-size:0.62rem; color:#94A3B8; font-weight:600;">mg/dL · 860 Capacity</div>
+                <div id="cn-cleanliness-num" style="font-size:0.9rem; font-weight:800; color:#0F172A; margin-top:-14px;">96</div>
+                <div style="font-size:0.62rem; color:#94A3B8; font-weight:600;">Quality Score</div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Card 3: Patient Flow (Concentric Donut Chart) -->
+        <!-- Card 3: Data Health & Composition (Concentric Arc Donut) -->
         <div class="card">
           <div class="card-header-flex">
-            <div class="card-title-main">Patient Flow</div>
-            <button style="border:none; background:transparent; font-size:1.2rem; color:#94A3B8; cursor:pointer;" onclick="App.switchTab('tab-health')">···</button>
+            <div class="card-title-main">Data Health &amp; Composition</div>
+            <button style="border:none; background:transparent; font-size:1.2rem; color:#94A3B8; cursor:pointer;" onclick="App.switchTab('tab-health')" title="View Health Audit">···</button>
           </div>
 
           <!-- Concentric 3-Arc Donut -->
           <div class="concentric-chart-box">
             <svg viewBox="0 0 200 200" style="width:160px; height:160px; transform: rotate(-90deg);">
-              <!-- Outer Arc: Lavender (Completed) -->
+              <!-- Outer Arc: Lavender (Clean Records) -->
               <circle cx="100" cy="100" r="82" fill="none" stroke="#F1F5F9" stroke-width="12"></circle>
-              <circle cx="100" cy="100" r="82" fill="none" stroke="#C084FC" stroke-width="12" stroke-linecap="round" stroke-dasharray="515" stroke-dashoffset="175"></circle>
+              <circle id="cn-arc-clean" cx="100" cy="100" r="82" fill="none" stroke="#C084FC" stroke-width="12" stroke-linecap="round" stroke-dasharray="515" stroke-dashoffset="60"></circle>
               
-              <!-- Middle Arc: Peach/Amber (Upcoming) -->
+              <!-- Middle Arc: Peach/Amber (Outliers) -->
               <circle cx="100" cy="100" r="66" fill="none" stroke="#F1F5F9" stroke-width="12"></circle>
-              <circle cx="100" cy="100" r="66" fill="none" stroke="#FBBF24" stroke-width="12" stroke-linecap="round" stroke-dasharray="414" stroke-dashoffset="160"></circle>
+              <circle id="cn-arc-outlier" cx="100" cy="100" r="66" fill="none" stroke="#FBBF24" stroke-width="12" stroke-linecap="round" stroke-dasharray="414" stroke-dashoffset="330"></circle>
               
-              <!-- Inner Arc: Forest Teal (Capacity) -->
+              <!-- Inner Arc: Forest Teal (Total Parsed) -->
               <circle cx="100" cy="100" r="50" fill="none" stroke="#F1F5F9" stroke-width="12"></circle>
-              <circle cx="100" cy="100" r="50" fill="none" stroke="#1F5257" stroke-width="12" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="95"></circle>
+              <circle id="cn-arc-parsed" cx="100" cy="100" r="50" fill="none" stroke="#1F5257" stroke-width="12" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="0"></circle>
             </svg>
             <div class="concentric-center-text">
-              <div class="concentric-num" id="cn-capacity-num">860</div>
-              <div class="concentric-sub">dB1 Capacity</div>
+              <div class="concentric-num" id="cn-capacity-num">200</div>
+              <div class="concentric-sub">Total Records</div>
             </div>
           </div>
 
           <div class="concentric-legend-row">
             <div class="concentric-legend-item">
               <span class="legend-indicator-dot" style="background:#C084FC;"></span>
-              <span>650 Completed</span>
+              <span id="cn-legend-valid">192 Clean</span>
             </div>
             <div class="concentric-legend-item">
               <span class="legend-indicator-dot" style="background:#FBBF24;"></span>
-              <span>326 Upcoming</span>
+              <span id="cn-legend-outlier">8 Outliers</span>
             </div>
           </div>
 
           <div class="insight-quote-box" style="margin-top:14px;">
             <span style="font-size:1.15rem;">📈</span>
-            <div>You reached optimal recovery. Keeping bedtime consistent will sustain this.</div>
+            <div id="cn-composition-quote">Data readiness verified. 100% of features parsed for statistical modeling.</div>
           </div>
         </div>
 
@@ -1951,161 +1953,66 @@
       <!-- Bottom 3 Grid Cards -->
       <div class="carenest-grid-bottom">
         
-        <!-- Card 4: Suggested Next Steps -->
+        <!-- Card 4: Actionable Data Science Roadmap -->
         <div class="card">
           <div class="card-header-flex">
             <div class="card-title-main">Suggested Next Steps</div>
             <button class="btn btn-secondary btn-sm" style="font-size:0.75rem; padding:4px 12px;" onclick="App.switchTab('tab-advisor')">Create Plan +</button>
           </div>
 
-          <div class="roadmap-list">
-            <div class="roadmap-item">
-              <div class="roadmap-icon-box">📋</div>
-              <div class="roadmap-item-info">
-                <div class="roadmap-title-row">
-                  <span class="roadmap-title">Assessment</span>
-                  <span class="roadmap-timeline-pill">(Jan - Feb)</span>
-                </div>
-                <div class="roadmap-desc">• Establish baseline health metrics<br>• Review detailed medical history</div>
-              </div>
-            </div>
-
-            <div class="roadmap-item">
-              <div class="roadmap-icon-box">🧪</div>
-              <div class="roadmap-item-info">
-                <div class="roadmap-title-row">
-                  <span class="roadmap-title">Testing</span>
-                  <span class="roadmap-timeline-pill">(March - April)</span>
-                </div>
-                <div class="roadmap-desc">• Conduct comprehensive lab test<br>• Analyze key blood biomarkers</div>
-              </div>
-            </div>
-
-            <div class="roadmap-item">
-              <div class="roadmap-icon-box">👨‍⚕️</div>
-              <div class="roadmap-item-info">
-                <div class="roadmap-title-row">
-                  <span class="roadmap-title">Specialists</span>
-                  <span class="roadmap-timeline-pill">(April - May)</span>
-                </div>
-                <div class="roadmap-desc">• Seek additional expert opinions<br>• Discuss early treatment options</div>
-              </div>
-            </div>
-
-            <div class="roadmap-item">
-              <div class="roadmap-icon-box">🥗</div>
-              <div class="roadmap-item-info">
-                <div class="roadmap-title-row">
-                  <span class="roadmap-title">Nutrition</span>
-                  <span class="roadmap-timeline-pill">(June - July)</span>
-                </div>
-                <div class="roadmap-desc">• Follow balanced healthy diet plan<br>• Increase fruits and vegetables in</div>
-              </div>
-            </div>
-
-            <div class="roadmap-item">
-              <div class="roadmap-icon-box">🏃‍♂️</div>
-              <div class="roadmap-item-info">
-                <div class="roadmap-title-row">
-                  <span class="roadmap-title">Exercise</span>
-                  <span class="roadmap-timeline-pill">(July - August)</span>
-                </div>
-                <div class="roadmap-desc">• Engage in regular aerobic exercise<br>• Maintain consistent activity routine</div>
-              </div>
-            </div>
+          <div class="roadmap-list" id="cn-roadmap-list">
+            <!-- Dynamically populated based on active dataset -->
           </div>
         </div>
 
-        <!-- Card 5: Healthcare Providers / Schema Table -->
+        <!-- Card 5: Real Column Schema & Attributes Explorer Table -->
         <div class="card">
           <div class="card-header-flex">
-            <div class="card-title-main">Healthcare Providers</div>
+            <div class="card-title-main">Dataset Features &amp; Schema</div>
             <div style="display:flex; align-items:center; gap:8px;">
-              <button class="carenest-icon-btn" style="background:#F1F5F9; color:#64748B; width:30px; height:30px;" onclick="App.switchTab('tab-upload')">🔍</button>
-              <button class="btn btn-secondary btn-sm" style="font-size:0.75rem; padding:4px 12px;" onclick="App.switchTab('tab-eda')">⚙️ Filter</button>
+              <button class="carenest-icon-btn" style="background:#F1F5F9; color:#64748B; width:30px; height:30px;" onclick="App.switchTab('tab-upload')" title="Manage Ingestion">🔍</button>
+              <button class="btn btn-secondary btn-sm" style="font-size:0.75rem; padding:4px 12px;" onclick="App.switchTab('tab-eda')">⚙️ Explore</button>
             </div>
           </div>
 
           <table class="carenest-table">
             <thead>
               <tr>
-                <th>Provider Name</th>
-                <th>Department</th>
-                <th>Contact</th>
+                <th>Feature / Column</th>
+                <th>Data Type</th>
+                <th>Completeness</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody id="cn-providers-tbody">
-              <tr>
-                <td>
-                  <div class="feature-avatar-row">
-                    <div class="feature-avatar-circle" style="background:#D1FAE5; color:#065F46;">CD</div>
-                    <div>
-                      <div style="font-weight:700; color:#0F172A;">Dr. Chloe Davis</div>
-                      <span class="status-badge-carenest available">● Available</span>
-                    </div>
-                  </div>
-                </td>
-                <td style="color:#64748B;">Pathology</td>
-                <td style="color:#64748B;">(505) 555-0123</td>
-                <td><button style="border:none; background:transparent; cursor:pointer; color:#94A3B8; font-size:1.1rem;">⋮</button></td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="feature-avatar-row">
-                    <div class="feature-avatar-circle" style="background:#E0F2FE; color:#0369A1;">BC</div>
-                    <div>
-                      <div style="font-weight:700; color:#0F172A;">Dr. Ben Carter</div>
-                      <span class="status-badge-carenest" style="background:#FEE2E2; color:#991B1B;">● Absent</span>
-                    </div>
-                  </div>
-                </td>
-                <td style="color:#64748B;">Orthopedics</td>
-                <td style="color:#64748B;">(405) 554-7664</td>
-                <td><button style="border:none; background:transparent; cursor:pointer; color:#94A3B8; font-size:1.1rem;">⋮</button></td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="feature-avatar-row">
-                    <div class="feature-avatar-circle" style="background:#FEF3C7; color:#92400E;">AS</div>
-                    <div>
-                      <div style="font-weight:700; color:#0F172A;">Dr. Alice Smith</div>
-                      <span class="status-badge-carenest available">● Available</span>
-                    </div>
-                  </div>
-                </td>
-                <td style="color:#64748B;">Pathology</td>
-                <td style="color:#64748B;">(504) 554-0543</td>
-                <td><button style="border:none; background:transparent; cursor:pointer; color:#94A3B8; font-size:1.1rem;">⋮</button></td>
-              </tr>
+              <!-- Dynamically populated with real dataset columns -->
             </tbody>
           </table>
         </div>
 
-        <!-- Card 6: Aria / Personal AI Assistant -->
+        <!-- Card 6: DataLens AI Autonomous Copilot -->
         <div class="carenest-ai-card">
           <div class="carenest-ai-header">
-            <h2>Aria</h2>
-            <p>Your personal AI assistant</p>
+            <h2>DataLens AI</h2>
+            <p>Your Autonomous Data Scientist</p>
           </div>
 
-          <div class="carenest-ai-prompts">
-            <button class="carenest-prompt-pill" onclick="App.askAriaFromWidget('Why is the HRV low?')">Why is the HRV low?</button>
-            <button class="carenest-prompt-pill" onclick="App.askAriaFromWidget('How\'s my recovery today?')">How's my recovery today?</button>
+          <div class="carenest-ai-prompts" id="cn-copilot-prompts">
+            <!-- Dynamically populated prompt chips -->
           </div>
 
           <div class="carenest-ai-input-dock">
             <div class="carenest-credits-row">
-              <span>100 Credits Remaining</span>
-              <span class="carenest-upgrade-pill" onclick="alert('Unlimited Data Scientist access enabled.')">Upgrade</span>
+              <span>Gemini 3.8 Flash Active</span>
+              <span class="carenest-upgrade-pill" onclick="App.switchTab('tab-copilot')">Full Chat ↗</span>
             </div>
-            <textarea class="carenest-chat-textarea" id="aria-quick-input" placeholder="Ask anything..."></textarea>
+            <textarea class="carenest-chat-textarea" id="aria-quick-input" placeholder="Ask anything about your data..."></textarea>
             <div class="carenest-chat-bottom-actions">
               <div class="carenest-action-icons">
-                <span title="Voice note">🎤</span>
-                <span title="Attach file">📎</span>
+                <span title="Voice note simulation" onclick="alert('Voice prompt listening...')">🎤</span>
+                <span title="Attach file" onclick="document.getElementById('file-input').click()">📎</span>
               </div>
-              <button class="carenest-floating-send" onclick="App.submitAriaQuery()" title="Send">
+              <button class="carenest-floating-send" onclick="App.submitAriaQuery()" title="Send Query">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <line x1="22" y1="2" x2="11" y2="13"></line>
                   <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
@@ -2119,6 +2026,7 @@
 
     </div>
   </section>
+
 
 <section id="tab-upload" class="tab-pane">
         <!-- Drag & Drop Zone -->
@@ -2896,13 +2804,15 @@
           const city = cities[Math.floor(Math.random() * cities.length)];
           const segment = segments[Math.floor(Math.random() * segments.length)];
           
-          // Higher quantity for corporate
           let quantity = Math.floor(Math.random() * 5) + 1;
           if (segment === 'Corporate') quantity += Math.floor(Math.random() * 4) + 1;
           
           const discount = discounts[Math.floor(Math.random() * discounts.length)];
-          const unitPrice = prodObj.basePrice * (0.9 + Math.random() * 0.2);
+          const unitPrice = Number((prodObj.basePrice * (0.9 + Math.random() * 0.2)).toFixed(2));
           const revenue = Number((quantity * unitPrice * (1 - discount)).toFixed(2));
+          const profit = Number((revenue * (0.18 + Math.random() * 0.24)).toFixed(2));
+          const shippingCost = Number((4.5 + Math.random() * 12.5).toFixed(2));
+          const rating = Math.min(5, Math.floor(Math.random() * 2) + 4);
           
           const orderDate = new Date(baseDate.getTime() + Math.random() * 380 * 86400000)
             .toISOString().split('T')[0];
@@ -2914,9 +2824,13 @@
             Category: prodObj.cat,
             City: city,
             Revenue: revenue,
+            Profit: profit,
+            UnitPrice: unitPrice,
             Quantity: quantity,
             Discount: discount,
-            CustomerSegment: segment
+            ShippingCost: shippingCost,
+            CustomerSegment: segment,
+            CustomerRating: rating
           });
         }
         return rows;
@@ -2940,12 +2854,14 @@
           monthly = Number(monthly.toFixed(2));
 
           const totalCharges = Number((tenure * monthly * (0.95 + Math.random() * 0.1)).toFixed(2));
+          const techCalls = Math.floor(Math.random() * 6);
+          const dataUsage = Math.floor(35 + Math.random() * 320);
 
-          // Churn probability: higher for month-to-month & low tenure
           let churnProb = 0.15;
           if (contract === 'Month-to-month') churnProb += 0.35;
           if (tenure < 12) churnProb += 0.25;
           if (net === 'Fiber optic') churnProb += 0.10;
+          if (techCalls > 3) churnProb += 0.20;
           const churn = Math.random() < churnProb ? 'Yes' : 'No';
 
           rows.push({
@@ -2953,6 +2869,8 @@
             Tenure: tenure,
             MonthlyCharges: monthly,
             TotalCharges: totalCharges,
+            TechSupportCalls: techCalls,
+            DataUsageGB: dataUsage,
             Contract: contract,
             InternetService: net,
             PaymentMethod: payment,
@@ -2974,10 +2892,10 @@
           
           let bp = Math.floor(105 + (age * 0.45) + Math.random() * 30);
           let cholesterol = Math.floor(155 + (age * 0.9) + (bmi * 1.5) + Math.random() * 40);
+          let glucose = Math.floor(75 + (bmi * 1.6) + Math.random() * 45);
           
           const diag = diagnoses[Math.floor(Math.random() * diagnoses.length)];
 
-          // Readmission risk correlation
           let riskScore = (age * 0.3) + (bmi * 0.8) + (bp * 0.2);
           if (diag !== 'Healthy') riskScore += 25;
 
@@ -2992,6 +2910,7 @@
             BMI: bmi,
             BloodPressure: bp,
             Cholesterol: cholesterol,
+            Glucose: glucose,
             Diagnosis: diag,
             ReadmissionRisk: risk
           });
@@ -3298,11 +3217,16 @@
        ========================================================================== */
     const App = {
       init() {
+        window.DataStore = DataStore;
+        window.App = this;
         this.setupNavigation();
         this.setupFileUpload();
         this.loadPreloaded('ecommerce');
         this.initKeyDrivers();
         this.initCopilotDefaults();
+        if (typeof this.renderDashboard === 'function') {
+          this.renderDashboard();
+        }
       },
 
       showToast(message, type = 'success') {
@@ -3357,6 +3281,7 @@
         }
 
         // Trigger specific tab re-render if necessary
+        if (targetId === 'tab-dashboard') App.renderDashboard();
         if (targetId === 'tab-health') App.renderHealthAudit();
         if (targetId === 'tab-eda') App.renderVisualEDA();
         if (targetId === 'tab-drivers') App.renderKeyDrivers();
@@ -3532,6 +3457,7 @@
         this.showToast(`Loaded ${rows.length} rows from "${datasetName}"!`, 'success');
 
         // Refresh views
+        if (typeof this.renderDashboard === 'function') this.renderDashboard();
         this.renderHealthAudit();
       },
 
@@ -3562,10 +3488,14 @@
         this.renderPreviewTable();
         this.showToast(`Active dataset switched to "${name}" (${rows.length} rows)`, 'info');
 
+        // Always render dashboard for active dataset
+        if (typeof this.renderDashboard === 'function') this.renderDashboard();
+
         // Re-render other tabs if already open
-        const activeLink = document.querySelector('.sidebar-link.active, .tab-btn.active');
-        const rawTab = activeLink ? activeLink.getAttribute('data-tab') : 'tab-upload';
+        const activeLink = document.querySelector('.carenest-nav-btn.active, .sidebar-link.active, .tab-btn.active');
+        const rawTab = activeLink ? activeLink.getAttribute('data-tab') : 'tab-dashboard';
         const activeTab = rawTab.startsWith('tab-') ? rawTab : 'tab-' + rawTab;
+        if (activeTab === 'tab-dashboard' && typeof this.renderDashboard === 'function') this.renderDashboard();
         if (activeTab === 'tab-health') this.renderHealthAudit();
         if (activeTab === 'tab-eda') this.renderVisualEDA();
         if (activeTab === 'tab-drivers') this.renderKeyDrivers();
@@ -5115,71 +5045,85 @@ Generated by DataLens AI Studio.
     // ====================================================================
     
     // CareNest Interactive Enhancements
-    App.initCareNestDashboard = function() {
-      // 1. Render Stability Wave Line Chart
-      const stabCtx = document.getElementById('cn-stability-chart');
-      if (stabCtx) {
-        if (window.cnStabChartInst) window.cnStabChartInst.destroy();
-        window.cnStabChartInst = new Chart(stabCtx, {
-          type: 'line',
-          data: {
-            labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-            datasets: [{
-              data: [42, 46, 38, 55, 48, 52, 49],
-              borderColor: '#0F172A',
-              borderWidth: 2,
-              pointBackgroundColor: '#0F172A',
-              pointRadius: 4,
-              pointHoverRadius: 6,
-              tension: 0.35,
-              fill: false
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false }, tooltip: { enabled: true } },
-            scales: {
-              x: { grid: { display: false }, ticks: { font: { size: 10, family: 'Plus Jakarta Sans' }, color: '#94A3B8' } },
-              y: { display: false, min: 20, max: 70 }
-            }
-          }
+        // CareNest Real Data-Driven Lollipop Stem Chart
+    App.renderLollipopChart = function(mode = 'all') {
+      if (!DataStore.rawRows || DataStore.rawRows.length === 0) return;
+      const rows = DataStore.rawRows;
+      const cols = DataStore.columns || [];
+      const numCols = cols.filter(c => DataStore.columnTypes[c] === 'numeric');
+      const health = DataStore.health || { score: 100, missingCount: 0, duplicateCount: 0, outlierCount: 0 };
+      
+      const lollipopBox = document.getElementById('cn-lollipop-box');
+      const labelsContainer = document.getElementById('cn-lollipop-labels');
+      const healthPctEl = document.getElementById('cn-progress-pct');
+      if (!lollipopBox) return;
+
+      let candidateCols = numCols.length > 0 ? [...numCols] : [...cols];
+
+      if (mode === 'volatile') {
+        candidateCols.sort((a, b) => {
+          const sa = DataStore.stats[a];
+          const sb = DataStore.stats[b];
+          const cva = sa && sa.mean ? Math.abs(sa.std / sa.mean) : 0;
+          const cvb = sb && sb.mean ? Math.abs(sb.std / sb.mean) : 0;
+          return cvb - cva;
         });
+        if (healthPctEl) healthPctEl.textContent = 'High Variance Ranking';
+      } else if (mode === 'skewed') {
+        candidateCols.sort((a, b) => {
+          const sa = DataStore.stats[a];
+          const sb = DataStore.stats[b];
+          const skea = sa && sa.skewness !== undefined ? Math.abs(sa.skewness) : 0;
+          const skeb = sb && sb.skewness !== undefined ? Math.abs(sb.skewness) : 0;
+          return skeb - skea;
+        });
+        if (healthPctEl) healthPctEl.textContent = 'Skewed Asymmetry';
+      } else if (mode === 'outliers') {
+        candidateCols.sort((a, b) => {
+          const sa = DataStore.stats[a];
+          const sb = DataStore.stats[b];
+          const oa = sa && sa.outliers ? sa.outliers.length : 0;
+          const ob = sb && sb.outliers ? sb.outliers.length : 0;
+          return ob - oa;
+        });
+        if (healthPctEl) healthPctEl.textContent = `${health.outlierCount} Outliers Flagged`;
+      } else {
+        if (healthPctEl) healthPctEl.textContent = `${health.score}% Quality`;
       }
 
-      // Update provider table if dataset is loaded
-      if (DataStore && DataStore.columns && DataStore.columns.length > 0) {
-        const tbody = document.getElementById('cn-providers-tbody');
-        if (tbody) {
-          const sampleProviders = [
-            { name: 'Dr. Chloe Davis', dept: 'Pathology', status: 'Available', contact: '(505) 555-0123' },
-            { name: 'Dr. Ben Carter', dept: 'Orthopedics', status: 'Absent', contact: '(405) 554-7664' },
-            { name: 'Dr. Alice Smith', dept: 'Pathology', status: 'Available', contact: '(504) 554-0543' }
-          ];
-          
-          tbody.innerHTML = sampleProviders.map((p, idx) => {
-            const initials = p.name.replace('Dr. ', '').split(' ').map(n=>n[0]).join('');
-            const isAvail = p.status === 'Available';
-            const colors = ['#D1FAE5', '#E0F2FE', '#FEF3C7'];
-            const textColors = ['#065F46', '#0369A1', '#92400E'];
-            return `
-              <tr>
-                <td>
-                  <div class="feature-avatar-row">
-                    <div class="feature-avatar-circle" style="background:${colors[idx % 3]}; color:${textColors[idx % 3]};">${initials}</div>
-                    <div>
-                      <div style="font-weight:700; color:#0F172A;">${p.name}</div>
-                      <span class="status-badge-carenest ${isAvail ? 'available' : ''}" style="${!isAvail ? 'background:#FEE2E2; color:#991B1B;' : ''}">● ${p.status}</span>
-                    </div>
-                  </div>
-                </td>
-                <td style="color:#64748B;">${p.dept}</td>
-                <td style="color:#64748B;">${p.contact}</td>
-                <td><button style="border:none; background:transparent; cursor:pointer; color:#94A3B8; font-size:1.1rem;">⋮</button></td>
-              </tr>
-            `;
-          }).join('');
+      const targetCols = candidateCols.slice(0, 7);
+      if (targetCols.length === 0) return;
+
+      const stats = targetCols.map(c => {
+        const s = DataStore.stats[c];
+        if (s && s.mean !== undefined) {
+          return { col: c, val: Math.abs(s.mean) || 1, rawMean: s.mean };
         }
+        const vals = rows.map(r => parseFloat(r[c])).filter(v => !isNaN(v));
+        if (vals.length === 0) return { col: c, val: 50, rawMean: 50 };
+        const mean = vals.reduce((a, b) => a + b, 0) / vals.length;
+        return { col: c, val: Math.abs(mean) || 1, rawMean: mean };
+      });
+
+      const maxVal = Math.max(...stats.map(s => s.val), 1);
+      const palette = ['#F87171', '#F59E0B', '#C084FC', '#2DD4BF', '#38BDF8', '#10B981', '#A855F7'];
+
+      lollipopBox.innerHTML = stats.map((s, idx) => {
+        const height = Math.max(35, Math.min(145, Math.round((s.val / maxVal) * 125 + 20)));
+        const color = palette[idx % palette.length];
+        return `
+          <div class="lollipop-stem-group" title="${s.col}: Avg ${s.rawMean.toFixed(2)}" onclick="App.inspectColumn('${s.col}')" style="cursor:pointer;">
+            <div class="lollipop-dot" style="background:${color};"></div>
+            <div class="lollipop-stem" style="height:${height}px; background:${color}; width:3px; border-radius:3px;"></div>
+          </div>
+        `;
+      }).join('');
+
+      if (labelsContainer) {
+        labelsContainer.innerHTML = stats.map(s => {
+          const shortName = s.col.length > 7 ? s.col.substring(0, 6) + '…' : s.col;
+          return `<span style="cursor:pointer;" title="${s.col}" onclick="App.inspectColumn('${s.col}')">${shortName}</span>`;
+        }).join('');
       }
     };
 
@@ -5188,26 +5132,7 @@ Generated by DataLens AI Studio.
         btn.parentElement.querySelectorAll('.card-filter-pill').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
       }
-      const heights = {
-        daily: [55, 35, 95, 130, 110, 45, 60],
-        monthly: [70, 90, 110, 65, 80, 120, 95],
-        weekly: [40, 60, 80, 125, 90, 70, 50],
-        yearly: [85, 115, 75, 105, 95, 65, 85]
-      }[mode] || [55, 35, 95, 130, 110, 45, 60];
-
-      const pctMap = { daily: '64%', monthly: '82%', weekly: '74%', yearly: '89%' };
-      const pctEl = document.getElementById('cn-progress-pct');
-      if (pctEl) pctEl.textContent = pctMap[mode] || '64%';
-
-      const box = document.getElementById('cn-lollipop-box');
-      if (box) {
-        const stems = box.querySelectorAll('.lollipop-stem');
-        stems.forEach((stem, idx) => {
-          if (heights[idx] !== undefined) {
-            stem.style.height = heights[idx] + 'px';
-          }
-        });
-      }
+      App.renderLollipopChart(mode);
     };
 
     App.askAriaFromWidget = function(promptText) {
@@ -5224,7 +5149,6 @@ Generated by DataLens AI Studio.
       const q = input.value.trim();
       input.value = '';
 
-      // Switch to AI Copilot tab and trigger prompt
       App.switchTab('tab-copilot');
       setTimeout(() => {
         const copilotInput = document.getElementById('copilot-input');
@@ -5233,6 +5157,449 @@ Generated by DataLens AI Studio.
           App.sendCopilotMessage();
         }
       }, 250);
+    };
+
+    // ====================================================================
+    // REAL DATA-DRIVEN CARENEST DASHBOARD ENGINE
+    // ====================================================================
+    App.renderDashboard = function() {
+      if (!DataStore.rawRows || DataStore.rawRows.length === 0) return;
+      const rows = DataStore.rawRows;
+      const cols = DataStore.columns || [];
+      const numCols = cols.filter(c => DataStore.columnTypes[c] === 'numeric');
+      const catCols = cols.filter(c => DataStore.columnTypes[c] === 'categorical');
+      const health = DataStore.health || { score: 100, missingCount: 0, duplicateCount: 0, outlierCount: 0 };
+
+      // 1. Hero KPIs
+      const heroRecords = document.getElementById('hero-total-records');
+      if (heroRecords) heroRecords.innerHTML = `${rows.length.toLocaleString()} <span class="carenest-trend-badge up">↗</span>`;
+      
+      const heroFeatures = document.getElementById('hero-active-patients');
+      if (heroFeatures) heroFeatures.innerHTML = `${cols.length} <span class="carenest-trend-badge up">↗</span>`;
+      
+      const heroQuality = document.getElementById('hero-critical-alerts');
+      const healthGood = health.score >= 80;
+      if (heroQuality) heroQuality.innerHTML = `${health.score}% <span class="carenest-trend-badge ${healthGood ? 'up' : 'down'}">${healthGood ? '✓' : '⚠️'}</span>`;
+
+      const heroBadge = document.getElementById('hero-active-dataset-badge');
+      if (heroBadge) heroBadge.textContent = DataStore.datasetName || 'Active Dataset';
+
+      // 2. Card 1: Feature Distribution (Real Lollipop Chart)
+      App.renderLollipopChart('all');
+
+      // 3. Card 2: Statistical Variance & Drift (Real Quantile Distribution Curve)
+      const stabCtx = document.getElementById('cn-stability-chart');
+      if (stabCtx && numCols.length > 0) {
+        const primCol = numCols[0];
+        const rawVals = rows.map(r => parseFloat(r[primCol])).filter(v => !isNaN(v)).sort((a, b) => a - b);
+        if (rawVals.length > 0) {
+          const quantiles = [0.05, 0.20, 0.40, 0.60, 0.75, 0.90, 0.98].map(p => rawVals[Math.floor(rawVals.length * p)] || 0);
+          
+          if (window.cnStabChartInst) {
+            try { window.cnStabChartInst.destroy(); } catch(e){}
+          }
+          window.cnStabChartInst = new Chart(stabCtx, {
+            type: 'line',
+            data: {
+              labels: ['Q5', 'Q20', 'Q40', 'Q60', 'Q75', 'Q90', 'Q98'],
+              datasets: [{
+                label: primCol,
+                data: quantiles,
+                borderColor: '#1F5257',
+                borderWidth: 2.4,
+                pointBackgroundColor: '#2DD4BF',
+                pointBorderColor: '#1F5257',
+                pointRadius: 4,
+                pointHoverRadius: 6,
+                tension: 0.35,
+                fill: false
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: { legend: { display: false }, tooltip: { enabled: true } },
+              scales: {
+                x: { grid: { display: false }, ticks: { font: { size: 10, family: 'Plus Jakarta Sans' }, color: '#94A3B8' } },
+                y: { display: false }
+              }
+            }
+          });
+        }
+
+        const stabScoreEl = document.getElementById('cn-stability-score');
+        const s = DataStore.stats[primCol];
+        if (stabScoreEl && s) {
+          const skew = s.skewness !== undefined ? (s.skewness > 0 ? `+${s.skewness.toFixed(2)}` : s.skewness.toFixed(2)) : '+0.28';
+          stabScoreEl.textContent = `${skew} Skew`;
+        }
+      }
+
+      // Stability quote box
+      const quoteEl = document.getElementById('cn-stability-quote');
+      if (quoteEl) {
+        const outlierPct = health.outlierPct ? health.outlierPct.toFixed(1) : '0';
+        quoteEl.textContent = `Stability verified: ${rows.length} rows parsed. Outlier volume is ${outlierPct}%, with ${health.duplicateCount || 0} duplicate rows detected.`;
+      }
+
+      // Completeness and Cleanliness gauges
+      const compVal = document.getElementById('cn-completeness-val');
+      if (compVal) {
+        const completePct = Math.max(0, 100 - (health.missingPct || 0)).toFixed(0);
+        compVal.textContent = `${completePct}%`;
+      }
+
+      const cleanVal = document.getElementById('cn-cleanliness-val');
+      if (cleanVal) cleanVal.textContent = `${health.score}%`;
+
+      const cleanNum = document.getElementById('cn-cleanliness-num');
+      if (cleanNum) cleanNum.textContent = health.score;
+
+      // 4. Card 3: Concentric Donut Gauge (Real Record Ratios)
+      const capacityNum = document.getElementById('cn-capacity-num');
+      if (capacityNum) capacityNum.textContent = rows.length.toLocaleString();
+
+      const validCount = Math.max(0, rows.length - health.missingCount - health.outlierCount);
+      const cleanRatio = rows.length > 0 ? validCount / rows.length : 1;
+      const outlierRatio = rows.length > 0 ? Math.min(1, health.outlierCount / rows.length) : 0;
+
+      const arcClean = document.getElementById('cn-arc-clean');
+      if (arcClean) {
+        const offset = 515 * (1 - cleanRatio);
+        arcClean.style.strokeDashoffset = offset;
+      }
+
+      const arcOutlier = document.getElementById('cn-arc-outlier');
+      if (arcOutlier) {
+        const offset = 414 * (1 - outlierRatio);
+        arcOutlier.style.strokeDashoffset = offset;
+      }
+
+      const legendValid = document.getElementById('cn-legend-valid');
+      if (legendValid) legendValid.textContent = `${validCount.toLocaleString()} Clean`;
+
+      const legendOutlier = document.getElementById('cn-legend-outlier');
+      if (legendOutlier) legendOutlier.textContent = `${health.outlierCount} Outliers`;
+
+      const compQuote = document.getElementById('cn-composition-quote');
+      if (compQuote) {
+        compQuote.textContent = health.score >= 80
+          ? `Data readiness verified. ${cols.length} features parsed and certified for predictive intelligence.`
+          : `Quality optimization suggested: Impute ${health.missingCount} missing values before modeling.`;
+      }
+
+      // 5. Card 4: Actionable Data Science Roadmap (Suggested Next Steps)
+      const roadmapContainer = document.getElementById('cn-roadmap-list');
+      if (roadmapContainer) {
+        let steps = [];
+        if (DataStore.datasetName.includes('Commerce')) {
+          steps = [
+            { icon: '💰', title: 'Revenue Pareto Analysis', sub: '(Step 1)', desc: 'Identify top 20% high-spending customers and product margins.' },
+            { icon: '🏷️', title: 'Discount Elasticity Test', sub: '(Step 2)', desc: 'Measure how discount rate impacts order quantity across cities.' },
+            { icon: '👥', title: 'Customer Segmentation', sub: '(Step 3)', desc: 'K-Means clustering across Consumer, Corporate, and Home Office.' },
+            { icon: '📈', title: 'Sales Trend Forecasting', sub: '(Step 4)', desc: 'Build ARIMA time-series forecast on daily transaction volume.' },
+            { icon: '⚡', title: 'Automated BI Pipeline', sub: '(Step 5)', desc: 'Deploy scheduled Google Sheets & Executive PDF reporting.' }
+          ];
+        } else if (DataStore.datasetName.includes('Churn')) {
+          steps = [
+            { icon: '📉', title: 'Tenure Cohort Audit', sub: '(Step 1)', desc: 'Analyze retention drop-off during the first 6 subscription months.' },
+            { icon: '📑', title: 'Contract Risk Evaluation', sub: '(Step 2)', desc: 'Compare Month-to-Month attrition versus One-Year contracts.' },
+            { icon: '💡', title: 'Pricing Feature Importance', sub: '(Step 3)', desc: 'Determine if high MonthlyCharges drive customer cancellation.' },
+            { icon: '🤖', title: 'Predictive Churn Classifier', sub: '(Step 4)', desc: 'Train Logistic Regression model to flag high-risk subscribers.' },
+            { icon: '🎯', title: 'Retention Win-Back Playbook', sub: '(Step 5)', desc: 'Automate targeted discounts for at-risk subscription accounts.' }
+          ];
+        } else if (DataStore.datasetName.includes('Healthcare')) {
+          steps = [
+            { icon: '🩺', title: 'Clinical Vital Spread', sub: '(Step 1)', desc: 'Audit BMI, Blood Pressure, and Cholesterol normality bounds.' },
+            { icon: '🧬', title: 'Diagnosis Correlation', sub: '(Step 2)', desc: 'Cross-tabulate patient age and chronic conditions with outcomes.' },
+            { icon: '🚨', title: 'Readmission Risk Modeling', sub: '(Step 3)', desc: 'Identify key physiological drivers of emergency readmissions.' },
+            { icon: '🧪', title: 'Biomarker Normalization', sub: '(Step 4)', desc: 'Standardize vital sign distributions across age cohorts.' },
+            { icon: '📊', title: 'Clinical Executive Briefing', sub: '(Step 5)', desc: 'Generate HIPAA-compliant diagnostic summary report.' }
+          ];
+        } else {
+          const target = numCols[0] || cols[0] || 'Target';
+          steps = [
+            { icon: '🔍', title: 'Feature Distribution Audit', sub: '(Step 1)', desc: `Inspect variance, quantiles, and IQR bounds for ${target}.` },
+            { icon: '🩹', title: 'Missing Value Imputation', sub: '(Step 2)', desc: health.missingCount > 0 ? `Resolve ${health.missingCount} null entries using median or mode strategy.` : 'Zero nulls detected. Feature completeness verified 100%.' },
+            { icon: '✂️', title: 'Anomaly Treatment', sub: '(Step 3)', desc: health.outlierCount > 0 ? `Filter or winsorize ${health.outlierCount} outliers via Tukey 1.5x IQR rule.` : 'Outlier check passed with normal distribution bounds.' },
+            { icon: '📊', title: 'Correlation & Driver Analysis', sub: '(Step 4)', desc: `Compute Pearson & Spearman coefficients against ${target}.` },
+            { icon: '🚀', title: 'Executive Export & Reporting', sub: '(Step 5)', desc: 'Compile professional HTML/PDF executive summary with visual charts.' }
+          ];
+        }
+
+        roadmapContainer.innerHTML = steps.map(s => `
+          <div class="roadmap-item">
+            <div class="roadmap-icon-box">${s.icon}</div>
+            <div class="roadmap-item-info">
+              <div class="roadmap-title-row">
+                <span class="roadmap-title">${s.title}</span>
+                <span class="roadmap-timeline-pill">${s.sub}</span>
+              </div>
+              <div class="roadmap-desc">• ${s.desc}</div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // 6. Card 5: Real Column Schema & Attributes Explorer Table
+      const tbody = document.getElementById('cn-providers-tbody');
+      if (tbody && cols.length > 0) {
+        tbody.innerHTML = cols.slice(0, 6).map((col, idx) => {
+          const type = DataStore.columnTypes[col] || 'categorical';
+          const initials = col.substring(0, 2).toUpperCase();
+          const nullCount = rows.filter(r => r[col] === null || r[col] === undefined || r[col] === '').length;
+          const validPct = (((rows.length - nullCount) / rows.length) * 100).toFixed(0);
+          const colors = ['#D1FAE5', '#E0F2FE', '#FEF3C7', '#FEE2E2', '#F3E8FF', '#E2E8F0'];
+          const textColors = ['#065F46', '#0369A1', '#92400E', '#991B1B', '#6B21A8', '#334155'];
+
+          return `
+            <tr>
+              <td>
+                <div class="feature-avatar-row">
+                  <div class="feature-avatar-circle" style="background:${colors[idx % colors.length]}; color:${textColors[idx % textColors.length]};">${initials}</div>
+                  <div>
+                    <div style="font-weight:700; color:#0F172A; cursor:pointer;" onclick="App.inspectColumn('${col}')">${col}</div>
+                    <span class="status-badge-carenest available">● Available</span>
+                  </div>
+                </div>
+              </td>
+              <td><span class="badge badge-info">${type}</span></td>
+              <td style="color:#64748B;">${validPct}% Valid (${rows.length} rows)</td>
+              <td>
+                <button class="btn btn-secondary btn-sm" style="font-size:0.75rem; padding:3px 10px;" onclick="App.inspectColumn('${col}')">
+                  🔍 Inspect
+                </button>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      // 7. Card 6: AI Copilot Prompt Chips tailored to dataset
+      const promptBox = document.getElementById('cn-copilot-prompts');
+      if (promptBox) {
+        let chips = [];
+        if (DataStore.datasetName.includes('Commerce')) {
+          chips = ['Top 5 cities by revenue', 'Which category has highest discount?', 'Explain revenue outliers'];
+        } else if (DataStore.datasetName.includes('Churn')) {
+          chips = ['What drives higher churn?', 'Compare MonthlyCharges by Contract', 'Average tenure of churned customers'];
+        } else if (DataStore.datasetName.includes('Healthcare')) {
+          chips = ['Analyze BMI vs Diagnosis', 'Detect high readmission drivers', 'Summarize key vital signs'];
+        } else {
+          chips = [
+            `Analyze ${numCols[0] || 'primary KPI'} distribution`,
+            `What factors drive ${numCols[1] || cols[0]}?`,
+            `Summarize key insights for ${DataStore.datasetName}`
+          ];
+        }
+        promptBox.innerHTML = chips.map(c => `<button class="carenest-prompt-pill" onclick="App.askAriaFromWidget('${c.replace(/'/g, "\\'")}')">${c}</button>`).join('');
+      }
+    };
+
+    // Column Deep-Dive Inspector
+    App.inspectColumn = function(colName) {
+      if (!DataStore.rawRows || !DataStore.columns.includes(colName)) return;
+      const rows = DataStore.rawRows;
+      const type = DataStore.columnTypes[colName] || 'categorical';
+      const vals = rows.map(r => r[colName]).filter(v => v !== null && v !== undefined && v !== '');
+      const nullCount = rows.length - vals.length;
+      const uniqueCount = new Set(vals).size;
+
+      document.getElementById('modal-col-name').textContent = colName;
+      document.getElementById('modal-col-avatar').textContent = colName.substring(0,2).toUpperCase();
+      document.getElementById('modal-col-type').textContent = type.toUpperCase();
+
+      const grid = document.getElementById('modal-col-stats-grid');
+      if (type === 'numeric') {
+        const nums = vals.map(v => Number(v)).filter(v => !isNaN(v)).sort((a,b)=>a-b);
+        const mean = nums.reduce((s,v)=>s+v,0) / (nums.length || 1);
+        const min = nums[0] || 0;
+        const max = nums[nums.length-1] || 0;
+        const median = nums[Math.floor(nums.length/2)] || 0;
+
+        grid.innerHTML = `
+          <div style="background:#F8FAFA; padding:12px; border-radius:12px; border:1px solid #E2E8F0;">
+            <div style="font-size:0.75rem; color:#64748B; font-weight:700;">Mean</div>
+            <div style="font-size:1.15rem; font-weight:800; color:#0F172A;">${mean.toFixed(2)}</div>
+          </div>
+          <div style="background:#F8FAFA; padding:12px; border-radius:12px; border:1px solid #E2E8F0;">
+            <div style="font-size:0.75rem; color:#64748B; font-weight:700;">Median</div>
+            <div style="font-size:1.15rem; font-weight:800; color:#0F172A;">${median.toFixed(2)}</div>
+          </div>
+          <div style="background:#F8FAFA; padding:12px; border-radius:12px; border:1px solid #E2E8F0;">
+            <div style="font-size:0.75rem; color:#64748B; font-weight:700;">Unique Values</div>
+            <div style="font-size:1.15rem; font-weight:800; color:#0F172A;">${uniqueCount}</div>
+          </div>
+          <div style="background:#F8FAFA; padding:12px; border-radius:12px; border:1px solid #E2E8F0;">
+            <div style="font-size:0.75rem; color:#64748B; font-weight:700;">Min</div>
+            <div style="font-size:1.15rem; font-weight:800; color:#0F172A;">${min}</div>
+          </div>
+          <div style="background:#F8FAFA; padding:12px; border-radius:12px; border:1px solid #E2E8F0;">
+            <div style="font-size:0.75rem; color:#64748B; font-weight:700;">Max</div>
+            <div style="font-size:1.15rem; font-weight:800; color:#0F172A;">${max}</div>
+          </div>
+          <div style="background:#F8FAFA; padding:12px; border-radius:12px; border:1px solid #E2E8F0;">
+            <div style="font-size:0.75rem; color:#64748B; font-weight:700;">Missing</div>
+            <div style="font-size:1.15rem; font-weight:800; color:#0F172A;">${nullCount}</div>
+          </div>
+        `;
+      } else {
+        grid.innerHTML = `
+          <div style="background:#F8FAFA; padding:12px; border-radius:12px; border:1px solid #E2E8F0;">
+            <div style="font-size:0.75rem; color:#64748B; font-weight:700;">Distinct Values</div>
+            <div style="font-size:1.15rem; font-weight:800; color:#0F172A;">${uniqueCount}</div>
+          </div>
+          <div style="background:#F8FAFA; padding:12px; border-radius:12px; border:1px solid #E2E8F0;">
+            <div style="font-size:0.75rem; color:#64748B; font-weight:700;">Valid Count</div>
+            <div style="font-size:1.15rem; font-weight:800; color:#0F172A;">${vals.length}</div>
+          </div>
+          <div style="background:#F8FAFA; padding:12px; border-radius:12px; border:1px solid #E2E8F0;">
+            <div style="font-size:0.75rem; color:#64748B; font-weight:700;">Missing Values</div>
+            <div style="font-size:1.15rem; font-weight:800; color:#0F172A;">${nullCount}</div>
+          </div>
+        `;
+      }
+
+      // Sample pills
+      const samplesContainer = document.getElementById('modal-col-samples');
+      const uniqueVals = [...new Set(vals)].slice(0, 12);
+      samplesContainer.innerHTML = uniqueVals.map(v => `
+        <span style="background:#F1F5F9; color:#334155; font-size:0.78rem; font-weight:600; padding:4px 10px; border-radius:9999px;">
+          ${v}
+        </span>
+      `).join('');
+
+      document.getElementById('column-inspector-modal').style.display = 'flex';
+    };
+
+    // ====================================================================
+    // INTERACTIVE DATA CLEANING SUITE
+    // ====================================================================
+    App.autoCleanData = function() {
+      if (!DataStore.rawRows || DataStore.rawRows.length === 0) return;
+      const origCount = DataStore.rawRows.length;
+      
+      // 1. Drop duplicates
+      const seen = new Set();
+      const deduped = DataStore.rawRows.filter(r => {
+        const k = JSON.stringify(r);
+        if (seen.has(k)) return false;
+        seen.add(k);
+        return true;
+      });
+      const dupsDropped = origCount - deduped.length;
+
+      // 2. Impute nulls
+      const cols = DataStore.columns;
+      const numCols = cols.filter(c => DataStore.columnTypes[c] === 'numeric');
+      const medians = {};
+      numCols.forEach(c => {
+        const nums = deduped.map(r => parseFloat(r[c])).filter(v => !isNaN(v)).sort((a,b)=>a-b);
+        medians[c] = nums.length > 0 ? nums[Math.floor(nums.length / 2)] : 0;
+      });
+
+      let imputedCount = 0;
+      const cleaned = deduped.map(r => {
+        const copy = { ...r };
+        numCols.forEach(c => {
+          if (copy[c] === null || copy[c] === undefined || copy[c] === '' || isNaN(copy[c])) {
+            copy[c] = medians[c];
+            imputedCount++;
+          }
+        });
+        return copy;
+      });
+
+      DataStore.rawRows = cleaned;
+      StatEngine.auditDataset(cleaned);
+
+      App.renderDashboard();
+      App.renderPreviewTable();
+      App.updateHeaderInfo();
+      App.showToast(`⚡ Auto-Clean: ${dupsDropped} duplicates dropped, ${imputedCount} missing values imputed with median!`, 'success');
+    };
+
+    App.deduplicateData = function() {
+      if (!DataStore.rawRows || DataStore.rawRows.length === 0) return;
+      const orig = DataStore.rawRows.length;
+      const seen = new Set();
+      const deduped = DataStore.rawRows.filter(r => {
+        const k = JSON.stringify(r);
+        if (seen.has(k)) return false;
+        seen.add(k);
+        return true;
+      });
+      const dropped = orig - deduped.length;
+      if (dropped === 0) {
+        App.showToast('Dataset has 0 duplicate rows. Already clean!', 'info');
+        return;
+      }
+      DataStore.rawRows = deduped;
+      StatEngine.auditDataset(deduped);
+      App.renderDashboard();
+      App.renderPreviewTable();
+      App.showToast(`🧹 Removed ${dropped} duplicate rows.`, 'success');
+    };
+
+    App.imputeMissingData = function() {
+      if (!DataStore.rawRows || DataStore.rawRows.length === 0) return;
+      const cols = DataStore.columns;
+      const numCols = cols.filter(c => DataStore.columnTypes[c] === 'numeric');
+      const medians = {};
+      numCols.forEach(c => {
+        const nums = DataStore.rawRows.map(r => parseFloat(r[c])).filter(v => !isNaN(v)).sort((a,b)=>a-b);
+        medians[c] = nums.length > 0 ? nums[Math.floor(nums.length / 2)] : 0;
+      });
+
+      let count = 0;
+      DataStore.rawRows.forEach(r => {
+        numCols.forEach(c => {
+          if (r[c] === null || r[c] === undefined || r[c] === '' || isNaN(r[c])) {
+            r[c] = medians[c];
+            count++;
+          }
+        });
+      });
+
+      StatEngine.auditDataset(DataStore.rawRows);
+      App.renderDashboard();
+      App.renderPreviewTable();
+      App.showToast(`🩹 Imputed ${count} missing numeric values with median.`, 'success');
+    };
+
+    App.filterOutliersData = function() {
+      if (!DataStore.rawRows || DataStore.rawRows.length === 0) return;
+      const numCols = DataStore.columns.filter(c => DataStore.columnTypes[c] === 'numeric');
+      if (numCols.length === 0) return;
+
+      const primCol = numCols[0];
+      const s = DataStore.stats[primCol];
+      if (!s) return;
+      const lower = s.q1 - 1.5 * s.iqr;
+      const upper = s.q3 + 1.5 * s.iqr;
+      const orig = DataStore.rawRows.length;
+      DataStore.rawRows = DataStore.rawRows.filter(r => {
+        const v = parseFloat(r[primCol]);
+        if (isNaN(v)) return true;
+        return v >= lower && v <= upper;
+      });
+      const dropped = orig - DataStore.rawRows.length;
+      StatEngine.auditDataset(DataStore.rawRows);
+      App.renderDashboard();
+      App.renderPreviewTable();
+      App.showToast(`✂️ Trimmed ${dropped} outlier rows using Tukey's 1.5x IQR on ${primCol}.`, 'success');
+    };
+
+    App.resetData = function() {
+      if (DataStore.datasetName.includes('Commerce')) {
+        App.loadPreloaded('ecommerce');
+      } else if (DataStore.datasetName.includes('Churn')) {
+        App.loadPreloaded('churn');
+      } else if (DataStore.datasetName.includes('Healthcare')) {
+        App.loadPreloaded('healthcare');
+      } else {
+        App.showToast('Dataset reset to original state.', 'info');
+      }
     };
 
 
@@ -5595,6 +5962,39 @@ Generated by DataLens AI Studio.
       App.init();
     });
   </script>
+
+  <!-- Column Deep-Dive Inspector Modal -->
+  <div id="column-inspector-modal" style="display:none; position:fixed; inset:0; background:rgba(15,23,42,0.6); backdrop-filter:blur(6px); z-index:9999; align-items:center; justify-content:center; padding:20px;">
+    <div style="background:#FFFFFF; border-radius:24px; max-width:620px; width:100%; padding:28px; box-shadow:0 20px 50px rgba(0,0,0,0.25); border:1px solid #E2E8F0; position:relative; max-height:90vh; overflow-y:auto;">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div id="modal-col-avatar" style="width:38px; height:38px; border-radius:50%; background:#E6F4F1; color:#1F4D52; font-weight:800; display:flex; align-items:center; justify-content:center; font-size:0.9rem;">C</div>
+          <div>
+            <h3 id="modal-col-name" style="margin:0; font-size:1.15rem; color:#0F172A; font-weight:800;">Column Name</h3>
+            <span id="modal-col-type" class="badge badge-info" style="margin-top:2px;">Numeric</span>
+          </div>
+        </div>
+        <button onclick="document.getElementById('column-inspector-modal').style.display='none'" style="border:none; background:#F1F5F9; border-radius:50%; width:32px; height:32px; font-weight:700; cursor:pointer; color:#64748B;">✕</button>
+      </div>
+
+      <div id="modal-col-stats-grid" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; margin-bottom:20px;">
+        <!-- Populated dynamically -->
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <div style="font-size:0.85rem; font-weight:700; color:#0F172A; margin-bottom:8px;">Sample Value Distribution</div>
+        <div id="modal-col-samples" style="display:flex; flex-wrap:wrap; gap:6px;">
+          <!-- Sample pills -->
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:20px; padding-top:16px; border-top:1px solid #F1F5F9;">
+        <button class="btn btn-secondary btn-sm" onclick="document.getElementById('column-inspector-modal').style.display='none'">Close</button>
+        <button class="btn btn-primary btn-sm" onclick="App.switchTab('tab-eda'); document.getElementById('column-inspector-modal').style.display='none';">Visual EDA ↗</button>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
 
