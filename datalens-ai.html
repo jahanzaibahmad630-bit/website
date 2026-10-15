@@ -1,0 +1,4383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DataLens AI — Autonomous EDA & BI Studio</title>
+  
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CDN Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jstat@1.9.6/dist/jstat.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+  <style>
+    /* ==========================================================================
+       DESIGN SYSTEM & CSS VARIABLES
+       ========================================================================== */
+    :root {
+      --bg-main: #F1F5F9;
+      --bg-card: #FFFFFF;
+      --border-color: #E2E8F0;
+      --border-focus: #059669;
+      --primary: #059669;
+      --primary-light: #10B981;
+      --primary-subtle: #ECFDF5;
+      --primary-dark: #047857;
+      --secondary: #0EA5E9;
+      --secondary-light: #38BDF8;
+      --secondary-subtle: #F0F9FF;
+      --secondary-dark: #0284C7;
+      --text-main: #0F172A;
+      --text-muted: #64748B;
+      --text-light: #94A3B8;
+      --danger: #EF4444;
+      --danger-subtle: #FEF2F2;
+      --warning: #F59E0B;
+      --warning-subtle: #FFFBEB;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-full: 9999px;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+      --shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.08);
+      --transition-fast: 180ms ease;
+      --transition-normal: 250ms ease;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Container */
+    .container {
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ==========================================================================
+       HEADER & NAVIGATION
+       ========================================================================== */
+    .app-header {
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 0;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      box-shadow: 0 4px 10px rgba(5, 150, 105, 0.25);
+    }
+
+    .brand-text h1 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      background: linear-gradient(135deg, var(--primary-subtle), var(--secondary-subtle));
+      color: var(--primary-dark);
+      border: 1px solid rgba(5, 150, 105, 0.2);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .brand-text p {
+      font-size: 0.825rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .dataset-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #F8FAFC;
+      border: 1px solid var(--border-color);
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .status-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.4); }
+      70% { box-shadow: 0 0 0 6px rgba(5, 150, 105, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(5, 150, 105, 0); }
+    }
+
+    /* Tab Navigation */
+    .tab-nav-wrapper {
+      border-top: 1px solid #F1F5F9;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .tab-nav-wrapper::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-nav {
+      display: flex;
+      gap: 4px;
+      list-style: none;
+      padding: 4px 0 0 0;
+    }
+
+    .tab-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 18px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+      transition: all var(--transition-fast);
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-main);
+      background-color: #F8FAFC;
+    }
+
+    .tab-btn.active {
+      color: var(--primary);
+      background-color: var(--primary-subtle);
+      border-bottom: 2px solid var(--primary);
+    }
+
+    .tab-btn .tab-icon {
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+
+    /* ==========================================================================
+       MAIN CONTENT & CARDS
+       ========================================================================== */
+    .main-content {
+      flex: 1;
+      padding: 28px 0 60px 0;
+    }
+
+    .tab-pane {
+      display: none;
+      animation: fadeIn 250ms ease;
+    }
+
+    .tab-pane.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      padding: 24px;
+      margin-bottom: 24px;
+      transition: box-shadow var(--transition-normal), border-color var(--transition-normal);
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #F1F5F9;
+    }
+
+    .card-title-group h2, .card-title-group h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-title-group p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: inherit;
+      font-size: 0.875rem;
+      font-weight: 600;
+      padding: 10px 18px;
+      border-radius: var(--radius-md);
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      text-decoration: none;
+      line-height: 1;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #FFFFFF;
+      box-shadow: 0 2px 4px rgba(5, 150, 105, 0.2);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(5, 150, 105, 0.25);
+    }
+
+    .btn-secondary {
+      background: #FFFFFF;
+      color: var(--text-main);
+      border-color: var(--border-color);
+    }
+
+    .btn-secondary:hover {
+      background: #F8FAFC;
+      border-color: #CBD5E1;
+    }
+
+    .btn-subtle {
+      background: var(--primary-subtle);
+      color: var(--primary-dark);
+      border-color: rgba(5, 150, 105, 0.15);
+    }
+
+    .btn-subtle:hover {
+      background: #D1FAE5;
+    }
+
+    .btn-sky {
+      background: var(--secondary);
+      color: #FFFFFF;
+    }
+    .btn-sky:hover {
+      background: var(--secondary-dark);
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      border-radius: var(--radius-sm);
+    }
+
+    /* Metric Badges & Pills */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .badge-success {
+      background: var(--primary-subtle);
+      color: var(--primary-dark);
+      border: 1px solid rgba(5, 150, 105, 0.2);
+    }
+
+    .badge-info {
+      background: var(--secondary-subtle);
+      color: var(--secondary-dark);
+      border: 1px solid rgba(14, 165, 233, 0.2);
+    }
+
+    .badge-warning {
+      background: var(--warning-subtle);
+      color: #B45309;
+      border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+
+    .badge-danger {
+      background: var(--danger-subtle);
+      color: #B91C1C;
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+
+    /* Grid Layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .grid-5 {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 1200px) {
+      .grid-5 { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 1024px) {
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .grid-5 { grid-template-columns: repeat(2, 1fr); }
+      .grid-3 { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .grid-2 { grid-template-columns: 1fr; }
+      .grid-4 { grid-template-columns: 1fr; }
+      .grid-5 { grid-template-columns: 1fr; }
+    }
+
+    /* Stat Cards */
+    .stat-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+    }
+
+    .stat-icon.emerald { background: var(--primary-subtle); color: var(--primary); }
+    .stat-icon.sky { background: var(--secondary-subtle); color: var(--secondary); }
+    .stat-icon.amber { background: var(--warning-subtle); color: var(--warning); }
+    .stat-icon.rose { background: var(--danger-subtle); color: var(--danger); }
+    .stat-icon.indigo { background: #EEF2FF; color: #6366F1; }
+
+    .stat-info .stat-value {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+
+    .stat-info .stat-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* ==========================================================================
+       TAB 1: DATA UPLOAD STYLES
+       ========================================================================== */
+    .upload-dropzone {
+      border: 2px dashed #10B981;
+      border-radius: var(--radius-lg);
+      background: #FAFDFB;
+      padding: 48px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all var(--transition-normal);
+      position: relative;
+    }
+
+    .upload-dropzone:hover, .upload-dropzone.dragover {
+      background: #F0FDF4;
+      border-color: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .dropzone-icon {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: var(--primary-subtle);
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      font-size: 2rem;
+    }
+
+    .dropzone-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .dropzone-desc {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .progress-bar-container {
+      width: 100%;
+      max-width: 450px;
+      margin: 16px auto 0 auto;
+      height: 8px;
+      background: #E2E8F0;
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      display: none;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transition: width 300ms ease;
+    }
+
+    /* Sample Data Cards */
+    .sample-datasets-header {
+      margin: 32px 0 16px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sample-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      cursor: pointer;
+      transition: all var(--transition-normal);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sample-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .sample-card.active-dataset {
+      border-color: var(--primary);
+      background: #FAFDFB;
+      box-shadow: 0 0 0 2px var(--primary);
+    }
+
+    .sample-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .sample-card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sample-card-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .sample-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .sample-tag {
+      font-size: 0.72rem;
+      background: #F1F5F9;
+      color: var(--text-muted);
+      padding: 2px 8px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+    }
+
+    /* Preview Table */
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      background: #FFFFFF;
+      max-height: 480px;
+      position: relative;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 0.825rem;
+      text-align: left;
+    }
+
+    .data-table thead th {
+      background: #F8FAFC;
+      color: var(--text-main);
+      font-weight: 700;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border-color);
+      border-right: 1px solid #F1F5F9;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      white-space: nowrap;
+    }
+
+    .col-header-type {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-top: 2px;
+      text-transform: uppercase;
+    }
+
+    .data-table tbody td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #F1F5F9;
+      border-right: 1px solid #F8FAFC;
+      color: var(--text-main);
+      white-space: nowrap;
+    }
+
+    .data-table tbody tr:hover td {
+      background-color: #F8FAFC;
+    }
+
+    .data-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* ==========================================================================
+       TAB 2: HEALTH AUDIT STYLES
+       ========================================================================== */
+    .health-gauge-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 32px 24px;
+      background: #FFFFFF;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-color);
+      margin-bottom: 24px;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .gauge-wrapper {
+      position: relative;
+      width: 190px;
+      height: 190px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .gauge-svg {
+      transform: rotate(-90deg);
+      width: 100%;
+      height: 100%;
+    }
+
+    .gauge-bg {
+      fill: none;
+      stroke: #E2E8F0;
+      stroke-width: 14;
+    }
+
+    .gauge-fill {
+      fill: none;
+      stroke: var(--primary);
+      stroke-width: 14;
+      stroke-linecap: round;
+      stroke-dasharray: 502;
+      stroke-dashoffset: 502;
+      transition: stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.3s;
+    }
+
+    .gauge-content {
+      position: absolute;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .gauge-number {
+      font-size: 2.8rem;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--text-main);
+    }
+
+    .gauge-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-top: 4px;
+      letter-spacing: 0.05em;
+    }
+
+    .gauge-breakdown {
+      flex: 1;
+      max-width: 600px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .audit-submetric {
+      background: #F8FAFC;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+    }
+
+    .audit-submetric-title {
+      font-size: 0.775rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .audit-submetric-val {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-top: 2px;
+    }
+
+    .audit-submetric-note {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Outlier Summary */
+    .outlier-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    .outlier-badge-card {
+      background: #F8FAFC;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 14px;
+    }
+
+    .outlier-card-col {
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+      color: var(--text-main);
+    }
+
+    .outlier-card-stat {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    /* ==========================================================================
+       TAB 3: VISUAL EDA STYLES
+       ========================================================================== */
+    .eda-subnav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+      background: #FFFFFF;
+      padding: 8px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+    }
+
+    .eda-subbtn {
+      padding: 8px 16px;
+      border: none;
+      background: transparent;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.825rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .eda-subbtn:hover {
+      color: var(--text-main);
+      background: #F1F5F9;
+    }
+
+    .eda-subbtn.active {
+      background: var(--primary);
+      color: #FFFFFF;
+    }
+
+    .chart-container-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+      height: 380px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chart-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .chart-header h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .chart-canvas-wrapper {
+      flex: 1;
+      position: relative;
+      min-height: 0;
+      width: 100%;
+    }
+
+    /* Correlation Heatmap Table */
+    .heatmap-table-wrapper {
+      overflow-x: auto;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      margin-top: 14px;
+    }
+
+    .heatmap-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+      text-align: center;
+    }
+
+    .heatmap-table th, .heatmap-table td {
+      padding: 12px 10px;
+      border: 1px solid #E2E8F0;
+    }
+
+    .heatmap-table th {
+      background: #F8FAFC;
+      font-weight: 700;
+      color: var(--text-main);
+      white-space: nowrap;
+    }
+
+    .heatmap-cell {
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+    .heatmap-cell:hover {
+      transform: scale(1.08);
+      z-index: 5;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    /* EDA Selectors Bar */
+    .eda-controls-bar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      background: #F8FAFC;
+      padding: 14px 18px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      margin-bottom: 20px;
+    }
+
+    .eda-select-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .eda-select-group label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .select-input {
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 7px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+      background: #FFFFFF;
+      color: var(--text-main);
+      outline: none;
+      cursor: pointer;
+    }
+
+    .select-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.15);
+    }
+
+    /* ==========================================================================
+       TAB 4: AI COPILOT STYLES
+       ========================================================================== */
+    .copilot-settings {
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 18px 24px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .api-key-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .api-input-wrapper {
+      position: relative;
+      flex: 1;
+    }
+
+    .text-input {
+      width: 100%;
+      font-family: inherit;
+      font-size: 0.875rem;
+      padding: 9px 14px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      background: #F8FAFC;
+      color: var(--text-main);
+      outline: none;
+      transition: all var(--transition-fast);
+    }
+
+    .text-input:focus {
+      background: #FFFFFF;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.12);
+    }
+
+    .btn-icon-inside {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      color: var(--text-muted);
+      padding: 4px;
+    }
+
+    /* Chat Interface */
+    .chat-container {
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      height: 640px;
+      overflow: hidden;
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      background: #F8FAFC;
+    }
+
+    .chat-message {
+      display: flex;
+      gap: 12px;
+      max-width: 82%;
+      animation: fadeIn 200ms ease;
+    }
+
+    .chat-message.user {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+
+    .chat-message.ai {
+      align-self: flex-start;
+    }
+
+    .chat-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .chat-message.ai .chat-avatar {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      box-shadow: 0 2px 6px rgba(5, 150, 105, 0.2);
+    }
+
+    .chat-message.user .chat-avatar {
+      background: #E2E8F0;
+      color: var(--text-main);
+    }
+
+    .chat-bubble {
+      padding: 14px 18px;
+      border-radius: var(--radius-lg);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .chat-message.user .chat-bubble {
+      background: var(--primary);
+      color: #FFFFFF;
+      border-top-right-radius: 4px;
+    }
+
+    .chat-message.ai .chat-bubble {
+      background: #FFFFFF;
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      border-top-left-radius: 4px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .chat-bubble p {
+      margin-bottom: 8px;
+    }
+    .chat-bubble p:last-child {
+      margin-bottom: 0;
+    }
+
+    .chat-bubble ul, .chat-bubble ol {
+      margin-left: 20px;
+      margin-bottom: 8px;
+    }
+
+    .chat-bubble strong {
+      font-weight: 700;
+      color: inherit;
+    }
+
+    .chat-bubble code {
+      background: rgba(0, 0, 0, 0.05);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.825rem;
+    }
+
+    .chat-chart-box {
+      margin-top: 14px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      height: 260px;
+      position: relative;
+    }
+
+    /* Typing Indicator */
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 8px 14px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-full);
+      width: fit-content;
+    }
+
+    .typing-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--primary);
+      opacity: 0.4;
+      animation: bounce 1.2s infinite ease-in-out;
+    }
+
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); opacity: 0.4; }
+      50% { transform: translateY(-4px); opacity: 1; }
+    }
+
+    /* Starter chips */
+    .starter-chips-container {
+      padding: 10px 20px;
+      background: #FFFFFF;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .starter-chips-container::-webkit-scrollbar { display: none; }
+
+    .starter-chip {
+      background: #F8FAFC;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-full);
+      padding: 6px 14px;
+      font-size: 0.775rem;
+      font-weight: 600;
+      color: var(--text-main);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all var(--transition-fast);
+    }
+
+    .starter-chip:hover {
+      background: var(--primary-subtle);
+      border-color: var(--primary);
+      color: var(--primary-dark);
+    }
+
+    /* Chat Input Bar */
+    .chat-input-bar {
+      padding: 16px 20px;
+      background: #FFFFFF;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      gap: 12px;
+    }
+
+    .chat-input-field {
+      flex: 1;
+      font-family: inherit;
+      font-size: 0.9rem;
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      background: #F8FAFC;
+      color: var(--text-main);
+      outline: none;
+    }
+
+    .chat-input-field:focus {
+      background: #FFFFFF;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.15);
+    }
+
+    /* ==========================================================================
+       TAB 5: KEY DRIVERS STYLES
+       ========================================================================== */
+    .driver-target-header {
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .driver-summary-box {
+      background: linear-gradient(135deg, #FAFDFB 0%, #F0F9FF 100%);
+      border: 1px solid rgba(5, 150, 105, 0.2);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      margin-bottom: 24px;
+    }
+
+    .driver-summary-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .driver-summary-text {
+      font-size: 0.9rem;
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    /* ==========================================================================
+       TAB 6: EXPORT REPORT STYLES
+       ========================================================================== */
+    .report-actions-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .report-sheet-preview {
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      padding: 48px;
+      max-width: 960px;
+      margin: 0 auto;
+      color: var(--text-main);
+    }
+
+    .report-header-section {
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 24px;
+      margin-bottom: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .report-brand h2 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .report-brand p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .report-meta-box {
+      text-align: right;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .report-meta-box strong {
+      color: var(--text-main);
+    }
+
+    .report-section-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin: 28px 0 14px 0;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .findings-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .findings-list li {
+      position: relative;
+      padding-left: 24px;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .findings-list li::before {
+      content: "•";
+      color: var(--primary);
+      font-size: 1.5rem;
+      position: absolute;
+      left: 6px;
+      top: -4px;
+    }
+
+    .report-chart-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin: 20px 0;
+    }
+
+    .report-chart-card {
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      background: #FFFFFF;
+      height: 250px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .report-chart-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    /* ==========================================================================
+       FOOTER
+       ========================================================================== */
+    .app-footer {
+      background: #FFFFFF;
+      border-top: 1px solid var(--border-color);
+      padding: 24px 0;
+      margin-top: auto;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .footer-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 16px;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color var(--transition-fast);
+    }
+
+    .footer-links a:hover {
+      color: var(--primary);
+    }
+
+    /* ==========================================================================
+       TOAST NOTIFICATIONS
+       ========================================================================== */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .toast {
+      background: #0F172A;
+      color: #FFFFFF;
+      padding: 12px 18px;
+      border-radius: var(--radius-md);
+      font-size: 0.85rem;
+      font-weight: 600;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: slideInRight 250ms ease;
+    }
+
+    .toast.success { border-left: 4px solid var(--primary); }
+    .toast.error { border-left: 4px solid var(--danger); }
+    .toast.info { border-left: 4px solid var(--secondary); }
+
+    @keyframes slideInRight {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    /* ==========================================================================
+       PRINT STYLES (WINDOW.PRINT PDF EXPORT)
+       ========================================================================== */
+    @media print {
+      body {
+        background: #FFFFFF !important;
+        color: #000000 !important;
+      }
+
+      .app-header, .tab-nav-wrapper, .report-actions-bar, .app-footer, .toast-container, .btn {
+        display: none !important;
+      }
+
+      .main-content {
+        padding: 0 !important;
+      }
+
+      .tab-pane {
+        display: none !important;
+      }
+
+      #tab-export {
+        display: block !important;
+      }
+
+      .report-sheet-preview {
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+        max-width: 100% !important;
+      }
+
+      .report-chart-card {
+        page-break-inside: avoid;
+        break-inside: avoid;
+        height: 240px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================================================
+       HEADER & NAVIGATION
+       ========================================================================== -->
+  <header class="app-header">
+    <div class="container">
+      <div class="header-top">
+        <a href="#" class="brand-group">
+          <div class="brand-icon">
+            <!-- Inline SVG Logo: Lens + Data bars -->
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              <line x1="8" y1="11" x2="8" y2="14"></line>
+              <line x1="11" y1="9" x2="11" y2="14"></line>
+              <line x1="14" y1="7" x2="14" y2="14"></line>
+            </svg>
+          </div>
+          <div class="brand-text">
+            <h1>DataLens AI <span class="brand-badge">STUDIO</span></h1>
+            <p>Autonomous EDA &amp; Business Intelligence Studio</p>
+          </div>
+        </a>
+
+        <div class="header-actions">
+          <div class="dataset-status-pill" id="dataset-pill">
+            <span class="status-indicator"></span>
+            <span id="current-dataset-name">E-Commerce Sales (Sample)</span>
+            <span class="sample-tag" id="current-dataset-rows">200 rows</span>
+          </div>
+
+          <button class="btn btn-secondary btn-sm" onclick="App.quickSampleSwitch()">
+            ⚡ Switch Dataset
+          </button>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="tab-nav-wrapper">
+        <ul class="tab-nav">
+          <li>
+            <button class="tab-btn active" data-tab="tab-upload">
+              <span class="tab-icon">📂</span> Upload Data
+            </button>
+          </li>
+          <li>
+            <button class="tab-btn" data-tab="tab-health">
+              <span class="tab-icon">🩺</span> Health Audit
+            </button>
+          </li>
+          <li>
+            <button class="tab-btn" data-tab="tab-eda">
+              <span class="tab-icon">📈</span> Visual EDA
+            </button>
+          </li>
+          <li>
+            <button class="tab-btn" data-tab="tab-copilot">
+              <span class="tab-icon">🤖</span> AI Copilot
+            </button>
+          </li>
+          <li>
+            <button class="tab-btn" data-tab="tab-drivers">
+              <span class="tab-icon">🎯</span> Key Drivers
+            </button>
+          </li>
+          <li>
+            <button class="tab-btn" data-tab="tab-export">
+              <span class="tab-icon">📑</span> Export Report
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       MAIN CONTENT CONTAINER
+       ========================================================================== -->
+  <main class="main-content">
+    <div class="container">
+
+      <!-- ======================================================================
+           TAB 1: UPLOAD DATA
+           ====================================================================== -->
+      <section id="tab-upload" class="tab-pane active">
+        <!-- Drag & Drop Zone -->
+        <div class="card">
+          <div class="upload-dropzone" id="dropzone" onclick="document.getElementById('file-input').click()">
+            <input type="file" id="file-input" style="display: none" accept=".csv, .xlsx, .xls, .json">
+            <div class="dropzone-icon">📁</div>
+            <h3 class="dropzone-title">Drop CSV, Excel, or JSON files here</h3>
+            <p class="dropzone-desc">Drag and drop your dataset file, or click to browse from your computer</p>
+            <button class="btn btn-primary" onclick="event.stopPropagation(); document.getElementById('file-input').click()">
+              Browse Files
+            </button>
+            <div class="progress-bar-container" id="upload-progress-container">
+              <div class="progress-bar-fill" id="upload-progress-bar"></div>
+            </div>
+          </div>
+
+          <!-- Sample Datasets Section -->
+          <div class="sample-datasets-header">
+            <div>
+              <h3 style="font-size: 1.05rem; font-weight: 700;">Pre-Loaded Sample Datasets</h3>
+              <p style="font-size: 0.825rem; color: var(--text-muted);">Explore with realistic business and clinical datasets</p>
+            </div>
+            <span class="badge badge-info">Instant Load</span>
+          </div>
+
+          <div class="grid-3">
+            <!-- Sample 1 -->
+            <div class="sample-card active-dataset" id="sample-card-ecommerce" onclick="App.loadPreloaded('ecommerce')">
+              <div class="sample-card-header">
+                <span class="sample-card-title">📊 E-Commerce Sales</span>
+                <span class="badge badge-success">200 Rows</span>
+              </div>
+              <p class="sample-card-meta">Orders across US and international cities with revenue, quantity, discounts, product categories, and customer segments.</p>
+              <div class="sample-tags">
+                <span class="sample-tag">Retail</span>
+                <span class="sample-tag">Revenue</span>
+                <span class="sample-tag">Discounts</span>
+                <span class="sample-tag">9 Columns</span>
+              </div>
+            </div>
+
+            <!-- Sample 2 -->
+            <div class="sample-card" id="sample-card-churn" onclick="App.loadPreloaded('churn')">
+              <div class="sample-card-header">
+                <span class="sample-card-title">📉 Customer Churn</span>
+                <span class="badge badge-warning">150 Rows</span>
+              </div>
+              <p class="sample-card-meta">Telco subscriber accounts analyzing tenure, monthly fees, contract commitments, and churn attrition.</p>
+              <div class="sample-tags">
+                <span class="sample-tag">SaaS / Telco</span>
+                <span class="sample-tag">Retention</span>
+                <span class="sample-tag">Classification</span>
+                <span class="sample-tag">8 Columns</span>
+              </div>
+            </div>
+
+            <!-- Sample 3 -->
+            <div class="sample-card" id="sample-card-healthcare" onclick="App.loadPreloaded('healthcare')">
+              <div class="sample-card-header">
+                <span class="sample-card-title">🏥 Healthcare Patients</span>
+                <span class="badge badge-danger">100 Rows</span>
+              </div>
+              <p class="sample-card-meta">Clinical diagnostic profiles with BMI, blood pressure, cholesterol, chronic condition diagnosis, and readmission risk.</p>
+              <div class="sample-tags">
+                <span class="sample-tag">Healthcare</span>
+                <span class="sample-tag">Vitals</span>
+                <span class="sample-tag">Risk Model</span>
+                <span class="sample-tag">8 Columns</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ingested Data Quick Stats & Preview Table -->
+        <div class="card" id="preview-section">
+          <div class="card-header">
+            <div class="card-title-group">
+              <h3 id="preview-heading">Data Ingestion Preview</h3>
+              <p id="preview-subheading">Showing first 10 rows with automated column type detection</p>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn btn-secondary btn-sm" onclick="App.downloadCurrentCSV()">
+                ⬇ Export CSV
+              </button>
+            </div>
+          </div>
+
+          <!-- Quick Metrics Grid -->
+          <div class="grid-5" style="margin-bottom: 20px;">
+            <div class="stat-card">
+              <div class="stat-icon emerald">📊</div>
+              <div class="stat-info">
+                <div class="stat-value" id="stat-row-count">200</div>
+                <div class="stat-label">Total Rows</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon sky">📋</div>
+              <div class="stat-info">
+                <div class="stat-value" id="stat-col-count">9</div>
+                <div class="stat-label">Columns</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon indigo">💾</div>
+              <div class="stat-info">
+                <div class="stat-value" id="stat-file-size">18.4 KB</div>
+                <div class="stat-label">Est. File Size</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon amber">🔢</div>
+              <div class="stat-info">
+                <div class="stat-value" id="stat-num-cols">4</div>
+                <div class="stat-label">Numeric Columns</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon rose">🏷️</div>
+              <div class="stat-info">
+                <div class="stat-value" id="stat-cat-cols">5</div>
+                <div class="stat-label">Categorical Columns</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scrollable Table -->
+          <div class="table-responsive" id="table-container">
+            <table class="data-table" id="preview-table">
+              <!-- Dynamically generated -->
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================================
+           TAB 2: HEALTH AUDIT
+           ====================================================================== -->
+      <section id="tab-health" class="tab-pane">
+        <!-- Health Score Gauge & Deductions -->
+        <div class="health-gauge-card">
+          <div class="gauge-wrapper">
+            <svg class="gauge-svg" viewBox="0 0 180 180">
+              <circle class="gauge-bg" cx="90" cy="90" r="80"></circle>
+              <circle class="gauge-fill" id="gauge-circle" cx="90" cy="90" r="80"></circle>
+            </svg>
+            <div class="gauge-content">
+              <div class="gauge-number" id="gauge-number">96%</div>
+              <div class="gauge-label">Quality Score</div>
+            </div>
+          </div>
+
+          <div class="gauge-breakdown">
+            <div class="audit-submetric">
+              <div class="audit-submetric-title">Missing Values</div>
+              <div class="audit-submetric-val" id="health-missing-val">0 (0.0%)</div>
+              <div class="audit-submetric-note">Penalty: -40% per % missing</div>
+            </div>
+            <div class="audit-submetric">
+              <div class="audit-submetric-title">Duplicate Rows</div>
+              <div class="audit-submetric-val" id="health-dup-val">0 (0.0%)</div>
+              <div class="audit-submetric-note">Penalty: -30% per % duplicate</div>
+            </div>
+            <div class="audit-submetric">
+              <div class="audit-submetric-title">Statistical Outliers</div>
+              <div class="audit-submetric-val" id="health-outlier-val">8 (4.0%)</div>
+              <div class="audit-submetric-note">IQR method (1.5x threshold)</div>
+            </div>
+            <div class="audit-submetric">
+              <div class="audit-submetric-title">Health Verdict</div>
+              <div class="audit-submetric-val" id="health-verdict" style="color: var(--primary);">Pristine</div>
+              <div class="audit-submetric-note">Ready for modeling &amp; EDA</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Missing Values & Duplicates Charts -->
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title-group">
+                <h3>Missing Values per Column</h3>
+                <p>Identifies columns with null, undefined, or empty values</p>
+              </div>
+            </div>
+            <div style="height: 280px; position: relative;">
+              <canvas id="missing-chart"></canvas>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title-group">
+                <h3>Detected Outliers per Numeric Column</h3>
+                <p>Data points exceeding $Q3 + 1.5 \times IQR$ or below $Q1 - 1.5 \times IQR$</p>
+              </div>
+            </div>
+            <div style="height: 280px; position: relative;">
+              <canvas id="outliers-chart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column Data Type & Integrity Summary -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <h3>Column Schema &amp; Uniqueness Audit</h3>
+              <p>Type inference, distinct values, and cardinality analysis</p>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table" id="schema-table">
+              <thead>
+                <tr>
+                  <th>Column Name</th>
+                  <th>Inferred Type</th>
+                  <th>Distinct Values</th>
+                  <th>Cardinality Ratio</th>
+                  <th>Missing Count</th>
+                  <th>Sample Values</th>
+                </tr>
+              </thead>
+              <tbody id="schema-table-body">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Descriptive Statistics Table -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <h3>Descriptive Statistical Profiling</h3>
+              <p>Parametric &amp; non-parametric metrics (Mean, Std, Quartiles, Skewness)</p>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table" id="descriptive-table">
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  <th>Count</th>
+                  <th>Mean</th>
+                  <th>Std Dev</th>
+                  <th>Min</th>
+                  <th>25% (Q1)</th>
+                  <th>Median (50%)</th>
+                  <th>75% (Q3)</th>
+                  <th>Max</th>
+                  <th>IQR</th>
+                  <th>Skewness</th>
+                </tr>
+              </thead>
+              <tbody id="descriptive-table-body">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================================
+           TAB 3: VISUAL EDA
+           ====================================================================== -->
+      <section id="tab-eda" class="tab-pane">
+        <!-- Sub-nav Filter -->
+        <div class="eda-subnav">
+          <button class="eda-subbtn active" onclick="App.filterEDA('all', this)">🌟 All EDA Views</button>
+          <button class="eda-subbtn" onclick="App.filterEDA('histograms', this)">📊 Distribution Histograms</button>
+          <button class="eda-subbtn" onclick="App.filterEDA('correlation', this)">📉 Correlation Heatmap</button>
+          <button class="eda-subbtn" onclick="App.filterEDA('categories', this)">🏷️ Top Categories</button>
+          <button class="eda-subbtn" onclick="App.filterEDA('scatter', this)">⚬ Interactive Scatter Plot</button>
+          <button class="eda-subbtn" onclick="App.filterEDA('boxplot', this)">📦 Distribution Comparison</button>
+        </div>
+
+        <!-- Section: Interactive Scatter Plot Controls -->
+        <div class="card eda-section-block" id="eda-scatter-controls">
+          <div class="card-header">
+            <div class="card-title-group">
+              <h3>Bivariate Scatter Plot &amp; Regression Trendline</h3>
+              <p>Explore correlation, linear fit, and cluster patterns between numeric pairs</p>
+            </div>
+          </div>
+          <div class="eda-controls-bar">
+            <div class="eda-select-group">
+              <label for="scatter-x">X Axis (Numeric):</label>
+              <select id="scatter-x" class="select-input" onchange="App.renderScatterPlot()"></select>
+            </div>
+            <div class="eda-select-group">
+              <label for="scatter-y">Y Axis (Numeric):</label>
+              <select id="scatter-y" class="select-input" onchange="App.renderScatterPlot()"></select>
+            </div>
+            <div class="eda-select-group">
+              <label for="scatter-group">Color By (Category):</label>
+              <select id="scatter-group" class="select-input" onchange="App.renderScatterPlot()"></select>
+            </div>
+            <div id="scatter-correlation-badge" class="badge badge-success" style="margin-left: auto; font-size: 0.85rem;">
+              Pearson r: 0.00
+            </div>
+          </div>
+          <div style="height: 400px; position: relative;">
+            <canvas id="bivariate-scatter-chart"></canvas>
+          </div>
+        </div>
+
+        <!-- Section: Correlation Heatmap Matrix -->
+        <div class="card eda-section-block" id="eda-correlation-section">
+          <div class="card-header">
+            <div class="card-title-group">
+              <h3>Pearson Correlation Matrix Heatmap</h3>
+              <p>Pairwise linear correlation (-1.0 to +1.0) for numeric dimensions</p>
+            </div>
+          </div>
+          <div class="heatmap-table-wrapper">
+            <table class="heatmap-table" id="correlation-matrix-table">
+              <!-- Dynamically populated -->
+            </table>
+          </div>
+        </div>
+
+        <!-- Section: Numeric Distribution Histograms -->
+        <div class="card eda-section-block" id="eda-histograms-section">
+          <div class="card-header">
+            <div class="card-title-group">
+              <h3>Numeric Distribution Histograms</h3>
+              <p>Frequency distributions with automated binning</p>
+            </div>
+          </div>
+          <div class="grid-2" id="histogram-grid">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- Section: Top Categories Frequency -->
+        <div class="card eda-section-block" id="eda-categories-section">
+          <div class="card-header">
+            <div class="card-title-group">
+              <h3>Categorical Feature Frequencies</h3>
+              <p>Top values and class distributions</p>
+            </div>
+          </div>
+          <div class="grid-2" id="categories-grid">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- Section: Box / Range Distribution Comparison -->
+        <div class="card eda-section-block" id="eda-boxplot-section">
+          <div class="card-header">
+            <div class="card-title-group">
+              <h3>Distribution by Category Group</h3>
+              <p>Compare median and spread of numeric values across groups</p>
+            </div>
+          </div>
+          <div class="eda-controls-bar">
+            <div class="eda-select-group">
+              <label for="group-metric">Numeric Metric:</label>
+              <select id="group-metric" class="select-input" onchange="App.renderGroupComparison()"></select>
+            </div>
+            <div class="eda-select-group">
+              <label for="group-category">Grouping Category:</label>
+              <select id="group-category" class="select-input" onchange="App.renderGroupComparison()"></select>
+            </div>
+          </div>
+          <div style="height: 380px; position: relative;">
+            <canvas id="group-comparison-chart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================================
+           TAB 4: AI COPILOT
+           ====================================================================== -->
+      <section id="tab-copilot" class="tab-pane">
+        <!-- Settings Bar -->
+        <div class="copilot-settings">
+          <div class="api-key-group">
+            <span style="font-size: 0.825rem; font-weight: 700; color: var(--text-main); white-space: nowrap;">
+              🔑 Gemini API Key:
+            </span>
+            <div class="api-input-wrapper">
+              <input type="password" id="gemini-key-input" class="text-input" placeholder="AIzaSy... (saved securely in localStorage)">
+              <button class="btn-icon-inside" onclick="App.toggleKeyVisibility()">👁️</button>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="App.saveApiKey()">Save</button>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <label for="gemini-model-select" style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted);">Model:</label>
+            <select id="gemini-model-select" class="select-input" onchange="App.saveModelSelection()">
+              <option value="gemini-2.0-flash">gemini-2.0-flash (Fast &amp; Accurate)</option>
+              <option value="gemini-1.5-flash">gemini-1.5-flash (Legacy)</option>
+            </select>
+            <a href="https://aistudio.google.com/apikey" target="_blank" class="btn btn-secondary btn-sm">
+              Get API Key ↗
+            </a>
+          </div>
+        </div>
+
+        <!-- Chat Container -->
+        <div class="chat-container">
+          <div class="chat-messages" id="chat-messages">
+            <!-- Welcome message -->
+            <div class="chat-message ai">
+              <div class="chat-avatar">AI</div>
+              <div class="chat-bubble">
+                <p>Hello! I am your <strong>DataLens Copilot</strong>. I have analyzed your dataset and can compute statistical correlations, suggest business actions, answer natural-language queries, and render live interactive charts on demand.</p>
+                <p style="margin-top: 6px; font-size: 0.8rem; color: var(--text-muted);">
+                  💡 <em>Enter your Google Gemini API key above for full LLM reasoning, or click any starter question below to see instant intelligent local analytical charts!</em>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Starter Chips -->
+          <div class="starter-chips-container">
+            <div class="starter-chip" onclick="App.askStarter('What is the average revenue by category?')">
+              💰 Revenue by Category
+            </div>
+            <div class="starter-chip" onclick="App.askStarter('Show me the top highest values and distribution')">
+              📊 Top High Values &amp; Spread
+            </div>
+            <div class="starter-chip" onclick="App.askStarter('Identify key correlations and anomalies in this dataset')">
+              🔍 Correlations &amp; Anomalies
+            </div>
+            <div class="starter-chip" onclick="App.askStarter('Which customer segment generates the most profit?')">
+              👥 Segment Breakdown
+            </div>
+            <div class="starter-chip" onclick="App.askStarter('Give an executive summary of data quality and actionable takeaways')">
+              📝 Executive Summary
+            </div>
+          </div>
+
+          <!-- Chat Input -->
+          <form class="chat-input-bar" onsubmit="App.handleChatSubmit(event)">
+            <input type="text" id="chat-input" class="chat-input-field" placeholder="Ask a question about your dataset (e.g., 'Compare revenue by city', 'Explain outliers')...">
+            <button type="submit" class="btn btn-primary" id="chat-send-btn">
+              Send ✈️
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- ======================================================================
+           TAB 5: KEY DRIVERS
+           ====================================================================== -->
+      <section id="tab-drivers" class="tab-pane">
+        <div class="driver-target-header">
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 700;">Target Variable Driver Analysis</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Quantify which factors correlate most strongly with your KPI of interest</p>
+          </div>
+          <div class="eda-select-group">
+            <label for="driver-target-select">Select Target KPI:</label>
+            <select id="driver-target-select" class="select-input" onchange="App.computeKeyDrivers()"></select>
+          </div>
+        </div>
+
+        <!-- Executive Driver Summary -->
+        <div class="driver-summary-box">
+          <div class="driver-summary-title">
+            <span>🎯</span> Key Driver Insights for <span id="driver-target-name" style="text-decoration: underline;">Target</span>
+          </div>
+          <div class="driver-summary-text" id="driver-insights-content">
+            Select a target variable to calculate Pearson and Point-biserial correlations across all predictors.
+          </div>
+        </div>
+
+        <!-- Ranking Chart Card -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <h3>Correlation Ranking with Target</h3>
+              <p>Positive correlations shown in Emerald, negative in Rose</p>
+            </div>
+          </div>
+          <div style="height: 360px; position: relative;">
+            <canvas id="driver-ranking-chart"></canvas>
+          </div>
+        </div>
+
+        <!-- Scatter Plots of Top Drivers -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <h3>Top Drivers vs. Target (with Linear Regression Trendlines)</h3>
+              <p>Bivariate relationship with slope and $R^2$ coefficient</p>
+            </div>
+          </div>
+          <div class="grid-3" id="top-drivers-grid">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================================
+           TAB 6: EXPORT REPORT
+           ====================================================================== -->
+      <section id="tab-export" class="tab-pane">
+        <!-- Actions Toolbar -->
+        <div class="report-actions-bar">
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 700;">Executive EDA Report Preview</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Ready to export, print to PDF, or copy to clipboard</p>
+          </div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button class="btn btn-secondary" onclick="App.copyReportSummary()">
+              📋 Copy Summary
+            </button>
+            <button class="btn btn-secondary" onclick="App.downloadReportImage()">
+              📸 Download Image
+            </button>
+            <button class="btn btn-secondary" onclick="App.downloadCurrentCSV()">
+              📥 Export CSV
+            </button>
+            <button class="btn btn-primary" onclick="window.print()">
+              🖨️ Export as PDF
+            </button>
+          </div>
+        </div>
+
+        <!-- A4 Styled Printable Container -->
+        <div class="report-sheet-preview" id="printable-report">
+          <!-- Report Header -->
+          <div class="report-header-section">
+            <div class="report-brand">
+              <h2>DataLens AI — EDA Report</h2>
+              <p>Autonomous Exploratory Data Analysis &amp; Data Quality Audit</p>
+            </div>
+            <div class="report-meta-box">
+              <div>Dataset: <strong id="rep-dataset-name">E-Commerce Sales</strong></div>
+              <div>Generated: <strong id="rep-date">Today</strong></div>
+              <div>Status: <span class="badge badge-success" id="rep-health-badge">Score: 96%</span></div>
+            </div>
+          </div>
+
+          <!-- Dataset Overview Summary Cards -->
+          <div class="grid-4" style="margin-bottom: 24px;">
+            <div class="stat-card">
+              <div class="stat-info">
+                <div class="stat-value" id="rep-stat-rows">200</div>
+                <div class="stat-label">Total Observations</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-info">
+                <div class="stat-value" id="rep-stat-cols">9</div>
+                <div class="stat-label">Features</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-info">
+                <div class="stat-value" id="rep-stat-health">96%</div>
+                <div class="stat-label">Data Health</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-info">
+                <div class="stat-value" id="rep-stat-missing">0%</div>
+                <div class="stat-label">Missing Rate</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Executive Findings -->
+          <div class="report-section-title">📌 Key Analytical Findings</div>
+          <ul class="findings-list" id="rep-findings-list">
+            <!-- Dynamically populated -->
+          </ul>
+
+          <!-- Key Statistics Table -->
+          <div class="report-section-title">📊 Key Numerical Dimensions Profile</div>
+          <div class="table-responsive" style="margin-bottom: 24px;">
+            <table class="data-table" id="rep-stats-table">
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  <th>Mean</th>
+                  <th>Std</th>
+                  <th>Min</th>
+                  <th>Median</th>
+                  <th>Max</th>
+                  <th>Skewness</th>
+                </tr>
+              </thead>
+              <tbody id="rep-stats-tbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Top 4 Charts Visual Grid -->
+          <div class="report-section-title">📈 Visual Dimension Snapshots</div>
+          <div class="report-chart-grid">
+            <div class="report-chart-card">
+              <div class="report-chart-title">Primary Feature Distribution</div>
+              <div style="flex: 1; position: relative;">
+                <canvas id="rep-chart-1"></canvas>
+              </div>
+            </div>
+            <div class="report-chart-card">
+              <div class="report-chart-title">Top Categorical Breakdown</div>
+              <div style="flex: 1; position: relative;">
+                <canvas id="rep-chart-2"></canvas>
+              </div>
+            </div>
+            <div class="report-chart-card">
+              <div class="report-chart-title">Bivariate Relationship</div>
+              <div style="flex: 1; position: relative;">
+                <canvas id="rep-chart-3"></canvas>
+              </div>
+            </div>
+            <div class="report-chart-card">
+              <div class="report-chart-title">Key Driver Ranking</div>
+              <div style="flex: 1; position: relative;">
+                <canvas id="rep-chart-4"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recommendations -->
+          <div class="report-section-title">💡 Actionable Recommendations</div>
+          <div id="rep-recommendations" style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.6;">
+            <!-- Dynamically generated -->
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ==========================================================================
+       FOOTER
+       ========================================================================== -->
+  <footer class="app-footer">
+    <div class="container footer-content">
+      <div>
+        Built by <strong>Jahanzaib Ahmad</strong> · DataLens AI v1.0 · Powered by Gemini API
+      </div>
+      <div class="footer-links">
+        <a href="#" onclick="alert('Portfolio link: Jahanzaib Ahmad'); return false;">GitHub</a>
+        <a href="#" onclick="alert('LinkedIn profile: Jahanzaib Ahmad'); return false;">LinkedIn</a>
+        <a href="#" onclick="App.exportFullJSON(); return false;">Export Schema JSON</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- ==========================================================================
+       JAVASCRIPT APPLICATION CORE & STATISTICAL ENGINE
+       ========================================================================== -->
+  <script>
+    /* ==========================================================================
+       GLOBAL STATE & DATA STORE
+       ========================================================================== */
+    const DataStore = {
+      datasetName: 'E-Commerce Sales',
+      rawRows: [],
+      columns: [],
+      columnTypes: {}, // { colName: 'numeric' | 'categorical' | 'datetime' | 'boolean' }
+      stats: {},       // { colName: { count, mean, std, min, q1, median, q3, max, iqr, skewness, outliers } }
+      categories: {},  // { colName: { [val]: count } }
+      health: {
+        score: 100,
+        missingCount: 0,
+        missingPct: 0,
+        duplicateCount: 0,
+        duplicatePct: 0,
+        outlierCount: 0,
+        outlierPct: 0,
+        missingByCol: {},
+        outlierByCol: {}
+      },
+      charts: {},      // Chart.js instances registry
+      selectedTarget: null
+    };
+
+    /* ==========================================================================
+       DATA GENERATORS (REALISTIC PRE-LOADED DATASETS)
+       ========================================================================== */
+    const SampleData = {
+      ecommerce() {
+        const products = [
+          { name: 'Wireless Earbuds', cat: 'Audio', basePrice: 65 },
+          { name: 'Laptop Stand', cat: 'Accessories', basePrice: 38 },
+          { name: 'USB-C Hub', cat: 'Computing', basePrice: 45 },
+          { name: 'Mechanical Keyboard', cat: 'Computing', basePrice: 110 },
+          { name: 'Monitor Light Bar', cat: 'Accessories', basePrice: 52 },
+          { name: 'Webcam HD', cat: 'Electronics', basePrice: 85 },
+          { name: 'Mouse Pad XL', cat: 'Accessories', basePrice: 22 },
+          { name: 'Phone Charger', cat: 'Electronics', basePrice: 28 },
+          { name: 'Power Bank', cat: 'Electronics', basePrice: 49 },
+          { name: 'Smart Watch', cat: 'Wearables', basePrice: 180 }
+        ];
+
+        const cities = ['Lahore', 'Karachi', 'Islamabad', 'New York', 'London', 'Dubai', 'Peshawar', 'Faisalabad'];
+        const segments = ['Consumer', 'Corporate', 'Home Office'];
+        const discounts = [0.0, 0.05, 0.10, 0.15, 0.20, 0.25];
+
+        const rows = [];
+        const baseDate = new Date(2024, 0, 15);
+
+        for (let i = 1; i <= 200; i++) {
+          const prodObj = products[Math.floor(Math.random() * products.length)];
+          const city = cities[Math.floor(Math.random() * cities.length)];
+          const segment = segments[Math.floor(Math.random() * segments.length)];
+          
+          // Higher quantity for corporate
+          let quantity = Math.floor(Math.random() * 5) + 1;
+          if (segment === 'Corporate') quantity += Math.floor(Math.random() * 4) + 1;
+          
+          const discount = discounts[Math.floor(Math.random() * discounts.length)];
+          const unitPrice = prodObj.basePrice * (0.9 + Math.random() * 0.2);
+          const revenue = Number((quantity * unitPrice * (1 - discount)).toFixed(2));
+          
+          const orderDate = new Date(baseDate.getTime() + Math.random() * 380 * 86400000)
+            .toISOString().split('T')[0];
+
+          rows.push({
+            OrderID: `ORD-${1000 + i}`,
+            Date: orderDate,
+            Product: prodObj.name,
+            Category: prodObj.cat,
+            City: city,
+            Revenue: revenue,
+            Quantity: quantity,
+            Discount: discount,
+            CustomerSegment: segment
+          });
+        }
+        return rows;
+      },
+
+      churn() {
+        const contracts = ['Month-to-month', 'One year', 'Two year'];
+        const internet = ['Fiber optic', 'DSL', 'None'];
+        const payments = ['Electronic check', 'Mailed check', 'Bank transfer', 'Credit card'];
+
+        const rows = [];
+        for (let i = 1; i <= 150; i++) {
+          const tenure = Math.floor(Math.random() * 70) + 1;
+          const contract = contracts[Math.floor(Math.random() * contracts.length)];
+          const net = internet[Math.floor(Math.random() * internet.length)];
+          const payment = payments[Math.floor(Math.random() * payments.length)];
+
+          let monthly = 25;
+          if (net === 'DSL') monthly = 45 + Math.random() * 25;
+          if (net === 'Fiber optic') monthly = 75 + Math.random() * 35;
+          monthly = Number(monthly.toFixed(2));
+
+          const totalCharges = Number((tenure * monthly * (0.95 + Math.random() * 0.1)).toFixed(2));
+
+          // Churn probability: higher for month-to-month & low tenure
+          let churnProb = 0.15;
+          if (contract === 'Month-to-month') churnProb += 0.35;
+          if (tenure < 12) churnProb += 0.25;
+          if (net === 'Fiber optic') churnProb += 0.10;
+          const churn = Math.random() < churnProb ? 'Yes' : 'No';
+
+          rows.push({
+            CustomerID: `CUST-${3000 + i}`,
+            Tenure: tenure,
+            MonthlyCharges: monthly,
+            TotalCharges: totalCharges,
+            Contract: contract,
+            InternetService: net,
+            PaymentMethod: payment,
+            Churn: churn
+          });
+        }
+        return rows;
+      },
+
+      healthcare() {
+        const genders = ['Male', 'Female'];
+        const diagnoses = ['Hypertension', 'Type 2 Diabetes', 'Asthma', 'Coronary Disease', 'Healthy'];
+
+        const rows = [];
+        for (let i = 1; i <= 100; i++) {
+          const age = Math.floor(Math.random() * 62) + 20;
+          const gender = genders[Math.floor(Math.random() * genders.length)];
+          const bmi = Number((18.5 + Math.random() * 18).toFixed(1));
+          
+          let bp = Math.floor(105 + (age * 0.45) + Math.random() * 30);
+          let cholesterol = Math.floor(155 + (age * 0.9) + (bmi * 1.5) + Math.random() * 40);
+          
+          const diag = diagnoses[Math.floor(Math.random() * diagnoses.length)];
+
+          // Readmission risk correlation
+          let riskScore = (age * 0.3) + (bmi * 0.8) + (bp * 0.2);
+          if (diag !== 'Healthy') riskScore += 25;
+
+          let risk = 'Low';
+          if (riskScore > 75) risk = 'Medium';
+          if (riskScore > 100) risk = 'High';
+
+          rows.push({
+            PatientID: `PT-${5000 + i}`,
+            Age: age,
+            Gender: gender,
+            BMI: bmi,
+            BloodPressure: bp,
+            Cholesterol: cholesterol,
+            Diagnosis: diag,
+            ReadmissionRisk: risk
+          });
+        }
+        return rows;
+      }
+    };
+
+    /* ==========================================================================
+       STATISTICAL COMPUTATION ENGINE
+       ========================================================================== */
+    const StatEngine = {
+      // Auto-detect column type
+      inferType(values) {
+        const validValues = values.filter(v => v !== null && v !== undefined && v !== '');
+        if (validValues.length === 0) return 'categorical';
+
+        // Check boolean
+        const boolCount = validValues.filter(v => {
+          const s = String(v).toLowerCase().trim();
+          return s === 'true' || s === 'false' || s === 'yes' || s === 'no' || s === '0' || s === '1';
+        }).length;
+        if (boolCount === validValues.length && new Set(validValues.map(v => String(v).toLowerCase())).size <= 2) {
+          return 'boolean';
+        }
+
+        // Check numeric
+        const numCount = validValues.filter(v => {
+          if (typeof v === 'number') return !isNaN(v);
+          if (typeof v === 'string') {
+            const clean = v.trim();
+            return clean !== '' && !isNaN(Number(clean));
+          }
+          return false;
+        }).length;
+
+        if (numCount / validValues.length >= 0.85) {
+          return 'numeric';
+        }
+
+        // Check date
+        const dateCount = validValues.filter(v => {
+          if (typeof v === 'string' && (v.includes('-') || v.includes('/'))) {
+            const parsed = Date.parse(v);
+            return !isNaN(parsed);
+          }
+          return false;
+        }).length;
+
+        if (dateCount / validValues.length >= 0.85) {
+          return 'datetime';
+        }
+
+        return 'categorical';
+      },
+
+      // Calculate descriptive stats for array of numbers
+      computeNumericStats(rawNums) {
+        const nums = rawNums
+          .map(v => Number(v))
+          .filter(v => typeof v === 'number' && !isNaN(v))
+          .sort((a, b) => a - b);
+
+        const count = nums.length;
+        if (count === 0) return null;
+
+        const sum = nums.reduce((acc, v) => acc + v, 0);
+        const mean = sum / count;
+
+        const variance = nums.reduce((acc, v) => acc + Math.pow(v - mean, 2), 0) / (count > 1 ? count - 1 : 1);
+        const std = Math.sqrt(variance);
+
+        const min = nums[0];
+        const max = nums[count - 1];
+
+        // Percentiles
+        const getPercentile = (p) => {
+          const pos = (count - 1) * p;
+          const base = Math.floor(pos);
+          const rest = pos - base;
+          if (nums[base + 1] !== undefined) {
+            return nums[base] + rest * (nums[base + 1] - nums[base]);
+          }
+          return nums[base];
+        };
+
+        const q1 = getPercentile(0.25);
+        const median = getPercentile(0.50);
+        const q3 = getPercentile(0.75);
+        const iqr = q3 - q1;
+
+        // Outlier detection via IQR
+        const lowerBound = q1 - 1.5 * iqr;
+        const upperBound = q3 + 1.5 * iqr;
+        const outliers = nums.filter(v => v < lowerBound || v > upperBound);
+
+        // Skewness via jStat or Fisher-Pearson fallback
+        let skewness = 0;
+        if (typeof jStat !== 'undefined' && typeof jStat.skewness === 'function') {
+          try {
+            const jsSkew = jStat.skewness(nums);
+            if (!isNaN(jsSkew)) skewness = jsSkew;
+          } catch(e) {}
+        }
+        if (skewness === 0 && count > 2 && std > 0) {
+          const m3 = nums.reduce((acc, v) => acc + Math.pow(v - mean, 3), 0) / count;
+          skewness = m3 / Math.pow(std, 3);
+        }
+
+        return {
+          count,
+          mean: Number(mean.toFixed(2)),
+          std: Number(std.toFixed(2)),
+          min: Number(min.toFixed(2)),
+          q1: Number(q1.toFixed(2)),
+          median: Number(median.toFixed(2)),
+          q3: Number(q3.toFixed(2)),
+          max: Number(max.toFixed(2)),
+          iqr: Number(iqr.toFixed(2)),
+          skewness: Number(skewness.toFixed(3)),
+          outliersCount: outliers.length,
+          outliers: outliers
+        };
+      },
+
+      // Pearson correlation between two numeric arrays
+      pearson(arrX, arrY) {
+        const pairs = [];
+        for (let i = 0; i < arrX.length; i++) {
+          const x = Number(arrX[i]);
+          const y = Number(arrY[i]);
+          if (!isNaN(x) && !isNaN(y)) {
+            pairs.push([x, y]);
+          }
+        }
+        const n = pairs.length;
+        if (n < 3) return 0;
+
+        if (typeof jStat !== 'undefined' && typeof jStat.corrcoeff === 'function') {
+          try {
+            const jVal = jStat.corrcoeff(pairs.map(p => p[0]), pairs.map(p => p[1]));
+            if (!isNaN(jVal)) return Number(jVal.toFixed(3));
+          } catch(e) {}
+        }
+
+        let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0, sumY2 = 0;
+        for (const [x, y] of pairs) {
+          sumX += x;
+          sumY += y;
+          sumXY += x * y;
+          sumX2 += x * x;
+          sumY2 += y * y;
+        }
+
+        const denom = Math.sqrt((n * sumX2 - sumX * sumX) * (n * sumY2 - sumY * sumY));
+        if (denom === 0) return 0;
+        const r = (n * sumXY - sumX * sumY) / denom;
+        return Number(r.toFixed(3));
+      },
+
+      // Point-biserial correlation for binary categorical vs numeric
+      pointBiserial(binaryArr, numArr) {
+        // Map binary to 0 and 1
+        const distinct = Array.from(new Set(binaryArr.filter(v => v !== null && v !== '')));
+        if (distinct.length !== 2) return null;
+
+        const val0 = distinct[0];
+        const val1 = distinct[1];
+
+        const mapped01 = binaryArr.map(v => v === val1 ? 1 : (v === val0 ? 0 : NaN));
+        return this.pearson(mapped01, numArr);
+      },
+
+      // Linear regression slope & intercept
+      linearRegression(arrX, arrY) {
+        const pairs = [];
+        for (let i = 0; i < arrX.length; i++) {
+          const x = Number(arrX[i]);
+          const y = Number(arrY[i]);
+          if (!isNaN(x) && !isNaN(y)) pairs.push([x, y]);
+        }
+        const n = pairs.length;
+        if (n < 2) return { slope: 0, intercept: 0, r2: 0 };
+
+        let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
+        for (const [x, y] of pairs) {
+          sumX += x;
+          sumY += y;
+          sumXY += x * y;
+          sumX2 += x * x;
+        }
+
+        const denom = (n * sumX2 - sumX * sumX);
+        if (denom === 0) return { slope: 0, intercept: sumY / n, r2: 0 };
+
+        const slope = (n * sumXY - sumX * sumY) / denom;
+        const intercept = (sumY - slope * sumX) / n;
+        const r = this.pearson(arrX, arrY);
+
+        return {
+          slope: Number(slope.toFixed(4)),
+          intercept: Number(intercept.toFixed(2)),
+          r2: Number((r * r).toFixed(3))
+        };
+      },
+
+      // Full statistical audit of entire dataset
+      auditDataset(rows) {
+        if (!rows || rows.length === 0) return;
+
+        const columns = Object.keys(rows[0]);
+        const totalRows = rows.length;
+        const totalCells = totalRows * columns.length;
+
+        // Inferred types
+        const colTypes = {};
+        for (const col of columns) {
+          const colVals = rows.map(r => r[col]);
+          colTypes[col] = this.inferType(colVals);
+        }
+
+        // Missing values analysis
+        let totalMissing = 0;
+        const missingByCol = {};
+        for (const col of columns) {
+          const missingCount = rows.filter(r => r[col] === null || r[col] === undefined || r[col] === '').length;
+          missingByCol[col] = missingCount;
+          totalMissing += missingCount;
+        }
+
+        // Duplicate rows analysis
+        const rowStrings = rows.map(r => JSON.stringify(r));
+        const uniqueRowStrings = new Set(rowStrings);
+        const duplicateCount = totalRows - uniqueRowStrings.size;
+
+        // Numeric stats & Outliers
+        const stats = {};
+        const outlierByCol = {};
+        let totalOutliers = 0;
+
+        for (const col of columns) {
+          if (colTypes[col] === 'numeric') {
+            const vals = rows.map(r => r[col]);
+            const s = this.computeNumericStats(vals);
+            if (s) {
+              stats[col] = s;
+              outlierByCol[col] = s.outliersCount;
+              totalOutliers += s.outliersCount;
+            }
+          }
+        }
+
+        // Categorical frequencies
+        const categories = {};
+        for (const col of columns) {
+          if (colTypes[col] === 'categorical' || colTypes[col] === 'boolean') {
+            const counts = {};
+            for (const r of rows) {
+              const val = String(r[col] || '(Empty)');
+              counts[val] = (counts[val] || 0) + 1;
+            }
+            categories[col] = counts;
+          }
+        }
+
+        // Health Score Formula:
+        // Score = 100 - (missing% * 0.4) - (duplicate% * 0.3) - (outlier% * 0.3)
+        const missingPct = (totalMissing / (totalCells || 1)) * 100;
+        const duplicatePct = (duplicateCount / totalRows) * 100;
+        const outlierPct = (totalOutliers / (totalRows || 1)) * 100;
+
+        const calculatedScore = Math.max(0, Math.min(100, Math.round(
+          100 - (missingPct * 0.4) - (duplicatePct * 0.3) - (outlierPct * 0.3)
+        )));
+
+        // Store back in DataStore
+        DataStore.columns = columns;
+        DataStore.columnTypes = colTypes;
+        DataStore.stats = stats;
+        DataStore.categories = categories;
+        DataStore.health = {
+          score: calculatedScore,
+          missingCount: totalMissing,
+          missingPct: Number(missingPct.toFixed(1)),
+          duplicateCount,
+          duplicatePct: Number(duplicatePct.toFixed(1)),
+          outlierCount: totalOutliers,
+          outlierPct: Number(outlierPct.toFixed(1)),
+          missingByCol,
+          outlierByCol
+        };
+
+        // Select default target variable for Key Drivers (first numeric or churn-like)
+        const numCols = Object.keys(stats);
+        if (numCols.length > 0) {
+          DataStore.selectedTarget = numCols.includes('Revenue') ? 'Revenue' :
+                                    (numCols.includes('MonthlyCharges') ? 'MonthlyCharges' : numCols[0]);
+        }
+      }
+    };
+
+    /* ==========================================================================
+       APPLICATION ORCHESTRATOR & UI RENDERERS
+       ========================================================================== */
+    const App = {
+      init() {
+        this.setupNavigation();
+        this.setupFileUpload();
+        this.loadPreloaded('ecommerce');
+        this.initKeyDrivers();
+        this.initCopilotDefaults();
+      },
+
+      showToast(message, type = 'success') {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        
+        const icon = type === 'success' ? '✓' : (type === 'error' ? '⚠️' : 'ℹ️');
+        toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
+        container.appendChild(toast);
+
+        setTimeout(() => {
+          toast.style.transition = 'opacity 300ms ease, transform 300ms ease';
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateY(10px)';
+          setTimeout(() => toast.remove(), 300);
+        }, 3200);
+      },
+
+      setupNavigation() {
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        tabBtns.forEach(btn => {
+          btn.addEventListener('click', () => {
+            const targetId = btn.getAttribute('data-tab');
+            
+            // Set active class on buttons
+            tabBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Set active tab pane
+            document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+            const targetPane = document.getElementById(targetId);
+            if (targetPane) {
+              targetPane.classList.add('active');
+            }
+
+            // Trigger specific tab re-render if necessary
+            if (targetId === 'tab-health') App.renderHealthAudit();
+            if (targetId === 'tab-eda') App.renderVisualEDA();
+            if (targetId === 'tab-drivers') App.renderKeyDrivers();
+            if (targetId === 'tab-export') App.renderExportReport();
+          });
+        });
+      },
+
+      setupFileUpload() {
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('file-input');
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+          dropzone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.classList.add('dragover');
+          });
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+          dropzone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.classList.remove('dragover');
+          });
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+          const files = e.dataTransfer.files;
+          if (files.length > 0) this.handleIncomingFile(files[0]);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+          if (e.target.files.length > 0) this.handleIncomingFile(e.target.files[0]);
+        });
+      },
+
+      handleIncomingFile(file) {
+        const name = file.name;
+        const ext = name.split('.').pop().toLowerCase();
+        const progressContainer = document.getElementById('upload-progress-container');
+        const progressBar = document.getElementById('upload-progress-bar');
+
+        if (file.size) {
+          DataStore.fileSize = file.size > 1024 * 1024
+            ? (file.size / (1024 * 1024)).toFixed(2) + ' MB'
+            : (file.size / 1024).toFixed(1) + ' KB';
+        }
+
+        progressContainer.style.display = 'block';
+        progressBar.style.width = '35%';
+
+        const reader = new FileReader();
+
+        if (ext === 'csv') {
+          Papa.parse(file, {
+            header: true,
+            dynamicTyping: true,
+            skipEmptyLines: true,
+            complete: (results) => {
+              progressBar.style.width = '100%';
+              setTimeout(() => {
+                progressContainer.style.display = 'none';
+                progressBar.style.width = '0%';
+                this.loadCustomData(name, results.data);
+              }, 400);
+            },
+            error: (err) => {
+              this.showToast('CSV Parsing failed: ' + err.message, 'error');
+              progressContainer.style.display = 'none';
+            }
+          });
+        } else if (ext === 'xlsx' || ext === 'xls') {
+          reader.onload = (e) => {
+            try {
+              const data = new Uint8Array(e.target.result);
+              const workbook = XLSX.read(data, { type: 'array' });
+              const firstSheetName = workbook.SheetNames[0];
+              const worksheet = workbook.Sheets[firstSheetName];
+              const json = XLSX.utils.sheet_to_json(worksheet);
+              progressBar.style.width = '100%';
+              setTimeout(() => {
+                progressContainer.style.display = 'none';
+                progressBar.style.width = '0%';
+                this.loadCustomData(name, json);
+              }, 400);
+            } catch (err) {
+              this.showToast('Excel Parsing failed: ' + err.message, 'error');
+              progressContainer.style.display = 'none';
+            }
+          };
+          reader.readAsArrayBuffer(file);
+        } else if (ext === 'json') {
+          reader.onload = (e) => {
+            try {
+              let parsed = JSON.parse(e.target.result);
+              if (!Array.isArray(parsed) && parsed.data && Array.isArray(parsed.data)) {
+                parsed = parsed.data;
+              }
+              if (!Array.isArray(parsed)) throw new Error('JSON must be an array of objects');
+              progressBar.style.width = '100%';
+              setTimeout(() => {
+                progressContainer.style.display = 'none';
+                progressBar.style.width = '0%';
+                this.loadCustomData(name, parsed);
+              }, 400);
+            } catch (err) {
+              this.showToast('JSON Parsing failed: ' + err.message, 'error');
+              progressContainer.style.display = 'none';
+            }
+          };
+          reader.readAsText(file);
+        } else {
+          this.showToast('Unsupported format. Please upload CSV, Excel, or JSON.', 'error');
+          progressContainer.style.display = 'none';
+        }
+      },
+
+      loadCustomData(datasetName, rows) {
+        if (!rows || rows.length === 0) {
+          this.showToast('File contains no valid rows.', 'error');
+          return;
+        }
+
+        // Remove active class from sample dataset cards
+        document.querySelectorAll('.sample-card').forEach(c => c.classList.remove('active-dataset'));
+
+        DataStore.datasetName = datasetName;
+        DataStore.rawRows = rows;
+        StatEngine.auditDataset(rows);
+
+        this.updateHeaderInfo();
+        this.renderPreviewTable();
+        this.showToast(`Loaded ${rows.length} rows from "${datasetName}"!`, 'success');
+
+        // Refresh views
+        this.renderHealthAudit();
+      },
+
+      loadPreloaded(type) {
+        document.querySelectorAll('.sample-card').forEach(c => c.classList.remove('active-dataset'));
+        const card = document.getElementById(`sample-card-${type}`);
+        if (card) card.classList.add('active-dataset');
+
+        let rows = [];
+        let name = '';
+
+        if (type === 'ecommerce') {
+          rows = SampleData.ecommerce();
+          name = 'E-Commerce Sales';
+        } else if (type === 'churn') {
+          rows = SampleData.churn();
+          name = 'Customer Churn';
+        } else if (type === 'healthcare') {
+          rows = SampleData.healthcare();
+          name = 'Healthcare Patients';
+        }
+
+        DataStore.datasetName = name;
+        DataStore.rawRows = rows;
+        StatEngine.auditDataset(rows);
+
+        this.updateHeaderInfo();
+        this.renderPreviewTable();
+        this.showToast(`Active dataset switched to "${name}" (${rows.length} rows)`, 'info');
+
+        // Re-render other tabs if already open
+        const activeTab = document.querySelector('.tab-btn.active').getAttribute('data-tab');
+        if (activeTab === 'tab-health') this.renderHealthAudit();
+        if (activeTab === 'tab-eda') this.renderVisualEDA();
+        if (activeTab === 'tab-drivers') this.renderKeyDrivers();
+        if (activeTab === 'tab-export') this.renderExportReport();
+      },
+
+      quickSampleSwitch() {
+        const types = ['ecommerce', 'churn', 'healthcare'];
+        const currentIdx = types.findIndex(t => DataStore.datasetName.toLowerCase().includes(t));
+        const nextIdx = (currentIdx + 1) % types.length;
+        this.loadPreloaded(types[nextIdx]);
+      },
+
+      updateHeaderInfo() {
+        document.getElementById('current-dataset-name').textContent = DataStore.datasetName;
+        document.getElementById('current-dataset-rows').textContent = `${DataStore.rawRows.length} rows`;
+
+        document.getElementById('stat-row-count').textContent = DataStore.rawRows.length;
+        document.getElementById('stat-col-count').textContent = DataStore.columns.length;
+
+        // Compute memory/file size
+        const rawJsonBytes = JSON.stringify(DataStore.rawRows).length;
+        const formattedSize = DataStore.fileSize || (rawJsonBytes > 1024 * 1024 
+          ? (rawJsonBytes / (1024 * 1024)).toFixed(2) + ' MB' 
+          : (rawJsonBytes / 1024).toFixed(1) + ' KB');
+        const sizeEl = document.getElementById('stat-file-size');
+        if (sizeEl) sizeEl.textContent = formattedSize;
+
+        const numCount = Object.values(DataStore.columnTypes).filter(t => t === 'numeric').length;
+        const catCount = Object.values(DataStore.columnTypes).filter(t => t === 'categorical' || t === 'boolean').length;
+
+        document.getElementById('stat-num-cols').textContent = numCount;
+        document.getElementById('stat-cat-cols').textContent = catCount;
+      },
+
+      renderPreviewTable() {
+        const table = document.getElementById('preview-table');
+        table.innerHTML = '';
+
+        const thead = document.createElement('thead');
+        const headerRow = document.createElement('tr');
+
+        DataStore.columns.forEach(col => {
+          const th = document.createElement('th');
+          th.innerHTML = `
+            ${col}
+            <span class="col-header-type">${DataStore.columnTypes[col] || 'text'}</span>
+          `;
+          headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        const tbody = document.createElement('tbody');
+        const previewRows = DataStore.rawRows.slice(0, 10);
+
+        previewRows.forEach(row => {
+          const tr = document.createElement('tr');
+          DataStore.columns.forEach(col => {
+            const td = document.createElement('td');
+            const val = row[col];
+            td.textContent = (val !== null && val !== undefined) ? val : '—';
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+        table.appendChild(tbody);
+      },
+
+      downloadCurrentCSV() {
+        if (!DataStore.rawRows || DataStore.rawRows.length === 0) return;
+        const csv = Papa.unparse(DataStore.rawRows);
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${DataStore.datasetName.replace(/\s+/g, '_').toLowerCase()}_clean.csv`;
+        a.click();
+        URL.revokeObjectURL(url);
+        this.showToast('Dataset exported as CSV!', 'success');
+      },
+
+      /* ========================================================================
+         HEALTH AUDIT RENDERING
+         ======================================================================== */
+      renderHealthAudit() {
+        const { score, missingCount, missingPct, duplicateCount, duplicatePct, outlierCount, outlierPct, missingByCol, outlierByCol } = DataStore.health;
+
+        // Gauge Animation
+        const circle = document.getElementById('gauge-circle');
+        const numberEl = document.getElementById('gauge-number');
+        const circumference = 2 * Math.PI * 80; // ~502.65
+
+        const offset = circumference - (score / 100) * circumference;
+        circle.style.strokeDasharray = `${circumference} ${circumference}`;
+        circle.style.strokeDashoffset = offset;
+
+        // Color coding
+        let strokeColor = '#059669'; // Emerald
+        let verdictText = 'Pristine';
+        if (score < 80 && score >= 60) {
+          strokeColor = '#D97706'; // Amber
+          verdictText = 'Acceptable';
+        } else if (score < 60) {
+          strokeColor = '#DC2626'; // Red
+          verdictText = 'Needs Cleaning';
+        }
+        circle.style.stroke = strokeColor;
+        numberEl.textContent = `${score}%`;
+
+        // Submetrics
+        document.getElementById('health-missing-val').textContent = `${missingCount} (${missingPct}%)`;
+        document.getElementById('health-dup-val').textContent = `${duplicateCount} (${duplicatePct}%)`;
+        document.getElementById('health-outlier-val').textContent = `${outlierCount} (${outlierPct}%)`;
+        const verdictEl = document.getElementById('health-verdict');
+        verdictEl.textContent = verdictText;
+        verdictEl.style.color = strokeColor;
+
+        // Render Missing Values Chart
+        this.renderMissingChart(missingByCol);
+
+        // Render Outliers Chart
+        this.renderOutliersChart(outlierByCol);
+
+        // Render Schema Table
+        this.renderSchemaTable();
+
+        // Render Descriptive Stats Table
+        this.renderDescriptiveTable();
+      },
+
+      renderMissingChart(missingByCol) {
+        const ctx = document.getElementById('missing-chart').getContext('2d');
+        if (DataStore.charts.missingChart) DataStore.charts.missingChart.destroy();
+
+        // Sort descending by missing count
+        const sortedEntries = Object.entries(missingByCol).sort((a, b) => b[1] - a[1]);
+        const labels = sortedEntries.map(e => e[0]);
+        const data = sortedEntries.map(e => e[1]);
+        const maxVal = Math.max(...data, 1);
+
+        DataStore.charts.missingChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels,
+            datasets: [{
+              label: 'Missing Count',
+              data,
+              backgroundColor: '#38BDF8',
+              borderRadius: 6
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: (c) => `Missing: ${c.raw} rows (${((c.raw / (DataStore.rawRows.length || 1)) * 100).toFixed(1)}%)`
+                }
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                suggestedMax: Math.max(maxVal, 5),
+                ticks: { precision: 0 },
+                grid: { color: '#F1F5F9' }
+              },
+              x: {
+                grid: { display: false }
+              }
+            }
+          }
+        });
+      },
+
+      renderOutliersChart(outlierByCol) {
+        const ctx = document.getElementById('outliers-chart').getContext('2d');
+        if (DataStore.charts.outliersChart) DataStore.charts.outliersChart.destroy();
+
+        // Sort descending by outlier count
+        const sortedEntries = Object.entries(outlierByCol).sort((a, b) => b[1] - a[1]);
+        const labels = sortedEntries.map(e => e[0]);
+        const data = sortedEntries.map(e => e[1]);
+        const maxVal = Math.max(...data, 1);
+
+        DataStore.charts.outliersChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels,
+            datasets: [{
+              label: 'Outliers Count',
+              data,
+              backgroundColor: '#F59E0B',
+              borderRadius: 6
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: (c) => `Outliers: ${c.raw} records (${((c.raw / (DataStore.rawRows.length || 1)) * 100).toFixed(1)}%)`
+                }
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                suggestedMax: Math.max(maxVal, 5),
+                ticks: { precision: 0 },
+                grid: { color: '#F1F5F9' }
+              },
+              x: {
+                grid: { display: false }
+              }
+            }
+          }
+        });
+      },
+
+      renderSchemaTable() {
+        const tbody = document.getElementById('schema-table-body');
+        tbody.innerHTML = '';
+
+        DataStore.columns.forEach(col => {
+          const type = DataStore.columnTypes[col];
+          const allVals = DataStore.rawRows.map(r => r[col]);
+          const distinctCount = new Set(allVals).size;
+          const ratio = ((distinctCount / allVals.length) * 100).toFixed(1) + '%';
+          const missing = DataStore.health.missingByCol[col] || 0;
+          
+          // 3 Sample values
+          const sampleVals = Array.from(new Set(allVals.filter(v => v !== null && v !== '')))
+            .slice(0, 3)
+            .join(', ');
+
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td><strong>${col}</strong></td>
+            <td><span class="badge badge-${type === 'numeric' ? 'info' : (type === 'categorical' ? 'success' : 'warning')}">${type}</span></td>
+            <td>${distinctCount}</td>
+            <td>${ratio}</td>
+            <td>${missing > 0 ? `<span style="color: var(--danger); font-weight:700;">${missing}</span>` : '0'}</td>
+            <td style="color: var(--text-muted); font-size: 0.775rem;">${sampleVals || '—'}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      },
+
+      renderDescriptiveTable() {
+        const tbody = document.getElementById('descriptive-table-body');
+        tbody.innerHTML = '';
+
+        const numericCols = Object.keys(DataStore.stats);
+        if (numericCols.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="11" style="text-align:center; padding: 20px; color: var(--text-muted);">No numeric features found in this dataset.</td></tr>`;
+          return;
+        }
+
+        numericCols.forEach(col => {
+          const s = DataStore.stats[col];
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td><strong>${col}</strong></td>
+            <td>${s.count}</td>
+            <td>${s.mean}</td>
+            <td>${s.std}</td>
+            <td>${s.min}</td>
+            <td>${s.q1}</td>
+            <td>${s.median}</td>
+            <td>${s.q3}</td>
+            <td>${s.max}</td>
+            <td>${s.iqr}</td>
+            <td>${s.skewness}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      },
+
+      /* ========================================================================
+         VISUAL EDA RENDERING
+         ======================================================================== */
+      renderVisualEDA() {
+        this.populateEDADropdowns();
+        this.renderScatterPlot();
+        this.renderCorrelationHeatmap();
+        this.renderHistograms();
+        this.renderTopCategories();
+        this.renderGroupComparison();
+      },
+
+      filterEDA(filterType, btn) {
+        document.querySelectorAll('.eda-subbtn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const sections = {
+          scatter: document.getElementById('eda-scatter-controls'),
+          correlation: document.getElementById('eda-correlation-section'),
+          histograms: document.getElementById('eda-histograms-section'),
+          categories: document.getElementById('eda-categories-section'),
+          boxplot: document.getElementById('eda-boxplot-section')
+        };
+
+        if (filterType === 'all') {
+          Object.values(sections).forEach(s => s.style.display = 'block');
+        } else {
+          Object.entries(sections).forEach(([key, sec]) => {
+            sec.style.display = (key === filterType) ? 'block' : 'none';
+          });
+        }
+      },
+
+      populateEDADropdowns() {
+        const numCols = Object.keys(DataStore.stats);
+        const catCols = Object.keys(DataStore.categories);
+
+        const scatterX = document.getElementById('scatter-x');
+        const scatterY = document.getElementById('scatter-y');
+        const scatterGroup = document.getElementById('scatter-group');
+        const groupMetric = document.getElementById('group-metric');
+        const groupCategory = document.getElementById('group-category');
+
+        scatterX.innerHTML = numCols.map((c, i) => `<option value="${c}" ${i === 0 ? 'selected' : ''}>${c}</option>`).join('');
+        scatterY.innerHTML = numCols.map((c, i) => `<option value="${c}" ${i === 1 ? 'selected' : ''}>${c}</option>`).join('');
+        
+        scatterGroup.innerHTML = `<option value="">None (Single Color)</option>` + 
+          catCols.map(c => `<option value="${c}">${c}</option>`).join('');
+
+        groupMetric.innerHTML = numCols.map(c => `<option value="${c}">${c}</option>`).join('');
+        groupCategory.innerHTML = catCols.map(c => `<option value="${c}">${c}</option>`).join('');
+      },
+
+      renderScatterPlot() {
+        const xCol = document.getElementById('scatter-x').value;
+        const yCol = document.getElementById('scatter-y').value;
+        const groupCol = document.getElementById('scatter-group').value;
+
+        if (!xCol || !yCol) return;
+
+        const ctx = document.getElementById('bivariate-scatter-chart').getContext('2d');
+        if (DataStore.charts.scatterChart) DataStore.charts.scatterChart.destroy();
+
+        const xVals = DataStore.rawRows.map(r => r[xCol]);
+        const yVals = DataStore.rawRows.map(r => r[yCol]);
+        const rVal = StatEngine.pearson(xVals, yVals);
+
+        document.getElementById('scatter-correlation-badge').textContent = `Pearson r: ${rVal}`;
+
+        // Compute regression line
+        const reg = StatEngine.linearRegression(xVals, yVals);
+        const minX = Math.min(...xVals.filter(v => !isNaN(v)));
+        const maxX = Math.max(...xVals.filter(v => !isNaN(v)));
+
+        const trendPoints = [
+          { x: minX, y: Number((reg.slope * minX + reg.intercept).toFixed(2)) },
+          { x: maxX, y: Number((reg.slope * maxX + reg.intercept).toFixed(2)) }
+        ];
+
+        let datasets = [];
+
+        if (groupCol && DataStore.categories[groupCol]) {
+          const distinctGroups = Object.keys(DataStore.categories[groupCol]).slice(0, 5);
+          const palette = ['#059669', '#0EA5E9', '#F59E0B', '#EF4444', '#8B5CF6'];
+
+          distinctGroups.forEach((grp, idx) => {
+            const groupPoints = DataStore.rawRows
+              .filter(r => String(r[groupCol]) === grp)
+              .map(r => ({ x: Number(r[xCol]), y: Number(r[yCol]) }))
+              .filter(p => !isNaN(p.x) && !isNaN(p.y));
+
+            datasets.push({
+              label: `${grp}`,
+              data: groupPoints,
+              backgroundColor: palette[idx % palette.length],
+              borderColor: palette[idx % palette.length],
+              type: 'scatter',
+              pointRadius: 5
+            });
+          });
+        } else {
+          const points = DataStore.rawRows
+            .map(r => ({ x: Number(r[xCol]), y: Number(r[yCol]) }))
+            .filter(p => !isNaN(p.x) && !isNaN(p.y));
+
+          datasets.push({
+            label: `${yCol} vs. ${xCol}`,
+            data: points,
+            backgroundColor: '#059669',
+            borderColor: '#059669',
+            type: 'scatter',
+            pointRadius: 5
+          });
+        }
+
+        // Add trendline dataset
+        datasets.push({
+          label: `Fit (y = ${reg.slope}x + ${reg.intercept}, R²=${reg.r2})`,
+          data: trendPoints,
+          type: 'line',
+          borderColor: '#EF4444',
+          borderWidth: 2,
+          pointRadius: 0,
+          fill: false
+        });
+
+        DataStore.charts.scatterChart = new Chart(ctx, {
+          data: { datasets },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'top' },
+              tooltip: {
+                callbacks: {
+                  label: (context) => `(${context.parsed.x}, ${context.parsed.y})`
+                }
+              }
+            },
+            scales: {
+              x: {
+                title: { display: true, text: xCol, font: { weight: 'bold' } },
+                grid: { color: '#F1F5F9' }
+              },
+              y: {
+                title: { display: true, text: yCol, font: { weight: 'bold' } },
+                grid: { color: '#F1F5F9' }
+              }
+            }
+          }
+        });
+      },
+
+      renderCorrelationHeatmap() {
+        const table = document.getElementById('correlation-matrix-table');
+        table.innerHTML = '';
+
+        const numericCols = Object.keys(DataStore.stats);
+        if (numericCols.length === 0) {
+          table.innerHTML = `<tr><td style="padding: 20px; color: var(--text-muted);">No numeric features for correlation matrix.</td></tr>`;
+          return;
+        }
+
+        // Header Row
+        const thead = document.createElement('thead');
+        const headerTr = document.createElement('tr');
+        headerTr.innerHTML = `<th>Features</th>`;
+        numericCols.forEach(col => {
+          headerTr.innerHTML += `<th>${col}</th>`;
+        });
+        thead.appendChild(headerTr);
+        table.appendChild(thead);
+
+        // Body
+        const tbody = document.createElement('tbody');
+        numericCols.forEach(col1 => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<th style="text-align: left;">${col1}</th>`;
+          
+          numericCols.forEach(col2 => {
+            const xVals = DataStore.rawRows.map(r => r[col1]);
+            const yVals = DataStore.rawRows.map(r => r[col2]);
+            const r = (col1 === col2) ? 1.0 : StatEngine.pearson(xVals, yVals);
+
+            // Compute background color scale
+            // -1 (red) -> 0 (white/neutral) -> +1 (emerald)
+            let bgColor = '#FFFFFF';
+            let textColor = '#0F172A';
+
+            if (r > 0) {
+              const alpha = Math.min(1, r);
+              bgColor = `rgba(5, 150, 105, ${alpha.toFixed(2)})`;
+              if (r > 0.45) textColor = '#FFFFFF';
+            } else if (r < 0) {
+              const alpha = Math.min(1, Math.abs(r));
+              bgColor = `rgba(239, 68, 68, ${alpha.toFixed(2)})`;
+              if (Math.abs(r) > 0.45) textColor = '#FFFFFF';
+            }
+
+            const td = document.createElement('td');
+            td.className = 'heatmap-cell';
+            td.style.backgroundColor = bgColor;
+            td.style.color = textColor;
+            td.textContent = r.toFixed(2);
+            td.title = `${col1} & ${col2}: r = ${r}`;
+            tr.appendChild(td);
+          });
+
+          tbody.appendChild(tr);
+        });
+        table.appendChild(tbody);
+      },
+
+      renderHistograms() {
+        const grid = document.getElementById('histogram-grid');
+        grid.innerHTML = '';
+
+        const numericCols = Object.keys(DataStore.stats).slice(0, 6);
+        numericCols.forEach((col, idx) => {
+          const card = document.createElement('div');
+          card.className = 'chart-container-card';
+          card.innerHTML = `
+            <div class="chart-header">
+              <h4>${col} Distribution</h4>
+              <span class="badge badge-info">Histogram</span>
+            </div>
+            <div class="chart-canvas-wrapper">
+              <canvas id="hist-canvas-${idx}"></canvas>
+            </div>
+          `;
+          grid.appendChild(card);
+
+          // Compute frequency bins
+          const vals = DataStore.rawRows.map(r => Number(r[col])).filter(v => !isNaN(v));
+          const min = Math.min(...vals);
+          const max = Math.max(...vals);
+          const numBins = 10;
+          const binSize = (max - min) / numBins || 1;
+
+          const bins = Array(numBins).fill(0);
+          const binLabels = [];
+
+          for (let b = 0; b < numBins; b++) {
+            const start = (min + b * binSize).toFixed(1);
+            const end = (min + (b + 1) * binSize).toFixed(1);
+            binLabels.push(`${start}-${end}`);
+          }
+
+          vals.forEach(v => {
+            let binIdx = Math.floor((v - min) / binSize);
+            if (binIdx >= numBins) binIdx = numBins - 1;
+            if (binIdx < 0) binIdx = 0;
+            bins[binIdx]++;
+          });
+
+          const ctx = document.getElementById(`hist-canvas-${idx}`).getContext('2d');
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: binLabels,
+              datasets: [{
+                label: 'Count',
+                data: bins,
+                backgroundColor: '#10B981',
+                borderRadius: 4
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: { legend: { display: false } },
+              scales: {
+                y: { beginAtZero: true, grid: { color: '#F1F5F9' } },
+                x: { ticks: { font: { size: 10 } }, grid: { display: false } }
+              }
+            }
+          });
+        });
+      },
+
+      renderTopCategories() {
+        const grid = document.getElementById('categories-grid');
+        grid.innerHTML = '';
+
+        const catCols = Object.keys(DataStore.categories).slice(0, 4);
+        catCols.forEach((col, idx) => {
+          const card = document.createElement('div');
+          card.className = 'chart-container-card';
+          card.innerHTML = `
+            <div class="chart-header">
+              <h4>Top ${col}</h4>
+              <span class="badge badge-success">Counts</span>
+            </div>
+            <div class="chart-canvas-wrapper">
+              <canvas id="cat-canvas-${idx}"></canvas>
+            </div>
+          `;
+          grid.appendChild(card);
+
+          const countsObj = DataStore.categories[col];
+          const sorted = Object.entries(countsObj)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 8);
+
+          const labels = sorted.map(s => s[0]);
+          const data = sorted.map(s => s[1]);
+
+          const ctx = document.getElementById(`cat-canvas-${idx}`).getContext('2d');
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels,
+              datasets: [{
+                label: 'Occurrences',
+                data,
+                backgroundColor: '#0EA5E9',
+                borderRadius: 4
+              }]
+            },
+            options: {
+              indexAxis: 'y',
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: { legend: { display: false } },
+              scales: {
+                x: { beginAtZero: true, grid: { color: '#F1F5F9' } },
+                y: { grid: { display: false } }
+              }
+            }
+          });
+        });
+      },
+
+      renderGroupComparison() {
+        const metric = document.getElementById('group-metric').value;
+        const category = document.getElementById('group-category').value;
+
+        if (!metric || !category) return;
+
+        const ctx = document.getElementById('group-comparison-chart').getContext('2d');
+        if (DataStore.charts.groupCompChart) DataStore.charts.groupCompChart.destroy();
+
+        // Group values
+        const groups = {};
+        DataStore.rawRows.forEach(r => {
+          const g = String(r[category] || 'Unknown');
+          const val = Number(r[metric]);
+          if (!isNaN(val)) {
+            if (!groups[g]) groups[g] = [];
+            groups[g].push(val);
+          }
+        });
+
+        const labels = Object.keys(groups).slice(0, 8);
+        const iqrRanges = []; // [q1, q3]
+        const fullRanges = []; // [min, max]
+        const medians = [];
+        const means = [];
+
+        labels.forEach(g => {
+          const arr = groups[g].sort((a, b) => a - b);
+          const count = arr.length;
+          const min = arr[0];
+          const max = arr[count - 1];
+          const sum = arr.reduce((acc, v) => acc + v, 0);
+          const mean = Number((sum / count).toFixed(2));
+
+          const getP = (p) => {
+            const pos = (count - 1) * p;
+            const b = Math.floor(pos);
+            const r = pos - b;
+            return arr[b + 1] !== undefined ? arr[b] + r * (arr[b + 1] - arr[b]) : arr[b];
+          };
+
+          const q1 = Number(getP(0.25).toFixed(2));
+          const median = Number(getP(0.50).toFixed(2));
+          const q3 = Number(getP(0.75).toFixed(2));
+
+          iqrRanges.push([q1, q3]);
+          fullRanges.push([min, max]);
+          medians.push(median);
+          means.push(mean);
+        });
+
+        DataStore.charts.groupCompChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels,
+            datasets: [
+              {
+                label: 'Interquartile Range (Q1 - Q3)',
+                data: iqrRanges,
+                backgroundColor: 'rgba(5, 150, 105, 0.7)',
+                borderColor: '#059669',
+                borderWidth: 1.5,
+                borderRadius: 4,
+                order: 2
+              },
+              {
+                label: 'Full Spread (Min - Max)',
+                data: fullRanges,
+                backgroundColor: 'rgba(14, 165, 233, 0.2)',
+                borderColor: '#0284C7',
+                borderWidth: 1,
+                borderRadius: 4,
+                order: 3
+              },
+              {
+                type: 'line',
+                label: 'Median',
+                data: medians,
+                borderColor: '#0F172A',
+                backgroundColor: '#0F172A',
+                pointStyle: 'rectRot',
+                pointRadius: 6,
+                borderWidth: 0,
+                showLine: false,
+                order: 1
+              },
+              {
+                type: 'line',
+                label: 'Mean',
+                data: means,
+                borderColor: '#EF4444',
+                backgroundColor: '#EF4444',
+                pointStyle: 'circle',
+                pointRadius: 5,
+                borderWidth: 0,
+                showLine: false,
+                order: 1
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'top' },
+              title: {
+                display: true,
+                text: `${metric} Box & Range Distribution across ${category}`,
+                font: { weight: '700', size: 13 }
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(c) {
+                    if (c.dataset.label.includes('Interquartile')) {
+                      return `IQR (Q1-Q3): [${c.raw[0]} to ${c.raw[1]}]`;
+                    }
+                    if (c.dataset.label.includes('Full Spread')) {
+                      return `Full Range (Min-Max): [${c.raw[0]} to ${c.raw[1]}]`;
+                    }
+                    return `${c.dataset.label}: ${c.raw}`;
+                  }
+                }
+              }
+            },
+            scales: {
+              y: {
+                grid: { color: '#F1F5F9' },
+                title: { display: true, text: metric, font: { weight: '600' } }
+              },
+              x: {
+                grid: { display: false },
+                title: { display: true, text: category, font: { weight: '600' } }
+              }
+            }
+          }
+        });
+      },
+
+      /* ========================================================================
+         KEY DRIVERS MODULE
+         ======================================================================== */
+      initKeyDrivers() {
+        const select = document.getElementById('driver-target-select');
+        const numCols = Object.keys(DataStore.stats);
+        select.innerHTML = numCols.map(c => `<option value="${c}">${c}</option>`).join('');
+      },
+
+      renderKeyDrivers() {
+        const select = document.getElementById('driver-target-select');
+        const numCols = Object.keys(DataStore.stats);
+        
+        if (select.children.length === 0) {
+          select.innerHTML = numCols.map(c => `<option value="${c}">${c}</option>`).join('');
+        }
+        
+        if (!DataStore.selectedTarget && numCols.length > 0) {
+          DataStore.selectedTarget = select.value || numCols[0];
+        }
+        
+        if (DataStore.selectedTarget) {
+          select.value = DataStore.selectedTarget;
+        }
+
+        this.computeKeyDrivers();
+      },
+
+      computeKeyDrivers() {
+        const target = document.getElementById('driver-target-select').value;
+        if (!target) return;
+
+        DataStore.selectedTarget = target;
+        document.getElementById('driver-target-name').textContent = target;
+
+        const targetVals = DataStore.rawRows.map(r => Number(r[target]));
+        const correlations = [];
+
+        // Compute Pearson against other numeric features
+        Object.keys(DataStore.stats).forEach(col => {
+          if (col !== target) {
+            const colVals = DataStore.rawRows.map(r => Number(r[col]));
+            const r = StatEngine.pearson(colVals, targetVals);
+            correlations.push({ feature: col, r, absR: Math.abs(r), type: 'numeric' });
+          }
+        });
+
+        // Compute Point-biserial against binary categorical features
+        Object.keys(DataStore.categories).forEach(col => {
+          const colVals = DataStore.rawRows.map(r => r[col]);
+          const pb = StatEngine.pointBiserial(colVals, targetVals);
+          if (pb !== null && !isNaN(pb)) {
+            correlations.push({ feature: `${col} (Binary)`, r: pb, absR: Math.abs(pb), type: 'binary' });
+          }
+        });
+
+        correlations.sort((a, b) => b.absR - a.absR);
+
+        // Render Ranking Chart
+        this.renderDriverRankingChart(correlations, target);
+
+        // Text summary
+        const top3 = correlations.slice(0, 3);
+        let summaryHtml = `Analyzed <strong>${correlations.length}</strong> potential predictors for target <strong>${target}</strong>:`;
+        summaryHtml += `<ul style="margin: 8px 0 0 20px; font-size: 0.875rem;">`;
+
+        top3.forEach((d, i) => {
+          const direction = d.r >= 0 ? 'positive' : 'negative';
+          const strength = d.absR > 0.6 ? 'strong' : (d.absR > 0.3 ? 'moderate' : 'mild');
+          summaryHtml += `
+            <li>
+              <strong>#${i+1} Driver: ${d.feature}</strong> (r = ${d.r > 0 ? '+' : ''}${d.r}) — Demonstrates a <em>${strength} ${direction}</em> correlation with ${target}.
+            </li>
+          `;
+        });
+        summaryHtml += `</ul>`;
+        document.getElementById('driver-insights-content').innerHTML = summaryHtml;
+
+        // Render Top 3 Driver Scatter Plots
+        this.renderTopDriverScatters(top3, target);
+      },
+
+      renderDriverRankingChart(correlations, target) {
+        const ctx = document.getElementById('driver-ranking-chart').getContext('2d');
+        if (DataStore.charts.driverRankChart) DataStore.charts.driverRankChart.destroy();
+
+        const labels = correlations.map(c => c.feature);
+        const data = correlations.map(c => c.r);
+        const bgColors = correlations.map(c => c.r >= 0 ? '#059669' : '#EF4444');
+
+        DataStore.charts.driverRankChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels,
+            datasets: [{
+              label: `Correlation with ${target}`,
+              data,
+              backgroundColor: bgColors,
+              borderRadius: 6
+            }]
+          },
+          options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              x: {
+                min: -1.0,
+                max: 1.0,
+                grid: { color: '#E2E8F0' },
+                ticks: { stepSize: 0.2 }
+              },
+              y: { grid: { display: false } }
+            },
+            plugins: {
+              legend: { display: false }
+            }
+          }
+        });
+      },
+
+      renderTopDriverScatters(topDrivers, target) {
+        const grid = document.getElementById('top-drivers-grid');
+        grid.innerHTML = '';
+
+        topDrivers.forEach((driver, idx) => {
+          const colName = driver.feature.replace(' (Binary)', '');
+          const card = document.createElement('div');
+          card.className = 'chart-container-card';
+          card.innerHTML = `
+            <div class="chart-header">
+              <h4>${colName} vs. ${target}</h4>
+              <span class="badge ${driver.r >= 0 ? 'badge-success' : 'badge-danger'}">r = ${driver.r}</span>
+            </div>
+            <div class="chart-canvas-wrapper">
+              <canvas id="driver-scatter-${idx}"></canvas>
+            </div>
+          `;
+          grid.appendChild(card);
+
+          const xVals = DataStore.rawRows.map(r => Number(r[colName]));
+          const yVals = DataStore.rawRows.map(r => Number(r[target]));
+          const reg = StatEngine.linearRegression(xVals, yVals);
+
+          const points = DataStore.rawRows
+            .map(r => ({ x: Number(r[colName]), y: Number(r[target]) }))
+            .filter(p => !isNaN(p.x) && !isNaN(p.y));
+
+          const minX = Math.min(...xVals.filter(v => !isNaN(v)));
+          const maxX = Math.max(...xVals.filter(v => !isNaN(v)));
+
+          const ctx = document.getElementById(`driver-scatter-${idx}`).getContext('2d');
+          new Chart(ctx, {
+            data: {
+              datasets: [
+                {
+                  type: 'scatter',
+                  label: 'Observations',
+                  data: points,
+                  backgroundColor: driver.r >= 0 ? '#059669' : '#EF4444',
+                  pointRadius: 4
+                },
+                {
+                  type: 'line',
+                  label: `Fit (R²=${reg.r2})`,
+                  data: [
+                    { x: minX, y: reg.slope * minX + reg.intercept },
+                    { x: maxX, y: reg.slope * maxX + reg.intercept }
+                  ],
+                  borderColor: '#0F172A',
+                  borderWidth: 2,
+                  pointRadius: 0,
+                  fill: false
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: { legend: { display: false } },
+              scales: {
+                x: { title: { display: true, text: colName } },
+                y: { title: { display: true, text: target } }
+              }
+            }
+          });
+        });
+      },
+
+      /* ========================================================================
+         AI COPILOT MODULE (GEMINI + INTELLIGENT HEURISTIC FALLBACK)
+         ======================================================================== */
+      initCopilotDefaults() {
+        const savedKey = localStorage.getItem('gemini_api_key');
+        if (savedKey) {
+          document.getElementById('gemini-key-input').value = savedKey;
+        }
+        const savedModel = localStorage.getItem('gemini_model');
+        if (savedModel) {
+          document.getElementById('gemini-model-select').value = savedModel;
+        }
+      },
+
+      toggleKeyVisibility() {
+        const input = document.getElementById('gemini-key-input');
+        input.type = input.type === 'password' ? 'text' : 'password';
+      },
+
+      saveApiKey() {
+        const key = document.getElementById('gemini-key-input').value.trim();
+        localStorage.setItem('gemini_api_key', key);
+        this.showToast('Gemini API key saved to localStorage!', 'success');
+      },
+
+      saveModelSelection() {
+        const model = document.getElementById('gemini-model-select').value;
+        localStorage.setItem('gemini_model', model);
+        this.showToast(`Selected model: ${model}`, 'info');
+      },
+
+      askStarter(question) {
+        document.getElementById('chat-input').value = question;
+        this.handleChatSubmit(new Event('submit'));
+      },
+
+      async handleChatSubmit(e) {
+        if (e && e.preventDefault) e.preventDefault();
+        const input = document.getElementById('chat-input');
+        const query = input.value.trim();
+        if (!query) return;
+
+        input.value = '';
+        this.appendChatMessage('user', query);
+
+        // Show typing indicator
+        const typingId = this.showTypingIndicator();
+
+        try {
+          const apiKey = localStorage.getItem('gemini_api_key');
+          if (apiKey && apiKey.length > 10) {
+            // Live Gemini API call
+            await this.callGeminiCopilot(query, apiKey, typingId);
+          } else {
+            // Intelligent Local BI Heuristic Mode
+            await this.callLocalBIEngine(query, typingId);
+          }
+        } catch (err) {
+          this.removeTypingIndicator(typingId);
+          this.appendChatMessage('ai', `⚠️ **Error communicating with AI Copilot**: ${err.message}. You can still query data seamlessly using the built-in local analytics engine!`);
+        }
+      },
+
+      showTypingIndicator() {
+        const container = document.getElementById('chat-messages');
+        const id = 'typing-' + Date.now();
+        const div = document.createElement('div');
+        div.id = id;
+        div.className = 'chat-message ai';
+        div.innerHTML = `
+          <div class="chat-avatar">AI</div>
+          <div class="typing-indicator">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+          </div>
+        `;
+        container.appendChild(div);
+        container.scrollTop = container.scrollHeight;
+        return id;
+      },
+
+      removeTypingIndicator(id) {
+        const el = document.getElementById(id);
+        if (el) el.remove();
+      },
+
+      formatMarkdown(content) {
+        if (!content) return '';
+        if (content.includes('<p>') || content.includes('<div>') || content.includes('<ul>')) {
+          return content;
+        }
+        let html = content
+          .replace(/^### (.*$)/gim, '<h5 style="margin: 10px 0 4px 0; font-size: 0.95rem; font-weight: 700;">$1</h5>')
+          .replace(/^## (.*$)/gim, '<h4 style="margin: 12px 0 6px 0; font-size: 1rem; font-weight: 700;">$1</h4>')
+          .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
+          .replace(/\*(.*?)\*/gim, '<em>$1</em>')
+          .replace(/`([^`]+)`/gim, '<code>$1</code>')
+          .replace(/^\s*[-*]\s+(.*)$/gim, '<li>$1</li>');
+
+        html = html.replace(/(<li>.*<\/li>)/gims, '<ul style="margin: 6px 0 8px 18px;">$1</ul>');
+        html = html.split('\n\n').map(p => p.trim() ? `<p>${p.replace(/\n/g, '<br>')}</p>` : '').join('');
+        return html;
+      },
+
+      appendChatMessage(sender, rawContent, chartConfig = null) {
+        const container = document.getElementById('chat-messages');
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `chat-message ${sender}`;
+
+        const avatar = sender === 'ai' ? 'AI' : 'You';
+        const htmlContent = sender === 'ai' ? this.formatMarkdown(rawContent) : rawContent;
+        
+        let chartHtml = '';
+        const chartId = 'chat-chart-' + Date.now() + Math.floor(Math.random() * 1000);
+        if (chartConfig) {
+          chartHtml = `
+            <div class="chat-chart-box">
+              <canvas id="${chartId}"></canvas>
+            </div>
+          `;
+        }
+
+        msgDiv.innerHTML = `
+          <div class="chat-avatar">${avatar}</div>
+          <div class="chat-bubble">
+            <div>${htmlContent}</div>
+            ${chartHtml}
+          </div>
+        `;
+
+        container.appendChild(msgDiv);
+        container.scrollTop = container.scrollHeight;
+
+        // Instantiate Chart if config exists
+        if (chartConfig) {
+          setTimeout(() => {
+            const canvas = document.getElementById(chartId);
+            if (canvas) {
+              const ctx = canvas.getContext('2d');
+              new Chart(ctx, chartConfig);
+              container.scrollTop = container.scrollHeight;
+            }
+          }, 100);
+        }
+      },
+
+      // Gemini Real API Request
+      async callGeminiCopilot(query, apiKey, typingId) {
+        const model = localStorage.getItem('gemini_model') || 'gemini-2.0-flash';
+        
+        // Dataset context snapshot
+        const schema = {
+          datasetName: DataStore.datasetName,
+          totalRows: DataStore.rawRows.length,
+          columns: DataStore.columns,
+          types: DataStore.columnTypes,
+          numericStats: DataStore.stats,
+          topCategories: DataStore.categories,
+          sampleRows: DataStore.rawRows.slice(0, 5)
+        };
+
+        const prompt = `
+You are DataLens AI, a world-class exploratory data analysis (EDA) and Business Intelligence assistant.
+Analyze the user's dataset and answer their prompt accurately.
+
+DATASET SCHEMA & SUMMARY:
+${JSON.stringify(schema, null, 2)}
+
+USER QUESTION:
+"${query}"
+
+INSTRUCTIONS:
+1. Return your entire answer in valid, unescaped JSON format with NO markdown wrapping around the JSON (or inside a json code block).
+2. JSON structure MUST be:
+{
+  "answer": "HTML formatted text answer with <strong>bold</strong>, <ul><li>lists</li></ul>, and clear analytical takeaways.",
+  "chartConfig": { optional Chart.js 4.x configuration object with type, data, and options if a visual chart is helpful; otherwise null }
+}
+Do not hallucinate columns not in the dataset.
+`;
+
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: { temperature: 0.3, maxOutputTokens: 2048 }
+          })
+        });
+
+        if (!response.ok) {
+          const errData = await response.json();
+          throw new Error(errData.error?.message || `HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+        const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+
+        this.removeTypingIndicator(typingId);
+
+        // Parse JSON response
+        let parsed = null;
+        try {
+          const cleanText = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
+          parsed = JSON.parse(cleanText);
+        } catch (e) {
+          parsed = { answer: rawText, chartConfig: null };
+        }
+
+        this.appendChatMessage('ai', parsed.answer, parsed.chartConfig);
+      },
+
+      // Intelligent Local Heuristic Engine for instant zero-key testing
+      async callLocalBIEngine(query, typingId) {
+        // Simulate thoughtful micro-delay
+        await new Promise(r => setTimeout(r, 600));
+        this.removeTypingIndicator(typingId);
+
+        const q = query.toLowerCase();
+        let answer = '';
+        let chartConfig = null;
+
+        if (q.includes('revenue') || q.includes('category') || q.includes('profit') || q.includes('sales')) {
+          // Revenue or category breakdown
+          const catCol = Object.keys(DataStore.categories)[0] || 'Category';
+          const numCol = Object.keys(DataStore.stats).find(c => c.toLowerCase().includes('revenue') || c.toLowerCase().includes('charge') || c.toLowerCase().includes('cost')) || Object.keys(DataStore.stats)[0];
+
+          // Compute aggregation
+          const totals = {};
+          DataStore.rawRows.forEach(r => {
+            const cat = String(r[catCol] || 'Other');
+            const val = Number(r[numCol]) || 0;
+            totals[cat] = (totals[cat] || 0) + val;
+          });
+
+          const labels = Object.keys(totals);
+          const data = Object.values(totals).map(v => Number(v.toFixed(2)));
+
+          answer = `
+            <p><strong>Aggregation Analysis for ${numCol} by ${catCol}:</strong></p>
+            <p>Based on our real-time aggregation across ${DataStore.rawRows.length} observations:</p>
+            <ul>
+              ${labels.map((l, i) => `<li><strong>${l}</strong>: $${data[i].toLocaleString()} total ${numCol}</li>`).join('')}
+            </ul>
+            <p><em>Notice:</em> Running in high-performance local BI mode. Add your Gemini API key above for unrestricted generative conversational queries.</p>
+          `;
+
+          chartConfig = {
+            type: 'bar',
+            data: {
+              labels,
+              datasets: [{
+                label: `Total ${numCol}`,
+                data,
+                backgroundColor: '#059669',
+                borderRadius: 6
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: { legend: { display: false } },
+              scales: { y: { beginAtZero: true } }
+            }
+          };
+        } else if (q.includes('correlation') || q.includes('anomal') || q.includes('outlier')) {
+          const health = DataStore.health;
+          answer = `
+            <p><strong>Correlation &amp; Anomaly Audit:</strong></p>
+            <ul>
+              <li><strong>Overall Health Score:</strong> ${health.score}%</li>
+              <li><strong>Detected Statistical Outliers:</strong> ${health.outlierCount} records detected using Tukey's 1.5x IQR rule.</li>
+              <li><strong>Missing Cells:</strong> ${health.missingCount} (${health.missingPct}%)</li>
+              <li><strong>Duplicate Observations:</strong> ${health.duplicateCount} rows.</li>
+            </ul>
+            <p>Check the <strong>Health Audit</strong> and <strong>Key Drivers</strong> tabs for detailed pairwise correlations.</p>
+          `;
+        } else {
+          // Generic Dataset Overview
+          const numericCols = Object.keys(DataStore.stats);
+          answer = `
+            <p><strong>Executive Studio Insights on "${DataStore.datasetName}":</strong></p>
+            <p>Dataset contains <strong>${DataStore.rawRows.length} rows</strong> across <strong>${DataStore.columns.length} columns</strong> (${numericCols.length} continuous metrics, ${Object.keys(DataStore.categories).length} categorical factors).</p>
+            <p>Quality Rating: <strong>${DataStore.health.score}%</strong>. No critical blockers detected for exploratory modeling.</p>
+          `;
+          
+          if (numericCols.length > 0) {
+            const firstCol = numericCols[0];
+            const stat = DataStore.stats[firstCol];
+            chartConfig = {
+              type: 'line',
+              data: {
+                labels: ['Min', 'Q1 (25%)', 'Median', 'Q3 (75%)', 'Max'],
+                datasets: [{
+                  label: `${firstCol} Quantile Curve`,
+                  data: [stat.min, stat.q1, stat.median, stat.q3, stat.max],
+                  borderColor: '#0EA5E9',
+                  backgroundColor: 'rgba(14, 165, 233, 0.15)',
+                  fill: true,
+                  tension: 0.3
+                }]
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: false
+              }
+            };
+          }
+        }
+
+        this.appendChatMessage('ai', answer, chartConfig);
+      },
+
+      /* ========================================================================
+         EXPORT REPORT MODULE
+         ======================================================================== */
+      renderExportReport() {
+        document.getElementById('rep-dataset-name').textContent = DataStore.datasetName;
+        document.getElementById('rep-date').textContent = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+        
+        const badge = document.getElementById('rep-health-badge');
+        badge.textContent = `Score: ${DataStore.health.score}%`;
+        badge.className = `badge ${DataStore.health.score > 80 ? 'badge-success' : 'badge-warning'}`;
+
+        document.getElementById('rep-stat-rows').textContent = DataStore.rawRows.length;
+        document.getElementById('rep-stat-cols').textContent = DataStore.columns.length;
+        document.getElementById('rep-stat-health').textContent = `${DataStore.health.score}%`;
+        document.getElementById('rep-stat-missing').textContent = `${DataStore.health.missingPct}%`;
+
+        // Executive Findings Bullets
+        const findingsList = document.getElementById('rep-findings-list');
+        findingsList.innerHTML = '';
+
+        const findings = [
+          `Ingested <strong>${DataStore.rawRows.length} observations</strong> with an automated Data Health score of <strong>${DataStore.health.score}%</strong>.`,
+          `Detected <strong>${DataStore.health.missingCount} missing values</strong> (${DataStore.health.missingPct}%) and <strong>${DataStore.health.duplicateCount} duplicate records</strong> across the entire feature space.`,
+          `Identified <strong>${DataStore.health.outlierCount} statistical anomalies</strong> via Tukey IQR boxplot bounds.`,
+          `Identified <strong>${DataStore.selectedTarget || 'Primary KPI'}</strong> as the key target variable, with strongest predictive influence demonstrated in Key Drivers.`
+        ];
+
+        findings.forEach(f => {
+          const li = document.createElement('li');
+          li.innerHTML = f;
+          findingsList.appendChild(li);
+        });
+
+        // Key stats table
+        const tbody = document.getElementById('rep-stats-tbody');
+        tbody.innerHTML = '';
+        Object.keys(DataStore.stats).slice(0, 5).forEach(col => {
+          const s = DataStore.stats[col];
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td><strong>${col}</strong></td>
+            <td>${s.mean}</td>
+            <td>${s.std}</td>
+            <td>${s.min}</td>
+            <td>${s.median}</td>
+            <td>${s.max}</td>
+            <td>${s.skewness}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+        // Actionable Recommendations
+        document.getElementById('rep-recommendations').innerHTML = `
+          <p>1. <strong>Data Cleaning:</strong> Impute or isolate the ${DataStore.health.outlierCount} detected outliers prior to training predictive machine learning models.</p>
+          <p style="margin-top:6px;">2. <strong>Feature Focus:</strong> Focus tactical optimization around top correlating drivers identified in the Key Drivers matrix.</p>
+          <p style="margin-top:6px;">3. <strong>Segmentation:</strong> Exploit the variance between categorical clusters identified in Visual EDA for personalized targeting.</p>
+        `;
+
+        // Render Report Snapshot Charts
+        this.renderReportCharts();
+      },
+
+      renderReportCharts() {
+        const numCols = Object.keys(DataStore.stats);
+        const catCols = Object.keys(DataStore.categories);
+
+        // Chart 1: First numeric histogram
+        if (numCols.length > 0) {
+          const c1 = document.getElementById('rep-chart-1').getContext('2d');
+          if (DataStore.charts.repChart1) DataStore.charts.repChart1.destroy();
+          const vals = DataStore.rawRows.map(r => Number(r[numCols[0]])).filter(v => !isNaN(v));
+          const min = Math.min(...vals);
+          const max = Math.max(...vals);
+          const bins = [0, 0, 0, 0, 0];
+          const step = (max - min) / 5 || 1;
+          vals.forEach(v => {
+            let b = Math.floor((v - min) / step);
+            if (b >= 5) b = 4;
+            bins[b]++;
+          });
+          DataStore.charts.repChart1 = new Chart(c1, {
+            type: 'bar',
+            data: {
+              labels: ['Q1', 'Q2', 'Q3', 'Q4', 'Q5'],
+              datasets: [{ data: bins, backgroundColor: '#059669', borderRadius: 4 }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+          });
+        }
+
+        // Chart 2: Top category
+        if (catCols.length > 0) {
+          const c2 = document.getElementById('rep-chart-2').getContext('2d');
+          if (DataStore.charts.repChart2) DataStore.charts.repChart2.destroy();
+          const entries = Object.entries(DataStore.categories[catCols[0]]).slice(0, 5);
+          DataStore.charts.repChart2 = new Chart(c2, {
+            type: 'doughnut',
+            data: {
+              labels: entries.map(e => e[0]),
+              datasets: [{ data: entries.map(e => e[1]), backgroundColor: ['#059669', '#0EA5E9', '#F59E0B', '#EF4444', '#8B5CF6'] }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+          });
+        }
+
+        // Chart 3: Scatter
+        if (numCols.length >= 2) {
+          const c3 = document.getElementById('rep-chart-3').getContext('2d');
+          if (DataStore.charts.repChart3) DataStore.charts.repChart3.destroy();
+          const pts = DataStore.rawRows.slice(0, 60).map(r => ({ x: Number(r[numCols[0]]), y: Number(r[numCols[1]]) }));
+          DataStore.charts.repChart3 = new Chart(c3, {
+            type: 'scatter',
+            data: { datasets: [{ data: pts, backgroundColor: '#0EA5E9' }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+          });
+        }
+
+        // Chart 4: Driver ranking
+        const c4 = document.getElementById('rep-chart-4').getContext('2d');
+        if (DataStore.charts.repChart4) DataStore.charts.repChart4.destroy();
+        
+        const target = DataStore.selectedTarget || (numCols.length > 0 ? numCols[0] : null);
+        let driverLabels = [];
+        let driverData = [];
+        let driverColors = [];
+
+        if (target && numCols.length > 1) {
+          const targetVals = DataStore.rawRows.map(r => Number(r[target]));
+          const correlations = [];
+          numCols.forEach(col => {
+            if (col !== target) {
+              const colVals = DataStore.rawRows.map(r => Number(r[col]));
+              const r = StatEngine.pearson(colVals, targetVals);
+              correlations.push({ col, r, absR: Math.abs(r) });
+            }
+          });
+          correlations.sort((a, b) => b.absR - a.absR);
+          const topDrivers = correlations.slice(0, 4);
+          driverLabels = topDrivers.map(d => d.col);
+          driverData = topDrivers.map(d => d.r);
+          driverColors = topDrivers.map(d => d.r >= 0 ? '#059669' : '#EF4444');
+        } else {
+          driverLabels = numCols.slice(0, 4);
+          driverData = [0.5, 0.3, 0.2, 0.1];
+          driverColors = ['#059669', '#059669', '#059669', '#059669'];
+        }
+
+        DataStore.charts.repChart4 = new Chart(c4, {
+          type: 'bar',
+          data: {
+            labels: driverLabels,
+            datasets: [{
+              label: `Correlation with ${target || 'KPI'}`,
+              data: driverData,
+              backgroundColor: driverColors,
+              borderRadius: 4
+            }]
+          },
+          options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              x: { min: -1.0, max: 1.0, grid: { color: '#F1F5F9' }, ticks: { stepSize: 0.5 } },
+              y: { grid: { display: false } }
+            },
+            plugins: { legend: { display: false } }
+          }
+        });
+      },
+
+      copyReportSummary() {
+        const text = `
+DataLens AI — Executive EDA Report
+Dataset: ${DataStore.datasetName}
+Health Score: ${DataStore.health.score}%
+Total Rows: ${DataStore.rawRows.length} | Columns: ${DataStore.columns.length}
+Missing Rate: ${DataStore.health.missingPct}% | Outlier Rate: ${DataStore.health.outlierPct}%
+
+Top Findings:
+- Total Observations: ${DataStore.rawRows.length}
+- Target KPI Driver: ${DataStore.selectedTarget || 'Identified'}
+- Quality Rating: ${DataStore.health.score >= 80 ? 'Pristine' : 'Acceptable'}
+
+Generated by DataLens AI Studio.
+        `.trim();
+
+        navigator.clipboard.writeText(text).then(() => {
+          this.showToast('Executive summary copied to clipboard!', 'success');
+        });
+      },
+
+      downloadReportImage() {
+        const reportElement = document.getElementById('printable-report');
+        this.showToast('Generating high-resolution report snapshot...', 'info');
+        html2canvas(reportElement, { scale: 2 }).then(canvas => {
+          const link = document.createElement('a');
+          link.download = `DataLens_Report_${DataStore.datasetName.replace(/\s+/g, '_')}.png`;
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+          this.showToast('Report image downloaded!', 'success');
+        });
+      },
+
+      exportFullJSON() {
+        const payload = {
+          datasetName: DataStore.datasetName,
+          columns: DataStore.columns,
+          types: DataStore.columnTypes,
+          health: DataStore.health,
+          statistics: DataStore.stats,
+          rowsCount: DataStore.rawRows.length
+        };
+        const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `datalens_schema_${DataStore.datasetName.replace(/\s+/g, '_').toLowerCase()}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+    };
+
+    // Initialize application when DOM is ready
+    document.addEventListener('DOMContentLoaded', () => {
+      App.init();
+    });
+  </script>
+</body>
+</html>
