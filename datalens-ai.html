@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DataLens AI Studio — Autonomous EDA & Business Intelligence</title>
+  <title>DataLens — Data Profiling, Quality Audit & AI Analytics | Jahanzaib Ahmad</title>
   
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -59,6 +59,27 @@
       --shadow-floating: 0 16px 40px rgba(0, 0, 0, 0.12);
       --transition-fast: 180ms ease;
       --transition-normal: 250ms ease;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* Signature glow on active card */
+    .card:has(.lollipop-container):hover {
+      border-color: rgba(45, 212, 191, 0.3);
+    }
+
+    /* Active dataset badge shimmer */
+    @keyframes shimmer {
+      0% { background-position: -200px 0; }
+      100% { background-position: 200px 0; }
+    }
+
+    /* Power-user keyboard shortcut hints */
+    .carenest-nav-btn:hover::after {
+      content: '';
     }
 
     *, *::before, *::after {
@@ -755,6 +776,72 @@
       display: flex;
       align-items: center;
       gap: 10px;
+    }
+
+
+    /* Data Science Type Badges & Progress */
+    .type-icon-pill {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+    .type-icon-pill.badge-num { background: #E0F2FE; color: #0284C7; }
+    .type-icon-pill.badge-cat { background: #F3E8FF; color: #9333EA; }
+    .type-icon-pill.badge-date { background: #FEF3C7; color: #D97706; }
+    .type-icon-pill.badge-id { background: #F1F5F9; color: #475569; }
+    .type-icon-pill.badge-bool { background: #D1FAE5; color: #059669; }
+
+    .schema-type-pill {
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.04em;
+      display: inline-block;
+    }
+    .schema-type-pill.badge-num { background: rgba(2, 132, 199, 0.1); color: #0284C7; }
+    .schema-type-pill.badge-cat { background: rgba(147, 51, 234, 0.1); color: #9333EA; }
+    .schema-type-pill.badge-date { background: rgba(217, 119, 6, 0.1); color: #D97706; }
+    .schema-type-pill.badge-id { background: rgba(71, 85, 105, 0.1); color: #475569; }
+    .schema-type-pill.badge-bool { background: rgba(5, 150, 105, 0.1); color: #059669; }
+
+    .schema-progress-track {
+      width: 65px;
+      height: 6px;
+      background: #E2E8F0;
+      border-radius: 9999px;
+      overflow: hidden;
+      display: inline-block;
+    }
+    .schema-progress-fill {
+      height: 100%;
+      background: #2DD4BF;
+      border-radius: 9999px;
+    }
+    
+    .roadmap-action-btn {
+      background: #1B3538;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+    .roadmap-action-btn:hover {
+      background: #2DD4BF;
+      color: #0F172A;
+      transform: translateX(2px);
     }
 
     .feature-avatar-circle {
@@ -1679,35 +1766,35 @@
           </svg>
         </div>
         <div class="carenest-brand-text">
-          DataLens <span class="carenest-brand-badge">STUDIO</span>
+          DataLens <span class="carenest-brand-badge">by JA</span>
         </div>
       </a>
 
       <!-- Center: Floating Capsule Nav Dock -->
       <nav class="carenest-nav-dock">
         <button class="carenest-nav-btn active" data-tab="dashboard">
-          <span>🏠</span> Dashboard <span style="font-size:0.7rem;margin-left:2px;">▾</span>
+          <span>📊</span> Overview
         </button>
         <button class="carenest-nav-btn" data-tab="upload">
-          <span>📁</span> Ingest
+          <span>📂</span> Upload
         </button>
         <button class="carenest-nav-btn" data-tab="health">
-          <span>🩺</span> Audit
+          <span>🔬</span> Health
         </button>
         <button class="carenest-nav-btn" data-tab="eda">
-          <span>📊</span> Visual EDA
+          <span>📈</span> Charts
         </button>
         <button class="carenest-nav-btn" data-tab="copilot">
-          <span>🤖</span> AI Copilot
+          <span>💬</span> Ask AI
         </button>
         <button class="carenest-nav-btn" data-tab="drivers">
-          <span>🎯</span> Key Drivers
+          <span>🎯</span> Drivers
         </button>
         <button class="carenest-nav-btn" data-tab="advisor">
-          <span>💡</span> Smart Advisor
+          <span>💡</span> Advisor
         </button>
         <button class="carenest-nav-btn" data-tab="export">
-          <span>📋</span> Report
+          <span>📄</span> Export
         </button>
       </nav>
 
@@ -1725,7 +1812,7 @@
           ⚡ Switch Dataset
         </button>
 
-        <button class="carenest-icon-btn" onclick="alert('Settings: Google Gemini 3.8 Flash active.')">
+        <button class="carenest-icon-btn" onclick="App.switchTab('tab-copilot')" title="AI Settings & Model Config">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="3"></circle>
             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
@@ -1743,16 +1830,16 @@
     <div class="carenest-hero">
       <div class="carenest-hero-text">
         <div style="display:flex; align-items:center; gap:12px; margin-bottom:4px;">
-          <h1 style="margin:0;">Dashboard Overview</h1>
-          <span class="badge" style="background:rgba(45,212,191,0.2); color:#2DD4BF; border:1px solid rgba(45,212,191,0.35); font-size:0.75rem;" id="hero-active-dataset-badge">E-Commerce Sales</span>
+          <h1 style="margin:0;" id="hero-greeting">Your Data, Decoded</h1>
+          <span class="badge" style="background:rgba(45,212,191,0.2); color:#2DD4BF; border:1px solid rgba(45,212,191,0.35); font-size:0.75rem; display:flex; align-items:center; gap:4px;" id="hero-active-dataset-badge"><span style="width:6px;height:6px;border-radius:50%;background:#2DD4BF;animation:pulse 2s infinite;"></span> E-Commerce Sales</span>
         </div>
-        <p style="margin:0; font-size:0.9rem; color:rgba(255,255,255,0.8);">Autonomous exploratory data analysis, health diagnostics &amp; predictive intelligence.</p>
+        <p style="margin:0; font-size:0.9rem; color:rgba(255,255,255,0.8);" id="hero-subtitle">Upload any dataset — get instant profiling, quality audit, and actionable insights. No code needed.</p>
         
         <!-- Quick Data Cleaning Action Bar -->
         <div style="display:flex; align-items:center; gap:8px; margin-top:14px; flex-wrap:wrap;">
-          <span style="font-size:0.75rem; font-weight:700; color:rgba(255,255,255,0.6); text-transform:uppercase; letter-spacing:0.05em;">Quick Clean:</span>
+          <span style="font-size:0.75rem; font-weight:700; color:rgba(255,255,255,0.6); text-transform:uppercase; letter-spacing:0.05em;">⚙ Data Ops:</span>
           <button class="btn btn-sm" style="background:rgba(255,255,255,0.12); color:#fff; border:1px solid rgba(255,255,255,0.25); border-radius:9999px; padding:4px 12px; font-size:0.75rem;" onclick="App.autoCleanData()" title="Drop duplicates and impute missing values">
-            ⚡ Auto-Clean Dataset
+            ⚡ One-Click Clean
           </button>
           <button class="btn btn-sm" style="background:rgba(255,255,255,0.12); color:#fff; border:1px solid rgba(255,255,255,0.25); border-radius:9999px; padding:4px 12px; font-size:0.75rem;" onclick="App.deduplicateData()">
             🧹 Drop Duplicates
@@ -1776,7 +1863,7 @@
             <div class="carenest-hero-kpi-val" id="hero-total-records">
               1,360 <span class="carenest-trend-badge up">↗</span>
             </div>
-            <div class="carenest-hero-kpi-label">Total Rows</div>
+            <div class="carenest-hero-kpi-label">Observations</div>
           </div>
           <div class="carenest-spark-bars">
             <div class="carenest-spark-bar" style="height:12px;"></div>
@@ -1792,7 +1879,7 @@
             <div class="carenest-hero-kpi-val" id="hero-active-patients">
               2,654 <span class="carenest-trend-badge up">↗</span>
             </div>
-            <div class="carenest-hero-kpi-label">Audited Columns</div>
+            <div class="carenest-hero-kpi-label">Features Parsed</div>
           </div>
           <div class="carenest-spark-bars">
             <div class="carenest-spark-bar" style="height:10px;"></div>
@@ -1808,7 +1895,7 @@
             <div class="carenest-hero-kpi-val" id="hero-critical-alerts">
               54 <span class="carenest-trend-badge down">↘</span>
             </div>
-            <div class="carenest-hero-kpi-label">Data Quality Score</div>
+            <div class="carenest-hero-kpi-label">Quality Index</div>
           </div>
           <div class="carenest-spark-bars">
             <div class="carenest-spark-bar" style="height:22px; background:rgba(248,113,113,0.6);"></div>
@@ -1833,11 +1920,11 @@
         <!-- Card 1: Feature Distribution & Spread (Lollipop Stem Chart) -->
         <div class="card">
           <div class="card-header-flex">
-            <div class="card-title-main">Feature Distribution &amp; Spread</div>
+            <div class="card-title-main">Column Variance Profile</div>
             <div class="card-title-val" id="cn-progress-pct">96% Quality</div>
           </div>
           <div class="card-filter-pills">
-            <button class="card-filter-pill active" onclick="App.filterLollipop(this, 'all')">All Features</button>
+            <button class="card-filter-pill active" onclick="App.filterLollipop(this, 'all')">All Columns</button>
             <button class="card-filter-pill" onclick="App.filterLollipop(this, 'volatile')">High Variance</button>
             <button class="card-filter-pill" onclick="App.filterLollipop(this, 'skewed')">Skewed</button>
             <button class="card-filter-pill" onclick="App.filterLollipop(this, 'outliers')">Outliers</button>
@@ -1852,11 +1939,17 @@
           </div>
         </div>
 
-        <!-- Card 2: Statistical Variance & Quality Balance -->
+        <!-- Card 2: Statistical Variance & Quantile Distribution -->
         <div class="card">
           <div class="card-header-flex">
-            <div class="card-title-main">Statistical Variance &amp; Drift</div>
-            <div class="card-title-val" id="cn-stability-score" style="color:#0F172A;">+0.34</div>
+            <div>
+              <div class="card-title-main">Quantile Curve &amp; Skew</div>
+              <div style="margin-top:3px; display:flex; align-items:center; gap:6px;">
+                <span style="font-size:0.72rem; color:#64748B; font-weight:600;">Metric:</span>
+                <select id="cn-stability-col-select" onchange="App.updateStabilityColumn(this.value)" style="border:1px solid #CBD5E1; border-radius:6px; font-size:0.72rem; padding:2px 8px; font-weight:700; color:#0F172A; background:#FFFFFF; outline:none;"></select>
+              </div>
+            </div>
+            <div class="card-title-val" id="cn-stability-score" style="color:#0F172A;">+0.34 Skew</div>
           </div>
           
           <!-- Smooth Line Canvas (Real Quantile Distribution) -->
@@ -1866,28 +1959,30 @@
           
           <div class="insight-quote-box">
             <span style="font-size:1.15rem;">💡</span>
-            <div id="cn-stability-quote">Optimal stability verified: 200 records parsed. Distribution variance is within bounds.</div>
+            <div id="cn-stability-quote">Checking variance and skew across your columns to flag potential modeling issues.</div>
           </div>
 
           <div class="card-sub-split">
             <div class="sub-split-col">
               <div class="sub-split-header">
-                <span class="sub-split-title">Completeness</span>
-                <span class="sub-split-val" id="cn-completeness-val" style="color:#10B981;">100%</span>
+                <span class="sub-split-title">Field Breakdown</span>
+                <span class="sub-split-val" id="cn-completeness-val" style="color:#10B981;">100% Valid</span>
               </div>
-              <div style="display:flex; align-items:flex-end; gap:6px; height:45px;">
-                <div style="width:14px; height:24px; background:#FCA5A5; border-radius:4px;" title="Categorical nulls"></div>
-                <div style="width:14px; height:36px; background:#C084FC; border-radius:4px;" title="Numeric nulls"></div>
-                <div style="width:14px; height:45px; background:#2DD4BF; border-radius:4px;" title="Valid records"></div>
-              </div>
-              <div style="display:flex; justify-content:space-between; font-size:0.68rem; color:#94A3B8; margin-top:4px; font-weight:600;">
-                <span>Cat</span><span>Num</span><span>Valid</span>
+              <div style="display:flex; gap:6px; margin-top:4px;">
+                <div style="background:#F1F5F9; border-radius:8px; padding:6px 8px; flex:1; text-align:center;">
+                  <span style="font-size:0.65rem; color:#64748B; display:block; font-weight:700;">NUMERIC</span>
+                  <strong style="font-size:0.95rem; color:#0F172A;" id="cn-num-col-count">0</strong>
+                </div>
+                <div style="background:#F1F5F9; border-radius:8px; padding:6px 8px; flex:1; text-align:center;">
+                  <span style="font-size:0.65rem; color:#64748B; display:block; font-weight:700;">CATEGORY</span>
+                  <strong style="font-size:0.95rem; color:#0F172A;" id="cn-cat-col-count">0</strong>
+                </div>
               </div>
             </div>
 
             <div class="sub-split-col">
               <div class="sub-split-header">
-                <span class="sub-split-title">Cleanliness</span>
+                <span class="sub-split-title">Health Index</span>
                 <span class="sub-split-val" id="cn-cleanliness-val" style="color:#2DD4BF;">96%</span>
               </div>
               <!-- Semi-circle arch gauge -->
@@ -1906,7 +2001,7 @@
         <!-- Card 3: Data Health & Composition (Concentric Arc Donut) -->
         <div class="card">
           <div class="card-header-flex">
-            <div class="card-title-main">Data Health &amp; Composition</div>
+            <div class="card-title-main">Record Integrity Gauge</div>
             <button style="border:none; background:transparent; font-size:1.2rem; color:#94A3B8; cursor:pointer;" onclick="App.switchTab('tab-health')" title="View Health Audit">···</button>
           </div>
 
@@ -1944,7 +2039,7 @@
 
           <div class="insight-quote-box" style="margin-top:14px;">
             <span style="font-size:1.15rem;">📈</span>
-            <div id="cn-composition-quote">Data readiness verified. 100% of features parsed for statistical modeling.</div>
+            <div id="cn-composition-quote">All features profiled and ready for analysis. Integrity check passed.</div>
           </div>
         </div>
 
@@ -1956,7 +2051,7 @@
         <!-- Card 4: Actionable Data Science Roadmap -->
         <div class="card">
           <div class="card-header-flex">
-            <div class="card-title-main">Suggested Next Steps</div>
+            <div class="card-title-main">What To Do Next</div>
             <button class="btn btn-secondary btn-sm" style="font-size:0.75rem; padding:4px 12px;" onclick="App.switchTab('tab-advisor')">Create Plan +</button>
           </div>
 
@@ -1968,7 +2063,7 @@
         <!-- Card 5: Real Column Schema & Attributes Explorer Table -->
         <div class="card">
           <div class="card-header-flex">
-            <div class="card-title-main">Dataset Features &amp; Schema</div>
+            <div class="card-title-main">Schema & Column Inspector</div>
             <div style="display:flex; align-items:center; gap:8px;">
               <button class="carenest-icon-btn" style="background:#F1F5F9; color:#64748B; width:30px; height:30px;" onclick="App.switchTab('tab-upload')" title="Manage Ingestion">🔍</button>
               <button class="btn btn-secondary btn-sm" style="font-size:0.75rem; padding:4px 12px;" onclick="App.switchTab('tab-eda')">⚙️ Explore</button>
@@ -1993,8 +2088,8 @@
         <!-- Card 6: DataLens AI Autonomous Copilot -->
         <div class="carenest-ai-card">
           <div class="carenest-ai-header">
-            <h2>DataLens AI</h2>
-            <p>Your Autonomous Data Scientist</p>
+            <h2>Ask Your Data</h2>
+            <p>Natural language queries → instant analysis with charts</p>
           </div>
 
           <div class="carenest-ai-prompts" id="cn-copilot-prompts">
@@ -2003,14 +2098,14 @@
 
           <div class="carenest-ai-input-dock">
             <div class="carenest-credits-row">
-              <span>Gemini 3.8 Flash Active</span>
+              <span>💎 Powered by Gemini AI + Local Analytics Engine</span>
               <span class="carenest-upgrade-pill" onclick="App.switchTab('tab-copilot')">Full Chat ↗</span>
             </div>
             <textarea class="carenest-chat-textarea" id="aria-quick-input" placeholder="Ask anything about your data..."></textarea>
             <div class="carenest-chat-bottom-actions">
               <div class="carenest-action-icons">
-                <span title="Voice note simulation" onclick="alert('Voice prompt listening...')">🎤</span>
-                <span title="Attach file" onclick="document.getElementById('file-input').click()">📎</span>
+                <span title="Voice prompt" onclick="App.startVoicePrompt()" style="cursor:pointer;">🎤</span>
+                <span title="Upload dataset file" onclick="document.getElementById('file-input').click()" style="cursor:pointer;">📎</span>
               </div>
               <button class="carenest-floating-send" onclick="App.submitAriaQuery()" title="Send Query">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -2033,7 +2128,7 @@
         <div class="card">
           <div class="upload-dropzone" id="dropzone" onclick="document.getElementById('file-input').click()">
             <input type="file" id="file-input" style="display: none" accept=".csv, .xlsx, .xls, .json, .jsonl, .ndjson">
-            <div class="dropzone-icon">📁</div>
+            <div class="dropzone-icon">📊</div>
             <h3 class="dropzone-title">Drop CSV, Excel, JSON, or JSONL files here</h3>
             <p class="dropzone-desc">Drag and drop your dataset file, or click to browse. Also supports nested JSON, API responses, and JSONL/NDJSON.</p>
             <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center; align-items:center;">
@@ -2227,7 +2322,7 @@
             <div class="card-header">
               <div class="card-title-group">
                 <h3>Detected Outliers per Numeric Column</h3>
-                <p>Data points exceeding $Q3 + 1.5 \times IQR$ or below $Q1 - 1.5 \times IQR$</p>
+                <p>Data points exceeding Q3 + (1.5 × IQR) or below Q1 − (1.5 × IQR)</p>
               </div>
             </div>
             <div style="height: 280px; position: relative;">
@@ -2523,7 +2618,7 @@
           <div class="card-header">
             <div class="card-title-group">
               <h3>Top Drivers vs. Target (with Linear Regression Trendlines)</h3>
-              <p>Bivariate relationship with slope and $R^2$ coefficient</p>
+              <p>Bivariate relationship with linear slope and R² coefficient</p>
             </div>
           </div>
           <div class="grid-3" id="top-drivers-grid">
@@ -2762,6 +2857,8 @@
     const DataStore = {
       datasetName: 'E-Commerce Sales',
       rawRows: [],
+      get data() { return this.rawRows; },
+      set data(v) { this.rawRows = v; },
       columns: [],
       columnTypes: {}, // { colName: 'numeric' | 'categorical' | 'datetime' | 'boolean' }
       stats: {},       // { colName: { count, mean, std, min, q1, median, q3, max, iqr, skewness, outliers } }
@@ -2958,11 +3055,26 @@
           return 'numeric';
         }
 
-        // Check date
+        // Check identifier (unique IDs like ORD-1001, PT-5001, CUST-1001)
+        if (validValues.length > 5) {
+          const uniqueRatio = new Set(validValues).size / validValues.length;
+          const isIdPattern = validValues.every(v => typeof v === 'string' && /^[a-z0-9_-]{3,30}$/i.test(String(v).trim()));
+          if (uniqueRatio > 0.95 && isIdPattern) {
+            return 'identifier';
+          }
+        }
+
+        // Check date (Strict ISO, US, or standard date format)
         const dateCount = validValues.filter(v => {
-          if (typeof v === 'string' && (v.includes('-') || v.includes('/'))) {
-            const parsed = Date.parse(v);
-            return !isNaN(parsed);
+          if (typeof v === 'string') {
+            const s = v.trim();
+            const isStrictDate = /^\d{4}[-/.]\d{1,2}[-/.]\d{1,2}(?:[T\s]\d{1,2}:\d{2}(?::\d{2})?(?:\.\d+)?(?:Z|[+-]\d{2}:?\d{2})?)?$/i.test(s) ||
+              /^\d{1,2}[-/.]\d{1,2}[-/.]\d{2,4}$/.test(s) ||
+              /^(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* \d{1,2},? \d{4}/i.test(s);
+            if (isStrictDate) {
+              const parsed = Date.parse(s);
+              return !isNaN(parsed);
+            }
           }
           return false;
         }).length;
@@ -3293,6 +3405,7 @@
         if (targetId === 'tab-eda') App.renderVisualEDA();
         if (targetId === 'tab-drivers') App.renderKeyDrivers();
         if (targetId === 'tab-export') App.renderExportReport();
+        if (targetId === 'tab-advisor' || targetId === 'advisor') App.generateAdvisorInsights();
       },
 
       setupNavigation() {
@@ -3612,6 +3725,7 @@
         if (activeTab === 'tab-eda') this.renderVisualEDA();
         if (activeTab === 'tab-drivers') this.renderKeyDrivers();
         if (activeTab === 'tab-export') this.renderExportReport();
+        if (activeTab === 'tab-advisor' || activeTab === 'advisor') this.generateAdvisorInsights();
       },
 
       quickSampleSwitch() {
@@ -5812,13 +5926,26 @@ Generated by DataLens AI Studio.
 
       const stats = targetCols.map(c => {
         const s = DataStore.stats[c];
-        if (s && s.mean !== undefined) {
-          return { col: c, val: Math.abs(s.mean) || 1, rawMean: s.mean };
+        let val = 1;
+        let metricLabel = '';
+        if (s) {
+          if (mode === 'volatile') {
+            const cv = s.mean ? Math.abs((s.std / s.mean) * 100) : 0;
+            val = cv || 1;
+            metricLabel = `CV: ${cv.toFixed(1)}%`;
+          } else if (mode === 'skewed') {
+            val = Math.abs(s.skewness || 0) || 0.1;
+            metricLabel = `Skew: ${(s.skewness || 0).toFixed(2)}`;
+          } else if (mode === 'outliers') {
+            val = (s.outliers ? s.outliers.length : 0) || 0.1;
+            metricLabel = `Outliers: ${s.outliers ? s.outliers.length : 0}`;
+          } else {
+            val = Math.abs(s.mean) || 1;
+            metricLabel = `Avg: ${s.mean.toFixed(1)}`;
+          }
+          return { col: c, val, rawMean: s.mean, metricLabel };
         }
-        const vals = rows.map(r => parseFloat(r[c])).filter(v => !isNaN(v));
-        if (vals.length === 0) return { col: c, val: 50, rawMean: 50 };
-        const mean = vals.reduce((a, b) => a + b, 0) / vals.length;
-        return { col: c, val: Math.abs(mean) || 1, rawMean: mean };
+        return { col: c, val: 10, rawMean: 10, metricLabel: 'N/A' };
       });
 
       const maxVal = Math.max(...stats.map(s => s.val), 1);
@@ -5828,7 +5955,7 @@ Generated by DataLens AI Studio.
         const height = Math.max(35, Math.min(145, Math.round((s.val / maxVal) * 125 + 20)));
         const color = palette[idx % palette.length];
         return `
-          <div class="lollipop-stem-group" title="${s.col}: Avg ${s.rawMean.toFixed(2)}" onclick="App.inspectColumn('${s.col}')" style="cursor:pointer;">
+          <div class="lollipop-stem-group" title="${s.col} (${s.metricLabel})" onclick="App.inspectColumn('${s.col}')" style="cursor:pointer;">
             <div class="lollipop-dot" style="background:${color};"></div>
             <div class="lollipop-stem" style="height:${height}px; background:${color}; width:3px; border-radius:3px;"></div>
           </div>
@@ -5840,6 +5967,73 @@ Generated by DataLens AI Studio.
           const shortName = s.col.length > 7 ? s.col.substring(0, 6) + '…' : s.col;
           return `<span style="cursor:pointer;" title="${s.col}" onclick="App.inspectColumn('${s.col}')">${shortName}</span>`;
         }).join('');
+      }
+    };
+
+
+    App.executeRoadmapStep = function(action, title) {
+      if (action === 'pareto') {
+        App.switchTab('tab-copilot');
+        const numC = Object.keys(DataStore.stats)[0] || 'Revenue';
+        const catC = Object.keys(DataStore.categories)[0] || 'Category';
+        const q = `pareto 80/20 breakdown of ${numC} by ${catC}`;
+        const input = document.getElementById('chat-input');
+        if (input) {
+          input.value = q;
+          App.handleChatSubmit(new Event('submit'));
+        }
+      } else if (action === 'elasticity' || action === 'scatter') {
+        App.switchTab('tab-eda');
+        const numCols = Object.keys(DataStore.stats);
+        const xSel = document.getElementById('scatter-x-axis');
+        const ySel = document.getElementById('scatter-y-axis');
+        if (xSel && ySel && numCols.length >= 2) {
+          xSel.value = numCols.find(c => /discount|price|unit/i.test(c)) || numCols[0];
+          ySel.value = numCols.find(c => /quantity|revenue|charges/i.test(c)) || numCols[1];
+          App.renderScatterPlot();
+        }
+        App.showToast(`Configured Scatter analysis for ${title}`, 'success');
+      } else if (action === 'segmentation') {
+        App.switchTab('tab-copilot');
+        const input = document.getElementById('chat-input');
+        if (input) {
+          input.value = 'show customer segmentation breakdown and recommendations';
+          App.handleChatSubmit(new Event('submit'));
+        }
+      } else if (action === 'forecast') {
+        App.switchTab('tab-copilot');
+        const input = document.getElementById('chat-input');
+        if (input) {
+          input.value = 'show trend and sales forecast over time';
+          App.handleChatSubmit(new Event('submit'));
+        }
+      } else if (action === 'compare') {
+        App.switchTab('tab-copilot');
+        const input = document.getElementById('chat-input');
+        if (input) {
+          input.value = 'compare categories and segment differences';
+          App.handleChatSubmit(new Event('submit'));
+        }
+      } else if (action === 'distribution') {
+        App.switchTab('tab-eda');
+        App.showToast('Switched to Visual EDA distribution histograms', 'info');
+      } else if (action === 'drivers') {
+        App.switchTab('tab-drivers');
+      } else if (action === 'advisor') {
+        App.switchTab('tab-advisor');
+      } else if (action === 'report') {
+        App.switchTab('tab-export');
+      } else if (action === 'impute') {
+        App.imputeMissingData();
+      } else if (action === 'outliers') {
+        App.filterOutliersData();
+      } else {
+        App.switchTab('tab-copilot');
+        const input = document.getElementById('chat-input');
+        if (input) {
+          input.value = `analyze ${title}`;
+          App.handleChatSubmit(new Event('submit'));
+        }
       }
     };
 
@@ -5857,6 +6051,31 @@ Generated by DataLens AI Studio.
         input.value = promptText;
         App.submitAriaQuery();
       }
+    };
+
+
+    App.startVoicePrompt = function() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        App.showToast('Speech recognition not supported in this browser. Type in the input below.', 'info');
+        return;
+      }
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.interimResults = false;
+      App.showToast('Listening... Speak now', 'info');
+      recognition.onresult = (e) => {
+        const transcript = e.results[0][0].transcript;
+        const input = document.getElementById('aria-quick-input') || document.getElementById('chat-input');
+        if (input) {
+          input.value = transcript;
+          App.showToast(`Heard: "${transcript}"`, 'success');
+        }
+      };
+      recognition.onerror = () => {
+        App.showToast('Microphone not recognized or permission denied.', 'warning');
+      };
+      recognition.start();
     };
 
     App.submitAriaQuery = function() {
@@ -5878,6 +6097,65 @@ Generated by DataLens AI Studio.
     // ====================================================================
     // REAL DATA-DRIVEN CARENEST DASHBOARD ENGINE
     // ====================================================================
+
+    App.updateStabilityColumn = function(colName) {
+      if (!DataStore.rawRows || DataStore.rawRows.length === 0) return;
+      const rows = DataStore.rawRows;
+      const stabCtx = document.getElementById('cn-stability-chart');
+      if (!stabCtx) return;
+
+      const rawVals = rows.map(r => parseFloat(r[colName])).filter(v => !isNaN(v)).sort((a, b) => a - b);
+      if (rawVals.length === 0) return;
+
+      const quantiles = [0.05, 0.20, 0.40, 0.60, 0.75, 0.90, 0.98].map(p => rawVals[Math.floor(rawVals.length * p)] || 0);
+      
+      if (window.cnStabChartInst) {
+        try { window.cnStabChartInst.destroy(); } catch(e){}
+      }
+      window.cnStabChartInst = new Chart(stabCtx, {
+        type: 'line',
+        data: {
+          labels: ['Q5', 'Q20', 'Q40', 'Q60', 'Q75', 'Q90', 'Q98'],
+          datasets: [{
+            label: colName,
+            data: quantiles,
+            borderColor: '#1F5257',
+            borderWidth: 2.4,
+            pointBackgroundColor: '#2DD4BF',
+            pointBorderColor: '#1F5257',
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            tension: 0.35,
+            fill: false
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              enabled: true,
+              callbacks: {
+                label: (ctx) => `${colName} (${ctx.label}): ${typeof ctx.raw === 'number' ? ctx.raw.toFixed(2) : ctx.raw}`
+              }
+            }
+          },
+          scales: {
+            x: { grid: { display: false }, ticks: { font: { size: 10, family: 'Plus Jakarta Sans' }, color: '#94A3B8' } },
+            y: { display: false }
+          }
+        }
+      });
+
+      const stabScoreEl = document.getElementById('cn-stability-score');
+      const s = DataStore.stats[colName];
+      if (stabScoreEl && s) {
+        const skew = s.skewness !== undefined ? (s.skewness > 0 ? `+${s.skewness.toFixed(2)}` : s.skewness.toFixed(2)) : '0.00';
+        stabScoreEl.textContent = `${skew} Skew`;
+      }
+    };
+
     App.renderDashboard = function() {
       if (!DataStore.rawRows || DataStore.rawRows.length === 0) return;
       const rows = DataStore.rawRows;
@@ -5900,13 +6178,43 @@ Generated by DataLens AI Studio.
       const heroBadge = document.getElementById('hero-active-dataset-badge');
       if (heroBadge) heroBadge.textContent = DataStore.datasetName || 'Active Dataset';
 
+
+      // --- Smart Greeting based on time of day ---
+      const greetEl = document.getElementById('hero-greeting');
+      if (greetEl) {
+        const hour = new Date().getHours();
+        const name = 'Analyst';
+        if (hour < 12) greetEl.textContent = 'Good Morning — Let\'s Analyze';
+        else if (hour < 17) greetEl.textContent = 'Your Data, Decoded';
+        else greetEl.textContent = 'Evening Session — Deep Dive Mode';
+      }
+
+      // Smart subtitle based on loaded data
+      const subEl = document.getElementById('hero-subtitle');
+      if (subEl && DataStore.rawRows.length > 0) {
+        const numC = Object.keys(DataStore.stats || {}).length;
+        const catC = Object.keys(DataStore.categories || {}).length;
+        subEl.textContent = `Profiling ${DataStore.rawRows.length} records across ${numC} metrics and ${catC} categories from "${DataStore.datasetName}".`;
+      }
+
       // 2. Card 1: Feature Distribution (Real Lollipop Chart)
       App.renderLollipopChart('all');
 
       // 3. Card 2: Statistical Variance & Drift (Real Quantile Distribution Curve)
       const stabCtx = document.getElementById('cn-stability-chart');
+      const stabSel = document.getElementById('cn-stability-col-select');
+      if (stabSel && numCols.length > 0) {
+        const prevVal = stabSel.value;
+        stabSel.innerHTML = numCols.map(c => `<option value="${c}">${c}</option>`).join('');
+        if (numCols.includes(prevVal)) stabSel.value = prevVal;
+      }
+      const numColCountEl = document.getElementById('cn-num-col-count');
+      if (numColCountEl) numColCountEl.textContent = numCols.length;
+      const catColCountEl = document.getElementById('cn-cat-col-count');
+      if (catColCountEl) catColCountEl.textContent = catCols.length;
+
       if (stabCtx && numCols.length > 0) {
-        const primCol = numCols[0];
+        const primCol = stabSel && stabSel.value ? stabSel.value : numCols[0];
         const rawVals = rows.map(r => parseFloat(r[primCol])).filter(v => !isNaN(v)).sort((a, b) => a - b);
         if (rawVals.length > 0) {
           const quantiles = [0.05, 0.20, 0.40, 0.60, 0.75, 0.90, 0.98].map(p => rawVals[Math.floor(rawVals.length * p)] || 0);
@@ -6004,85 +6312,103 @@ Generated by DataLens AI Studio.
           : `Quality optimization suggested: Impute ${health.missingCount} missing values before modeling.`;
       }
 
-      // 5. Card 4: Actionable Data Science Roadmap (Suggested Next Steps)
+      // 5. Card 4: Actionable Data Science Roadmap (Interactive Action Console)
       const roadmapContainer = document.getElementById('cn-roadmap-list');
       if (roadmapContainer) {
         let steps = [];
         if (DataStore.datasetName.includes('Commerce')) {
           steps = [
-            { icon: '💰', title: 'Revenue Pareto Analysis', sub: '(Step 1)', desc: 'Identify top 20% high-spending customers and product margins.' },
-            { icon: '🏷️', title: 'Discount Elasticity Test', sub: '(Step 2)', desc: 'Measure how discount rate impacts order quantity across cities.' },
-            { icon: '👥', title: 'Customer Segmentation', sub: '(Step 3)', desc: 'K-Means clustering across Consumer, Corporate, and Home Office.' },
-            { icon: '📈', title: 'Sales Trend Forecasting', sub: '(Step 4)', desc: 'Build ARIMA time-series forecast on daily transaction volume.' },
-            { icon: '⚡', title: 'Automated BI Pipeline', sub: '(Step 5)', desc: 'Deploy scheduled Google Sheets & Executive PDF reporting.' }
+            { action: 'pareto', icon: '💰', title: 'Revenue Pareto Analysis', sub: '(Step 1)', desc: 'Identify top 20% high-spending customers and product margins.', btnText: 'Run Pareto' },
+            { action: 'elasticity', icon: '🏷️', title: 'Discount Elasticity Test', sub: '(Step 2)', desc: 'Measure how discount rate impacts order quantity across cities.', btnText: 'View Plot' },
+            { action: 'segmentation', icon: '👥', title: 'Customer Segmentation', sub: '(Step 3)', desc: 'K-Means clustering across Consumer, Corporate, and Home Office.', btnText: 'Cluster' },
+            { action: 'forecast', icon: '📈', title: 'Sales Trend Forecasting', sub: '(Step 4)', desc: 'Build time-series forecast on daily transaction volume.', btnText: 'Forecast' },
+            { action: 'report', icon: '⚡', title: 'Executive BI Pipeline', sub: '(Step 5)', desc: 'Generate executive summary with visual charts.', btnText: 'Export' }
           ];
         } else if (DataStore.datasetName.includes('Churn')) {
           steps = [
-            { icon: '📉', title: 'Tenure Cohort Audit', sub: '(Step 1)', desc: 'Analyze retention drop-off during the first 6 subscription months.' },
-            { icon: '📑', title: 'Contract Risk Evaluation', sub: '(Step 2)', desc: 'Compare Month-to-Month attrition versus One-Year contracts.' },
-            { icon: '💡', title: 'Pricing Feature Importance', sub: '(Step 3)', desc: 'Determine if high MonthlyCharges drive customer cancellation.' },
-            { icon: '🤖', title: 'Predictive Churn Classifier', sub: '(Step 4)', desc: 'Train Logistic Regression model to flag high-risk subscribers.' },
-            { icon: '🎯', title: 'Retention Win-Back Playbook', sub: '(Step 5)', desc: 'Automate targeted discounts for at-risk subscription accounts.' }
+            { action: 'drivers', icon: '📉', title: 'Tenure Cohort Audit', sub: '(Step 1)', desc: 'Analyze retention drop-off during the first subscription months.', btnText: 'Audit Drivers' },
+            { action: 'compare', icon: '📑', title: 'Contract Risk Evaluation', sub: '(Step 2)', desc: 'Compare Month-to-Month attrition versus One-Year contracts.', btnText: 'Compare' },
+            { action: 'drivers', icon: '💡', title: 'Pricing Feature Importance', sub: '(Step 3)', desc: 'Determine if high MonthlyCharges drive customer cancellation.', btnText: 'Check Driver' },
+            { action: 'forecast', icon: '🤖', title: 'Predictive Churn Classifier', sub: '(Step 4)', desc: 'Simulate high-risk subscriber propensity scores.', btnText: 'Simulate' },
+            { action: 'advisor', icon: '🎯', title: 'Retention Win-Back Playbook', sub: '(Step 5)', desc: 'Actionable recommendations for at-risk accounts.', btnText: 'Playbook' }
           ];
         } else if (DataStore.datasetName.includes('Healthcare')) {
           steps = [
-            { icon: '🩺', title: 'Clinical Vital Spread', sub: '(Step 1)', desc: 'Audit BMI, Blood Pressure, and Cholesterol normality bounds.' },
-            { icon: '🧬', title: 'Diagnosis Correlation', sub: '(Step 2)', desc: 'Cross-tabulate patient age and chronic conditions with outcomes.' },
-            { icon: '🚨', title: 'Readmission Risk Modeling', sub: '(Step 3)', desc: 'Identify key physiological drivers of emergency readmissions.' },
-            { icon: '🧪', title: 'Biomarker Normalization', sub: '(Step 4)', desc: 'Standardize vital sign distributions across age cohorts.' },
-            { icon: '📊', title: 'Clinical Executive Briefing', sub: '(Step 5)', desc: 'Generate HIPAA-compliant diagnostic summary report.' }
+            { action: 'distribution', icon: '🩺', title: 'Clinical Vital Spread', sub: '(Step 1)', desc: 'Audit BMI, Blood Pressure, and Cholesterol normality bounds.', btnText: 'Check Spread' },
+            { action: 'drivers', icon: '🧬', title: 'Diagnosis Correlation', sub: '(Step 2)', desc: 'Cross-tabulate patient age and chronic conditions with outcomes.', btnText: 'Correlate' },
+            { action: 'drivers', icon: '🚨', title: 'Readmission Risk Modeling', sub: '(Step 3)', desc: 'Identify key physiological drivers of emergency readmissions.', btnText: 'Inspect' },
+            { action: 'impute', icon: '🧪', title: 'Biomarker Normalization', sub: '(Step 4)', desc: 'Standardize vital sign distributions across cohorts.', btnText: 'Normalize' },
+            { action: 'report', icon: '📊', title: 'Clinical Executive Briefing', sub: '(Step 5)', desc: 'Generate diagnostic summary briefing.', btnText: 'Briefing' }
           ];
         } else {
           const target = numCols[0] || cols[0] || 'Target';
           steps = [
-            { icon: '🔍', title: 'Feature Distribution Audit', sub: '(Step 1)', desc: `Inspect variance, quantiles, and IQR bounds for ${target}.` },
-            { icon: '🩹', title: 'Missing Value Imputation', sub: '(Step 2)', desc: health.missingCount > 0 ? `Resolve ${health.missingCount} null entries using median or mode strategy.` : 'Zero nulls detected. Feature completeness verified 100%.' },
-            { icon: '✂️', title: 'Anomaly Treatment', sub: '(Step 3)', desc: health.outlierCount > 0 ? `Filter or winsorize ${health.outlierCount} outliers via Tukey 1.5x IQR rule.` : 'Outlier check passed with normal distribution bounds.' },
-            { icon: '📊', title: 'Correlation & Driver Analysis', sub: '(Step 4)', desc: `Compute Pearson & Spearman coefficients against ${target}.` },
-            { icon: '🚀', title: 'Executive Export & Reporting', sub: '(Step 5)', desc: 'Compile professional HTML/PDF executive summary with visual charts.' }
+            { action: 'distribution', icon: '🔍', title: 'Feature Distribution Audit', sub: '(Step 1)', desc: `Inspect variance, quantiles, and IQR bounds for ${target}.`, btnText: 'Inspect' },
+            { action: 'impute', icon: '🩹', title: 'Missing Value Imputation', sub: '(Step 2)', desc: health.missingCount > 0 ? `Resolve ${health.missingCount} null entries.` : 'Zero nulls detected. Completeness 100%.', btnText: 'Clean' },
+            { action: 'outliers', icon: '✂️', title: 'Anomaly Treatment', sub: '(Step 3)', desc: health.outlierCount > 0 ? `Filter or winsorize ${health.outlierCount} outliers via Tukey IQR.` : 'Outlier check passed within normal bounds.', btnText: 'Trim' },
+            { action: 'drivers', icon: '📊', title: 'Correlation & Driver Analysis', sub: '(Step 4)', desc: `Compute Pearson coefficients against ${target}.`, btnText: 'Analyze' },
+            { action: 'report', icon: '🚀', title: 'Executive Export & Reporting', sub: '(Step 5)', desc: 'Compile professional HTML/PDF executive summary.', btnText: 'Export' }
           ];
         }
 
         roadmapContainer.innerHTML = steps.map(s => `
-          <div class="roadmap-item">
-            <div class="roadmap-icon-box">${s.icon}</div>
-            <div class="roadmap-item-info">
-              <div class="roadmap-title-row">
-                <span class="roadmap-title">${s.title}</span>
-                <span class="roadmap-timeline-pill">${s.sub}</span>
+          <div class="roadmap-item" style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+            <div style="display:flex; align-items:center; gap:10px; flex:1;">
+              <div class="roadmap-icon-box">${s.icon}</div>
+              <div class="roadmap-item-info">
+                <div class="roadmap-title-row">
+                  <span class="roadmap-title">${s.title}</span>
+                  <span class="roadmap-timeline-pill">${s.sub}</span>
+                </div>
+                <div class="roadmap-desc">• ${s.desc}</div>
               </div>
-              <div class="roadmap-desc">• ${s.desc}</div>
             </div>
+            <button class="roadmap-action-btn" onclick="App.executeRoadmapStep('${s.action}', '${s.title.replace(/'/g, "\\'")}')">
+              ${s.btnText} →
+            </button>
           </div>
         `).join('');
       }
 
-      // 6. Card 5: Real Column Schema & Attributes Explorer Table
+      // 6. Card 5: Professional Column Schema & Attributes Table
       const tbody = document.getElementById('cn-providers-tbody');
       if (tbody && cols.length > 0) {
-        tbody.innerHTML = cols.slice(0, 6).map((col, idx) => {
+        tbody.innerHTML = cols.slice(0, 6).map((col) => {
           const type = DataStore.columnTypes[col] || 'categorical';
-          const initials = col.substring(0, 2).toUpperCase();
+          const isNum = type === 'numeric';
+          const isCat = type === 'categorical';
+          const isDate = type === 'datetime';
+          const isId = type === 'identifier' || /id$|code$|key$/i.test(col);
+          const icon = isId ? '🔑' : isNum ? '#' : isDate ? '📅' : 'Aa';
+          const badgeClass = isId ? 'badge-id' : isNum ? 'badge-num' : isDate ? 'badge-date' : 'badge-cat';
+          const displayType = isId ? 'IDENTIFIER' : type.toUpperCase();
+
           const nullCount = rows.filter(r => r[col] === null || r[col] === undefined || r[col] === '').length;
           const validPct = (((rows.length - nullCount) / rows.length) * 100).toFixed(0);
-          const colors = ['#D1FAE5', '#E0F2FE', '#FEF3C7', '#FEE2E2', '#F3E8FF', '#E2E8F0'];
-          const textColors = ['#065F46', '#0369A1', '#92400E', '#991B1B', '#6B21A8', '#334155'];
+          const distinctCount = new Set(rows.map(r => r[col])).size;
 
           return `
             <tr>
               <td>
-                <div class="feature-avatar-row">
-                  <div class="feature-avatar-circle" style="background:${colors[idx % colors.length]}; color:${textColors[idx % textColors.length]};">${initials}</div>
+                <div style="display:flex; align-items:center; gap:10px;">
+                  <div class="type-icon-pill ${badgeClass}" title="${type}">${icon}</div>
                   <div>
-                    <div style="font-weight:700; color:#0F172A; cursor:pointer;" onclick="App.inspectColumn('${col}')">${col}</div>
-                    <span class="status-badge-carenest available">● Available</span>
+                    <div style="font-weight:700; color:#0F172A; cursor:pointer; font-size:0.85rem;" onclick="App.inspectColumn('${col}')">${col}</div>
+                    <div style="font-size:0.7rem; color:#94A3B8;">${distinctCount} unique · ${nullCount === 0 ? '0 nulls' : nullCount + ' nulls'}</div>
                   </div>
                 </div>
               </td>
-              <td><span class="badge badge-info">${type}</span></td>
-              <td style="color:#64748B;">${validPct}% Valid (${rows.length} rows)</td>
+              <td><span class="schema-type-pill ${badgeClass}">${displayType}</span></td>
               <td>
-                <button class="btn btn-secondary btn-sm" style="font-size:0.75rem; padding:3px 10px;" onclick="App.inspectColumn('${col}')">
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <div class="schema-progress-track">
+                    <div class="schema-progress-fill" style="width:${validPct}%;"></div>
+                  </div>
+                  <span style="font-size:0.72rem; color:#64748B; font-weight:600;">${validPct}%</span>
+                </div>
+              </td>
+              <td>
+                <button class="btn btn-secondary btn-sm" style="font-size:0.72rem; padding:3px 10px; border-radius:9999px;" onclick="App.inspectColumn('${col}')">
                   🔍 Inspect
                 </button>
               </td>
@@ -6320,13 +6646,14 @@ Generated by DataLens AI Studio.
 
 
     App.generateAdvisorInsights = function() {
-      if (!DataStore.data || DataStore.data.length === 0) {
+      const rows = DataStore.rawRows || DataStore.data || [];
+      if (!rows || rows.length === 0) {
         App.showToast('⚠️ Load a dataset first to generate insights.', 'warning');
         return;
       }
 
-      const data = DataStore.data;
-      const cols = DataStore.columns;
+      const data = rows;
+      const cols = DataStore.columns || [];
       const numCols = cols.filter(c => DataStore.columnTypes[c] === 'numeric');
       const catCols = cols.filter(c => DataStore.columnTypes[c] === 'categorical');
       const totalRows = data.length;
@@ -6710,6 +7037,13 @@ Generated by DataLens AI Studio.
       </div>
     </div>
   </div>
+
+
+  <!-- Signature Footer -->
+  <footer style="text-align:center; padding:20px 0 30px 0; font-size:0.72rem; color:#94A3B8; font-weight:500; letter-spacing:0.01em;">
+    Built by <strong style="color:#0F172A;">Jahanzaib Ahmad</strong> · Data Analyst & Scientist · 
+    <a href="https://github.com/jahanzaibahmad630-bit" target="_blank" style="color:#2DD4BF; text-decoration:none; font-weight:600;">GitHub</a>
+  </footer>
 
 
   <!-- URL Import Modal -->
