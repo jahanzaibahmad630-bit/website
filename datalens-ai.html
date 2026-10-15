@@ -19,36 +19,41 @@
 
   <style>
     /* ==========================================================================
-       DESIGN SYSTEM & CSS VARIABLES
+       WHARF DARK & GOLD DESIGN SYSTEM
        ========================================================================== */
     :root {
-      --bg-main: #F1F5F9;
-      --bg-card: #FFFFFF;
-      --border-color: #E2E8F0;
-      --border-focus: #059669;
-      --primary: #059669;
-      --primary-light: #10B981;
-      --primary-subtle: #ECFDF5;
-      --primary-dark: #047857;
-      --secondary: #0EA5E9;
-      --secondary-light: #38BDF8;
-      --secondary-subtle: #F0F9FF;
-      --secondary-dark: #0284C7;
-      --text-main: #0F172A;
-      --text-muted: #64748B;
-      --text-light: #94A3B8;
+      --bg-main: #0F1117;          /* Deep dark background */
+      --bg-secondary: #161822;      /* Slightly lighter dark */
+      --bg-card: #1C1E2D;          /* Card background */
+      --bg-card-hover: #22253A;    /* Card hover */
+      --border-color: #2A2D3E;     /* Subtle borders */
+      --border-focus: #E8A838;     /* Gold focus */
+      --primary: #E8A838;          /* Gold/amber primary */
+      --primary-light: #F5C462;    /* Lighter gold */
+      --primary-subtle: rgba(232, 168, 56, 0.1); /* Subtle gold bg */
+      --primary-dark: #C98B1F;     /* Darker gold */
+      --secondary: #5B8DEF;        /* Blue secondary */
+      --secondary-light: #7BA8FF;  /* Light blue */
+      --secondary-subtle: rgba(91, 141, 239, 0.1);
+      --secondary-dark: #3D6FCC;
+      --text-main: #EAEDF3;        /* White-ish text */
+      --text-muted: #8B8FA3;       /* Muted gray text */
+      --text-light: #5A5E73;       /* Very muted */
       --danger: #EF4444;
-      --danger-subtle: #FEF2F2;
+      --danger-subtle: rgba(239, 68, 68, 0.1);
       --warning: #F59E0B;
-      --warning-subtle: #FFFBEB;
+      --warning-subtle: rgba(245, 158, 11, 0.1);
+      --success: #10B981;
+      --success-subtle: rgba(16, 185, 129, 0.1);
       --radius-sm: 8px;
       --radius-md: 12px;
       --radius-lg: 16px;
       --radius-full: 9999px;
-      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
-      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
-      --shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.08);
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+      --shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.3);
+      --sidebar-width: 260px;
       --transition-fast: 180ms ease;
       --transition-normal: 250ms ease;
     }
@@ -69,6 +74,23 @@
       flex-direction: column;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    /* Dark scrollbar */
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-main);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: var(--radius-full);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--text-light);
     }
 
     /* Container */
@@ -76,93 +98,278 @@
       width: 100%;
       max-width: 1400px;
       margin: 0 auto;
-      padding: 0 24px;
     }
 
     /* ==========================================================================
-       HEADER & NAVIGATION
+       APP LAYOUT & SIDEBAR NAVIGATION
        ========================================================================== */
-    .app-header {
-      background: #FFFFFF;
-      border-bottom: 1px solid var(--border-color);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    .app-layout {
+      display: flex;
+      min-height: 100vh;
+      width: 100%;
     }
 
-    .header-top {
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 95;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .sidebar-overlay.open {
+      display: block;
+      opacity: 1;
+    }
+
+    .sidebar {
+      width: var(--sidebar-width);
+      background: var(--bg-secondary);
+      border-right: 1px solid var(--border-color);
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 0;
+      flex-direction: column;
+      padding: 20px 0;
+      z-index: 100;
+      overflow-y: auto;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .sidebar-brand {
+      padding: 0 20px 20px;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 16px;
     }
 
     .brand-group {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
       text-decoration: none;
       color: inherit;
     }
 
     .brand-icon {
-      width: 44px;
-      height: 44px;
+      width: 42px;
+      height: 42px;
       border-radius: var(--radius-md);
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
-      box-shadow: 0 4px 10px rgba(5, 150, 105, 0.25);
+      color: #0F1117;
+      font-weight: 800;
+      box-shadow: 0 4px 14px rgba(232, 168, 56, 0.35);
+      flex-shrink: 0;
     }
 
     .brand-text h1 {
-      font-size: 1.35rem;
+      font-size: 1.15rem;
       font-weight: 800;
-      letter-spacing: -0.02em;
-      color: var(--text-main);
+      color: var(--primary);
       display: flex;
       align-items: center;
       gap: 8px;
+      line-height: 1.2;
     }
 
     .brand-badge {
-      font-size: 0.7rem;
-      font-weight: 700;
-      padding: 2px 8px;
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 2px 7px;
       border-radius: var(--radius-full);
-      background: linear-gradient(135deg, var(--primary-subtle), var(--secondary-subtle));
-      color: var(--primary-dark);
-      border: 1px solid rgba(5, 150, 105, 0.2);
+      background: var(--primary-subtle);
+      color: var(--primary);
+      border: 1px solid rgba(232, 168, 56, 0.3);
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
 
     .brand-text p {
-      font-size: 0.825rem;
+      font-size: 0.75rem;
       color: var(--text-muted);
       font-weight: 500;
+      margin-top: 2px;
+    }
+
+    .sidebar-search {
+      padding: 0 16px;
+      margin-bottom: 14px;
+    }
+
+    .sidebar-search input {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-main);
+      font-size: 0.85rem;
+      font-family: inherit;
+      outline: none;
+      transition: all var(--transition-fast);
+    }
+
+    .sidebar-search input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px var(--primary-subtle);
+    }
+
+    .sidebar-search input::placeholder {
+      color: var(--text-light);
+    }
+
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .nav-section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-light);
+      padding: 16px 20px 8px;
+    }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 20px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all var(--transition-fast);
+      border-left: 3px solid transparent;
+      user-select: none;
+    }
+
+    .sidebar-link .nav-icon {
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+
+    .sidebar-link:hover {
+      background: var(--primary-subtle);
+      color: var(--text-main);
+    }
+
+    .sidebar-link.active {
+      background: var(--primary-subtle);
+      color: var(--primary);
+      font-weight: 600;
+      border-left-color: var(--primary);
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 16px 20px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    /* ==========================================================================
+       MAIN CONTENT & TOP HEADER
+       ========================================================================== */
+    .main-content {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      min-height: 100vh;
+      background: var(--bg-main);
+      display: flex;
+      flex-direction: column;
+      width: calc(100% - var(--sidebar-width));
+    }
+
+    .main-header {
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
+      padding: 16px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(8px);
+    }
+
+    .main-header-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 8px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .mobile-menu-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .header-breadcrumb {
+      display: flex;
+      align-items: center;
+      font-size: 0.88rem;
+      font-weight: 500;
+    }
+
+    .breadcrumb-root {
+      color: var(--text-light);
+    }
+
+    .breadcrumb-sep {
+      color: var(--text-light);
+      margin: 0 8px;
+    }
+
+    .breadcrumb-current {
+      color: var(--primary);
+      font-weight: 700;
     }
 
     .header-actions {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
     }
 
     .dataset-status-pill {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      background: #F8FAFC;
+      gap: 10px;
+      background: var(--bg-card);
       border: 1px solid var(--border-color);
-      padding: 6px 14px;
+      padding: 7px 14px;
       border-radius: var(--radius-full);
       font-size: 0.8rem;
       font-weight: 600;
       color: var(--text-main);
+      max-width: 100%;
+    }
+
+    .pill-info {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-width: 0;
     }
 
     .status-indicator {
@@ -170,73 +377,20 @@
       height: 8px;
       border-radius: 50%;
       background-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+      box-shadow: 0 0 0 3px rgba(232, 168, 56, 0.2);
       animation: pulse 2s infinite;
+      flex-shrink: 0;
     }
 
     @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.4); }
-      70% { box-shadow: 0 0 0 6px rgba(5, 150, 105, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(5, 150, 105, 0); }
+      0% { box-shadow: 0 0 0 0 rgba(232, 168, 56, 0.5); }
+      70% { box-shadow: 0 0 0 6px rgba(232, 168, 56, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(232, 168, 56, 0); }
     }
 
-    /* Tab Navigation */
-    .tab-nav-wrapper {
-      border-top: 1px solid #F1F5F9;
-      overflow-x: auto;
-      scrollbar-width: none;
-    }
-    .tab-nav-wrapper::-webkit-scrollbar {
-      display: none;
-    }
-
-    .tab-nav {
-      display: flex;
-      gap: 4px;
-      list-style: none;
-      padding: 4px 0 0 0;
-    }
-
-    .tab-btn {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 18px;
-      border: none;
-      background: transparent;
-      color: var(--text-muted);
-      font-family: inherit;
-      font-size: 0.875rem;
-      font-weight: 600;
-      cursor: pointer;
-      border-bottom: 2px solid transparent;
-      border-radius: var(--radius-sm) var(--radius-sm) 0 0;
-      transition: all var(--transition-fast);
-      white-space: nowrap;
-    }
-
-    .tab-btn:hover {
-      color: var(--text-main);
-      background-color: #F8FAFC;
-    }
-
-    .tab-btn.active {
-      color: var(--primary);
-      background-color: var(--primary-subtle);
-      border-bottom: 2px solid var(--primary);
-    }
-
-    .tab-btn .tab-icon {
-      font-size: 1.1rem;
-      line-height: 1;
-    }
-
-    /* ==========================================================================
-       MAIN CONTENT & CARDS
-       ========================================================================== */
-    .main-content {
+    .main-body {
+      padding: 28px;
       flex: 1;
-      padding: 28px 0 60px 0;
     }
 
     .tab-pane {
@@ -253,18 +407,22 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* ==========================================================================
+       CARDS & CONTAINERS
+       ========================================================================== */
     .card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-sm);
       padding: 24px;
       margin-bottom: 24px;
-      transition: box-shadow var(--transition-normal), border-color var(--transition-normal);
+      transition: all var(--transition-normal);
     }
 
     .card:hover {
+      background: var(--bg-card-hover);
       box-shadow: var(--shadow-md);
+      border-color: rgba(232, 168, 56, 0.25);
     }
 
     .card-header {
@@ -273,7 +431,7 @@
       justify-content: space-between;
       margin-bottom: 20px;
       padding-bottom: 14px;
-      border-bottom: 1px solid #F1F5F9;
+      border-bottom: 1px solid var(--border-color);
     }
 
     .card-title-group h2, .card-title-group h3 {
@@ -311,35 +469,42 @@
 
     .btn-primary {
       background: var(--primary);
-      color: #FFFFFF;
-      box-shadow: 0 2px 4px rgba(5, 150, 105, 0.2);
+      color: #0F1117;
+      font-weight: 700;
+      border-color: var(--primary);
+      box-shadow: 0 2px 8px rgba(232, 168, 56, 0.25);
     }
 
     .btn-primary:hover {
-      background: var(--primary-dark);
+      background: var(--primary-light);
+      border-color: var(--primary-light);
+      color: #0F1117;
       transform: translateY(-1px);
-      box-shadow: 0 4px 8px rgba(5, 150, 105, 0.25);
+      box-shadow: 0 4px 14px rgba(232, 168, 56, 0.4);
     }
 
     .btn-secondary {
-      background: #FFFFFF;
-      color: var(--text-main);
-      border-color: var(--border-color);
+      background: transparent;
+      color: var(--primary);
+      border: 1px solid var(--border-color);
+      font-weight: 600;
     }
 
     .btn-secondary:hover {
-      background: #F8FAFC;
-      border-color: #CBD5E1;
+      background: var(--primary-subtle);
+      border-color: var(--primary);
+      color: var(--primary-light);
     }
 
     .btn-subtle {
       background: var(--primary-subtle);
-      color: var(--primary-dark);
-      border-color: rgba(5, 150, 105, 0.15);
+      color: var(--primary);
+      border: 1px solid rgba(232, 168, 56, 0.2);
     }
 
     .btn-subtle:hover {
-      background: #D1FAE5;
+      background: rgba(232, 168, 56, 0.2);
+      color: var(--primary-light);
     }
 
     .btn-sky {
@@ -356,7 +521,7 @@
       border-radius: var(--radius-sm);
     }
 
-    /* Metric Badges & Pills */
+    /* Badges */
     .badge {
       display: inline-flex;
       align-items: center;
@@ -370,73 +535,80 @@
     }
 
     .badge-success {
-      background: var(--primary-subtle);
-      color: var(--primary-dark);
-      border: 1px solid rgba(5, 150, 105, 0.2);
+      background: var(--success-subtle);
+      color: var(--success);
+      border: 1px solid rgba(16, 185, 129, 0.25);
     }
 
     .badge-info {
       background: var(--secondary-subtle);
-      color: var(--secondary-dark);
-      border: 1px solid rgba(14, 165, 233, 0.2);
+      color: var(--secondary-light);
+      border: 1px solid rgba(91, 141, 239, 0.25);
     }
 
     .badge-warning {
       background: var(--warning-subtle);
-      color: #B45309;
-      border: 1px solid rgba(245, 158, 11, 0.2);
+      color: var(--warning);
+      border: 1px solid rgba(245, 158, 11, 0.25);
     }
 
     .badge-danger {
       background: var(--danger-subtle);
-      color: #B91C1C;
-      border: 1px solid rgba(239, 68, 68, 0.2);
+      color: var(--danger);
+      border: 1px solid rgba(239, 68, 68, 0.25);
     }
 
-    /* Grid Layouts */
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 24px;
+    /* Form Elements */
+    .text-input, input[type="text"], input[type="password"], input[type="number"], select, .select-input {
+      font-family: inherit;
+      font-size: 0.875rem;
+      padding: 9px 14px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-main);
+      outline: none;
+      transition: all var(--transition-fast);
     }
 
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
+    .text-input:focus, input[type="text"]:focus, select:focus, .select-input:focus {
+      background: var(--bg-card);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px var(--primary-subtle);
     }
 
-    .grid-4 {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
+    select, .select-input {
+      cursor: pointer;
     }
 
-    .grid-5 {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 16px;
+    select option, .select-input option {
+      background: var(--bg-secondary);
+      color: var(--text-main);
     }
+
+    /* Grids */
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
 
     @media (max-width: 1200px) {
       .grid-5 { grid-template-columns: repeat(3, 1fr); }
     }
-
     @media (max-width: 1024px) {
       .grid-4 { grid-template-columns: repeat(2, 1fr); }
       .grid-5 { grid-template-columns: repeat(2, 1fr); }
       .grid-3 { grid-template-columns: 1fr; }
     }
-
     @media (max-width: 768px) {
       .grid-2 { grid-template-columns: 1fr; }
       .grid-4 { grid-template-columns: 1fr; }
       .grid-5 { grid-template-columns: 1fr; }
     }
 
-    /* Stat Cards */
+    /* KPI Stat Cards */
     .stat-card {
-      background: #FFFFFF;
+      background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
       padding: 20px;
@@ -444,6 +616,14 @@
       align-items: center;
       gap: 16px;
       box-shadow: var(--shadow-sm);
+      transition: all var(--transition-fast);
+    }
+
+    .stat-card:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(232, 168, 56, 0.35);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
     }
 
     .stat-icon {
@@ -454,36 +634,39 @@
       align-items: center;
       justify-content: center;
       font-size: 1.35rem;
+      flex-shrink: 0;
     }
 
     .stat-icon.emerald { background: var(--primary-subtle); color: var(--primary); }
-    .stat-icon.sky { background: var(--secondary-subtle); color: var(--secondary); }
+    .stat-icon.sky { background: var(--secondary-subtle); color: var(--secondary-light); }
     .stat-icon.amber { background: var(--warning-subtle); color: var(--warning); }
     .stat-icon.rose { background: var(--danger-subtle); color: var(--danger); }
-    .stat-icon.indigo { background: #EEF2FF; color: #6366F1; }
+    .stat-icon.indigo { background: rgba(168, 85, 247, 0.12); color: #C084FC; }
 
     .stat-info .stat-value {
-      font-size: 1.5rem;
+      font-size: 1.65rem;
       font-weight: 800;
       color: var(--text-main);
       line-height: 1.2;
+      letter-spacing: -0.02em;
     }
 
     .stat-info .stat-label {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       font-weight: 600;
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.05em;
+      margin-top: 2px;
     }
 
     /* ==========================================================================
        TAB 1: DATA UPLOAD STYLES
        ========================================================================== */
     .upload-dropzone {
-      border: 2px dashed #10B981;
+      border: 2px dashed var(--primary);
       border-radius: var(--radius-lg);
-      background: #FAFDFB;
+      background: rgba(232, 168, 56, 0.03);
       padding: 48px 24px;
       text-align: center;
       cursor: pointer;
@@ -492,8 +675,8 @@
     }
 
     .upload-dropzone:hover, .upload-dropzone.dragover {
-      background: #F0FDF4;
-      border-color: var(--primary-dark);
+      background: rgba(232, 168, 56, 0.08);
+      border-color: var(--primary-light);
       transform: translateY(-2px);
       box-shadow: var(--shadow-hover);
     }
@@ -529,7 +712,7 @@
       max-width: 450px;
       margin: 16px auto 0 auto;
       height: 8px;
-      background: #E2E8F0;
+      background: var(--border-color);
       border-radius: var(--radius-full);
       overflow: hidden;
       display: none;
@@ -542,7 +725,6 @@
       transition: width 300ms ease;
     }
 
-    /* Sample Data Cards */
     .sample-datasets-header {
       margin: 32px 0 16px 0;
       display: flex;
@@ -551,8 +733,9 @@
     }
 
     .sample-card {
-      background: #FFFFFF;
+      background: var(--bg-card);
       border: 1px solid var(--border-color);
+      border-left: 4px solid var(--primary);
       border-radius: var(--radius-lg);
       padding: 22px;
       cursor: pointer;
@@ -562,15 +745,18 @@
     }
 
     .sample-card:hover {
+      background: var(--bg-card-hover);
       border-color: var(--primary);
+      border-left-color: var(--primary-light);
       transform: translateY(-3px);
       box-shadow: var(--shadow-hover);
     }
 
     .sample-card.active-dataset {
       border-color: var(--primary);
-      background: #FAFDFB;
-      box-shadow: 0 0 0 2px var(--primary);
+      border-left-color: var(--primary);
+      background: var(--bg-card-hover);
+      box-shadow: 0 0 0 1px var(--primary), 0 8px 24px rgba(0, 0, 0, 0.4);
     }
 
     .sample-card-header {
@@ -583,6 +769,7 @@
     .sample-card-title {
       font-size: 1.05rem;
       font-weight: 700;
+      color: var(--text-main);
       display: flex;
       align-items: center;
       gap: 10px;
@@ -603,20 +790,20 @@
 
     .sample-tag {
       font-size: 0.72rem;
-      background: #F1F5F9;
-      color: var(--text-muted);
+      background: var(--bg-secondary);
+      color: var(--primary-light);
+      border: 1px solid var(--border-color);
       padding: 2px 8px;
       border-radius: var(--radius-sm);
       font-weight: 600;
     }
 
-    /* Preview Table */
     .table-responsive {
       width: 100%;
       overflow-x: auto;
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      background: #FFFFFF;
+      background: var(--bg-card);
       max-height: 480px;
       position: relative;
     }
@@ -630,12 +817,12 @@
     }
 
     .data-table thead th {
-      background: #F8FAFC;
+      background: var(--bg-secondary);
       color: var(--text-main);
       font-weight: 700;
       padding: 12px 14px;
       border-bottom: 1px solid var(--border-color);
-      border-right: 1px solid #F1F5F9;
+      border-right: 1px solid var(--border-color);
       position: sticky;
       top: 0;
       z-index: 10;
@@ -653,14 +840,20 @@
 
     .data-table tbody td {
       padding: 10px 14px;
-      border-bottom: 1px solid #F1F5F9;
-      border-right: 1px solid #F8FAFC;
+      border-bottom: 1px solid var(--border-color);
+      border-right: 1px solid var(--border-color);
       color: var(--text-main);
       white-space: nowrap;
+      background: var(--bg-card);
+    }
+
+    .data-table tbody tr:nth-child(even) td {
+      background: rgba(22, 24, 34, 0.6);
     }
 
     .data-table tbody tr:hover td {
-      background-color: #F8FAFC;
+      background-color: var(--bg-card-hover);
+      color: #FFFFFF;
     }
 
     .data-table tbody tr:last-child td {
@@ -675,7 +868,7 @@
       align-items: center;
       justify-content: space-around;
       padding: 32px 24px;
-      background: #FFFFFF;
+      background: var(--bg-card);
       border-radius: var(--radius-lg);
       border: 1px solid var(--border-color);
       margin-bottom: 24px;
@@ -700,7 +893,7 @@
 
     .gauge-bg {
       fill: none;
-      stroke: #E2E8F0;
+      stroke: var(--border-color);
       stroke-width: 14;
     }
 
@@ -747,7 +940,7 @@
     }
 
     .audit-submetric {
-      background: #F8FAFC;
+      background: var(--bg-secondary);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
       padding: 14px 18px;
@@ -774,7 +967,6 @@
       margin-top: 4px;
     }
 
-    /* Outlier Summary */
     .outlier-card-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -783,7 +975,7 @@
     }
 
     .outlier-badge-card {
-      background: #F8FAFC;
+      background: var(--bg-secondary);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
       padding: 14px;
@@ -812,7 +1004,7 @@
       gap: 8px;
       flex-wrap: wrap;
       margin-bottom: 24px;
-      background: #FFFFFF;
+      background: var(--bg-secondary);
       padding: 8px;
       border-radius: var(--radius-md);
       border: 1px solid var(--border-color);
@@ -833,16 +1025,17 @@
 
     .eda-subbtn:hover {
       color: var(--text-main);
-      background: #F1F5F9;
+      background: var(--bg-card-hover);
     }
 
     .eda-subbtn.active {
       background: var(--primary);
-      color: #FFFFFF;
+      color: #0F1117;
+      font-weight: 700;
     }
 
     .chart-container-card {
-      background: #FFFFFF;
+      background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-lg);
       padding: 20px;
@@ -873,12 +1066,12 @@
       width: 100%;
     }
 
-    /* Correlation Heatmap Table */
     .heatmap-table-wrapper {
       overflow-x: auto;
       border-radius: var(--radius-md);
       border: 1px solid var(--border-color);
       margin-top: 14px;
+      background: var(--bg-card);
     }
 
     .heatmap-table {
@@ -890,11 +1083,11 @@
 
     .heatmap-table th, .heatmap-table td {
       padding: 12px 10px;
-      border: 1px solid #E2E8F0;
+      border: 1px solid var(--border-color);
     }
 
     .heatmap-table th {
-      background: #F8FAFC;
+      background: var(--bg-secondary);
       font-weight: 700;
       color: var(--text-main);
       white-space: nowrap;
@@ -905,19 +1098,19 @@
       cursor: pointer;
       transition: transform 0.15s;
     }
+
     .heatmap-cell:hover {
       transform: scale(1.08);
       z-index: 5;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     }
 
-    /* EDA Selectors Bar */
     .eda-controls-bar {
       display: flex;
       align-items: center;
       gap: 16px;
       flex-wrap: wrap;
-      background: #F8FAFC;
+      background: var(--bg-secondary);
       padding: 14px 18px;
       border-radius: var(--radius-md);
       border: 1px solid var(--border-color);
@@ -937,29 +1130,11 @@
       text-transform: uppercase;
     }
 
-    .select-input {
-      font-family: inherit;
-      font-size: 0.85rem;
-      font-weight: 600;
-      padding: 7px 14px;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border-color);
-      background: #FFFFFF;
-      color: var(--text-main);
-      outline: none;
-      cursor: pointer;
-    }
-
-    .select-input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.15);
-    }
-
     /* ==========================================================================
        TAB 4: AI COPILOT STYLES
        ========================================================================== */
     .copilot-settings {
-      background: #FFFFFF;
+      background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-lg);
       padding: 18px 24px;
@@ -984,25 +1159,6 @@
       flex: 1;
     }
 
-    .text-input {
-      width: 100%;
-      font-family: inherit;
-      font-size: 0.875rem;
-      padding: 9px 14px;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border-color);
-      background: #F8FAFC;
-      color: var(--text-main);
-      outline: none;
-      transition: all var(--transition-fast);
-    }
-
-    .text-input:focus {
-      background: #FFFFFF;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.12);
-    }
-
     .btn-icon-inside {
       position: absolute;
       right: 8px;
@@ -1016,9 +1172,12 @@
       padding: 4px;
     }
 
-    /* Chat Interface */
+    .btn-icon-inside:hover {
+      color: var(--primary);
+    }
+
     .chat-container {
-      background: #FFFFFF;
+      background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-sm);
@@ -1035,7 +1194,7 @@
       display: flex;
       flex-direction: column;
       gap: 18px;
-      background: #F8FAFC;
+      background: var(--bg-secondary);
     }
 
     .chat-message {
@@ -1066,13 +1225,14 @@
     }
 
     .chat-message.ai .chat-avatar {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: white;
-      box-shadow: 0 2px 6px rgba(5, 150, 105, 0.2);
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #0F1117;
+      font-weight: 800;
+      box-shadow: 0 2px 8px rgba(232, 168, 56, 0.3);
     }
 
     .chat-message.user .chat-avatar {
-      background: #E2E8F0;
+      background: var(--border-color);
       color: var(--text-main);
     }
 
@@ -1085,12 +1245,13 @@
 
     .chat-message.user .chat-bubble {
       background: var(--primary);
-      color: #FFFFFF;
+      color: #0F1117;
+      font-weight: 600;
       border-top-right-radius: 4px;
     }
 
     .chat-message.ai .chat-bubble {
-      background: #FFFFFF;
+      background: var(--bg-card);
       color: var(--text-main);
       border: 1px solid var(--border-color);
       border-top-left-radius: 4px;
@@ -1115,7 +1276,8 @@
     }
 
     .chat-bubble code {
-      background: rgba(0, 0, 0, 0.05);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--primary-light);
       padding: 2px 6px;
       border-radius: 4px;
       font-size: 0.825rem;
@@ -1123,7 +1285,7 @@
 
     .chat-chart-box {
       margin-top: 14px;
-      background: #FFFFFF;
+      background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
       padding: 14px;
@@ -1131,13 +1293,12 @@
       position: relative;
     }
 
-    /* Typing Indicator */
     .typing-indicator {
       display: flex;
       align-items: center;
       gap: 5px;
       padding: 8px 14px;
-      background: #FFFFFF;
+      background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-full);
       width: fit-content;
@@ -1160,10 +1321,9 @@
       50% { transform: translateY(-4px); opacity: 1; }
     }
 
-    /* Starter chips */
     .starter-chips-container {
       padding: 10px 20px;
-      background: #FFFFFF;
+      background: var(--bg-card);
       border-top: 1px solid var(--border-color);
       display: flex;
       gap: 8px;
@@ -1173,13 +1333,13 @@
     .starter-chips-container::-webkit-scrollbar { display: none; }
 
     .starter-chip {
-      background: #F8FAFC;
+      background: var(--bg-secondary);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-full);
       padding: 6px 14px;
       font-size: 0.775rem;
       font-weight: 600;
-      color: var(--text-main);
+      color: var(--primary);
       cursor: pointer;
       white-space: nowrap;
       transition: all var(--transition-fast);
@@ -1188,13 +1348,12 @@
     .starter-chip:hover {
       background: var(--primary-subtle);
       border-color: var(--primary);
-      color: var(--primary-dark);
+      color: var(--primary-light);
     }
 
-    /* Chat Input Bar */
     .chat-input-bar {
       padding: 16px 20px;
-      background: #FFFFFF;
+      background: var(--bg-card);
       border-top: 1px solid var(--border-color);
       display: flex;
       gap: 12px;
@@ -1207,22 +1366,23 @@
       padding: 12px 16px;
       border-radius: var(--radius-md);
       border: 1px solid var(--border-color);
-      background: #F8FAFC;
+      background: var(--bg-secondary);
       color: var(--text-main);
       outline: none;
+      transition: border-color var(--transition-fast);
     }
 
     .chat-input-field:focus {
-      background: #FFFFFF;
+      background: var(--bg-card);
       border-color: var(--primary);
-      box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.15);
+      box-shadow: 0 0 0 2px var(--primary-subtle);
     }
 
     /* ==========================================================================
        TAB 5: KEY DRIVERS STYLES
        ========================================================================== */
     .driver-target-header {
-      background: #FFFFFF;
+      background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-lg);
       padding: 20px 24px;
@@ -1235,8 +1395,8 @@
     }
 
     .driver-summary-box {
-      background: linear-gradient(135deg, #FAFDFB 0%, #F0F9FF 100%);
-      border: 1px solid rgba(5, 150, 105, 0.2);
+      background: linear-gradient(135deg, rgba(232, 168, 56, 0.08) 0%, rgba(91, 141, 239, 0.05) 100%);
+      border: 1px solid rgba(232, 168, 56, 0.25);
       border-radius: var(--radius-lg);
       padding: 22px;
       margin-bottom: 24px;
@@ -1245,7 +1405,7 @@
     .driver-summary-title {
       font-size: 1.05rem;
       font-weight: 700;
-      color: var(--primary-dark);
+      color: var(--primary);
       margin-bottom: 10px;
       display: flex;
       align-items: center;
@@ -1271,7 +1431,7 @@
     }
 
     .report-sheet-preview {
-      background: #FFFFFF;
+      background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-lg);
@@ -1358,7 +1518,7 @@
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
       padding: 14px;
-      background: #FFFFFF;
+      background: var(--bg-secondary);
       height: 250px;
       display: flex;
       flex-direction: column;
@@ -1373,10 +1533,10 @@
     }
 
     /* ==========================================================================
-       FOOTER
+       FOOTER & TOAST NOTIFICATIONS
        ========================================================================== */
     .app-footer {
-      background: #FFFFFF;
+      background: var(--bg-secondary);
       border-top: 1px solid var(--border-color);
       padding: 24px 0;
       margin-top: auto;
@@ -1408,9 +1568,6 @@
       color: var(--primary);
     }
 
-    /* ==========================================================================
-       TOAST NOTIFICATIONS
-       ========================================================================== */
     .toast-container {
       position: fixed;
       bottom: 24px;
@@ -1422,8 +1579,9 @@
     }
 
     .toast {
-      background: #0F172A;
-      color: #FFFFFF;
+      background: var(--bg-card);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
       padding: 12px 18px;
       border-radius: var(--radius-md);
       font-size: 0.85rem;
@@ -1445,7 +1603,38 @@
     }
 
     /* ==========================================================================
-       PRINT STYLES (WINDOW.PRINT PDF EXPORT)
+       MOBILE RESPONSIVE
+       ========================================================================== */
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+        box-shadow: var(--shadow-lg);
+      }
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      .main-content {
+        margin-left: 0;
+        width: 100%;
+      }
+      .mobile-menu-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .main-header {
+        padding: 12px 16px;
+      }
+      .main-body {
+        padding: 16px;
+      }
+      .header-actions .dataset-status-pill {
+        display: none;
+      }
+    }
+
+    /* ==========================================================================
+       PRINT STYLES
        ========================================================================== */
     @media print {
       body {
@@ -1453,11 +1642,18 @@
         color: #000000 !important;
       }
 
-      .app-header, .tab-nav-wrapper, .report-actions-bar, .app-footer, .toast-container, .btn {
+      .sidebar, .main-header, .report-actions-bar, .app-footer, .toast-container, .btn, .sidebar-overlay {
         display: none !important;
       }
 
       .main-content {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding: 0 !important;
+        background: #FFFFFF !important;
+      }
+
+      .main-body {
         padding: 0 !important;
       }
 
@@ -1474,28 +1670,31 @@
         border: none !important;
         padding: 0 !important;
         max-width: 100% !important;
+        background: #FFFFFF !important;
+        color: #000000 !important;
       }
 
       .report-chart-card {
         page-break-inside: avoid;
         break-inside: avoid;
         height: 240px !important;
+        background: #FFFFFF !important;
       }
     }
+
   </style>
 </head>
 <body>
+  <div class="app-layout">
+    <!-- Mobile Sidebar Backdrop Overlay -->
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar(false)"></div>
 
-  <!-- ==========================================================================
-       HEADER & NAVIGATION
-       ========================================================================== -->
-  <header class="app-header">
-    <div class="container">
-      <div class="header-top">
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar" id="app-sidebar">
+      <div class="sidebar-brand">
         <a href="#" class="brand-group">
           <div class="brand-icon">
-            <!-- Inline SVG Logo: Lens + Data bars -->
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
               <line x1="8" y1="11" x2="8" y2="14"></line>
@@ -1505,71 +1704,76 @@
           </div>
           <div class="brand-text">
             <h1>DataLens AI <span class="brand-badge">STUDIO</span></h1>
-            <p>Autonomous EDA &amp; Business Intelligence Studio</p>
+            <p>Autonomous EDA &amp; BI Studio</p>
           </div>
         </a>
+      </div>
 
-        <div class="header-actions">
-          <div class="dataset-status-pill" id="dataset-pill">
-            <span class="status-indicator"></span>
+      <div class="sidebar-search">
+        <input type="text" id="sidebar-search-input" placeholder="Search activity..." onkeyup="App.filterActivity(this.value)" />
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Analytics</div>
+        <a class="sidebar-link active" data-tab="upload"><span class="nav-icon">📁</span> Upload Data</a>
+        <a class="sidebar-link" data-tab="health"><span class="nav-icon">🩺</span> Health Audit</a>
+        <a class="sidebar-link" data-tab="eda"><span class="nav-icon">📊</span> Visual EDA</a>
+        <a class="sidebar-link" data-tab="copilot"><span class="nav-icon">🤖</span> AI Copilot</a>
+        <a class="sidebar-link" data-tab="drivers"><span class="nav-icon">🎯</span> Key Drivers</a>
+        <a class="sidebar-link" data-tab="export"><span class="nav-icon">📋</span> Export Report</a>
+
+        <div class="nav-section-label">Account</div>
+        <a class="sidebar-link" href="#" onclick="alert('Settings configured for Local/Gemini runtime.'); return false;"><span class="nav-icon">⚙️</span> Settings</a>
+        <a class="sidebar-link" href="#" onclick="alert('DataLens AI v1.0 Documentation & Support.'); return false;"><span class="nav-icon">❓</span> Help & Support</a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="dataset-status-pill" id="dataset-pill">
+          <span class="status-indicator"></span>
+          <div class="pill-info">
             <span id="current-dataset-name">E-Commerce Sales (Sample)</span>
             <span class="sample-tag" id="current-dataset-rows">200 rows</span>
           </div>
+        </div>
+      </div>
+    </aside>
 
+    <!-- MAIN CONTENT AREA -->
+    <main class="main-content">
+      <div class="main-header">
+        <div class="main-header-left">
+          <button class="mobile-menu-btn" id="mobile-menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Navigation">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <div class="header-breadcrumb">
+            <span class="breadcrumb-root">DataLens</span>
+            <span class="breadcrumb-sep">/</span>
+            <span id="header-active-tab-title" class="breadcrumb-current">Upload Data</span>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <div class="dataset-status-pill" id="header-dataset-pill">
+            <span class="status-indicator"></span>
+            <span id="header-dataset-name">E-Commerce Sales (Sample)</span>
+            <span class="sample-tag" id="header-dataset-rows">200 rows</span>
+          </div>
           <button class="btn btn-secondary btn-sm" onclick="App.quickSampleSwitch()">
             ⚡ Switch Dataset
           </button>
         </div>
       </div>
 
-      <!-- Navigation Tabs -->
-      <nav class="tab-nav-wrapper">
-        <ul class="tab-nav">
-          <li>
-            <button class="tab-btn active" data-tab="tab-upload">
-              <span class="tab-icon">📂</span> Upload Data
-            </button>
-          </li>
-          <li>
-            <button class="tab-btn" data-tab="tab-health">
-              <span class="tab-icon">🩺</span> Health Audit
-            </button>
-          </li>
-          <li>
-            <button class="tab-btn" data-tab="tab-eda">
-              <span class="tab-icon">📈</span> Visual EDA
-            </button>
-          </li>
-          <li>
-            <button class="tab-btn" data-tab="tab-copilot">
-              <span class="tab-icon">🤖</span> AI Copilot
-            </button>
-          </li>
-          <li>
-            <button class="tab-btn" data-tab="tab-drivers">
-              <span class="tab-icon">🎯</span> Key Drivers
-            </button>
-          </li>
-          <li>
-            <button class="tab-btn" data-tab="tab-export">
-              <span class="tab-icon">📑</span> Export Report
-            </button>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-
-  <!-- ==========================================================================
-       MAIN CONTENT CONTAINER
-       ========================================================================== -->
-  <main class="main-content">
-    <div class="container">
-
-      <!-- ======================================================================
-           TAB 1: UPLOAD DATA
-           ====================================================================== -->
-      <section id="tab-upload" class="tab-pane active">
+      <div class="main-body">
+        <div class="container">
+          <!-- ======================================================================
+               TAB 1: UPLOAD DATA
+               ====================================================================== -->
+          <section id="tab-upload" class="tab-pane active">
         <!-- Drag & Drop Zone -->
         <div class="card">
           <div class="upload-dropzone" id="dropzone" onclick="document.getElementById('file-input').click()">
@@ -2198,25 +2402,24 @@
           </div>
         </div>
       </section>
-
-    </div>
-  </main>
-
-  <!-- ==========================================================================
-       FOOTER
-       ========================================================================== -->
-  <footer class="app-footer">
-    <div class="container footer-content">
-      <div>
-        Built by <strong>Jahanzaib Ahmad</strong> · DataLens AI v1.0 · Powered by Gemini API
+        </div>
       </div>
-      <div class="footer-links">
-        <a href="#" onclick="alert('Portfolio link: Jahanzaib Ahmad'); return false;">GitHub</a>
-        <a href="#" onclick="alert('LinkedIn profile: Jahanzaib Ahmad'); return false;">LinkedIn</a>
-        <a href="#" onclick="App.exportFullJSON(); return false;">Export Schema JSON</a>
-      </div>
-    </div>
-  </footer>
+
+      <!-- FOOTER -->
+      <footer class="app-footer">
+        <div class="container footer-content">
+          <div>
+            Built by <strong>Jahanzaib Ahmad</strong> · DataLens AI v1.0 · Powered by Gemini API
+          </div>
+          <div class="footer-links">
+            <a href="#" onclick="alert('Portfolio link: Jahanzaib Ahmad'); return false;">GitHub</a>
+            <a href="#" onclick="alert('LinkedIn profile: Jahanzaib Ahmad'); return false;">LinkedIn</a>
+            <a href="#" onclick="App.exportFullJSON(); return false;">Export Schema JSON</a>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
 
   <!-- Toast Notification Container -->
   <div class="toast-container" id="toast-container"></div>
@@ -2228,6 +2431,30 @@
     /* ==========================================================================
        GLOBAL STATE & DATA STORE
        ========================================================================== */
+    // Chart.js Global Defaults for Wharf Dark Theme
+    Chart.defaults.color = '#8B8FA3';
+    Chart.defaults.borderColor = '#2A2D3E';
+    Chart.defaults.plugins.legend.labels.color = '#8B8FA3';
+
+    const chartPalette = ['#E8A838', '#5B8DEF', '#10B981', '#EF4444', '#A855F7', '#F59E0B', '#EC4899', '#06B6D4', '#84CC16', '#F97316'];
+
+    // Mobile Sidebar Toggle
+    function toggleSidebar(show) {
+      const sidebar = document.getElementById('app-sidebar');
+      const overlay = document.getElementById('sidebar-overlay');
+      if (!sidebar) return;
+      if (show === undefined) {
+        sidebar.classList.toggle('open');
+        if (overlay) overlay.classList.toggle('open');
+      } else if (show) {
+        sidebar.classList.add('open');
+        if (overlay) overlay.classList.add('open');
+      } else {
+        sidebar.classList.remove('open');
+        if (overlay) overlay.classList.remove('open');
+      }
+    }
+
     const DataStore = {
       datasetName: 'E-Commerce Sales',
       rawRows: [],
@@ -2706,30 +2933,85 @@
         }, 3200);
       },
 
-      setupNavigation() {
-        const tabBtns = document.querySelectorAll('.tab-btn');
-        tabBtns.forEach(btn => {
-          btn.addEventListener('click', () => {
-            const targetId = btn.getAttribute('data-tab');
-            
-            // Set active class on buttons
-            tabBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+      switchTab(rawTargetId) {
+        if (!rawTargetId) return;
+        const targetId = rawTargetId.startsWith('tab-') ? rawTargetId : 'tab-' + rawTargetId;
+        const baseKey = targetId.replace('tab-', '');
 
-            // Set active tab pane
-            document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-            const targetPane = document.getElementById(targetId);
-            if (targetPane) {
-              targetPane.classList.add('active');
+        // Set active class on sidebar links & tab buttons
+        const navLinks = document.querySelectorAll('.sidebar-link[data-tab], .tab-btn[data-tab]');
+        navLinks.forEach(b => {
+          const bTarget = b.getAttribute('data-tab');
+          if (bTarget === targetId || bTarget === baseKey) {
+            b.classList.add('active');
+            // Update breadcrumb title
+            const breadcrumbEl = document.getElementById('header-active-tab-title');
+            if (breadcrumbEl) {
+              const textOnly = b.textContent.replace(/^[^\w\s]+/, '').trim();
+              breadcrumbEl.textContent = textOnly || b.textContent.trim();
             }
+          } else {
+            b.classList.remove('active');
+          }
+        });
 
-            // Trigger specific tab re-render if necessary
-            if (targetId === 'tab-health') App.renderHealthAudit();
-            if (targetId === 'tab-eda') App.renderVisualEDA();
-            if (targetId === 'tab-drivers') App.renderKeyDrivers();
-            if (targetId === 'tab-export') App.renderExportReport();
+        // Set active tab pane
+        document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+        const targetPane = document.getElementById(targetId);
+        if (targetPane) {
+          targetPane.classList.add('active');
+        }
+
+        // Close mobile sidebar if open
+        if (window.innerWidth < 768) {
+          toggleSidebar(false);
+        }
+
+        // Trigger specific tab re-render if necessary
+        if (targetId === 'tab-health') App.renderHealthAudit();
+        if (targetId === 'tab-eda') App.renderVisualEDA();
+        if (targetId === 'tab-drivers') App.renderKeyDrivers();
+        if (targetId === 'tab-export') App.renderExportReport();
+      },
+
+      setupNavigation() {
+        const navLinks = document.querySelectorAll('.sidebar-link[data-tab], .tab-btn[data-tab]');
+        navLinks.forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = btn.getAttribute('data-tab');
+            this.switchTab(targetId);
           });
         });
+      },
+
+      filterActivity(q) {
+        if (!q || !q.trim()) return;
+        const val = q.trim().toLowerCase();
+        const tabs = [
+          { key: 'upload', id: 'tab-upload' },
+          { key: 'data', id: 'tab-upload' },
+          { key: 'health', id: 'tab-health' },
+          { key: 'audit', id: 'tab-health' },
+          { key: 'quality', id: 'tab-health' },
+          { key: 'eda', id: 'tab-eda' },
+          { key: 'visual', id: 'tab-eda' },
+          { key: 'chart', id: 'tab-eda' },
+          { key: 'scatter', id: 'tab-eda' },
+          { key: 'heatmap', id: 'tab-eda' },
+          { key: 'copilot', id: 'tab-copilot' },
+          { key: 'ai', id: 'tab-copilot' },
+          { key: 'chat', id: 'tab-copilot' },
+          { key: 'driver', id: 'tab-drivers' },
+          { key: 'target', id: 'tab-drivers' },
+          { key: 'export', id: 'tab-export' },
+          { key: 'report', id: 'tab-export' },
+          { key: 'pdf', id: 'tab-export' }
+        ];
+        const match = tabs.find(t => t.key.includes(val) || val.includes(t.key));
+        if (match) {
+          this.switchTab(match.id);
+        }
       },
 
       setupFileUpload() {
@@ -2892,7 +3174,9 @@
         this.showToast(`Active dataset switched to "${name}" (${rows.length} rows)`, 'info');
 
         // Re-render other tabs if already open
-        const activeTab = document.querySelector('.tab-btn.active').getAttribute('data-tab');
+        const activeLink = document.querySelector('.sidebar-link.active, .tab-btn.active');
+        const rawTab = activeLink ? activeLink.getAttribute('data-tab') : 'tab-upload';
+        const activeTab = rawTab.startsWith('tab-') ? rawTab : 'tab-' + rawTab;
         if (activeTab === 'tab-health') this.renderHealthAudit();
         if (activeTab === 'tab-eda') this.renderVisualEDA();
         if (activeTab === 'tab-drivers') this.renderKeyDrivers();
@@ -2907,11 +3191,20 @@
       },
 
       updateHeaderInfo() {
-        document.getElementById('current-dataset-name').textContent = DataStore.datasetName;
-        document.getElementById('current-dataset-rows').textContent = `${DataStore.rawRows.length} rows`;
+        const nameEl = document.getElementById('current-dataset-name');
+        if (nameEl) nameEl.textContent = DataStore.datasetName;
+        const rowsEl = document.getElementById('current-dataset-rows');
+        if (rowsEl) rowsEl.textContent = `${DataStore.rawRows.length} rows`;
 
-        document.getElementById('stat-row-count').textContent = DataStore.rawRows.length;
-        document.getElementById('stat-col-count').textContent = DataStore.columns.length;
+        const headerNameEl = document.getElementById('header-dataset-name');
+        if (headerNameEl) headerNameEl.textContent = DataStore.datasetName;
+        const headerRowsEl = document.getElementById('header-dataset-rows');
+        if (headerRowsEl) headerRowsEl.textContent = `${DataStore.rawRows.length} rows`;
+
+        const rowCountEl = document.getElementById('stat-row-count');
+        if (rowCountEl) rowCountEl.textContent = DataStore.rawRows.length;
+        const colCountEl = document.getElementById('stat-col-count');
+        if (colCountEl) colCountEl.textContent = DataStore.columns.length;
 
         // Compute memory/file size
         const rawJsonBytes = JSON.stringify(DataStore.rawRows).length;
@@ -2990,14 +3283,14 @@
         circle.style.strokeDasharray = `${circumference} ${circumference}`;
         circle.style.strokeDashoffset = offset;
 
-        // Color coding
-        let strokeColor = '#059669'; // Emerald
+        // Color coding (Gold/Amber/Red)
+        let strokeColor = '#E8A838'; // Gold
         let verdictText = 'Pristine';
         if (score < 80 && score >= 60) {
-          strokeColor = '#D97706'; // Amber
+          strokeColor = '#F59E0B'; // Amber
           verdictText = 'Acceptable';
         } else if (score < 60) {
-          strokeColor = '#DC2626'; // Red
+          strokeColor = '#EF4444'; // Red
           verdictText = 'Needs Cleaning';
         }
         circle.style.stroke = strokeColor;
@@ -3041,7 +3334,7 @@
             datasets: [{
               label: 'Missing Count',
               data,
-              backgroundColor: '#38BDF8',
+              backgroundColor: '#5B8DEF',
               borderRadius: 6
             }]
           },
@@ -3061,7 +3354,7 @@
                 beginAtZero: true,
                 suggestedMax: Math.max(maxVal, 5),
                 ticks: { precision: 0 },
-                grid: { color: '#F1F5F9' }
+                grid: { color: '#2A2D3E' }
               },
               x: {
                 grid: { display: false }
@@ -3088,7 +3381,7 @@
             datasets: [{
               label: 'Outliers Count',
               data,
-              backgroundColor: '#F59E0B',
+              backgroundColor: '#E8A838',
               borderRadius: 6
             }]
           },
@@ -3108,7 +3401,7 @@
                 beginAtZero: true,
                 suggestedMax: Math.max(maxVal, 5),
                 ticks: { precision: 0 },
-                grid: { color: '#F1F5F9' }
+                grid: { color: '#2A2D3E' }
               },
               x: {
                 grid: { display: false }
@@ -3260,7 +3553,7 @@
 
         if (groupCol && DataStore.categories[groupCol]) {
           const distinctGroups = Object.keys(DataStore.categories[groupCol]).slice(0, 5);
-          const palette = ['#059669', '#0EA5E9', '#F59E0B', '#EF4444', '#8B5CF6'];
+          const palette = chartPalette;
 
           distinctGroups.forEach((grp, idx) => {
             const groupPoints = DataStore.rawRows
@@ -3285,8 +3578,8 @@
           datasets.push({
             label: `${yCol} vs. ${xCol}`,
             data: points,
-            backgroundColor: '#059669',
-            borderColor: '#059669',
+            backgroundColor: '#E8A838',
+            borderColor: '#E8A838',
             type: 'scatter',
             pointRadius: 5
           });
@@ -3319,11 +3612,11 @@
             scales: {
               x: {
                 title: { display: true, text: xCol, font: { weight: 'bold' } },
-                grid: { color: '#F1F5F9' }
+                grid: { color: '#2A2D3E' }
               },
               y: {
                 title: { display: true, text: yCol, font: { weight: 'bold' } },
-                grid: { color: '#F1F5F9' }
+                grid: { color: '#2A2D3E' }
               }
             }
           }
@@ -3361,19 +3654,18 @@
             const yVals = DataStore.rawRows.map(r => r[col2]);
             const r = (col1 === col2) ? 1.0 : StatEngine.pearson(xVals, yVals);
 
-            // Compute background color scale
-            // -1 (red) -> 0 (white/neutral) -> +1 (emerald)
-            let bgColor = '#FFFFFF';
-            let textColor = '#0F172A';
+            // Compute background color scale: Negative: #EF4444, Zero: #2A2D3E, Positive: #E8A838
+            let bgColor = '#1C1E2D';
+            let textColor = '#8B8FA3';
 
             if (r > 0) {
               const alpha = Math.min(1, r);
-              bgColor = `rgba(5, 150, 105, ${alpha.toFixed(2)})`;
-              if (r > 0.45) textColor = '#FFFFFF';
+              bgColor = `rgba(232, 168, 56, ${(alpha * 0.85 + 0.15).toFixed(2)})`;
+              textColor = r > 0.45 ? '#0F1117' : '#EAEDF3';
             } else if (r < 0) {
               const alpha = Math.min(1, Math.abs(r));
-              bgColor = `rgba(239, 68, 68, ${alpha.toFixed(2)})`;
-              if (Math.abs(r) > 0.45) textColor = '#FFFFFF';
+              bgColor = `rgba(239, 68, 68, ${(alpha * 0.85 + 0.15).toFixed(2)})`;
+              textColor = Math.abs(r) > 0.45 ? '#FFFFFF' : '#EAEDF3';
             }
 
             const td = document.createElement('td');
@@ -3440,7 +3732,7 @@
               datasets: [{
                 label: 'Count',
                 data: bins,
-                backgroundColor: '#10B981',
+                backgroundColor: '#E8A838',
                 borderRadius: 4
               }]
             },
@@ -3449,7 +3741,7 @@
               maintainAspectRatio: false,
               plugins: { legend: { display: false } },
               scales: {
-                y: { beginAtZero: true, grid: { color: '#F1F5F9' } },
+                y: { beginAtZero: true, grid: { color: '#2A2D3E' } },
                 x: { ticks: { font: { size: 10 } }, grid: { display: false } }
               }
             }
@@ -3492,7 +3784,7 @@
               datasets: [{
                 label: 'Occurrences',
                 data,
-                backgroundColor: '#0EA5E9',
+                backgroundColor: '#5B8DEF',
                 borderRadius: 4
               }]
             },
@@ -3502,7 +3794,7 @@
               maintainAspectRatio: false,
               plugins: { legend: { display: false } },
               scales: {
-                x: { beginAtZero: true, grid: { color: '#F1F5F9' } },
+                x: { beginAtZero: true, grid: { color: '#2A2D3E' } },
                 y: { grid: { display: false } }
               }
             }
@@ -3569,8 +3861,8 @@
               {
                 label: 'Interquartile Range (Q1 - Q3)',
                 data: iqrRanges,
-                backgroundColor: 'rgba(5, 150, 105, 0.7)',
-                borderColor: '#059669',
+                backgroundColor: 'rgba(232, 168, 56, 0.75)',
+                borderColor: '#E8A838',
                 borderWidth: 1.5,
                 borderRadius: 4,
                 order: 2
@@ -3578,8 +3870,8 @@
               {
                 label: 'Full Spread (Min - Max)',
                 data: fullRanges,
-                backgroundColor: 'rgba(14, 165, 233, 0.2)',
-                borderColor: '#0284C7',
+                backgroundColor: 'rgba(91, 141, 239, 0.25)',
+                borderColor: '#5B8DEF',
                 borderWidth: 1,
                 borderRadius: 4,
                 order: 3
@@ -3588,8 +3880,8 @@
                 type: 'line',
                 label: 'Median',
                 data: medians,
-                borderColor: '#0F172A',
-                backgroundColor: '#0F172A',
+                borderColor: '#EAEDF3',
+                backgroundColor: '#EAEDF3',
                 pointStyle: 'rectRot',
                 pointRadius: 6,
                 borderWidth: 0,
@@ -3636,7 +3928,7 @@
             },
             scales: {
               y: {
-                grid: { color: '#F1F5F9' },
+                grid: { color: '#2A2D3E' },
                 title: { display: true, text: metric, font: { weight: '600' } }
               },
               x: {
@@ -3736,7 +4028,7 @@
 
         const labels = correlations.map(c => c.feature);
         const data = correlations.map(c => c.r);
-        const bgColors = correlations.map(c => c.r >= 0 ? '#059669' : '#EF4444');
+        const bgColors = correlations.map(c => c.r >= 0 ? '#E8A838' : '#EF4444');
 
         DataStore.charts.driverRankChart = new Chart(ctx, {
           type: 'bar',
@@ -3757,7 +4049,7 @@
               x: {
                 min: -1.0,
                 max: 1.0,
-                grid: { color: '#E2E8F0' },
+                grid: { color: '#2A2D3E' },
                 ticks: { stepSize: 0.2 }
               },
               y: { grid: { display: false } }
@@ -3807,7 +4099,7 @@
                   type: 'scatter',
                   label: 'Observations',
                   data: points,
-                  backgroundColor: driver.r >= 0 ? '#059669' : '#EF4444',
+                  backgroundColor: driver.r >= 0 ? '#E8A838' : '#EF4444',
                   pointRadius: 4
                 },
                 {
@@ -3817,7 +4109,7 @@
                     { x: minX, y: reg.slope * minX + reg.intercept },
                     { x: maxX, y: reg.slope * maxX + reg.intercept }
                   ],
-                  borderColor: '#0F172A',
+                  borderColor: '#EAEDF3',
                   borderWidth: 2,
                   pointRadius: 0,
                   fill: false
@@ -4146,7 +4438,7 @@ Do not hallucinate columns not in the dataset.
               datasets: [{
                 label: `Total ${numCol}`,
                 data,
-                backgroundColor: '#059669',
+                backgroundColor: '#E8A838',
                 borderRadius: 6
               }]
             },
@@ -4188,8 +4480,8 @@ Do not hallucinate columns not in the dataset.
                 datasets: [{
                   label: `${firstCol} Quantile Curve`,
                   data: [stat.min, stat.q1, stat.median, stat.q3, stat.max],
-                  borderColor: '#0EA5E9',
-                  backgroundColor: 'rgba(14, 165, 233, 0.15)',
+                  borderColor: '#E8A838',
+                  backgroundColor: 'rgba(232, 168, 56, 0.15)',
                   fill: true,
                   tension: 0.3
                 }]
@@ -4289,7 +4581,7 @@ Do not hallucinate columns not in the dataset.
             type: 'bar',
             data: {
               labels: ['Q1', 'Q2', 'Q3', 'Q4', 'Q5'],
-              datasets: [{ data: bins, backgroundColor: '#059669', borderRadius: 4 }]
+              datasets: [{ data: bins, backgroundColor: '#E8A838', borderRadius: 4 }]
             },
             options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
           });
@@ -4304,7 +4596,7 @@ Do not hallucinate columns not in the dataset.
             type: 'doughnut',
             data: {
               labels: entries.map(e => e[0]),
-              datasets: [{ data: entries.map(e => e[1]), backgroundColor: ['#059669', '#0EA5E9', '#F59E0B', '#EF4444', '#8B5CF6'] }]
+              datasets: [{ data: entries.map(e => e[1]), backgroundColor: chartPalette.slice(0, 5) }]
             },
             options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
           });
@@ -4317,7 +4609,7 @@ Do not hallucinate columns not in the dataset.
           const pts = DataStore.rawRows.slice(0, 60).map(r => ({ x: Number(r[numCols[0]]), y: Number(r[numCols[1]]) }));
           DataStore.charts.repChart3 = new Chart(c3, {
             type: 'scatter',
-            data: { datasets: [{ data: pts, backgroundColor: '#0EA5E9' }] },
+            data: { datasets: [{ data: pts, backgroundColor: '#5B8DEF' }] },
             options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
           });
         }
@@ -4345,11 +4637,11 @@ Do not hallucinate columns not in the dataset.
           const topDrivers = correlations.slice(0, 4);
           driverLabels = topDrivers.map(d => d.col);
           driverData = topDrivers.map(d => d.r);
-          driverColors = topDrivers.map(d => d.r >= 0 ? '#059669' : '#EF4444');
+          driverColors = topDrivers.map(d => d.r >= 0 ? '#E8A838' : '#EF4444');
         } else {
           driverLabels = numCols.slice(0, 4);
           driverData = [0.5, 0.3, 0.2, 0.1];
-          driverColors = ['#059669', '#059669', '#059669', '#059669'];
+          driverColors = ['#E8A838', '#E8A838', '#E8A838', '#E8A838'];
         }
 
         DataStore.charts.repChart4 = new Chart(c4, {
@@ -4368,7 +4660,7 @@ Do not hallucinate columns not in the dataset.
             responsive: true,
             maintainAspectRatio: false,
             scales: {
-              x: { min: -1.0, max: 1.0, grid: { color: '#F1F5F9' }, ticks: { stepSize: 0.5 } },
+              x: { min: -1.0, max: 1.0, grid: { color: '#2A2D3E' }, ticks: { stepSize: 0.5 } },
               y: { grid: { display: false } }
             },
             plugins: { legend: { display: false } }
