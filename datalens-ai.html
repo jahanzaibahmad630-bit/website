@@ -2790,6 +2790,112 @@
         </div>
 
         <!-- Advisor Sections Container -->
+                <!-- Interactive What-If Scenario & Business Simulator -->
+        <div class="card" id="advisor-simulator-card" style="margin-bottom: 24px; padding: 24px; border-radius: 20px; background: #FFFFFF; border: 1px solid #E2E8F0; box-shadow: var(--shadow-card);">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 18px; flex-wrap:wrap; gap:12px;">
+            <div>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-size:1.25rem;">🎛️</span>
+                <h3 style="margin:0; font-size:1.15rem; font-weight:800; color:#0F172A;">Interactive Strategy &amp; "What-If" Business Simulator</h3>
+                <span class="badge" style="background:#E0F2FE; color:#0369A1; font-size:0.68rem; font-weight:800; letter-spacing:0.04em;">LIVE PREDICTIVE LEVERS</span>
+              </div>
+              <p style="margin:4px 0 0 0; font-size:0.82rem; color:#64748B;">Drag strategic levers below to simulate quarterly revenue expansion, margin lift, and customer retention ROI in real time.</p>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="App.resetSimulator()" style="font-size:0.75rem; border-radius:9999px; padding:5px 14px; font-weight:700;">↺ Reset Levers</button>
+          </div>
+
+          <!-- 4 Strategic Levers Grid -->
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 22px; background: #F8FAFA; border: 1px solid #E2E8F0; border-radius: 16px; padding: 18px;">
+            <!-- Lever 1: Capital & Marketing Allocation -->
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:0.78rem; font-weight:700; color:#0F172A; margin-bottom:6px;">
+                <span>💰 Marketing Spend</span>
+                <span id="sim-val-marketing" style="color:#0284C7; font-weight:800;">+20%</span>
+              </div>
+              <input type="range" id="sim-slider-marketing" min="-30" max="100" value="20" step="5" style="width:100%; accent-color:#0284C7; cursor:pointer;" oninput="App.runSimulator()">
+              <div style="display:flex; justify-content:space-between; font-size:0.66rem; color:#94A3B8; margin-top:3px;">
+                <span>-30% Cut</span><span>0% Baseline</span><span>+100% 2x</span>
+              </div>
+            </div>
+
+            <!-- Lever 2: Discount Policy Optimization -->
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:0.78rem; font-weight:700; color:#0F172A; margin-bottom:6px;">
+                <span>🏷️ Discount Policy</span>
+                <span id="sim-val-discount" style="color:#059669; font-weight:800;">-5% (Cut Leaks)</span>
+              </div>
+              <input type="range" id="sim-slider-discount" min="-15" max="15" value="-5" step="1" style="width:100%; accent-color:#059669; cursor:pointer;" oninput="App.runSimulator()">
+              <div style="display:flex; justify-content:space-between; font-size:0.66rem; color:#94A3B8; margin-top:3px;">
+                <span>-15% Tighten</span><span>0% Current</span><span>+15% Promo</span>
+              </div>
+            </div>
+
+            <!-- Lever 3: Pricing & Product Quality -->
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:0.78rem; font-weight:700; color:#0F172A; margin-bottom:6px;">
+                <span>📦 Price / Quality Lift</span>
+                <span id="sim-val-price" style="color:#9333EA; font-weight:800;">+5%</span>
+              </div>
+              <input type="range" id="sim-slider-price" min="-10" max="25" value="5" step="1" style="width:100%; accent-color:#9333EA; cursor:pointer;" oninput="App.runSimulator()">
+              <div style="display:flex; justify-content:space-between; font-size:0.66rem; color:#94A3B8; margin-top:3px;">
+                <span>-10% Discount</span><span>0% Baseline</span><span>+25% Premium</span>
+              </div>
+            </div>
+
+            <!-- Lever 4: CSAT & Retention Campaign -->
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:0.78rem; font-weight:700; color:#0F172A; margin-bottom:6px;">
+                <span>📋 CSAT Survey / Retention</span>
+                <span id="sim-val-retention" style="color:#D97706; font-weight:800;">+5% Retention</span>
+              </div>
+              <input type="range" id="sim-slider-retention" min="0" max="20" value="5" step="1" style="width:100%; accent-color:#D97706; cursor:pointer;" oninput="App.runSimulator()">
+              <div style="display:flex; justify-content:space-between; font-size:0.66rem; color:#94A3B8; margin-top:3px;">
+                <span>0% None</span><span>+10% NPS Survey</span><span>+20% VIP Loop</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Projected KPI Outputs & Comparison Chart -->
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:20px; align-items:stretch;">
+            <!-- KPI Summary 4-Box Grid -->
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+              <div style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:14px; padding:14px; box-shadow:0 2px 6px rgba(0,0,0,0.02);">
+                <div style="font-size:0.68rem; color:#64748B; font-weight:700; text-transform:uppercase; letter-spacing:0.04em;">Baseline Volume</div>
+                <div style="font-size:1.4rem; font-weight:800; color:#0F172A; margin:3px 0;" id="sim-kpi-baseline">$0</div>
+                <div style="font-size:0.68rem; color:#64748B;">Observed Dataset Total</div>
+              </div>
+              <div style="background:#F0FDFA; border:1px solid #CCFBF1; border-radius:14px; padding:14px; box-shadow:0 2px 6px rgba(45,212,191,0.08);">
+                <div style="font-size:0.68rem; color:#0F766E; font-weight:700; text-transform:uppercase; letter-spacing:0.04em;">Projected Volume</div>
+                <div style="font-size:1.4rem; font-weight:800; color:#0F766E; margin:3px 0;" id="sim-kpi-projected">$0</div>
+                <div style="font-size:0.72rem; font-weight:700; color:#10B981;" id="sim-kpi-growth">+0.0% Uplift</div>
+              </div>
+              <div style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:14px; padding:14px; box-shadow:0 2px 6px rgba(0,0,0,0.02);">
+                <div style="font-size:0.68rem; color:#64748B; font-weight:700; text-transform:uppercase; letter-spacing:0.04em;">Margin Impact</div>
+                <div style="font-size:1.4rem; font-weight:800; color:#0F172A; margin:3px 0;" id="sim-kpi-margin">+0.0%</div>
+                <div style="font-size:0.68rem; color:#64748B;">Net Pricing &amp; Elasticity</div>
+              </div>
+              <div style="background:#EFF6FF; border:1px solid #DBEAFE; border-radius:14px; padding:14px; box-shadow:0 2px 6px rgba(59,130,246,0.08);">
+                <div style="font-size:0.68rem; color:#1D4ED8; font-weight:700; text-transform:uppercase; letter-spacing:0.04em;">Simulated Net Value</div>
+                <div style="font-size:1.4rem; font-weight:800; color:#1D4ED8; margin:3px 0;" id="sim-kpi-netvalue">+$0</div>
+                <div style="font-size:0.68rem; color:#1D4ED8; font-weight:700;" id="sim-kpi-roi">ROI: 2.8x</div>
+              </div>
+            </div>
+
+            <!-- Simulation Comparison Chart Canvas -->
+            <div style="height: 190px; position:relative; background:#FFFFFF; border:1px solid #E2E8F0; border-radius:14px; padding:12px 14px;">
+              <canvas id="sim-chart-canvas"></canvas>
+            </div>
+          </div>
+
+          <!-- Dynamic Strategic Takeaway Box -->
+          <div style="margin-top:16px; padding:12px 16px; background:#F8FAFA; border-radius:12px; border:1px solid #E2E8F0; display:flex; align-items:flex-start; gap:12px;">
+            <span style="font-size:1.3rem;">💡</span>
+            <div style="font-size:0.84rem; color:#334155; line-height:1.6;" id="sim-strategic-takeaway">
+              Simulating impact across categories...
+            </div>
+          </div>
+        </div>
+
         <div class="advisor-sections" id="advisor-sections">
           <div class="advisor-empty" id="advisor-empty-state">
             <div class="empty-icon">🧠</div>
@@ -3405,7 +3511,7 @@
         if (targetId === 'tab-eda') App.renderVisualEDA();
         if (targetId === 'tab-drivers') App.renderKeyDrivers();
         if (targetId === 'tab-export') App.renderExportReport();
-        if (targetId === 'tab-advisor' || targetId === 'advisor') App.generateAdvisorInsights();
+        if (targetId === 'tab-advisor' || targetId === 'advisor') { App.generateAdvisorInsights(); App.runSimulator(); }
       },
 
       setupNavigation() {
@@ -6645,6 +6751,176 @@ Generated by DataLens AI Studio.
     };
 
 
+        // ---------------------------------------------------------
+    // FEATURE 1: INTERACTIVE WHAT-IF STRATEGY SIMULATOR
+    // ---------------------------------------------------------
+    App.runSimulator = function() {
+      const rows = DataStore.rawRows || DataStore.data || [];
+      if (!rows || rows.length === 0) return;
+
+      const numCols = Object.keys(DataStore.stats || {});
+      const catCols = Object.keys(DataStore.categories || {});
+      const primNum = numCols.find(function(c) { return /revenue|charges|price|profit|amount/i.test(c); }) || numCols[0];
+      const primCat = catCols.find(function(c) { return /category|segment|city|contract|product/i.test(c); }) || catCols[0];
+
+      const mSlider = document.getElementById('sim-slider-marketing');
+      const dSlider = document.getElementById('sim-slider-discount');
+      const pSlider = document.getElementById('sim-slider-price');
+      const rSlider = document.getElementById('sim-slider-retention');
+
+      const mVal = parseFloat(mSlider ? mSlider.value : 20);
+      const dVal = parseFloat(dSlider ? dSlider.value : -5);
+      const pVal = parseFloat(pSlider ? pSlider.value : 5);
+      const rVal = parseFloat(rSlider ? rSlider.value : 5);
+
+      const mLabel = document.getElementById('sim-val-marketing');
+      if (mLabel) mLabel.textContent = (mVal >= 0 ? '+' : '') + mVal + '%';
+
+      const dLabel = document.getElementById('sim-val-discount');
+      if (dLabel) dLabel.textContent = (dVal >= 0 ? '+' : '') + dVal + '%' + (dVal < 0 ? ' (Cut Leaks)' : '');
+
+      const pLabel = document.getElementById('sim-val-price');
+      if (pLabel) pLabel.textContent = (pVal >= 0 ? '+' : '') + pVal + '%';
+
+      const rLabel = document.getElementById('sim-val-retention');
+      if (rLabel) rLabel.textContent = '+' + rVal + '% Retention';
+
+      let baselineSum = 0;
+      if (primNum && DataStore.stats && DataStore.stats[primNum]) {
+        baselineSum = rows.reduce(function(acc, r) { return acc + (Number(r[primNum]) || 0); }, 0);
+      } else {
+        baselineSum = rows.length * 100;
+      }
+
+      const netPctChange = (mVal * 0.32) + (-dVal * 0.65) + (pVal * 0.75) + (rVal * 1.10);
+      const growthMultiplier = 1 + (netPctChange / 100);
+      const projectedSum = baselineSum * growthMultiplier;
+      const netDelta = projectedSum - baselineSum;
+
+      const marginLift = (-dVal * 0.40) + (pVal * 0.60);
+      const estimatedCost = baselineSum * (Math.max(0, mVal) * 0.04 / 100) + (rVal * 50);
+      const netValue = (netDelta * 0.35) - estimatedCost;
+      const roiRatio = estimatedCost > 0 ? (netDelta * 0.35 / estimatedCost).toFixed(1) : '3.5';
+
+      const isCurrency = !primNum || /revenue|price|charges|profit|cost|amount/i.test(primNum);
+      const prefix = isCurrency ? String.fromCharCode(36) : '';
+      function fmt(v) { return prefix + Math.round(v).toLocaleString(); }
+
+      const baseEl = document.getElementById('sim-kpi-baseline');
+      if (baseEl) baseEl.textContent = fmt(baselineSum);
+
+      const projEl = document.getElementById('sim-kpi-projected');
+      if (projEl) projEl.textContent = fmt(projectedSum);
+
+      const growthEl = document.getElementById('sim-kpi-growth');
+      if (growthEl) {
+        growthEl.textContent = (netPctChange >= 0 ? '+' : '') + netPctChange.toFixed(1) + '% Uplift';
+        growthEl.style.color = netPctChange >= 0 ? '#10B981' : '#EF4444';
+      }
+
+      const marginEl = document.getElementById('sim-kpi-margin');
+      if (marginEl) {
+        marginEl.textContent = (marginLift >= 0 ? '+' : '') + marginLift.toFixed(1) + '% pts';
+        marginEl.style.color = marginLift >= 0 ? '#0F172A' : '#EF4444';
+      }
+
+      const netValEl = document.getElementById('sim-kpi-netvalue');
+      if (netValEl) {
+        netValEl.textContent = (netValue >= 0 ? '+' : '-') + fmt(Math.abs(netValue));
+      }
+
+      const roiEl = document.getElementById('sim-kpi-roi');
+      if (roiEl) roiEl.textContent = 'ROI: ' + Math.max(1, Number(roiRatio)) + 'x';
+
+      App.updateSimulatorChart(primCat, primNum, growthMultiplier);
+
+      const takeawayEl = document.getElementById('sim-strategic-takeaway');
+      if (takeawayEl) {
+        let text = '';
+        if (netPctChange >= 15) {
+          text = '<strong>🚀 Aggressive Growth Mode:</strong> By allocating +' + mVal + '% to top performing channels while tightening discounts by ' + Math.abs(dVal) + '%, projected volume expands by <strong>' + netPctChange.toFixed(1) + '%</strong> (' + fmt(netDelta) + ' gain). Net estimated ROI is <strong>' + roiRatio + 'x</strong>.';
+        } else if (netPctChange >= 5) {
+          text = '<strong>⚖️ Balanced Optimization:</strong> Tightening discounts and adding a ' + rVal + '% customer retention playbook yields a steady <strong>' + netPctChange.toFixed(1) + '%</strong> uplift while protecting gross margin by +' + marginLift.toFixed(1) + '% pts.';
+        } else {
+          text = '<strong>🛡️ Conservative Defense:</strong> Spending reductions dampen short-term growth, but margin expansion recovers ' + fmt(Math.abs(netDelta)) + ' in bottom-line cash flow.';
+        }
+        takeawayEl.innerHTML = text;
+      }
+    };
+
+    App.updateSimulatorChart = function(catCol, numCol, multiplier) {
+      const canvas = document.getElementById('sim-chart-canvas');
+      if (!canvas) return;
+
+      const rows = DataStore.rawRows || DataStore.data || [];
+      const categories = (DataStore.categories && catCol && DataStore.categories[catCol]) ? Object.keys(DataStore.categories[catCol]).slice(0, 4) : ['Segment A', 'Segment B', 'Segment C', 'Segment D'];
+
+      const baselineVals = categories.map(function(cat) {
+        if (!catCol || !numCol) return 1000;
+        const matching = rows.filter(function(r) { return String(r[catCol]) === cat; });
+        return matching.reduce(function(sum, r) { return sum + (Number(r[numCol]) || 0); }, 0) || 500;
+      });
+
+      const projectedVals = baselineVals.map(function(v) { return Math.round(v * multiplier); });
+
+      if (window.simChartInstance) {
+        try { window.simChartInstance.destroy(); } catch(e){}
+      }
+
+      window.simChartInstance = new Chart(canvas.getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: categories,
+          datasets: [
+            {
+              label: 'Baseline',
+              data: baselineVals,
+              backgroundColor: '#94A3B8',
+              borderRadius: 6
+            },
+            {
+              label: 'Projected (What-If)',
+              data: projectedVals,
+              backgroundColor: '#2DD4BF',
+              borderRadius: 6
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: { font: { size: 10, family: 'Plus Jakarta Sans', weight: '600' }, boxWidth: 12 }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(ctx) { return ctx.dataset.label + ': ' + ctx.raw.toLocaleString(); }
+              }
+            }
+          },
+          scales: {
+            x: { grid: { display: false }, ticks: { font: { size: 10, family: 'Plus Jakarta Sans' } } },
+            y: { beginAtZero: true, grid: { color: '#F1F5F9' }, ticks: { font: { size: 9 } } }
+          }
+        }
+      });
+    };
+
+    App.resetSimulator = function() {
+      const m = document.getElementById('sim-slider-marketing');
+      const d = document.getElementById('sim-slider-discount');
+      const p = document.getElementById('sim-slider-price');
+      const r = document.getElementById('sim-slider-retention');
+      if (m) m.value = 20;
+      if (d) d.value = -5;
+      if (p) p.value = 5;
+      if (r) r.value = 5;
+      App.runSimulator();
+      App.showToast('Simulator reset to default balanced posture', 'info');
+    };
+
     App.generateAdvisorInsights = function() {
       const rows = DataStore.rawRows || DataStore.data || [];
       if (!rows || rows.length === 0) {
@@ -6997,6 +7273,7 @@ Generated by DataLens AI Studio.
         sectionsContainer.appendChild(card);
       });
 
+      App.runSimulator();
       App.showToast('💡 Smart Advisor generated ' + (businessActions.length + dataQuality.length + growth.length + learning.length) + ' insights!', 'success');
     };
 
